@@ -2,15 +2,13 @@ package org.malai.widget;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Vector;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 import org.malai.interaction.SwingEventManager;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
-
 
 /**
  * This widgets is based on a JComboBox. It allows to be used in the Malai framework for picking.<br>
@@ -34,6 +32,10 @@ import org.malai.picking.Picker;
 public class MComboBox extends JComboBox implements Pickable {
 	private static final long serialVersionUID = 1L;
 
+	/** The label used to describe the use of the spinner. */
+	protected JLabel label;
+
+
 	/**
 	 * {@link JComboBox#JComboBox()}
 	 */
@@ -44,24 +46,52 @@ public class MComboBox extends JComboBox implements Pickable {
 	/**
 	 * {@link JComboBox#JComboBox(ComboBoxModel)}
 	 */
-	public MComboBox(final ComboBoxModel aModel) {
+	public MComboBox(final ComboBoxModel aModel, final JLabel label) {
 		super(aModel);
+		setLabel(label);
 	}
 
 	/**
 	 * {@link JComboBox#JComboBox(Object[])}
 	 */
-	public MComboBox(final Object[] items) {
+	public MComboBox(final Object[] items, final JLabel label) {
 		super(items);
+		setLabel(label);
 	}
+
 
 	/**
-	 * {@link JComboBox#JComboBox(Vector)}
+	 * Sets the label of the spinner.
+	 * @param label The new label or null.
 	 */
-	public MComboBox(final Vector<?> items) {
-		super(items);
+	public void setLabel(final JLabel label) {
+		//FIXME SCALA: to extract as a trait.
+		this.label = label;
+
+		if(label!=null) {
+			if(this.label!=null)
+				this.label.setLabelFor(null);
+			label.setLabelFor(this);
+		}
 	}
 
+
+	@Override
+	public void setVisible(final boolean visible) {
+		super.setVisible(visible);
+
+		if(label!=null)
+			label.setVisible(visible);
+	}
+
+
+	/**
+	 * @return The label used to describe the use of the combobox. Can be null.
+	 * @since 0.2
+	 */
+	public JLabel getLabel() {
+		return label;
+	}
 
 
 	/**
