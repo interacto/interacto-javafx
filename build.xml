@@ -30,7 +30,7 @@
 		<jar jarfile="${dir.out}/malai.jar">
 			 <!-- Filters the files -->
 			 <fileset dir="bin/"
-				 includes="**"
+				 includes="org/" excludes="test/"
 			 />
 		</jar>
 	</target>
