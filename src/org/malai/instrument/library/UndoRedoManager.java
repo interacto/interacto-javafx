@@ -55,8 +55,8 @@ public class UndoRedoManager extends WidgetInstrument {
 
 	@Override
 	protected void initialiseWidgets() {
-		undoB = new MButton(new ImageIcon("src/org/malai/res/Undo.png")); //$NON-NLS-1$
-		redoB = new MButton(new ImageIcon("src/org/malai/res/Redo.png")); //$NON-NLS-1$
+		undoB = new MButton(new ImageIcon(UndoRedoManager.class.getResource("/org/malai/res/Undo.png"))); //$NON-NLS-1$
+		redoB = new MButton(new ImageIcon(UndoRedoManager.class.getResource("/org/malai/res/Redo.png"))); //$NON-NLS-1$
 	}
 
 
@@ -65,9 +65,9 @@ public class UndoRedoManager extends WidgetInstrument {
 		try{
 			addLink(new ButtonPressed2Undo(this));
 			addLink(new ButtonPressed2Redo(this));
-		}catch(InstantiationException e){
+		}catch(final InstantiationException e){
 			ErrorCatcher.INSTANCE.reportError(e);
-		}catch(IllegalAccessException e){
+		}catch(final IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}
@@ -97,8 +97,8 @@ public class UndoRedoManager extends WidgetInstrument {
 	 */
 	public void updateWidgets() {
 		if(activated) {
-			Undoable undo = UndoCollector.INSTANCE.getLastUndo();
-			Undoable redo = UndoCollector.INSTANCE.getLastRedo();
+			final Undoable undo = UndoCollector.INSTANCE.getLastUndo();
+			final Undoable redo = UndoCollector.INSTANCE.getLastRedo();
 
     		undoB.setEnabled(undo!=null);
     		redoB.setEnabled(redo!=null);
