@@ -1,5 +1,7 @@
 package org.malai.action.library;
 
+import org.malai.ui.UI;
+
 /**
  * This action allows to save abstract presentations and instruments' parameters to a file.
  * <br>
@@ -18,7 +20,7 @@ package org.malai.action.library;
  * @author Arnaud Blouin
  * @since 0.2
  */
-public class Save extends IOAction {
+public class Save<A extends UI, B extends Object> extends IOAction<A, B> {
 	/**
 	 * Creates a save action.
 	 * @since 0.2

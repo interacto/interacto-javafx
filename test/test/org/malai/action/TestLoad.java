@@ -10,11 +10,11 @@ import org.malai.widget.MProgressBar;
 
 import test.org.malai.HelperTest;
 
-public class TestLoad extends TestIOAction<Load> {
+public class TestLoad extends TestIOAction<Load<UI, Object>> {
 
 	@Override
-	protected Load createAction() {
-		return new Load();
+	protected Load<UI, Object> createAction() {
+		return new Load<UI, Object>();
 	}
 
 	@SuppressWarnings("unused")
@@ -22,7 +22,7 @@ public class TestLoad extends TestIOAction<Load> {
 	public void testConstructor() throws SecurityException,
 			NoSuchFieldException, IllegalArgumentException,
 			IllegalAccessException {
-		new Load();
+		new Load<UI, Object>();
 	}
 
 	boolean visit1Ok;

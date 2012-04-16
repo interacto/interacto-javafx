@@ -11,29 +11,29 @@ import org.malai.widget.MProgressBar;
 
 import test.org.malai.HelperTest;
 
-public abstract class TestIOAction<T extends IOAction> extends TestAbstractAction<IOAction> {
+public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestAbstractAction<IOAction<UI, Object>> {
 	public void testSetUI() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		UI ui = new UIMock();
+		final UI ui = new UIMock();
 		action.setUi(ui);
-		Field field = HelperTest.getField(IOAction.class, "ui");
+		final Field field = HelperTest.getField(IOAction.class, "ui");
 		assertNotNull(field.get(action));
 		action.setUi(null);
 		assertNull(field.get(action));
 	}
 
 	public void testSetOpenSaveManager() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		ISOpenSaver os = new ISOpenSaverMock();
+		final ISOpenSaver<UI,Object> os = new ISOpenSaverMock();
 		action.setOpenSaveManager(os);
-		Field field = HelperTest.getField(IOAction.class, "openSaveManager");
+		final Field field = HelperTest.getField(IOAction.class, "openSaveManager");
 		assertNotNull(field.get(action));
 		action.setOpenSaveManager(null);
 		assertNull(field.get(action));
 	}
 
 	public void testSetFile() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		File file = new File("/foo");
+		final File file = new File("/foo");
 		action.setFile(file);
-		Field field = HelperTest.getField(IOAction.class, "file");
+		final Field field = HelperTest.getField(IOAction.class, "file");
 		assertNotNull(field.get(action));
 		action.setFile(null);
 		assertNull(field.get(action));
@@ -82,7 +82,7 @@ public abstract class TestIOAction<T extends IOAction> extends TestAbstractActio
 	@Override
 	public void testHadEffect() throws SecurityException, NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
-		Field field = HelperTest.getField(IOAction.class, "ok");
+		final Field field = HelperTest.getField(IOAction.class, "ok");
 		assertFalse(action.hadEffect());
 		field.set(action, true);
 		assertFalse(action.hadEffect());
@@ -95,14 +95,14 @@ public abstract class TestIOAction<T extends IOAction> extends TestAbstractActio
 
 
 
-	public class ISOpenSaverMock implements ISOpenSaver {
+	public class ISOpenSaverMock implements ISOpenSaver<UI,Object> {
 		@Override
-		public boolean save(String path, UI ui, final MProgressBar progressBar, final Object statusBar) {
+		public boolean save(final String path, final UI ui, final MProgressBar progressBar, final Object statusBar) {
 			return false;
 		}
 
 		@Override
-		public boolean open(String path, UI ui, final MProgressBar progressBar, final Object statusBar) {
+		public boolean open(final String path, final UI ui, final MProgressBar progressBar, final Object statusBar) {
 			return false;
 		}
 	}
