@@ -21,8 +21,10 @@ import org.malai.widget.MProgressBar;
  * @author Arnaud BLOUIN
  * @version 0.2
  * @since 0.2
+ * @param <A> The type of the UI that the implementation will support.
+ * @param <B> The type of the widget that will be used to display some information.
  */
-public interface ISOpenSaver {
+public interface ISOpenSaver<A extends UI, B> {
 	/**
 	 * Saves the abstract presentations and the instruments parameters of the given UI
 	 * to the given file.
@@ -33,7 +35,7 @@ public interface ISOpenSaver {
 	 * @return True: the operation is successful.
 	 * @since 0.2
 	 */
-	boolean save(final String path, final UI ui, final MProgressBar progressBar, final Object statusWidget);
+	boolean save(final String path, final A ui, final MProgressBar progressBar, final B statusWidget);
 
 
 	/**
@@ -46,5 +48,5 @@ public interface ISOpenSaver {
 	 * @return True: the operation is successful.
 	 * @since 0.2
 	 */
-	boolean open(final String path, final UI ui, final MProgressBar progressBar, final Object statusWidget);
+	boolean open(final String path, final A ui, final MProgressBar progressBar, final B statusWidget);
 }
