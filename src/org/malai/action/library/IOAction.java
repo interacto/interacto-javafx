@@ -24,25 +24,27 @@ import org.malai.widget.MProgressBar;
  * <br>
  * @author Arnaud Blouin
  * @since 0.2
+ * @param <A> The type of the UI that the implementation will support.
+ * @param <B> The type of the widget that will be used to display some information.
  */
-public abstract class IOAction extends Action {
+public abstract class IOAction<A extends UI, B extends Object> extends Action {
 	/** The current file loaded or saved. */
 	protected File file;
 
 	/** The user interface that contains abstract presentations and instruments. */
-	protected UI ui;
+	protected A ui;
 
 	/** Define if the drawing has been successfully loaded or saved. */
 	protected boolean ok;
 
 	/** The object that saves and loads files for the IS. */
-	protected ISOpenSaver openSaveManager;
+	protected ISOpenSaver<A, B> openSaveManager;
 
 	/** The progress bar used to show the progress of the saving. */
 	protected MProgressBar progressBar;
 
 	/** The widget that displays the status of the I/O operation. */
-	protected Object statusWidget;
+	protected B statusWidget;
 
 
 	/**
@@ -115,7 +117,7 @@ public abstract class IOAction extends Action {
 	 * @param ui the ui to set.
 	 * @since 0.2
 	 */
-	public void setUi(final UI ui) {
+	public void setUi(final A ui) {
 		this.ui = ui;
 	}
 
@@ -124,7 +126,7 @@ public abstract class IOAction extends Action {
 	 * @param openSaveManager the openSaveManager to set.
 	 * @since 0.2
 	 */
-	public void setOpenSaveManager(final ISOpenSaver openSaveManager) {
+	public void setOpenSaveManager(final ISOpenSaver<A, B> openSaveManager) {
 		this.openSaveManager = openSaveManager;
 	}
 
@@ -133,7 +135,7 @@ public abstract class IOAction extends Action {
 	 * @param statusWidget the widget that will be used to display I/O messages.
 	 * @since 0.2
 	 */
-	public void setStatusWidget(final Object statusWidget) {
+	public void setStatusWidget(final B statusWidget) {
 		this.statusWidget = statusWidget;
 	}
 }
