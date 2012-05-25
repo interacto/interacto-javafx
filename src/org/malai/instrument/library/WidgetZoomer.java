@@ -91,7 +91,8 @@ public class WidgetZoomer extends BasicZoomer {
 
 	@Override
 	public void interimFeedback() {
-		zoomSpinner.setValueSafely(zoomable.getZoom()*100);
+		if(zoomSpinner!=null)
+			zoomSpinner.setValueSafely(zoomable.getZoom()*100);
 	}
 
 
