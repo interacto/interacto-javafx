@@ -63,7 +63,7 @@ public class Scrolling extends Interaction {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		TerminalState wheeled = new TerminalState("scrolled"); //$NON-NLS-1$
+		final TerminalState wheeled = new TerminalState("scrolled"); //$NON-NLS-1$
 
 		addState(wheeled);
 
