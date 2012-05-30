@@ -90,7 +90,7 @@ public class BasicZoomer extends Instrument {
 		public void updateAction() {
 			action.setZoomLevel(instrument.zoomable.getZoom() + (interaction.getIncrement()>0 ? Zoomable.ZOOM_INCREMENT : -Zoomable.ZOOM_INCREMENT));
 			action.setPx(interaction.getPx());
-			action.setPy(interaction.getPx());
+			action.setPy(interaction.getPy());
 		}
 
 		@Override
