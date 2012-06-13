@@ -35,13 +35,30 @@ public class MEditorPane extends JEditorPane implements Scrollable, Eventable {
 
 
 	/**
-	 * Creates a EditorPane.
+	 * Creates an EditorPane.
 	 * @param withScrollPane True: the panel will contain a scroll pane.
 	 * @param withEvtManager True: the panel will have an event manager that gathers
 	 * events produced using the editor pane (for picking).
 	 * @since 0.2
 	 */
 	public MEditorPane(final boolean withScrollPane, final boolean withEvtManager) {
+		this(withScrollPane, withEvtManager, false);
+	}
+
+
+	/**
+	 * Creates an EditorPane.
+	 * @param withScrollPane True: the panel will contain a scroll pane.
+	 * @param withEvtManager True: the panel will have an event manager that gathers
+	 * events produced using the editor pane (for picking).
+	 * @param eventOnEachModification If true: each modification
+	 * of the underlying document will launch an event (DocumentEvent)
+	 * that can be used by a link based on the interaction TextChanged.
+	 * If false, the user has to type on the back space key to create
+	 * an event.
+	 * @since 0.2
+	 */
+	public MEditorPane(final boolean withScrollPane, final boolean withEvtManager, final boolean eventOnEachModification) {
 		super();
 
 		if(withScrollPane) {
@@ -53,6 +70,9 @@ public class MEditorPane extends JEditorPane implements Scrollable, Eventable {
 			eventManager = new SwingEventManager();
 			eventManager.attachTo(this);
 		}
+
+		if(eventOnEachModification)
+			getDocument().putProperty(SwingEventManager.OWNING_PROPERTY, this);
 	}
 
 
