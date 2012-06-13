@@ -25,6 +25,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
 import org.malai.widget.MFrame;
@@ -47,12 +49,21 @@ import org.malai.widget.MFrame;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class SwingEventManager implements MouseListener, KeyListener, MouseMotionListener, MouseWheelListener, ActionListener, ItemListener, ChangeListener {
+public class SwingEventManager implements MouseListener, KeyListener, MouseMotionListener, MouseWheelListener,
+						ActionListener, ItemListener, ChangeListener, DocumentListener {
 	/** The ID used to identify the mouse. Will change when multi-device will be supported. */
 	public static final int ID_MOUSE = 0;
 
 	/** The ID used to identify the keyboard. Will change when multi-device will be supported. */
 	public static final int ID_KB 	 = 1;
+
+	/**
+	 * The name of the property to set to map a document to its widget. For instance,
+	 * if you want to get the text field that produced a document event you have to add
+	 * a property to the field (field.getDocument().putProperty(OWNING_PROPERTY, field);) to
+	 * get the widget in a DocumentEvent operation (Object owner = documentEvent.getDocument().getProperty("owner");).
+	 */
+	public static final String OWNING_PROPERTY = "malai_owner";
 
 	/** The handlers that are notified when events occur. */
 	protected List<EventHandler> handlers;
@@ -84,8 +95,15 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 			if(comp instanceof AbstractButton)
 				((AbstractButton)comp).addActionListener(this);
 
-			if(comp instanceof JTextField)
-				((JTextField)comp).addActionListener(this);
+			if(comp instanceof JTextComponent) {
+				final JTextComponent field = (JTextComponent)comp;
+
+				if(field.getDocument().getProperty(OWNING_PROPERTY)==field)
+					field.getDocument().addDocumentListener(this);
+
+				if(comp instanceof JTextField)
+					((JTextField)comp).addActionListener(this);
+			}
 
 			if(comp instanceof ItemSelectable)
 				((ItemSelectable)comp).addItemListener(this);
@@ -182,7 +200,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onPressure(button, x, y, ID_MOUSE, src);
 	}
 
@@ -197,7 +215,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onRelease(button, x, y, ID_MOUSE, src);
 	}
 
@@ -207,7 +225,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 	public void keyPressed(final KeyEvent e) {
 		if(e==null) return;
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onKeyPressure(e.getKeyCode(), ID_KB, e.getSource());
 	}
 
@@ -217,7 +235,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 	public void keyReleased(final KeyEvent e) {
 		if(e==null) return;
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onKeyRelease(e.getKeyCode(), ID_KB, e.getSource());
 	}
 
@@ -239,7 +257,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onMove(button, x, y, true, ID_MOUSE, src);
 	}
 
@@ -254,7 +272,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onMove(button, x, y, false, ID_MOUSE, src);
 	}
 
@@ -271,7 +289,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		final int type 		= e.getScrollType();
 		final int amount 	= e.getScrollAmount();
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onScroll(posX, posY, direction, amount, type, ID_MOUSE, src);
 	}
 
@@ -286,25 +304,25 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		if(src instanceof JMenuItem) {
 			final JMenuItem mi = (JMenuItem) e.getSource();
 
-    		for(EventHandler handler : handlers)
+    		for(final EventHandler handler : handlers)
 				handler.onMenuItemPressed(mi);
 		}
 		else if(src instanceof JCheckBox) {
 			final JCheckBox cb = (JCheckBox) e.getSource();
 
-    		for(EventHandler handler : handlers)
+    		for(final EventHandler handler : handlers)
 				handler.onCheckBoxModified(cb);
 		}
 		else if(src instanceof AbstractButton) {
 			final AbstractButton ab = (AbstractButton)e.getSource();
 
-    		for(EventHandler handler : handlers)
+    		for(final EventHandler handler : handlers)
 				handler.onButtonPressed(ab);
 		}
 		else if(src instanceof JTextComponent) {
 			final JTextComponent tc = (JTextComponent)e.getSource();
 
-    		for(EventHandler handler : handlers)
+    		for(final EventHandler handler : handlers)
 				handler.onTextChanged(tc);
 		}
 	}
@@ -317,7 +335,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		if(e.getItemSelectable() instanceof JComboBox) {
 			final JComboBox cb = (JComboBox) e.getItemSelectable();
 
-    		for(EventHandler handler : handlers)
+    		for(final EventHandler handler : handlers)
 				handler.onItemSelected(cb);
 		}
 	}
@@ -351,7 +369,42 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 	public void windowClosed(final MFrame frame) {
 		if(frame==null) return;
 
-		for(EventHandler handler : handlers)
+		for(final EventHandler handler : handlers)
 			handler.onWindowClosed(frame);
+	}
+
+
+	/**
+	 * This helper factorises the code for the operations insertUpdate,
+	 * removeUpdate, and changedUpdate of the DocumentEvent interface.
+	 * @param event The document event produced by a widget.
+	 */
+	private void onDocumentEvent(final DocumentEvent event) {
+		final Object owner = event.getDocument().getProperty(OWNING_PROPERTY);
+
+		if(owner instanceof JTextComponent) {
+			final JTextComponent comp = (JTextComponent)owner;
+
+			for(final EventHandler handler : handlers)
+				handler.onTextChanged(comp);
+		}
+	}
+
+
+	@Override
+	public void insertUpdate(final DocumentEvent event) {
+		onDocumentEvent(event);
+	}
+
+
+	@Override
+	public void removeUpdate(final DocumentEvent event) {
+		onDocumentEvent(event);
+	}
+
+
+	@Override
+	public void changedUpdate(final DocumentEvent event) {
+		onDocumentEvent(event);
 	}
 }

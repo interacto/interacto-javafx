@@ -2,6 +2,7 @@ package org.malai.widget;
 
 import javax.swing.JTextField;
 
+import org.malai.interaction.SwingEventManager;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
 
@@ -32,7 +33,23 @@ public class MTextField extends JTextField implements Pickable {
 	 * {@link JTextField#JTextField()}
 	 */
 	public MTextField() {
+		this(false);
+	}
+
+
+	/**
+	 * Creates the text field.
+	 * @param eventOnEachModification If true: each modification
+	 * of the underlying document will launch an event (DocumentEvent)
+	 * that can be used by a link based on the interaction TextChanged.
+	 * If false, the user has to type on the back space key to create
+	 * an event.
+	 */
+	public MTextField(final boolean eventOnEachModification) {
 		super();
+
+		if(eventOnEachModification)
+			getDocument().putProperty(SwingEventManager.OWNING_PROPERTY, this);
 	}
 
 

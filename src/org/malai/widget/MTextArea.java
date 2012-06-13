@@ -1,8 +1,6 @@
 package org.malai.widget;
 
 import javax.swing.JTextArea;
-import javax.swing.text.Document;
-
 import org.malai.interaction.Eventable;
 import org.malai.interaction.SwingEventManager;
 import org.malai.picking.Pickable;
@@ -44,6 +42,22 @@ public class MTextArea extends JTextArea implements Pickable, Scrollable, Eventa
 	 * @since 0.2
 	 */
 	public MTextArea(final boolean withScrollPane, final boolean withEvtManager) {
+		this(withScrollPane, withEvtManager, false);
+	}
+
+
+	/**
+	 * {@link JTextArea}
+	 * @param withScrollPane True: a scrollpane will be created and will contain the text area.
+	 * @param withEvtManager True: the text area will have an event manager.
+	 * @param eventOnEachModification If true: each modification
+	 * of the underlying document will launch an event (DocumentEvent)
+	 * that can be used by a link based on the interaction TextChanged.
+	 * If false, the user has to type on the back space key to create
+	 * an event.
+	 * @since 0.2
+	 */
+	public MTextArea(final boolean withScrollPane, final boolean withEvtManager, final boolean eventOnEachModification) {
 		super();
 
 		if(withEvtManager) {
@@ -55,53 +69,11 @@ public class MTextArea extends JTextArea implements Pickable, Scrollable, Eventa
 			scrollpane = new MScrollPane();
 			scrollpane.getViewport().add(this);
 		}
+
+		if(eventOnEachModification)
+			getDocument().putProperty(SwingEventManager.OWNING_PROPERTY, this);
 	}
 
-	/**
-	 * {@link JTextArea}
-	 * @param text the text to be displayed, or null
-	 */
-	public MTextArea(final String text) {
-		super(text);
-	}
-
-	/**
-	 * {@link JTextArea}
-	 * @param doc  the model to use
-	 */
-	public MTextArea(final Document doc) {
-		super(doc);
-	}
-
-	/**
-	 * {@link JTextArea}
-	 * @param rows the number of rows >= 0
-     * @param columns the number of columns >= 0
-	 */
-	public MTextArea(final int rows, final int columns) {
-		super(rows, columns);
-	}
-
-	/**
-	 * {@link JTextArea}
-	 * @param text the text to be displayed, or null
-     * @param rows the number of rows >= 0
-     * @param columns the number of columns >= 0
-	 */
-	public MTextArea(final String text, final int rows, final int columns) {
-		super(text, rows, columns);
-	}
-
-	/**
-	 * {@link JTextArea}
-	 * @param doc the model to use, or create a default one if null
-     * @param text the text to be displayed, null if none
-     * @param rows the number of rows >= 0
-     * @param columns the number of columns >= 0
-	 */
-	public MTextArea(final Document doc, final String text, final int rows, final int columns) {
-		super(doc, text, rows, columns);
-	}
 
 
 	@Override
