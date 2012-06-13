@@ -54,10 +54,10 @@ public class MoveCamera extends PositionAction {
 	/**
 	 * Move the given scroll bar.
 	 * @param bar The scroll bar to move.
-	 * @param gap The translation to perform.
+	 * @param position The new position.
 	 */
-	private void moveScrollBar(final JScrollBar bar, final int gap) {
-		bar.setValue(bar.getValue()+gap);
+	private void moveScrollBar(final JScrollBar bar, final int position) {
+		bar.setValue(position);
 	}
 
 
