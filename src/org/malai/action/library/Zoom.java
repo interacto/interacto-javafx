@@ -50,7 +50,7 @@ public class Zoom extends PositionAction {
 
 	@Override
 	public boolean canDo() {
-		return zoomable!=null && zoomLevel>=Zoomable.MIN_ZOOM && zoomLevel<=Zoomable.MAX_ZOOM;
+		return zoomable!=null && zoomLevel>=zoomable.getMinZoom() && zoomLevel<=zoomable.getMaxZoom();
 	}
 
 
