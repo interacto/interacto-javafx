@@ -23,14 +23,22 @@ import java.awt.geom.Point2D;
  * @since 0.1
  */
 public interface Zoomable {
-	/** The increment of a zooming ({@value}). */
-	double ZOOM_INCREMENT = 0.25;
+	/**
+	 * @return The zoom increment used when zooming in/out.
+	 */
+	double getZoomIncrement();
 
-	/** The biggest zoom we can do ({@value}) */
-	double MAX_ZOOM = 4.5;
 
-	/** The smallest zoom we can do ({@value}) . */
-	double MIN_ZOOM = 0.25;
+	/**
+	 * @return The maximal level of zooming allowed.
+	 */
+	double getMaxZoom();
+
+
+	/**
+	 * @return The minimal level of zooming allowed.
+	 */
+	double getMinZoom();
 
 
 	/**

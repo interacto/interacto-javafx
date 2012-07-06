@@ -59,8 +59,8 @@ public class WidgetZoomer extends BasicZoomer {
 		}
 
 		if(withZoomSpinner) {
-			zoomSpinner = new MSpinner(new MSpinner.MSpinnerNumberModel(zoomable.getZoom()*100., Zoomable.MIN_ZOOM*100.,
-																		Zoomable.MAX_ZOOM*100., Zoomable.ZOOM_INCREMENT*100.), null);
+			zoomSpinner = new MSpinner(new MSpinner.MSpinnerNumberModel(zoomable.getZoom()*100., zoomable.getMinZoom()*100.,
+																		zoomable.getMaxZoom()*100., zoomable.getZoomIncrement()*100.), null);
 			if(maxDimSpinner!=null)
 				zoomSpinner.setMaximumSize(maxDimSpinner);
 			zoomSpinner.setToolTipText(spinnerToolTip);
