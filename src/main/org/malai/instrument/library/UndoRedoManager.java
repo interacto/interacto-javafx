@@ -55,8 +55,8 @@ public class UndoRedoManager extends WidgetInstrument {
 
 	@Override
 	protected void initialiseWidgets() {
-		undoB = new MButton(new ImageIcon(UndoRedoManager.class.getResource("/org/malai/res/Undo.png"))); //$NON-NLS-1$
-		redoB = new MButton(new ImageIcon(UndoRedoManager.class.getResource("/org/malai/res/Redo.png"))); //$NON-NLS-1$
+		undoB = new MButton(new ImageIcon(UndoRedoManager.class.getResource("/res/Undo.png"))); //$NON-NLS-1$
+		redoB = new MButton(new ImageIcon(UndoRedoManager.class.getResource("/res/Redo.png"))); //$NON-NLS-1$
 	}
 
 
