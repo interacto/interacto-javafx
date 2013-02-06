@@ -45,11 +45,13 @@ public class TestOpenWebPage extends TestAbstractAction<OpenWebPage> {
 
 	@Override
 	public void testCanDo() throws Exception {
-		assertFalse(action.canDo());
-		action.setUri(new URI("foo"));
-		assertEquals(action.canDo(), Desktop.getDesktop().isSupported(Desktop.Action.BROWSE));
-		action.setUri(null);
-		assertFalse(action.canDo());
+		if(HelperTest.isX11Set()) {
+			assertFalse(action.canDo());
+			action.setUri(new URI("foo"));
+			assertEquals(action.canDo(), Desktop.getDesktop().isSupported(Desktop.Action.BROWSE));
+			action.setUri(null);
+			assertFalse(action.canDo());
+		}
 	}
 
 	@Override
