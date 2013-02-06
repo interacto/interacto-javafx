@@ -12,6 +12,6 @@ public abstract class HelperTest {
 
 
 	public static boolean isX11Set() {
-		return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length>0;
+		return !GraphicsEnvironment.getLocalGraphicsEnvironment().isHeadlessInstance();
 	}
 }
