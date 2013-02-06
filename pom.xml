@@ -8,12 +8,30 @@
     <name>malai.core :: Malai core library</name>
     
     <build>
-    	<sourceDirectory>src/main</sourceDirectory>
+		<sourceDirectory>src/main</sourceDirectory>
     	<testSourceDirectory>src/test/</testSourceDirectory>
     	<resources>
-      		<resource><directory>src/main/</directory></resource>
+      		<resource><directory>src/resources/</directory></resource>
   		</resources>
     	<plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/assemblySrc.xml</descriptor>
+          </descriptors>
+        </configuration>
+                <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase> 
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+		</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
