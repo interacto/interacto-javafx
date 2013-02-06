@@ -61,12 +61,14 @@ public class TestOpenWebPage extends TestAbstractAction<OpenWebPage> {
 
 	@Override
 	public void testHadEffect() throws Exception {
-		assertFalse(action.hadEffect());
-		action.setUri(new URI("http://localhost"));
-		assertFalse(action.hadEffect());
-		action.doIt();
-		action.done();
-		assertTrue(action.hadEffect());
+		if(HelperTest.isX11Set()) {
+			assertFalse(action.hadEffect());
+			action.setUri(new URI("http://localhost"));
+			assertFalse(action.hadEffect());
+			action.doIt();
+			action.done();
+			assertTrue(action.hadEffect());
+		}
 	}
 
 
