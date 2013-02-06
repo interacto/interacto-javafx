@@ -13,12 +13,14 @@ import test.org.malai.HelperTest;
 
 public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestAbstractAction<IOAction<UI, Object>> {
 	public void testSetUI() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final UI ui = new UIMock();
-		action.setUi(ui);
-		final Field field = HelperTest.getField(IOAction.class, "ui");
-		assertNotNull(field.get(action));
-		action.setUi(null);
-		assertNull(field.get(action));
+		if(HelperTest.isX11Set()) {
+			final UI ui = new UIMock();
+			action.setUi(ui);
+			final Field field = HelperTest.getField(IOAction.class, "ui");
+			assertNotNull(field.get(action));
+			action.setUi(null);
+			assertNull(field.get(action));
+		}
 	}
 
 	public void testSetOpenSaveManager() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
@@ -42,34 +44,38 @@ public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestA
 	@Override
 	public void testFlush() throws SecurityException, NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
-		action.setFile(new File("/foo"));
-		action.setOpenSaveManager(new ISOpenSaverMock());
-		action.setUi(new UIMock());
-		action.flush();
-		Field field = HelperTest.getField(IOAction.class, "file");
-		assertNull(field.get(action));
-		field = HelperTest.getField(IOAction.class, "openSaveManager");
-		assertNull(field.get(action));
-		field = HelperTest.getField(IOAction.class, "ui");
-		assertNull(field.get(action));
+		if(HelperTest.isX11Set()) {
+			action.setFile(new File("/foo"));
+			action.setOpenSaveManager(new ISOpenSaverMock());
+			action.setUi(new UIMock());
+			action.flush();
+			Field field = HelperTest.getField(IOAction.class, "file");
+			assertNull(field.get(action));
+			field = HelperTest.getField(IOAction.class, "openSaveManager");
+			assertNull(field.get(action));
+			field = HelperTest.getField(IOAction.class, "ui");
+			assertNull(field.get(action));
+		}
 	}
 
 	@Override
 	public void testCanDo() throws SecurityException, NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
-		assertFalse(action.canDo());
-		action.setFile(new File("/foo"));
-		assertFalse(action.canDo());
-		action.setOpenSaveManager(new ISOpenSaverMock());
-		assertFalse(action.canDo());
-		action.setUi(new UIMock());
-		assertTrue(action.canDo());
-		action.setFile(null);
-		assertFalse(action.canDo());
-		action.setOpenSaveManager(null);
-		assertFalse(action.canDo());
-		action.setFile(new File("/foo"));
-		assertFalse(action.canDo());
+		if(HelperTest.isX11Set()) {
+			assertFalse(action.canDo());
+			action.setFile(new File("/foo"));
+			assertFalse(action.canDo());
+			action.setOpenSaveManager(new ISOpenSaverMock());
+			assertFalse(action.canDo());
+			action.setUi(new UIMock());
+			assertTrue(action.canDo());
+			action.setFile(null);
+			assertFalse(action.canDo());
+			action.setOpenSaveManager(null);
+			assertFalse(action.canDo());
+			action.setFile(new File("/foo"));
+			assertFalse(action.canDo());
+		}
 	}
 
 	@Override
