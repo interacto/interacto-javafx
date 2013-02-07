@@ -29,7 +29,7 @@ import org.malai.picking.Picker;
  * @version 0.2
  * @since 0.2
  */
-public class MComboBox extends JComboBox implements Pickable {
+public class MComboBox<E> extends JComboBox<E> implements Pickable {
 	private static final long serialVersionUID = 1L;
 
 	/** The label used to describe the use of the spinner. */
@@ -46,15 +46,15 @@ public class MComboBox extends JComboBox implements Pickable {
 	/**
 	 * {@link JComboBox#JComboBox(ComboBoxModel)}
 	 */
-	public MComboBox(final ComboBoxModel aModel, final JLabel label) {
+	public MComboBox(final ComboBoxModel<E> aModel, final JLabel label) {
 		super(aModel);
 		setLabel(label);
 	}
 
 	/**
-	 * {@link JComboBox#JComboBox(Object[])}
+	 * {@link JComboBox#JComboBox(E[])}
 	 */
-	public MComboBox(final Object[] items, final JLabel label) {
+	public MComboBox(final E[] items, final JLabel label) {
 		super(items);
 		setLabel(label);
 	}
