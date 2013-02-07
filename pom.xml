@@ -20,6 +20,7 @@
         <configuration>
           <descriptors>
             <descriptor>src/assembly/assemblySrc.xml</descriptor>
+            <descriptor>src/assembly/assemblyBin.xml</descriptor>
           </descriptors>
         </configuration>
                 <executions>
