@@ -333,7 +333,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		if(e==null) return;
 
 		if(e.getItemSelectable() instanceof JComboBox) {
-			final JComboBox cb = (JComboBox) e.getItemSelectable();
+			final JComboBox<?> cb = (JComboBox<?>) e.getItemSelectable();
 
     		for(final EventHandler handler : handlers)
 				handler.onItemSelected(cb);

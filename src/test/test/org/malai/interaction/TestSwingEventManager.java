@@ -34,35 +34,35 @@ import org.malai.widget.MFrame;
 
 class EventHandlerMock implements EventHandler {
 	@Override
-	public void onTimeout(TimeoutTransition timeoutTransition) {/* */}
+	public void onTimeout(final TimeoutTransition timeoutTransition) {/* */}
 	@Override
-	public void onTextChanged(JTextComponent textComp) {/* */}
+	public void onTextChanged(final JTextComponent textComp) {/* */}
 	@Override
-	public void onSpinnerChanged(JSpinner spinner) {/* */}
+	public void onSpinnerChanged(final JSpinner spinner) {/* */}
 	@Override
-	public void onScroll(int posX, int posY, int direction, int amount, int type, int idHID, Object src) {/* */}
+	public void onScroll(final int posX, final int posY, final int direction, final int amount, final int type, final int idHID, final Object src) {/* */}
 	@Override
-	public void onRelease(int button, int x, int y, int idHID, Object source) {/* */}
+	public void onRelease(final int button, final int x, final int y, final int idHID, final Object source) {/* */}
 	@Override
-	public void onPressure(int button, int x, int y, int idHID, Object source) {/* */}
+	public void onPressure(final int button, final int x, final int y, final int idHID, final Object source) {/* */}
 	@Override
-	public void onMove(int button, int x, int y, boolean pressed, int idHID, Object source) {/* */}
+	public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {/* */}
 	@Override
-	public void onMenuItemPressed(JMenuItem menuItem) {/* */}
+	public void onMenuItemPressed(final JMenuItem menuItem) {/* */}
 	@Override
-	public void onKeyRelease(int key, int idHID, Object object) {/* */}
+	public void onKeyRelease(final int key, final int idHID, final Object object) {/* */}
 	@Override
-	public void onKeyPressure(int key, int idHID, Object object) {/* */}
+	public void onKeyPressure(final int key, final int idHID, final Object object) {/* */}
 	@Override
-	public void onItemSelected(ItemSelectable itemSelectable) {/* */}
+	public void onItemSelected(final ItemSelectable itemSelectable) {/* */}
 	@Override
-	public void onCheckBoxModified(JCheckBox checkbox) {/* */}
+	public void onCheckBoxModified(final JCheckBox checkbox) {/* */}
 	@Override
-	public void onButtonPressed(AbstractButton button) {/* */}
+	public void onButtonPressed(final AbstractButton button) {/* */}
 	@Override
-	public void onWindowClosed(MFrame frame) { /* */ }
+	public void onWindowClosed(final MFrame frame) { /* */ }
 	@Override
-	public void onTabChanged(JTabbedPane tabbedPanel) { /* */ }
+	public void onTabChanged(final JTabbedPane tabbedPanel) { /* */ }
 }
 
 
@@ -104,9 +104,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testKeyReleasedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyRelease(int key, int idHID, Object object) {
+			public void onKeyRelease(final int key, final int idHID, final Object object) {
 				fail();
 			}
 		};
@@ -118,9 +118,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testKeyReleased() {
 		final KeyEvent ke = new KeyEvent(new JButton(), 123, 9871, 124, 634, 'r');
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyRelease(int key, int idHID, Object object) {
+			public void onKeyRelease(final int key, final int idHID, final Object object) {
 				assertEquals(ke.getKeyCode(), key);
 			}
 		};
@@ -131,9 +131,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testKeyPressedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyPressure(int key, int idHID, Object object) {
+			public void onKeyPressure(final int key, final int idHID, final Object object) {
 				fail();
 			}
 		};
@@ -145,9 +145,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testKeyPressed() {
 		final KeyEvent ke = new KeyEvent(new JButton(), 123, 9871, 124, 634, 'r');
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyPressure(int key, int idHID, Object object) {
+			public void onKeyPressure(final int key, final int idHID, final Object object) {
 				assertEquals(ke.getKeyCode(), key);
 			}
 		};
@@ -159,9 +159,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testStateChangedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onSpinnerChanged(JSpinner spinner) {fail();}
+			public void onSpinnerChanged(final JSpinner spinner) {fail();}
 		};
 
 		manager.addHandlers(eh2);
@@ -172,9 +172,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testStateChangedSpinner() {
 		final ChangeEvent ae = new ChangeEvent(new JSpinner());
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onSpinnerChanged(JSpinner spinner) {
+			public void onSpinnerChanged(final JSpinner spinner) {
 				assertEquals(ae.getSource(), spinner);
 			}
 		};
@@ -186,9 +186,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testItemChangedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onItemSelected(ItemSelectable itemSelectable) {fail();}
+			public void onItemSelected(final ItemSelectable itemSelectable) {fail();}
 		};
 
 		manager.addHandlers(eh2);
@@ -198,10 +198,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testItemChangedComboBox() {
-		final ItemEvent ae = new ItemEvent(new JComboBox(), 1298, "coucou", 1);
-		EventHandler eh2 = new EventHandlerMock() {
+		final ItemEvent ae = new ItemEvent(new JComboBox<String>(), 1298, "coucou", 1);
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onItemSelected(ItemSelectable itemSelectable) {
+			public void onItemSelected(final ItemSelectable itemSelectable) {
 				assertEquals(ae.getSource(), itemSelectable);
 			}
 		};
@@ -212,15 +212,15 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testActionPerformedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onMenuItemPressed(JMenuItem menuItem) { fail();}
+			public void onMenuItemPressed(final JMenuItem menuItem) { fail();}
 			@Override
-			public void onCheckBoxModified(JCheckBox checkbox) {fail();}
+			public void onCheckBoxModified(final JCheckBox checkbox) {fail();}
 			@Override
-			public void onButtonPressed(AbstractButton button) {fail();}
+			public void onButtonPressed(final AbstractButton button) {fail();}
 			@Override
-			public void onTextChanged(JTextComponent textComp) {fail();}
+			public void onTextChanged(final JTextComponent textComp) {fail();}
 		};
 
 		manager.addHandlers(eh2);
@@ -230,17 +230,17 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testActionPerformedButton() {
 		final ActionEvent ae = new ActionEvent(new JButton(), 122, "cmd");
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onButtonPressed(AbstractButton button) {
+			public void onButtonPressed(final AbstractButton button) {
 				assertEquals(ae.getSource(), button);
 			}
 			@Override
-			public void onCheckBoxModified(JCheckBox checkbox) {fail();}
+			public void onCheckBoxModified(final JCheckBox checkbox) {fail();}
 			@Override
-			public void onMenuItemPressed(JMenuItem menuItem) { fail();}
+			public void onMenuItemPressed(final JMenuItem menuItem) { fail();}
 			@Override
-			public void onTextChanged(JTextComponent textComp) {fail();}
+			public void onTextChanged(final JTextComponent textComp) {fail();}
 		};
 
 		manager.addHandlers(eh2);
@@ -250,15 +250,15 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testActionPerformedMenuItem() {
 		final ActionEvent ae = new ActionEvent(new JMenuItem(), 122, "cmd");
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onButtonPressed(AbstractButton button) {fail(); }
+			public void onButtonPressed(final AbstractButton button) {fail(); }
 			@Override
-			public void onCheckBoxModified(JCheckBox checkbox) {fail();}
+			public void onCheckBoxModified(final JCheckBox checkbox) {fail();}
 			@Override
-			public void onMenuItemPressed(JMenuItem menuItem) { assertEquals(ae.getSource(), menuItem); }
+			public void onMenuItemPressed(final JMenuItem menuItem) { assertEquals(ae.getSource(), menuItem); }
 			@Override
-			public void onTextChanged(JTextComponent textComp) {fail();}
+			public void onTextChanged(final JTextComponent textComp) {fail();}
 		};
 
 		manager.addHandlers(eh2);
@@ -268,15 +268,15 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testActionPerformedCheckBox() {
 		final ActionEvent ae = new ActionEvent(new JCheckBox(), 122, "cmd");
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onButtonPressed(AbstractButton button) {fail(); }
+			public void onButtonPressed(final AbstractButton button) {fail(); }
 			@Override
-			public void onCheckBoxModified(JCheckBox checkbox) {assertEquals(ae.getSource(), checkbox); }
+			public void onCheckBoxModified(final JCheckBox checkbox) {assertEquals(ae.getSource(), checkbox); }
 			@Override
-			public void onMenuItemPressed(JMenuItem menuItem) { fail();}
+			public void onMenuItemPressed(final JMenuItem menuItem) { fail();}
 			@Override
-			public void onTextChanged(JTextComponent textComp) {fail();}
+			public void onTextChanged(final JTextComponent textComp) {fail();}
 		};
 
 		manager.addHandlers(eh2);
@@ -286,15 +286,15 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testActionPerformedTextField() {
 		final ActionEvent ae = new ActionEvent(new JTextField(), 122, "cmd");
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onButtonPressed(AbstractButton button) {fail(); }
+			public void onButtonPressed(final AbstractButton button) {fail(); }
 			@Override
-			public void onCheckBoxModified(JCheckBox checkbox) {fail();}
+			public void onCheckBoxModified(final JCheckBox checkbox) {fail();}
 			@Override
-			public void onMenuItemPressed(JMenuItem menuItem) { fail();}
+			public void onMenuItemPressed(final JMenuItem menuItem) { fail();}
 			@Override
-			public void onTextChanged(JTextComponent textComp) {assertEquals(ae.getSource(), textComp);}
+			public void onTextChanged(final JTextComponent textComp) {assertEquals(ae.getSource(), textComp);}
 		};
 
 		manager.addHandlers(eh2);
@@ -304,9 +304,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testMouseWheelMovedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onScroll(int posX, int posY, int direction, int amount, int type, int idHID, Object src) {
+			public void onScroll(final int posX, final int posY, final int direction, final int amount, final int type, final int idHID, final Object src) {
 				fail();
 			}
 		};
@@ -318,9 +318,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testMouseWheelMoved() {
 		final MouseWheelEvent mwe = new MouseWheelEvent(new JButton(), 1232, 973, 1234, 8643, 8973, 98732, true, 1, 12454, -1);
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onScroll(int posX, int posY, int direction, int amount, int type, int idHID, Object src) {
+			public void onScroll(final int posX, final int posY, final int direction, final int amount, final int type, final int idHID, final Object src) {
 				assertEquals(mwe.getSource(), src);
 				assertEquals(mwe.getX(), posX);
 				assertEquals(mwe.getY(), posY);
@@ -336,9 +336,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testMouseMovedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onMove(int button, int x, int y, boolean pressed, int idHID, Object source) {
+			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				fail();
 			}
 		};
@@ -350,9 +350,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testMouseMoved() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onMove(int button, int x, int y, boolean pressed, int idHID, Object source) {
+			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
 				assertEquals(me.getSource(), source);
 				assertEquals(me.getX(), x);
@@ -368,9 +368,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testMouseDraggedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onMove(int button, int x, int y, boolean pressed, int idHID, Object source) {
+			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				fail();
 			}
 		};
@@ -382,9 +382,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testMouseDragged() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onMove(int button, int x, int y, boolean pressed, int idHID, Object source) {
+			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
 				assertEquals(me.getSource(), source);
 				assertEquals(me.getX(), x);
@@ -399,9 +399,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testMouseReleasedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onRelease(int button, int x, int y, int idHID, Object source) {
+			public void onRelease(final int button, final int x, final int y, final int idHID, final Object source) {
 				fail();
 			}
 		};
@@ -413,9 +413,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testMouseReleased() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onRelease(int button, int x, int y, int idHID, Object source) {
+			public void onRelease(final int button, final int x, final int y, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
 				assertEquals(me.getSource(), source);
 				assertEquals(me.getX(), x);
@@ -429,9 +429,9 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testMousePressedNull() {
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onPressure(int button, int x, int y, int idHID, Object source) {
+			public void onPressure(final int button, final int x, final int y, final int idHID, final Object source) {
 				fail();
 			}
 		};
@@ -443,9 +443,9 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	public void testMousePressed() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		EventHandler eh2 = new EventHandlerMock() {
+		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onPressure(int button, int x, int y, int idHID, Object source) {
+			public void onPressure(final int button, final int x, final int y, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
 				assertEquals(me.getSource(), source);
 				assertEquals(me.getX(), x);
@@ -469,10 +469,10 @@ public class TestSwingEventManager extends TestCase {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testRemoveHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = SwingEventManager.class.getDeclaredField("handlers");
+		final Field field = SwingEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
-		List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
-		int size = ehs.size();
+		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
+		final int size = ehs.size();
 		manager.addHandlers(eh);
 		manager.removeHandler(eh);
 		assertEquals(size, ehs.size());
@@ -490,10 +490,10 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testAddHandlerNull() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = SwingEventManager.class.getDeclaredField("handlers");
+		final Field field = SwingEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
-		List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
-		int size = ehs.size();
+		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
+		final int size = ehs.size();
 		manager.addHandlers(null);
 		assertEquals(size, ehs.size());
 	}
@@ -502,10 +502,10 @@ public class TestSwingEventManager extends TestCase {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testAddHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = SwingEventManager.class.getDeclaredField("handlers");
+		final Field field = SwingEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
-		List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
-		int size = ehs.size();
+		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
+		final int size = ehs.size();
 		manager.addHandlers(eh);
 		assertEquals(size+1, ehs.size());
 
@@ -527,11 +527,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromActionListenerAbstractButton() {
-		AbstractButton c = new JButton();
-		int cpt = c.getActionListeners().length;
+		final AbstractButton c = new JButton();
+		final int cpt = c.getActionListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] il = c.getActionListeners();
+		final Object[] il = c.getActionListeners();
 		assertEquals(cpt, il.length);
 
 		boolean found = false;
@@ -544,11 +544,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromActionListenerTextField() {
-		JTextField c = new JTextField();
-		int cpt = c.getActionListeners().length;
+		final JTextField c = new JTextField();
+		final int cpt = c.getActionListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] il = c.getActionListeners();
+		final Object[] il = c.getActionListeners();
 		assertEquals(cpt, il.length);
 
 		boolean found = false;
@@ -561,11 +561,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromItemSelectable() {
-		JComboBox c = new JComboBox();
-		int cpt = c.getItemListeners().length;
+		final JComboBox<String> c = new JComboBox<String>();
+		final int cpt = c.getItemListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] il = c.getItemListeners();
+		final Object[] il = c.getItemListeners();
 		assertEquals(cpt, il.length);
 
 		boolean found = false;
@@ -578,11 +578,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromChangeListener() {
-		JSpinner c = new JSpinner();
-		int cpt = c.getChangeListeners().length;
+		final JSpinner c = new JSpinner();
+		final int cpt = c.getChangeListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] cl = c.getChangeListeners();
+		final Object[] cl = c.getChangeListeners();
 		assertEquals(cpt, cl.length);
 
 		boolean found = false;
@@ -596,11 +596,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromMouseListener() {
-		Component c = new JButton();
-		int cpt = c.getMouseListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getMouseListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] cl = c.getMouseListeners();
+		final Object[] cl = c.getMouseListeners();
 		assertEquals(cpt, cl.length);
 
 		boolean found = false;
@@ -614,11 +614,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromMouseMotionListener() {
-		Component c = new JButton();
-		int cpt = c.getMouseMotionListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getMouseMotionListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] cl = c.getMouseMotionListeners();
+		final Object[] cl = c.getMouseMotionListeners();
 		assertEquals(cpt, cl.length);
 
 		boolean found = false;
@@ -632,11 +632,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromMouseWheelListener() {
-		Component c = new JButton();
-		int cpt = c.getMouseWheelListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getMouseWheelListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] cl = c.getMouseWheelListeners();
+		final Object[] cl = c.getMouseWheelListeners();
 		assertEquals(cpt, cl.length);
 
 		boolean found = false;
@@ -650,11 +650,11 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromKeyListener() {
-		Component c = new JButton();
-		int cpt = c.getKeyListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getKeyListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
-		Object[] cl = c.getKeyListeners();
+		final Object[] cl = c.getKeyListeners();
 		assertEquals(cpt, cl.length);
 
 		boolean found = false;
@@ -674,10 +674,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToActionListenerAbstractButton() {
-		AbstractButton c = new JButton();
-		int cpt = c.getActionListeners().length;
+		final AbstractButton c = new JButton();
+		final int cpt = c.getActionListeners().length;
 		manager.attachTo(c);
-		Object[] il = c.getActionListeners();
+		final Object[] il = c.getActionListeners();
 		assertEquals(cpt+1, il.length);
 
 		boolean found = false;
@@ -690,10 +690,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToActionListenerTextField() {
-		JTextField c = new JTextField();
-		int cpt = c.getActionListeners().length;
+		final JTextField c = new JTextField();
+		final int cpt = c.getActionListeners().length;
 		manager.attachTo(c);
-		Object[] il = c.getActionListeners();
+		final Object[] il = c.getActionListeners();
 		assertEquals(cpt+1, il.length);
 
 		boolean found = false;
@@ -706,10 +706,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToItemSelectable() {
-		JComboBox c = new JComboBox();
-		int cpt = c.getItemListeners().length;
+		final JComboBox<String> c = new JComboBox<String>();
+		final int cpt = c.getItemListeners().length;
 		manager.attachTo(c);
-		Object[] il = c.getItemListeners();
+		final Object[] il = c.getItemListeners();
 		assertEquals(cpt+1, il.length);
 
 		boolean found = false;
@@ -722,10 +722,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToChangeListener() {
-		JSpinner c = new JSpinner();
-		int cpt = c.getChangeListeners().length;
+		final JSpinner c = new JSpinner();
+		final int cpt = c.getChangeListeners().length;
 		manager.attachTo(c);
-		Object[] cl = c.getChangeListeners();
+		final Object[] cl = c.getChangeListeners();
 		assertEquals(cpt+1, cl.length);
 
 		boolean found = false;
@@ -739,10 +739,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToMouseListener() {
-		Component c = new JButton();
-		int cpt = c.getMouseListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getMouseListeners().length;
 		manager.attachTo(c);
-		Object[] cl = c.getMouseListeners();
+		final Object[] cl = c.getMouseListeners();
 		assertEquals(cpt+1, cl.length);
 
 		boolean found = false;
@@ -756,10 +756,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToMouseMotionListener() {
-		Component c = new JButton();
-		int cpt = c.getMouseMotionListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getMouseMotionListeners().length;
 		manager.attachTo(c);
-		Object[] cl = c.getMouseMotionListeners();
+		final Object[] cl = c.getMouseMotionListeners();
 		assertEquals(cpt+1, cl.length);
 
 		boolean found = false;
@@ -773,10 +773,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToMouseWheelListener() {
-		Component c = new JButton();
-		int cpt = c.getMouseWheelListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getMouseWheelListeners().length;
 		manager.attachTo(c);
-		Object[] cl = c.getMouseWheelListeners();
+		final Object[] cl = c.getMouseWheelListeners();
 		assertEquals(cpt+1, cl.length);
 
 		boolean found = false;
@@ -790,10 +790,10 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToKeyListener() {
-		Component c = new JButton();
-		int cpt = c.getKeyListeners().length;
+		final Component c = new JButton();
+		final int cpt = c.getKeyListeners().length;
 		manager.attachTo(c);
-		Object[] cl = c.getKeyListeners();
+		final Object[] cl = c.getKeyListeners();
 		assertEquals(cpt+1, cl.length);
 
 		boolean found = false;
