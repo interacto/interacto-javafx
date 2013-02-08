@@ -561,7 +561,7 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testDetachFromItemSelectable() {
-		final JComboBox<String> c = new JComboBox<String>();
+		final JComboBox<String> c = new JComboBox<>();
 		final int cpt = c.getItemListeners().length;
 		manager.attachTo(c);
 		manager.detachForm(c);
@@ -706,7 +706,7 @@ public class TestSwingEventManager extends TestCase {
 
 	@Test
 	public void testAttachToItemSelectable() {
-		final JComboBox<String> c = new JComboBox<String>();
+		final JComboBox<String> c = new JComboBox<>();
 		final int cpt = c.getItemListeners().length;
 		manager.attachTo(c);
 		final Object[] il = c.getItemListeners();

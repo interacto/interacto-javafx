@@ -51,7 +51,7 @@ public abstract class State implements IState {
 
 		this.name 	 = name;
 		stateMachine = null;
-		transitions  = new ArrayList<ITransition>();
+		transitions  = new ArrayList<>();
 	}
 
 
@@ -95,7 +95,7 @@ public abstract class State implements IState {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		sb.append(getClass().getCanonicalName()).append('[').append(name).append(',').append(' ');
 

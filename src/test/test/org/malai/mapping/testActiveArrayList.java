@@ -22,8 +22,8 @@ public class testActiveArrayList extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		list  = new ActiveArrayList<Integer>();
-		list2 = new ArrayList<Integer>();
+		list  = new ActiveArrayList<>();
+		list2 = new ArrayList<>();
 		MappingRegistry.REGISTRY.addMapping(new List2List(list, list2));
 	}
 
@@ -34,7 +34,7 @@ public class testActiveArrayList extends TestCase {
 		try {
 			list.move(0, 1);
 			fail();
-		}catch(IndexOutOfBoundsException e) { /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 		assertEquals(0, list2.size());
 
 		list.add(new Integer(1));
@@ -54,14 +54,14 @@ public class testActiveArrayList extends TestCase {
 		try {
 			list.move(0, 10);
 			fail();
-		}catch(IndexOutOfBoundsException e) { /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 		assertEquals(2, list2.size());
 		assertEquals(1, list2.get(0).intValue());
 		assertEquals(2, list2.get(1).intValue());
 		try {
 			list.move(0, -1);
 			fail();
-		}catch(IndexOutOfBoundsException e) { /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 		assertEquals(2, list2.size());
 		assertEquals(1, list2.get(0).intValue());
 		assertEquals(2, list2.get(1).intValue());
@@ -166,19 +166,19 @@ public class testActiveArrayList extends TestCase {
 		try {
 			list.add(-1, new Integer(4));
 			fail();
-		}catch(IndexOutOfBoundsException e) { /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 
 		try {
 			list.add(10, new Integer(4));
 			fail();
-		}catch(IndexOutOfBoundsException e) { /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 	}
 
 
 
 	@Test
 	public void testAddAll1() {
-		ArrayList<Integer> list3 = new ArrayList<Integer>();
+		final ArrayList<Integer> list3 = new ArrayList<>();
 
 		list3.add(new Integer(0));
 		list3.add(new Integer(1));
@@ -201,7 +201,7 @@ public class testActiveArrayList extends TestCase {
 
 	@Test
 	public void testAddAll2() {
-		ArrayList<Integer> list3 = new ArrayList<Integer>();
+		final ArrayList<Integer> list3 = new ArrayList<>();
 
 		list3.add(new Integer(0));
 		list3.add(new Integer(1));
@@ -293,11 +293,11 @@ public class testActiveArrayList extends TestCase {
 		try {
 			list.remove(-1);
 			fail();
-		}catch(IndexOutOfBoundsException e) { /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 		assertEquals(0, list2.size());
 		try {
 			list.remove(0);
-		}catch(IndexOutOfBoundsException e) { /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 		assertEquals(0, list2.size());
 
 		list.add(new Integer(1));
@@ -325,19 +325,19 @@ public class testActiveArrayList extends TestCase {
 		try {
 			list.set(0, new Integer(1));
 			fail();
-		}catch(IndexOutOfBoundsException e){ /* */ }
+		}catch(final IndexOutOfBoundsException e){ /* */ }
 
 		list.add(new Integer(1));
 
 		try {
 			list.set(-1, new Integer(1));
 			fail();
-		}catch(IndexOutOfBoundsException e){ /* */ }
+		}catch(final IndexOutOfBoundsException e){ /* */ }
 
 		try {
 			list.set(1, new Integer(1));
 			fail();
-		}catch(IndexOutOfBoundsException e){ /* */ }
+		}catch(final IndexOutOfBoundsException e){ /* */ }
 
 		list.set(0, new Integer(0));
 		assertEquals(1, list2.size());
@@ -360,12 +360,12 @@ public class testActiveArrayList extends TestCase {
 
 class List2List extends SymmetricList2ListMapping<Integer, Integer> {
 
-	public List2List(List<Integer> source, List<Integer> target) {
+	public List2List(final List<Integer> source, final List<Integer> target) {
 		super(source, target);
 	}
 
 	@Override
-	protected Integer createTargetObject(Object sourceObject) {
+	protected Integer createTargetObject(final Object sourceObject) {
 		return new Integer((Integer) sourceObject);
 	}
 

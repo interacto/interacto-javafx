@@ -54,7 +54,7 @@ public final class UIManager implements WindowFocusListener {
 	public void registerUI(final UI ui) {
 		if(ui!=null) {
 			if(uiRegistered==null)
-				uiRegistered = new HashSet<UI>();
+				uiRegistered = new HashSet<>();
 
 			if(!uiRegistered.contains(ui)) {
 				uiRegistered.add(ui);

@@ -43,7 +43,7 @@ public class KeysPressure extends Interaction {
 	 */
 	public KeysPressure() {
 		super();
-		keys = new ArrayList<Integer>();
+		keys = new ArrayList<>();
 		initStateMachine();
 	}
 
