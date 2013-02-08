@@ -54,7 +54,7 @@ public class KeysTyped extends Interaction {
 		super.reinit();
 
 		if(keys==null)
-			keys = new ArrayList<Integer>();
+			keys = new ArrayList<>();
 		keys.clear();
 		object = null;
 	}

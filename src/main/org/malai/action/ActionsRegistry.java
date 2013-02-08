@@ -43,8 +43,8 @@ public final class ActionsRegistry {
 	 */
 	private ActionsRegistry() {
 		super();
-		actions 	= new ArrayList<Action>();
-		handlers 	= new ArrayList<ActionHandler>();
+		actions 	= new ArrayList<>();
+		handlers 	= new ArrayList<>();
 		sizeMax		= 30;
 	}
 
@@ -57,7 +57,7 @@ public final class ActionsRegistry {
 	 */
 	public void onActionExecuted(final Action action) {
 		if(action!=null)
-			for(ActionHandler handler : handlers)
+			for(final ActionHandler handler : handlers)
 				handler.onActionExecuted(action);
 	}
 
@@ -70,7 +70,7 @@ public final class ActionsRegistry {
 	 */
 	public void onActionDone(final Action action) {
 		if(action!=null)
-			for(ActionHandler handler : handlers)
+			for(final ActionHandler handler : handlers)
 				handler.onActionDone(action);
 	}
 
@@ -99,9 +99,9 @@ public final class ActionsRegistry {
 
 		while(i<actions.size())
 			if(actions.get(i).cancelledBy(action)) {
-				Action act = actions.remove(i);
+				final Action act = actions.remove(i);
 
-				for(ActionHandler handler : handlers)
+				for(final ActionHandler handler : handlers)
 					handler.onActionCancelled(act);
 
 				act.flush();
@@ -130,7 +130,7 @@ public final class ActionsRegistry {
 
 			actions.add(action);
 
-			for(ActionHandler handler : handlers)
+			for(final ActionHandler handler : handlers)
 				handler.onActionAdded(action);
 
 			if(action instanceof Undoable)
@@ -215,7 +215,7 @@ public final class ActionsRegistry {
 			action.abort();
 			actions.remove(action);
 
-			for(ActionHandler handler : handlers)
+			for(final ActionHandler handler : handlers)
 				handler.onActionAborted(action);
 
 			action.flush();

@@ -96,7 +96,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 
 		currentTimeout			= null;
 		activated 				= true;
-		states 					= new ArrayList<IState>();
+		states 					= new ArrayList<>();
 		initState.stateMachine 	= this;
 		this.initState 			= initState;
 		addState(initState);
@@ -149,7 +149,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 	public void addHandler(final InteractionHandler handler) {
 		if(handler!=null) {
 			if(handlers==null)
-				handlers = new ArrayList<InteractionHandler>();
+				handlers = new ArrayList<>();
 
 			handlers.add(handler);
 		}
@@ -197,9 +197,9 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 	protected void notifyHandlersOnStop() throws MustAbortStateMachineException {
 		try {
 			if(handlers!=null)
-	    		for(InteractionHandler handler : handlers)
+	    		for(final InteractionHandler handler : handlers)
 	    			handler.interactionStops(this);
-		}catch(MustAbortStateMachineException ex) {
+		}catch(final MustAbortStateMachineException ex) {
 			notifyHandlersOnAborting();
 			throw ex;
 		}
@@ -234,7 +234,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			return ((Picker)source).getPickableAt(x, y);
 
 		if(source instanceof Pickable) {
-			Pickable srcPickable = (Pickable) source;
+			final Pickable srcPickable = (Pickable) source;
 
 			if(srcPickable.contains(x, y))
 				return srcPickable;
@@ -286,7 +286,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
     				currentState = transition.getOutputState();
     				transition.getOutputState().onIngoing();
     			}
-    		}catch(MustAbortStateMachineException ex) { reinit(); }
+    		}catch(final MustAbortStateMachineException ex) { reinit(); }
 	}
 
 
@@ -333,7 +333,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			t = currentState.getTransition(i);
 
 			if(t instanceof TextChangedTransition) {
-				TextChangedTransition tct = (TextChangedTransition) t;
+				final TextChangedTransition tct = (TextChangedTransition) t;
 
 				tct.setTextComp(textComp);
 				tct.setText(textComp.getText());
@@ -355,7 +355,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			transition = currentState.getTransition(i);
 
 			if(transition instanceof ScrollTransition) {
-				ScrollTransition st = (ScrollTransition)transition;
+				final ScrollTransition st = (ScrollTransition)transition;
 
 				st.setAmount(amount);
 				st.setDirection(direction);
@@ -533,7 +533,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			t = currentState.getTransition(i);
 
 			if(t instanceof MoveTransition) {
-				MoveTransition mt = (MoveTransition)t;
+				final MoveTransition mt = (MoveTransition)t;
 
 				mt.setX(x);
 				mt.setY(y);
@@ -558,7 +558,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			t = currentState.getTransition(i);
 
 			if(t instanceof PressureTransition) {
-				PressureTransition pt =  (PressureTransition)t;
+				final PressureTransition pt =  (PressureTransition)t;
 
 				pt.setX(x);
 				pt.setY(y);
@@ -586,7 +586,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 				t = currentState.getTransition(i);
 
 				if(t instanceof ReleaseTransition) {
-					ReleaseTransition rt = (ReleaseTransition)t;
+					final ReleaseTransition rt = (ReleaseTransition)t;
 
 					rt.setX(x);
 					rt.setY(y);
@@ -662,7 +662,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 	 */
 	protected void addEvent(final Event event) {
 		if(stillProcessingEvents==null)
-			stillProcessingEvents = new ArrayList<Event>();
+			stillProcessingEvents = new ArrayList<>();
 
 		stillProcessingEvents.add(event);
 	}
@@ -726,7 +726,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			Event event;
 			// All the events must be processed but the list stillProcessingEvents can be modified
 			// during the process. So, a clone of the list must be created.
-			List<Event> list = new ArrayList<Event>(stillProcessingEvents);
+			final List<Event> list = new ArrayList<>(stillProcessingEvents);
 
 			// All the events must be processed.
 			while(!list.isEmpty()) {
@@ -735,10 +735,10 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 				stillProcessingEvents.remove(0);
 
 				if(event instanceof MousePressEvent) {
-					MousePressEvent press = (MousePressEvent)event;
+					final MousePressEvent press = (MousePressEvent)event;
 					onPressure(press.button, press.x, press.y, press.idHID, press.source);
 				} else if(event instanceof KeyPressEvent) {
-					KeyPressEvent key = (KeyPressEvent)event;
+					final KeyPressEvent key = (KeyPressEvent)event;
 					onKeyPressure(key.keyCode, key.idHID, key.source);
 				}
 			}

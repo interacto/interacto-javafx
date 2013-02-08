@@ -57,11 +57,11 @@ public final class UndoCollector {
 	private UndoCollector() {
 		super();
 
-		handlers = new ArrayList<UndoHandler>();
-		undo 	 = new ArrayDeque<Undoable>();
-		redo 	 = new ArrayDeque<Undoable>();
-		undoHandlers = new ArrayDeque<UndoHandler>();
-		redoHandlers = new ArrayDeque<UndoHandler>();
+		handlers = new ArrayList<>();
+		undo 	 = new ArrayDeque<>();
+		redo 	 = new ArrayDeque<>();
+		undoHandlers = new ArrayDeque<>();
+		redoHandlers = new ArrayDeque<>();
 		sizeMax  = 30;
 	}
 
@@ -116,7 +116,7 @@ public final class UndoCollector {
 			redo.clear(); /* The redoable objects must be removed. */
 			redoHandlers.clear();
 
-			for(UndoHandler handler : handlers)
+			for(final UndoHandler handler : handlers)
 				handler.onUndoableAdded(undoable);
 		}
 	}
@@ -135,7 +135,7 @@ public final class UndoCollector {
 			redoHandlers.push(undoHandler);
 			undoHandler.onUndoableUndo(undoable);
 
-			for(UndoHandler handler : handlers)
+			for(final UndoHandler handler : handlers)
 				handler.onUndoableUndo(undoable);
 		}
 	}
@@ -154,7 +154,7 @@ public final class UndoCollector {
 			undoHandlers.push(redoHandler);
 			redoHandler.onUndoableRedo(undoable);
 
-			for(UndoHandler handler : handlers)
+			for(final UndoHandler handler : handlers)
 				handler.onUndoableRedo(undoable);
 		}
 	}

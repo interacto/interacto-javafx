@@ -20,15 +20,15 @@ public class TestActiveUnary extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		s1 = new ActiveUnary<Integer>();
-		s2 = new ActiveUnary<Integer>();
+		s1 = new ActiveUnary<>();
+		s2 = new ActiveUnary<>();
 		MappingRegistry.REGISTRY.addMapping(new S2S(s1, s2));
 	}
 
 
 	@Test
 	public void testConstructorValue() {
-		s1 = new ActiveUnary<Integer>(12);
+		s1 = new ActiveUnary<>(12);
 		assertEquals(12, (int)s1.getValue());
 	}
 
@@ -62,17 +62,17 @@ public class TestActiveUnary extends TestCase {
 @Ignore
 class S2S extends Unary2UnaryMapping<Integer, Integer> {
 
-	public S2S(IUnary<Integer> source, IUnary<Integer> target) {
+	public S2S(final IUnary<Integer> source, final IUnary<Integer> target) {
 		super(source, target);
 	}
 
 	@Override
-	public void onObjectModified(Object object) {
+	public void onObjectModified(final Object object) {
 		targetObject.setValue(new Integer(sourceObject.getValue()));
 	}
 
 	@Override
-	public void onObjectReplaced(IUnary<?> object, Object replacedObject) {
+	public void onObjectReplaced(final IUnary<?> object, final Object replacedObject) {
 		targetObject.setValue(new Integer(sourceObject.getValue()));
 	}
 

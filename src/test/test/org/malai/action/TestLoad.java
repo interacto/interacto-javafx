@@ -14,7 +14,7 @@ public class TestLoad extends TestIOAction<Load<UI, Object>> {
 
 	@Override
 	protected Load<UI, Object> createAction() {
-		return new Load<UI, Object>();
+		return new Load<>();
 	}
 
 	@SuppressWarnings("unused")

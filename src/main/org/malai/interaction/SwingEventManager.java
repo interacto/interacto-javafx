@@ -76,7 +76,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 	public SwingEventManager() {
 		super();
 
-		handlers = new CopyOnWriteArrayList<EventHandler>();
+		handlers = new CopyOnWriteArrayList<>();
 	}
 
 

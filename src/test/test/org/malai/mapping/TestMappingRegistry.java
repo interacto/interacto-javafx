@@ -14,11 +14,11 @@ import org.malai.mapping.MappingRegistry;
 
 public class TestMappingRegistry extends TestCase {
 	public void testMappingAddedThenRemovedFromSourceObject() {
-		List<Double> list2 = new ActiveArrayList<Double>();
-		JButton b2 = new JButton("b2");
-		IMapping mapping = new MappingMock(list2, b2) {
+		final List<Double> list2 = new ActiveArrayList<>();
+		final JButton b2 = new JButton("b2");
+		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
-			public void onObjectAdded(Object list, Object object, int index) {
+			public void onObjectAdded(final Object list, final Object object, final int index) {
 				fail();
 			}
 		};
@@ -31,11 +31,11 @@ public class TestMappingRegistry extends TestCase {
 
 
 	public void testMappingAddedThenRemovedFromSourceObjectClass() {
-		List<Double> list2 = new ActiveArrayList<Double>();
-		JButton b2 = new JButton("b2");
-		IMapping mapping = new MappingMock(list2, b2) {
+		final List<Double> list2 = new ActiveArrayList<>();
+		final JButton b2 = new JButton("b2");
+		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
-			public void onObjectAdded(Object list, Object object, int index) {
+			public void onObjectAdded(final Object list, final Object object, final int index) {
 				fail();
 			}
 		};
@@ -48,11 +48,11 @@ public class TestMappingRegistry extends TestCase {
 
 
 	public void testMappingAddedThenRemovedFromTargetObjectClass() {
-		List<Double> list2 = new ActiveArrayList<Double>();
-		JButton b2 = new JButton("b2");
-		IMapping mapping = new MappingMock(list2, b2) {
+		final List<Double> list2 = new ActiveArrayList<>();
+		final JButton b2 = new JButton("b2");
+		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
-			public void onObjectAdded(Object list, Object object, int index) {
+			public void onObjectAdded(final Object list, final Object object, final int index) {
 				fail();
 			}
 		};
@@ -65,11 +65,11 @@ public class TestMappingRegistry extends TestCase {
 
 
 	public void testMappingAddedThenRemovedFromTargetObject() {
-		List<Double> list2 = new ActiveArrayList<Double>();
-		JButton b2 = new JButton("b2");
-		IMapping mapping = new MappingMock(list2, b2) {
+		final List<Double> list2 = new ActiveArrayList<>();
+		final JButton b2 = new JButton("b2");
+		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
-			public void onObjectAdded(Object list, Object object, int index) {
+			public void onObjectAdded(final Object list, final Object object, final int index) {
 				fail();
 			}
 		};
@@ -83,31 +83,31 @@ public class TestMappingRegistry extends TestCase {
 
 
 	class MappingMock extends List2ObjectMapping<Double, JButton> {
-		MappingMock(List<Double> source, JButton target) {
+		MappingMock(final List<Double> source, final JButton target) {
 			super(source, target);
 		}
 		@Override
-		public void onObjectAdded(Object list, Object object, int index) {
+		public void onObjectAdded(final Object list, final Object object, final int index) {
 			//
 		}
 		@Override
-		public void onObjectRemoved(Object list, Object object, int index) {
+		public void onObjectRemoved(final Object list, final Object object, final int index) {
 			//
 		}
 		@Override
-		public void onListCleaned(Object list) {
+		public void onListCleaned(final Object list) {
 			//
 		}
 		@Override
-		public void onObjectMoved(Object list, Object object, int srcIndex, int targetIndex) {
+		public void onObjectMoved(final Object list, final Object object, final int srcIndex, final int targetIndex) {
 			//
 		}
 		@Override
-		public void onObjectReplaced(IUnary<?> object, Object replacedObject) {
+		public void onObjectReplaced(final IUnary<?> object, final Object replacedObject) {
 			//
 		}
 		@Override
-		public void onObjectModified(Object object) {
+		public void onObjectModified(final Object object) {
 			//
 		}
 		@Override

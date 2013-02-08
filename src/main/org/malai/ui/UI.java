@@ -54,7 +54,7 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 		super(true);
 
 		modified 		= false;
-		presentations 	= new ArrayList<Presentation<?,?>>();
+		presentations 	= new ArrayList<>();
 		initialisePresentations();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
@@ -116,7 +116,7 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 	 * @since 0.2
 	 */
 	public void updatePresentations() {
-		for(Presentation<?,?> presentation : presentations)
+		for(final Presentation<?,?> presentation : presentations)
 			presentation.update();
 	}
 

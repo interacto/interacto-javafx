@@ -53,23 +53,23 @@ public final class MappingRegistry implements IMappingRegistry {
 	private MappingRegistry() {
 		super();
 
-		uniqueMappings = new IdentityHashMap<Object, IMapping>();
-		multiMappings  = new IdentityHashMap<Object, List<IMapping>>();
-		invertedUniqueMappings = new IdentityHashMap<Object, IMapping>();
-		invertedMultiMappings  = new IdentityHashMap<Object, List<IMapping>>();
+		uniqueMappings = new IdentityHashMap<>();
+		multiMappings  = new IdentityHashMap<>();
+		invertedUniqueMappings = new IdentityHashMap<>();
+		invertedMultiMappings  = new IdentityHashMap<>();
 	}
 
 
 
 	@Override
 	public void initMappings() {
-		Collection<IMapping> coll = uniqueMappings.values();
-		for(IMapping mapping : coll)
+		final Collection<IMapping> coll = uniqueMappings.values();
+		for(final IMapping mapping : coll)
 			mapping.init();
 
-		Collection<List<IMapping>> collList = multiMappings.values();
-		for(List<IMapping> list : collList)
-			for(IMapping mapping : list)
+		final Collection<List<IMapping>> collList = multiMappings.values();
+		for(final List<IMapping> list : collList)
+			for(final IMapping mapping : list)
 				mapping.init();
 	}
 
@@ -147,16 +147,16 @@ public final class MappingRegistry implements IMappingRegistry {
 
 
 	private static List<IMapping> getMapping(final Object object, final Map<Object,IMapping> uniqueMap, final Map<Object,List<IMapping>> multiMap) {
-		final List<IMapping> mappings = new ArrayList<IMapping>();
+		final List<IMapping> mappings = new ArrayList<>();
 
 		if(object!=null) {
-			IMapping mapping = uniqueMap.get(object);
+			final IMapping mapping = uniqueMap.get(object);
 
 			if(mapping==null) {
-				List<IMapping> multi = multiMap.get(object);
+				final List<IMapping> multi = multiMap.get(object);
 
 				if(multi!=null)
-					for(IMapping map : multi)
+					for(final IMapping map : multi)
 						mappings.add(map);
 			}else
 				mappings.add(mapping);
@@ -196,7 +196,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			if(uniqueMap.get(object)==null)
 				uniqueMap.put(object, mapping);
 			else {
-				final List<IMapping> list = new ArrayList<IMapping>();
+				final List<IMapping> list = new ArrayList<>();
 				list.add(uniqueMap.remove(object));
 				list.add(mapping);
 				multiMap.put(object, list);
@@ -213,7 +213,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			final List<IMapping> mappings = multiMappings.get(list);
 
 			if(mappings!=null)
-				for(IMapping map : mappings)
+				for(final IMapping map : mappings)
 					map.onObjectAdded(list, object, index);
 		}
 		else
@@ -230,7 +230,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			final List<IMapping> mappings = multiMappings.get(list);
 
 			if(mappings!=null)
-				for(IMapping map : mappings)
+				for(final IMapping map : mappings)
 					map.onObjectRemoved(list, object, index);
 		}
 		else
@@ -246,7 +246,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			final List<IMapping> mappings = multiMappings.get(list);
 
 			if(mappings!=null)
-				for(IMapping map : mappings)
+				for(final IMapping map : mappings)
 					map.onListCleaned(list);
 		}
 		else
@@ -263,7 +263,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			final List<IMapping> mappings = multiMappings.get(list);
 
 			if(mappings!=null)
-				for(IMapping map : mappings)
+				for(final IMapping map : mappings)
 					map.onObjectMoved(list, object, srcIndex, targetIndex);
 		}
 		else
@@ -280,7 +280,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			final List<IMapping> mappings = multiMappings.get(object);
 
 			if(mappings!=null)
-				for(IMapping map : mappings)
+				for(final IMapping map : mappings)
 					map.onObjectReplaced(object, replacedObject);
 		}
 		else
@@ -297,7 +297,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			final List<IMapping> mappings = multiMappings.get(object);
 
 			if(mappings!=null)
-				for(IMapping map : mappings)
+				for(final IMapping map : mappings)
 					map.onObjectModified(object);
 		}
 		else
@@ -355,7 +355,7 @@ public final class MappingRegistry implements IMappingRegistry {
 		if(object==null)
 			return ;
 
-		List<IMapping> mappings = multiMaps.get(object);
+		final List<IMapping> mappings = multiMaps.get(object);
 		IMapping mapping		= uniqueMaps.get(object);
 
 		//TODO manage mappings with several sources or targets.
@@ -396,7 +396,7 @@ public final class MappingRegistry implements IMappingRegistry {
 
 	@Override
 	public String toString() {
-		StringBuilder buf = new StringBuilder();
+		final StringBuilder buf = new StringBuilder();
 
 		printMappings(buf, uniqueMappings, multiMappings);
 		buf.append("---\n"); //$NON-NLS-1$
@@ -412,11 +412,11 @@ public final class MappingRegistry implements IMappingRegistry {
 	 */
 	private static void printMappings(final StringBuilder buf, final Map<Object, IMapping> uMappings,
 								final Map<Object, List<IMapping>> mMappings) {
-		for(IMapping mapping : uMappings.values())
+		for(final IMapping mapping : uMappings.values())
 			buf.append(mapping).append('\n');
 
-		for(List<IMapping> mappings : mMappings.values())
-			for(IMapping mapping : mappings)
+		for(final List<IMapping> mappings : mMappings.values())
+			for(final IMapping mapping : mappings)
 				buf.append(mapping).append('\n');
 	}
 

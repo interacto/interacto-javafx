@@ -59,7 +59,7 @@ public class MultiClick extends Interaction {
 		super.reinit();
 
 		if(points==null)
-			points = new ArrayList<Point>();
+			points = new ArrayList<>();
 		else
 			points.clear();
 
@@ -81,10 +81,10 @@ public class MultiClick extends Interaction {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		IntermediaryState pressed 	= new IntermediaryState("pressed"); //$NON-NLS-1$
-		IntermediaryState released 	= new IntermediaryState("released"); //$NON-NLS-1$
-		TerminalState ended 		= new TerminalState("ended"); //$NON-NLS-1$
-		AbortingState aborted 		= new AbortingState("aborted"); //$NON-NLS-1$
+		final IntermediaryState pressed 	= new IntermediaryState("pressed"); //$NON-NLS-1$
+		final IntermediaryState released 	= new IntermediaryState("released"); //$NON-NLS-1$
+		final TerminalState ended 		= new TerminalState("ended"); //$NON-NLS-1$
+		final AbortingState aborted 		= new AbortingState("aborted"); //$NON-NLS-1$
 
 		addState(pressed);
 		addState(released);
@@ -149,7 +149,7 @@ public class MultiClick extends Interaction {
 
 			@Override
 			public boolean isGuardRespected() {
-				return button!=MouseEvent.BUTTON1 && this.hid==MultiClick.this.getLastHIDUsed() && (MultiClick.this.points.size()+1)>=MultiClick.this.minPoints;
+				return button!=MouseEvent.BUTTON1 && this.hid==MultiClick.this.getLastHIDUsed() && MultiClick.this.points.size()+1>=MultiClick.this.minPoints;
 			}
 		};
 

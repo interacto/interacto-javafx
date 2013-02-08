@@ -76,7 +76,7 @@ public class ActivateInactivateInstruments extends Action {
 
 	protected void deactivate() {
 		if(insInactivate!=null)
-			for(Instrument ins : insInactivate)
+			for(final Instrument ins : insInactivate)
 				if(hideWidgets && ins instanceof WidgetInstrument)
 					((WidgetInstrument)ins).setActivated(false, true);
 				else
@@ -86,7 +86,7 @@ public class ActivateInactivateInstruments extends Action {
 
 	protected void activate() {
 		if(insActivate!=null)
-			for(Instrument ins : insActivate)
+			for(final Instrument ins : insActivate)
 				ins.setActivated(true);
 	}
 
@@ -99,7 +99,7 @@ public class ActivateInactivateInstruments extends Action {
 	public void addInstrumentToActivate(final Instrument ins) {
 		if(ins!=null) {
 			if(insActivate==null)
-				insActivate = new ArrayList<Instrument>();
+				insActivate = new ArrayList<>();
 
 			insActivate.add(ins);
 		}
@@ -123,7 +123,7 @@ public class ActivateInactivateInstruments extends Action {
 	public void addInstrumentToInactivate(final Instrument ins) {
 		if(ins!=null) {
 			if(insInactivate==null)
-				insInactivate = new ArrayList<Instrument>();
+				insInactivate = new ArrayList<>();
 
 			insInactivate.add(ins);
 		}

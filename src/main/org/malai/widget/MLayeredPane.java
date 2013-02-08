@@ -71,7 +71,7 @@ public class MLayeredPane extends JLayeredPane implements Picker, Eventable, Scr
             @Override
 			public void componentResized(final ComponentEvent e){
             	if(componentsToResize!=null)
-            		for(JComponent comp : componentsToResize)
+            		for(final JComponent comp : componentsToResize)
             			updateComponentSize(comp);
             }
         });
@@ -98,7 +98,7 @@ public class MLayeredPane extends JLayeredPane implements Picker, Eventable, Scr
 	public void addComponentsToResize(final JComponent component) {
 		if(component!=null) {
 			if(componentsToResize==null)
-				componentsToResize = new ArrayList<JComponent>();
+				componentsToResize = new ArrayList<>();
 			componentsToResize.add(component);
 			updateComponentSize(component);
 		}
@@ -204,7 +204,7 @@ public class MLayeredPane extends JLayeredPane implements Picker, Eventable, Scr
 	 * @since 0.1
 	 */
 	protected void scroll(final int increment, final boolean vertical) {
-		JScrollBar scrollbar = getScrollbar(vertical);
+		final JScrollBar scrollbar = getScrollbar(vertical);
 
 		if(scrollbar!=null && scrollbar.isVisible())
 			scrollbar.setValue(scrollbar.getValue() - increment);
