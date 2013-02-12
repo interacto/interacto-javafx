@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="scala" name="Scala">
+      <configuration>
+        <option name="compilerLibraryLevel" value="Project" />
+        <option name="compilerLibraryName" value="Maven: org.scala-lang:scala-compiler-bundle:2.9.2" />
+        <option name="maximumHeapSize" value="1024" />
+        <option name="vmOptions" value="" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/kevoree" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
+      <excludeFolder url="file://$MODULE_DIR$/target/surefire" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.kevoree.corelibrary.javase:org.kevoree.library.javase.swingUI:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree.extra:org.kevoree.extra.macwidgets:0.9.6" level="project" />
+    <orderEntry type="library" name="Maven: com.jgoodies:forms:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree.tools:org.kevoree.tools.marShellGUI:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree.tools:org.kevoree.tools.marShell:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree:org.kevoree.framework:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree:org.kevoree.api:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree:org.kevoree.adaptation.model:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree:org.kevoree.kcl:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.objenesis:objenesis:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree.extra:org.kevoree.extra.jsyntaxpane:0.9.7" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree.tools:org.kevoree.tools.javase.framework:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree:org.kevoree.model:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree.tools:org.kevoree.tools.annotation.api:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.kevoree.corelibrary.javase:org.malai.kevoree.core:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.malai:malai.core:0.2-SNAPSHOT" level="project" />
+  </component>
+</module>
+
