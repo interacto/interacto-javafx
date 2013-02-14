@@ -29,25 +29,25 @@ public class TestAbortableDnD extends TestDnD {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 123, new JButton());
+		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 'e', 123, new JButton());
 		assertTrue(visitAbort);
 	}
 
@@ -60,25 +60,25 @@ public class TestAbortableDnD extends TestDnD {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 123, new JButton());
+		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 'e', 123, new JButton());
 		assertTrue(visitAbort);
 	}
 
@@ -91,25 +91,25 @@ public class TestAbortableDnD extends TestDnD {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 123, new JButton());
+		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 'e', 123, new JButton());
 		assertTrue(visitAbort);
 	}
 
@@ -122,19 +122,19 @@ public class TestAbortableDnD extends TestDnD {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};

@@ -30,6 +30,9 @@ public abstract class KeyInteraction extends Interaction {
 	/** The object that produced the interaction. */
 	protected Object object;
 
+	/** The char corresponding to the key. */
+	protected char keyChar;
+
 
 	/**
 	 * Creates the interaction.
@@ -45,6 +48,7 @@ public abstract class KeyInteraction extends Interaction {
 		super.reinit();
 		key 	= -1;
 		object 	= null;
+		keyChar = 0;
 	}
 
 
@@ -55,6 +59,15 @@ public abstract class KeyInteraction extends Interaction {
 	public int getKey() {
 		return key;
 	}
+
+
+	/**
+	 * @return The char corresponding to the key.
+	 */
+	public char getKeyChar() {
+		return keyChar;
+	}
+
 
 
 	/**
@@ -74,6 +87,7 @@ public abstract class KeyInteraction extends Interaction {
 		public void action() {
 			KeyInteraction.this.object 	= this.source;
 			KeyInteraction.this.key 	= this.key;
+			KeyInteraction.this.keyChar	= this.keyChar;
 			KeyInteraction.this.setLastHIDUsed(this.hid);
 		}
 	}
