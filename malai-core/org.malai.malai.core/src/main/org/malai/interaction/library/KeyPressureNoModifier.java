@@ -41,7 +41,6 @@ public class KeyPressureNoModifier extends KeyInteraction {
 		new KeyInteractionKeyPressedTransition(initState, pressed) {
 			@Override
 			public boolean isGuardRespected() {
-				System.out.println(keyChar);
 				return super.isGuardRespected() && key!=KeyEvent.VK_SHIFT && key!=KeyEvent.VK_CONTROL &&
 						key!=KeyEvent.VK_ALT && key!=KeyEvent.VK_ALT_GRAPH && key!=KeyEvent.VK_WINDOWS;
 			}
