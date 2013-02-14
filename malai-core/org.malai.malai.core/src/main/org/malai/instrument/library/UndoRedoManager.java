@@ -65,9 +65,7 @@ public class UndoRedoManager extends WidgetInstrument {
 		try{
 			addLink(new ButtonPressed2Undo(this));
 			addLink(new ButtonPressed2Redo(this));
-		}catch(final InstantiationException e){
-			ErrorCatcher.INSTANCE.reportError(e);
-		}catch(final IllegalAccessException e){
+		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}

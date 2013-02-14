@@ -52,9 +52,7 @@ public class Scroller extends Instrument {
 	protected void initialiseLinks() {
 		try{
 			addLink(new Scrolling2Scroll(this));
-		}catch(InstantiationException e){
-			ErrorCatcher.INSTANCE.reportError(e);
-		}catch(IllegalAccessException e){
+		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}
@@ -78,7 +76,7 @@ class Scrolling2Scroll extends Link<Scroll, KeysScrolling, Scroller> {
 
 	@Override
 	public void initAction() {
-		Scroll scroll = getAction();
+		final Scroll scroll = getAction();
 
 		scroll.setPanel(getInstrument().panel);
 		scroll.setIncrement(getInteraction().getIncrement());
