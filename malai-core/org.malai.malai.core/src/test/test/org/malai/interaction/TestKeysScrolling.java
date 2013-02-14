@@ -22,16 +22,16 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 
 	@Test
 	public void testKeyPressKeyPressScroll() {
-		interaction.onKeyPressure(123, 100, new JButton());
-		interaction.onKeyPressure(234, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
+		interaction.onKeyPressure(234, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				assertEquals(interaction.getIncrement(), 3);
 				assertEquals(interaction.getKeys().size(), 2);
 				assertEquals((int)interaction.getKeys().get(0), 123);
@@ -43,11 +43,11 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				visitStop = true;
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				visitStart = true;// Because of key event recycling.
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -63,41 +63,41 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 
 	@Test
 	public void testKeyPressKeyPressKeyRelease3() {
-		interaction.onKeyPressure(123, 100, new JButton());
-		interaction.onKeyPressure(234, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
+		interaction.onKeyPressure(234, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyRelease(123, 101, new JButton());
+		interaction.onKeyRelease(123, 'a', 101, new JButton());
 	}
 
 
 	@Test
 	public void testKeyPressKeyPressKeyRelease2() {
-		interaction.onKeyPressure(123, 100, new JButton());
-		interaction.onKeyPressure(234, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
+		interaction.onKeyPressure(234, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
 				assertEquals(interaction.getIncrement(), 0);
 				assertEquals(interaction.getKeys().size(), 1);
@@ -108,21 +108,21 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals(interaction.getPy(), 0.);
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyRelease(123, 100, new JButton());
+		interaction.onKeyRelease(123, 'b', 100, new JButton());
 		assertTrue(visitUpdate);
 	}
 
@@ -130,12 +130,12 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 
 	@Test
 	public void testKeyPressKeyPressKeyRelease1() {
-		interaction.onKeyPressure(123, 100, new JButton());
-		interaction.onKeyPressure(234, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
+		interaction.onKeyPressure(234, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
 				assertEquals(interaction.getIncrement(), 0);
 				assertEquals(interaction.getKeys().size(), 1);
@@ -146,21 +146,21 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals(interaction.getPy(), 0.);
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyRelease(234, 100, new JButton());
+		interaction.onKeyRelease(234, 'a', 100, new JButton());
 		assertTrue(visitUpdate);
 	}
 
@@ -168,40 +168,40 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 
 	@Test
 	public void testKeyPressKeyPressWidthDiffHid() {
-		interaction.onKeyPressure(123, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(234, 101, new JButton());
+		interaction.onKeyPressure(234, 'a', 101, new JButton());
 	}
 
 
 
 	@Test
 	public void testKeyPressKeyPress() {
-		interaction.onKeyPressure(123, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
 				assertEquals(interaction.getIncrement(), 0);
 				assertEquals(interaction.getKeys().size(), 2);
@@ -213,21 +213,21 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals(interaction.getPy(), 0.);
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(234, 100, new JButton());
+		interaction.onKeyPressure(234, 'a', 100, new JButton());
 		assertTrue(visitUpdate);
 	}
 
@@ -235,86 +235,86 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 
 	@Test
 	public void testKeyPressKeyReleaseWithDiffHid() {
-		interaction.onKeyPressure(123, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyRelease(123, 200, new JButton());
+		interaction.onKeyRelease(123, 'a', 200, new JButton());
 	}
 
 
 
 	@Test
 	public void testKeyPressKeyReleaseWithDiffKey() {
-		interaction.onKeyPressure(123, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyRelease(1213, 100, new JButton());
+		interaction.onKeyRelease(1213, 'a', 100, new JButton());
 	}
 
 
 	@Test
 	public void testKeyPressKeyRelease() {
-		interaction.onKeyPressure(123, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyRelease(123, 100, new JButton());
+		interaction.onKeyRelease(123, 'a', 100, new JButton());
 		assertTrue(visitAbort);
 	}
 
@@ -323,7 +323,7 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 	public void testKeyPress() {
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
 				assertEquals(interaction.getIncrement(), 0);
 				assertEquals(interaction.getKeys().size(), 1);
@@ -334,21 +334,21 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals(interaction.getPy(), 0.);
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				visitStart = true;
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(123, 100, new JButton());
+		interaction.onKeyPressure(123, 'a', 100, new JButton());
 		assertTrue(visitStart);
 		assertTrue(visitUpdate);
 	}
@@ -358,15 +358,15 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 	public void testScroll() {
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				visitStop = true;
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				visitStart = true;
 				assertEquals(interaction.getIncrement(), -5);
 				assertEquals(interaction.getKeys().size(), 0);
@@ -376,7 +376,7 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals(interaction.getPy(), 20.);
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};

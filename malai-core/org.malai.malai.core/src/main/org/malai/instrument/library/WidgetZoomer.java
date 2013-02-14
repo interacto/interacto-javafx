@@ -44,14 +44,16 @@ public class WidgetZoomer extends BasicZoomer {
 	 * @param zoomable The object that will be zoomed.
 	 * @param withDefaultZoomButton True: a button to set to the default zoom value will be created.
 	 * @param withZoomSpinner True: a spinner changing the zoom level will be created.
+	 * @param withKeys True: the keys + and - will be used to zoom in and out.
 	 * @param defaultButIcon The icon of the default button. Can be null.
 	 * @param defaultButToolTip The tool tip text of the default zoom button. Can be null.
 	 * @param maxDimSpinner The maximal dimension of the zoom spinner. Can be null.
 	 * @param spinnerToolTip The tool tip text of the zoom spinner. Can be null.
 	 */
 	public WidgetZoomer(final Zoomable zoomable, final boolean withDefaultZoomButton, final boolean withZoomSpinner,
-						final Icon defaultButIcon, final String defaultButToolTip, final Dimension maxDimSpinner, final String spinnerToolTip) {
-		super(zoomable);
+						final Icon defaultButIcon, final String defaultButToolTip, final Dimension maxDimSpinner,
+						final String spinnerToolTip, final boolean withKeys) {
+		super(zoomable, withKeys);
 
 		if(withDefaultZoomButton) {
 			zoomDefaultButton = new MButton(defaultButIcon);

@@ -50,9 +50,9 @@ class EventHandlerMock implements EventHandler {
 	@Override
 	public void onMenuItemPressed(final JMenuItem menuItem) {/* */}
 	@Override
-	public void onKeyRelease(final int key, final int idHID, final Object object) {/* */}
+	public void onKeyRelease(final int key, final char keyChar, final int idHID, final Object object) {/* */}
 	@Override
-	public void onKeyPressure(final int key, final int idHID, final Object object) {/* */}
+	public void onKeyPressure(final int key, final char keyChar, final int idHID, final Object object) {/* */}
 	@Override
 	public void onItemSelected(final ItemSelectable itemSelectable) {/* */}
 	@Override
@@ -106,7 +106,7 @@ public class TestSwingEventManager extends TestCase {
 	public void testKeyReleasedNull() {
 		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyRelease(final int key, final int idHID, final Object object) {
+			public void onKeyRelease(final int key, final char keyChar, final int idHID, final Object object) {
 				fail();
 			}
 		};
@@ -120,7 +120,7 @@ public class TestSwingEventManager extends TestCase {
 		final KeyEvent ke = new KeyEvent(new JButton(), 123, 9871, 124, 634, 'r');
 		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyRelease(final int key, final int idHID, final Object object) {
+			public void onKeyRelease(final int key, final char keyChar, final int idHID, final Object object) {
 				assertEquals(ke.getKeyCode(), key);
 			}
 		};
@@ -133,7 +133,7 @@ public class TestSwingEventManager extends TestCase {
 	public void testKeyPressedNull() {
 		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyPressure(final int key, final int idHID, final Object object) {
+			public void onKeyPressure(final int key, final char keyChar, final int idHID, final Object object) {
 				fail();
 			}
 		};
@@ -147,7 +147,7 @@ public class TestSwingEventManager extends TestCase {
 		final KeyEvent ke = new KeyEvent(new JButton(), 123, 9871, 124, 634, 'r');
 		final EventHandler eh2 = new EventHandlerMock() {
 			@Override
-			public void onKeyPressure(final int key, final int idHID, final Object object) {
+			public void onKeyPressure(final int key, final char keyChar, final int idHID, final Object object) {
 				assertEquals(ke.getKeyCode(), key);
 			}
 		};

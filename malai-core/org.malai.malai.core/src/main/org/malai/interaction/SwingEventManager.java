@@ -226,7 +226,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		if(e==null) return;
 
 		for(final EventHandler handler : handlers)
-			handler.onKeyPressure(e.getKeyCode(), ID_KB, e.getSource());
+			handler.onKeyPressure(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
 	}
 
 
@@ -236,7 +236,7 @@ public class SwingEventManager implements MouseListener, KeyListener, MouseMotio
 		if(e==null) return;
 
 		for(final EventHandler handler : handlers)
-			handler.onKeyRelease(e.getKeyCode(), ID_KB, e.getSource());
+			handler.onKeyRelease(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
 	}
 
 

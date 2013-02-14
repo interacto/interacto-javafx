@@ -465,7 +465,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 
 
 	@Override
-	public void onKeyPressure(final int key, final int idHID, final Object object) {
+	public void onKeyPressure(final int key, final char keyChar, final int idHID, final Object object) {
 		if(!activated) return ;
 
 		boolean again = true;
@@ -477,6 +477,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			if(t instanceof KeyPressureTransition) {
 				final KeyPressureTransition kpt = (KeyPressureTransition)t;
 				kpt.setKey(key);
+				kpt.setKeyChar(keyChar);
 				kpt.setSource(object);
 				kpt.setHid(idHID);
 
@@ -484,7 +485,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 
 				if(!again)
 					// Adding an event 'still in process'
-					addEvent(new KeyPressEvent(idHID, key, object));
+					addEvent(new KeyPressEvent(idHID, key, keyChar, object));
 			}
 		}
 	}
@@ -492,7 +493,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 
 
 	@Override
-	public void onKeyRelease(final int key, final int idHID, final Object object) {
+	public void onKeyRelease(final int key, final char keyChar, final int idHID, final Object object) {
 		boolean again = true;
 
 		if(activated) {
@@ -504,6 +505,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 				if(t instanceof KeyReleaseTransition) {
 					final KeyReleaseTransition krt = (KeyReleaseTransition)t;
 					krt.setKey(key);
+					krt.setKeyChar(keyChar);
 					krt.setHid(idHID);
 					krt.setSource(object);
 
@@ -739,7 +741,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 					onPressure(press.button, press.x, press.y, press.idHID, press.source);
 				} else if(event instanceof KeyPressEvent) {
 					final KeyPressEvent key = (KeyPressEvent)event;
-					onKeyPressure(key.keyCode, key.idHID, key.source);
+					onKeyPressure(key.keyCode, key.keyChar, key.idHID, key.source);
 				}
 			}
 		}
@@ -835,6 +837,9 @@ class KeyPressEvent extends Event {
 	/** The code of the key pressed. */
 	protected int keyCode;
 
+	/** The char of the key. */
+	protected char keyChar;
+
 	/** The object that produced the key event. */
 	protected Object source;
 
@@ -843,12 +848,14 @@ class KeyPressEvent extends Event {
 	 * Creates the event.
 	 * @param idHID The identifier of the HID.
 	 * @param keyCode The key code.
+	 * @param keyChar The char of the key.
 	 * @param source The object that produced the event.
 	 * @since 0.2
 	 */
-	public KeyPressEvent(final int idHID, final int keyCode, final Object source) {
+	public KeyPressEvent(final int idHID, final int keyCode, final char keyChar, final Object source) {
 		super(idHID);
 		this.keyCode = keyCode;
+		this.keyChar = keyChar;
 		this.source  = source;
 	}
 }

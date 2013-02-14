@@ -29,19 +29,19 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};
@@ -62,19 +62,19 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				visitStop = true;
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -92,19 +92,19 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				visitStop = true;
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -122,25 +122,25 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(KeyEvent.VK_I, 2, new JButton());
+		interaction.onKeyPressure(KeyEvent.VK_I, 'a', 2, new JButton());
 	}
 
 
@@ -151,25 +151,25 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 2, new JButton());
+		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 'a', 2, new JButton());
 		assertTrue(visitAbort);
 	}
 	@Test
@@ -178,25 +178,25 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(KeyEvent.VK_I, 2, new JButton());
+		interaction.onKeyPressure(KeyEvent.VK_I, 'a', 2, new JButton());
 	}
 
 
@@ -206,25 +206,25 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
 			}
 		};
 
 		interaction.addHandler(handler);
-		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 2, new JButton());
+		interaction.onKeyPressure(KeyEvent.VK_ESCAPE, 'a', 2, new JButton());
 		assertTrue(visitAbort);
 	}
 
@@ -237,19 +237,19 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -266,9 +266,9 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
-				MultiClick multi = (MultiClick) inter;
+				final MultiClick multi = (MultiClick) inter;
 				assertEquals(200., multi.getPoints().get(1).getX());
 				assertEquals(-123., multi.getPoints().get(1).getY());
 				assertEquals(100., multi.getPoints().get(0).getX());
@@ -278,15 +278,15 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 				assertEquals(-123., multi.getCurrentPosition().getY());
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -304,19 +304,19 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -333,19 +333,19 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -363,8 +363,8 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
-				MultiClick multi = (MultiClick) inter;
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
+				final MultiClick multi = (MultiClick) inter;
 				assertEquals(100., multi.getPoints().get(0).getX());
 				assertEquals(-23., multi.getPoints().get(0).getY());
 				assertEquals(1, multi.getLastHIDUsed());
@@ -373,15 +373,15 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 				visitUpdate = true;
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -400,23 +400,23 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
-				MultiClick multi = (MultiClick) inter;
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
+				final MultiClick multi = (MultiClick) inter;
 				assertEquals(100., multi.getPoints().get(0).getX());
 				assertEquals(-23., multi.getPoints().get(0).getY());
 				assertEquals(1, multi.getLastHIDUsed());
 				visitUpdate = true;
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -433,9 +433,9 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 	public void testOnPressureValue() {
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
-				MultiClick multi = (MultiClick) inter;
+				final MultiClick multi = (MultiClick) inter;
 				assertEquals(100., multi.getPoints().get(0).getX());
 				assertEquals(-23., multi.getPoints().get(0).getY());
 				assertEquals(1, multi.getLastHIDUsed());
@@ -443,15 +443,15 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 				assertEquals(-23., multi.getCurrentPosition().getY());
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				visitStart = true;
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -469,19 +469,19 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 	public void testOnPressureButton1() {
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};

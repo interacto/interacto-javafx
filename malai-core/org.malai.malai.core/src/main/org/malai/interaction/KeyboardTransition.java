@@ -28,6 +28,10 @@ public abstract class KeyboardTransition extends Transition {
 	/** The object that produced the event. */
 	protected Object source;
 
+	/** The char corresponding to the key pressed.
+	 * Useful in some cases such as when you pressed 'shift'+'=' to have a '+'. */
+	protected char keyChar;
+
 
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
@@ -73,5 +77,22 @@ public abstract class KeyboardTransition extends Transition {
 	 */
 	public void setSource(final Object source) {
 		this.source = source;
+	}
+
+
+	/**
+	 * @return The char corresponding to the key pressed.
+	 * @since 0.2
+	 */
+	public char getKeyChar() {
+		return keyChar;
+	}
+
+
+	/**
+	 * @param keyChar The char corresponding to the key pressed.
+	 */
+	public void setKeyChar(final char keyChar) {
+		this.keyChar = keyChar;
 	}
 }
