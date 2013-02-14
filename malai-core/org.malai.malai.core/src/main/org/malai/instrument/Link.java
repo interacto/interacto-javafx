@@ -110,9 +110,9 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	protected void createAction() {
 		try{
 			action = clazzAction.newInstance();
-		}catch(InstantiationException e){
+		}catch(final InstantiationException e){
 			ErrorCatcher.INSTANCE.reportError(e);
-		}catch(IllegalAccessException e){
+		}catch(final IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}
@@ -167,18 +167,21 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	}
 
 
-	/**
-	* Indicates if the link can be run. To be run, no link, of the instrument, that produces the
-	* same type of action must be running.
-	* @return True: The link can be run.
-	*/
-	public boolean isRunnable() {
-		for(Link<?, ?, ?> link : instrument.links)
-			if(link!=this && link.isRunning() && link.clazzAction==clazzAction)
-				return false;
-
-		return true;
-	}
+//	/**
+//	* Indicates if the link can be run. To be run, no link, of the instrument, that produces the
+//	* same type of action must be running.
+//	* @return True: The link can be run.
+//	*/
+//	public boolean isRunnable() {
+//		for(final Link<?, ?, ?> link : instrument.links)
+//			if(link!=this && link.isRunning() && link.clazzAction==clazzAction) {
+//				System.out.println("Not RUNNABLE: " + this + " because of " + link);
+//				return true;
+//			//	return false;
+//			}
+//
+//		return true;
+//	}
 
 
 
@@ -229,8 +232,8 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 		if(inter==interaction && isInteractionMustBeAborted())
 			throw new MustAbortStateMachineException();
-
-		if(isRunnable() && action==null && inter==interaction && instrument.isActivated() && isConditionRespected()) {
+//isRunnable() &&
+		if(action==null && inter==interaction && instrument.isActivated() && isConditionRespected()) {
 			createAction();
 			initAction();
 			interimFeedback();
@@ -251,8 +254,8 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
     				instrument.onActionDone(action);
     			}
 
-    			if(action.hadEffect()) {
-    				if(action.isRegisterable()) {
+    			if(action.hadEffect())
+					if(action.isRegisterable()) {
     					 ActionsRegistry.INSTANCE.addAction(action, instrument);
     					 instrument.onActionAdded(action);
     				}
@@ -260,7 +263,6 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
     					ActionsRegistry.INSTANCE.cancelActions(action);
     					instrument.onActionCancelled(action);
     				}
-    			}
 
     			action = null;
 			}
