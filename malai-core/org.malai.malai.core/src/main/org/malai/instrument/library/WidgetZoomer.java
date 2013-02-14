@@ -83,9 +83,7 @@ public class WidgetZoomer extends BasicZoomer {
 		try{
 			addLink(new Spinner2Zoom(this));
 			addLink(new Button2Zoom(this));
-		}catch(final InstantiationException e){
-			ErrorCatcher.INSTANCE.reportError(e);
-		}catch(final IllegalAccessException e){
+		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}

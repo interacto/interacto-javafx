@@ -69,9 +69,7 @@ public class BasicZoomer extends Instrument {
 		try{
 			if(withKeys) addLink(new KeysZoom(this));
 			addLink(new Scroll2Zoom(this));
-		}catch(final InstantiationException e){
-			ErrorCatcher.INSTANCE.reportError(e);
-		}catch(final IllegalAccessException e){
+		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}
