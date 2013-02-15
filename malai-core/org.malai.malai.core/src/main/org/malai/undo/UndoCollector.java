@@ -49,6 +49,16 @@ public final class UndoCollector {
 	/** The handlers that handles the collector. */
 	private List<UndoHandler> handlers;
 
+	/** This object is used to avaoid the use of null when no undoable handler are provided. */
+	private UndoHandler MOCK_UNDO_HANDLER = new UndoHandler(){
+		@Override
+		public void onUndoableAdded(final Undoable undoable) {/**/}
+		@Override
+		public void onUndoableUndo(final Undoable undoable) {/**/}
+		@Override
+		public void onUndoableRedo(final Undoable undoable) {/**/}
+	};
+
 
 
 	/**
@@ -112,7 +122,9 @@ public final class UndoCollector {
 			}
 
 			undo.push(undoable);
-			undoHandlers.push(undoHandler);
+			// When undo handler is null, a fake object is added instead of using null.
+			if(undoHandler==null) undoHandlers.push(MOCK_UNDO_HANDLER);
+			else undoHandlers.push(undoHandler);
 			redo.clear(); /* The redoable objects must be removed. */
 			redoHandlers.clear();
 
