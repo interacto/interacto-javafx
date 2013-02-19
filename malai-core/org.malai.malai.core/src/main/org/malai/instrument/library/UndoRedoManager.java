@@ -1,5 +1,6 @@
 package org.malai.instrument.library;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 
 import org.malai.action.library.Redo;
@@ -34,10 +35,10 @@ import org.malai.widget.MButton;
  */
 public class UndoRedoManager extends WidgetInstrument {
 	/** The button used to undo actions. */
-	protected MButton undoB;
+	protected AbstractButton undoB;
 
 	/** The button used to redo actions. */
-	protected MButton redoB;
+	protected AbstractButton redoB;
 
 
 	/**
@@ -75,7 +76,7 @@ public class UndoRedoManager extends WidgetInstrument {
 	 * @return The button used to undo actions.
 	 * @since 0.1
 	 */
-	public MButton getUndoB() {
+	public AbstractButton getUndoB() {
 		return undoB;
 	}
 
@@ -84,7 +85,7 @@ public class UndoRedoManager extends WidgetInstrument {
 	 * @return The button used to redo actions.
 	 * @since 0.1
 	 */
-	public MButton getRedoB() {
+	public AbstractButton getRedoB() {
 		return redoB;
 	}
 
