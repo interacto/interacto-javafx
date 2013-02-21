@@ -73,7 +73,7 @@ public abstract class KeyInteraction extends Interaction {
 	/**
 	 * Defines a transition modifying the key attribute of the interaction.
 	 */
-	class KeyInteractionKeyPressedTransition extends KeyPressureTransition {
+	public class KeyInteractionKeyPressedTransition extends KeyPressureTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.

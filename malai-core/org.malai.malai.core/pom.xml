@@ -58,6 +58,20 @@
                     </instructions>
                 </configuration>
             </plugin>
+
+		    <plugin>
+		       <groupId>org.apache.maven.plugins</groupId>
+		       <artifactId>maven-jar-plugin</artifactId>
+		       <version>2.4</version>
+		       <executions>
+		         <execution>
+		           <goals>
+		             <goal>test-jar</goal>
+		           </goals>
+		         </execution>
+		       </executions>
+		     </plugin>
+
 		    <plugin>
 		    	<groupId>org.apache.maven.plugins</groupId>
 		    	<artifactId>maven-surefire-plugin</artifactId>
@@ -70,42 +84,6 @@
 		     		 </dependency>
 		    	</dependencies>
 		  	</plugin>
-	      <plugin>
-	        <groupId>org.jacoco</groupId>
-	        <artifactId>jacoco-maven-plugin</artifactId>
-	        <version>0.6.2.201302030002</version>
-	        <executions>
-	          <execution>
-	            <id>prepare-agent</id>
-	            <goals>
-	              <goal>prepare-agent</goal>
-	            </goals>
-	          </execution>
-	          <execution>
-	            <id>report</id>
-	            <phase>prepare-package</phase>
-	            <goals>
-	              <goal>report</goal>
-	            </goals>
-	          </execution>
-	          <execution>
-	            <id>check</id>
-	            <goals>
-	              <goal>check</goal>
-	            </goals>
-	            <configuration>
-	              <check>
-	                <classRatio>10</classRatio>
-	                <instructionRatio>10</instructionRatio>
-	                <methodRatio>10</methodRatio>
-	                <branchRatio>10</branchRatio>
-	                <complexityRatio>10</complexityRatio>
-	                <lineRatio>10</lineRatio>
-	              </check>
-	            </configuration>
-	          </execution>
-	        </executions>
-	      </plugin>
         </plugins>
     </build>
 <dependencies>

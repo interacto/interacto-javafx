@@ -7,7 +7,6 @@ import org.malai.stateMachine.IState;
 import org.malai.stateMachine.IStateMachine;
 import org.malai.stateMachine.ITransition;
 
-
 /**
  * A state is a component of a state machine.<br>
  * <br>

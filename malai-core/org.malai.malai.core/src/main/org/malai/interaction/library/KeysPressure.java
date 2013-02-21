@@ -90,7 +90,7 @@ public class KeysPressure extends Interaction {
 	/**
 	 * Defines a transition modifying the keys attribute of the interaction.
 	 */
-	class KeysPressureKeyPressedTransition extends KeyPressureTransition {
+	public class KeysPressureKeyPressedTransition extends KeyPressureTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.

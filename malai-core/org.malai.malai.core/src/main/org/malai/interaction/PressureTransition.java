@@ -3,7 +3,6 @@ package org.malai.interaction;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-
 /**
  * This transition corresponds to a pressure of a button of a pointing device.<br>
  * <br>

@@ -3,7 +3,6 @@ package org.malai.interaction;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-
 /**
  * This abstract transition defines a model for transitions based on pointing device events.<br>
  * <br>
