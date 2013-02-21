@@ -86,7 +86,7 @@ public abstract class PointInteraction extends Interaction {
 	/**
 	 * A press transition.
 	 */
-	class PointPressureTransition extends PressureTransition {
+	public class PointPressureTransition extends PressureTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.

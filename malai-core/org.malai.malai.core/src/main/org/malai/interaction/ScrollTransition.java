@@ -3,7 +3,6 @@ package org.malai.interaction;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-
 /**
  * This transition corresponds to a scroll event.<br>
  * <br>
@@ -25,14 +24,14 @@ import org.malai.stateMachine.TargetableState;
 public class ScrollTransition extends PointingDeviceTransition {
 	/** Defines if the scrolling is up (positive value) or down (negative value). */
 	protected int direction;
-	
+
 	/** The number of units to scroll by scroll. */
 	protected int amount;
-	
+
 	/** The type of scrolling that should take place in response to this event (block or unit increment). */
 	protected int type;
-	
-	
+
+
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 */
@@ -40,7 +39,7 @@ public class ScrollTransition extends PointingDeviceTransition {
 		super(inputState, outputState);
 	}
 
-	
+
 
 	/**
 	 * @return The direction of the scrolling.
@@ -51,7 +50,7 @@ public class ScrollTransition extends PointingDeviceTransition {
 	}
 
 
-	
+
 	/**
 	 * @param direction Defines if the scrolling is up (positive value) or down (negative value).
 	 * @since 0.2
@@ -59,7 +58,7 @@ public class ScrollTransition extends PointingDeviceTransition {
 	public void setDirection(final int direction) {
 		this.direction = direction;
 	}
-	
+
 
 
 	/**

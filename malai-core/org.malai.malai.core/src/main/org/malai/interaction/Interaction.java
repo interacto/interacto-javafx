@@ -1,15 +1,7 @@
 package org.malai.interaction;
 
-import java.awt.ItemSelectable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.AbstractButton;
-import javax.swing.JCheckBox;
-import javax.swing.JMenuItem;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.text.JTextComponent;
 
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
@@ -17,7 +9,6 @@ import org.malai.stateMachine.IState;
 import org.malai.stateMachine.IStateMachine;
 import org.malai.stateMachine.ITransition;
 import org.malai.stateMachine.MustAbortStateMachineException;
-import org.malai.widget.MFrame;
 
 /**
  * Defines an interaction as defined in the Malai model.<br>
@@ -277,7 +268,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 	 * @param transition The transition to execute.
 	 * @since 0.1
 	 */
-	private void executeTransition(final ITransition transition) {
+	protected void executeTransition(final ITransition transition) {
 		if(activated)
     		try {
     			if(transition!=null) {
@@ -308,7 +299,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 	 * @return True: the transition has been executed.
 	 * @since 0.2
 	 */
-	private boolean checkTransition(final ITransition transition) {
+	protected boolean checkTransition(final ITransition transition) {
 		final boolean ok;
 
 		if(transition.isGuardRespected()) {
@@ -319,27 +310,6 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 		else ok = false;
 
 		return ok;
-	}
-
-
-	@Override
-	public void onTextChanged(final JTextComponent textComp) {
-		if(!activated) return ;
-
-		boolean again = true;
-		ITransition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof TextChangedTransition) {
-				final TextChangedTransition tct = (TextChangedTransition) t;
-
-				tct.setTextComp(textComp);
-				tct.setText(textComp.getText());
-				again = !checkTransition(t);
-			}
-		}
 	}
 
 
@@ -368,100 +338,6 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			}
 		}
 	}
-
-
-
-	@Override
-	public void onButtonPressed(final AbstractButton button) {
-		if(!activated) return ;
-
-		boolean again = true;
-		ITransition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof ButtonPressedTransition) {
-				((ButtonPressedTransition)t).setButton(button);
-				again = !checkTransition(t);
-			}
-		}
-	}
-
-
-
-	@Override
-	public void onItemSelected(final ItemSelectable itemSelectable) {
-		if(!activated) return ;
-
-		boolean again = true;
-		ITransition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof ListTransition) {
-				((ListTransition)t).setList(itemSelectable);
-				again = !checkTransition(t);
-			}
-		}
-	}
-
-
-
-	@Override
-	public void onSpinnerChanged(final JSpinner spinner) {
-		if(!activated) return ;
-
-		boolean again = true;
-		ITransition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof SpinnerTransition) {
-				((SpinnerTransition)t).setSpinner(spinner);
-				again = !checkTransition(t);
-			}
-		}
-	}
-
-
-	@Override
-	public void onCheckBoxModified(final JCheckBox checkbox) {
-		if(!activated) return ;
-
-		boolean again = true;
-		ITransition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof CheckBoxTransition) {
-				((CheckBoxTransition)t).setCheckBox(checkbox);
-				again = !checkTransition(t);
-			}
-		}
-	}
-
-
-	@Override
-	public void onMenuItemPressed(final JMenuItem menuItem) {
-		if(!activated) return ;
-
-		boolean again = true;
-		ITransition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof MenuItemTransition) {
-				((MenuItemTransition)t).setMenuItem(menuItem);
-				again = !checkTransition(t);
-			}
-		}
-	}
-
 
 
 	@Override
@@ -607,46 +483,6 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 		// Removing from the 'still in process' list
 		if(again)
 			removePressEvent(idHID);
-	}
-
-
-	@Override
-	public void onWindowClosed(final MFrame frame) {
-		if(!activated) return ;
-
-		ITransition transition;
-		boolean again = true;
-
-		for(int i=0, j=currentState.getTransitions().size(); again && i<j; i++) {
-			transition = currentState.getTransition(i);
-
-			if(transition instanceof WindowClosedTransition) {
-				((WindowClosedTransition)transition).setFrame(frame);
-
-				if(transition.isGuardRespected())
-					again = !checkTransition(transition);
-			}
-		}
-	}
-
-
-	@Override
-	public void onTabChanged(final JTabbedPane tabbedPanel) {
-		if(!activated) return ;
-
-		ITransition transition;
-		boolean again = true;
-
-		for(int i=0, j=currentState.getTransitions().size(); again && i<j; i++) {
-			transition = currentState.getTransition(i);
-
-			if(transition instanceof TabSelectedTransition) {
-				((TabSelectedTransition)transition).setTabbedPane(tabbedPanel);
-
-				if(transition.isGuardRespected())
-					again = !checkTransition(transition);
-			}
-		}
 	}
 
 

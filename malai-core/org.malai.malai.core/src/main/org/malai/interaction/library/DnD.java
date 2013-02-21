@@ -153,8 +153,8 @@ public class DnD extends Interaction {
 	}
 
 
-	class Release4DnD extends ReleaseTransition {
-		protected Release4DnD(final SourceableState inputState, final TargetableState outputState) {
+	public class Release4DnD extends ReleaseTransition {
+		public Release4DnD(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
 		@Override
@@ -164,8 +164,8 @@ public class DnD extends Interaction {
 	}
 
 
-	class Move4DnD extends MoveTransition {
-		protected Move4DnD(final SourceableState inputState, final TargetableState outputState) {
+	public class Move4DnD extends MoveTransition {
+		public Move4DnD(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
 		@Override
