@@ -1,4 +1,4 @@
-package org.malai.interaction;
+package org.malai.swing.interaction;
 
 import javax.swing.JButton;
 

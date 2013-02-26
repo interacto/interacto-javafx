@@ -2,7 +2,6 @@ package org.malai.swing.widget;
 
 import javax.swing.JTextArea;
 
-import org.malai.interaction.EventManager;
 import org.malai.interaction.Eventable;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
@@ -86,7 +85,7 @@ public class MTextArea extends JTextArea implements Pickable, Scrollable, Eventa
 
 
 	@Override
-	public EventManager getEventManager() {
+	public SwingEventManager getEventManager() {
 		return eventManager;
 	}
 

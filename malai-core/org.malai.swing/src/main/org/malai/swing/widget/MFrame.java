@@ -5,7 +5,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import org.malai.interaction.EventManager;
 import org.malai.interaction.Eventable;
 import org.malai.swing.interaction.SwingEventManager;
 
@@ -75,7 +74,7 @@ public class MFrame extends JFrame implements Eventable {
 
 
 	@Override
-	public EventManager getEventManager() {
+	public SwingEventManager getEventManager() {
 		return eventManager;
 	}
 }

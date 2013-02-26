@@ -14,13 +14,39 @@ import org.malai.interaction.Interaction;
 import org.malai.stateMachine.ITransition;
 import org.malai.swing.widget.MFrame;
 
+/**
+ * The core class for defining interactions using the Swing library.<br>
+ * <br>
+ * This file is part of Malai.<br>
+ * Copyright (c) 2009-2013 Arnaud BLOUIN<br>
+ * <br>
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * <br>
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.<br>
+ * <br>
+ * 2012-02-24<br>
+ * @author Arnaud BLOUIN
+ * @since 0.2
+ */
 public abstract class SwingInteraction extends Interaction implements SwingEventHandler {
-
+	/**
+	 * Creates a Swing interaction.
+	 */
 	public SwingInteraction() {
 		super();
 	}
 
 	
+	/**
+	 * Creates the Swing interaction.
+	 * @param initState The initial state of the interaction.
+	 * @throws IllegalArgumentException If the given state is null.
+	 * @since 0.2
+	 */
 	public SwingInteraction(final InitState initState) {
 		super(initState);
 	}

@@ -1,9 +1,11 @@
-package org.malai.interaction;
+package org.malai.swing.interaction;
 
 import javax.swing.JButton;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionHandler;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.swing.interaction.library.SimpleClick;
 

@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import org.malai.interaction.EventManager;
 import org.malai.interaction.Eventable;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
@@ -103,7 +102,7 @@ public class MMenu extends JMenu implements Pickable, Picker, Eventable {
 
 
 	@Override
-	public EventManager getEventManager() {
+	public SwingEventManager getEventManager() {
 		return eventManager;
 	}
 

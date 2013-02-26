@@ -1,4 +1,4 @@
-package org.malai.interaction;
+package org.malai.swing.interaction;
 
 import java.awt.Component;
 import java.awt.ItemSelectable;
@@ -25,8 +25,9 @@ import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.malai.swing.interaction.SwingEventHandler;
-import org.malai.swing.interaction.SwingEventManager;
+import org.malai.interaction.BasicEventManager;
+import org.malai.interaction.EventHandler;
+import org.malai.interaction.TimeoutTransition;
 import org.malai.swing.widget.MFrame;
 
 
@@ -468,7 +469,7 @@ public class TestSwingEventManager extends TestCase {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testRemoveHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final Field field = SwingEventManager.class.getDeclaredField("handlers");
+		final Field field = BasicEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
 		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
 		final int size = ehs.size();
@@ -489,7 +490,7 @@ public class TestSwingEventManager extends TestCase {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testAddHandlerNull() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final Field field = SwingEventManager.class.getDeclaredField("handlers");
+		final Field field = BasicEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
 		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
 		final int size = ehs.size();
@@ -501,7 +502,7 @@ public class TestSwingEventManager extends TestCase {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testAddHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final Field field = SwingEventManager.class.getDeclaredField("handlers");
+		final Field field = BasicEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
 		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
 		final int size = ehs.size();

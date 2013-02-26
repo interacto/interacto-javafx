@@ -2,7 +2,6 @@ package org.malai.swing.widget;
 
 import javax.swing.JEditorPane;
 
-import org.malai.interaction.EventManager;
 import org.malai.interaction.Eventable;
 import org.malai.swing.interaction.SwingEventManager;
 import org.malai.widget.Scrollable;
@@ -92,7 +91,7 @@ public class MEditorPane extends JEditorPane implements Scrollable, Eventable {
 
 
 	@Override
-	public EventManager getEventManager() {
+	public SwingEventManager getEventManager() {
 		return eventManager;
 	}
 

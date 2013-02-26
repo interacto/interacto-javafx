@@ -30,5 +30,5 @@ public interface Eventable {
 	 * @return The event manager that gathers events the Eventable object produces.
 	 * @since 0.2
 	 */
-	EventManager getEventManager();
+	EventManager<?> getEventManager();
 }
