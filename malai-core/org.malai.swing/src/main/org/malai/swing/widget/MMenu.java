@@ -1,7 +1,6 @@
 package org.malai.swing.widget;
 
 import java.awt.Component;
-import java.awt.geom.Point2D;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -86,12 +85,6 @@ public class MMenu extends JMenu implements Pickable, Picker, Eventable {
 	@Override
 	public Picker getPickerAt(final double x, final double y) {
 		return WidgetUtilities.INSTANCE.getPickerAt(this, getMenuComponents(), x, y);
-	}
-
-
-	@Override
-	public Point2D getRelativePoint(final double x, final double y, final Object o){
-		return WidgetUtilities.INSTANCE.getRelativePoint(getComponents(), x, y, o);
 	}
 
 

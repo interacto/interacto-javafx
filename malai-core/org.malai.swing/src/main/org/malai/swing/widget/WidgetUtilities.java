@@ -2,7 +2,6 @@ package org.malai.swing.widget;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.geom.Point2D;
 
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
@@ -152,45 +151,45 @@ public class WidgetUtilities {
 
 
 
-	/**
-	 * @param comps The components contained by a widget.
-	 * @param x The x-coordinate of the position to convert.
-	 * @param y The y-coordinate of the position to convert.
-	 * @param o An object contained by the calling picker. This function will computed the real position of the given
-	 * point in <code>o</code>.
-	 * @return Converts the given point in to fit the coordinates of the given object contained by the picker.
-	 * For instance, given an object <code>o1</code> that contains an other object <code>o2</code> at position <code>(10, 10)</code>. <code>o1.getRelativePoint(30, 30, o2)</code>
-	 * will return <code>(20, 20)</code>.
-	 * @since 0.2
-	 */
-	public Point2D getRelativePoint(final Component[] comps, final double x, final double y, final Object o) {
-		if(o==null || comps==null)
-			return null;
-
-		Point2D ptRel 			= new Point2D.Double(Double.NaN, Double.NaN);
-		int i					= 0;
-		boolean ok 				= false;
-
-		while(i<comps.length && !ok)
-			if(comps[i]==o)
-				ok = true;
-			else
-				i++;
-
-		if(ok)
-			ptRel.setLocation(x, y);
-		else {
-			i = 0;
-			while(Double.isNaN(ptRel.getX()) && i<comps.length) {
-				if(comps[i] instanceof Picker)
-					ptRel = ((Picker)comps[i]).getRelativePoint(x-comps[i].getX(), y-comps[i].getY(), o);
-
-				i++;
-			}
-		}
-
-		return ptRel;
-	}
+//	/**
+//	 * @param comps The components contained by a widget.
+//	 * @param x The x-coordinate of the position to convert.
+//	 * @param y The y-coordinate of the position to convert.
+//	 * @param o An object contained by the calling picker. This function will computed the real position of the given
+//	 * point in <code>o</code>.
+//	 * @return Converts the given point in to fit the coordinates of the given object contained by the picker.
+//	 * For instance, given an object <code>o1</code> that contains an other object <code>o2</code> at position <code>(10, 10)</code>. <code>o1.getRelativePoint(30, 30, o2)</code>
+//	 * will return <code>(20, 20)</code>.
+//	 * @since 0.2
+//	 */
+//	public Point2D getRelativePoint(final Component[] comps, final double x, final double y, final Object o) {
+//		if(o==null || comps==null)
+//			return null;
+//
+//		Point2D ptRel 			= new Point2D.Double(Double.NaN, Double.NaN);
+//		int i					= 0;
+//		boolean ok 				= false;
+//
+//		while(i<comps.length && !ok)
+//			if(comps[i]==o)
+//				ok = true;
+//			else
+//				i++;
+//
+//		if(ok)
+//			ptRel.setLocation(x, y);
+//		else {
+//			i = 0;
+//			while(Double.isNaN(ptRel.getX()) && i<comps.length) {
+//				if(comps[i] instanceof Picker)
+//					ptRel = ((Picker)comps[i]).getRelativePoint(x-comps[i].getX(), y-comps[i].getY(), o);
+//
+//				i++;
+//			}
+//		}
+//
+//		return ptRel;
+//	}
 
 
 	/**

@@ -1,7 +1,6 @@
 package org.malai.swing.widget;
 
 import java.awt.Component;
-import java.awt.geom.Point2D;
 
 import javax.swing.JScrollPane;
 
@@ -66,11 +65,6 @@ public class MScrollPane extends JScrollPane implements Picker {
 	@Override
 	public Picker getPickerAt(final double x, final double y) {
 		return WidgetUtilities.INSTANCE.getPickerAt(this, getViewport().getComponents(), x, y);
-	}
-
-	@Override
-	public Point2D getRelativePoint(final double x, final double y, final Object o) {
-		return WidgetUtilities.INSTANCE.getRelativePoint(getViewport().getComponents(), x, y, o);
 	}
 
 	@Override

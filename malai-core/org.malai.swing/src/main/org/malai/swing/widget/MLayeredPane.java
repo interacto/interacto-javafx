@@ -3,7 +3,6 @@ package org.malai.swing.widget;
 import java.awt.Component;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,12 +102,6 @@ public class MLayeredPane extends JLayeredPane implements Picker, Eventable, Scr
 			componentsToResize.add(component);
 			updateComponentSize(component);
 		}
-	}
-
-
-	@Override
-	public Point2D getRelativePoint(final double x, final double y, final Object o){
-		return WidgetUtilities.INSTANCE.getRelativePoint(getComponents(), x, y, o);
 	}
 
 
