@@ -14,7 +14,7 @@ import org.malai.mapping.MappingRegistry;
 
 public class TestMappingRegistry extends TestCase {
 	public void testMappingAddedThenRemovedFromSourceObject() {
-		final List<Double> list2 = new ActiveArrayList<>();
+		final List<Double> list2 = new ActiveArrayList<Double>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
@@ -31,7 +31,7 @@ public class TestMappingRegistry extends TestCase {
 
 
 	public void testMappingAddedThenRemovedFromSourceObjectClass() {
-		final List<Double> list2 = new ActiveArrayList<>();
+		final List<Double> list2 = new ActiveArrayList<Double>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
@@ -48,7 +48,7 @@ public class TestMappingRegistry extends TestCase {
 
 
 	public void testMappingAddedThenRemovedFromTargetObjectClass() {
-		final List<Double> list2 = new ActiveArrayList<>();
+		final List<Double> list2 = new ActiveArrayList<Double>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
@@ -65,7 +65,7 @@ public class TestMappingRegistry extends TestCase {
 
 
 	public void testMappingAddedThenRemovedFromTargetObject() {
-		final List<Double> list2 = new ActiveArrayList<>();
+		final List<Double> list2 = new ActiveArrayList<Double>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override

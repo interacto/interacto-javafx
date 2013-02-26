@@ -53,7 +53,7 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 	public Instrument() {
 		activated = false;
 		modified  = false;
-		links	  = new ArrayList<>();
+		links	  = new ArrayList<Link<?, ?, ?>>();
 	}
 
 
@@ -129,7 +129,7 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 	public void addEventable(final Eventable eventable) {
 		if(eventable!=null) {
 			if(eventables==null)
-				eventables = new ArrayList<>();
+				eventables = new ArrayList<Eventable>();
 
 			eventables.add(eventable);
 

@@ -110,7 +110,9 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	protected void createAction() {
 		try{
 			action = clazzAction.newInstance();
-		}catch(final InstantiationException | IllegalAccessException e){
+		}catch(final IllegalAccessException e){
+			ErrorCatcher.INSTANCE.reportError(e);
+		}catch(final InstantiationException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}

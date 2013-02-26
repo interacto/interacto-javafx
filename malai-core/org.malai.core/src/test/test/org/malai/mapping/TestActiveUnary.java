@@ -20,15 +20,15 @@ public class TestActiveUnary extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		s1 = new ActiveUnary<>();
-		s2 = new ActiveUnary<>();
+		s1 = new ActiveUnary<Integer>();
+		s2 = new ActiveUnary<Integer>();
 		MappingRegistry.REGISTRY.addMapping(new S2S(s1, s2));
 	}
 
 
 	@Test
 	public void testConstructorValue() {
-		s1 = new ActiveUnary<>(12);
+		s1 = new ActiveUnary<Integer>(12);
 		assertEquals(12, (int)s1.getValue());
 	}
 

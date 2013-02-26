@@ -22,8 +22,8 @@ public class testActiveArrayList extends TestCase {
 	@Override
 	@Before
 	public void setUp() {
-		list  = new ActiveArrayList<>();
-		list2 = new ArrayList<>();
+		list  = new ActiveArrayList<Integer>();
+		list2 = new ArrayList<Integer>();
 		MappingRegistry.REGISTRY.addMapping(new List2List(list, list2));
 	}
 
@@ -178,7 +178,7 @@ public class testActiveArrayList extends TestCase {
 
 	@Test
 	public void testAddAll1() {
-		final ArrayList<Integer> list3 = new ArrayList<>();
+		final ArrayList<Integer> list3 = new ArrayList<Integer>();
 
 		list3.add(new Integer(0));
 		list3.add(new Integer(1));
@@ -201,7 +201,7 @@ public class testActiveArrayList extends TestCase {
 
 	@Test
 	public void testAddAll2() {
-		final ArrayList<Integer> list3 = new ArrayList<>();
+		final ArrayList<Integer> list3 = new ArrayList<Integer>();
 
 		list3.add(new Integer(0));
 		list3.add(new Integer(1));

@@ -87,7 +87,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 
 		currentTimeout			= null;
 		activated 				= true;
-		states 					= new ArrayList<>();
+		states 					= new ArrayList<IState>();
 		initState.stateMachine 	= this;
 		this.initState 			= initState;
 		addState(initState);
@@ -140,7 +140,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 	public void addHandler(final InteractionHandler handler) {
 		if(handler!=null) {
 			if(handlers==null)
-				handlers = new ArrayList<>();
+				handlers = new ArrayList<InteractionHandler>();
 
 			handlers.add(handler);
 		}
@@ -500,7 +500,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 	 */
 	protected void addEvent(final Event event) {
 		if(stillProcessingEvents==null)
-			stillProcessingEvents = new ArrayList<>();
+			stillProcessingEvents = new ArrayList<Event>();
 
 		stillProcessingEvents.add(event);
 	}
@@ -564,7 +564,7 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 			Event event;
 			// All the events must be processed but the list stillProcessingEvents can be modified
 			// during the process. So, a clone of the list must be created.
-			final List<Event> list = new ArrayList<>(stillProcessingEvents);
+			final List<Event> list = new ArrayList<Event>(stillProcessingEvents);
 
 			// All the events must be processed.
 			while(!list.isEmpty()) {
