@@ -34,10 +34,10 @@ import org.malai.interaction.EventManager;
 import org.malai.swing.widget.MFrame;
 
 /**
- * A Swing event manager gathers Swing events produces by widgets and tranfers them handlers.<br>
+ * A Swing event manager gathers Swing events produces by widgets and transfers them handlers.<br>
  * <br>
  * This file is part of Malai.<br>
- * Copyright (c) 2009-2012 Arnaud BLOUIN<br>
+ * Copyright (c) 2009-2013 Arnaud BLOUIN<br>
  * <br>
  * Malai is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -75,7 +75,7 @@ public class SwingEventManager implements EventManager, MouseListener, KeyListen
 
 
 	/**
-	 * Creates a event manager that gathers Swing events and tranfers them to handlers.
+	 * Creates a event manager that gathers Swing events and transfers them to handlers.
 	 * @since 0.1
 	 */
 	public SwingEventManager() {

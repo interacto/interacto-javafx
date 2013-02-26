@@ -18,7 +18,7 @@ import org.malai.undo.Undoable;
  * This instrument allows to undo and redo saved actions.<br>
  * <br>
  * This file is part of libMalai.<br>
- * Copyright (c) 2009-2012 Arnaud BLOUIN<br>
+ * Copyright (c) 2009-2013 Arnaud BLOUIN<br>
  * <br>
  * libMalan is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
