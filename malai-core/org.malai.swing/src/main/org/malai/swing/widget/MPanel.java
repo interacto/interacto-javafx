@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
-import org.malai.interaction.EventManager;
 import org.malai.interaction.Eventable;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
@@ -174,7 +173,7 @@ public class MPanel extends JPanel implements Picker, Eventable, Scrollable {
 
 
 	@Override
-	public EventManager getEventManager() {
+	public SwingEventManager getEventManager() {
 		return eventManager;
 	}
 

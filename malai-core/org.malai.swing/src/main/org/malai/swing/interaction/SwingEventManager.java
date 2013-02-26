@@ -29,8 +29,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
+import org.malai.interaction.BasicEventManager;
 import org.malai.interaction.EventHandler;
-import org.malai.interaction.EventManager;
 import org.malai.swing.widget.MFrame;
 
 /**
@@ -51,7 +51,7 @@ import org.malai.swing.widget.MFrame;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class SwingEventManager implements EventManager, MouseListener, KeyListener, MouseMotionListener, MouseWheelListener,
+public class SwingEventManager extends BasicEventManager<Component> implements MouseListener, KeyListener, MouseMotionListener, MouseWheelListener,
 						ActionListener, ItemListener, ChangeListener, DocumentListener {
 	/** The ID used to identify the mouse. Will change when multi-device will be supported. */
 	public static final int ID_MOUSE = 0;
@@ -67,9 +67,6 @@ public class SwingEventManager implements EventManager, MouseListener, KeyListen
 	 */
 	public static final String OWNING_PROPERTY = "malai_owner";
 
-	/** The handlers that are notified when events occur. */
-	protected List<EventHandler> handlers;
-	
 	/** A subset of the set 'handlers' corresponding to the swing Handlers. */
 	private List<SwingEventHandler> swingHandlers;
 
@@ -80,17 +77,12 @@ public class SwingEventManager implements EventManager, MouseListener, KeyListen
 	 */
 	public SwingEventManager() {
 		super();
-
-		handlers = new CopyOnWriteArrayList<>();
 		swingHandlers = null;
 	}
 
 
 
-	/**
-	 * Attaches the SwingEventManager to the Java component to listen.
-	 * @param comp The Java Component to listen.
-	 */
+	@Override
 	public void attachTo(final Component comp) {
 		if(comp!=null) {
 			comp.addMouseListener(this);
@@ -124,10 +116,7 @@ public class SwingEventManager implements EventManager, MouseListener, KeyListen
 
 
 
-	/**
-	 * Detaches the SwingEventManager to the Java listened component.
-	 * @param comp The Java Component to detach.
-	 */
+	@Override
 	public void detachForm(final Component comp) {
 		if(comp!=null) {
 			comp.removeMouseListener(this);
@@ -155,23 +144,19 @@ public class SwingEventManager implements EventManager, MouseListener, KeyListen
 
 	@Override
 	public void addHandlers(final EventHandler h) {
-		if(h!=null) {
-			handlers.add(h);
-
-			if(h instanceof SwingEventHandler) {
-				if(swingHandlers==null) swingHandlers = new CopyOnWriteArrayList<>();
-				swingHandlers.add((SwingEventHandler)h);
-			}
+		super.addHandlers(h);
+		if(h instanceof SwingEventHandler) {
+			if(swingHandlers==null) swingHandlers = new CopyOnWriteArrayList<>();
+			swingHandlers.add((SwingEventHandler)h);
 		}
 	}
 
 
 	@Override
 	public void removeHandler(final EventHandler h) {
-		if(h!=null) {
-			handlers.remove(h);
-			if(swingHandlers!=null) swingHandlers.remove(h);
-		}
+		super.removeHandler(h);
+		if(h!=null && swingHandlers!=null) 
+			swingHandlers.remove(h);
 	}
 
 

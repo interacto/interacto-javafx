@@ -11,7 +11,6 @@ import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollBar;
 
-import org.malai.interaction.EventManager;
 import org.malai.interaction.Eventable;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
@@ -215,7 +214,7 @@ public class MLayeredPane extends JLayeredPane implements Picker, Eventable, Scr
 
 
 	@Override
-	public EventManager getEventManager() {
+	public SwingEventManager getEventManager() {
 		return eventManager;
 	}
 

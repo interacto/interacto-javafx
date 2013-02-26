@@ -2,7 +2,6 @@ package org.malai.swing.widget;
 
 import javax.swing.JTabbedPane;
 
-import org.malai.interaction.EventManager;
 import org.malai.interaction.Eventable;
 import org.malai.swing.interaction.SwingEventManager;
 
@@ -73,7 +72,7 @@ public class MTabbedPane extends JTabbedPane implements Eventable {
 
 
 	@Override
-	public EventManager getEventManager() {
+	public SwingEventManager getEventManager() {
 		return eventManager;
 	}
 }
