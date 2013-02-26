@@ -9,7 +9,6 @@ import org.malai.interaction.EventHandler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 /**
  * An android event manager gathers Android events produces by widgets and transfers them handlers.<br>
@@ -83,8 +82,7 @@ public class AndroidEventManager extends BasicEventManager<View> implements OnCl
 	
 	@Override
 	public void onClick(final View view) {
-		Toast.makeText(view.getContext(), "Button clicked ^^^", Toast.LENGTH_SHORT).show();
-		if(view instanceof Button) {
+		if(androidHandlers!=null && view instanceof Button) {
 			Button button = (Button) view;
 			for(final AndroidEventHandler handler : androidHandlers)
 				handler.onButtonPressed(button);
