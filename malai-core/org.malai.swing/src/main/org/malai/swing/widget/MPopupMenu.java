@@ -1,7 +1,5 @@
 package org.malai.swing.widget;
 
-import java.awt.geom.Point2D;
-
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -55,12 +53,6 @@ public class MPopupMenu extends JPopupMenu implements Picker, Eventable {
 	@Override
 	public Pickable getPickableAt(final double x, final double y) {
 		return WidgetUtilities.INSTANCE.getPickableAt(this, getComponents(), x, y);
-	}
-
-
-	@Override
-	public Point2D getRelativePoint(final double x, final double y, final Object obj){
-		return WidgetUtilities.INSTANCE.getRelativePoint(getComponents(), x, y, obj);
 	}
 
 

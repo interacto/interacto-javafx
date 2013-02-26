@@ -1,7 +1,5 @@
 package org.malai.swing.widget;
 
-import java.awt.geom.Point2D;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
@@ -32,40 +30,40 @@ public class MMenuBar extends JMenuBar implements Picker{
 	private static final long serialVersionUID = 1L;
 
 
-	@Override
-	public Point2D getRelativePoint(final double x, final double y, final Object o) {
-		if(o==null || !contains((int)x, (int)y))
-			return null;
-
-		Point2D ptRel 	= new Point2D.Double(Double.NaN, Double.NaN);
-		int i			= 0;
-		boolean ok 		= false;
-		final int size	= getMenuCount();
-
-		while(i<size && !ok)
-			if(getMenu(i)==o)
-				ok = true;
-			else
-				i++;
-
-		if(ok)
-			ptRel.setLocation(x, y);
-		else {
-			JMenu menu;
-			i = 0;
-
-			while(Double.isNaN(ptRel.getX()) && i<size) {
-				menu = getMenu(i);
-
-				if(menu instanceof Picker)
-					ptRel = ((Picker)menu).getRelativePoint(x-menu.getX(), y-menu.getY(), o);
-
-				i++;
-			}
-		}
-
-		return ptRel;
-	}
+//	@Override
+//	public Point2D getRelativePoint(final double x, final double y, final Object o) {
+//		if(o==null || !contains((int)x, (int)y))
+//			return null;
+//
+//		Point2D ptRel 	= new Point2D.Double(Double.NaN, Double.NaN);
+//		int i			= 0;
+//		boolean ok 		= false;
+//		final int size	= getMenuCount();
+//
+//		while(i<size && !ok)
+//			if(getMenu(i)==o)
+//				ok = true;
+//			else
+//				i++;
+//
+//		if(ok)
+//			ptRel.setLocation(x, y);
+//		else {
+//			JMenu menu;
+//			i = 0;
+//
+//			while(Double.isNaN(ptRel.getX()) && i<size) {
+//				menu = getMenu(i);
+//
+//				if(menu instanceof Picker)
+//					ptRel = ((Picker)menu).getRelativePoint(x-menu.getX(), y-menu.getY(), o);
+//
+//				i++;
+//			}
+//		}
+//
+//		return ptRel;
+//	}
 
 
 	@Override

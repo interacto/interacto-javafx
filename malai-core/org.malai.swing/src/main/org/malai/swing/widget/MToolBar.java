@@ -1,7 +1,6 @@
 package org.malai.swing.widget;
 
 import java.awt.Component;
-import java.awt.geom.Point2D;
 
 import javax.swing.JToolBar;
 
@@ -49,12 +48,6 @@ public class MToolBar extends JToolBar implements Picker, Eventable {
 			eventManager = new SwingEventManager();
 			eventManager.attachTo(this);
 		}
-	}
-
-
-	@Override
-	public Point2D getRelativePoint(final double x, final double y, final Object o){
-		return WidgetUtilities.INSTANCE.getRelativePoint(getComponents(), x, y, o);
 	}
 
 
