@@ -43,8 +43,8 @@ public final class ActionsRegistry {
 	 */
 	private ActionsRegistry() {
 		super();
-		actions 	= new ArrayList<>();
-		handlers 	= new ArrayList<>();
+		actions 	= new ArrayList<Action>();
+		handlers 	= new ArrayList<ActionHandler>();
 		sizeMax		= 30;
 	}
 

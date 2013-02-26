@@ -67,11 +67,11 @@ public final class UndoCollector {
 	private UndoCollector() {
 		super();
 
-		handlers = new ArrayList<>();
-		undo 	 = new ArrayDeque<>();
-		redo 	 = new ArrayDeque<>();
-		undoHandlers = new ArrayDeque<>();
-		redoHandlers = new ArrayDeque<>();
+		handlers = new ArrayList<UndoHandler>();
+		undo 	 = new ArrayDeque<Undoable>();
+		redo 	 = new ArrayDeque<Undoable>();
+		undoHandlers = new ArrayDeque<UndoHandler>();
+		redoHandlers = new ArrayDeque<UndoHandler>();
 		sizeMax  = 30;
 	}
 
