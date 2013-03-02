@@ -118,8 +118,14 @@ public class UndoRedoManager extends WidgetInstrument {
 		if(activated)
 			updateWidgets();
 	}
+	
 
+	@Override
+	public void onUndoableCleared() {
+		updateWidgets();
+	}
 
+	
 	@Override
 	public void onUndoableAdded(final Undoable undoable) {
 		updateWidgets();

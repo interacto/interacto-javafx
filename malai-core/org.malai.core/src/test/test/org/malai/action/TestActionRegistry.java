@@ -31,7 +31,7 @@ public class TestActionRegistry extends TestCase {
 
 	@SuppressWarnings("unchecked")
 	public List<ActionHandler> getListHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = HelperTest.getField(ActionsRegistry.INSTANCE.getClass(), "handlers");
+		final Field field = HelperTest.getField(ActionsRegistry.INSTANCE.getClass(), "handlers");
 		return (List<ActionHandler>) field.get(ActionsRegistry.INSTANCE);
 	}
 
@@ -53,9 +53,9 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testSetSizeMaxRemovesAction() {
-		List<Action> handlers = ActionsRegistry.INSTANCE.getActions();
-		Action action1 = new ActionMock();
-		Action action2 = new ActionMock();
+		final List<Action> handlers = ActionsRegistry.INSTANCE.getActions();
+		final Action action1 = new ActionMock();
+		final Action action2 = new ActionMock();
 		ActionsRegistry.INSTANCE.setSizeMax(10);
 		ActionsRegistry.INSTANCE.addAction(action1, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.addAction(action2, new ActionHandlerMock());
@@ -79,7 +79,7 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testAbortActionFlush() {
-		Action action = new ActionMock();
+		final Action action = new ActionMock();
 		ActionsRegistry.INSTANCE.abortAction(action);
 		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
 	}
@@ -87,12 +87,12 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testAbortActionNotify() {
-		Action action = new ActionMock();
+		final Action action = new ActionMock();
 		visited = false;
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
-			public void onActionAborted(Action act) {
+			public void onActionAborted(final Action act) {
 				visited = true;
 			}
 		});
@@ -104,18 +104,18 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testAbortActionRemoved() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Action action = new ActionMock();
+		final Action action = new ActionMock();
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.abortAction(action);
-		List<ActionHandler> handlers = getListHandler();
+		final List<ActionHandler> handlers = getListHandler();
 		assertTrue(handlers.isEmpty());
 	}
 
 
 	@Test
 	public void testGetActionThatExists() {
-		Action action1 = new ActionMock();
-		Action action2 = new ActionMock();
+		final Action action1 = new ActionMock();
+		final Action action2 = new ActionMock();
 		ActionsRegistry.INSTANCE.addAction(action1, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.addAction(action2, new ActionHandlerMock());
 		assertEquals(action1, ActionsRegistry.INSTANCE.getAction(ActionMock.class));
@@ -140,7 +140,7 @@ public class TestActionRegistry extends TestCase {
 	public void testRemoveAllHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock());
-		List<ActionHandler> handlers = getListHandler();
+		final List<ActionHandler> handlers = getListHandler();
 		ActionsRegistry.INSTANCE.removeAllHandlers();
 		assertTrue(handlers.isEmpty());
 	}
@@ -148,10 +148,10 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testRemoveHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		ActionHandler handler = new ActionHandlerMock();
+		final ActionHandler handler = new ActionHandlerMock();
 		ActionsRegistry.INSTANCE.addHandler(handler);
 		ActionsRegistry.INSTANCE.removeHandler(null);
-		List<ActionHandler> handlers = getListHandler();
+		final List<ActionHandler> handlers = getListHandler();
 		assertEquals(1, handlers.size());
 		ActionsRegistry.INSTANCE.removeHandler(handler);
 		assertTrue(handlers.isEmpty());
@@ -161,7 +161,7 @@ public class TestActionRegistry extends TestCase {
 	@Test
 	public void testAddHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		ActionsRegistry.INSTANCE.addHandler(null);
-		List<ActionHandler> handlers = getListHandler();
+		final List<ActionHandler> handlers = getListHandler();
 		assertTrue(handlers.isEmpty());
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock());
 		assertEquals(1, handlers.size());
@@ -178,7 +178,7 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testRemoveActionNotNull() {
-		Action action = new ActionMock();
+		final Action action = new ActionMock();
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.removeAction(action);
 		assertTrue(ActionsRegistry.INSTANCE.getActions().isEmpty());
@@ -196,7 +196,7 @@ public class TestActionRegistry extends TestCase {
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
-			public void onActionExecuted(Action act) {
+			public void onActionExecuted(final Action act) {
 				visited = true;
 				assertEquals(a, act);
 			}
@@ -219,7 +219,7 @@ public class TestActionRegistry extends TestCase {
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
-			public void onActionDone(Action act) {
+			public void onActionDone(final Action act) {
 				visited = true;
 				assertEquals(a, act);
 			}
@@ -247,7 +247,7 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testCancelsActionNotNullDoNotCancel() {
-		Action act = new ActionMock();
+		final Action act = new ActionMock();
 		ActionsRegistry.INSTANCE.addAction(act, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.cancelActions(new ActionMock2());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
@@ -264,7 +264,7 @@ public class TestActionRegistry extends TestCase {
 		ActionsRegistry.INSTANCE.addAction(act, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
-			public void onActionCancelled(Action a) {
+			public void onActionCancelled(final Action a) {
 				visited = true;
 				assertEquals(act, a);
 			}
@@ -279,7 +279,7 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testAddActionCannotAddBecauseNullOrAlreadyAdded() {
-		Action action = new ActionMock();
+		final Action action = new ActionMock();
 		ActionsRegistry.INSTANCE.getActions().add(action);
 		ActionsRegistry.INSTANCE.addAction(null, new ActionHandlerMock());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
@@ -305,12 +305,12 @@ public class TestActionRegistry extends TestCase {
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
-			public void onActionCancelled(Action a) {
+			public void onActionCancelled(final Action a) {
 				visited = true;
 				assertEquals(action, a);
 			}
 			@Override
-			public void onActionAdded(Action a) {//
+			public void onActionAdded(final Action a) {//
 			}
 		});
 		ActionsRegistry.INSTANCE.addAction(new ActionMock(), new ActionHandlerMock());
@@ -325,7 +325,7 @@ public class TestActionRegistry extends TestCase {
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
-			public void onActionAdded(Action a) {
+			public void onActionAdded(final Action a) {
 				visited = true;
 			}
 		});
@@ -336,8 +336,8 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testAddActionRemovesActionWhenMaxCapacity() {
-		Action action = new ActionMock();
-		Action action2 = new ActionMock();
+		final Action action = new ActionMock();
+		final Action action2 = new ActionMock();
 		ActionsRegistry.INSTANCE.setSizeMax(1);
 		ActionsRegistry.INSTANCE.getActions().add(action2);
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
@@ -357,7 +357,7 @@ public class TestActionRegistry extends TestCase {
 
 	@Test
 	public void testAddActionAddsUndoableCollector() {
-		Action action = new ActionUndoableMock();
+		final Action action = new ActionUndoableMock();
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
 		assertEquals(action, UndoCollector.INSTANCE.getLastUndo());
 	}
@@ -372,21 +372,27 @@ public class TestActionRegistry extends TestCase {
 		}
 
 		@Override
-		public void onUndoableUndo(Undoable undoable) {fail();}
+		public void onUndoableUndo(final Undoable undoable) {fail();}
 		@Override
-		public void onUndoableRedo(Undoable undoable) {fail();}
+		public void onUndoableRedo(final Undoable undoable) {fail();}
 		@Override
-		public void onUndoableAdded(Undoable undoable) {fail();}
+		public void onUndoableAdded(final Undoable undoable) {fail();}
 		@Override
-		public void onActionExecuted(Action act) {fail();}
+		public void onActionExecuted(final Action act) {fail();}
 		@Override
-		public void onActionDone(Action act) {fail();}
+		public void onActionDone(final Action act) {fail();}
 		@Override
-		public void onActionCancelled(Action act) {fail();}
+		public void onActionCancelled(final Action act) {fail();}
 		@Override
-		public void onActionAdded(Action act) {fail();}
+		public void onActionAdded(final Action act) {fail();}
 		@Override
-		public void onActionAborted(Action act) {fail();}
+		public void onActionAborted(final Action act) {fail();}
+
+		@Override
+		public void onUndoableCleared() {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 
@@ -456,7 +462,7 @@ public class TestActionRegistry extends TestCase {
 		}
 
 		@Override
-		public boolean cancelledBy(Action action) {
+		public boolean cancelledBy(final Action action) {
 			return action instanceof ActionMock;
 		}
 

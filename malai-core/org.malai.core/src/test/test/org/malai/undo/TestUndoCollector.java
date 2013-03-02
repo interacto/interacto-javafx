@@ -128,5 +128,11 @@ public class TestUndoCollector extends TestCase {
 		@Override
 		public void onUndoableRedo(final Undoable undoable) {//
 		}
+
+		@Override
+		public void onUndoableCleared() {
+			// TODO Auto-generated method stub
+
+		}
 	}
 }
