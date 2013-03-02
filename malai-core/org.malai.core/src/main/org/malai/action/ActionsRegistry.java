@@ -187,6 +187,16 @@ public final class ActionsRegistry {
 
 
 	/**
+	 * Removes all the stored actions.
+	 * @since 0.2
+	 */
+	public void clear() {
+		while(!actions.isEmpty())
+			actions.remove(0).flush();
+	}
+
+
+	/**
 	 * @param clazz The reference class.
 	 * @return The first action of the exact same class of the given class.
 	 * @since 0.1

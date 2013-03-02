@@ -57,6 +57,8 @@ public final class UndoCollector {
 		public void onUndoableUndo(final Undoable undoable) {/**/}
 		@Override
 		public void onUndoableRedo(final Undoable undoable) {/**/}
+		@Override
+		public void onUndoableCleared() {/**/}
 	};
 
 
@@ -106,6 +108,8 @@ public final class UndoCollector {
 		redo.clear();
 		undoHandlers.clear();
 		redoHandlers.clear();
+		for(final UndoHandler h : handlers)
+			h.onUndoableCleared();
 	}
 
 

@@ -19,6 +19,12 @@ package org.malai.undo;
  */
 public interface UndoHandler {
 	/**
+	 * Notifies the handler that the stored undoable objects have been all removed.
+	 * @since 0.2
+	 */
+	void onUndoableCleared();
+
+	/**
 	 * Actions to do when an undoable object is added to the undo register.
 	 * @param undoable The undoable object added to the undo register.
 	 * @since 0.2
