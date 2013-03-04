@@ -1,5 +1,7 @@
 package org.malai.swing.instrument.library;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 
@@ -7,15 +9,19 @@ import org.malai.action.library.Redo;
 import org.malai.action.library.Undo;
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.Link;
+import org.malai.interaction.library.KeysPressure;
 import org.malai.swing.instrument.WidgetInstrument;
 import org.malai.swing.interaction.library.ButtonPressed;
 import org.malai.swing.ui.UIComposer;
+import org.malai.swing.utils.MSystem;
 import org.malai.swing.widget.MButton;
 import org.malai.undo.UndoCollector;
 import org.malai.undo.Undoable;
 
 /**
  * This instrument allows to undo and redo saved actions.<br>
+ * This instrument provides two buttons to interact with and two shortcuts
+ * (ctrl/apple-Z, ctrl-apple-Y).
  * <br>
  * This file is part of libMalai.<br>
  * Copyright (c) 2009-2013 Arnaud BLOUIN<br>
@@ -66,6 +72,8 @@ public class UndoRedoManager extends WidgetInstrument {
 		try{
 			addLink(new ButtonPressed2Undo(this));
 			addLink(new ButtonPressed2Redo(this));
+			addLink(new Keys2Undo(this));
+			addLink(new Keys2Redo(this));
 		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
@@ -161,12 +169,10 @@ class ButtonPressed2Redo extends Link<Redo, ButtonPressed, UndoRedoManager> {
 		super(ins, false, Redo.class, ButtonPressed.class);
 	}
 
-
 	@Override
 	public void initAction() {
 		// Nothing to do.
 	}
-
 
 	@Override
 	public boolean isConditionRespected() {
@@ -174,6 +180,62 @@ class ButtonPressed2Redo extends Link<Redo, ButtonPressed, UndoRedoManager> {
 	}
 }
 
+
+/**
+ * This link maps a key interaction to an undo action.
+ * @author Arnaud Blouin
+ */
+class Keys2Redo extends Link<Redo, KeysPressure, UndoRedoManager> {
+	/**
+	 * Creates the link.
+	 * @param ins The instrument that contains this link.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 */
+	public Keys2Redo(final UndoRedoManager ins) throws InstantiationException, IllegalAccessException {
+		super(ins, false, Redo.class, KeysPressure.class);
+	}
+
+	@Override
+	public void initAction() {
+		// Nothing to do.
+	}
+
+	@Override
+	public boolean isConditionRespected() {
+		return UndoCollector.INSTANCE.getLastRedo()!=null && getInteraction().getKeys().size()==2 && 
+				getInteraction().getKeys().contains(KeyEvent.VK_Y) && getInteraction().getKeys().contains(MSystem.INSTANCE.getControlKey());
+	}
+}
+
+
+
+/**
+ * This link maps a key interaction to an undo action.
+ * @author Arnaud Blouin
+ */
+class Keys2Undo extends Link<Undo, KeysPressure, UndoRedoManager> {
+	/**
+	 * Creates the link.
+	 * @param ins The instrument that contains this link.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 */
+	public Keys2Undo(final UndoRedoManager ins) throws InstantiationException, IllegalAccessException {
+		super(ins, false, Undo.class, KeysPressure.class);
+	}
+
+	@Override
+	public void initAction() {
+		// Nothing to do.
+	}
+
+	@Override
+	public boolean isConditionRespected() {
+		return UndoCollector.INSTANCE.getLastUndo()!=null && getInteraction().getKeys().size()==2 && 
+				getInteraction().getKeys().contains(KeyEvent.VK_Z) && getInteraction().getKeys().contains(MSystem.INSTANCE.getControlKey());
+	}
+}
 
 
 /**
