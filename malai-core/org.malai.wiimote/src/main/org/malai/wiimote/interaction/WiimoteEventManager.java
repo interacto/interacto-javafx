@@ -54,22 +54,29 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		wiimoteHandlers = null;
 	}
 	
+	/**
+	 * Attachs this listener to a new wiimote controller
+	 */
 	public void attachTo(final Wiimote controller) {
 		if(controller != null) {
 			controller.addWiiMoteEventListeners(this);
 		}
-		
 	}
 
-
+	/**
+	 * Disconnect a wiimote
+	 */
 	public void detachForm(final Wiimote controller) {
 		if(controller != null) {
-			controller.disconnect();
+			controller.addWiiMoteEventListeners(null);
 		}
-		
 	}
 	
-	
+	/**
+	 * Event receives when a button is pressed on the wiimote or a plugged controller
+	 * @param button Event object which contains info about the button pressed
+	 * @since 0.2
+	 */
 	public void onButtonsEvent(WiimoteButtonsEvent button) {
 		if(wiimoteHandlers != null) {
 			for(final WiimoteEventHandler handler : wiimoteHandlers)
@@ -87,9 +94,16 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		
 	}
 
-	public void onDisconnectionEvent(DisconnectionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Event received when a wiimote is disconnected (no battery left, 
+	 * connection dropped or controller has been turn off)
+	 * @since 0.2
+	 */
+	public void onDisconnectionEvent(DisconnectionEvent disconnection) {
+		if(wiimoteHandlers != null) {
+			for(final WiimoteEventHandler handler : wiimoteHandlers)
+				handler.onDisconnection(disconnection);
+		}
 	}
 
 	public void onExpansionEvent(ExpansionEvent arg0) {
@@ -112,9 +126,11 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		
 	}
 
-	public void onMotionSensingEvent(MotionSensingEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onMotionSensingEvent(MotionSensingEvent motion) {
+		if(wiimoteHandlers != null) {
+			for(final WiimoteEventHandler handler : wiimoteHandlers)
+				handler.onMotionSensing(motion);
+		}
 	}
 
 	public void onNunchukInsertedEvent(NunchukInsertedEvent arg0) {
@@ -127,9 +143,11 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		
 	}
 
-	public void onStatusEvent(StatusEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	/** Called on a status event : when a expansion controller is (un)plugged
+	 * Return many information about wiimote setup
+	 */
+	public void onStatusEvent(StatusEvent status) {
+		//
 	}
 
 }
