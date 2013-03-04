@@ -1,6 +1,8 @@
 package org.malai.wiimote.interaction;
 
 import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
+import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
+import wiiusej.wiiusejevents.wiiuseapievents.DisconnectionEvent;
 
 /**
  * This interface can be used for object that want to gather Wiimote events (button pressed, moves, etc.) produced by HIDs.<br>
@@ -31,4 +33,17 @@ public interface WiimoteEventHandler {
 	 * @since 0.2
 	 */
 	void onButtonPressed(final ButtonsEvent button);
+	
+	/**
+	 * Defines action to do when a wiimote is disconnected/lost
+	 * @param disconnection The disconnection event.
+	 * @since 0.2
+	 */
+	void onDisconnection(final DisconnectionEvent disconnection);
+
+	/**
+	 * Defines actions to do when motion sensing data are received
+	 * @param motion
+	 */
+	void onMotionSensing(MotionSensingEvent motion);
 }
