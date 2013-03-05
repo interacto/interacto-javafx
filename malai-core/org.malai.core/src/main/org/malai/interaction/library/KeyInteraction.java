@@ -53,6 +53,15 @@ public abstract class KeyInteraction extends Interaction {
 
 
 	/**
+	 * @return The object that produced the interaction.
+	 * @since 0.2
+	 */
+	public Object getObject() {
+		return object;
+	}
+
+
+	/**
 	 * @return The key pressed.
 	 * @since 0.2
 	 */
@@ -66,6 +75,33 @@ public abstract class KeyInteraction extends Interaction {
 	 */
 	public char getKeyChar() {
 		return keyChar;
+	}
+
+
+	/**
+	 * @param key The key pressed.
+	 * @since 0.2
+	 */
+	protected void setKey(final int key) {
+		this.key = key;
+	}
+
+
+	/**
+	 * @param object The object that produced the interaction.
+	 * @since 0.2
+	 */
+	protected void setObject(final Object object) {
+		this.object = object;
+	}
+
+
+	/**
+	 * @param keyChar The char corresponding to the key.
+	 * @since 0.2
+	 */
+	protected void setKeyChar(final char keyChar) {
+		this.keyChar = keyChar;
 	}
 
 

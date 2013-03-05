@@ -143,4 +143,13 @@ public class KeysTyped extends Interaction {
 	public Object getObject() {
 		return object;
 	}
+
+
+	/**
+	 * @param object The object that produced the interaction.
+	 * @since 0.2
+	 */
+	protected void setObject(final Object object) {
+		this.object = object;
+	}
 }
