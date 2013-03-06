@@ -58,6 +58,14 @@ public class KeysPressure extends Interaction {
 	}
 
 
+	/**
+	 * @param object The object that produced the interaction.
+	 * @since 0.2
+	 */
+	protected void setObject(final Object object) {
+		this.object = object;
+	}
+
 
 	@SuppressWarnings("unused")
 	@Override

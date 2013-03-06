@@ -109,6 +109,42 @@ public class Scrolling extends Interaction {
 
 
 	/**
+	 * @param scrollTarget The object on which the scroll is performed.
+	 * @since 0.2
+	 */
+	protected void setScrollTarget(final Pickable scrollTarget) {
+		this.scrollTarget = scrollTarget;
+	}
+
+
+	/**
+	 * @param px The X-coordinate of the scroll position.
+	 * @since 0.2
+	 */
+	protected void setPx(final double px) {
+		this.px = px;
+	}
+
+
+	/**
+	 * @param py The Y-coordinate of the scroll position.
+	 * @since 0.2
+	 */
+	protected void setPy(final double py) {
+		this.py = py;
+	}
+
+
+	/**
+	 * @param increment The total increment of the scrolling.
+	 * @since 0.2
+	 */
+	protected void setIncrement(final int increment) {
+		this.increment = increment;
+	}
+
+
+	/**
 	 * This scroll transition modifies the scrolling interaction.
 	 */
 	public class ScrollingScrollTransition extends ScrollTransition {

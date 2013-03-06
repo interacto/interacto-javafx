@@ -217,6 +217,11 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 
 
 	@Override
+	public void onUndoableCleared() {
+		// Should be overridden.
+	}
+
+	@Override
 	public void onUndoableAdded(final Undoable undoable) {
 		// Should be overridden.
 	}
