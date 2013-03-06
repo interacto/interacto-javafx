@@ -84,6 +84,34 @@ public abstract class PointInteraction extends Interaction {
 
 
 	/**
+	 * @param point The pressed position.
+	 * @since 0.2
+	 */
+	protected void setPoint(final Point point) {
+		this.point = point;
+	}
+
+
+	/**
+	 * @param button The button used for the pressure.
+	 * @since 0.2
+	 */
+	protected void setButton(final int button) {
+		this.button = button;
+	}
+
+
+	/**
+	 * @param target The object picked at the pressed position.
+	 * @since 0.2
+	 */
+	protected void setTarget(final Pickable target) {
+		this.target = target;
+	}
+
+
+
+	/**
 	 * A press transition.
 	 */
 	public class PointPressureTransition extends PressureTransition {
