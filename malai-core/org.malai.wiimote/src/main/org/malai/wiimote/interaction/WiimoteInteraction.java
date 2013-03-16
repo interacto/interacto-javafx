@@ -5,6 +5,8 @@ import org.malai.interaction.Interaction;
 import org.malai.stateMachine.ITransition;
 
 import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
+import wiiusej.wiiusejevents.physicalevents.IREvent;
+import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.DisconnectionEvent;
 
@@ -60,7 +62,15 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 				again = !checkTransition(t);
 			}
 		}
-			
+	}
+
+	public void onJoystickMove(JoystickEvent joystick) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onIrEvent(IREvent motion) {
+		
 	}
 
 }
