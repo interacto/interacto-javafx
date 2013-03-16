@@ -57,7 +57,7 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
 
-			if(t instanceof ButtonPressedTransition) {
+			if(t instanceof MotionSensingTransition) {
 				((MotionSensingTransition)t).setMotion(motion);
 				again = !checkTransition(t);
 			}
@@ -65,12 +65,35 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 	}
 
 	public void onJoystickMove(JoystickEvent joystick) {
-		// TODO Auto-generated method stub
-		
+		if(!activated) return ;
+
+		boolean again = true;
+		ITransition t;
+
+		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
+			t = currentState.getTransition(i);
+
+			if(t instanceof JoystickMoveTransition) {
+				((JoystickMoveTransition)t).setJoystick(joystick);
+				again = !checkTransition(t);
+			}
+		}
 	}
 
-	public void onIrEvent(IREvent motion) {
-		
+	public void onIrEvent(IREvent ir) {
+		if(!activated) return ;
+
+		boolean again = true;
+		ITransition t;
+
+		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
+			t = currentState.getTransition(i);
+
+			if(t instanceof IRTransition) {
+				((IRTransition)t).setIR(ir);
+				again = !checkTransition(t);
+			}
+		}
 	}
 
 }
