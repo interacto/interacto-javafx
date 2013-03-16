@@ -1,6 +1,8 @@
 package org.malai.wiimote.interaction;
 
 import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
+import wiiusej.wiiusejevents.physicalevents.IREvent;
+import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.DisconnectionEvent;
 
@@ -28,13 +30,6 @@ import wiiusej.wiiusejevents.wiiuseapievents.DisconnectionEvent;
 public interface WiimoteEventHandler {
 	
 	/**
-	 * Defines actions to do when a button is activated.
-	 * @param button The pressed button.
-	 * @since 0.2
-	 */
-	void onButtonPressed(final ButtonsEvent button);
-	
-	/**
 	 * Defines action to do when a wiimote is disconnected/lost
 	 * @param disconnection The disconnection event.
 	 * @since 0.2
@@ -42,8 +37,29 @@ public interface WiimoteEventHandler {
 	void onDisconnection(final DisconnectionEvent disconnection);
 
 	/**
+	 * Defines actions to do when a button is activated.
+	 * @param button The pressed button.
+	 * @since 0.2
+	 */
+	void onButtonPressed(final ButtonsEvent button);
+	
+	/**
+	 * Defines actions to do when joystick position data are received
+	 * @param joystick
+	 */
+	void onJoystickMove(final JoystickEvent joystick);
+	
+	/**
 	 * Defines actions to do when motion sensing data are received
 	 * @param motion
 	 */
-	void onMotionSensing(MotionSensingEvent motion);
+	void onMotionSensing(final MotionSensingEvent motion);
+	
+	/**
+	 * Defines actions to do when IR data are received
+	 * @param ir
+	 */
+	void onIrEvent(final IREvent ir);
+	
+	
 }

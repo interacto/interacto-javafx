@@ -111,19 +111,11 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		
 	}
 
-	public void onGuitarHeroInsertedEvent(GuitarHeroInsertedEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onGuitarHeroRemovedEvent(GuitarHeroRemovedEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onIrEvent(IREvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void onIrEvent(IREvent ir) {
+		if(wiimoteHandlers != null) {
+			for(final WiimoteEventHandler handler : wiimoteHandlers)
+				handler.onIrEvent(ir);
+		}
 	}
 
 	public void onMotionSensingEvent(MotionSensingEvent motion) {
@@ -148,6 +140,17 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	 */
 	public void onStatusEvent(StatusEvent status) {
 		//
+	}
+	
+	
+	public void onGuitarHeroInsertedEvent(GuitarHeroInsertedEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onGuitarHeroRemovedEvent(GuitarHeroRemovedEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
