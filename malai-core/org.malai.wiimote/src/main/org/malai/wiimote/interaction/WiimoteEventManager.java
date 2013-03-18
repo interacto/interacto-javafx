@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.malai.interaction.BasicEventManager;
 
+import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
@@ -45,12 +46,19 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	/** A subset of the set 'handlers' corresponding to the Wiimote Handlers. */
 	private List<WiimoteEventHandler> wiimoteHandlers;
 	
+	private Wiimote[] wiimotes;
+	
 	/**
 	 * Creates a event manager that gathers Wiimote events and transfers them to handlers.
 	 * @since 0.2
 	 */
 	public WiimoteEventManager() {
 		super();
+		
+		// Get Wiimote
+		wiimotes = WiiUseApiManager.getWiimotes(1, true);
+		wiimotes[0].addWiiMoteEventListeners(this);
+		
 		wiimoteHandlers = null;
 	}
 	
