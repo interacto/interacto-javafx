@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.malai.swing</name>
-	<comment>NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
+	<name>org.malai.model</name>
+	<comment></comment>
 	<projects>
-		<project>org.malai.core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
