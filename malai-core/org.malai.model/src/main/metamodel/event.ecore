@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="malaiEvent" nsURI="http://org.malai.event/0.2" nsPrefix="malaiEvent">
-  <eClassifiers xsi:type="ecore:EClass" name="Event">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
-        defaultValueLiteral=""/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EventModel">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
-        eType="#//Event" containment="true"/>
-  </eClassifiers>
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="org" nsURI="http://org.malai/event/1_0_0/" nsPrefix="org">
+  <eSubpackages name="malai" nsURI="http://org.malai/event/1_0_0//org/malai" nsPrefix="org_malai">
+    <eSubpackages name="event" nsURI="http://org.malai/event/1_0_0//org/malai/event"
+        nsPrefix="org_malai_event">
+      <eClassifiers xsi:type="ecore:EClass" name="Event">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1"
+            eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
+            eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
+            defaultValueLiteral="" derived="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventModel">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+            eType="#//malai/event/Event" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
 </ecore:EPackage>
