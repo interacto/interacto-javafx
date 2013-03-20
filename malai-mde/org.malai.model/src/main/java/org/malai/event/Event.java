@@ -59,21 +59,21 @@ public interface Event extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
+	 * @see #isSetName()
 	 * @see org.malai.event.EventPackage#getEvent_Name()
-	 * @model default="" required="true" derived="true"
+	 * @model default="" unsettable="true" required="true" changeable="false" volatile="true" derived="true"
 	 * @generated
 	 */
 	String getName();
 
 	/**
-	 * Sets the value of the '{@link org.malai.event.Event#getName <em>Name</em>}' attribute.
+	 * Returns whether the value of the '{@link org.malai.event.Event#getName <em>Name</em>}' attribute is set.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
+	 * @return whether the value of the '<em>Name</em>' attribute is set.
 	 * @see #getName()
 	 * @generated
 	 */
-	void setName(String value);
+	boolean isSetName();
 
 } // Event

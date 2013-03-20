@@ -10,7 +10,8 @@
             containment="true"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
             eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
-            defaultValueLiteral="" derived="true"/>
+            changeable="false" volatile="true" defaultValueLiteral="" unsettable="true"
+            derived="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="EventModel">
         <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"

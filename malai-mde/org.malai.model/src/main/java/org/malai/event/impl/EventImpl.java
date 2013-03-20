@@ -50,16 +50,6 @@ public class EventImpl extends EObjectImpl implements Event {
 	protected static final String NAME_EDEFAULT = "";
 
 	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -124,22 +114,17 @@ public class EventImpl extends EObjectImpl implements Event {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public String getName() {
-		return name;
+		return clazz==null?"":clazz.getName();
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, EventPackage.EVENT__NAME, oldName, name));
+	public boolean isSetName() {
+		return clazz!=null && clazz.getName()!=null;
 	}
 
 	/**
@@ -183,9 +168,6 @@ public class EventImpl extends EObjectImpl implements Event {
 			case EventPackage.EVENT__CLAZZ:
 				setClazz((EClass)newValue);
 				return;
-			case EventPackage.EVENT__NAME:
-				setName((String)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -200,9 +182,6 @@ public class EventImpl extends EObjectImpl implements Event {
 		switch (featureID) {
 			case EventPackage.EVENT__CLAZZ:
 				setClazz((EClass)null);
-				return;
-			case EventPackage.EVENT__NAME:
-				setName(NAME_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -219,25 +198,9 @@ public class EventImpl extends EObjectImpl implements Event {
 			case EventPackage.EVENT__CLAZZ:
 				return clazz != null;
 			case EventPackage.EVENT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+				return isSetName();
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(')');
-		return result.toString();
 	}
 
 } //EventImpl
