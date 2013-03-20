@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://org.malai/event/1_0_0//org/malai/event"
+            class="org.malai.event.EventPackage"
+            genModel="src/main/metamodel/event.genmodel"/>
+      <package
+            uri="http://org.malai/interaction/1_0_0//org/malai/interaction"
+            class="org.malai.interaction.InteractionPackage"
+            genModel="src/main/metamodel/interaction.genmodel"/>
+   </extension>
+
+</plugin>
