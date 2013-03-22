@@ -75,22 +75,13 @@ public interface EventPackage extends EPackage {
 	int EVENT__CLAZZ = 0;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EVENT__NAME = 1;
-
-	/**
 	 * The number of structural features of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVENT_FEATURE_COUNT = 2;
+	int EVENT_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.malai.event.impl.EventModelImpl <em>Model</em>}' class.
@@ -141,17 +132,6 @@ public interface EventPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEvent_Clazz();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.malai.event.Event#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.malai.event.Event#getName()
-	 * @see #getEvent()
-	 * @generated
-	 */
-	EAttribute getEvent_Name();
 
 	/**
 	 * Returns the meta object for class '{@link org.malai.event.EventModel <em>Model</em>}'.
@@ -213,14 +193,6 @@ public interface EventPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EVENT__CLAZZ = eINSTANCE.getEvent_Clazz();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EVENT__NAME = eINSTANCE.getEvent_Name();
 
 		/**
 		 * The meta object literal for the '{@link org.malai.event.impl.EventModelImpl <em>Model</em>}' class.

@@ -11,6 +11,7 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
@@ -63,31 +64,8 @@ public class EventItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
-	}
-
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Event_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Event_name_feature", "_UI_Event_type"),
-				 EventPackage.Literals.EVENT__NAME,
-				 false,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
 	}
 
 	/**
@@ -135,14 +113,12 @@ public class EventItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Event)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Event_type") :
-			getString("_UI_Event_type") + " " + label;
+		EClass cl = object instanceof Event ?((Event)object).getClazz() : null;
+		String name = cl==null || cl.getName()==null ? "" : " " + cl.getName();
+		return getString("_UI_Event_type") + name;
 	}
 
 	/**
@@ -157,9 +133,6 @@ public class EventItemProvider
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Event.class)) {
-			case EventPackage.EVENT__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
 			case EventPackage.EVENT__CLAZZ:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;

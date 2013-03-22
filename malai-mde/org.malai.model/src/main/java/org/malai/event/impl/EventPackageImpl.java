@@ -123,15 +123,6 @@ public class EventPackageImpl extends EPackageImpl implements EventPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEvent_Name() {
-		return (EAttribute)eventEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getEventModel() {
 		return eventModelEClass;
 	}
@@ -175,7 +166,6 @@ public class EventPackageImpl extends EPackageImpl implements EventPackage {
 		// Create classes and their features
 		eventEClass = createEClass(EVENT);
 		createEReference(eventEClass, EVENT__CLAZZ);
-		createEAttribute(eventEClass, EVENT__NAME);
 
 		eventModelEClass = createEClass(EVENT_MODEL);
 		createEReference(eventModelEClass, EVENT_MODEL__EVENTS);
@@ -216,7 +206,6 @@ public class EventPackageImpl extends EPackageImpl implements EventPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(eventEClass, Event.class, "Event", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEvent_Clazz(), theEcorePackage.getEClass(), null, "clazz", null, 1, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEvent_Name(), theEcorePackage.getEString(), "name", "", 1, 1, Event.class, !IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventModelEClass, EventModel.class, "EventModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEventModel_Events(), this.getEvent(), null, "events", null, 0, -1, EventModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
