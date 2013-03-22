@@ -22,7 +22,6 @@ import org.malai.event.EventPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.malai.event.impl.EventImpl#getClazz <em>Clazz</em>}</li>
- *   <li>{@link org.malai.event.impl.EventImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -38,16 +37,6 @@ public class EventImpl extends EObjectImpl implements Event {
 	 * @ordered
 	 */
 	protected EClass clazz;
-
-	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String NAME_EDEFAULT = "";
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -151,8 +140,6 @@ public class EventImpl extends EObjectImpl implements Event {
 		switch (featureID) {
 			case EventPackage.EVENT__CLAZZ:
 				return getClazz();
-			case EventPackage.EVENT__NAME:
-				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -197,8 +184,6 @@ public class EventImpl extends EObjectImpl implements Event {
 		switch (featureID) {
 			case EventPackage.EVENT__CLAZZ:
 				return clazz != null;
-			case EventPackage.EVENT__NAME:
-				return isSetName();
 		}
 		return super.eIsSet(featureID);
 	}

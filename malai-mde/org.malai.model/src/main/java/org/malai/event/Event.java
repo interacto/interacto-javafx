@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.malai.event.Event#getClazz <em>Clazz</em>}</li>
- *   <li>{@link org.malai.event.Event#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,32 +47,5 @@ public interface Event extends EObject {
 	 * @generated
 	 */
 	void setClazz(EClass value);
-
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * The default value is <code>""</code>.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #isSetName()
-	 * @see org.malai.event.EventPackage#getEvent_Name()
-	 * @model default="" unsettable="true" required="true" changeable="false" volatile="true" derived="true"
-	 * @generated
-	 */
-	String getName();
-
-	/**
-	 * Returns whether the value of the '{@link org.malai.event.Event#getName <em>Name</em>}' attribute is set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return whether the value of the '<em>Name</em>' attribute is set.
-	 * @see #getName()
-	 * @generated
-	 */
-	boolean isSetName();
 
 } // Event

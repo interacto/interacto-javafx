@@ -12,8 +12,8 @@
       <nestedGenPackages prefix="Event" basePackage="org.malai" disposableProviderFactory="true"
           ecorePackage="event.ecore#//malai/event">
         <genClasses ecoreClass="event.ecore#//malai/event/Event">
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference event.ecore#//malai/event/Event/clazz"/>
-          <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute event.ecore#//malai/event/Event/name"/>
+          <genFeatures property="None" children="true" createChild="true" propertyDescription="The class of the event that defines its parameters."
+              ecoreFeature="ecore:EReference event.ecore#//malai/event/Event/clazz"/>
         </genClasses>
         <genClasses ecoreClass="event.ecore#//malai/event/EventModel">
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference event.ecore#//malai/event/EventModel/events"/>
