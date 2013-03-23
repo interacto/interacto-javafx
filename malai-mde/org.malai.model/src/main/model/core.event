@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org_malai_event:EventModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org_malai_event="http://org.malai/event/1_0_0//org/malai/event">
+  <events>
+    <clazz name="ScrollTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="KeyPressureTransition" eSuperTypes="//@events.5/@clazz"/>
+  </events>
+  <events>
+    <clazz name="KeyReleaseTransition" eSuperTypes="//@events.5/@clazz"/>
+  </events>
+  <events>
+    <clazz name="MoveTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pressed">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="x">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="y">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="z">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="button">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="PressurEvent"/>
+  </events>
+  <events>
+    <clazz name="KeyboardTransition" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="key">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="keyChar">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="source">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="PointingDeviceTransition" abstract="true"/>
+  </events>
+</org_malai_event:EventModel>
