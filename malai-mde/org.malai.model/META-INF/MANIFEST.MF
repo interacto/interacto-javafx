@@ -7,7 +7,10 @@ Bundle-ClassPath: .
 Bundle-Vendor: Arnaud Blouin
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.malai.event,
+Export-Package: org.malai.action,
+ org.malai.action.impl,
+ org.malai.action.util,
+ org.malai.event,
  org.malai.event.impl,
  org.malai.event.util,
  org.malai.interaction,
