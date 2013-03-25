@@ -395,8 +395,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 		 * @generated
 		 */
 		public void createControl(Composite parent) {
-			Composite composite = new Composite(parent, SWT.NONE);
-			{
+			Composite composite = new Composite(parent, SWT.NONE); {
 				GridLayout layout = new GridLayout();
 				layout.numColumns = 1;
 				layout.verticalSpacing = 12;
@@ -426,21 +425,13 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 				initialObjectField.setLayoutData(data);
 			}
 
-			int i=0;
-			int id=0;
-			String label;
-
-			for(String objectName : getInitialObjectNames()) {
-				label = getLabel(objectName);
-				initialObjectField.add(label);
-				if("Action Model".equals(label))
-					id = i;
-				i++;
+			for (String objectName : getInitialObjectNames()) {
+				initialObjectField.add(getLabel(objectName));
 			}
 
-			if(initialObjectField.getItemCount() > 0)
-				initialObjectField.select(id);
-			
+			if (initialObjectField.getItemCount() == 1) {
+				initialObjectField.select(0);
+			}
 			initialObjectField.addModifyListener(validator);
 
 			Label encodingLabel = new Label(composite, SWT.LEFT);
