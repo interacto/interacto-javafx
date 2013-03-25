@@ -392,7 +392,6 @@ public class InteractionModelWizard extends Wizard implements INewWizard {
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @generated
 		 */
 		public void createControl(Composite parent) {
 			Composite composite = new Composite(parent, SWT.NONE); {
@@ -425,13 +424,21 @@ public class InteractionModelWizard extends Wizard implements INewWizard {
 				initialObjectField.setLayoutData(data);
 			}
 
-			for (String objectName : getInitialObjectNames()) {
-				initialObjectField.add(getLabel(objectName));
+			int i=0;
+			int id=0;
+			String label;
+
+			for(String objectName : getInitialObjectNames()) {
+				label = getLabel(objectName);
+				initialObjectField.add(label);
+				if("Interaction".equals(label))
+					id = i;
+				i++;
 			}
 
-			if (initialObjectField.getItemCount() == 1) {
-				initialObjectField.select(0);
-			}
+			if(initialObjectField.getItemCount() > 0)
+				initialObjectField.select(id);
+				
 			initialObjectField.addModifyListener(validator);
 
 			Label encodingLabel = new Label(composite, SWT.LEFT);
