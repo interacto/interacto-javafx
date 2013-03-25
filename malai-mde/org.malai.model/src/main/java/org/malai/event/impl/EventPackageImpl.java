@@ -141,6 +141,15 @@ public class EventPackageImpl extends EPackageImpl implements EventPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getEventModel_Helpers() {
+		return (EReference)eventModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EventFactory getEventFactory() {
 		return (EventFactory)getEFactoryInstance();
 	}
@@ -169,6 +178,7 @@ public class EventPackageImpl extends EPackageImpl implements EventPackage {
 
 		eventModelEClass = createEClass(EVENT_MODEL);
 		createEReference(eventModelEClass, EVENT_MODEL__EVENTS);
+		createEReference(eventModelEClass, EVENT_MODEL__HELPERS);
 	}
 
 	/**
@@ -209,6 +219,7 @@ public class EventPackageImpl extends EPackageImpl implements EventPackage {
 
 		initEClass(eventModelEClass, EventModel.class, "EventModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEventModel_Events(), this.getEvent(), null, "events", null, 0, -1, EventModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEventModel_Helpers(), theEcorePackage.getEClassifier(), null, "helpers", null, 0, -1, EventModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
