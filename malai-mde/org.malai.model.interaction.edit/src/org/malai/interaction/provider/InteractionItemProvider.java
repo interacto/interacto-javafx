@@ -11,8 +11,10 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.ResourceLocator;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -67,6 +69,7 @@ public class InteractionItemProvider
 			addAuthorPropertyDescriptor(object);
 			addDateCreationPropertyDescriptor(object);
 			addVersionPropertyDescriptor(object);
+			addInitStatePropertyDescriptor(object);
 			addCurrentStatePropertyDescriptor(object);
 			addActivatedPropertyDescriptor(object);
 		}
@@ -88,7 +91,7 @@ public class InteractionItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_Interaction_description_feature", "_UI_Interaction_type"),
 				 InteractionPackage.Literals.INTERACTION__DESCRIPTION,
 				 true,
-				 false,
+				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
@@ -162,6 +165,28 @@ public class InteractionItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Init State feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addInitStatePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Interaction_initState_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Interaction_initState_feature", "_UI_Interaction_type"),
+				 InteractionPackage.Literals.INTERACTION__INIT_STATE,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This adds a property descriptor for the Current State feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -217,8 +242,9 @@ public class InteractionItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(InteractionPackage.Literals.INTERACTION__INIT_STATE);
 			childrenFeatures.add(InteractionPackage.Literals.INTERACTION__STATES);
+			childrenFeatures.add(InteractionPackage.Literals.INTERACTION__CLAZZ);
+			childrenFeatures.add(InteractionPackage.Literals.INTERACTION__HELPERS);
 		}
 		return childrenFeatures;
 	}
@@ -251,14 +277,21 @@ public class InteractionItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Interaction)object).getDescription();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Interaction_type") :
-			getString("_UI_Interaction_type") + " " + label;
+		String label = "";
+		
+		if(object instanceof Interaction) {
+			Interaction inter = (Interaction) object;
+			EClass clazz = inter.getClazz();
+			if(clazz!=null && clazz.getName()!=null)
+				label = " " + clazz.getName();
+			if(clazz!=null && clazz.isAbstract())
+				label +=" (abstract)";
+		}
+		
+		return getString("_UI_Interaction_type") + label;
 	}
 
 	/**
@@ -280,8 +313,9 @@ public class InteractionItemProvider
 			case InteractionPackage.INTERACTION__ACTIVATED:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case InteractionPackage.INTERACTION__INIT_STATE:
 			case InteractionPackage.INTERACTION__STATES:
+			case InteractionPackage.INTERACTION__CLAZZ:
+			case InteractionPackage.INTERACTION__HELPERS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -298,11 +332,6 @@ public class InteractionItemProvider
 	@Override
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
-
-		newChildDescriptors.add
-			(createChildParameter
-				(InteractionPackage.Literals.INTERACTION__INIT_STATE,
-				 InteractionFactory.eINSTANCE.createInitState()));
 
 		newChildDescriptors.add
 			(createChildParameter
@@ -323,6 +352,26 @@ public class InteractionItemProvider
 			(createChildParameter
 				(InteractionPackage.Literals.INTERACTION__STATES,
 				 InteractionFactory.eINSTANCE.createInitState()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InteractionPackage.Literals.INTERACTION__CLAZZ,
+				 EcoreFactory.eINSTANCE.createEClass()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InteractionPackage.Literals.INTERACTION__HELPERS,
+				 EcoreFactory.eINSTANCE.createEClass()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InteractionPackage.Literals.INTERACTION__HELPERS,
+				 EcoreFactory.eINSTANCE.createEDataType()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InteractionPackage.Literals.INTERACTION__HELPERS,
+				 EcoreFactory.eINSTANCE.createEEnum()));
 	}
 
 	/**
@@ -337,8 +386,8 @@ public class InteractionItemProvider
 		Object childObject = child;
 
 		boolean qualify =
-			childFeature == InteractionPackage.Literals.INTERACTION__INIT_STATE ||
-			childFeature == InteractionPackage.Literals.INTERACTION__STATES;
+			childFeature == InteractionPackage.Literals.INTERACTION__CLAZZ ||
+			childFeature == InteractionPackage.Literals.INTERACTION__HELPERS;
 
 		if (qualify) {
 			return getString

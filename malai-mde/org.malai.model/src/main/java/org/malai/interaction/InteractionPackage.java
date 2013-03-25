@@ -102,7 +102,7 @@ public interface InteractionPackage extends EPackage {
 	int INTERACTION__VERSION = 3;
 
 	/**
-	 * The feature id for the '<em><b>Init State</b></em>' containment reference.
+	 * The feature id for the '<em><b>Init State</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -138,13 +138,31 @@ public interface InteractionPackage extends EPackage {
 	int INTERACTION__ACTIVATED = 7;
 
 	/**
+	 * The feature id for the '<em><b>Clazz</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTERACTION__CLAZZ = 8;
+
+	/**
+	 * The feature id for the '<em><b>Helpers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTERACTION__HELPERS = 9;
+
+	/**
 	 * The number of structural features of the '<em>Interaction</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTERACTION_FEATURE_COUNT = 8;
+	int INTERACTION_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link org.malai.interaction.impl.TransitionImpl <em>Transition</em>}' class.
@@ -266,13 +284,22 @@ public interface InteractionPackage extends EPackage {
 	int STATE__DESCRIPTION = 1;
 
 	/**
+	 * The feature id for the '<em><b>Output Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATE__OUTPUT_TRANSITIONS = 2;
+
+	/**
 	 * The number of structural features of the '<em>State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATE_FEATURE_COUNT = 2;
+	int STATE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.malai.interaction.impl.AbortingStateImpl <em>Aborting State</em>}' class.
@@ -301,6 +328,15 @@ public interface InteractionPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABORTING_STATE__DESCRIPTION = STATE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Output Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABORTING_STATE__OUTPUT_TRANSITIONS = STATE__OUTPUT_TRANSITIONS;
 
 	/**
 	 * The number of structural features of the '<em>Aborting State</em>' class.
@@ -340,6 +376,15 @@ public interface InteractionPackage extends EPackage {
 	int TERMINAL_STATE__DESCRIPTION = STATE__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Output Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TERMINAL_STATE__OUTPUT_TRANSITIONS = STATE__OUTPUT_TRANSITIONS;
+
+	/**
 	 * The number of structural features of the '<em>Terminal State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -377,6 +422,15 @@ public interface InteractionPackage extends EPackage {
 	int STANDARD_STATE__DESCRIPTION = STATE__DESCRIPTION;
 
 	/**
+	 * The feature id for the '<em><b>Output Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STANDARD_STATE__OUTPUT_TRANSITIONS = STATE__OUTPUT_TRANSITIONS;
+
+	/**
 	 * The number of structural features of the '<em>Standard State</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -412,6 +466,15 @@ public interface InteractionPackage extends EPackage {
 	 * @ordered
 	 */
 	int INIT_STATE__DESCRIPTION = STANDARD_STATE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Output Transitions</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INIT_STATE__OUTPUT_TRANSITIONS = STANDARD_STATE__OUTPUT_TRANSITIONS;
 
 	/**
 	 * The number of structural features of the '<em>Init State</em>' class.
@@ -478,10 +541,10 @@ public interface InteractionPackage extends EPackage {
 	EAttribute getInteraction_Version();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.malai.interaction.Interaction#getInitState <em>Init State</em>}'.
+	 * Returns the meta object for the reference '{@link org.malai.interaction.Interaction#getInitState <em>Init State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Init State</em>'.
+	 * @return the meta object for the reference '<em>Init State</em>'.
 	 * @see org.malai.interaction.Interaction#getInitState()
 	 * @see #getInteraction()
 	 * @generated
@@ -520,6 +583,28 @@ public interface InteractionPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getInteraction_Activated();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.malai.interaction.Interaction#getClazz <em>Clazz</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Clazz</em>'.
+	 * @see org.malai.interaction.Interaction#getClazz()
+	 * @see #getInteraction()
+	 * @generated
+	 */
+	EReference getInteraction_Clazz();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.malai.interaction.Interaction#getHelpers <em>Helpers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Helpers</em>'.
+	 * @see org.malai.interaction.Interaction#getHelpers()
+	 * @see #getInteraction()
+	 * @generated
+	 */
+	EReference getInteraction_Helpers();
 
 	/**
 	 * Returns the meta object for class '{@link org.malai.interaction.Transition <em>Transition</em>}'.
@@ -652,6 +737,17 @@ public interface InteractionPackage extends EPackage {
 	EAttribute getState_Description();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.malai.interaction.State#getOutputTransitions <em>Output Transitions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Output Transitions</em>'.
+	 * @see org.malai.interaction.State#getOutputTransitions()
+	 * @see #getState()
+	 * @generated
+	 */
+	EReference getState_OutputTransitions();
+
+	/**
 	 * Returns the meta object for class '{@link org.malai.interaction.AbortingState <em>Aborting State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -756,7 +852,7 @@ public interface InteractionPackage extends EPackage {
 		EAttribute INTERACTION__VERSION = eINSTANCE.getInteraction_Version();
 
 		/**
-		 * The meta object literal for the '<em><b>Init State</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Init State</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -786,6 +882,22 @@ public interface InteractionPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute INTERACTION__ACTIVATED = eINSTANCE.getInteraction_Activated();
+
+		/**
+		 * The meta object literal for the '<em><b>Clazz</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTERACTION__CLAZZ = eINSTANCE.getInteraction_Clazz();
+
+		/**
+		 * The meta object literal for the '<em><b>Helpers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTERACTION__HELPERS = eINSTANCE.getInteraction_Helpers();
 
 		/**
 		 * The meta object literal for the '{@link org.malai.interaction.impl.TransitionImpl <em>Transition</em>}' class.
@@ -886,6 +998,14 @@ public interface InteractionPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STATE__DESCRIPTION = eINSTANCE.getState_Description();
+
+		/**
+		 * The meta object literal for the '<em><b>Output Transitions</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STATE__OUTPUT_TRANSITIONS = eINSTANCE.getState_OutputTransitions();
 
 		/**
 		 * The meta object literal for the '{@link org.malai.interaction.impl.AbortingStateImpl <em>Aborting State</em>}' class.

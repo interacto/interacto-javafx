@@ -7,18 +7,23 @@
     usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore event.genmodel#//org">
   <foreignModel>interaction.ecore</foreignModel>
   <genPackages prefix="Org" disposableProviderFactory="true" ecorePackage="interaction.ecore#/">
-    <nestedGenPackages prefix="Malai" disposableProviderFactory="true" ecorePackage="interaction.ecore#//malai">
-      <nestedGenPackages prefix="Interaction" disposableProviderFactory="true" ecorePackage="interaction.ecore#//malai/interaction">
+    <nestedGenPackages prefix="Malai" basePackage="org" disposableProviderFactory="true"
+        ecorePackage="interaction.ecore#//malai">
+      <nestedGenPackages prefix="Interaction" basePackage="org.malai" disposableProviderFactory="true"
+          ecorePackage="interaction.ecore#//malai/interaction">
         <genClasses ecoreClass="interaction.ecore#//malai/interaction/Interaction">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Interaction/description"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Interaction/description"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Interaction/author"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Interaction/dateCreation"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Interaction/version"/>
-          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Interaction/initState"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Interaction/initState"/>
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Interaction/states"/>
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
               ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Interaction/currentState"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Interaction/activated"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Interaction/clazz"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Interaction/helpers"/>
           <genOperations ecoreOperation="interaction.ecore#//malai/interaction/Interaction/onStarting"/>
           <genOperations ecoreOperation="interaction.ecore#//malai/interaction/Interaction/onUpdating"/>
           <genOperations ecoreOperation="interaction.ecore#//malai/interaction/Interaction/onStopping"/>
@@ -28,17 +33,18 @@
           <genOperations ecoreOperation="interaction.ecore#//malai/interaction/Interaction/executeTransition">
             <genParameters ecoreParameter="interaction.ecore#//malai/interaction/Interaction/executeTransition/t"/>
           </genOperations>
+          <genOperations ecoreOperation="interaction.ecore#//malai/interaction/Interaction/getLastHIDUsed"/>
         </genClasses>
         <genClasses ecoreClass="interaction.ecore#//malai/interaction/Transition">
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
               ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Transition/inputState"/>
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
               ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Transition/outputState"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/description"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/description"/>
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
               ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/Transition/event"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/condition"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/actions"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/condition"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/actions"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/name"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/Transition/hid"/>
           <genOperations ecoreOperation="interaction.ecore#//malai/interaction/Transition/action"/>
@@ -46,7 +52,8 @@
         </genClasses>
         <genClasses image="false" ecoreClass="interaction.ecore#//malai/interaction/State">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/State/name"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/State/description"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute interaction.ecore#//malai/interaction/State/description"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference interaction.ecore#//malai/interaction/State/outputTransitions"/>
         </genClasses>
         <genClasses ecoreClass="interaction.ecore#//malai/interaction/AbortingState"/>
         <genClasses ecoreClass="interaction.ecore#//malai/interaction/TerminalState"/>

@@ -4,6 +4,8 @@ package org.malai.interaction;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -22,6 +24,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.malai.interaction.Interaction#getStates <em>States</em>}</li>
  *   <li>{@link org.malai.interaction.Interaction#getCurrentState <em>Current State</em>}</li>
  *   <li>{@link org.malai.interaction.Interaction#isActivated <em>Activated</em>}</li>
+ *   <li>{@link org.malai.interaction.Interaction#getClazz <em>Clazz</em>}</li>
+ *   <li>{@link org.malai.interaction.Interaction#getHelpers <em>Helpers</em>}</li>
  * </ul>
  * </p>
  *
@@ -135,26 +139,26 @@ public interface Interaction extends EObject {
 	void setVersion(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Init State</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Init State</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Init State</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Init State</em>' containment reference.
+	 * @return the value of the '<em>Init State</em>' reference.
 	 * @see #setInitState(InitState)
 	 * @see org.malai.interaction.InteractionPackage#getInteraction_InitState()
-	 * @model containment="true" required="true"
+	 * @model
 	 * @generated
 	 */
 	InitState getInitState();
 
 	/**
-	 * Sets the value of the '{@link org.malai.interaction.Interaction#getInitState <em>Init State</em>}' containment reference.
+	 * Sets the value of the '{@link org.malai.interaction.Interaction#getInitState <em>Init State</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Init State</em>' containment reference.
+	 * @param value the new value of the '<em>Init State</em>' reference.
 	 * @see #getInitState()
 	 * @generated
 	 */
@@ -229,6 +233,48 @@ public interface Interaction extends EObject {
 	void setActivated(boolean value);
 
 	/**
+	 * Returns the value of the '<em><b>Clazz</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Clazz</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Clazz</em>' containment reference.
+	 * @see #setClazz(EClass)
+	 * @see org.malai.interaction.InteractionPackage#getInteraction_Clazz()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	EClass getClazz();
+
+	/**
+	 * Sets the value of the '{@link org.malai.interaction.Interaction#getClazz <em>Clazz</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Clazz</em>' containment reference.
+	 * @see #getClazz()
+	 * @generated
+	 */
+	void setClazz(EClass value);
+
+	/**
+	 * Returns the value of the '<em><b>Helpers</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EClassifier}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Helpers</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Helpers</em>' containment reference list.
+	 * @see org.malai.interaction.InteractionPackage#getInteraction_Helpers()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<EClassifier> getHelpers();
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @model
@@ -283,5 +329,13 @@ public interface Interaction extends EObject {
 	 * @generated
 	 */
 	void executeTransition(Transition t);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	int getLastHIDUsed();
 
 } // Interaction
