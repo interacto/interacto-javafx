@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <org_malai_event:EventModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org_malai_event="http://org.malai/event/1_0_0//org/malai/event">
   <events>
-    <clazz name="ScrollTransition">
+    <clazz name="ScrollTransition" eSuperTypes="//@events.7/@clazz">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction">
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </eStructuralFeatures>
@@ -14,16 +14,37 @@
     </clazz>
   </events>
   <events>
-    <clazz name="KeyPressureTransition" eSuperTypes="//@events.5/@clazz"/>
+    <clazz name="KeyPressureTransition" eSuperTypes="//@events.6/@clazz"/>
   </events>
   <events>
-    <clazz name="KeyReleaseTransition" eSuperTypes="//@events.5/@clazz"/>
+    <clazz name="KeyReleaseTransition" eSuperTypes="//@events.6/@clazz"/>
   </events>
   <events>
-    <clazz name="MoveTransition">
+    <clazz name="MoveTransition" eSuperTypes="//@events.7/@clazz">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="pressed">
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="PressureTransition" eSuperTypes="//@events.7/@clazz"/>
+  </events>
+  <events>
+    <clazz name="ReleaseTransition" eSuperTypes="//@events.7/@clazz"/>
+  </events>
+  <events>
+    <clazz name="KeyboardTransition" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="key">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="keyChar">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="//@helpers.0"/>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="PointingDeviceTransition" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="x">
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </eStructuralFeatures>
@@ -36,28 +57,17 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="button">
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="source">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="//@helpers.0"/>
     </clazz>
   </events>
   <events>
-    <clazz name="PressurEvent"/>
-  </events>
-  <events>
-    <clazz name="KeyboardTransition" abstract="true">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="key">
+    <clazz name="TimeoutTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeout">
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="keyChar">
-        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
-      </eStructuralFeatures>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="source">
-        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeoutThread" eType="//@helpers.1"/>
     </clazz>
   </events>
-  <events>
-    <clazz name="PointingDeviceTransition" abstract="true"/>
-  </events>
+  <helpers xsi:type="ecore:EDataType" name="Object" instanceClassName="java.lang.Object"/>
+  <helpers xsi:type="ecore:EDataType" name="Thread" instanceClassName="java.lang.Thread"/>
 </org_malai_event:EventModel>

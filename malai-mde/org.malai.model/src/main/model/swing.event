@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org_malai_event:EventModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org_malai_event="http://org.malai/event/1_0_0//org/malai/event">
+  <events>
+    <clazz name="ButtonPressedTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="button" eType="//@helpers.0"/>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="CheckboxTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="checkbox" eType="//@helpers.1"/>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="ListTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="list" eType="//@helpers.2"/>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="MenuItemTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="menuItem" eType="//@helpers.3"/>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="SpinnerTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="spinner" eType="//@helpers.4"/>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="TabSelectedTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tabbedPane" eType="//@helpers.5"/>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="TextChangedTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="textComp" eType="//@helpers.7"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="WindowClosedTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="frame" eType="//@helpers.6"/>
+    </clazz>
+  </events>
+  <helpers xsi:type="ecore:EDataType" name="AbstractButton" instanceClassName="javax.swing.AbstractButton"/>
+  <helpers xsi:type="ecore:EDataType" name="JCheckBox" instanceClassName="javax.swing.JCheckBox"/>
+  <helpers xsi:type="ecore:EDataType" name="ItemSelectable" instanceClassName="java.awt.ItemSelectable"/>
+  <helpers xsi:type="ecore:EDataType" name="JMenuItem" instanceClassName="javax.swing.JMenuItem"/>
+  <helpers xsi:type="ecore:EDataType" name="JSpinner" instanceClassName="javax.swing.JSpinner"/>
+  <helpers xsi:type="ecore:EDataType" name="JTabbedPane" instanceClassName="javax.swing.JTabbedPane"/>
+  <helpers xsi:type="ecore:EDataType" name="MFrame" instanceClassName="org.malai.swing.widget.MFrame"/>
+  <helpers xsi:type="ecore:EDataType" name="JTextComponent" instanceClassName="javax.swing.text.JTextComponent"/>
+</org_malai_event:EventModel>
