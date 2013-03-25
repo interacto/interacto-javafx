@@ -117,7 +117,14 @@ public class EventItemProvider
 	@Override
 	public String getText(Object object) {
 		EClass cl = object instanceof Event ?((Event)object).getClazz() : null;
-		String name = cl==null || cl.getName()==null ? "" : " " + cl.getName();
+		String name = "";
+		
+		if(cl!=null) {
+			if(cl.getName()!=null)
+				name = cl.getName();
+			if(cl.isAbstract())
+				name += " (abstract)";
+		}
 		return getString("_UI_Event_type") + name;
 	}
 
