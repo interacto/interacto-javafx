@@ -425,13 +425,21 @@ public class EventModelWizard extends Wizard implements INewWizard {
 				initialObjectField.setLayoutData(data);
 			}
 
-			for (String objectName : getInitialObjectNames()) {
-				initialObjectField.add(getLabel(objectName));
+			int i=0;
+			int id=0;
+			String label;
+
+			for(String objectName : getInitialObjectNames()) {
+				label = getLabel(objectName);
+				initialObjectField.add(label);
+				if("Event Model".equals(label))
+					id = i;
+				i++;
 			}
 
-			if (initialObjectField.getItemCount() == 1) {
-				initialObjectField.select(0);
-			}
+			if(initialObjectField.getItemCount() > 0)
+				initialObjectField.select(id);
+			
 			initialObjectField.addModifyListener(validator);
 
 			Label encodingLabel = new Label(composite, SWT.LEFT);
