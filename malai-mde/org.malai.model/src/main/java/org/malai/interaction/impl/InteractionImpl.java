@@ -10,12 +10,14 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.malai.interaction.InitState;
@@ -39,6 +41,8 @@ import org.malai.interaction.Transition;
  *   <li>{@link org.malai.interaction.impl.InteractionImpl#getStates <em>States</em>}</li>
  *   <li>{@link org.malai.interaction.impl.InteractionImpl#getCurrentState <em>Current State</em>}</li>
  *   <li>{@link org.malai.interaction.impl.InteractionImpl#isActivated <em>Activated</em>}</li>
+ *   <li>{@link org.malai.interaction.impl.InteractionImpl#getClazz <em>Clazz</em>}</li>
+ *   <li>{@link org.malai.interaction.impl.InteractionImpl#getHelpers <em>Helpers</em>}</li>
  * </ul>
  * </p>
  *
@@ -126,7 +130,7 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 	protected String version = VERSION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getInitState() <em>Init State</em>}' containment reference.
+	 * The cached value of the '{@link #getInitState() <em>Init State</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getInitState()
@@ -174,6 +178,26 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 	 * @ordered
 	 */
 	protected boolean activated = ACTIVATED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getClazz() <em>Clazz</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getClazz()
+	 * @generated
+	 * @ordered
+	 */
+	protected EClass clazz;
+
+	/**
+	 * The cached value of the '{@link #getHelpers() <em>Helpers</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getHelpers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EClassifier> helpers;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -284,6 +308,14 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 	 * @generated
 	 */
 	public InitState getInitState() {
+		if (initState != null && initState.eIsProxy()) {
+			InternalEObject oldInitState = (InternalEObject)initState;
+			initState = (InitState)eResolveProxy(oldInitState);
+			if (initState != oldInitState) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, InteractionPackage.INTERACTION__INIT_STATE, oldInitState, initState));
+			}
+		}
 		return initState;
 	}
 
@@ -292,14 +324,8 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetInitState(InitState newInitState, NotificationChain msgs) {
-		InitState oldInitState = initState;
-		initState = newInitState;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, InteractionPackage.INTERACTION__INIT_STATE, oldInitState, newInitState);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
+	public InitState basicGetInitState() {
+		return initState;
 	}
 
 	/**
@@ -308,17 +334,10 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 	 * @generated
 	 */
 	public void setInitState(InitState newInitState) {
-		if (newInitState != initState) {
-			NotificationChain msgs = null;
-			if (initState != null)
-				msgs = ((InternalEObject)initState).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - InteractionPackage.INTERACTION__INIT_STATE, null, msgs);
-			if (newInitState != null)
-				msgs = ((InternalEObject)newInitState).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - InteractionPackage.INTERACTION__INIT_STATE, null, msgs);
-			msgs = basicSetInitState(newInitState, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, InteractionPackage.INTERACTION__INIT_STATE, newInitState, newInitState));
+		InitState oldInitState = initState;
+		initState = newInitState;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InteractionPackage.INTERACTION__INIT_STATE, oldInitState, initState));
 	}
 
 	/**
@@ -390,6 +409,61 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 		activated = newActivated;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, InteractionPackage.INTERACTION__ACTIVATED, oldActivated, activated));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getClazz() {
+		return clazz;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetClazz(EClass newClazz, NotificationChain msgs) {
+		EClass oldClazz = clazz;
+		clazz = newClazz;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, InteractionPackage.INTERACTION__CLAZZ, oldClazz, newClazz);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setClazz(EClass newClazz) {
+		if (newClazz != clazz) {
+			NotificationChain msgs = null;
+			if (clazz != null)
+				msgs = ((InternalEObject)clazz).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - InteractionPackage.INTERACTION__CLAZZ, null, msgs);
+			if (newClazz != null)
+				msgs = ((InternalEObject)newClazz).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - InteractionPackage.INTERACTION__CLAZZ, null, msgs);
+			msgs = basicSetClazz(newClazz, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InteractionPackage.INTERACTION__CLAZZ, newClazz, newClazz));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<EClassifier> getHelpers() {
+		if (helpers == null) {
+			helpers = new EObjectContainmentEList<EClassifier>(EClassifier.class, this, InteractionPackage.INTERACTION__HELPERS);
+		}
+		return helpers;
 	}
 
 	/**
@@ -474,13 +548,26 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getLastHIDUsed() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case InteractionPackage.INTERACTION__INIT_STATE:
-				return basicSetInitState(null, msgs);
 			case InteractionPackage.INTERACTION__STATES:
 				return ((InternalEList<?>)getStates()).basicRemove(otherEnd, msgs);
+			case InteractionPackage.INTERACTION__CLAZZ:
+				return basicSetClazz(null, msgs);
+			case InteractionPackage.INTERACTION__HELPERS:
+				return ((InternalEList<?>)getHelpers()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -502,7 +589,8 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 			case InteractionPackage.INTERACTION__VERSION:
 				return getVersion();
 			case InteractionPackage.INTERACTION__INIT_STATE:
-				return getInitState();
+				if (resolve) return getInitState();
+				return basicGetInitState();
 			case InteractionPackage.INTERACTION__STATES:
 				return getStates();
 			case InteractionPackage.INTERACTION__CURRENT_STATE:
@@ -510,6 +598,10 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 				return basicGetCurrentState();
 			case InteractionPackage.INTERACTION__ACTIVATED:
 				return isActivated();
+			case InteractionPackage.INTERACTION__CLAZZ:
+				return getClazz();
+			case InteractionPackage.INTERACTION__HELPERS:
+				return getHelpers();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -548,6 +640,13 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 			case InteractionPackage.INTERACTION__ACTIVATED:
 				setActivated((Boolean)newValue);
 				return;
+			case InteractionPackage.INTERACTION__CLAZZ:
+				setClazz((EClass)newValue);
+				return;
+			case InteractionPackage.INTERACTION__HELPERS:
+				getHelpers().clear();
+				getHelpers().addAll((Collection<? extends EClassifier>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -584,6 +683,12 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 			case InteractionPackage.INTERACTION__ACTIVATED:
 				setActivated(ACTIVATED_EDEFAULT);
 				return;
+			case InteractionPackage.INTERACTION__CLAZZ:
+				setClazz((EClass)null);
+				return;
+			case InteractionPackage.INTERACTION__HELPERS:
+				getHelpers().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -612,6 +717,10 @@ public class InteractionImpl extends EObjectImpl implements Interaction {
 				return currentState != null;
 			case InteractionPackage.INTERACTION__ACTIVATED:
 				return activated != ACTIVATED_EDEFAULT;
+			case InteractionPackage.INTERACTION__CLAZZ:
+				return clazz != null;
+			case InteractionPackage.INTERACTION__HELPERS:
+				return helpers != null && !helpers.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

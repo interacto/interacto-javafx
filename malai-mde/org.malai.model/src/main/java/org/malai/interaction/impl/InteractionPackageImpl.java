@@ -229,6 +229,24 @@ public class InteractionPackageImpl extends EPackageImpl implements InteractionP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getInteraction_Clazz() {
+		return (EReference)interactionEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInteraction_Helpers() {
+		return (EReference)interactionEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTransition() {
 		return transitionEClass;
 	}
@@ -337,6 +355,15 @@ public class InteractionPackageImpl extends EPackageImpl implements InteractionP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getState_OutputTransitions() {
+		return (EReference)stateEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAbortingState() {
 		return abortingStateEClass;
 	}
@@ -405,6 +432,8 @@ public class InteractionPackageImpl extends EPackageImpl implements InteractionP
 		createEReference(interactionEClass, INTERACTION__STATES);
 		createEReference(interactionEClass, INTERACTION__CURRENT_STATE);
 		createEAttribute(interactionEClass, INTERACTION__ACTIVATED);
+		createEReference(interactionEClass, INTERACTION__CLAZZ);
+		createEReference(interactionEClass, INTERACTION__HELPERS);
 
 		transitionEClass = createEClass(TRANSITION);
 		createEReference(transitionEClass, TRANSITION__INPUT_STATE);
@@ -419,6 +448,7 @@ public class InteractionPackageImpl extends EPackageImpl implements InteractionP
 		stateEClass = createEClass(STATE);
 		createEAttribute(stateEClass, STATE__NAME);
 		createEAttribute(stateEClass, STATE__DESCRIPTION);
+		createEReference(stateEClass, STATE__OUTPUT_TRANSITIONS);
 
 		abortingStateEClass = createEClass(ABORTING_STATE);
 
@@ -472,10 +502,12 @@ public class InteractionPackageImpl extends EPackageImpl implements InteractionP
 		initEAttribute(getInteraction_Author(), theEcorePackage.getEString(), "author", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInteraction_DateCreation(), theEcorePackage.getEString(), "dateCreation", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInteraction_Version(), theEcorePackage.getEString(), "version", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getInteraction_InitState(), this.getInitState(), null, "initState", null, 1, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInteraction_InitState(), this.getInitState(), null, "initState", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInteraction_States(), this.getState(), null, "states", null, 0, -1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInteraction_CurrentState(), this.getState(), null, "currentState", null, 0, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInteraction_Activated(), theEcorePackage.getEBoolean(), "activated", null, 1, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInteraction_Clazz(), theEcorePackage.getEClass(), null, "clazz", null, 1, 1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInteraction_Helpers(), theEcorePackage.getEClassifier(), null, "helpers", null, 0, -1, Interaction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(interactionEClass, null, "onStarting", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -491,6 +523,8 @@ public class InteractionPackageImpl extends EPackageImpl implements InteractionP
 
 		EOperation op = addEOperation(interactionEClass, null, "executeTransition", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, this.getTransition(), "t", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(interactionEClass, theEcorePackage.getEInt(), "getLastHIDUsed", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(transitionEClass, Transition.class, "Transition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTransition_InputState(), this.getState(), null, "inputState", null, 1, 1, Transition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -509,6 +543,7 @@ public class InteractionPackageImpl extends EPackageImpl implements InteractionP
 		initEClass(stateEClass, State.class, "State", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getState_Name(), theEcorePackage.getEString(), "name", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getState_Description(), theEcorePackage.getEString(), "description", null, 0, 1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getState_OutputTransitions(), this.getTransition(), null, "outputTransitions", null, 0, -1, State.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abortingStateEClass, AbortingState.class, "AbortingState", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

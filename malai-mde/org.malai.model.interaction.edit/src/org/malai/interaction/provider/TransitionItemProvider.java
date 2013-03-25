@@ -131,7 +131,7 @@ public class TransitionItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_Transition_description_feature", "_UI_Transition_type"),
 				 InteractionPackage.Literals.TRANSITION__DESCRIPTION,
 				 true,
-				 false,
+				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
@@ -175,7 +175,7 @@ public class TransitionItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_Transition_condition_feature", "_UI_Transition_type"),
 				 InteractionPackage.Literals.TRANSITION__CONDITION,
 				 true,
-				 false,
+				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
@@ -197,7 +197,7 @@ public class TransitionItemProvider
 				 getString("_UI_PropertyDescriptor_description", "_UI_Transition_actions_feature", "_UI_Transition_type"),
 				 InteractionPackage.Literals.TRANSITION__ACTIONS,
 				 true,
-				 false,
+				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
 				 null,
@@ -263,14 +263,23 @@ public class TransitionItemProvider
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Transition)object).getName();
+		String label = null;
+		if(object instanceof Transition) {
+			Transition trans = (Transition) object;
+			label = trans.getName();
+			if(label==null) label = "";
+			label += " (";
+			if(trans.getInputState()!=null && trans.getInputState().getName()!=null) label += trans.getInputState().getName();
+			label += " -> ";
+			if(trans.getOutputState()!=null && trans.getOutputState().getName()!=null) label += trans.getOutputState().getName();
+			label += ")";
+		}
+		
 		return label == null || label.length() == 0 ?
-			getString("_UI_Transition_type") :
-			getString("_UI_Transition_type") + " " + label;
+			getString("_UI_Transition_type") : getString("_UI_Transition_type") + label;
 	}
 
 	/**

@@ -15,17 +15,23 @@
         <eOperations name="executeTransition">
           <eParameters name="t" eType="#//malai/interaction/Transition"/>
         </eOperations>
+        <eOperations name="getLastHIDUsed" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EInt"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateCreation" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="initState" lowerBound="1"
-            eType="#//malai/interaction/InitState" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="initState" eType="#//malai/interaction/InitState"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="states" upperBound="-1"
             eType="#//malai/interaction/State" containment="true"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="currentState" eType="#//malai/interaction/State"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="activated" lowerBound="1"
             eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1"
+            eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="helpers" upperBound="-1"
+            eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier"
+            containment="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Transition">
         <eOperations name="action"/>
@@ -45,6 +51,8 @@
       <eClassifiers xsi:type="ecore:EClass" name="State" abstract="true">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="outputTransitions"
+            upperBound="-1" eType="#//malai/interaction/Transition" containment="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="AbortingState" eSuperTypes="#//malai/interaction/State"/>
       <eClassifiers xsi:type="ecore:EClass" name="TerminalState" eSuperTypes="#//malai/interaction/State"/>
