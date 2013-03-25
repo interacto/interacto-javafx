@@ -17,10 +17,10 @@
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference action.ecore#//malai/action/Action/clazz"/>
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference action.ecore#//malai/action/Action/dependencies"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/undoable"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/execute"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/canDo"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/undo"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/redo"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/execute"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/canDo"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/undo"/>
+          <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/redo"/>
         </genClasses>
         <genClasses ecoreClass="action.ecore#//malai/action/ActionDependency">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/ActionDependency/name"/>
