@@ -12,6 +12,9 @@
       <eClassifiers xsi:type="ecore:EClass" name="EventModel">
         <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
             eType="#//malai/event/Event" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="helpers" upperBound="-1"
+            eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClassifier"
+            containment="true"/>
       </eClassifiers>
     </eSubpackages>
   </eSubpackages>

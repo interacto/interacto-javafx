@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -78,6 +79,7 @@ public class EventModelItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(EventPackage.Literals.EVENT_MODEL__EVENTS);
+			childrenFeatures.add(EventPackage.Literals.EVENT_MODEL__HELPERS);
 		}
 		return childrenFeatures;
 	}
@@ -130,6 +132,7 @@ public class EventModelItemProvider
 
 		switch (notification.getFeatureID(EventModel.class)) {
 			case EventPackage.EVENT_MODEL__EVENTS:
+			case EventPackage.EVENT_MODEL__HELPERS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -151,6 +154,21 @@ public class EventModelItemProvider
 			(createChildParameter
 				(EventPackage.Literals.EVENT_MODEL__EVENTS,
 				 EventFactory.eINSTANCE.createEvent()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EventPackage.Literals.EVENT_MODEL__HELPERS,
+				 EcoreFactory.eINSTANCE.createEClass()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EventPackage.Literals.EVENT_MODEL__HELPERS,
+				 EcoreFactory.eINSTANCE.createEDataType()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(EventPackage.Literals.EVENT_MODEL__HELPERS,
+				 EcoreFactory.eINSTANCE.createEEnum()));
 	}
 
 	/**

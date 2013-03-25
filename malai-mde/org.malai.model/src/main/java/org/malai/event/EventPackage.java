@@ -103,13 +103,22 @@ public interface EventPackage extends EPackage {
 	int EVENT_MODEL__EVENTS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Helpers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT_MODEL__HELPERS = 1;
+
+	/**
 	 * The number of structural features of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVENT_MODEL_FEATURE_COUNT = 1;
+	int EVENT_MODEL_FEATURE_COUNT = 2;
 
 
 	/**
@@ -153,6 +162,17 @@ public interface EventPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getEventModel_Events();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.malai.event.EventModel#getHelpers <em>Helpers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Helpers</em>'.
+	 * @see org.malai.event.EventModel#getHelpers()
+	 * @see #getEventModel()
+	 * @generated
+	 */
+	EReference getEventModel_Helpers();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -211,6 +231,14 @@ public interface EventPackage extends EPackage {
 		 * @generated
 		 */
 		EReference EVENT_MODEL__EVENTS = eINSTANCE.getEventModel_Events();
+
+		/**
+		 * The meta object literal for the '<em><b>Helpers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT_MODEL__HELPERS = eINSTANCE.getEventModel_Helpers();
 
 	}
 
