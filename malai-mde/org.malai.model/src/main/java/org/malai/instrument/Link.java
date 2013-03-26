@@ -26,6 +26,7 @@ import org.malai.interaction.Interaction;
  *   <li>{@link org.malai.instrument.Link#isExecuteOnUpdate <em>Execute On Update</em>}</li>
  *   <li>{@link org.malai.instrument.Link#getInitialiseAction <em>Initialise Action</em>}</li>
  *   <li>{@link org.malai.instrument.Link#getClazz <em>Clazz</em>}</li>
+ *   <li>{@link org.malai.instrument.Link#getInstrument <em>Instrument</em>}</li>
  * </ul>
  * </p>
  *
@@ -243,29 +244,57 @@ public interface Link extends EObject {
 	void setInitialiseAction(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Clazz</b></em>' reference.
+	 * Returns the value of the '<em><b>Clazz</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Clazz</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Clazz</em>' reference.
+	 * @return the value of the '<em>Clazz</em>' containment reference.
 	 * @see #setClazz(EClass)
 	 * @see org.malai.instrument.InstrumentPackage#getLink_Clazz()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EClass getClazz();
 
 	/**
-	 * Sets the value of the '{@link org.malai.instrument.Link#getClazz <em>Clazz</em>}' reference.
+	 * Sets the value of the '{@link org.malai.instrument.Link#getClazz <em>Clazz</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Clazz</em>' reference.
+	 * @param value the new value of the '<em>Clazz</em>' containment reference.
 	 * @see #getClazz()
 	 * @generated
 	 */
 	void setClazz(EClass value);
+
+	/**
+	 * Returns the value of the '<em><b>Instrument</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.malai.instrument.Instrument#getLinks <em>Links</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Instrument</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Instrument</em>' container reference.
+	 * @see #setInstrument(Instrument)
+	 * @see org.malai.instrument.InstrumentPackage#getLink_Instrument()
+	 * @see org.malai.instrument.Instrument#getLinks
+	 * @model opposite="links" transient="false"
+	 * @generated
+	 */
+	Instrument getInstrument();
+
+	/**
+	 * Sets the value of the '{@link org.malai.instrument.Link#getInstrument <em>Instrument</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Instrument</em>' container reference.
+	 * @see #getInstrument()
+	 * @generated
+	 */
+	void setInstrument(Instrument value);
 
 } // Link

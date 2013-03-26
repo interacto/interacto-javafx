@@ -4,14 +4,17 @@ package org.malai.instrument.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.malai.action.Action;
 
+import org.malai.instrument.Instrument;
 import org.malai.instrument.InstrumentPackage;
 import org.malai.instrument.Link;
 
@@ -33,6 +36,7 @@ import org.malai.interaction.Interaction;
  *   <li>{@link org.malai.instrument.impl.LinkImpl#isExecuteOnUpdate <em>Execute On Update</em>}</li>
  *   <li>{@link org.malai.instrument.impl.LinkImpl#getInitialiseAction <em>Initialise Action</em>}</li>
  *   <li>{@link org.malai.instrument.impl.LinkImpl#getClazz <em>Clazz</em>}</li>
+ *   <li>{@link org.malai.instrument.impl.LinkImpl#getInstrument <em>Instrument</em>}</li>
  * </ul>
  * </p>
  *
@@ -180,7 +184,7 @@ public class LinkImpl extends EObjectImpl implements Link {
 	protected String initialiseAction = INITIALISE_ACTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getClazz() <em>Clazz</em>}' reference.
+	 * The cached value of the '{@link #getClazz() <em>Clazz</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getClazz()
@@ -416,14 +420,6 @@ public class LinkImpl extends EObjectImpl implements Link {
 	 * @generated
 	 */
 	public EClass getClazz() {
-		if (clazz != null && clazz.eIsProxy()) {
-			InternalEObject oldClazz = (InternalEObject)clazz;
-			clazz = (EClass)eResolveProxy(oldClazz);
-			if (clazz != oldClazz) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, InstrumentPackage.LINK__CLAZZ, oldClazz, clazz));
-			}
-		}
 		return clazz;
 	}
 
@@ -432,8 +428,14 @@ public class LinkImpl extends EObjectImpl implements Link {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass basicGetClazz() {
-		return clazz;
+	public NotificationChain basicSetClazz(EClass newClazz, NotificationChain msgs) {
+		EClass oldClazz = clazz;
+		clazz = newClazz;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, InstrumentPackage.LINK__CLAZZ, oldClazz, newClazz);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -442,10 +444,104 @@ public class LinkImpl extends EObjectImpl implements Link {
 	 * @generated
 	 */
 	public void setClazz(EClass newClazz) {
-		EClass oldClazz = clazz;
-		clazz = newClazz;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, InstrumentPackage.LINK__CLAZZ, oldClazz, clazz));
+		if (newClazz != clazz) {
+			NotificationChain msgs = null;
+			if (clazz != null)
+				msgs = ((InternalEObject)clazz).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - InstrumentPackage.LINK__CLAZZ, null, msgs);
+			if (newClazz != null)
+				msgs = ((InternalEObject)newClazz).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - InstrumentPackage.LINK__CLAZZ, null, msgs);
+			msgs = basicSetClazz(newClazz, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InstrumentPackage.LINK__CLAZZ, newClazz, newClazz));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Instrument getInstrument() {
+		if (eContainerFeatureID() != InstrumentPackage.LINK__INSTRUMENT) return null;
+		return (Instrument)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetInstrument(Instrument newInstrument, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newInstrument, InstrumentPackage.LINK__INSTRUMENT, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInstrument(Instrument newInstrument) {
+		if (newInstrument != eInternalContainer() || (eContainerFeatureID() != InstrumentPackage.LINK__INSTRUMENT && newInstrument != null)) {
+			if (EcoreUtil.isAncestor(this, newInstrument))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newInstrument != null)
+				msgs = ((InternalEObject)newInstrument).eInverseAdd(this, InstrumentPackage.INSTRUMENT__LINKS, Instrument.class, msgs);
+			msgs = basicSetInstrument(newInstrument, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InstrumentPackage.LINK__INSTRUMENT, newInstrument, newInstrument));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case InstrumentPackage.LINK__INSTRUMENT:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetInstrument((Instrument)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case InstrumentPackage.LINK__CLAZZ:
+				return basicSetClazz(null, msgs);
+			case InstrumentPackage.LINK__INSTRUMENT:
+				return basicSetInstrument(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case InstrumentPackage.LINK__INSTRUMENT:
+				return eInternalContainer().eInverseRemove(this, InstrumentPackage.INSTRUMENT__LINKS, Instrument.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -475,8 +571,9 @@ public class LinkImpl extends EObjectImpl implements Link {
 			case InstrumentPackage.LINK__INITIALISE_ACTION:
 				return getInitialiseAction();
 			case InstrumentPackage.LINK__CLAZZ:
-				if (resolve) return getClazz();
-				return basicGetClazz();
+				return getClazz();
+			case InstrumentPackage.LINK__INSTRUMENT:
+				return getInstrument();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -515,6 +612,9 @@ public class LinkImpl extends EObjectImpl implements Link {
 				return;
 			case InstrumentPackage.LINK__CLAZZ:
 				setClazz((EClass)newValue);
+				return;
+			case InstrumentPackage.LINK__INSTRUMENT:
+				setInstrument((Instrument)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -555,6 +655,9 @@ public class LinkImpl extends EObjectImpl implements Link {
 			case InstrumentPackage.LINK__CLAZZ:
 				setClazz((EClass)null);
 				return;
+			case InstrumentPackage.LINK__INSTRUMENT:
+				setInstrument((Instrument)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -585,6 +688,8 @@ public class LinkImpl extends EObjectImpl implements Link {
 				return INITIALISE_ACTION_EDEFAULT == null ? initialiseAction != null : !INITIALISE_ACTION_EDEFAULT.equals(initialiseAction);
 			case InstrumentPackage.LINK__CLAZZ:
 				return clazz != null;
+			case InstrumentPackage.LINK__INSTRUMENT:
+				return getInstrument() != null;
 		}
 		return super.eIsSet(featureID);
 	}

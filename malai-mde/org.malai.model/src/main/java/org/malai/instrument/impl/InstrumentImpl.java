@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.malai.instrument.Instrument;
@@ -38,6 +39,7 @@ import org.malai.instrument.Link;
  *   <li>{@link org.malai.instrument.impl.InstrumentImpl#getVersion <em>Version</em>}</li>
  *   <li>{@link org.malai.instrument.impl.InstrumentImpl#getDateCreation <em>Date Creation</em>}</li>
  *   <li>{@link org.malai.instrument.impl.InstrumentImpl#getInterimFeedback <em>Interim Feedback</em>}</li>
+ *   <li>{@link org.malai.instrument.impl.InstrumentImpl#isInitiallyActivated <em>Initially Activated</em>}</li>
  * </ul>
  * </p>
  *
@@ -175,6 +177,26 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 	protected String interimFeedback = INTERIM_FEEDBACK_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #isInitiallyActivated() <em>Initially Activated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInitiallyActivated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean INITIALLY_ACTIVATED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isInitiallyActivated() <em>Initially Activated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isInitiallyActivated()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean initiallyActivated = INITIALLY_ACTIVATED_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -200,7 +222,7 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 	 */
 	public EList<Link> getLinks() {
 		if (links == null) {
-			links = new EObjectContainmentEList<Link>(Link.class, this, InstrumentPackage.INSTRUMENT__LINKS);
+			links = new EObjectContainmentWithInverseEList<Link>(Link.class, this, InstrumentPackage.INSTRUMENT__LINKS, InstrumentPackage.LINK__INSTRUMENT);
 		}
 		return links;
 	}
@@ -370,6 +392,42 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isInitiallyActivated() {
+		return initiallyActivated;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInitiallyActivated(boolean newInitiallyActivated) {
+		boolean oldInitiallyActivated = initiallyActivated;
+		initiallyActivated = newInitiallyActivated;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED, oldInitiallyActivated, initiallyActivated));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case InstrumentPackage.INSTRUMENT__LINKS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getLinks()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -407,6 +465,8 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 				return getDateCreation();
 			case InstrumentPackage.INSTRUMENT__INTERIM_FEEDBACK:
 				return getInterimFeedback();
+			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
+				return isInitiallyActivated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -446,6 +506,9 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 			case InstrumentPackage.INSTRUMENT__INTERIM_FEEDBACK:
 				setInterimFeedback((String)newValue);
 				return;
+			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
+				setInitiallyActivated((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -482,6 +545,9 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 			case InstrumentPackage.INSTRUMENT__INTERIM_FEEDBACK:
 				setInterimFeedback(INTERIM_FEEDBACK_EDEFAULT);
 				return;
+			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
+				setInitiallyActivated(INITIALLY_ACTIVATED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -510,6 +576,8 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 				return DATE_CREATION_EDEFAULT == null ? dateCreation != null : !DATE_CREATION_EDEFAULT.equals(dateCreation);
 			case InstrumentPackage.INSTRUMENT__INTERIM_FEEDBACK:
 				return INTERIM_FEEDBACK_EDEFAULT == null ? interimFeedback != null : !INTERIM_FEEDBACK_EDEFAULT.equals(interimFeedback);
+			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
+				return initiallyActivated != INITIALLY_ACTIVATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -534,6 +602,8 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 		result.append(dateCreation);
 		result.append(", interimFeedback: ");
 		result.append(interimFeedback);
+		result.append(", initiallyActivated: ");
+		result.append(initiallyActivated);
 		result.append(')');
 		return result.toString();
 	}

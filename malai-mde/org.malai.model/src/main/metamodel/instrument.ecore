@@ -7,7 +7,7 @@
         nsPrefix="org_malai_instrument">
       <eClassifiers xsi:type="ecore:EClass" name="Instrument">
         <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
-            eType="#//malai/instrument/Link" containment="true"/>
+            eType="#//malai/instrument/Link" containment="true" eOpposite="#//malai/instrument/Link/instrument"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
             containment="true"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="helpers" upperBound="-1"
@@ -18,6 +18,8 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="dateCreation" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="interimFeedback" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="initiallyActivated"
+            eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Link">
         <eStructuralFeatures xsi:type="ecore:EReference" name="interaction" lowerBound="1"
@@ -32,7 +34,10 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="executeOnUpdate" lowerBound="1"
             eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialiseAction" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"
+            containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="instrument" eType="#//malai/instrument/Instrument"
+            eOpposite="#//malai/instrument/Instrument/links"/>
       </eClassifiers>
     </eSubpackages>
   </eSubpackages>

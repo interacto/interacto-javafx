@@ -138,13 +138,22 @@ public interface InstrumentPackage extends EPackage {
 	int INSTRUMENT__INTERIM_FEEDBACK = 7;
 
 	/**
+	 * The feature id for the '<em><b>Initially Activated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTRUMENT__INITIALLY_ACTIVATED = 8;
+
+	/**
 	 * The number of structural features of the '<em>Instrument</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INSTRUMENT_FEATURE_COUNT = 8;
+	int INSTRUMENT_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link org.malai.instrument.impl.LinkImpl <em>Link</em>}' class.
@@ -229,7 +238,7 @@ public interface InstrumentPackage extends EPackage {
 	int LINK__INITIALISE_ACTION = 7;
 
 	/**
-	 * The feature id for the '<em><b>Clazz</b></em>' reference.
+	 * The feature id for the '<em><b>Clazz</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -238,13 +247,22 @@ public interface InstrumentPackage extends EPackage {
 	int LINK__CLAZZ = 8;
 
 	/**
+	 * The feature id for the '<em><b>Instrument</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LINK__INSTRUMENT = 9;
+
+	/**
 	 * The number of structural features of the '<em>Link</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LINK_FEATURE_COUNT = 9;
+	int LINK_FEATURE_COUNT = 10;
 
 
 	/**
@@ -346,6 +364,17 @@ public interface InstrumentPackage extends EPackage {
 	EAttribute getInstrument_InterimFeedback();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.malai.instrument.Instrument#isInitiallyActivated <em>Initially Activated</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Initially Activated</em>'.
+	 * @see org.malai.instrument.Instrument#isInitiallyActivated()
+	 * @see #getInstrument()
+	 * @generated
+	 */
+	EAttribute getInstrument_InitiallyActivated();
+
+	/**
 	 * Returns the meta object for class '{@link org.malai.instrument.Link <em>Link</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -444,15 +473,26 @@ public interface InstrumentPackage extends EPackage {
 	EAttribute getLink_InitialiseAction();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.malai.instrument.Link#getClazz <em>Clazz</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.malai.instrument.Link#getClazz <em>Clazz</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Clazz</em>'.
+	 * @return the meta object for the containment reference '<em>Clazz</em>'.
 	 * @see org.malai.instrument.Link#getClazz()
 	 * @see #getLink()
 	 * @generated
 	 */
 	EReference getLink_Clazz();
+
+	/**
+	 * Returns the meta object for the container reference '{@link org.malai.instrument.Link#getInstrument <em>Instrument</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Instrument</em>'.
+	 * @see org.malai.instrument.Link#getInstrument()
+	 * @see #getLink()
+	 * @generated
+	 */
+	EReference getLink_Instrument();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -551,6 +591,14 @@ public interface InstrumentPackage extends EPackage {
 		EAttribute INSTRUMENT__INTERIM_FEEDBACK = eINSTANCE.getInstrument_InterimFeedback();
 
 		/**
+		 * The meta object literal for the '<em><b>Initially Activated</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INSTRUMENT__INITIALLY_ACTIVATED = eINSTANCE.getInstrument_InitiallyActivated();
+
+		/**
 		 * The meta object literal for the '{@link org.malai.instrument.impl.LinkImpl <em>Link</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -625,12 +673,20 @@ public interface InstrumentPackage extends EPackage {
 		EAttribute LINK__INITIALISE_ACTION = eINSTANCE.getLink_InitialiseAction();
 
 		/**
-		 * The meta object literal for the '<em><b>Clazz</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Clazz</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference LINK__CLAZZ = eINSTANCE.getLink_Clazz();
+
+		/**
+		 * The meta object literal for the '<em><b>Instrument</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LINK__INSTRUMENT = eINSTANCE.getLink_Instrument();
 
 	}
 
