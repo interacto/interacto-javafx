@@ -191,6 +191,15 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getInstrument_InitiallyActivated() {
+		return (EAttribute)instrumentEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLink() {
 		return linkEClass;
 	}
@@ -281,6 +290,15 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getLink_Instrument() {
+		return (EReference)linkEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public InstrumentFactory getInstrumentFactory() {
 		return (InstrumentFactory)getEFactoryInstance();
 	}
@@ -313,6 +331,7 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 		createEAttribute(instrumentEClass, INSTRUMENT__VERSION);
 		createEAttribute(instrumentEClass, INSTRUMENT__DATE_CREATION);
 		createEAttribute(instrumentEClass, INSTRUMENT__INTERIM_FEEDBACK);
+		createEAttribute(instrumentEClass, INSTRUMENT__INITIALLY_ACTIVATED);
 
 		linkEClass = createEClass(LINK);
 		createEReference(linkEClass, LINK__INTERACTION);
@@ -324,6 +343,7 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 		createEAttribute(linkEClass, LINK__EXECUTE_ON_UPDATE);
 		createEAttribute(linkEClass, LINK__INITIALISE_ACTION);
 		createEReference(linkEClass, LINK__CLAZZ);
+		createEReference(linkEClass, LINK__INSTRUMENT);
 	}
 
 	/**
@@ -362,7 +382,7 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(instrumentEClass, Instrument.class, "Instrument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInstrument_Links(), this.getLink(), null, "links", null, 0, -1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInstrument_Links(), this.getLink(), this.getLink_Instrument(), "links", null, 0, -1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInstrument_Clazz(), theEcorePackage.getEClass(), null, "clazz", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getInstrument_Helpers(), theEcorePackage.getEClassifier(), null, "helpers", null, 0, -1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInstrument_Description(), theEcorePackage.getEString(), "description", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -370,6 +390,7 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 		initEAttribute(getInstrument_Version(), theEcorePackage.getEString(), "version", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInstrument_DateCreation(), theEcorePackage.getEString(), "dateCreation", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInstrument_InterimFeedback(), theEcorePackage.getEString(), "interimFeedback", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getInstrument_InitiallyActivated(), theEcorePackage.getEBoolean(), "initiallyActivated", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLink_Interaction(), theInteractionPackage.getInteraction(), null, "interaction", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -380,7 +401,8 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 		initEAttribute(getLink_UpdateAction(), theEcorePackage.getEString(), "updateAction", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLink_ExecuteOnUpdate(), theEcorePackage.getEBoolean(), "executeOnUpdate", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLink_InitialiseAction(), theEcorePackage.getEString(), "initialiseAction", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getLink_Clazz(), theEcorePackage.getEClass(), null, "clazz", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLink_Clazz(), theEcorePackage.getEClass(), null, "clazz", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLink_Instrument(), this.getInstrument(), this.getInstrument_Links(), "instrument", null, 0, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

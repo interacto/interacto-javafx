@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.malai.instrument.Instrument#getVersion <em>Version</em>}</li>
  *   <li>{@link org.malai.instrument.Instrument#getDateCreation <em>Date Creation</em>}</li>
  *   <li>{@link org.malai.instrument.Instrument#getInterimFeedback <em>Interim Feedback</em>}</li>
+ *   <li>{@link org.malai.instrument.Instrument#isInitiallyActivated <em>Initially Activated</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,6 +36,7 @@ public interface Instrument extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Links</b></em>' containment reference list.
 	 * The list contents are of type {@link org.malai.instrument.Link}.
+	 * It is bidirectional and its opposite is '{@link org.malai.instrument.Link#getInstrument <em>Instrument</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Links</em>' containment reference list isn't clear,
@@ -43,7 +45,8 @@ public interface Instrument extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Links</em>' containment reference list.
 	 * @see org.malai.instrument.InstrumentPackage#getInstrument_Links()
-	 * @model containment="true"
+	 * @see org.malai.instrument.Link#getInstrument
+	 * @model opposite="instrument" containment="true"
 	 * @generated
 	 */
 	EList<Link> getLinks();
@@ -219,5 +222,31 @@ public interface Instrument extends EObject {
 	 * @generated
 	 */
 	void setInterimFeedback(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Initially Activated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Initially Activated</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Initially Activated</em>' attribute.
+	 * @see #setInitiallyActivated(boolean)
+	 * @see org.malai.instrument.InstrumentPackage#getInstrument_InitiallyActivated()
+	 * @model
+	 * @generated
+	 */
+	boolean isInitiallyActivated();
+
+	/**
+	 * Sets the value of the '{@link org.malai.instrument.Instrument#isInitiallyActivated <em>Initially Activated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Initially Activated</em>' attribute.
+	 * @see #isInitiallyActivated()
+	 * @generated
+	 */
+	void setInitiallyActivated(boolean value);
 
 } // Instrument
