@@ -19,6 +19,10 @@
             uri="http://org.malai/action/1_0_0//org/malai/action"
             class="org.malai.action.ActionPackage"
             genModel="src/main/metamodel/action.genmodel"/>
+      <package
+            uri="http://org.malai/instrument/1_0_0//org/malai/instrument"
+            class="org.malai.instrument.InstrumentPackage"
+            genModel="src/main/metamodel/instrument.genmodel"/>
    </extension>
 
 </plugin>

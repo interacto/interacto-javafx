@@ -1,6 +1,6 @@
 /**
  */
-package org.malai.action.presentation;
+package org.malai.instrument.presentation;
 
 
 import java.util.ArrayList;
@@ -69,9 +69,9 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
-import org.malai.action.ActionFactory;
-import org.malai.action.ActionPackage;
-import org.malai.action.provider.ActionEditPlugin;
+import org.malai.instrument.InstrumentFactory;
+import org.malai.instrument.InstrumentPackage;
+import org.malai.instrument.provider.InstrumentEditPlugin;
 
 
 import org.eclipse.core.runtime.Path;
@@ -91,7 +91,7 @@ import org.eclipse.ui.PartInitException;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ActionModelWizard extends Wizard implements INewWizard {
+public class InstrumentModelWizard extends Wizard implements INewWizard {
 	/**
 	 * The supported extensions for created files.
 	 * <!-- begin-user-doc -->
@@ -99,7 +99,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	public static final List<String> FILE_EXTENSIONS =
-		Collections.unmodifiableList(Arrays.asList(ActionEditorPlugin.INSTANCE.getString("_UI_ActionEditorFilenameExtensions").split("\\s*,\\s*")));
+		Collections.unmodifiableList(Arrays.asList(InstrumentEditorPlugin.INSTANCE.getString("_UI_InstrumentEditorFilenameExtensions").split("\\s*,\\s*")));
 
 	/**
 	 * A formatted list of supported file extensions, suitable for display.
@@ -108,7 +108,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	public static final String FORMATTED_FILE_EXTENSIONS =
-		ActionEditorPlugin.INSTANCE.getString("_UI_ActionEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+		InstrumentEditorPlugin.INSTANCE.getString("_UI_InstrumentEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
 
 	/**
 	 * This caches an instance of the model package.
@@ -116,7 +116,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ActionPackage actionPackage = ActionPackage.eINSTANCE;
+	protected InstrumentPackage instrumentPackage = InstrumentPackage.eINSTANCE;
 
 	/**
 	 * This caches an instance of the model factory.
@@ -124,7 +124,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ActionFactory actionFactory = actionPackage.getActionFactory();
+	protected InstrumentFactory instrumentFactory = instrumentPackage.getInstrumentFactory();
 
 	/**
 	 * This is the file creation page.
@@ -132,7 +132,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ActionModelWizardNewFileCreationPage newFileCreationPage;
+	protected InstrumentModelWizardNewFileCreationPage newFileCreationPage;
 
 	/**
 	 * This is the initial object creation page.
@@ -140,7 +140,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ActionModelWizardInitialObjectCreationPage initialObjectCreationPage;
+	protected InstrumentModelWizardInitialObjectCreationPage initialObjectCreationPage;
 
 	/**
 	 * Remember the selection during initialization for populating the default container.
@@ -175,8 +175,8 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
 		this.selection = selection;
-		setWindowTitle(ActionEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
-		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(ActionEditorPlugin.INSTANCE.getImage("full/wizban/NewAction")));
+		setWindowTitle(InstrumentEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
+		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(InstrumentEditorPlugin.INSTANCE.getImage("full/wizban/NewInstrument")));
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	protected Collection<String> getInitialObjectNames() {
 		if (initialObjectNames == null) {
 			initialObjectNames = new ArrayList<String>();
-			for (EClassifier eClassifier : actionPackage.getEClassifiers()) {
+			for (EClassifier eClassifier : instrumentPackage.getEClassifiers()) {
 				if (eClassifier instanceof EClass) {
 					EClass eClass = (EClass)eClassifier;
 					if (!eClass.isAbstract()) {
@@ -208,8 +208,8 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	protected EObject createInitialModel() {
-		EClass eClass = (EClass)actionPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
-		EObject rootObject = actionFactory.create(eClass);
+		EClass eClass = (EClass)instrumentPackage.getEClassifier(initialObjectCreationPage.getInitialObjectName());
+		EObject rootObject = instrumentFactory.create(eClass);
 		return rootObject;
 	}
 
@@ -259,7 +259,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 							resource.save(options);
 						}
 						catch (Exception exception) {
-							ActionEditorPlugin.INSTANCE.log(exception);
+							InstrumentEditorPlugin.INSTANCE.log(exception);
 						}
 						finally {
 							progressMonitor.done();
@@ -292,14 +292,14 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 					 workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());					 	 
 			}
 			catch (PartInitException exception) {
-				MessageDialog.openError(workbenchWindow.getShell(), ActionEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
+				MessageDialog.openError(workbenchWindow.getShell(), InstrumentEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
 				return false;
 			}
 
 			return true;
 		}
 		catch (Exception exception) {
-			ActionEditorPlugin.INSTANCE.log(exception);
+			InstrumentEditorPlugin.INSTANCE.log(exception);
 			return false;
 		}
 	}
@@ -310,14 +310,14 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public class ActionModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
+	public class InstrumentModelWizardNewFileCreationPage extends WizardNewFileCreationPage {
 		/**
 		 * Pass in the selection.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public ActionModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
+		public InstrumentModelWizardNewFileCreationPage(String pageId, IStructuredSelection selection) {
 			super(pageId, selection);
 		}
 
@@ -333,7 +333,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 				String extension = new Path(getFileName()).getFileExtension();
 				if (extension == null || !FILE_EXTENSIONS.contains(extension)) {
 					String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
-					setErrorMessage(ActionEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
+					setErrorMessage(InstrumentEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
 					return false;
 				}
 				return true;
@@ -357,7 +357,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public class ActionModelWizardInitialObjectCreationPage extends WizardPage {
+	public class InstrumentModelWizardInitialObjectCreationPage extends WizardPage {
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -385,7 +385,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public ActionModelWizardInitialObjectCreationPage(String pageId) {
+		public InstrumentModelWizardInitialObjectCreationPage(String pageId) {
 			super(pageId);
 		}
 
@@ -409,7 +409,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 
 			Label containerLabel = new Label(composite, SWT.LEFT);
 			{
-				containerLabel.setText(ActionEditorPlugin.INSTANCE.getString("_UI_ModelObject"));
+				containerLabel.setText(InstrumentEditorPlugin.INSTANCE.getString("_UI_ModelObject"));
 
 				GridData data = new GridData();
 				data.horizontalAlignment = GridData.FILL;
@@ -431,7 +431,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 			for(String objectName : getInitialObjectNames()) {
 				label = getLabel(objectName);
 				initialObjectField.add(label);
-				if("Action Model".equals(label))
+				if("Instrument".equals(label))
 					id = i;
 				i++;
 			}
@@ -443,7 +443,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 
 			Label encodingLabel = new Label(composite, SWT.LEFT);
 			{
-				encodingLabel.setText(ActionEditorPlugin.INSTANCE.getString("_UI_XMLEncoding"));
+				encodingLabel.setText(InstrumentEditorPlugin.INSTANCE.getString("_UI_XMLEncoding"));
 
 				GridData data = new GridData();
 				data.horizontalAlignment = GridData.FILL;
@@ -542,10 +542,10 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 		 */
 		protected String getLabel(String typeName) {
 			try {
-				return ActionEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type");
+				return InstrumentEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type");
 			}
 			catch(MissingResourceException mre) {
-				ActionEditorPlugin.INSTANCE.log(mre);
+				InstrumentEditorPlugin.INSTANCE.log(mre);
 			}
 			return typeName;
 		}
@@ -558,7 +558,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 		protected Collection<String> getEncodings() {
 			if (encodings == null) {
 				encodings = new ArrayList<String>();
-				for (StringTokenizer stringTokenizer = new StringTokenizer(ActionEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) {
+				for (StringTokenizer stringTokenizer = new StringTokenizer(InstrumentEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) {
 					encodings.add(stringTokenizer.nextToken());
 				}
 			}
@@ -576,10 +576,10 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		// Create a page, set the title, and the initial model file name.
 		//
-		newFileCreationPage = new ActionModelWizardNewFileCreationPage("Whatever", selection);
-		newFileCreationPage.setTitle(ActionEditorPlugin.INSTANCE.getString("_UI_ActionModelWizard_label"));
-		newFileCreationPage.setDescription(ActionEditorPlugin.INSTANCE.getString("_UI_ActionModelWizard_description"));
-		newFileCreationPage.setFileName(ActionEditorPlugin.INSTANCE.getString("_UI_ActionEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
+		newFileCreationPage = new InstrumentModelWizardNewFileCreationPage("Whatever", selection);
+		newFileCreationPage.setTitle(InstrumentEditorPlugin.INSTANCE.getString("_UI_InstrumentModelWizard_label"));
+		newFileCreationPage.setDescription(InstrumentEditorPlugin.INSTANCE.getString("_UI_InstrumentModelWizard_description"));
+		newFileCreationPage.setFileName(InstrumentEditorPlugin.INSTANCE.getString("_UI_InstrumentEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
 		addPage(newFileCreationPage);
 
 		// Try and get the resource selection to determine a current directory for the file dialog.
@@ -605,7 +605,7 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 
 					// Make up a unique new name here.
 					//
-					String defaultModelBaseFilename = ActionEditorPlugin.INSTANCE.getString("_UI_ActionEditorFilenameDefaultBase");
+					String defaultModelBaseFilename = InstrumentEditorPlugin.INSTANCE.getString("_UI_InstrumentEditorFilenameDefaultBase");
 					String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
 					String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
 					for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i) {
@@ -615,9 +615,9 @@ public class ActionModelWizard extends Wizard implements INewWizard {
 				}
 			}
 		}
-		initialObjectCreationPage = new ActionModelWizardInitialObjectCreationPage("Whatever2");
-		initialObjectCreationPage.setTitle(ActionEditorPlugin.INSTANCE.getString("_UI_ActionModelWizard_label"));
-		initialObjectCreationPage.setDescription(ActionEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
+		initialObjectCreationPage = new InstrumentModelWizardInitialObjectCreationPage("Whatever2");
+		initialObjectCreationPage.setTitle(InstrumentEditorPlugin.INSTANCE.getString("_UI_InstrumentModelWizard_label"));
+		initialObjectCreationPage.setDescription(InstrumentEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
 		addPage(initialObjectCreationPage);
 	}
 
