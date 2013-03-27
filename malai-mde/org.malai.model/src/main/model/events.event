@@ -68,6 +68,65 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeoutThread" eType="//@helpers.1"/>
     </clazz>
   </events>
+  <events>
+    <clazz name="ButtonPressedTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="button">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/Button"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="CheckboxTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="checkbox">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/CheckBox"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="ListTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="list">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/ListWidget"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="MenuItemTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="menu">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/Menu"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="SpinnerTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="spinner">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/Spinner"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="TabSelectedTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tabbedPanel">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/TabbedPanel"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="TextChangedTransition">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="text">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="textWidget">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/TextWidget"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
+  <events>
+    <clazz name="WindowClosedTransition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="window">
+        <eType xsi:type="ecore:EClass" href="widget.ecore#//malai/widget/Window"/>
+      </eStructuralFeatures>
+    </clazz>
+  </events>
   <helpers xsi:type="ecore:EDataType" name="Object" instanceClassName="java.lang.Object"/>
   <helpers xsi:type="ecore:EDataType" name="Thread" instanceClassName="java.lang.Thread"/>
 </org_malai_event:EventModel>
