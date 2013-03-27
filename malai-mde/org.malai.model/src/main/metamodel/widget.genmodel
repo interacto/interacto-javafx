@@ -6,17 +6,22 @@
     copyrightFields="false" editPluginID="org.malai.model.widget.edit" editorPluginID="org.malai.model.widget.editor">
   <foreignModel>widget.ecore</foreignModel>
   <genPackages prefix="Org" disposableProviderFactory="true" ecorePackage="widget.ecore#/">
-    <nestedGenPackages prefix="Malai" disposableProviderFactory="true" ecorePackage="widget.ecore#//malai">
-      <nestedGenPackages prefix="Widget" disposableProviderFactory="true" ecorePackage="widget.ecore#//malai/widget">
+    <nestedGenPackages prefix="Malai" basePackage="org" disposableProviderFactory="true"
+        ecorePackage="widget.ecore#//malai">
+      <nestedGenPackages prefix="Widget" basePackage="org.malai" disposableProviderFactory="true"
+          ecorePackage="widget.ecore#//malai/widget">
         <genClasses image="false" ecoreClass="widget.ecore#//malai/widget/Widget">
           <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference widget.ecore#//malai/widget/Widget/parent"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute widget.ecore#//malai/widget/Widget/name"/>
         </genClasses>
         <genClasses image="false" ecoreClass="widget.ecore#//malai/widget/ContainerWidget">
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference widget.ecore#//malai/widget/ContainerWidget/elements"/>
         </genClasses>
         <genClasses image="false" ecoreClass="widget.ecore#//malai/widget/ListWidget"/>
         <genClasses image="false" ecoreClass="widget.ecore#//malai/widget/ButtonWidget"/>
-        <genClasses image="false" ecoreClass="widget.ecore#//malai/widget/TextWidget"/>
+        <genClasses image="false" ecoreClass="widget.ecore#//malai/widget/TextWidget">
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute widget.ecore#//malai/widget/TextWidget/text"/>
+        </genClasses>
         <genClasses ecoreClass="widget.ecore#//malai/widget/Tree"/>
         <genClasses ecoreClass="widget.ecore#//malai/widget/Slider"/>
         <genClasses ecoreClass="widget.ecore#//malai/widget/ProgressBar"/>

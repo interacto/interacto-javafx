@@ -2,6 +2,7 @@
  */
 package org.malai.widget.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -318,6 +319,15 @@ public class WidgetPackageImpl extends EPackageImpl implements WidgetPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getWidget_Name() {
+		return (EAttribute)widgetEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getContainerWidget() {
 		return containerWidgetEClass;
 	}
@@ -356,6 +366,15 @@ public class WidgetPackageImpl extends EPackageImpl implements WidgetPackage {
 	 */
 	public EClass getTextWidget() {
 		return textWidgetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTextWidget_Text() {
+		return (EAttribute)textWidgetEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -586,6 +605,7 @@ public class WidgetPackageImpl extends EPackageImpl implements WidgetPackage {
 		// Create classes and their features
 		widgetEClass = createEClass(WIDGET);
 		createEReference(widgetEClass, WIDGET__PARENT);
+		createEAttribute(widgetEClass, WIDGET__NAME);
 
 		containerWidgetEClass = createEClass(CONTAINER_WIDGET);
 		createEReference(containerWidgetEClass, CONTAINER_WIDGET__ELEMENTS);
@@ -595,6 +615,7 @@ public class WidgetPackageImpl extends EPackageImpl implements WidgetPackage {
 		buttonWidgetEClass = createEClass(BUTTON_WIDGET);
 
 		textWidgetEClass = createEClass(TEXT_WIDGET);
+		createEAttribute(textWidgetEClass, TEXT_WIDGET__TEXT);
 
 		treeEClass = createEClass(TREE);
 
@@ -700,6 +721,7 @@ public class WidgetPackageImpl extends EPackageImpl implements WidgetPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(widgetEClass, Widget.class, "Widget", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getWidget_Parent(), this.getContainerWidget(), this.getContainerWidget_Elements(), "parent", null, 0, 1, Widget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getWidget_Name(), ecorePackage.getEString(), "name", null, 0, 1, Widget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(containerWidgetEClass, ContainerWidget.class, "ContainerWidget", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getContainerWidget_Elements(), this.getWidget(), this.getWidget_Parent(), "elements", null, 0, -1, ContainerWidget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -709,6 +731,7 @@ public class WidgetPackageImpl extends EPackageImpl implements WidgetPackage {
 		initEClass(buttonWidgetEClass, ButtonWidget.class, "ButtonWidget", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(textWidgetEClass, TextWidget.class, "TextWidget", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTextWidget_Text(), ecorePackage.getEString(), "text", null, 0, 1, TextWidget.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(treeEClass, Tree.class, "Tree", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
