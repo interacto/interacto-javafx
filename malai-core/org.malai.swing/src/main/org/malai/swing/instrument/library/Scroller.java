@@ -5,7 +5,7 @@ import org.malai.instrument.Instrument;
 import org.malai.instrument.Link;
 import org.malai.interaction.library.KeysScrolling;
 import org.malai.swing.action.library.Scroll;
-import org.malai.swing.widget.MPanel;
+import org.malai.swing.widget.ScrollableWidget;
 
 /**
  * Defines a scroller that scrolls on a scrollable object.<br>
@@ -28,7 +28,7 @@ import org.malai.swing.widget.MPanel;
  */
 public class Scroller extends Instrument {
 	/** The panel to scroll. */
-	protected MPanel panel;
+	protected ScrollableWidget scrollableWidget;
 
 
 	/**
@@ -37,13 +37,13 @@ public class Scroller extends Instrument {
 	 * @throw IllegalArgumentException If panel is null or is not scrollable.
 	 * @since 0.2
 	 */
-	public Scroller(final MPanel panel) {
+	public Scroller(final ScrollableWidget scrollableWidget) {
 		super();
 
-		if(panel==null || !panel.hasScrollPane())
+		if(scrollableWidget==null || !scrollableWidget.hasScrollPane())
 			throw new IllegalArgumentException();
 
-		this.panel = panel;
+		this.scrollableWidget = scrollableWidget;
 	}
 
 
@@ -78,7 +78,7 @@ class Scrolling2Scroll extends Link<Scroll, KeysScrolling, Scroller> {
 	public void initAction() {
 		final Scroll scroll = getAction();
 
-		scroll.setPanel(getInstrument().panel);
+		scroll.setScrollableWidget(getInstrument().scrollableWidget);
 		scroll.setIncrement(getInteraction().getIncrement());
 	}
 
