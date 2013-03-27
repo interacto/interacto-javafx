@@ -9,12 +9,17 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ViewerNotification;
+import org.malai.widget.TextWidget;
+import org.malai.widget.WidgetPackage;
 
 /**
  * This is the item provider adapter for a {@link org.malai.widget.TextWidget} object.
@@ -51,8 +56,31 @@ public class TextWidgetItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addTextPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Text feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addTextPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_TextWidget_text_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_TextWidget_text_feature", "_UI_TextWidget_type"),
+				 WidgetPackage.Literals.TEXT_WIDGET__TEXT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -63,7 +91,10 @@ public class TextWidgetItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_TextWidget_type");
+		String label = ((TextWidget)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_TextWidget_type") :
+			getString("_UI_TextWidget_type") + " " + label;
 	}
 
 	/**
@@ -76,6 +107,12 @@ public class TextWidgetItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
+
+		switch (notification.getFeatureID(TextWidget.class)) {
+			case WidgetPackage.TEXT_WIDGET__TEXT:
+				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+				return;
+		}
 		super.notifyChanged(notification);
 	}
 

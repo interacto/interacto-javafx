@@ -25,12 +25,32 @@ import org.malai.widget.WidgetPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.malai.widget.impl.WidgetImpl#getParent <em>Parent</em>}</li>
+ *   <li>{@link org.malai.widget.impl.WidgetImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public abstract class WidgetImpl extends EObjectImpl implements Widget {
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -96,6 +116,27 @@ public abstract class WidgetImpl extends EObjectImpl implements Widget {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, WidgetPackage.WIDGET__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -145,6 +186,8 @@ public abstract class WidgetImpl extends EObjectImpl implements Widget {
 		switch (featureID) {
 			case WidgetPackage.WIDGET__PARENT:
 				return getParent();
+			case WidgetPackage.WIDGET__NAME:
+				return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -159,6 +202,9 @@ public abstract class WidgetImpl extends EObjectImpl implements Widget {
 		switch (featureID) {
 			case WidgetPackage.WIDGET__PARENT:
 				setParent((ContainerWidget)newValue);
+				return;
+			case WidgetPackage.WIDGET__NAME:
+				setName((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -175,6 +221,9 @@ public abstract class WidgetImpl extends EObjectImpl implements Widget {
 			case WidgetPackage.WIDGET__PARENT:
 				setParent((ContainerWidget)null);
 				return;
+			case WidgetPackage.WIDGET__NAME:
+				setName(NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -189,8 +238,26 @@ public abstract class WidgetImpl extends EObjectImpl implements Widget {
 		switch (featureID) {
 			case WidgetPackage.WIDGET__PARENT:
 				return getParent() != null;
+			case WidgetPackage.WIDGET__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
 	}
 
 } //WidgetImpl

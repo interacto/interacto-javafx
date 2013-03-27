@@ -2,6 +2,7 @@
  */
 package org.malai.widget;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -74,13 +75,22 @@ public interface WidgetPackage extends EPackage {
 	int WIDGET__PARENT = 0;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WIDGET__NAME = 1;
+
+	/**
 	 * The number of structural features of the '<em>Widget</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WIDGET_FEATURE_COUNT = 1;
+	int WIDGET_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.malai.widget.impl.ContainerWidgetImpl <em>Container Widget</em>}' class.
@@ -100,6 +110,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONTAINER_WIDGET__PARENT = WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTAINER_WIDGET__NAME = WIDGET__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -139,6 +158,15 @@ public interface WidgetPackage extends EPackage {
 	int LIST_WIDGET__PARENT = WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIST_WIDGET__NAME = WIDGET__NAME;
+
+	/**
 	 * The number of structural features of the '<em>List Widget</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -165,6 +193,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int BUTTON_WIDGET__PARENT = WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON_WIDGET__NAME = WIDGET__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Button Widget</em>' class.
@@ -195,13 +232,31 @@ public interface WidgetPackage extends EPackage {
 	int TEXT_WIDGET__PARENT = WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_WIDGET__NAME = WIDGET__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_WIDGET__TEXT = WIDGET_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Text Widget</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXT_WIDGET_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 0;
+	int TEXT_WIDGET_FEATURE_COUNT = WIDGET_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.malai.widget.impl.TreeImpl <em>Tree</em>}' class.
@@ -221,6 +276,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int TREE__PARENT = WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TREE__NAME = WIDGET__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Tree</em>' class.
@@ -251,6 +315,15 @@ public interface WidgetPackage extends EPackage {
 	int SLIDER__PARENT = WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SLIDER__NAME = WIDGET__NAME;
+
+	/**
 	 * The number of structural features of the '<em>Slider</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -277,6 +350,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROGRESS_BAR__PARENT = WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROGRESS_BAR__NAME = WIDGET__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Progress Bar</em>' class.
@@ -307,6 +389,15 @@ public interface WidgetPackage extends EPackage {
 	int TABLE__PARENT = WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABLE__NAME = WIDGET__NAME;
+
+	/**
 	 * The number of structural features of the '<em>Table</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -333,6 +424,24 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int LABEL__PARENT = TEXT_WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL__NAME = TEXT_WIDGET__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL__TEXT = TEXT_WIDGET__TEXT;
 
 	/**
 	 * The number of structural features of the '<em>Label</em>' class.
@@ -363,6 +472,24 @@ public interface WidgetPackage extends EPackage {
 	int TEXT_AREA__PARENT = TEXT_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA__NAME = TEXT_WIDGET__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_AREA__TEXT = TEXT_WIDGET__TEXT;
+
+	/**
 	 * The number of structural features of the '<em>Text Area</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -389,6 +516,24 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int TEXT_FIELD__PARENT = TEXT_WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__NAME = TEXT_WIDGET__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_FIELD__TEXT = TEXT_WIDGET__TEXT;
 
 	/**
 	 * The number of structural features of the '<em>Text Field</em>' class.
@@ -419,6 +564,24 @@ public interface WidgetPackage extends EPackage {
 	int SPINNER__PARENT = TEXT_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPINNER__NAME = TEXT_WIDGET__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Text</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPINNER__TEXT = TEXT_WIDGET__TEXT;
+
+	/**
 	 * The number of structural features of the '<em>Spinner</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -445,6 +608,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int MULTI_LINE_LIST__PARENT = LIST_WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MULTI_LINE_LIST__NAME = LIST_WIDGET__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Multi Line List</em>' class.
@@ -475,6 +647,15 @@ public interface WidgetPackage extends EPackage {
 	int SINGLE_LINE_LIST__PARENT = LIST_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_LINE_LIST__NAME = LIST_WIDGET__NAME;
+
+	/**
 	 * The number of structural features of the '<em>Single Line List</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -501,6 +682,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int PANEL__PARENT = CONTAINER_WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PANEL__NAME = CONTAINER_WIDGET__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -540,6 +730,15 @@ public interface WidgetPackage extends EPackage {
 	int WINDOW__PARENT = CONTAINER_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WINDOW__NAME = CONTAINER_WIDGET__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -575,6 +774,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int DIALOGUE_BOX__PARENT = WINDOW__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIALOGUE_BOX__NAME = WINDOW__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -614,6 +822,15 @@ public interface WidgetPackage extends EPackage {
 	int SPLIT_PANE__PARENT = CONTAINER_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPLIT_PANE__NAME = CONTAINER_WIDGET__NAME;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -649,6 +866,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int TABBED_PANEL__PARENT = CONTAINER_WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABBED_PANEL__NAME = CONTAINER_WIDGET__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -688,6 +914,15 @@ public interface WidgetPackage extends EPackage {
 	int BUTTON__PARENT = BUTTON_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUTTON__NAME = BUTTON_WIDGET__NAME;
+
+	/**
 	 * The number of structural features of the '<em>Button</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -714,6 +949,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int TOGGLE_BUTTON__PARENT = BUTTON__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOGGLE_BUTTON__NAME = BUTTON__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Toggle Button</em>' class.
@@ -744,6 +988,15 @@ public interface WidgetPackage extends EPackage {
 	int MENU__PARENT = BUTTON_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MENU__NAME = BUTTON_WIDGET__NAME;
+
+	/**
 	 * The number of structural features of the '<em>Menu</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -770,6 +1023,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int CHECK_BOX__PARENT = BUTTON_WIDGET__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHECK_BOX__NAME = BUTTON_WIDGET__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Check Box</em>' class.
@@ -800,6 +1062,15 @@ public interface WidgetPackage extends EPackage {
 	int RADIO_BUTTON__PARENT = BUTTON_WIDGET__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RADIO_BUTTON__NAME = BUTTON_WIDGET__NAME;
+
+	/**
 	 * The number of structural features of the '<em>Radio Button</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -828,6 +1099,15 @@ public interface WidgetPackage extends EPackage {
 	int TOGGLE_MENU__PARENT = MENU__PARENT;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOGGLE_MENU__NAME = MENU__NAME;
+
+	/**
 	 * The number of structural features of the '<em>Toggle Menu</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -854,6 +1134,15 @@ public interface WidgetPackage extends EPackage {
 	 * @ordered
 	 */
 	int RADIO_MENU__PARENT = MENU__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RADIO_MENU__NAME = MENU__NAME;
 
 	/**
 	 * The number of structural features of the '<em>Radio Menu</em>' class.
@@ -885,6 +1174,17 @@ public interface WidgetPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getWidget_Parent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.malai.widget.Widget#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.malai.widget.Widget#getName()
+	 * @see #getWidget()
+	 * @generated
+	 */
+	EAttribute getWidget_Name();
 
 	/**
 	 * Returns the meta object for class '{@link org.malai.widget.ContainerWidget <em>Container Widget</em>}'.
@@ -936,6 +1236,17 @@ public interface WidgetPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getTextWidget();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.malai.widget.TextWidget#getText <em>Text</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text</em>'.
+	 * @see org.malai.widget.TextWidget#getText()
+	 * @see #getTextWidget()
+	 * @generated
+	 */
+	EAttribute getTextWidget_Text();
 
 	/**
 	 * Returns the meta object for class '{@link org.malai.widget.Tree <em>Tree</em>}'.
@@ -1198,6 +1509,14 @@ public interface WidgetPackage extends EPackage {
 		EReference WIDGET__PARENT = eINSTANCE.getWidget_Parent();
 
 		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute WIDGET__NAME = eINSTANCE.getWidget_Name();
+
+		/**
 		 * The meta object literal for the '{@link org.malai.widget.impl.ContainerWidgetImpl <em>Container Widget</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1244,6 +1563,14 @@ public interface WidgetPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TEXT_WIDGET = eINSTANCE.getTextWidget();
+
+		/**
+		 * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TEXT_WIDGET__TEXT = eINSTANCE.getTextWidget_Text();
 
 		/**
 		 * The meta object literal for the '{@link org.malai.widget.impl.TreeImpl <em>Tree</em>}' class.

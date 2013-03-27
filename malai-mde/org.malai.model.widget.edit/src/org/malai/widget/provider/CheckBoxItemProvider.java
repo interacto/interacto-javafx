@@ -15,6 +15,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.malai.widget.CheckBox;
 
 /**
  * This is the item provider adapter for a {@link org.malai.widget.CheckBox} object.
@@ -74,7 +75,10 @@ public class CheckBoxItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_CheckBox_type");
+		String label = ((CheckBox)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_CheckBox_type") :
+			getString("_UI_CheckBox_type") + " " + label;
 	}
 
 	/**

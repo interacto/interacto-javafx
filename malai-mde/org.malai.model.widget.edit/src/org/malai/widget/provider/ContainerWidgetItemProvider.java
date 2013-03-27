@@ -100,7 +100,10 @@ public class ContainerWidgetItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		return getString("_UI_ContainerWidget_type");
+		String label = ((ContainerWidget)object).getName();
+		return label == null || label.length() == 0 ?
+			getString("_UI_ContainerWidget_type") :
+			getString("_UI_ContainerWidget_type") + " " + label;
 	}
 
 	/**
