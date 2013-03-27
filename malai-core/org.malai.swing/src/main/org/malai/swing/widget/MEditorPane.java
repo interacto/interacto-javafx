@@ -1,10 +1,10 @@
 package org.malai.swing.widget;
 
 import javax.swing.JEditorPane;
+import javax.swing.JScrollBar;
 
 import org.malai.interaction.Eventable;
 import org.malai.swing.interaction.SwingEventManager;
-import org.malai.widget.Scrollable;
 
 /**
  * This widgets is based on a JEditorPane. It allows to be used in the Malai framework for picking.<br>
@@ -25,7 +25,7 @@ import org.malai.widget.Scrollable;
  * @version 0.2
  * @since 0.2
  */
-public class MEditorPane extends JEditorPane implements Scrollable, Eventable {
+public class MEditorPane extends JEditorPane implements ScrollableWidget, Eventable {
 	private static final long serialVersionUID = 1L;
 
 	/** The possible scrollpane that contains the panel. */
@@ -74,6 +74,57 @@ public class MEditorPane extends JEditorPane implements Scrollable, Eventable {
 
 		if(eventOnEachModification)
 			getDocument().putProperty(SwingEventManager.OWNING_PROPERTY, this);
+	}
+	
+	
+	@Override
+	public boolean isHorizontalScrollbarVisible() {
+		return getScrollbar(true).isVisible();
+	}
+
+
+	@Override
+	public boolean isVerticalScrollbarVisible() {
+		return getScrollbar(true).isVisible();
+	}
+	
+	
+	@Override
+	public void scrollHorizontally(final int increment) {
+		scroll(increment, false);
+	}
+
+
+	@Override
+	public void scrollVertically(final int increment) {
+		scroll(increment, true);
+	}
+
+
+	/**
+	 * Scroll the vertical or horizontal scroll bar, if possible, using the given increment.
+	 * @param increment The increment to apply on the vertical scroll bar.
+	 * @param vertical True: the vertical scroll bar is
+	 * @since 0.1
+	 */
+	protected void scroll(final int increment, final boolean vertical) {
+		final JScrollBar scrollbar = getScrollbar(vertical);
+
+		if(scrollbar!=null && scrollbar.isVisible())
+			scrollbar.setValue(scrollbar.getValue() - increment);
+	}
+
+
+	/**
+	 * @param vertical True: the vertical scrollbar is returned. Otherwise, the horizontal scroll bar.
+	 * @return The required scroll bar or null if the panel has no scrollpane.
+	 * @since 0.1
+	 */
+	protected JScrollBar getScrollbar(final boolean vertical) {
+		if(hasScrollPane())
+			return vertical ? getScrollpane().getVerticalScrollBar() : getScrollpane().getHorizontalScrollBar();
+
+		return null;
 	}
 
 
