@@ -276,6 +276,7 @@ public class TransitionItemProvider
 			label += " -> ";
 			if(trans.getOutputState()!=null && trans.getOutputState().getName()!=null) label += trans.getOutputState().getName();
 			label += ")";
+			label = " " + label;
 		}
 		
 		return label == null || label.length() == 0 ?
