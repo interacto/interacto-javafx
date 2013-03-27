@@ -16,5 +16,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.edit;visibility:=reexport,
  org.malai.model.event.edit;visibility:=reexport,
- org.malai.model.interaction.edit;visibility:=reexport
+ org.malai.model.interaction.edit;visibility:=reexport,
+ org.malai.model.widget.edit;visibility:=reexport
 Bundle-ActivationPolicy: lazy

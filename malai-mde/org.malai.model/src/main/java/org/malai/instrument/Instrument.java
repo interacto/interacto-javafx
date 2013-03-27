@@ -7,6 +7,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.malai.widget.Widget;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,6 +26,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.malai.instrument.Instrument#getDateCreation <em>Date Creation</em>}</li>
  *   <li>{@link org.malai.instrument.Instrument#getInterimFeedback <em>Interim Feedback</em>}</li>
  *   <li>{@link org.malai.instrument.Instrument#isInitiallyActivated <em>Initially Activated</em>}</li>
+ *   <li>{@link org.malai.instrument.Instrument#getProvidedWidgets <em>Provided Widgets</em>}</li>
+ *   <li>{@link org.malai.instrument.Instrument#getSubscribedWidgets <em>Subscribed Widgets</em>}</li>
  * </ul>
  * </p>
  *
@@ -248,5 +251,37 @@ public interface Instrument extends EObject {
 	 * @generated
 	 */
 	void setInitiallyActivated(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Provided Widgets</b></em>' containment reference list.
+	 * The list contents are of type {@link org.malai.widget.Widget}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Provided Widgets</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Provided Widgets</em>' containment reference list.
+	 * @see org.malai.instrument.InstrumentPackage#getInstrument_ProvidedWidgets()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Widget> getProvidedWidgets();
+
+	/**
+	 * Returns the value of the '<em><b>Subscribed Widgets</b></em>' reference list.
+	 * The list contents are of type {@link org.malai.widget.Widget}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Subscribed Widgets</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Subscribed Widgets</em>' reference list.
+	 * @see org.malai.instrument.InstrumentPackage#getInstrument_SubscribedWidgets()
+	 * @model
+	 * @generated
+	 */
+	EList<Widget> getSubscribedWidgets();
 
 } // Instrument

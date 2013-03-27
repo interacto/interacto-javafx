@@ -20,6 +20,10 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="interimFeedback" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="initiallyActivated"
             eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="providedWidgets" upperBound="-1"
+            eType="ecore:EClass widget.ecore#//malai/widget/Widget" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="subscribedWidgets"
+            upperBound="-1" eType="ecore:EClass widget.ecore#//malai/widget/Widget"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="Link">
         <eStructuralFeatures xsi:type="ecore:EReference" name="interaction" lowerBound="1"

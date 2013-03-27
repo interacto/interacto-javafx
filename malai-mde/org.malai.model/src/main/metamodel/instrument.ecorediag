@@ -38,7 +38,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_m3LjQZY_EeKovY4-kbos9Q" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="instrument.ecore#//malai/instrument/Instrument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m3LjQpY_EeKovY4-kbos9Q" x="396" y="126" width="242" height="156"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m3LjQpY_EeKovY4-kbos9Q" x="365" y="110" width="273" height="172"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_m3UtNJY_EeKovY4-kbos9Q" type="1001">
     <children xmi:type="notation:Node" xmi:id="_m3UtN5Y_EeKovY4-kbos9Q" type="4001"/>
@@ -78,7 +78,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_m3UtNZY_EeKovY4-kbos9Q" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="instrument.ecore#//malai/instrument/Link"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m3UtNpY_EeKovY4-kbos9Q" x="390" y="354" width="255" height="153"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m3UtNpY_EeKovY4-kbos9Q" x="360" y="354" width="285" height="169"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_rnyykJY_EeKovY4-kbos9Q" type="1001">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_roCqMJY_EeKovY4-kbos9Q" source="Shortcut">
@@ -97,7 +97,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_rnyykZY_EeKovY4-kbos9Q" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="action.ecore#//malai/action/Action"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_rnyykpY_EeKovY4-kbos9Q" x="402" y="582"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_rnyykpY_EeKovY4-kbos9Q" x="360" y="590"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_t-4lwJY_EeKovY4-kbos9Q" type="1001">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_t_KSkJY_EeKovY4-kbos9Q" source="Shortcut">
@@ -116,7 +116,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_t-4lwZY_EeKovY4-kbos9Q" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="interaction.ecore#//malai/interaction/Interaction"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_t-4lwpY_EeKovY4-kbos9Q" x="522" y="582" width="125"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_t-4lwpY_EeKovY4-kbos9Q" x="515" y="590" width="125"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_u9FTYJY_EeKovY4-kbos9Q" type="1001">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_u9hYQJY_EeKovY4-kbos9Q" source="Shortcut">

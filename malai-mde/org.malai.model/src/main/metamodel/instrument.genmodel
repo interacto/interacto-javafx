@@ -5,7 +5,7 @@
     modelName="Instrument" testsDirectory="/org.malai.model.instrument.tests/src"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
     editPluginID="org.malai.model.instrument.edit" editorPluginID="org.malai.model.instrument.editor"
-    testsPluginID="org.malai.model.instrument.tests" usedGenPackages="action.genmodel#//org platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore event.genmodel#//org interaction.genmodel#//org">
+    testsPluginID="org.malai.model.instrument.tests" usedGenPackages="action.genmodel#//org platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore event.genmodel#//org interaction.genmodel#//org widget.genmodel#//org">
   <foreignModel>instrument.ecore</foreignModel>
   <genPackages prefix="Org" disposableProviderFactory="true" ecorePackage="instrument.ecore#/">
     <nestedGenPackages prefix="Malai" basePackage="org" disposableProviderFactory="true"
@@ -22,6 +22,9 @@
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instrument.ecore#//malai/instrument/Instrument/dateCreation"/>
           <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute instrument.ecore#//malai/instrument/Instrument/interimFeedback"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instrument.ecore#//malai/instrument/Instrument/initiallyActivated"/>
+          <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference instrument.ecore#//malai/instrument/Instrument/providedWidgets"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference instrument.ecore#//malai/instrument/Instrument/subscribedWidgets"/>
         </genClasses>
         <genClasses ecoreClass="instrument.ecore#//malai/instrument/Link">
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
