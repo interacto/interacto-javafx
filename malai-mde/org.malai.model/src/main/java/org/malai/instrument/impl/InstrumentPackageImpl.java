@@ -18,6 +18,7 @@ import org.malai.instrument.InstrumentPackage;
 import org.malai.instrument.Link;
 
 import org.malai.interaction.InteractionPackage;
+import org.malai.widget.WidgetPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -89,6 +90,7 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 		// Initialize simple dependencies
 		ActionPackage.eINSTANCE.eClass();
 		InteractionPackage.eINSTANCE.eClass();
+		WidgetPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
 		theInstrumentPackage.createPackageContents();
@@ -193,6 +195,24 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 	 */
 	public EAttribute getInstrument_InitiallyActivated() {
 		return (EAttribute)instrumentEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInstrument_ProvidedWidgets() {
+		return (EReference)instrumentEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInstrument_SubscribedWidgets() {
+		return (EReference)instrumentEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -332,6 +352,8 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 		createEAttribute(instrumentEClass, INSTRUMENT__DATE_CREATION);
 		createEAttribute(instrumentEClass, INSTRUMENT__INTERIM_FEEDBACK);
 		createEAttribute(instrumentEClass, INSTRUMENT__INITIALLY_ACTIVATED);
+		createEReference(instrumentEClass, INSTRUMENT__PROVIDED_WIDGETS);
+		createEReference(instrumentEClass, INSTRUMENT__SUBSCRIBED_WIDGETS);
 
 		linkEClass = createEClass(LINK);
 		createEReference(linkEClass, LINK__INTERACTION);
@@ -371,6 +393,7 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 
 		// Obtain other dependent packages
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+		WidgetPackage theWidgetPackage = (WidgetPackage)EPackage.Registry.INSTANCE.getEPackage(WidgetPackage.eNS_URI);
 		InteractionPackage theInteractionPackage = (InteractionPackage)EPackage.Registry.INSTANCE.getEPackage(InteractionPackage.eNS_URI);
 		ActionPackage theActionPackage = (ActionPackage)EPackage.Registry.INSTANCE.getEPackage(ActionPackage.eNS_URI);
 
@@ -391,6 +414,8 @@ public class InstrumentPackageImpl extends EPackageImpl implements InstrumentPac
 		initEAttribute(getInstrument_DateCreation(), theEcorePackage.getEString(), "dateCreation", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInstrument_InterimFeedback(), theEcorePackage.getEString(), "interimFeedback", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getInstrument_InitiallyActivated(), theEcorePackage.getEBoolean(), "initiallyActivated", null, 0, 1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInstrument_ProvidedWidgets(), theWidgetPackage.getWidget(), null, "providedWidgets", null, 0, -1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInstrument_SubscribedWidgets(), theWidgetPackage.getWidget(), null, "subscribedWidgets", null, 0, -1, Instrument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkEClass, Link.class, "Link", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getLink_Interaction(), theInteractionPackage.getInteraction(), null, "interaction", null, 1, 1, Link.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

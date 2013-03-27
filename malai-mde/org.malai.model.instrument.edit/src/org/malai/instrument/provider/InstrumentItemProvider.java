@@ -25,6 +25,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.malai.instrument.Instrument;
 import org.malai.instrument.InstrumentFactory;
 import org.malai.instrument.InstrumentPackage;
+import org.malai.widget.WidgetFactory;
 
 /**
  * This is the item provider adapter for a {@link org.malai.instrument.Instrument} object.
@@ -67,6 +68,7 @@ public class InstrumentItemProvider
 			addDateCreationPropertyDescriptor(object);
 			addInterimFeedbackPropertyDescriptor(object);
 			addInitiallyActivatedPropertyDescriptor(object);
+			addSubscribedWidgetsPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -204,6 +206,28 @@ public class InstrumentItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Subscribed Widgets feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSubscribedWidgetsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Instrument_subscribedWidgets_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Instrument_subscribedWidgets_feature", "_UI_Instrument_type"),
+				 InstrumentPackage.Literals.INSTRUMENT__SUBSCRIBED_WIDGETS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -218,6 +242,7 @@ public class InstrumentItemProvider
 			childrenFeatures.add(InstrumentPackage.Literals.INSTRUMENT__LINKS);
 			childrenFeatures.add(InstrumentPackage.Literals.INSTRUMENT__CLAZZ);
 			childrenFeatures.add(InstrumentPackage.Literals.INSTRUMENT__HELPERS);
+			childrenFeatures.add(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS);
 		}
 		return childrenFeatures;
 	}
@@ -290,6 +315,7 @@ public class InstrumentItemProvider
 			case InstrumentPackage.INSTRUMENT__LINKS:
 			case InstrumentPackage.INSTRUMENT__CLAZZ:
 			case InstrumentPackage.INSTRUMENT__HELPERS:
+			case InstrumentPackage.INSTRUMENT__PROVIDED_WIDGETS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -331,6 +357,116 @@ public class InstrumentItemProvider
 			(createChildParameter
 				(InstrumentPackage.Literals.INSTRUMENT__HELPERS,
 				 EcoreFactory.eINSTANCE.createEEnum()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createTree()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createSlider()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createProgressBar()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createTable()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createLabel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createTextArea()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createTextField()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createSpinner()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createMultiLineList()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createSingleLineList()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createPanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createWindow()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createDialogueBox()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createSplitPane()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createTabbedPanel()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createButton()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createToggleButton()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createMenu()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createCheckBox()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createRadioButton()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createToggleMenu()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(InstrumentPackage.Literals.INSTRUMENT__PROVIDED_WIDGETS,
+				 WidgetFactory.eINSTANCE.createRadioMenu()));
 	}
 
 	/**

@@ -15,6 +15,7 @@ import org.malai.action.provider.ActionEditPlugin;
 import org.malai.event.provider.MalaiEventEditPlugin;
 
 import org.malai.interaction.provider.MalaiInteractionEditPlugin;
+import org.malai.widget.provider.WidgetEditPlugin;
 
 /**
  * This is the central singleton for the Instrument editor plugin.
@@ -52,6 +53,7 @@ public final class InstrumentEditorPlugin extends EMFPlugin {
 				EcoreEditPlugin.INSTANCE,
 				MalaiEventEditPlugin.INSTANCE,
 				MalaiInteractionEditPlugin.INSTANCE,
+				WidgetEditPlugin.INSTANCE,
 			});
 	}
 

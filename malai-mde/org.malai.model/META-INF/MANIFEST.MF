@@ -18,7 +18,10 @@ Export-Package: org.malai.action,
  org.malai.instrument.util,
  org.malai.interaction,
  org.malai.interaction.impl,
- org.malai.interaction.util
+ org.malai.interaction.util,
+ org.malai.widget,
+ org.malai.widget.impl,
+ org.malai.widget.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy

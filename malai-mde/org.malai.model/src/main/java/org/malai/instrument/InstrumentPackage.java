@@ -147,13 +147,31 @@ public interface InstrumentPackage extends EPackage {
 	int INSTRUMENT__INITIALLY_ACTIVATED = 8;
 
 	/**
+	 * The feature id for the '<em><b>Provided Widgets</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTRUMENT__PROVIDED_WIDGETS = 9;
+
+	/**
+	 * The feature id for the '<em><b>Subscribed Widgets</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTRUMENT__SUBSCRIBED_WIDGETS = 10;
+
+	/**
 	 * The number of structural features of the '<em>Instrument</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INSTRUMENT_FEATURE_COUNT = 9;
+	int INSTRUMENT_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link org.malai.instrument.impl.LinkImpl <em>Link</em>}' class.
@@ -373,6 +391,28 @@ public interface InstrumentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getInstrument_InitiallyActivated();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.malai.instrument.Instrument#getProvidedWidgets <em>Provided Widgets</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Provided Widgets</em>'.
+	 * @see org.malai.instrument.Instrument#getProvidedWidgets()
+	 * @see #getInstrument()
+	 * @generated
+	 */
+	EReference getInstrument_ProvidedWidgets();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.malai.instrument.Instrument#getSubscribedWidgets <em>Subscribed Widgets</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Subscribed Widgets</em>'.
+	 * @see org.malai.instrument.Instrument#getSubscribedWidgets()
+	 * @see #getInstrument()
+	 * @generated
+	 */
+	EReference getInstrument_SubscribedWidgets();
 
 	/**
 	 * Returns the meta object for class '{@link org.malai.instrument.Link <em>Link</em>}'.
@@ -597,6 +637,22 @@ public interface InstrumentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute INSTRUMENT__INITIALLY_ACTIVATED = eINSTANCE.getInstrument_InitiallyActivated();
+
+		/**
+		 * The meta object literal for the '<em><b>Provided Widgets</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INSTRUMENT__PROVIDED_WIDGETS = eINSTANCE.getInstrument_ProvidedWidgets();
+
+		/**
+		 * The meta object literal for the '<em><b>Subscribed Widgets</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INSTRUMENT__SUBSCRIBED_WIDGETS = eINSTANCE.getInstrument_SubscribedWidgets();
 
 		/**
 		 * The meta object literal for the '{@link org.malai.instrument.impl.LinkImpl <em>Link</em>}' class.

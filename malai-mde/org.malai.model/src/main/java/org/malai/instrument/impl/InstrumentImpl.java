@@ -18,11 +18,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.malai.instrument.Instrument;
 import org.malai.instrument.InstrumentPackage;
 import org.malai.instrument.Link;
+import org.malai.widget.Widget;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,6 +42,8 @@ import org.malai.instrument.Link;
  *   <li>{@link org.malai.instrument.impl.InstrumentImpl#getDateCreation <em>Date Creation</em>}</li>
  *   <li>{@link org.malai.instrument.impl.InstrumentImpl#getInterimFeedback <em>Interim Feedback</em>}</li>
  *   <li>{@link org.malai.instrument.impl.InstrumentImpl#isInitiallyActivated <em>Initially Activated</em>}</li>
+ *   <li>{@link org.malai.instrument.impl.InstrumentImpl#getProvidedWidgets <em>Provided Widgets</em>}</li>
+ *   <li>{@link org.malai.instrument.impl.InstrumentImpl#getSubscribedWidgets <em>Subscribed Widgets</em>}</li>
  * </ul>
  * </p>
  *
@@ -195,6 +199,26 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 	 * @ordered
 	 */
 	protected boolean initiallyActivated = INITIALLY_ACTIVATED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getProvidedWidgets() <em>Provided Widgets</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProvidedWidgets()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Widget> providedWidgets;
+
+	/**
+	 * The cached value of the '{@link #getSubscribedWidgets() <em>Subscribed Widgets</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSubscribedWidgets()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Widget> subscribedWidgets;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -413,6 +437,30 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Widget> getProvidedWidgets() {
+		if (providedWidgets == null) {
+			providedWidgets = new EObjectContainmentEList<Widget>(Widget.class, this, InstrumentPackage.INSTRUMENT__PROVIDED_WIDGETS);
+		}
+		return providedWidgets;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Widget> getSubscribedWidgets() {
+		if (subscribedWidgets == null) {
+			subscribedWidgets = new EObjectResolvingEList<Widget>(Widget.class, this, InstrumentPackage.INSTRUMENT__SUBSCRIBED_WIDGETS);
+		}
+		return subscribedWidgets;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -437,6 +485,8 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 				return basicSetClazz(null, msgs);
 			case InstrumentPackage.INSTRUMENT__HELPERS:
 				return ((InternalEList<?>)getHelpers()).basicRemove(otherEnd, msgs);
+			case InstrumentPackage.INSTRUMENT__PROVIDED_WIDGETS:
+				return ((InternalEList<?>)getProvidedWidgets()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -467,6 +517,10 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 				return getInterimFeedback();
 			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
 				return isInitiallyActivated();
+			case InstrumentPackage.INSTRUMENT__PROVIDED_WIDGETS:
+				return getProvidedWidgets();
+			case InstrumentPackage.INSTRUMENT__SUBSCRIBED_WIDGETS:
+				return getSubscribedWidgets();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -509,6 +563,14 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
 				setInitiallyActivated((Boolean)newValue);
 				return;
+			case InstrumentPackage.INSTRUMENT__PROVIDED_WIDGETS:
+				getProvidedWidgets().clear();
+				getProvidedWidgets().addAll((Collection<? extends Widget>)newValue);
+				return;
+			case InstrumentPackage.INSTRUMENT__SUBSCRIBED_WIDGETS:
+				getSubscribedWidgets().clear();
+				getSubscribedWidgets().addAll((Collection<? extends Widget>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -548,6 +610,12 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
 				setInitiallyActivated(INITIALLY_ACTIVATED_EDEFAULT);
 				return;
+			case InstrumentPackage.INSTRUMENT__PROVIDED_WIDGETS:
+				getProvidedWidgets().clear();
+				return;
+			case InstrumentPackage.INSTRUMENT__SUBSCRIBED_WIDGETS:
+				getSubscribedWidgets().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -578,6 +646,10 @@ public class InstrumentImpl extends EObjectImpl implements Instrument {
 				return INTERIM_FEEDBACK_EDEFAULT == null ? interimFeedback != null : !INTERIM_FEEDBACK_EDEFAULT.equals(interimFeedback);
 			case InstrumentPackage.INSTRUMENT__INITIALLY_ACTIVATED:
 				return initiallyActivated != INITIALLY_ACTIVATED_EDEFAULT;
+			case InstrumentPackage.INSTRUMENT__PROVIDED_WIDGETS:
+				return providedWidgets != null && !providedWidgets.isEmpty();
+			case InstrumentPackage.INSTRUMENT__SUBSCRIBED_WIDGETS:
+				return subscribedWidgets != null && !subscribedWidgets.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -23,6 +23,10 @@
             uri="http://org.malai/instrument/1_0_0//org/malai/instrument"
             class="org.malai.instrument.InstrumentPackage"
             genModel="src/main/metamodel/instrument.genmodel"/>
+      <package
+            uri="http://org.malai/widget/1_0_0//org/malai/widget"
+            class="org.malai.widget.WidgetPackage"
+            genModel="src/main/metamodel/widget.genmodel"/>
    </extension>
 
 </plugin>
