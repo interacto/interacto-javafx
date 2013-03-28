@@ -9,7 +9,6 @@ import org.malai.interaction.Eventable;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
 import org.malai.swing.interaction.SwingEventManager;
-import org.malai.widget.Scrollable;
 
 /**
  * Extends the Java JPanel to conform malai requirements.<br>
@@ -30,7 +29,7 @@ import org.malai.widget.Scrollable;
  * @version 0.1
  * @since 0.1
  */
-public class MPanel extends JPanel implements Picker, Eventable, Scrollable {
+public class MPanel extends JPanel implements Picker, Eventable, ScrollableWidget {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The possible scrollpane that contains the panel. */
@@ -92,20 +91,13 @@ public class MPanel extends JPanel implements Picker, Eventable, Scrollable {
 	}
 
 
-	/**
-	 * @return True if the horizontal scroll bar is visible.
-	 * @since 0.1
-	 */
+	@Override
 	public boolean isHorizontalScrollbarVisible() {
 		return getScrollbar(true).isVisible();
 	}
 
 
-
-	/**
-	 * @return True if the vertical scrool bar is visible.
-	 * @since 0.1
-	 */
+	@Override
 	public boolean isVerticalScrollbarVisible() {
 		return getScrollbar(true).isVisible();
 	}
@@ -125,28 +117,16 @@ public class MPanel extends JPanel implements Picker, Eventable, Scrollable {
 	}
 
 
-
-	/**
-	 * Scroll the vertical scroll bar, if possible, using the given increment.
-	 * @param increment The increment to apply on the vertical scroll bar.
-	 * @since 0.1
-	 */
+	@Override
 	public void scrollHorizontally(final int increment) {
 		scroll(increment, false);
 	}
 
 
-
-
-	/**
-	 * Scroll the vertical scroll bar, if possible, using the given increment.
-	 * @param increment The increment to apply on the vertical scroll bar.
-	 * @since 0.1
-	 */
+	@Override
 	public void scrollVertically(final int increment) {
 		scroll(increment, true);
 	}
-
 
 
 
@@ -206,7 +186,6 @@ public class MPanel extends JPanel implements Picker, Eventable, Scrollable {
 		WidgetUtilities.INSTANCE.attachAddedComponent(eventManager, comp);
 		return super.add(name, comp);
 	}
-
 
 
 	@Override

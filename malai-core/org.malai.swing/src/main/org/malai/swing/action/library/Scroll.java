@@ -1,7 +1,7 @@
 package org.malai.swing.action.library;
 
 import org.malai.action.Action;
-import org.malai.swing.widget.MPanel;
+import org.malai.swing.widget.ScrollableWidget;
 
 /**
  * Defines an action that scrolls a panel.<br>
@@ -24,7 +24,7 @@ import org.malai.swing.widget.MPanel;
  */
 public class Scroll extends Action {
 	/** The panel that contains the scroller. */
-	protected MPanel panel;
+	protected ScrollableWidget scrollableWidget;
 
 	/** The scrolling increment. */
 	protected int increment;
@@ -42,23 +42,23 @@ public class Scroll extends Action {
 	@Override
 	public void flush() {
 		super.flush();
-		panel = null;
+		scrollableWidget = null;
 	}
 
 
 	@Override
 	public boolean canDo() {
-		return panel!=null && panel.hasScrollPane();
+		return scrollableWidget!=null && scrollableWidget.hasScrollPane();
 	}
 
 
 
 	@Override
 	protected void doActionBody() {
-		if(panel.isVerticalScrollbarVisible())
-			panel.scrollVertically(increment*5);
+		if(scrollableWidget.isVerticalScrollbarVisible())
+			scrollableWidget.scrollVertically(increment*5);
 		else
-			panel.scrollHorizontally(increment*5);
+			scrollableWidget.scrollHorizontally(increment*5);
 
 		done();
 	}
@@ -75,18 +75,18 @@ public class Scroll extends Action {
 	 * @return The panel to scroll.
 	 * @since 0.2
 	 */
-	public MPanel getPanel() {
-		return panel;
+	public ScrollableWidget getScrollableWidget() {
+		return scrollableWidget;
 	}
 
 
 	/**
 	 * Sets the panel that contains the scroller.
-	 * @param panel The new panel.
+	 * @param scrollableWidget The new panel.
 	 * @since 0.2
 	 */
-	public void setPanel(final MPanel panel) {
-		this.panel = panel;
+	public void setScrollableWidget(final ScrollableWidget scrollableWidget) {
+		this.scrollableWidget = scrollableWidget;
 	}
 
 
