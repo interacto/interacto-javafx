@@ -23,11 +23,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
 
 import org.malai.interaction.BasicEventManager;
 import org.malai.interaction.EventHandler;
@@ -52,7 +58,7 @@ import org.malai.swing.widget.MFrame;
  * @since 0.1
  */
 public class SwingEventManager extends BasicEventManager<Component> implements MouseListener, KeyListener, MouseMotionListener, MouseWheelListener,
-						ActionListener, ItemListener, ChangeListener, DocumentListener {
+						ActionListener, ItemListener, ChangeListener, DocumentListener, TreeSelectionListener, TreeExpansionListener {
 	/** The ID used to identify the mouse. Will change when multi-device will be supported. */
 	public static final int ID_MOUSE = 0;
 
@@ -89,6 +95,12 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 			comp.addMouseMotionListener(this);
 			comp.addMouseWheelListener(this);
 			comp.addKeyListener(this);
+			
+			if(comp instanceof JTree) {
+				JTree tree = (JTree) comp;
+				tree.addTreeSelectionListener(this);
+				tree.addTreeExpansionListener(this);
+			}
 
 			if(comp instanceof AbstractButton)
 				((AbstractButton)comp).addActionListener(this);
@@ -138,6 +150,12 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 			if(comp instanceof JTabbedPane)
 				((JTabbedPane)comp).removeChangeListener(this);
+			
+			if(comp instanceof JTree) {
+				JTree tree = (JTree) comp;
+				tree.removeTreeSelectionListener(this);
+				tree.removeTreeExpansionListener(this);
+			}
 		}
 	}
 
@@ -284,6 +302,42 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 			handler.onScroll(posX, posY, direction, amount, type, ID_MOUSE, src);
 	}
 
+
+	@Override
+	public void valueChanged(final TreeSelectionEvent event) {
+		if(event==null || swingHandlers==null || swingHandlers.isEmpty()) return;
+		
+		final Object src = event.getSource();
+		final TreePath[] changedPaths = event.getPaths();
+		final boolean isSelectionAdded = event.isAddedPath();
+
+		for(final SwingEventHandler handler : swingHandlers)
+			handler.onTreeSelectionChanged(src, changedPaths, isSelectionAdded);
+	}
+
+
+	@Override
+	public void treeExpanded(final TreeExpansionEvent event) {
+		if(event==null || swingHandlers==null || swingHandlers.isEmpty()) return;
+		
+		final Object src = event.getSource();
+		final TreePath pathExpanded = event.getPath();
+		
+		for(final SwingEventHandler handler : swingHandlers)
+			handler.onTreeExpanded(src, pathExpanded, true);
+	}
+
+
+	@Override
+	public void treeCollapsed(final TreeExpansionEvent event) {
+		if(event==null || swingHandlers==null || swingHandlers.isEmpty()) return;
+		
+		final Object src = event.getSource();
+		final TreePath pathExpanded = event.getPath();
+		
+		for(final SwingEventHandler handler : swingHandlers)
+			handler.onTreeExpanded(src, pathExpanded, false);
+	}
 
 
 	@Override
