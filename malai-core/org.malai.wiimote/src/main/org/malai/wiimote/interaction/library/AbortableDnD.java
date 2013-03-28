@@ -47,9 +47,8 @@ public class AbortableDnD extends DnD {
 		AbortingState aborted = new AbortingState("aborted"); //$NON-NLS-1$
 		addState(aborted);
 		
-		// TODO, with the B button, for example
-		//new EscapeKeyPressureTransition(pressed, aborted);
-		//new EscapeKeyPressureTransition(dragged, aborted);
+		new EscapeButtonPressureTransition(pressed, aborted);
+		new EscapeButtonPressureTransition(dragged, aborted);
 
 		List<ITransition> ts = pressed.getTransitions();
 		boolean ok = false;
@@ -59,7 +58,7 @@ public class AbortableDnD extends DnD {
 		while(!ok && i<size) {
 			t = ts.get(i);
 
-			if(t instanceof ButtonPressedTransition && t.getOutputState()==released) {
+			if(t instanceof ButtonPressedTransition && t.getOutputState() == released) {
 				ok = true;
 				ts.remove(t);
 			}

@@ -86,7 +86,9 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	 * @since 0.2
 	 */
 	public void onButtonsEvent(WiimoteButtonsEvent button) {
+		System.out.println("Event Button reçu !");
 		if(wiimoteHandlers != null) {
+			System.out.println("Envoi aux handlers");
 			for(final WiimoteEventHandler handler : wiimoteHandlers)
 				handler.onButtonPressed(button);
 		}
