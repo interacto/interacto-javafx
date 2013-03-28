@@ -1,8 +1,10 @@
 package org.malai.wiimote.interaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.malai.interaction.BasicEventManager;
+import org.malai.interaction.EventHandler;
 
 import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
@@ -64,6 +66,7 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		
 		wiimotes = WiiUseApiManager.getWiimotes(nbWiimotes, true);
 		wiimotes[0].addWiiMoteEventListeners(this);
+		this.attachTo(wiimotes[0]);
 		
 		wiimoteHandlers = null;
 	}
@@ -95,15 +98,32 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		}
 	}
 	
+	@Override
+	public void addHandlers(final EventHandler h) {
+		super.addHandlers(h);
+		if(h instanceof WiimoteEventHandler) {
+			if(wiimoteHandlers==null) 
+				wiimoteHandlers = new ArrayList<WiimoteEventHandler>();
+			wiimoteHandlers.add((WiimoteEventHandler)h);
+		}
+	}
+
+
+	@Override
+	public void removeHandler(final EventHandler h) {
+		super.removeHandler(h);
+		if(h != null && wiimoteHandlers!=null) 
+			wiimoteHandlers.remove(h);
+	}
+	
+	
 	/**
 	 * Event receives when a button is pressed on the wiimote or a plugged controller
 	 * @param button Event object which contains info about the button pressed
 	 * @since 0.2
 	 */
 	public void onButtonsEvent(WiimoteButtonsEvent button) {
-		System.out.println("Event Button reçu !");
 		if(wiimoteHandlers != null) {
-			System.out.println("Envoi aux handlers");
 			for(final WiimoteEventHandler handler : wiimoteHandlers)
 				handler.onButtonPressed(button);
 		}
