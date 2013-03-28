@@ -23,7 +23,6 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 	@Override
 	protected void initStateMachine() {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public void onButtonPressed(ButtonsEvent button) {
@@ -44,8 +43,7 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 	}
 
 	public void onDisconnection(DisconnectionEvent disconnection) {
-		if(!activated) return ;
-		
+		if(!activated) return ;		
 	}
 
 	public void onMotionSensing(MotionSensingEvent motion) {

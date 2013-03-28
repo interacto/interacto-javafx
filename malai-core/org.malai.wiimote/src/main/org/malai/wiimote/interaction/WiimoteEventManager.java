@@ -49,14 +49,20 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	private Wiimote[] wiimotes;
 	
 	/**
+	 * Create Event Manager with one Wiimote
+	 */
+	public WiimoteEventManager() {
+		this(1);
+	}
+
+	/**
 	 * Creates a event manager that gathers Wiimote events and transfers them to handlers.
 	 * @since 0.2
 	 */
-	public WiimoteEventManager() {
+	public WiimoteEventManager(int nbWiimotes) {
 		super();
 		
-		// Get Wiimote
-		wiimotes = WiiUseApiManager.getWiimotes(1, true);
+		wiimotes = WiiUseApiManager.getWiimotes(nbWiimotes, true);
 		wiimotes[0].addWiiMoteEventListeners(this);
 		
 		wiimoteHandlers = null;
@@ -77,6 +83,15 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	public void detachForm(final Wiimote controller) {
 		if(controller != null) {
 			controller.addWiiMoteEventListeners(null);
+		}
+	}
+	
+	/**
+	 * Disconnect a wiimote, via its wiimote ID
+	 */
+	public void detachForm(int id) {
+		if(wiimotes.length < id) {
+			wiimotes[id].addWiiMoteEventListeners(null);
 		}
 	}
 	
