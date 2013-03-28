@@ -20,6 +20,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
 
 import junit.framework.TestCase;
 
@@ -29,8 +30,6 @@ import org.malai.interaction.BasicEventManager;
 import org.malai.interaction.EventHandler;
 import org.malai.interaction.TimeoutTransition;
 import org.malai.swing.widget.MFrame;
-
-
 
 class EventHandlerMock implements EventHandler, SwingEventHandler {
 	@Override
@@ -63,6 +62,10 @@ class EventHandlerMock implements EventHandler, SwingEventHandler {
 	public void onWindowClosed(final MFrame frame) { /* */ }
 	@Override
 	public void onTabChanged(final JTabbedPane tabbedPanel) { /* */ }
+	@Override
+	public void onTreeSelectionChanged(Object src, TreePath[] changedPaths, boolean isSelectionAdded) { /* */ }
+	@Override
+	public void onTreeExpanded(Object src, TreePath expandedPath, boolean isExpanded) { /* */ }
 }
 
 

@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
 
 import org.malai.swing.widget.MFrame;
 
@@ -85,4 +86,20 @@ public interface SwingEventHandler {
 	 * @since 0.2
 	 */
 	void onTabChanged(final JTabbedPane tabbedPanel);
+	
+	/**
+	 * Defines actions to do when the selected rows of a jtree have changed.
+	 * @param src The source tree.
+	 * @param changedPaths The changed paths (removed or added).
+	 * @param isSelectionAdded Defines whether the changed paths have been removed or added.
+	 */
+	void onTreeSelectionChanged(final Object src, final TreePath[] changedPaths, final boolean isSelectionAdded);
+	
+	/**
+	 * Defines actions to do when expanding or collapsing a node.
+	 * @param src The source tree.
+	 * @param expandedPath The expanded or collapsed node.
+	 * @param isExpanded Defines whether the node has been expanded or collasped.
+	 */
+	void onTreeExpanded(final Object src, final TreePath expandedPath, final boolean isExpanded);
 }

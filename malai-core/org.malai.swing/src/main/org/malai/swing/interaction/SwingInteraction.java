@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
 
 import org.malai.interaction.InitState;
 import org.malai.interaction.Interaction;
@@ -124,6 +125,48 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 
 			if(t instanceof SpinnerTransition) {
 				((SpinnerTransition)t).setSpinner(spinner);
+				again = !checkTransition(t);
+			}
+		}
+	}
+
+
+	@Override
+	public void onTreeSelectionChanged(final Object src, final TreePath[] changedPaths, final boolean isSelectionAdded) {
+		if(!activated) return ;
+
+		boolean again = true;
+		ITransition t;
+
+		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
+			t = currentState.getTransition(i);
+
+			if(t instanceof TreeSelectionTransition) {
+				TreeSelectionTransition treeTrans = (TreeSelectionTransition) t;
+				treeTrans.setSrc(src);
+				treeTrans.setChangedPaths(changedPaths);
+				treeTrans.setSelectionAdded(isSelectionAdded);
+				again = !checkTransition(t);
+			}
+		}
+	}
+
+
+	@Override
+	public void onTreeExpanded(final Object src, final TreePath expandedPath, final boolean isExpanded) {
+		if(!activated) return ;
+
+		boolean again = true;
+		ITransition t;
+
+		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
+			t = currentState.getTransition(i);
+
+			if(t instanceof TreeExpansionTransition) {
+				TreeExpansionTransition treeTrans = (TreeExpansionTransition) t;
+				treeTrans.setSrc(src);
+				treeTrans.setExpanded(isExpanded);
+				treeTrans.setExpandedPath(expandedPath);
 				again = !checkTransition(t);
 			}
 		}
