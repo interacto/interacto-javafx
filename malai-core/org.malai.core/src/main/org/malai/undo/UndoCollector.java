@@ -177,7 +177,7 @@ public final class UndoCollector {
 
 
 	/**
-	 * @return The last undoable object name.
+	 * @return The last undoable object name or null if there is no last object.
 	 */
 	public String getLastUndoMessage() {
 		return undo.isEmpty() ? null : undo.peek().getUndoName();
@@ -185,7 +185,7 @@ public final class UndoCollector {
 
 
 	/**
-	 * @return The last redoable object name.
+	 * @return The last redoable object name or null if there is no last object.
 	 */
 	public String getLastRedoMessage() {
 		return redo.isEmpty() ? null : redo.peek().getUndoName();
@@ -193,7 +193,7 @@ public final class UndoCollector {
 
 
 	/**
-	 * @return The last undoable object.
+	 * @return The last undoable object or null if there is no last object.
 	 */
 	public Undoable getLastUndo() {
 		return undo.isEmpty() ? null : undo.peek();
@@ -201,7 +201,7 @@ public final class UndoCollector {
 
 
 	/**
-	 * @return The last redoable object.
+	 * @return The last redoable object or null if there is no last object.
 	 */
 	public Undoable getLastRedo() {
 		return redo.isEmpty() ? null : redo.peek();

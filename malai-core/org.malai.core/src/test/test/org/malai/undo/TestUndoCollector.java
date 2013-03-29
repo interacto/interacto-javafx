@@ -1,10 +1,14 @@
 package test.org.malai.undo;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Field;
 import java.util.List;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.malai.undo.UndoCollector;
 import org.malai.undo.UndoHandler;
@@ -12,16 +16,256 @@ import org.malai.undo.Undoable;
 
 import test.org.malai.HelperTest;
 
-public class TestUndoCollector extends TestCase {
+public class TestUndoCollector {
 	@SuppressWarnings("unchecked")
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		UndoCollector.INSTANCE.clear();
-
 		final Field field = HelperTest.getField(UndoCollector.class, "handlers");
 		final List<UndoHandler> list = (List<UndoHandler>)field.get(UndoCollector.INSTANCE);
 		list.clear();
+	}
+
+	@Test public void testRedo_withUndoDone_withGlobalUndoable() {
+		final UndoHandler handler = new UndoHandler() {
+			@Override
+			public void onUndoableUndo(final Undoable undoable) {//
+			}
+			@Override
+			public void onUndoableRedo(final Undoable undoable) {
+				ok = true;
+			}
+			@Override
+			public void onUndoableCleared() {//
+			}
+			@Override
+			public void onUndoableAdded(final Undoable undoable) {//
+			}
+		};
+
+		ok = false;
+		UndoCollector.INSTANCE.addHandler(handler);
+		UndoCollector.INSTANCE.add(new MockUndoable(), null);
+		UndoCollector.INSTANCE.undo();
+		UndoCollector.INSTANCE.redo();
+		assertTrue(ok);
+	}
+
+	@Test public void testRedo_withUndoDone_withUndoable() {
+		final UndoHandler handler = new UndoHandler() {
+			@Override
+			public void onUndoableUndo(final Undoable undoable) {//
+			}
+			@Override
+			public void onUndoableRedo(final Undoable undoable) {
+				ok = true;
+			}
+			@Override
+			public void onUndoableCleared() {//
+			}
+			@Override
+			public void onUndoableAdded(final Undoable undoable) {//
+			}
+		};
+
+		ok = false;
+		UndoCollector.INSTANCE.add(new MockUndoable(), handler);
+		UndoCollector.INSTANCE.undo();
+		UndoCollector.INSTANCE.redo();
+		assertTrue(ok);
+	}
+
+
+	@Test public void testRedo_whenRedoEmpty() {
+		final UndoHandler handler = new UndoHandler() {
+			@Override
+			public void onUndoableUndo(final Undoable undoable) {//
+			}
+			@Override
+			public void onUndoableRedo(final Undoable undoable) {
+				ok = false;
+			}
+			@Override
+			public void onUndoableCleared() {//
+			}
+			@Override
+			public void onUndoableAdded(final Undoable undoable) {//
+			}
+		};
+
+		ok = true;
+		UndoCollector.INSTANCE.addHandler(handler);
+		UndoCollector.INSTANCE.redo();
+		assertTrue(ok);
+	}
+
+	@Test public void testUndo_whenUndoEmpty() {
+		final UndoHandler handler = new UndoHandler() {
+			@Override
+			public void onUndoableUndo(final Undoable undoable) {
+				ok = false;
+			}
+			@Override
+			public void onUndoableRedo(final Undoable undoable) {//
+			}
+			@Override
+			public void onUndoableCleared() {//
+			}
+			@Override
+			public void onUndoableAdded(final Undoable undoable) {//
+			}
+		};
+
+		ok = true;
+		UndoCollector.INSTANCE.addHandler(handler);
+		UndoCollector.INSTANCE.undo();
+		assertTrue(ok);
+	}
+
+
+	boolean ok;
+	@Test public void testAddUndoableFollowedByUndo_withUndoHandler() {
+		UndoCollector.INSTANCE.setSizeMax(5);
+		ok = false;
+		UndoCollector.INSTANCE.add(new MockUndoable(), new UndoHandler() {
+			@Override
+			public void onUndoableUndo(final Undoable undoable) {
+				ok = true;
+			}
+			@Override
+			public void onUndoableRedo(final Undoable undoable) {
+				throw new IllegalArgumentException();
+			}
+			@Override
+			public void onUndoableCleared() {
+				throw new IllegalArgumentException();
+			}
+			@Override
+			public void onUndoableAdded(final Undoable undoable) {
+				throw new IllegalArgumentException();
+			}
+		});
+
+		UndoCollector.INSTANCE.undo();
+		assertTrue(ok);
+	}
+
+
+	@Test public void testAddUndoableFollowedByUndo_withDefaultndoHandler() {
+		UndoCollector.INSTANCE.setSizeMax(5);
+		final UndoHandler handler = new UndoHandler() {
+			@Override
+			public void onUndoableUndo(final Undoable undoable) {
+				ok = true;
+			}
+			@Override
+			public void onUndoableRedo(final Undoable undoable) {//
+			}
+			@Override
+			public void onUndoableCleared() {//
+			}
+			@Override
+			public void onUndoableAdded(final Undoable undoable) {//
+			}
+		};
+		ok = false;
+		UndoCollector.INSTANCE.addHandler(handler);
+		UndoCollector.INSTANCE.add(new MockUndoable(), null);
+
+		UndoCollector.INSTANCE.undo();
+		assertTrue(ok);
+	}
+
+
+	@Test public void testAddUndoable_with0SizeUndoable() {
+		UndoCollector.INSTANCE.setSizeMax(0);
+		UndoCollector.INSTANCE.add(new MockUndoable(), null);
+		assertTrue(UndoCollector.INSTANCE.getUndo().isEmpty());
+		assertTrue(UndoCollector.INSTANCE.getRedo().isEmpty());
+	}
+
+	@Test public void testAddUndoable_withNullUndoable() {
+		UndoCollector.INSTANCE.setSizeMax(5);
+		UndoCollector.INSTANCE.add(null, null);
+		assertTrue(UndoCollector.INSTANCE.getUndo().isEmpty());
+		assertTrue(UndoCollector.INSTANCE.getRedo().isEmpty());
+	}
+
+	@Test public void testAddUndoable_withLimitedUndoSize() {
+		final Undoable undoable1 = new MockUndoable();
+		final Undoable undoable2 = new MockUndoable();
+		UndoCollector.INSTANCE.setSizeMax(1);
+		UndoCollector.INSTANCE.add(undoable1, null);
+		UndoCollector.INSTANCE.add(undoable2, null);
+		assertEquals(1, UndoCollector.INSTANCE.getUndo().size());
+		assertEquals(undoable2, UndoCollector.INSTANCE.getUndo().getFirst());
+	}
+
+
+	@Test public void testGetRedos() {
+		assertNotNull(UndoCollector.INSTANCE.getRedo());
+	}
+
+	@Test public void testGetUndos() {
+		assertNotNull(UndoCollector.INSTANCE.getUndo());
+	}
+
+
+	@Test public void testSizeMaxMutatorsUndoableRemoved() {
+		UndoCollector.INSTANCE.setSizeMax(5);
+		UndoCollector.INSTANCE.add(new MockUndoable(), null);
+		assertNotNull(UndoCollector.INSTANCE.getLastUndo());
+		UndoCollector.INSTANCE.setSizeMax(0);
+		assertNull(UndoCollector.INSTANCE.getLastUndo());
+	}
+
+	@Test public void testSizeMaxMutatorsSize() {
+		UndoCollector.INSTANCE.setSizeMax(21);
+		assertEquals(21, UndoCollector.INSTANCE.getSizeMax());
+		UndoCollector.INSTANCE.setSizeMax(32);
+		assertEquals(32, UndoCollector.INSTANCE.getSizeMax());
+		UndoCollector.INSTANCE.setSizeMax(9);
+		assertEquals(9, UndoCollector.INSTANCE.getSizeMax());
+		UndoCollector.INSTANCE.setSizeMax(0);
+		assertEquals(0, UndoCollector.INSTANCE.getSizeMax());
+		UndoCollector.INSTANCE.setSizeMax(5);
+		assertEquals(5, UndoCollector.INSTANCE.getSizeMax());
+		UndoCollector.INSTANCE.setSizeMax(-1);
+		assertEquals(5, UndoCollector.INSTANCE.getSizeMax());
+	}
+
+
+	@Test public void testGetLastRedo() {
+		final Undoable undoable = new MockUndoable();
+		assertNull(UndoCollector.INSTANCE.getLastRedo());
+		UndoCollector.INSTANCE.add(undoable, null);
+		assertNull(UndoCollector.INSTANCE.getLastRedo());
+		UndoCollector.INSTANCE.undo();
+		assertEquals(undoable, UndoCollector.INSTANCE.getLastRedo());
+	}
+
+
+	@Test public void testGetLastUndo() {
+		final Undoable undoable = new MockUndoable();
+		assertNull(UndoCollector.INSTANCE.getLastUndo());
+		UndoCollector.INSTANCE.add(undoable, null);
+		assertEquals(undoable, UndoCollector.INSTANCE.getLastUndo());
+	}
+
+
+	@Test public void testGetLastUndoMessage() {
+		assertNull(UndoCollector.INSTANCE.getLastUndoMessage());
+		UndoCollector.INSTANCE.add(new MockUndoable("undoredomsg"), null);
+		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastUndoMessage());
+	}
+
+
+	@Test public void testGetLastRedoMessage() {
+		assertNull(UndoCollector.INSTANCE.getLastRedoMessage());
+		UndoCollector.INSTANCE.add(new MockUndoable("undoredomsg"), null);
+		assertNull(UndoCollector.INSTANCE.getLastRedoMessage());
+		UndoCollector.INSTANCE.undo();
+		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastRedoMessage());
 	}
 
 
@@ -98,6 +342,17 @@ public class TestUndoCollector extends TestCase {
 
 
 	public class MockUndoable implements Undoable {
+		protected String undoMsg;
+
+		public MockUndoable() {
+			this("");
+		}
+
+		public MockUndoable(final String undoMsg) {
+			super();
+			this.undoMsg = undoMsg;
+		}
+
 		@Override
 		public void undo() {//
 		}
@@ -108,7 +363,7 @@ public class TestUndoCollector extends TestCase {
 
 		@Override
 		public String getUndoName() {
-			return null;
+			return undoMsg;
 		}
 	}
 
