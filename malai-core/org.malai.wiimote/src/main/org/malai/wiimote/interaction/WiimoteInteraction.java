@@ -30,10 +30,10 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 
 		boolean again = true;
 		ITransition t;
-
+		
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
-
+			
 			if(t instanceof ButtonPressedTransition) {
 				((ButtonPressedTransition)t).setButton(button);
 				again = !checkTransition(t);
