@@ -3,6 +3,7 @@ package org.malai.wiimote.interaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.malai.error.AttachWiimoteException;
 import org.malai.interaction.BasicEventManager;
 import org.malai.interaction.EventHandler;
 
@@ -52,21 +53,32 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	
 	/**
 	 * Create Event Manager with one Wiimote
+	 * @throws AttachWiimoteException 
 	 */
-	public WiimoteEventManager() {
+	public WiimoteEventManager() throws AttachWiimoteException {
 		this(1);
 	}
 
 	/**
 	 * Creates a event manager that gathers Wiimote events and transfers them to handlers.
+	 * @throws AttachWiimoteException
 	 * @since 0.2
 	 */
-	public WiimoteEventManager(int nbWiimotes) {
+	public WiimoteEventManager(int nbWiimotes) throws AttachWiimoteException {
 		super();
 		
 		wiimotes = WiiUseApiManager.getWiimotes(nbWiimotes, true);
-		wiimotes[0].addWiiMoteEventListeners(this);
-		this.attachTo(wiimotes[0]);
+		
+		// Check if every wiimotes has been connected
+		if(wiimotes.length != nbWiimotes) {
+			throw new AttachWiimoteException();
+		}
+		
+		// For each wiimotes, attach listener
+		for(int i = 0; i < nbWiimotes; i++) {
+			wiimotes[i].addWiiMoteEventListeners(this);
+			this.attachTo(wiimotes[i]);
+		}
 		
 		wiimoteHandlers = null;
 	}

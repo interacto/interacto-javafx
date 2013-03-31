@@ -11,6 +11,7 @@ import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 import org.malai.wiimote.interaction.ButtonPressedTransition;
+import org.malai.wiimote.interaction.WiimoteInteraction;
 
 import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
 
@@ -34,7 +35,7 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class DnD extends Interaction {
+public class DnD extends WiimoteInteraction {
 	
 	/** The starting point of the dnd. */
 	protected Point startPt;
@@ -73,17 +74,16 @@ public class DnD extends Interaction {
 		pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
 		dragged = new IntermediaryState("dragged"); //$NON-NLS-1$
 		released= new TerminalState("released"); //$NON-NLS-1$
-
+		
 		addState(pressed);
 		addState(dragged);
-		addState(released);
-
+		addState(released);		
+		
 		new ButtonPressedTransition(initState, pressed) {
 			@Override
-			public void action() {
+			public void action() {				
 				super.action();
 
-				setLastHIDUsed(this.hid);
 				DnD.this.startPt 	 = new Point(0, 0);
 				DnD.this.endPt	 	 = new Point(0, 0);
 				//TODO: with motionsensing DnD.this.endPt	 	 = new Point(this.x, this.y);
@@ -93,6 +93,7 @@ public class DnD extends Interaction {
 			}
 		};
 
+	
 		new Move4DnD(pressed, dragged);
 		new Move4DnD(dragged, dragged);
 		new Release4DnD(dragged, released);
