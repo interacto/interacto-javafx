@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="/org.malai.core"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Juliette/Etudes pratiques perso/workspace/Malai/malai-core/org.malai.jinput/library/jinput.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Juliette/Etudes pratiques perso/workspace/Malai/malai-core/org.malai.jinput/library/jinput-dx8-64.dll">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="org.malai.jinput/library"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Juliette/Etudes pratiques perso/workspace/Malai/malai-core/org.malai.jinput/library/jinput-raw-64.dll">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="org.malai.jinput/library"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
