@@ -45,7 +45,7 @@ public class DnD extends WiimoteInteraction {
 
 	/** The button of the device used to performed the dnd (-1 if no button). */
 	protected ButtonsEvent button;
-
+	
 	/** The object picked at the beginning of the dnd. */
 	protected Pickable startObject;
 
@@ -63,7 +63,7 @@ public class DnD extends WiimoteInteraction {
 	 */
 	public DnD() {
 		super();
-
+		
 		initStateMachine();
 	}
 
@@ -81,23 +81,45 @@ public class DnD extends WiimoteInteraction {
 		
 		new ButtonPressedTransition(initState, pressed) {
 			@Override
-			public void action() {				
+			public void action() {
 				super.action();
 
 				DnD.this.startPt 	 = new Point(0, 0);
-				DnD.this.endPt	 	 = new Point(0, 0);
+				DnD.this.endPt	 	 = new Point(50, 30);
 				//TODO: with motionsensing DnD.this.endPt	 	 = new Point(this.x, this.y);
 				DnD.this.button  	 = this.button;
 				DnD.this.startObject = Interaction.getPickableAt(0, 0, 0);
-				DnD.this.endObject 	 = DnD.this.startObject;
+				DnD.this.endObject 	 = Interaction.getPickableAt(50, 30, 0);
 			}
 		};
 
-	
 		new Move4DnD(pressed, dragged);
 		new Move4DnD(dragged, dragged);
 		new Release4DnD(dragged, released);
 		new Release4DnD(pressed, released);
+		
+		// Release Event
+		new ButtonPressedTransition(pressed, released) {
+			@Override
+			public void action() {		
+				super.action();			
+				
+				System.out.println("Maj de l'objet");
+				DnD.this.startPt 	 = new Point(0, 0);
+				DnD.this.endPt.setLocation(80, 20);
+				//TODO: with motionsensing DnD.this.endPt	 	 = new Point(this.x, this.y);
+				DnD.this.button  	 = this.button;
+				System.out.println("Button held " + this.button.getButtonsHeld());
+				DnD.this.startObject = Interaction.getPickableAt(0, 0, 0);
+				DnD.this.endObject = Interaction.getPickableAt(80, 20, this.button);
+			}
+			
+			@Override
+			public boolean isGuardRespected() {
+				System.out.println("Guard released: " + (DnD.this.button.getButtonsHeld() == 0));
+				return DnD.this.button.getButtonsHeld() == 0;
+			}
+		};
 	}
 
 
@@ -164,7 +186,8 @@ public class DnD extends WiimoteInteraction {
 		}
 		@Override
 		public boolean isGuardRespected() {
-			return DnD.this.button.equals(this.button) && DnD.this.getLastHIDUsed()==this.hid;
+			System.out.println("Guard: " + DnD.this.button.getButtonsHeld());
+			return DnD.this.button.getButtonsHeld() != 0;
 		}
 	}
 
@@ -176,12 +199,15 @@ public class DnD extends WiimoteInteraction {
 		@Override
 		public void action() {
 			super.action();
+			System.out.println("Update location");
+			System.out.println(this.x);
 			DnD.this.endPt.setLocation(x, y);
 			DnD.this.endObject = Interaction.getPickableAt(this.x, this.y, this.source);
 		}
 		@Override
 		public boolean isGuardRespected() {
-			return DnD.this.getLastHIDUsed()==this.hid;
+			System.out.println("Guard Move: " + (DnD.this.getLastHIDUsed()==this.hid));
+			return true; //DnD.this.getLastHIDUsed()==this.hid;
 		}
 	}
 }

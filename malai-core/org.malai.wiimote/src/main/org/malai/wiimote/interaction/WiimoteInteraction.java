@@ -27,6 +27,8 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 	
 	public void onButtonPressed(ButtonsEvent button) {
 		if(!activated) return ;
+		
+		System.out.println("State: " + currentState.toString());
 
 		boolean again = true;
 		ITransition t;
