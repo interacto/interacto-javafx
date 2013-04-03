@@ -85,6 +85,7 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	
 	/**
 	 * Attachs this listener to a new wiimote controller
+	 * @TODO : useless?
 	 */
 	public void attachTo(final Wiimote controller) {
 		if(controller != null) {
