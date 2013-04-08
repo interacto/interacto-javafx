@@ -115,6 +115,6 @@ public class MMenuBar extends JMenuBar implements Picker{
 
 	@Override
 	public boolean contains(final Object obj) {
-		return WidgetUtilities.INSTANCE.contains(getComponents(), obj);
+		return SwingWidgetUtilities.INSTANCE.contains(getComponents(), obj);
 	}
 }
