@@ -26,15 +26,15 @@ import org.malai.swing.interaction.SwingEventManager;
  * @version 0.2
  * @since 0.2
  */
-public class WidgetUtilities {
+class SwingWidgetUtilities {
 	/** The singleton of the class. */
-	public static final WidgetUtilities INSTANCE = new WidgetUtilities();
+	public static final SwingWidgetUtilities INSTANCE = new SwingWidgetUtilities();
 
 	/**
 	 * Initialise the singleton.
 	 * @since 0.2
 	 */
-	protected WidgetUtilities() {
+	protected SwingWidgetUtilities() {
 		super();
 	}
 

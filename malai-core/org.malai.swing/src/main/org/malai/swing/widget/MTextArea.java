@@ -151,11 +151,11 @@ public class MTextArea extends JTextArea implements Pickable, ScrollableWidget, 
 
 	@Override
 	public Picker getPicker() {
-		return WidgetUtilities.INSTANCE.getPicker(this);
+		return SwingWidgetUtilities.INSTANCE.getPicker(this);
 	}
 
 	@Override
 	public boolean contains(final double x, final double y) {
-		return WidgetUtilities.INSTANCE.contains(this, x, y);
+		return SwingWidgetUtilities.INSTANCE.contains(this, x, y);
 	}
 }
