@@ -1,0 +1,6 @@
+resource library_standard ="platform:/plugin/org.kermeta.language.library.standard" alternative "mvn:org.kermeta.language/language.library.standard/2.0.98"
+importProject library_standard
+project org.malai.model.mbt {
+	mainClass "org.malai.model.mbt#mainPackage::MainClass"
+	mainOperation "mainOperation"	import "${project.baseUri}/src/main/kmt/MainClass.kmt"
+}
