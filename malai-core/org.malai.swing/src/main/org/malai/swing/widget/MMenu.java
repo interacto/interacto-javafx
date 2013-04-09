@@ -65,32 +65,32 @@ public class MMenu extends JMenu implements Pickable, Picker, Eventable {
 
 	@Override
 	public boolean contains(final double x, final double y) {
-		return WidgetUtilities.INSTANCE.contains(this, x, y);
+		return SwingWidgetUtilities.INSTANCE.contains(this, x, y);
 	}
 
 
 	@Override
 	public boolean contains(final Object obj) {
-		return WidgetUtilities.INSTANCE.contains(getMenuComponents(), obj);
+		return SwingWidgetUtilities.INSTANCE.contains(getMenuComponents(), obj);
 	}
 
 
 
 	@Override
 	public Pickable getPickableAt(final double x, final double y) {
-		return WidgetUtilities.INSTANCE.getPickableAt(this, getMenuComponents(), x, y);
+		return SwingWidgetUtilities.INSTANCE.getPickableAt(this, getMenuComponents(), x, y);
 	}
 
 
 	@Override
 	public Picker getPickerAt(final double x, final double y) {
-		return WidgetUtilities.INSTANCE.getPickerAt(this, getMenuComponents(), x, y);
+		return SwingWidgetUtilities.INSTANCE.getPickerAt(this, getMenuComponents(), x, y);
 	}
 
 
 	@Override
 	public Picker getPicker() {
-		return WidgetUtilities.INSTANCE.getPicker(this);
+		return SwingWidgetUtilities.INSTANCE.getPicker(this);
 	}
 
 
@@ -108,14 +108,14 @@ public class MMenu extends JMenu implements Pickable, Picker, Eventable {
 
 	@Override
 	public JMenuItem add(final JMenuItem menuItem) {
-		WidgetUtilities.INSTANCE.attachAddedComponent(eventManager, menuItem);
+		SwingWidgetUtilities.INSTANCE.attachAddedComponent(eventManager, menuItem);
 		return super.add(menuItem);
 	}
 
 
 	@Override
 	public Component add(final Component menuItem, final int index) {
-		WidgetUtilities.INSTANCE.attachAddedComponent(eventManager, menuItem);
+		SwingWidgetUtilities.INSTANCE.attachAddedComponent(eventManager, menuItem);
 		return super.add(menuItem, index);
 	}
 }

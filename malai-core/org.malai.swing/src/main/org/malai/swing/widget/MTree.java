@@ -105,17 +105,17 @@ public class MTree extends JTree implements Picker, Eventable, ScrollableWidget 
 
 	@Override
 	public Pickable getPickableAt(final double x, final double y) {
-		return WidgetUtilities.INSTANCE.getPickableAt(this, getComponents(), x, y);
+		return SwingWidgetUtilities.INSTANCE.getPickableAt(this, getComponents(), x, y);
 	}
 
 	@Override
 	public Picker getPickerAt(final double x, final double y) {
-		return WidgetUtilities.INSTANCE.getPickerAt(this, getComponents(), x, y);
+		return SwingWidgetUtilities.INSTANCE.getPickerAt(this, getComponents(), x, y);
 	}
 
 	@Override
 	public boolean contains(final Object obj) {
-		return WidgetUtilities.INSTANCE.contains(getComponents(), obj);
+		return SwingWidgetUtilities.INSTANCE.contains(getComponents(), obj);
 	}
 
 
