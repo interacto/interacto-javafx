@@ -4,7 +4,7 @@ import org.malai.interaction.Transition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-import net.java.games.input.Component;
+import net.java.games.input.*;
 
 public class ButtonPressedTransition extends Transition {
 	/** The pressed button. */
@@ -23,7 +23,7 @@ public class ButtonPressedTransition extends Transition {
 	 * @since 0.2
 	 */
 	public Component.Identifier.Button getButton() {
-		return button;
+		return button ;
 	}
 
 

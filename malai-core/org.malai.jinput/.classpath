@@ -14,5 +14,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="org.malai.jinput/library"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="/org.malai.swing"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
