@@ -355,7 +355,6 @@ public class EventModelWizard extends Wizard implements INewWizard {
 	 * This is the page where the type of object to create is selected.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public class EventModelWizardInitialObjectCreationPage extends WizardPage {
 		/**
