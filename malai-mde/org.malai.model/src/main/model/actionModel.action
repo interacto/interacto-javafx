@@ -10,4 +10,7 @@
       </eStructuralFeatures>
     </clazz>
   </actions>
+  <actions>
+    <clazz name="SelectEditing"/>
+  </actions>
 </org_malai_action:ActionModel>

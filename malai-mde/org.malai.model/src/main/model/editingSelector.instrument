@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<org_malai_instrument:Instrument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org_malai_instrument="http://org.malai/instrument/1_0_0//org/malai/instrument" xmlns:org_malai_widget="http://org.malai/widget/1_0_0//org/malai/widget">
+  <links isConditionRespected="button==instrument.select || button==instrument.rect || button==instrument.ell">
+    <interaction href="interactions/ButtonPressed.interaction#/"/>
+    <action href="actionModel.action#//@actions.1"/>
+  </links>
+  <clazz name="EditingSelector"/>
+  <providedWidgets xsi:type="org_malai_widget:ToggleButton" name="select"/>
+  <providedWidgets xsi:type="org_malai_widget:ToggleButton" name="rect"/>
+  <providedWidgets xsi:type="org_malai_widget:ToggleButton" name="ell"/>
+</org_malai_instrument:Instrument>
