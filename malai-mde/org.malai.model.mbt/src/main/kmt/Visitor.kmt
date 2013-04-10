@@ -1,0 +1,91 @@
+using kermeta::standard::*
+using kermeta::io::StdIO => stdio
+
+using org::malai::instrument::*
+using org::malai::interaction::*
+using org::malai::action::*
+
+
+package org::malai::instrument{
+
+	aspect class Instrument {
+	
+		operation visit() : Void is do 
+			stdio.writeln("Hello from instrument "+self)
+			self.links.each{elem | elem.visit()}
+		end
+		
+	}
+	
+	aspect class Link{	
+	
+		operation visit() : Void is do 
+			stdio.writeln("Hello from link "+self)
+			self.interaction.visit()
+			self.action.visit()
+		end
+		
+	}
+}
+
+package org::malai::interaction{
+
+	aspect class Interaction{
+	
+		operation visit() : Void is do 
+			stdio.writeln("Hello from interaction "+self)
+			
+			if(self.initState != void) then
+				var visitedTransitions :OrderedSet<Transition> := OrderedSet<Transition>.new
+				self.initState.visit(visitedTransitions)
+			end
+		end
+	}
+		
+	aspect class State{
+
+		operation visit(visitedTransition : OrderedSet<Transition>) : Void is do
+			stdio.writeln("Hello from state "+self.name)
+			
+			//TODO: outputs from terminal states?			
+			if self.isInstanceOf(TerminalState) then
+				var res : StringBuffer := StringBuffer.new
+				res.append("[")
+				visitedTransition.indexedEach{ elem,eachContext |
+					res.append(elem.name) 
+					if(!eachContext.isLast) then res.append(">") end
+					}
+				res.append("]")
+				stdio.writeln(res.toString)
+			else
+				self.outputTransitions.each{elem | 
+					if not visitedTransition.contains(elem) then //Avoid loop
+						visitedTransition.add(elem)
+						elem.visit(visitedTransition)
+						visitedTransition.remove(elem)
+					end
+					}
+			end
+		end
+	}
+		
+	aspect class Transition{
+	
+		operation visit(visitedTransition : OrderedSet<Transition>) : Void is do
+			stdio.writeln("Hello from transition "+self.name)
+			self.outputState.visit(visitedTransition)
+		end
+		
+	}
+}
+
+package org::malai::action{
+
+	aspect class Action{
+	
+		operation visit() : Void is do 
+			stdio.writeln("Hello from action "+self)
+		end
+		
+	}
+}
