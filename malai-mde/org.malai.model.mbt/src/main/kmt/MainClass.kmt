@@ -1,14 +1,35 @@
 using kermeta::standard::*
 using kermeta::io::StdIO => stdio
+using kermeta::emfpersistence::*
+using org::malai::instrument::*
 
 package mainPackage{
 	class MainClass
 	{
 
 		@main "" // declares that operation as a possible entry point of the program
-		operation mainOperation() : Void is do 
-			// TODO: implement 'mainOperation' operation
-			stdio.writeln("Hello from mainOperation")
+		operation mainOperation() : Void is do 	
+			stdio.writeln("Hello from mainOperation !")
+			
+			var mm_uri : String := "platform:/resource/org.malai.model/src/main/metamodel/instrument.ecore"
+			var m_uri : String := "platform:/resource/org.malai.model/src/main/model/pencil.instrument"
+			
+			visitModel(m_uri,mm_uri)
+		end
+    	
+    	operation visitModel(inputModel : String, inputMetaModel : String) : Void is do 
+		
+			var repository : ResourceSet init ResourceSet.new
+			var resource : Resource init repository.createResource(inputModel)
+			//var resource : Resource init repository.createResource(inputModel, inputMetaModel)
+			resource.load(void)
+			
+			resource.getContents.each { elem |
+				if elem.isInstanceOf(Instrument) then
+					var inst : Instrument := elem.asType(Instrument)
+					inst.visit
+				end
+			}
 		end
 	}
 }
