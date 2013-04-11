@@ -85,7 +85,7 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	
 	/**
 	 * Attachs this listener to a new wiimote controller
-	 * @TODO : useless?
+	 * @TODO
 	 */
 	public void attachTo(final Wiimote controller) {
 		if(controller != null) {
@@ -129,6 +129,38 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 			wiimoteHandlers.remove(h);
 	}
 	
+	/**
+	 * Active IR Event for all wiimotes
+	 */
+	public void enableIREvent() {
+		for(Wiimote w : wiimotes)
+			w.activateIRTRacking();
+	}
+	
+	/**
+	 * Desactive IR Event for all wiimotes
+	 */
+	public void disableIREvent() {
+		for(Wiimote w : wiimotes)
+			w.deactivateIRTRacking();
+	}
+	
+	/**
+	 * Active Motion Sensing Event for all wiimotes
+	 */
+	public void enableMotionEvent() {
+		for(Wiimote w : wiimotes)
+			w.activateMotionSensing();
+	}
+	
+	/**
+	 * Desactive Motion Sensing Event for all wiimotes
+	 */
+	public void disableMotionEvent() {
+		for(Wiimote w : wiimotes)
+			w.deactivateMotionSensing();
+	}
+	
 	
 	/**
 	 * Event receives when a button is pressed on the wiimote or a plugged controller
@@ -140,16 +172,6 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 			for(final WiimoteEventHandler handler : wiimoteHandlers)
 				handler.onButtonPressed(button);
 		}
-	}
-
-	public void onClassicControllerInsertedEvent(ClassicControllerInsertedEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onClassicControllerRemovedEvent(ClassicControllerRemovedEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**
@@ -164,11 +186,12 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		}
 	}
 
-	public void onExpansionEvent(ExpansionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	/**
+	 * Infra Red Event. Returns information about the position of the wiimote
+	 * relative to the sensor bar
+	 * @param ir
+	 * @since 0.2
+	 */
 	public void onIrEvent(IREvent ir) {
 		if(wiimoteHandlers != null) {
 			for(final WiimoteEventHandler handler : wiimoteHandlers)
@@ -176,6 +199,12 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		}
 	}
 
+	/**
+	 * Motion Sensing Event. Returns information about movements made with the
+	 * wiimote (orientation, force)
+	 * @param motion
+	 * @since 0.2 
+	 */
 	public void onMotionSensingEvent(MotionSensingEvent motion) {
 		if(wiimoteHandlers != null) {
 			for(final WiimoteEventHandler handler : wiimoteHandlers)
@@ -183,32 +212,57 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		}
 	}
 
-	public void onNunchukInsertedEvent(NunchukInsertedEvent arg0) {
+
+
+	/** 
+	 * Called on a status event : when a expansion controller is (un)plugged
+	 * Return many information about wiimote setup
+	 * @param status Data about wiimote
+	 * @since 0.2
+	 */
+	public void onStatusEvent(StatusEvent status) {
+		// TODO 
+	}
+	
+	public void onExpansionEvent(ExpansionEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void onNunchukInsertedEvent(NunchukInsertedEvent arg0) {
+		// TODO Auto-generated method stub
 	}
 
 	public void onNunchukRemovedEvent(NunchukRemovedEvent arg0) {
 		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * Event receives when the classic controller is connected to the current Wiimote
+	 * @param 
+	 * @since 0.2
+	 */
+	public void onClassicControllerInsertedEvent(ClassicControllerInsertedEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 
-	/** Called on a status event : when a expansion controller is (un)plugged
-	 * Return many information about wiimote setup
+	/**
+	 * Event receives when the classic controller is removed
+	 * @param 
+	 * @since 0.2
 	 */
-	public void onStatusEvent(StatusEvent status) {
-		//
-	}
-	
-	
-	public void onGuitarHeroInsertedEvent(GuitarHeroInsertedEvent arg0) {
+	public void onClassicControllerRemovedEvent(ClassicControllerRemovedEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void onGuitarHeroInsertedEvent(GuitarHeroInsertedEvent arg0) {
+		// TODO Auto-generated method stub	
 	}
 
 	public void onGuitarHeroRemovedEvent(GuitarHeroRemovedEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 }
