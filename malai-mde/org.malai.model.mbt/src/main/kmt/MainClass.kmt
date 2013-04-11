@@ -19,7 +19,7 @@ package mainPackage{
     	
     	operation visitModel(inputModel : String, inputMetaModel : String) : Void is do 
 		
-			var repository : ResourceSet init ResourceSet.new
+			/*var repository : ResourceSet init ResourceSet.new
 			var resource : Resource init repository.createResource(inputModel)
 			//var resource : Resource init repository.createResource(inputModel, inputMetaModel)
 			resource.load(void)
@@ -29,7 +29,11 @@ package mainPackage{
 					var inst : Instrument := elem.asType(Instrument)
 					inst.visit
 				end
-			}
+			}*/
+			
+			var myCondition : String := "  var1   &&(var2 ||  (var3( )&& var4) )   "
+			var parser : org::malai::conditionSolver::Parser := org::malai::conditionSolver::Parser.new
+			parser.parse(myCondition,0)
 		end
 	}
 }
