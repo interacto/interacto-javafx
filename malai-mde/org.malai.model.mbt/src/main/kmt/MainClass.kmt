@@ -34,25 +34,12 @@ package mainPackage{
 				end
 			}*/
 			
-			extern org::malai::wrapper::ChocoWrapper.initialization()
-			
-			var myCondition : String := "  (var1)   &&(var2 ||  (var3( )&& var4) )   "
+			//var myCondition : String := "  (var1)   &&(var2 ||  (var3( )&& var4) )   "
+			var myCondition : String := "(var1 && var2) && var3"
 			var parser : org::malai::conditionSolver::Parser := org::malai::conditionSolver::Parser.new
-			parser.parse(myCondition,0)
+			var sols : Collection<String> := parser.getSolutions(myCondition)
+			sols.each{e | stdio.writeln(e)}
 			
-			extern org::malai::wrapper::ChocoWrapper.solve()
-
-			var res : Object
-			
-			from var stop : Boolean := false
-			until stop
-			loop
-				res := extern org::malai::wrapper::ChocoWrapper.getCurrentSolution()
-				stdio.writeln(res.asType(String))
-				
-				res := extern org::malai::wrapper::ChocoWrapper.getNextSolution()
-				stop := not res.asType(Boolean)
-			end
 		end
 	}
 }
