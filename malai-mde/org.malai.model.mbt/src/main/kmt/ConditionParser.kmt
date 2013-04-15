@@ -21,7 +21,8 @@ package org::malai::conditionSolver{
 				endParse := parseParentheses(condition,begin)
 			else
 				endParse := parseVar(condition,begin)
-				stdio.writeln(condition.substring(begin,endParse+1))
+				extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin,endParse+1))
+//				stdio.writeln(condition.substring(begin,endParse+1))
 			end
 			
 			if (endParse == condition.size - 1) then
@@ -33,9 +34,15 @@ package org::malai::conditionSolver{
 						result := next - 1
 				else
 					if (condition.charAt(next) == "|".elementAt(0) and condition.charAt(next+1) == "|".elementAt(0)) 
-					or (condition.charAt(next) == "&".elementAt(0) and condition.charAt(next+1) == "&".elementAt(0))
 					then
-						result := parse(condition,next + 2)					
+						result := parse(condition,next + 2)	
+						extern org::malai::wrapper::ChocoWrapper.pushOR()
+					else
+						if (condition.charAt(next) == "&".elementAt(0) and condition.charAt(next+1) == "&".elementAt(0))
+						then
+							result := parse(condition,next + 2)
+							extern org::malai::wrapper::ChocoWrapper.pushAND()
+						end	
 					end	
 				end
 			end
