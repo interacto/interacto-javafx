@@ -6,6 +6,39 @@ package org::malai::conditionSolver{
 	class Parser{
 	
 		/*
+		 * Entry point
+		 *
+		 * Return the list of the solutions for the given expression.
+		 * A solution contains all variables with their value.
+		 */
+		operation getSolutions(condition : String) : Collection<String> is do
+		
+			//Init the solver
+			extern org::malai::wrapper::ChocoWrapper.initialization()
+			
+			//Set variables and constraints in the solver
+			self.parse(condition,0)
+			
+			//Solve the expression
+			extern org::malai::wrapper::ChocoWrapper.solve()
+
+			//Get the solutions
+			result := Set<String>.new
+			
+			var res : Object
+			
+			from var stop : Boolean := false
+			until stop
+			loop
+				res := extern org::malai::wrapper::ChocoWrapper.getCurrentSolution()
+				result.add(res.asType(String))
+				
+				res := extern org::malai::wrapper::ChocoWrapper.getNextSolution()
+				stop := not res.asType(Boolean)
+			end
+		end
+	
+		/*
 		 * Return the end position of the current condition that may be then end of the string or a char just before a ')'
 		 * @position is the begin character offset of the current condition
 		 */
@@ -22,7 +55,7 @@ package org::malai::conditionSolver{
 			else
 				endParse := parseVar(condition,begin)
 				extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin,endParse+1))
-//				stdio.writeln(condition.substring(begin,endParse+1))
+				stdio.writeln(condition.substring(begin,endParse+1))
 			end
 			
 			if (endParse == condition.size - 1) then
@@ -90,24 +123,29 @@ package org::malai::conditionSolver{
 			until stop
 			loop
 				i := i + 1
-				if condition.charAt(i) == "|".elementAt(0) 
-				or condition.charAt(i) == "&".elementAt(0) 
-				or condition.charAt(i) == " ".elementAt(0)
-				or condition.charAt(i) == ")".elementAt(0)
-				then
+				if i == condition.size then
 					stop := true
 					result := i - 1
 				else
-					if condition.charAt(i) == "(".elementAt(0) then
+					if condition.charAt(i) == "|".elementAt(0) 
+					or condition.charAt(i) == "&".elementAt(0) 
+					or condition.charAt(i) == " ".elementAt(0)
+					or condition.charAt(i) == ")".elementAt(0)
+					then
 						stop := true
-						if i+1<condition.size then
-							var next : Integer := ignoreWhitespace(condition,i+1)
-							if condition.charAt(next) == ")".elementAt(0) then
-								result := next
+						result := i - 1
+					else
+						if condition.charAt(i) == "(".elementAt(0) then
+							stop := true
+							if i+1<condition.size then
+								var next : Integer := ignoreWhitespace(condition,i+1)
+								if condition.charAt(next) == ")".elementAt(0) then
+									result := next
+								end
 							end
 						end
 					end
-				end
+				end	
 			end
 		end
 		
