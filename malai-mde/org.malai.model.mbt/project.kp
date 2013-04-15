@@ -1,8 +1,12 @@
 resource library_standard ="platform:/plugin/org.kermeta.language.library.standard" alternative "mvn:org.kermeta.language/language.library.standard/2.0.99-SNAPSHOT"
 resource malai_model = "platform:/resource/org.malai.model/org.malai.model.jar"
 resource ecore_model ="platform:/plugin/org.eclipse.emf.ecore"
+resource choco = "platform:/resource/org.malai.model.mbt/ChocoWrapper.jar" 
+resource choco_lib = "platform:/resource/org.malai.model.mbt/choco-solver-2.1.5.jar" 
 
 importProject library_standard
+importProject choco
+importProject choco_lib
 
 project MalaiModelMbt {
 	mainClass "MalaiModelMbt^mainPackage::MainClass"
@@ -10,6 +14,7 @@ project MalaiModelMbt {
 	
 	import "${project.baseUri}/src/main/kmt/MainClass.kmt"
 	import "${project.baseUri}/src/main/kmt/Visitor.kmt"
+	import "${project.baseUri}/src/main/kmt/ConditionParser.kmt"
 	
 	import "${malai_model.baseUri}/action.ecore" using EMFBytecode(malai_model)
 	import "${malai_model.baseUri}/interaction.ecore" using EMFBytecode(malai_model)
@@ -18,4 +23,5 @@ project MalaiModelMbt {
 	import "${malai_model.baseUri}/widget.ecore" using EMFBytecode(malai_model)
 	
 	import "${ecore_model.baseUri}/model/Ecore.ecore" using EMFBytecode(ecore_model) { packageEquivalence "ecore" = "org.eclipse.emf.ecore" }
+	
 }

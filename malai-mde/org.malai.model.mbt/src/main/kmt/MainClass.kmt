@@ -6,7 +6,6 @@ using org::malai::instrument::*
 package mainPackage{
 	class MainClass
 	{
-
 		@main "" // declares that operation as a possible entry point of the program
 		operation mainOperation() : Void is do 	
 			stdio.writeln("Hello from mainOperation !")
@@ -18,6 +17,10 @@ package mainPackage{
 		end
     	
     	operation visitModel(inputModel : String, inputMetaModel : String) : Void is do 
+    	
+    		//var myWarp : wrapperTest::WrapperTest := wrapperTest::WrapperTest.new
+    		
+    		
 		
 			/*var repository : ResourceSet init ResourceSet.new
 			var resource : Resource init repository.createResource(inputModel)
@@ -31,9 +34,25 @@ package mainPackage{
 				end
 			}*/
 			
-			var myCondition : String := "  var1   &&(var2 ||  (var3( )&& var4) )   "
+			extern org::malai::wrapper::ChocoWrapper.initialization()
+			
+			var myCondition : String := "  (var1)   &&(var2 ||  (var3( )&& var4) )   "
 			var parser : org::malai::conditionSolver::Parser := org::malai::conditionSolver::Parser.new
 			parser.parse(myCondition,0)
+			
+			extern org::malai::wrapper::ChocoWrapper.solve()
+
+			var res : Object
+			
+			from var stop : Boolean := false
+			until stop
+			loop
+				res := extern org::malai::wrapper::ChocoWrapper.getCurrentSolution()
+				stdio.writeln(res.asType(String))
+				
+				res := extern org::malai::wrapper::ChocoWrapper.getNextSolution()
+				stop := not res.asType(Boolean)
+			end
 		end
 	}
 }
