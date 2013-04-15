@@ -53,9 +53,19 @@ package org::malai::conditionSolver{
 			if(condition.charAt(begin) == "(".elementAt(0)) then
 				endParse := parseParentheses(condition,begin)
 			else
-				endParse := parseVar(condition,begin)
-				extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin,endParse+1))
-				stdio.writeln(condition.substring(begin,endParse+1))
+				if(condition.charAt(begin) == "!".elementAt(0)) then
+					if(condition.charAt(begin+1) == "(".elementAt(0)) then
+						endParse := parseParentheses(condition,begin+1)
+					else
+						endParse := parseVar(condition,begin+1)
+						extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin+1,endParse+1))
+					end
+					extern org::malai::wrapper::ChocoWrapper.pushNOT()
+				else
+					endParse := parseVar(condition,begin)
+					extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin,endParse+1))
+					stdio.writeln(condition.substring(begin,endParse+1))
+				end
 			end
 			
 			if (endParse == condition.size - 1) then

@@ -95,6 +95,12 @@ public class ChocoWrapper {
 		stack.push(res);
 	}
 	
+	public static void pushNOT(){
+		Constraint elem = stack.pop();
+		Constraint res = Choco.not(elem);
+		stack.push(res);
+	}
+	
 	/*
 	 * Solve the current model.
 	 */
