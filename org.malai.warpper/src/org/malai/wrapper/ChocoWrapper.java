@@ -139,10 +139,9 @@ public class ChocoWrapper {
 			for(Entry elem : allVar){
 				res.append(elem.getKey());
 				res.append(" : ");
-				res.append(s.getVar((IntegerVariable)elem.getValue()));
-				res.append("\n");
+				res.append(s.getVar((IntegerVariable)elem.getValue()).getVal());
+				res.append(";");
 			}
-			res.append("\n");
 			return res.toString();
 		}
 		return null;

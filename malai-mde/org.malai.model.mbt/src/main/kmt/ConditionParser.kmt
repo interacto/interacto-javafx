@@ -64,7 +64,7 @@ package org::malai::conditionSolver{
 				else
 					endParse := parseVar(condition,begin)
 					extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin,endParse+1))
-					stdio.writeln(condition.substring(begin,endParse+1))
+//					stdio.writeln(condition.substring(begin,endParse+1))
 				end
 			end
 			
@@ -105,7 +105,7 @@ package org::malai::conditionSolver{
 			var endParse : Integer
 			
 			if(condition.charAt(position) == "(".elementAt(0)) then
-					stdio.writeln("[")
+//					stdio.writeln("[")
 					var next : Integer := ignoreWhitespace(condition,position+1)
 					endParse := parse(condition,next)
 			end
@@ -113,7 +113,7 @@ package org::malai::conditionSolver{
 			var next : Integer := ignoreWhitespace(condition,endParse+1)
 			
 			if(condition.charAt(next) == ")".elementAt(0)) then
-				stdio.writeln("]")
+//				stdio.writeln("]")
 				result := next
 			end	
 		end
