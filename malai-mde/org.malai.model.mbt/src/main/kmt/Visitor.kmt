@@ -43,21 +43,21 @@ package org::malai::interaction{
 	}
 		
 	aspect class State{
+	
+		attribute nbVisits : Integer
+		
+		//Config: change this value to change the number of allowed loops
+		operation nbMaxVisits() : Integer is result := 1
 
 		operation visit(visitedTransition : OrderedSet<Transition>) : Void is do
-			stdio.writeln("Hello from state "+self.name)
+		
+			if(nbVisits == void) then
+				nbVisits := 0
+			end
 			
-			//TODO: outputs from terminal states?			
-			if self.isInstanceOf(TerminalState) then
-				var res : StringBuffer := StringBuffer.new
-				res.append("[")
-				visitedTransition.indexedEach{ elem,eachContext |
-					res.append(elem.name) 
-					if(!eachContext.isLast) then res.append(">") end
-					}
-				res.append("]")
-				stdio.writeln(res.toString)
-			else
+			if(nbVisits < nbMaxVisits) then
+				stdio.writeln("Hello from state "+self.name)	
+				nbVisits := nbVisits + 1		
 				self.outputTransitions.each{elem | 
 					if not visitedTransition.contains(elem) then //Avoid loop
 						visitedTransition.add(elem)
@@ -65,23 +65,46 @@ package org::malai::interaction{
 						visitedTransition.remove(elem)
 					end
 					}
-			end
+			end	
+		end
+	}
+	
+	aspect class TerminalState{
+	
+		operation visit(visitedTransition : OrderedSet<Transition>) : Void is do
+			stdio.writeln("Hello from TerminalState "+self.name)
+			
+			var res : StringBuffer := StringBuffer.new
+			res.append("[")
+			visitedTransition.indexedEach{ elem,eachContext |
+				res.append(elem.name) 
+				if(!eachContext.isLast) then res.append(">") end
+				}
+			res.append("]")
+			stdio.writeln(res.toString)
+		end
+	}
+	
+	aspect class AbortingState{
+	
+		operation visit(visitedTransition : OrderedSet<Transition>) : Void is do
+			stdio.writeln("Hello from AbortingState "+self.name)
+			
+			var res : StringBuffer := StringBuffer.new
+			res.append("[")
+			visitedTransition.indexedEach{ elem,eachContext |
+				res.append(elem.name) 
+				if(!eachContext.isLast) then res.append(">") end
+				}
+			res.append("]")
+			stdio.writeln(res.toString)
 		end
 	}
 		
 	aspect class Transition{
 	
-		attribute counter : Integer
-	
 		operation visit(visitedTransition : OrderedSet<Transition>) : Void is do
 			stdio.writeln("Hello from transition "+self.name)
-			
-			if counter == void then
-				counter := 1
-			else
-				//TODO: check counter
-				counter := counter + 1
-			end
 			
 			self.outputState.visit(visitedTransition)
 		end
