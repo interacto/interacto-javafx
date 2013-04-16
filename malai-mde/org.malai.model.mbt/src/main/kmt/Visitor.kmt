@@ -53,19 +53,47 @@ package org::malai::interaction{
 		
 			if(nbVisits == void) then
 				nbVisits := 0
+				
+				//Spliting transitions with condition parsing
+				self.outputTransitions.each{elem | 
+					if(elem.condition != void) then
+						self.splitTransition(elem)
+					end
+					}
 			end
 			
 			if(nbVisits < nbMaxVisits) then
 				stdio.writeln("Hello from state "+self.name)	
 				nbVisits := nbVisits + 1		
 				self.outputTransitions.each{elem | 
-					if not visitedTransition.contains(elem) then //Avoid loop
+					//if not visitedTransition.contains(elem) then //Avoid loop in the path
 						visitedTransition.add(elem)
 						elem.visit(visitedTransition)
 						visitedTransition.remove(elem)
-					end
+					//end
 					}
 			end	
+		end
+		
+		/*
+		 * If a condition is linked to the transition, it will be solved and the transition
+		 * will be split as many as solutions found.
+		 */
+		operation splitTransition(t : Transition) : Void is do
+
+			if t.conditionSolution == void then
+				var parser : org::malai::conditionSolver::Parser := org::malai::conditionSolver::Parser.new
+				var sols : Collection<String> := parser.getSolutions(t.condition)
+				sols.indexedEach{sol,eachContext |
+					if(eachContext.isLast) then
+						t.conditionSolution := sol
+					else
+						var newTr : Transition := t.copy()
+						newTr.conditionSolution := sol
+						self.outputTransitions.add(newTr)
+					end
+					}
+			end
 		end
 	}
 	
@@ -103,10 +131,30 @@ package org::malai::interaction{
 		
 	aspect class Transition{
 	
+		//If not void: the transition was splited to catch solutions of the condition
+		attribute conditionSolution : String
+	
 		operation visit(visitedTransition : OrderedSet<Transition>) : Void is do
 			stdio.writeln("Hello from transition "+self.name)
 			
+			if conditionSolution != void then
+				stdio.writeln("{"+conditionSolution+"}")
+			end
+			
 			self.outputState.visit(visitedTransition)
+		end
+		
+		//Dummy clone
+		operation copy() : Transition is do
+			result := Transition.new
+			result.inputState := self.inputState
+			result.outputState := self.outputState
+			result.description := self.description
+			result.event := self.event
+			result.condition := self.condition
+			result.actions := self.actions
+			result.name := self.name
+			result.hid := self.hid
 		end
 		
 	}
