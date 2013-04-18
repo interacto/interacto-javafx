@@ -66,6 +66,7 @@ public class ActionItemProvider
 			addCanDoPropertyDescriptor(object);
 			addUndoPropertyDescriptor(object);
 			addRedoPropertyDescriptor(object);
+			addCancelledByPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -176,6 +177,28 @@ public class ActionItemProvider
 				 true,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Cancelled By feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCancelledByPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Action_cancelledBy_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Action_cancelledBy_feature", "_UI_Action_type"),
+				 ActionPackage.Literals.ACTION__CANCELLED_BY,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

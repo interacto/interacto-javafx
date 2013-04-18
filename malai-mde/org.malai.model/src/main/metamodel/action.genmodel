@@ -7,8 +7,10 @@
     editorPluginID="org.malai.model.action.editor" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>action.ecore</foreignModel>
   <genPackages prefix="Org" disposableProviderFactory="true" ecorePackage="action.ecore#/">
-    <nestedGenPackages prefix="Malai" disposableProviderFactory="true" ecorePackage="action.ecore#//malai">
-      <nestedGenPackages prefix="Action" disposableProviderFactory="true" ecorePackage="action.ecore#//malai/action">
+    <nestedGenPackages prefix="Malai" basePackage="org" disposableProviderFactory="true"
+        ecorePackage="action.ecore#//malai">
+      <nestedGenPackages prefix="Action" basePackage="org.malai" disposableProviderFactory="true"
+          ecorePackage="action.ecore#//malai/action">
         <genClasses ecoreClass="action.ecore#//malai/action/ActionModel">
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference action.ecore#//malai/action/ActionModel/actions"/>
           <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference action.ecore#//malai/action/ActionModel/helpers"/>
@@ -21,6 +23,8 @@
           <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/canDo"/>
           <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/undo"/>
           <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/redo"/>
+          <genFeatures notify="false" createChild="false" propertySortChoices="true"
+              ecoreFeature="ecore:EReference action.ecore#//malai/action/Action/cancelledBy"/>
         </genClasses>
         <genClasses ecoreClass="action.ecore#//malai/action/ActionDependency">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/ActionDependency/name"/>
