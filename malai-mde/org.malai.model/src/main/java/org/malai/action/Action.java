@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.malai.action.Action#getCanDo <em>Can Do</em>}</li>
  *   <li>{@link org.malai.action.Action#getUndo <em>Undo</em>}</li>
  *   <li>{@link org.malai.action.Action#getRedo <em>Redo</em>}</li>
+ *   <li>{@link org.malai.action.Action#getCancelledBy <em>Cancelled By</em>}</li>
  * </ul>
  * </p>
  *
@@ -201,5 +202,21 @@ public interface Action extends EObject {
 	 * @generated
 	 */
 	void setRedo(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Cancelled By</b></em>' reference list.
+	 * The list contents are of type {@link org.malai.action.Action}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Cancelled By</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Cancelled By</em>' reference list.
+	 * @see org.malai.action.ActionPackage#getAction_CancelledBy()
+	 * @model
+	 * @generated
+	 */
+	EList<Action> getCancelledBy();
 
 } // Action

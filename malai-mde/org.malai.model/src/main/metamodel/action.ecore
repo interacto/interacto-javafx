@@ -23,6 +23,8 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="canDo" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="undo" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="redo" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="cancelledBy" upperBound="-1"
+            eType="#//malai/action/Action"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="ActionDependency">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"

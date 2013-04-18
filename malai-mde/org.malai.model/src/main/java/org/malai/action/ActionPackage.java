@@ -166,13 +166,22 @@ public interface ActionPackage extends EPackage {
 	int ACTION__REDO = 6;
 
 	/**
+	 * The feature id for the '<em><b>Cancelled By</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION__CANCELLED_BY = 7;
+
+	/**
 	 * The number of structural features of the '<em>Action</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_FEATURE_COUNT = 7;
+	int ACTION_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.malai.action.impl.ActionDependencyImpl <em>Dependency</em>}' class.
@@ -341,6 +350,17 @@ public interface ActionPackage extends EPackage {
 	EAttribute getAction_Redo();
 
 	/**
+	 * Returns the meta object for the reference list '{@link org.malai.action.Action#getCancelledBy <em>Cancelled By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Cancelled By</em>'.
+	 * @see org.malai.action.Action#getCancelledBy()
+	 * @see #getAction()
+	 * @generated
+	 */
+	EReference getAction_CancelledBy();
+
+	/**
 	 * Returns the meta object for class '{@link org.malai.action.ActionDependency <em>Dependency</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -496,6 +516,14 @@ public interface ActionPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ACTION__REDO = eINSTANCE.getAction_Redo();
+
+		/**
+		 * The meta object literal for the '<em><b>Cancelled By</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTION__CANCELLED_BY = eINSTANCE.getAction_CancelledBy();
 
 		/**
 		 * The meta object literal for the '{@link org.malai.action.impl.ActionDependencyImpl <em>Dependency</em>}' class.

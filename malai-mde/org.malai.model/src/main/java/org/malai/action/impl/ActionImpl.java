@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.malai.action.Action;
@@ -36,6 +37,7 @@ import org.malai.action.ActionPackage;
  *   <li>{@link org.malai.action.impl.ActionImpl#getCanDo <em>Can Do</em>}</li>
  *   <li>{@link org.malai.action.impl.ActionImpl#getUndo <em>Undo</em>}</li>
  *   <li>{@link org.malai.action.impl.ActionImpl#getRedo <em>Redo</em>}</li>
+ *   <li>{@link org.malai.action.impl.ActionImpl#getCancelledBy <em>Cancelled By</em>}</li>
  * </ul>
  * </p>
  *
@@ -161,6 +163,16 @@ public class ActionImpl extends EObjectImpl implements Action {
 	 * @ordered
 	 */
 	protected String redo = REDO_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getCancelledBy() <em>Cancelled By</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCancelledBy()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Action> cancelledBy;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -346,6 +358,18 @@ public class ActionImpl extends EObjectImpl implements Action {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Action> getCancelledBy() {
+		if (cancelledBy == null) {
+			cancelledBy = new EObjectResolvingEList<Action>(Action.class, this, ActionPackage.ACTION__CANCELLED_BY);
+		}
+		return cancelledBy;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -379,6 +403,8 @@ public class ActionImpl extends EObjectImpl implements Action {
 				return getUndo();
 			case ActionPackage.ACTION__REDO:
 				return getRedo();
+			case ActionPackage.ACTION__CANCELLED_BY:
+				return getCancelledBy();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -414,6 +440,10 @@ public class ActionImpl extends EObjectImpl implements Action {
 			case ActionPackage.ACTION__REDO:
 				setRedo((String)newValue);
 				return;
+			case ActionPackage.ACTION__CANCELLED_BY:
+				getCancelledBy().clear();
+				getCancelledBy().addAll((Collection<? extends Action>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -447,6 +477,9 @@ public class ActionImpl extends EObjectImpl implements Action {
 			case ActionPackage.ACTION__REDO:
 				setRedo(REDO_EDEFAULT);
 				return;
+			case ActionPackage.ACTION__CANCELLED_BY:
+				getCancelledBy().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -473,6 +506,8 @@ public class ActionImpl extends EObjectImpl implements Action {
 				return UNDO_EDEFAULT == null ? undo != null : !UNDO_EDEFAULT.equals(undo);
 			case ActionPackage.ACTION__REDO:
 				return REDO_EDEFAULT == null ? redo != null : !REDO_EDEFAULT.equals(redo);
+			case ActionPackage.ACTION__CANCELLED_BY:
+				return cancelledBy != null && !cancelledBy.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

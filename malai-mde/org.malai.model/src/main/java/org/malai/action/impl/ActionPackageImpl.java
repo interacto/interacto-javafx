@@ -212,6 +212,15 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getAction_CancelledBy() {
+		return (EReference)actionEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getActionDependency() {
 		return actionDependencyEClass;
 	}
@@ -283,6 +292,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		createEAttribute(actionEClass, ACTION__CAN_DO);
 		createEAttribute(actionEClass, ACTION__UNDO);
 		createEAttribute(actionEClass, ACTION__REDO);
+		createEReference(actionEClass, ACTION__CANCELLED_BY);
 
 		actionDependencyEClass = createEClass(ACTION_DEPENDENCY);
 		createEAttribute(actionDependencyEClass, ACTION_DEPENDENCY__NAME);
@@ -335,6 +345,7 @@ public class ActionPackageImpl extends EPackageImpl implements ActionPackage {
 		initEAttribute(getAction_CanDo(), theEcorePackage.getEString(), "canDo", null, 0, 1, Action.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAction_Undo(), theEcorePackage.getEString(), "undo", null, 0, 1, Action.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAction_Redo(), theEcorePackage.getEString(), "redo", null, 0, 1, Action.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAction_CancelledBy(), this.getAction(), null, "cancelledBy", null, 0, -1, Action.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actionDependencyEClass, ActionDependency.class, "ActionDependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getActionDependency_Name(), theEcorePackage.getEString(), "name", null, 1, 1, ActionDependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
