@@ -1,0 +1,46 @@
+using kermeta::standard::*
+using kermeta::io::StdIO => stdio
+using org::malai::action::*
+using org::malai::instrument::*
+
+package org::malai::generator{
+
+	class Generator
+	{
+		//Instruments from the system
+		attribute allInstruments : set Instrument[0..*]
+	
+		/*
+		 * Entry point
+		 */
+		operation run(instr : Collection<Instrument>) : Void is do
+		
+			var context :  Context := initialize(instr)
+			
+			var currentLink : Link
+			from var stop : Boolean := false
+			until stop
+			loop
+				currentLink := context.nextLink()
+				if(currentLink == void) then
+					stop := true
+				else
+					currentLink.visit(context)
+				end
+			end
+		end
+		
+		/*
+		 * Retrieve instruments from the system
+		 */
+		operation initialize( instr : Collection<Instrument>) : Context is do
+			
+			allInstruments.addAll(instr)
+			result := Context.new
+			result.initialize(allInstruments.select{e | e.initiallyActivated}, Bag<Action>.new)
+			
+		end
+
+	}
+
+}
