@@ -26,8 +26,8 @@ package org::malai::generator{
 		 */
 		operation initialize( activInstr : Collection<Instrument>, resAction : Collection<Action> ) : Void is do
 			MAXVISITS := 3
-			resolvedActions.addAll(activInstr)
-			activatedInstr.addAll(resAction)
+			resolvedActions.addAll(resAction)
+			activatedInstr.addAll(activInstr)
 		end
 		
 		/*
@@ -79,6 +79,14 @@ package org::malai::generator{
 		 */
 		operation isVisitable(link : Link) : Boolean is do
 			result := link.action.dependencies.forAll{dep | resolvedActions.contains(dep.srcAction)} 
+		end
+		
+		/*
+		 * Clone the current instance of Context
+		 */
+		operation copy() : Context is do
+			result := Context.new
+			result.initialize(self.activatedInstr,self.resolvedActions)
 		end
 	}
 }
