@@ -5,7 +5,7 @@
     modelName="Instrument" testsDirectory="/org.malai.model.instrument.tests/src"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
     editPluginID="org.malai.model.instrument.edit" editorPluginID="org.malai.model.instrument.editor"
-    testsPluginID="org.malai.model.instrument.tests" usedGenPackages="action.genmodel#//org platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore event.genmodel#//org interaction.genmodel#//org widget.genmodel#//org">
+    testsPluginID="org.malai.model.instrument.tests" usedGenPackages="platform:/plugin/org.malai.model/src/main/metamodel/action.genmodel#//org platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.malai.model/src/main/metamodel/event.genmodel#//org platform:/plugin/org.malai.model/src/main/metamodel/interaction.genmodel#//org platform:/plugin/org.malai.model/src/main/metamodel/widget.genmodel#//org">
   <foreignModel>instrument.ecore</foreignModel>
   <genPackages prefix="Org" disposableProviderFactory="true" ecorePackage="instrument.ecore#/">
     <nestedGenPackages prefix="Malai" basePackage="org" disposableProviderFactory="true"
