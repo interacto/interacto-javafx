@@ -27,7 +27,7 @@ public class InteractionFactoryImpl extends EFactoryImpl implements InteractionF
 	 */
 	public static InteractionFactory init() {
 		try {
-			InteractionFactory theInteractionFactory = (InteractionFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai/interaction/1_0_0//org/malai/interaction"); 
+			InteractionFactory theInteractionFactory = (InteractionFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai.interaction/1_0_0//org/malai/interaction"); 
 			if (theInteractionFactory != null) {
 				return theInteractionFactory;
 			}

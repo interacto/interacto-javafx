@@ -27,7 +27,7 @@ public class InstrumentFactoryImpl extends EFactoryImpl implements InstrumentFac
 	 */
 	public static InstrumentFactory init() {
 		try {
-			InstrumentFactory theInstrumentFactory = (InstrumentFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai/instrument/1_0_0//org/malai/instrument"); 
+			InstrumentFactory theInstrumentFactory = (InstrumentFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai.instrument/1_0_0//org/malai/instrument"); 
 			if (theInstrumentFactory != null) {
 				return theInstrumentFactory;
 			}

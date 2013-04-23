@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="org" nsURI="http://org.malai/1_0_0/" nsPrefix="org">
-  <eSubpackages name="malai" nsURI="http://org.malai/1_0_0//org/malai" nsPrefix="org_malai">
-    <eSubpackages name="instrument" nsURI="http://org.malai/instrument/1_0_0//org/malai/instrument"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="org" nsURI="http://org.malai.instrument/1_0_0/" nsPrefix="org">
+  <eSubpackages name="malai" nsURI="http://org.malai.instrument/1_0_0//org/malai"
+      nsPrefix="org_malai">
+    <eSubpackages name="instrument" nsURI="http://org.malai.instrument/1_0_0//org/malai/instrument"
         nsPrefix="org_malai_instrument">
       <eClassifiers xsi:type="ecore:EClass" name="Instrument">
         <eStructuralFeatures xsi:type="ecore:EReference" name="links" upperBound="-1"
@@ -20,7 +21,8 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="initiallyActivated"
             eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EBoolean"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="providedWidgets" upperBound="-1"
-            eType="ecore:EClass platform:/plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Widget" containment="true"/>
+            eType="ecore:EClass platform:/plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Widget"
+            containment="true"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="subscribedWidgets"
             upperBound="-1" eType="ecore:EClass platform:/plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Widget"/>
       </eClassifiers>
