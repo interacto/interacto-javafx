@@ -5,28 +5,51 @@ using org::malai::instrument::*
 
 package org::malai::generator{
 
+	/*
+	 * Store all created context and for each select the next link to be visited
+	 */
 	class Generator
 	{
 		//Instruments from the system
 		attribute allInstruments : set Instrument[0..*]
+		
+		/* 
+		 * Contexts created by visited Links
+		 *
+		 * Each interaction adds solved action/ activated instrument
+		 * and then creates a new Context
+		 */
+		attribute contexts : seq Context[0..*]
 	
 		/*
 		 * Entry point
+		 * 
+		 * Creates the initial context and visits it, which will creates new contexts
+		 * Then do the same for created contexts
 		 */
 		operation run(instr : Collection<Instrument>) : Void is do
 		
-			var context :  Context := initialize(instr)
+			var newContext :  Context := initialize(instr)
+			addContext(newContext)
 			
-			var currentLink : Link
-			from var stop : Boolean := false
-			until stop
+			from var currentContext : Context
+			until contexts.isEmpty
 			loop
-				currentLink := context.nextLink()
-				if(currentLink == void) then
-					stop := true
-				else
-					currentLink.visit(context)
+				currentContext := contexts.first
+			
+				var currentLink : Link
+				from var stop : Boolean := false
+				until stop
+				loop
+					currentLink := currentContext.nextLink()
+					if(currentLink == void) then
+						stop := true
+					else
+						currentLink.visit(currentContext,self)
+					end
 				end
+				
+				contexts.remove(currentContext)
 			end
 		end
 		
@@ -39,6 +62,10 @@ package org::malai::generator{
 			result := Context.new
 			result.initialize(allInstruments.select{e | e.initiallyActivated}, Bag<Action>.new)
 			
+		end
+		
+		operation addContext(context : Context) : Void is do
+			contexts.add(context)
 		end
 
 	}
