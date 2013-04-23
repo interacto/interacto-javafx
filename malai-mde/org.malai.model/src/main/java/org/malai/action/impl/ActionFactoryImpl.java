@@ -27,7 +27,7 @@ public class ActionFactoryImpl extends EFactoryImpl implements ActionFactory {
 	 */
 	public static ActionFactory init() {
 		try {
-			ActionFactory theActionFactory = (ActionFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai/action/1_0_0//org/malai/action"); 
+			ActionFactory theActionFactory = (ActionFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai.action/1_0_0//org/malai/action"); 
 			if (theActionFactory != null) {
 				return theActionFactory;
 			}

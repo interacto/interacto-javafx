@@ -37,7 +37,7 @@ public interface InstrumentPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://org.malai/instrument/1_0_0//org/malai/instrument";
+	String eNS_URI = "http://org.malai.instrument/1_0_0//org/malai/instrument";
 
 	/**
 	 * The package namespace name.

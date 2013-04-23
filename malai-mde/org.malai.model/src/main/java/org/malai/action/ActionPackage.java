@@ -37,7 +37,7 @@ public interface ActionPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://org.malai/action/1_0_0//org/malai/action";
+	String eNS_URI = "http://org.malai.action/1_0_0//org/malai/action";
 
 	/**
 	 * The package namespace name.

@@ -37,7 +37,7 @@ public interface WidgetPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://org.malai/widget/1_0_0//org/malai/widget";
+	String eNS_URI = "http://org.malai.widget/1_0_0//org/malai/widget";
 
 	/**
 	 * The package namespace name.

@@ -37,7 +37,7 @@ public interface InteractionPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://org.malai/interaction/1_0_0//org/malai/interaction";
+	String eNS_URI = "http://org.malai.interaction/1_0_0//org/malai/interaction";
 
 	/**
 	 * The package namespace name.
