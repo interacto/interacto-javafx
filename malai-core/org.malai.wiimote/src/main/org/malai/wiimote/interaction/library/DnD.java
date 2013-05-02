@@ -68,7 +68,6 @@ public class DnD extends WiimoteInteraction {
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
@@ -79,47 +78,28 @@ public class DnD extends WiimoteInteraction {
 		addState(dragged);
 		addState(released);		
 		
+		// Initialisation : press a button
 		new ButtonPressedTransition(initState, pressed) {
 			@Override
 			public void action() {
 				super.action();
 
 				DnD.this.startPt 	 = new Point(0, 0);
-				DnD.this.endPt	 	 = new Point(50, 30);
+				DnD.this.endPt	 	 = DnD.this.startPt;
 				//TODO: with motionsensing DnD.this.endPt	 	 = new Point(this.x, this.y);
 				DnD.this.button  	 = this.button;
 				DnD.this.startObject = Interaction.getPickableAt(0, 0, 0);
-				DnD.this.endObject 	 = Interaction.getPickableAt(50, 30, 0);
+				DnD.this.endObject 	 = DnD.this.startObject;
 			}
 		};
 
+		// Move cursor
 		new Move4DnD(pressed, dragged);
 		new Move4DnD(dragged, dragged);
+		
+		// Release button
 		new Release4DnD(dragged, released);
 		new Release4DnD(pressed, released);
-		
-		// Release Event
-		new ButtonPressedTransition(pressed, released) {
-			@Override
-			public void action() {		
-				super.action();			
-				
-				System.out.println("Maj de l'objet");
-				DnD.this.startPt 	 = new Point(0, 0);
-				DnD.this.endPt.setLocation(80, 20);
-				//TODO: with motionsensing DnD.this.endPt	 	 = new Point(this.x, this.y);
-				DnD.this.button  	 = this.button;
-				System.out.println("Button held " + this.button.getButtonsHeld());
-				DnD.this.startObject = Interaction.getPickableAt(0, 0, 0);
-				DnD.this.endObject = Interaction.getPickableAt(80, 20, this.button);
-			}
-			
-			@Override
-			public boolean isGuardRespected() {
-				System.out.println("Guard released: " + (DnD.this.button.getButtonsHeld() == 0));
-				return DnD.this.button.getButtonsHeld() == 0;
-			}
-		};
 	}
 
 
@@ -180,14 +160,23 @@ public class DnD extends WiimoteInteraction {
 	}
 
 
-	public class Release4DnD extends ReleaseTransition {
+	public class Release4DnD extends ButtonPressedTransition {
 		public Release4DnD(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
+		
+		@Override
+		public void action() {		
+			super.action();
+			
+			DnD.this.endPt.setLocation(42, 42);	
+			DnD.this.endObject = Interaction.getPickableAt(42,42,1);
+		}
+		
 		@Override
 		public boolean isGuardRespected() {
-			System.out.println("Guard: " + DnD.this.button.getButtonsHeld());
-			return DnD.this.button.getButtonsHeld() != 0;
+			// Guard respected is a button just been release
+			return DnD.this.button.getButtonsJustReleased() != 0;
 		}
 	}
 
@@ -199,15 +188,8 @@ public class DnD extends WiimoteInteraction {
 		@Override
 		public void action() {
 			super.action();
-			System.out.println("Update location");
-			System.out.println(this.x);
-			DnD.this.endPt.setLocation(x, y);
-			DnD.this.endObject = Interaction.getPickableAt(this.x, this.y, this.source);
-		}
-		@Override
-		public boolean isGuardRespected() {
-			System.out.println("Guard Move: " + (DnD.this.getLastHIDUsed()==this.hid));
-			return true; //DnD.this.getLastHIDUsed()==this.hid;
+			DnD.this.endPt.setLocation(42, 42);	
+			DnD.this.endObject = Interaction.getPickableAt(42,42,1);
 		}
 	}
 }

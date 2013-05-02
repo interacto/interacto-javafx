@@ -34,7 +34,6 @@ public class ButtonPressed extends WiimoteInteraction {
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
