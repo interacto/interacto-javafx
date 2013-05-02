@@ -5,6 +5,7 @@ import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.DisconnectionEvent;
+import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
 /**
  * This interface can be used for object that want to gather Wiimote events (button pressed, moves, etc.) produced by HIDs.<br>
@@ -60,6 +61,12 @@ public interface WiimoteEventHandler {
 	 * @param ir
 	 */
 	void onIrEvent(final IREvent ir);
+
+	/**
+	 * Defines actions to do when status data are received
+	 * @param ir
+	 */
+	void onStatus(StatusEvent status);
 	
 	
 }
