@@ -3,14 +3,14 @@
   <actions modifyInstrument="true">
     <clazz name="ActivateInstruments">
       <eStructuralFeatures xsi:type="ecore:EReference" name="instruments" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/instrument.ecore#//malai/instrument/Instrument"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/instrument.ecore#//malai/instrument/Instrument"/>
       </eStructuralFeatures>
     </clazz>
   </actions>
   <actions modifyInstrument="true">
     <clazz name="InactivateInstruments">
       <eStructuralFeatures xsi:type="ecore:EReference" name="instruments" upperBound="-1">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/instrument.ecore#//malai/instrument/Instrument"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/instrument.ecore#//malai/instrument/Instrument"/>
       </eStructuralFeatures>
     </clazz>
   </actions>
