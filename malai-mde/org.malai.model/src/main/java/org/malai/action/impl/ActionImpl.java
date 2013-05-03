@@ -38,6 +38,7 @@ import org.malai.action.ActionPackage;
  *   <li>{@link org.malai.action.impl.ActionImpl#getUndo <em>Undo</em>}</li>
  *   <li>{@link org.malai.action.impl.ActionImpl#getRedo <em>Redo</em>}</li>
  *   <li>{@link org.malai.action.impl.ActionImpl#getCancelledBy <em>Cancelled By</em>}</li>
+ *   <li>{@link org.malai.action.impl.ActionImpl#isModifyInstrument <em>Modify Instrument</em>}</li>
  * </ul>
  * </p>
  *
@@ -173,6 +174,26 @@ public class ActionImpl extends EObjectImpl implements Action {
 	 * @ordered
 	 */
 	protected EList<Action> cancelledBy;
+
+	/**
+	 * The default value of the '{@link #isModifyInstrument() <em>Modify Instrument</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModifyInstrument()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean MODIFY_INSTRUMENT_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isModifyInstrument() <em>Modify Instrument</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModifyInstrument()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean modifyInstrument = MODIFY_INSTRUMENT_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -370,6 +391,27 @@ public class ActionImpl extends EObjectImpl implements Action {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isModifyInstrument() {
+		return modifyInstrument;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModifyInstrument(boolean newModifyInstrument) {
+		boolean oldModifyInstrument = modifyInstrument;
+		modifyInstrument = newModifyInstrument;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ActionPackage.ACTION__MODIFY_INSTRUMENT, oldModifyInstrument, modifyInstrument));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -405,6 +447,8 @@ public class ActionImpl extends EObjectImpl implements Action {
 				return getRedo();
 			case ActionPackage.ACTION__CANCELLED_BY:
 				return getCancelledBy();
+			case ActionPackage.ACTION__MODIFY_INSTRUMENT:
+				return isModifyInstrument();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -444,6 +488,9 @@ public class ActionImpl extends EObjectImpl implements Action {
 				getCancelledBy().clear();
 				getCancelledBy().addAll((Collection<? extends Action>)newValue);
 				return;
+			case ActionPackage.ACTION__MODIFY_INSTRUMENT:
+				setModifyInstrument((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -480,6 +527,9 @@ public class ActionImpl extends EObjectImpl implements Action {
 			case ActionPackage.ACTION__CANCELLED_BY:
 				getCancelledBy().clear();
 				return;
+			case ActionPackage.ACTION__MODIFY_INSTRUMENT:
+				setModifyInstrument(MODIFY_INSTRUMENT_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -508,6 +558,8 @@ public class ActionImpl extends EObjectImpl implements Action {
 				return REDO_EDEFAULT == null ? redo != null : !REDO_EDEFAULT.equals(redo);
 			case ActionPackage.ACTION__CANCELLED_BY:
 				return cancelledBy != null && !cancelledBy.isEmpty();
+			case ActionPackage.ACTION__MODIFY_INSTRUMENT:
+				return modifyInstrument != MODIFY_INSTRUMENT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -532,6 +584,8 @@ public class ActionImpl extends EObjectImpl implements Action {
 		result.append(undo);
 		result.append(", redo: ");
 		result.append(redo);
+		result.append(", modifyInstrument: ");
+		result.append(modifyInstrument);
 		result.append(')');
 		return result.toString();
 	}

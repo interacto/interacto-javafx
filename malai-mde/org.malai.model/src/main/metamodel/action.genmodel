@@ -25,6 +25,7 @@
           <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/redo"/>
           <genFeatures notify="false" createChild="false" propertySortChoices="true"
               ecoreFeature="ecore:EReference action.ecore#//malai/action/Action/cancelledBy"/>
+          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/Action/modifyInstrument"/>
         </genClasses>
         <genClasses ecoreClass="action.ecore#//malai/action/ActionDependency">
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute action.ecore#//malai/action/ActionDependency/name"/>

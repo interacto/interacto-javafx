@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.malai.action.Action#getUndo <em>Undo</em>}</li>
  *   <li>{@link org.malai.action.Action#getRedo <em>Redo</em>}</li>
  *   <li>{@link org.malai.action.Action#getCancelledBy <em>Cancelled By</em>}</li>
+ *   <li>{@link org.malai.action.Action#isModifyInstrument <em>Modify Instrument</em>}</li>
  * </ul>
  * </p>
  *
@@ -218,5 +219,30 @@ public interface Action extends EObject {
 	 * @generated
 	 */
 	EList<Action> getCancelledBy();
+
+	/**
+	 * Returns the value of the '<em><b>Modify Instrument</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Defines whether the goal of this action is to customise an instrument.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Modify Instrument</em>' attribute.
+	 * @see #setModifyInstrument(boolean)
+	 * @see org.malai.action.ActionPackage#getAction_ModifyInstrument()
+	 * @model
+	 * @generated
+	 */
+	boolean isModifyInstrument();
+
+	/**
+	 * Sets the value of the '{@link org.malai.action.Action#isModifyInstrument <em>Modify Instrument</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Modify Instrument</em>' attribute.
+	 * @see #isModifyInstrument()
+	 * @generated
+	 */
+	void setModifyInstrument(boolean value);
 
 } // Action
