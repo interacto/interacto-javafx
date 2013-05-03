@@ -7,6 +7,6 @@
   </states>
   <states xsi:type="org_malai_interaction:TerminalState" name="terminal"/>
   <clazz name="SpinnerModified">
-    <eStructuralFeatures xsi:type="ecore:EReference" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Button"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Spinner"/>
   </clazz>
 </org_malai_interaction:Interaction>

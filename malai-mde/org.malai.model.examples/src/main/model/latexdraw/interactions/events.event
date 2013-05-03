@@ -71,42 +71,42 @@
   <events>
     <clazz name="ButtonPressedTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="button">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Button"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Button"/>
       </eStructuralFeatures>
     </clazz>
   </events>
   <events>
     <clazz name="CheckboxTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="checkbox">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/CheckBox"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/CheckBox"/>
       </eStructuralFeatures>
     </clazz>
   </events>
   <events>
     <clazz name="ListTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="list">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/ListWidget"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/ListWidget"/>
       </eStructuralFeatures>
     </clazz>
   </events>
   <events>
     <clazz name="MenuItemTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="menu">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Menu"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Menu"/>
       </eStructuralFeatures>
     </clazz>
   </events>
   <events>
     <clazz name="SpinnerTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="spinner">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Spinner"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Spinner"/>
       </eStructuralFeatures>
     </clazz>
   </events>
   <events>
     <clazz name="TabSelectedTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="tabbedPanel">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/TabbedPanel"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/TabbedPanel"/>
       </eStructuralFeatures>
     </clazz>
   </events>
@@ -116,14 +116,14 @@
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="textWidget">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/TextWidget"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/TextWidget"/>
       </eStructuralFeatures>
     </clazz>
   </events>
   <events>
     <clazz name="WindowClosedTransition">
       <eStructuralFeatures xsi:type="ecore:EReference" name="window">
-        <eType xsi:type="ecore:EClass" href="../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Window"/>
+        <eType xsi:type="ecore:EClass" href="../../../../../../../plugin/org.malai.model/src/main/metamodel/widget.ecore#//malai/widget/Window"/>
       </eStructuralFeatures>
     </clazz>
   </events>
