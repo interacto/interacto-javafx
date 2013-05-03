@@ -9,9 +9,13 @@ import org.malai.interaction.EventHandler;
 
 import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
+import wiiusej.utils.NunchukJoystickEventPanel;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
+import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
+import wiiusej.wiiusejevents.physicalevents.NunchukButtonsEvent;
+import wiiusej.wiiusejevents.physicalevents.NunchukEvent;
 import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
 import wiiusej.wiiusejevents.utils.WiimoteListener;
 import wiiusej.wiiusejevents.wiiuseapievents.ClassicControllerInsertedEvent;
@@ -221,12 +225,30 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	 * @since 0.2
 	 */
 	public void onStatusEvent(StatusEvent status) {
-		// TODO 
+		if(wiimoteHandlers != null) {
+			for(final WiimoteEventHandler handler : wiimoteHandlers)
+				handler.onStatus(status);
+		}
 	}
 	
+	
 	public void onExpansionEvent(ExpansionEvent arg0) {
-		// TODO Auto-generated method stub
 		
+		// Nunchuk management
+		if (arg0 instanceof NunchukEvent) {
+			NunchukEvent nunchuk = (NunchukEvent) arg0;
+			NunchukButtonsEvent button = nunchuk.getButtonsEvent();
+			JoystickEvent joystick = nunchuk.getNunchukJoystickEvent(); 
+               
+			
+			if(wiimoteHandlers != null) {
+				for(final WiimoteEventHandler handler : wiimoteHandlers)
+					handler.onJoystickMove(joystick);
+				
+				for(final WiimoteEventHandler handler : wiimoteHandlers)
+					handler.onButtonPressed(button);
+			}
+		}
 	}
 	
 	public void onNunchukInsertedEvent(NunchukInsertedEvent arg0) {
