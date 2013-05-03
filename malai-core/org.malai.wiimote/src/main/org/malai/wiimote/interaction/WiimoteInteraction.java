@@ -46,7 +46,7 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 	protected void initStateMachine() {
 		// TODO Auto-generated method stub
 	}
-	
+		
 	public void onButtonPressed(ButtonsEvent button) {
 		if(!activated) return ;
 
@@ -85,10 +85,9 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 
 		boolean again = true;
 		ITransition t;
-
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
-
+			
 			if(t instanceof JoystickMoveTransition) {
 				((JoystickMoveTransition)t).setJoystick(joystick);
 				again = !checkTransition(t);

@@ -13,6 +13,7 @@ import org.malai.stateMachine.TargetableState;
 import org.malai.wiimote.interaction.ButtonPressedTransition;
 import org.malai.wiimote.interaction.WiimoteInteraction;
 
+import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
 
 
@@ -86,6 +87,9 @@ public class DnD extends WiimoteInteraction {
 
 				DnD.this.startPt 	 = new Point(0, 0);
 				DnD.this.endPt	 	 = DnD.this.startPt;
+				
+				// TODO : Get Wiimote, activate IR Tracking and stop coords
+				// int wiimote_id = this.getButton().getWiimoteId();
 				//TODO: with motionsensing DnD.this.endPt	 	 = new Point(this.x, this.y);
 				DnD.this.button  	 = this.button;
 				DnD.this.startObject = Interaction.getPickableAt(0, 0, 0);
