@@ -36,6 +36,7 @@ package org::malai::generator{
 			until contexts.isEmpty
 			loop
 				currentContext := contexts.first
+				stdio.writeln(currentContext.toString)
 			
 				var currentLink : Link
 				from var stop : Boolean := false
