@@ -11,7 +11,7 @@ package org::malai::generator{
 	class Context
 	{		
 	
-		//Actions create by visited Links
+		//Actions created by visited Links
 		attribute resolvedActions : bag Action[0..*]
 		
 		//Instruments activated by visited Actions
@@ -31,19 +31,22 @@ package org::malai::generator{
 		end
 		
 		/*
-		 * Select the next Link to be visited
+		 * Select the next Link to be visited from 
+		 * all instruments activated
+		 *
+		 * Strategy :
+		 * Get the less visited link (and visitable)
 		 * If none return void
 		 */
 		operation nextLink() : Link is do
-			//Get the less visited link (and visitable)
 			var min : Link
 			activatedInstr.each{instr | 
 				instr.links.each{link | 
-						if isVisitable(link) and link.visitCounter < MAXVISITS then
+						if isVisitable(link) and link.getVisitCounter < MAXVISITS then
 							if min == void then
 								min := link
 							else
-								if link.visitCounter < min.visitCounter then
+								if link.getVisitCounter < min.getVisitCounter then
 									min := link
 								end
 							end
@@ -58,6 +61,14 @@ package org::malai::generator{
 		 */
 		operation addSolvedAvtion(act : Action) : Void is do
 			resolvedActions.add(act)
+
+			/*if act.isInstanceOf(ActivateInstruments) then
+				act.ActivateInstruments.instruments.each{i | activateInstrument(i) }
+			else
+				if act.isInstanceOf(InactivateInstruments) then
+					act.InactivateInstruments.instruments.each{i | inactivateInstrument(i) }
+				end
+			end*/
 		end
 		
 		/*
@@ -87,6 +98,17 @@ package org::malai::generator{
 		operation copy() : Context is do
 			result := Context.new
 			result.initialize(self.activatedInstr,self.resolvedActions)
+		end
+		
+		operation toString() : String is do
+			var res : StringBuffer := StringBuffer.new  
+		
+			res.append("-----------------------------------------\n")
+			activatedInstr.each{ i | res.append("{"+ i.clazz.name +"}\n")}
+			resolvedActions.each{a | res.append("["+ a.clazz.name +"]\n")}
+			res.append("-----------------------------------------\n")
+			
+			result := res.toString
 		end
 	}
 }

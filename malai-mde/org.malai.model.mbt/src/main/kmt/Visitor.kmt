@@ -14,7 +14,7 @@ package org::malai::instrument{
 	aspect class Instrument {
 	
 		operation visit(context : Context, generator : Generator) : Void is do 
-			stdio.writeln("Hello from instrument "+self)
+			stdio.writeln("Hello from INSTRUMENT "+self)
 			self.links.each{elem | elem.visit(context, generator)}
 		end
 		
@@ -23,24 +23,37 @@ package org::malai::instrument{
 	aspect class Link{	
 	
 		attribute visitCounter : Integer
+		
+		/*
+		 * Getter to visitCounter
+		 * Set attribute to 0 if void
+		 */
+		operation getVisitCounter() : Integer is do
+			if visitCounter == void then
+				visitCounter := 0
+			end
+			result := visitCounter
+		end
 	
 		/*
+		 * Visits the link and creates contexts for each possibles interactions
+		 *
 		 * Visit the interaction and retrieve all paths to finals states
 		 * - The first path update the current context
 		 * - Other paths creates new contexts to be explored
 		 */
 		operation visit(context : Context, generator : Generator) : Void is do 
-			/*if visitCounter == void then
+			if visitCounter == void then
 				visitCounter := 1
 			else
 				visitCounter := visitCounter + 1
 			end
 			
-			stdio.writeln("Hello from link "+self)
+			stdio.writeln("Hello from LINK "+self)
 			
 			var paths : Collection<OrderedSet<Transition>> := self.interaction.visit(context)
-			paths.indexedEach{path, eachContext |
 			
+			paths.indexedEach{path, eachContext |
 					var newContext : Context
 					if eachContext.isFirst then
 						newContext := context
@@ -49,11 +62,13 @@ package org::malai::instrument{
 						generator.addContext(newContext)
 					end
 					
-					var t : Transition := path.last 
-					if t.outputState.isInstanceOf(TerminalState) then
-						self.action.visit(newContext) //Update context
+					if path.size > 0 then
+						var t : Transition := path.last 
+						if t.outputState.isInstanceOf(TerminalState) then
+							self.action.visit(newContext) //Update context
+						end
 					end
-				}*/
+				}
 		end
 		
 	}
@@ -70,7 +85,7 @@ package org::malai::interaction{
 		
 			result := Bag<OrderedSet<Transition>>.new
 			
-			stdio.writeln("Hello from interaction "+self)
+			stdio.writeln("Hello from INTERACTION "+self.clazz.name)
 			
 			if(self.initState != void) then
 				var visitedTransitions :OrderedSet<Transition> := OrderedSet<Transition>.new
@@ -105,14 +120,14 @@ package org::malai::interaction{
 			end
 			
 			if(nbVisits < nbMaxVisits) then
-				stdio.writeln("Hello from state "+self.name)	
+				stdio.writeln("Hello from STATE "+self.name)	
 				nbVisits := nbVisits + 1		
 				self.outputTransitions.each{elem | 
 					//if not visitedTransition.contains(elem) then //Avoid loop in the path
 						visitedTransition.add(elem)
 						var paths : Collection<OrderedSet<Transition>>
 						paths := elem.visit(context,visitedTransition)
-						result.addAll(paths)
+						result.addAll(paths.select{e | e.size() > 0})
 						visitedTransition.remove(elem)
 					//end
 					}
@@ -147,7 +162,7 @@ package org::malai::interaction{
 		 * Return a collection containing the path to the TerminalState
 		 */
 		operation visit(context : Context, visitedTransition : OrderedSet<Transition>) : Collection<OrderedSet<Transition>> is do
-			stdio.writeln("Hello from TerminalState "+self.name)
+			stdio.writeln("Hello from TERMINAL_STATE "+self.name)
 			
 			var res : StringBuffer := StringBuffer.new
 			res.append("[")
@@ -166,10 +181,10 @@ package org::malai::interaction{
 	aspect class AbortingState{
 	
 		/*
-		 * Return a collection containing the path to the AbordingState
+		 * Return empty path
 		 */
 		operation visit(context : Context, visitedTransition : OrderedSet<Transition>) : Collection<OrderedSet<Transition>> is do
-			stdio.writeln("Hello from AbortingState "+self.name)
+			stdio.writeln("Hello from ABORTING_STATE "+self.name)
 			
 			var res : StringBuffer := StringBuffer.new
 			res.append("[")
@@ -181,7 +196,8 @@ package org::malai::interaction{
 			stdio.writeln(res.toString)
 			
 			result := Bag<OrderedSet<Transition>>.new
-			result.add(visitedTransition)
+			//Return a collection containing the path to the AbordingState
+			//result.add(visitedTransition)
 		end
 	}
 		
@@ -190,14 +206,14 @@ package org::malai::interaction{
 		//If not void: the transition was splited to catch solutions of the condition
 		attribute conditionSolution : String
 	
-		operation visit(context : Context, visitedTransition : OrderedSet<Transition>) : Void is do
-			stdio.writeln("Hello from transition "+self.name)
+		operation visit(context : Context, visitedTransition : OrderedSet<Transition>) : Collection<OrderedSet<Transition>> is do
+			stdio.writeln("Hello from TRANSITION "+self.name)
 			
 			if conditionSolution != void then
 				stdio.writeln("{"+conditionSolution+"}")
 			end
 			
-			self.outputState.visit(context,visitedTransition)
+			result := self.outputState.visit(context,visitedTransition)
 		end
 		
 		//Dummy clone
@@ -225,7 +241,7 @@ package org::malai::action{
 		 */
 		operation visit(context : Context) : Void is do 
 			context.addSolvedAvtion(self)
-			stdio.writeln("Hello from action "+self)
+			stdio.writeln("Hello from ACTION "+self)
 		end
 	}
 }
