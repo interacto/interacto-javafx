@@ -21,7 +21,7 @@ package org::malai::instrument{
 	}
 	
 	aspect class Link{	
-	
+//FIXME: depnds of the contexts
 		attribute visitCounter : Integer
 		
 		/*
@@ -87,6 +87,8 @@ package org::malai::interaction{
 			
 			stdio.writeln("Hello from INTERACTION "+self.clazz.name)
 			
+			states.each{s | s.nbVisits := 0}
+			
 			if(self.initState != void) then
 				var visitedTransitions :OrderedSet<Transition> := OrderedSet<Transition>.new
 				result := self.initState.visit(context,visitedTransitions)
@@ -99,7 +101,7 @@ package org::malai::interaction{
 		attribute nbVisits : Integer
 		
 		//Config: change this value to change the number of allowed loops
-		operation nbMaxVisits() : Integer is result := 1
+		operation nbMaxVisits() : Integer is result := 3
 
 		/*
 		 * Return all paths to TerminalState from this State
@@ -108,9 +110,7 @@ package org::malai::interaction{
 		
 			result := Bag<OrderedSet<Transition>>.new
 		
-			if(nbVisits == void) then
-				nbVisits := 0
-				
+			if(nbVisits == 0) then				
 				//Spliting transitions with condition parsing
 				self.outputTransitions.each{elem | 
 					if(elem.condition != void) then
@@ -243,7 +243,7 @@ package org::malai::action{
 		 */
 		operation visit(context : Context) : Void is do 
 			context.addSolvedAvtion(self)
-			stdio.writeln("Hello from ACTION "+self)
+			stdio.writeln("Hello from ACTION "+self.clazz.name)
 		end
 	}
 }
