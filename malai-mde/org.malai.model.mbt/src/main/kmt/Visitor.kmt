@@ -21,18 +21,25 @@ package org::malai::instrument{
 	}
 	
 	aspect class Link{	
-//FIXME: depnds of the contexts
-		attribute visitCounter : Integer
 		
 		/*
-		 * Getter to visitCounter
-		 * Set attribute to 0 if void
+		 * Retrieve the number of visits in this Context
 		 */
-		operation getVisitCounter() : Integer is do
+		operation getVisitCounter(context : Context) : Integer is do
+			var visitCounter : Integer := context.linksCounters.getValue(self)
 			if visitCounter == void then
 				visitCounter := 0
 			end
 			result := visitCounter
+			result := 0
+		end
+		
+		/*
+		 * Increment the number of visits in this Context
+		 */
+		operation incrVisitCounter(context : Context) : Void is do
+			var visitCounter : Integer := getVisitCounter(context)
+			context.linksCounters.put(self,visitCounter+1)
 		end
 	
 		/*
@@ -43,11 +50,8 @@ package org::malai::instrument{
 		 * - Other paths creates new contexts to be explored
 		 */
 		operation visit(context : Context, generator : Generator) : Void is do 
-			if visitCounter == void then
-				visitCounter := 1
-			else
-				visitCounter := visitCounter + 1
-			end
+		
+			incrVisitCounter(context)
 			
 			stdio.writeln("Hello from LINK "+self)
 			
