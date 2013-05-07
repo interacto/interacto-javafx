@@ -128,9 +128,7 @@ package org::malai::interaction{
 						var paths : Collection<OrderedSet<Transition>>
 						paths := elem.visit(context,visitedTransition)
 						result.addAll(paths.select{e | e.size() > 0})
-						result.each{l|stdio.writeln("b "+l.size.toString)}
 						visitedTransition.remove(elem)
-						result.each{l|stdio.writeln("a "+l.size.toString)}
 					//end
 					}
 			end				
