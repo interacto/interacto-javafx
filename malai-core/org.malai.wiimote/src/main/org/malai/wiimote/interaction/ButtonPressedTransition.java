@@ -6,7 +6,13 @@ import org.malai.stateMachine.TargetableState;
 
 import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
 
-
+/**
+ * Occur when a button is pressed on the Wiimote or an expansion
+ * 
+ * @see wiiusej.wiiusejevents.physicalevents.ButtonsEvent
+ * @author Maxime Lorant
+ *
+ */
 public class ButtonPressedTransition extends Transition {
 	
 	protected ButtonsEvent button;

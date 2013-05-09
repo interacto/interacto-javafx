@@ -9,7 +9,7 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
 
 
 /**
- * Occurs when one or several buttons are pressed on the wiimote
+ * Occurs when a button is pressed, and finish when this one is released 
  * 
  * @author Maxime Lorant
  *
@@ -19,11 +19,16 @@ public class ButtonHeld extends WiimoteInteraction {
 	/** The pressed button. */
 	protected ButtonsEvent button;
 	
+	/** The justPressed button id, to check at every released button if it's the same */
 	private int buttonPressed;
+	
+	/** Pressed state */
+	protected IntermediaryState pressed;
+	
+	/** Released state */
+	protected TerminalState released;
+	
 
-	/**
-	 * Creates the interaction.
-	 */
 	public ButtonHeld() {
 		super();
 		initStateMachine();
@@ -31,8 +36,8 @@ public class ButtonHeld extends WiimoteInteraction {
 
 	@Override
 	protected void initStateMachine() {
-		final IntermediaryState pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
-		final TerminalState released = new TerminalState("released"); //$NON-NLS-1$
+		pressed  = new IntermediaryState("pressed"); //$NON-NLS-1$
+		released = new TerminalState("released"); //$NON-NLS-1$
 
 		addState(pressed);
 		addState(released);
@@ -58,7 +63,7 @@ public class ButtonHeld extends WiimoteInteraction {
 
 
 	/**
-	 * @return The pressed button.
+	 * @return Button held.
 	 * @since 0.2
 	 */
 	public ButtonsEvent getButton() {

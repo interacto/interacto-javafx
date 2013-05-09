@@ -6,6 +6,14 @@ import org.malai.stateMachine.TargetableState;
 
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 
+/**
+ * Occur every 10ms, when the IR tracking is enabled. Provide
+ * IR tracking, about the wiimote position relative to the sensor bar
+ * 
+ * @see wiiusej.wiiusejevents.physicalevents.IREvent
+ * @author Maxime Lorant
+ *
+ */
 public class IRTransition extends Transition {
 		
 	protected IREvent ir;

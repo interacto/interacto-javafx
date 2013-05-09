@@ -6,6 +6,14 @@ import org.malai.stateMachine.TargetableState;
 
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
 
+/**
+ * Occur every 10ms, when the motion sensing is enabled. Provide
+ * motion sensing information (orientation, acceleration and GForce...)
+ * 
+ * @see wiiusej.wiiusejevents.physicalevents.MotionSensingTransition
+ * @author Maxime Lorant
+ *
+ */
 public class MotionSensingTransition extends Transition {
 	
 	protected MotionSensingEvent motion;

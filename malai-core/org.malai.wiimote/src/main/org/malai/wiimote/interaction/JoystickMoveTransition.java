@@ -5,6 +5,14 @@ import org.malai.stateMachine.TargetableState;
 
 import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 
+/**
+ * Initiate at every move of the joystick. Returns information about
+ * orientation and magnitude of the joystick
+ * 
+ * @see wiiusej.wiiusejevents.physicalevents.JoystickEvent
+ * @author Maxime Lorant
+ *
+ */
 public class JoystickMoveTransition extends Transition {
 		
 	protected JoystickEvent joystick;
