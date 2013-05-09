@@ -5,6 +5,8 @@ import org.malai.interaction.TerminalState;
 import org.malai.wiimote.interaction.ButtonPressedTransition;
 import org.malai.wiimote.interaction.WiimoteInteraction;
 
+import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
+
 
 /**
  * Occurs when one or several buttons are pressed on the wiimote
@@ -15,7 +17,9 @@ import org.malai.wiimote.interaction.WiimoteInteraction;
 public class ButtonHeld extends WiimoteInteraction {
 	
 	/** The pressed button. */
-	protected int buttonPressed;
+	protected ButtonsEvent button;
+	
+	private int buttonPressed;
 
 	/**
 	 * Creates the interaction.
@@ -38,6 +42,7 @@ public class ButtonHeld extends WiimoteInteraction {
 			public void action() {
 				super.action();
 				ButtonHeld.this.buttonPressed = this.button.getButtonsJustPressed();
+				ButtonHeld.this.button = this.button;
 			}
 		};
 		
@@ -56,7 +61,7 @@ public class ButtonHeld extends WiimoteInteraction {
 	 * @return The pressed button.
 	 * @since 0.2
 	 */
-	public int getButtonPressed() {
-		return buttonPressed;
+	public ButtonsEvent getButton() {
+		return button;
 	}
 }

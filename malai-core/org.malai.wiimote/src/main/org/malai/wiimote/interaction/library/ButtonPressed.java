@@ -46,6 +46,11 @@ public class ButtonPressed extends WiimoteInteraction {
 				super.action();
 				ButtonPressed.this.button = this.button;
 			}
+			
+			@Override
+			public boolean isGuardRespected() {
+				return super.isGuardRespected() && ButtonPressed.this.button==null;
+			}
 		};
 	}
 

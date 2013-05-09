@@ -55,12 +55,14 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	
 	private Wiimote[] wiimotes;
 	
-	/**
-	 * Create Event Manager with one Wiimote
-	 * @throws AttachWiimoteException 
-	 */
-	public WiimoteEventManager() throws AttachWiimoteException {
-		this(1);
+	private static WiimoteEventManager instance;
+	
+	public static WiimoteEventManager getInstance() {
+		return instance;
+	}
+
+	public static void init(int nbWiimotes) throws AttachWiimoteException {
+		WiimoteEventManager.instance = new WiimoteEventManager(nbWiimotes);
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	 * @throws AttachWiimoteException
 	 * @since 0.2
 	 */
-	public WiimoteEventManager(int nbWiimotes) throws AttachWiimoteException {
+	private WiimoteEventManager(int nbWiimotes) throws AttachWiimoteException {
 		super();
 		
 		wiimotes = WiiUseApiManager.getWiimotes(nbWiimotes, true);
@@ -153,8 +155,9 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	 * Active Motion Sensing Event for all wiimotes
 	 */
 	public void enableMotionEvent() {
-		for(Wiimote w : wiimotes)
+		for(Wiimote w : wiimotes) {
 			w.activateMotionSensing();
+		}
 	}
 	
 	/**
@@ -164,7 +167,6 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		for(Wiimote w : wiimotes)
 			w.deactivateMotionSensing();
 	}
-	
 	
 	/**
 	 * Event receives when a button is pressed on the wiimote or a plugged controller
