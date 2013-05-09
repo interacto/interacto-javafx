@@ -3,28 +3,28 @@ package org.malai.wiimote.interaction.library;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.wiimote.interaction.ButtonPressedTransition;
-import org.malai.wiimote.interaction.MotionSensingTransition;
+import org.malai.wiimote.interaction.IRTransition;
 import org.malai.wiimote.interaction.WiimoteEventManager;
 import org.malai.wiimote.interaction.WiimoteInteraction;
 
-import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
+import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
 
 
 /**
- * Activate the motion sensing tracking after pushing the B-button. 
- * Once the B-button is release, the tracking stops.
+ * Activate the IR tracking after pushing the B-button. Once the B-button
+ * is release, the tracking stops.
  * 
  * @author Maxime Lorant
  *
  */
-public class WiimoteMovement extends WiimoteInteraction {
+public class IRPointing extends WiimoteInteraction {
 	
-	/** Motion sensing data */
-	protected MotionSensingEvent motion;
+	/** IR tracking information */
+	protected IREvent ir;
 
-	/** Creates the interaction. */
-	public WiimoteMovement() {
+	/** Creates the interaction.*/
+	public IRPointing() {
 		super();
 		initStateMachine();
 	}
@@ -33,7 +33,7 @@ public class WiimoteMovement extends WiimoteInteraction {
 	@Override
 	public void reinit() {
 		super.reinit();
-		motion = null;
+		ir = null;
 	}
 
 
@@ -46,13 +46,13 @@ public class WiimoteMovement extends WiimoteInteraction {
 		addState(stop);
 		
 		
-		// Begin interaction, by pressing B-button
+		// Begin interaction by pushing B-button
 		new ButtonPressedTransition(initState, start) {
 			public void action() {
 				super.action();	
 				
-				// Enable motion sensing tracking
-				WiimoteEventManager.getInstance().enableMotionEvent();
+				// Enable IR tracking
+				WiimoteEventManager.getInstance().enableIREvent();
 				
 			}
 		
@@ -67,10 +67,10 @@ public class WiimoteMovement extends WiimoteInteraction {
 		
 		
 		// Send every data
-		new MotionSensingTransition(start, start) {
+		new IRTransition(start, start) {
 			public void action() {
 				super.action();	
-				WiimoteMovement.this.motion = this.motion;
+				IRPointing.this.ir = this.ir;
 			}
 		};
 		
@@ -80,8 +80,8 @@ public class WiimoteMovement extends WiimoteInteraction {
 			public void action() {
 				super.action();	
 				
-				// Disable motion sensing tracking
-				WiimoteEventManager.getInstance().disableMotionEvent();
+				// Disable IR tracking
+				WiimoteEventManager.getInstance().disableIREvent();
 			}
 			
 			public boolean isGuardRespected() {
@@ -96,10 +96,10 @@ public class WiimoteMovement extends WiimoteInteraction {
 
 
 	/**
-	 * @return Motion sensing data.
+	 * @return IR tracking data
 	 * @since 0.2
 	 */
-	public MotionSensingEvent getMotion() {
-		return motion;
+	public IREvent getIR() {
+		return ir;
 	}
 }

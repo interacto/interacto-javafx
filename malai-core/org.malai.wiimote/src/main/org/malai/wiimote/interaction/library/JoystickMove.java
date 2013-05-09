@@ -8,14 +8,15 @@ import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 
 
 /**
- * Occurs when one or several buttons are pressed on the wiimote
+ * Track every moves make with the nunchuk joystick (if this last
+ * is connected)
  * 
  * @author Maxime Lorant
  *
  */
 public class JoystickMove extends WiimoteInteraction {
 	
-	/** The pressed button. */
+	/** The joystick activity */
 	protected JoystickEvent joystick;
 
 	/**
@@ -51,7 +52,7 @@ public class JoystickMove extends WiimoteInteraction {
 
 
 	/**
-	 * @return The pressed button.
+	 * @return Joystick information
 	 * @since 0.2
 	 */
 	public JoystickEvent getJoystick() {
