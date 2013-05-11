@@ -1,5 +1,4 @@
 import net.java.games.input.*;
-import net.java.games.input.Component.Identifier.Button;
 
 public class GamePadInspector {
 
@@ -13,7 +12,7 @@ public class GamePadInspector {
 	 public GamePadInspector() {
 	    env = ControllerEnvironment.getDefaultEnvironment();
 	 
-	   /* Controller[] ctrls = env.getControllers();
+	   Controller[] ctrls = env.getControllers();
 	 
 	    for(Controller c : ctrls) {
 		    System.out.println("\n=>["+c.getName()+"]");
@@ -33,7 +32,7 @@ public class GamePadInspector {
 		       else
 			       System.out.println("            Identifier : Key "+cp.getIdentifier());
 		    }
-		 }*/
+		 }
 	 }
 	 
 	 
