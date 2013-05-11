@@ -1,0 +1,197 @@
+using kermeta::standard::*
+using kermeta::io::StdIO => stdio
+
+package org::malai::conditionSolver{
+	
+	class Parser{
+	
+		/*
+		 * Entry point
+		 *
+		 * Return the list of the solutions for the given expression.
+		 * A solution contains all variables with their value.
+		 */
+		operation getSolutions(condition : String) : Collection<String> is do
+		
+			//Init the solver
+			extern org::malai::wrapper::ChocoWrapper.initialization()
+			
+			//Set variables and constraints in the solver
+			self.parse(condition,0)
+			
+			//Solve the expression
+			extern org::malai::wrapper::ChocoWrapper.solve()
+
+			//Get the solutions
+			result := Set<String>.new
+			
+			var res : Object
+			
+			from var stop : Boolean := false
+			until stop
+			loop
+				res := extern org::malai::wrapper::ChocoWrapper.getCurrentSolution()
+				result.add(res.asType(String))
+				
+				res := extern org::malai::wrapper::ChocoWrapper.getNextSolution()
+				stop := not res.asType(Boolean)
+			end
+		end
+	
+		/*
+		 * Return the end position of the current condition that may be then end of the string or a char just before a ')'
+		 * @position is the begin character offset of the current condition
+		 */
+		operation parse(condition : String, position : Integer) : Integer is do
+		
+			var begin : Integer := ignoreWhitespace(condition,position)
+		
+			result := begin
+			
+			var endParse : Integer
+			
+			if(condition.charAt(begin) == "(".elementAt(0)) then
+				endParse := parseParentheses(condition,begin)
+			else
+				if(condition.charAt(begin) == "!".elementAt(0)) then
+					if(condition.charAt(begin+1) == "(".elementAt(0)) then
+						endParse := parseParentheses(condition,begin+1)
+					else
+						endParse := parseVar(condition,begin+1)
+						extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin+1,endParse+1))
+					end
+					extern org::malai::wrapper::ChocoWrapper.pushNOT()
+				else
+					endParse := parseVar(condition,begin)
+					extern org::malai::wrapper::ChocoWrapper.pushVariable(condition.substring(begin,endParse+1))
+//					stdio.writeln(condition.substring(begin,endParse+1))
+				end
+			end
+			
+			if (endParse == condition.size - 1) then
+				result := endParse
+			else
+				var next : Integer := ignoreWhitespace(condition,endParse+1) 
+				
+				if(condition.charAt(next) == ")".elementAt(0)) then
+						result := next - 1
+				else
+					if (condition.charAt(next) == "|".elementAt(0) and condition.charAt(next+1) == "|".elementAt(0)) 
+					then
+						result := parse(condition,next + 2)	
+						extern org::malai::wrapper::ChocoWrapper.pushOR()
+					else
+						if (condition.charAt(next) == "&".elementAt(0) and condition.charAt(next+1) == "&".elementAt(0))
+						then
+							result := parse(condition,next + 2)
+							extern org::malai::wrapper::ChocoWrapper.pushAND()
+						end	
+					end	
+				end
+			end
+			
+		end	
+		
+		/*
+		 * Search the close parenthese and return his position in @condition.
+		 *
+		 * @condition is the parsed string
+		 * @position is the offset of the first parenthese in @condition 
+		 */
+		operation parseParentheses(condition : String, position : Integer) : Integer is do
+
+			result := position
+		
+			var endParse : Integer
+			
+			if(condition.charAt(position) == "(".elementAt(0)) then
+//					stdio.writeln("[")
+					var next : Integer := ignoreWhitespace(condition,position+1)
+					endParse := parse(condition,next)
+			end
+			
+			var next : Integer := ignoreWhitespace(condition,endParse+1)
+			
+			if(condition.charAt(next) == ")".elementAt(0)) then
+//				stdio.writeln("]")
+				result := next
+			end	
+		end
+		
+		/*
+		 * Search the last character of the variable and return his position in @condition.
+		 *
+		 * @condition is the parsed string
+		 * @position is the offset of the first char of the variable in @condition 
+		 */
+		operation parseVar(condition : String, position : Integer) : Integer is do
+
+			result := position
+		
+			var stop : Boolean := false
+			from var i : Integer := position
+			until stop
+			loop
+				i := i + 1
+				if i == condition.size then
+					stop := true
+					result := i - 1
+				else
+					if condition.charAt(i) == "|".elementAt(0) 
+					or condition.charAt(i) == "&".elementAt(0) 
+					or condition.charAt(i) == " ".elementAt(0)
+					or condition.charAt(i) == ")".elementAt(0)
+					then
+						stop := true
+						result := i - 1
+					else
+						if condition.charAt(i) == "(".elementAt(0) then
+							stop := true
+							if i+1<condition.size then
+								var next : Integer := ignoreWhitespace(condition,i+1)
+								if condition.charAt(next) == ")".elementAt(0) then
+									result := next
+								end
+							end
+						end
+					end
+				end	
+			end
+		end
+		
+		/*
+		 * Search the position in @condition of the last consecutive occurrence 
+		 * of a space character, from @position
+		 *
+		 * @position is the first space character position
+		 */
+		operation parseWhitespace(condition : String, position : Integer) : Integer is do
+		
+			result := position
+			
+			var stop : Boolean := false
+			from var i : Integer := position
+			until stop or i >= condition.size - 1
+			loop
+				i := i + 1
+				if condition.charAt(i) != " ".elementAt(0) then
+					stop := true
+					result := i
+				end
+			end
+		end
+		
+		/*
+		 * Return the position of the next no space character 
+		 */
+		operation ignoreWhitespace(condition : String, position : Integer) : Integer is do
+			result := position
+			if position < condition.size then
+				if condition.charAt(position) == " ".elementAt(0) then
+					result := parseWhitespace(condition,position)
+				end
+			end
+		end
+	
+	}
+}

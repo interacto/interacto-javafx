@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="org" nsURI="http://org.malai/1_0_0/" nsPrefix="org">
-  <eSubpackages name="malai" nsURI="http://org.malai/1_0_0//org/malai" nsPrefix="org_malai">
-    <eSubpackages name="interaction" nsURI="http://org.malai/interaction/1_0_0//org/malai/interaction"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="org" nsURI="http://org.malai.interaction/1_0_0/" nsPrefix="org">
+  <eSubpackages name="malai" nsURI="http://org.malai.interaction/1_0_0//org/malai"
+      nsPrefix="org_malai">
+    <eSubpackages name="interaction" nsURI="http://org.malai.interaction/1_0_0//org/malai/interaction"
         nsPrefix="org_malai_interaction">
       <eClassifiers xsi:type="ecore:EClass" name="Interaction">
         <eOperations name="onStarting"/>
@@ -41,7 +42,7 @@
             eType="#//malai/interaction/State"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EReference" name="event" lowerBound="1"
-            eType="ecore:EClass event.ecore#//malai/event/Event"/>
+            eType="ecore:EClass platform:/plugin/org.malai.model/src/main/metamodel/event.ecore#//malai/event/Event"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="actions" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>

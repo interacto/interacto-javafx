@@ -37,7 +37,7 @@ public interface EventPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://org.malai/event/1_0_0//org/malai/event";
+	String eNS_URI = "http://org.malai.event/1_0_0//org/malai/event";
 
 	/**
 	 * The package namespace name.

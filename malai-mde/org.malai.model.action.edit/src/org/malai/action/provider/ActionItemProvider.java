@@ -66,6 +66,8 @@ public class ActionItemProvider
 			addCanDoPropertyDescriptor(object);
 			addUndoPropertyDescriptor(object);
 			addRedoPropertyDescriptor(object);
+			addCancelledByPropertyDescriptor(object);
+			addModifyInstrumentPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -181,6 +183,50 @@ public class ActionItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Cancelled By feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCancelledByPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Action_cancelledBy_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Action_cancelledBy_feature", "_UI_Action_type"),
+				 ActionPackage.Literals.ACTION__CANCELLED_BY,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Modify Instrument feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addModifyInstrumentPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Action_modifyInstrument_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Action_modifyInstrument_feature", "_UI_Action_type"),
+				 ActionPackage.Literals.ACTION__MODIFY_INSTRUMENT,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
 	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
 	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -260,6 +306,7 @@ public class ActionItemProvider
 			case ActionPackage.ACTION__CAN_DO:
 			case ActionPackage.ACTION__UNDO:
 			case ActionPackage.ACTION__REDO:
+			case ActionPackage.ACTION__MODIFY_INSTRUMENT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case ActionPackage.ACTION__CLAZZ:
