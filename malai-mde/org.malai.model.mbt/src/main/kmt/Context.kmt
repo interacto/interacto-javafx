@@ -1,0 +1,119 @@
+using kermeta::standard::*
+using kermeta::io::StdIO => stdio
+using kermeta::utils::*
+using org::malai::action::*
+using org::malai::instrument::*
+
+package org::malai::generator{
+
+	/*
+	 * Represents the runtime state
+	 */
+	class Context
+	{		
+	
+		//Actions created by visited Links
+		attribute resolvedActions : bag Action[0..*]
+		
+		//Instruments activated by visited Actions
+		attribute activatedInstr : set Instrument[0..*]
+		
+		//Visits counter for each Link 
+		attribute linksCounters : Hashtable<Link,Integer>
+		
+		//PARAMETER
+		attribute MAXVISITS : Integer
+		
+		
+		/*
+		 * Setup the context
+		 */
+		operation initialize( activInstr : Collection<Instrument>, resAction : Collection<Action> ) : Void is do
+			MAXVISITS := 3
+			resolvedActions.addAll(resAction)
+			activatedInstr.addAll(activInstr)
+			linksCounters := Hashtable<Link,Integer>.new
+		end
+		
+		/*
+		 * Select the next Link to be visited from 
+		 * all instruments activated
+		 *
+		 * Strategy :
+		 * Get the less visited link (and visitable)
+		 * If none return void
+		 */
+		operation nextLink() : Link is do
+			var min : Link
+			activatedInstr.each{instr | 
+				instr.links.each{link | 
+						if isVisitable(link) and link.getVisitCounter(self) < MAXVISITS then
+							if min == void then
+								min := link
+							else
+								if link.getVisitCounter(self) < min.getVisitCounter(self) then
+									min := link
+								end
+							end
+						end
+					}
+				}
+			result := min
+		end
+		
+		/*
+		 * Add an executed action in the current context
+		 */
+		operation addSolvedAvtion(act : Action) : Void is do
+			resolvedActions.add(act)
+
+			/*if act.isInstanceOf(ActivateInstruments) then
+				act.ActivateInstruments.instruments.each{i | activateInstrument(i) }
+			else
+				if act.isInstanceOf(InactivateInstruments) then
+					act.InactivateInstruments.instruments.each{i | inactivateInstrument(i) }
+				end
+			end*/
+		end
+		
+		/*
+		 * Add a usable instrument 
+		 */
+		operation activateInstrument(instr : Instrument) : Void is do
+			activatedInstr.add(instr)
+		end		
+
+		/*
+		 * Remove an instrument
+		 */ 
+		operation inactivateInstrument(instr : Instrument) : Void is do
+			activatedInstr.remove(instr)
+		end
+		
+		/*
+		 * Return true if all dependencies of the link are resolved
+		 */
+		operation isVisitable(link : Link) : Boolean is do
+			result := link.action.dependencies.forAll{dep | resolvedActions.contains(dep.srcAction)} 
+		end
+		
+		/*
+		 * Clone the current instance of Context
+		 */
+		operation copy() : Context is do
+			result := Context.new
+			result.initialize(self.activatedInstr,self.resolvedActions)
+		end
+		
+		operation toString() : String is do
+			var res : StringBuffer := StringBuffer.new  
+		
+			res.append("-----------------------------------------\n")
+			activatedInstr.each{ i | res.append("{"+ i.clazz.name +"}\n")}
+			resolvedActions.each{a | res.append("["+ a.clazz.name +"]\n")}
+			res.append("-----------------------------------------\n")
+			
+			result := res.toString
+		end
+	}
+}

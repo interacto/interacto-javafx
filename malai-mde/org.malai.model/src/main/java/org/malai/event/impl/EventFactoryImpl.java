@@ -27,7 +27,7 @@ public class EventFactoryImpl extends EFactoryImpl implements EventFactory {
 	 */
 	public static EventFactory init() {
 		try {
-			EventFactory theEventFactory = (EventFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai/event/1_0_0//org/malai/event"); 
+			EventFactory theEventFactory = (EventFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai.event/1_0_0//org/malai/event"); 
 			if (theEventFactory != null) {
 				return theEventFactory;
 			}

@@ -27,7 +27,7 @@ public class WidgetFactoryImpl extends EFactoryImpl implements WidgetFactory {
 	 */
 	public static WidgetFactory init() {
 		try {
-			WidgetFactory theWidgetFactory = (WidgetFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai/widget/1_0_0//org/malai/widget"); 
+			WidgetFactory theWidgetFactory = (WidgetFactory)EPackage.Registry.INSTANCE.getEFactory("http://org.malai.widget/1_0_0//org/malai/widget"); 
 			if (theWidgetFactory != null) {
 				return theWidgetFactory;
 			}
