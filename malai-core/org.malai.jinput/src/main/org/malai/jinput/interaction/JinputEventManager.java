@@ -46,8 +46,10 @@ public class JinputEventManager extends BasicEventManager<Controller> implements
 	 * Attaches the JinputEventManager to the component to listen.
 	 * @param controller The Component to listen.
 	 */
+	// C'est plutôt : ajoute le listener à la liste des listeners (globaux) de l'environnement
 	public void attachTo(final Controller controller) {
-		env.addControllerListener(this) ;
+		if (controller != null)
+			env.addControllerListener(this) ;
 	}
 	
 
@@ -82,13 +84,12 @@ public class JinputEventManager extends BasicEventManager<Controller> implements
 	}
 
 	public void controllerRemoved(ControllerEvent ce) {
-		attachTo(ce.getController()) ;
+		detachForm(ce.getController()) ;
 		
 	}
 
 
 	public void controllerAdded(ControllerEvent ce) {
-		detachForm(ce.getController()) ;
-		
+		attachTo(ce.getController()) ;
 	}
 }
