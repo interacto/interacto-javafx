@@ -4,6 +4,7 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
+import wiiusej.wiiusejevents.physicalevents.NunchukEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.DisconnectionEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
@@ -49,6 +50,12 @@ public interface WiimoteEventHandler {
 	 * @param joystick
 	 */
 	void onJoystickMove(final JoystickEvent joystick);
+	
+	/**
+	 * Defines actions to do when nunchuk event is received
+	 * @param joystick
+	 */
+	void onNunchukEvent(final NunchukEvent nunchuk);
 	
 	/**
 	 * Defines actions to do when motion sensing data are received

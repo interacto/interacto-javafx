@@ -8,6 +8,7 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 import wiiusej.wiiusejevents.physicalevents.MotionSensingEvent;
+import wiiusej.wiiusejevents.physicalevents.NunchukEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.DisconnectionEvent;
 import wiiusej.wiiusejevents.wiiuseapievents.StatusEvent;
 
@@ -98,6 +99,20 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 			
 			if(t instanceof JoystickMoveTransition) {
 				((JoystickMoveTransition)t).setJoystick(joystick);
+				again = !checkTransition(t);
+			}
+		}
+	}
+	
+	public void onNunchukEvent(NunchukEvent nunchuk) {
+		if(!activated) return ;
+
+		boolean again = true;
+		ITransition t;
+		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
+			t = currentState.getTransition(i);
+			if(t instanceof NunchukEvent) {
+				((NunchukTransition)t).setNunchukEvent(nunchuk);
 				again = !checkTransition(t);
 			}
 		}
