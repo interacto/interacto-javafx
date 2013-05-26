@@ -9,19 +9,16 @@ import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
 
 /**
  * Track every moves make with the nunchuk joystick (if this last
- * is connected)
+ * is connected). 
  * 
  * @author Maxime Lorant
- *
+ * @since 0.2
  */
 public class JoystickMove extends WiimoteInteraction {
 	
 	/** The joystick activity */
 	protected JoystickEvent joystick;
 
-	/**
-	 * Creates the interaction.
-	 */
 	public JoystickMove() {
 		super();
 		initStateMachine();
@@ -34,10 +31,9 @@ public class JoystickMove extends WiimoteInteraction {
 		joystick = null;
 	}
 
-
 	@Override
 	protected void initStateMachine() {
-		final TerminalState moved = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState moved = new TerminalState("moved"); //$NON-NLS-1$
 
 		addState(moved);
 
@@ -50,10 +46,8 @@ public class JoystickMove extends WiimoteInteraction {
 		};
 	}
 
-
 	/**
 	 * @return Joystick information
-	 * @since 0.2
 	 */
 	public JoystickEvent getJoystick() {
 		return joystick;

@@ -24,6 +24,10 @@ public class AbortableButtonHeld extends ButtonHeld {
 		initStateMachine();
 	}
 
+	/** 
+	 * Build the interaction, with a new state, to
+	 * abort the current interaction
+	 */
 	@Override
 	protected void initStateMachine() {
 		

@@ -12,7 +12,6 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
  * Occurs when a button is pressed, and finish when this one is released 
  * 
  * @author Maxime Lorant
- *
  */
 public class ButtonHeld extends WiimoteInteraction {
 	

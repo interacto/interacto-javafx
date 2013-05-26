@@ -38,15 +38,23 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 		super();
 	}
 	
+	/**
+	 * Initialize the interaction with a predefined InitState
+	 * @param initState the initialize state.
+	 */
 	public WiimoteInteraction(final InitState initState) {
 		super(initState);
 	}
 	
+	/**
+	 * Initialises the interaction: creates the states and the transitions.
+	 */
 	@Override
 	protected void initStateMachine() {
-		// TODO Auto-generated method stub
+		// Has to be override in subclasses
 	}
 		
+	
 	public void onButtonPressed(ButtonsEvent button) {
 		if(!activated) return ;
 
@@ -115,7 +123,8 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 	 * 
 	 */
 	public void onStatus(StatusEvent status) {
-		if(!activated) return ;		
+		if(!activated) return ;	
+		
 	}
 	
 	/**

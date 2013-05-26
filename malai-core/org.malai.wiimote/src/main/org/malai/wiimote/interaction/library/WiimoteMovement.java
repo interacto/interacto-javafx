@@ -16,7 +16,6 @@ import wiiusej.wiiusejevents.physicalevents.WiimoteButtonsEvent;
  * Once the B-button is release, the tracking stops.
  * 
  * @author Maxime Lorant
- *
  */
 public class WiimoteMovement extends WiimoteInteraction {
 	
@@ -50,13 +49,11 @@ public class WiimoteMovement extends WiimoteInteraction {
 		new ButtonPressedTransition(initState, start) {
 			public void action() {
 				super.action();	
-				
-				// Enable motion sensing tracking
 				WiimoteEventManager.getInstance().enableMotionEvent();
-				
 			}
 		
 			public boolean isGuardRespected() {
+				// TODO: Parameterize button (should be defined by the user)
 				if(this.button instanceof WiimoteButtonsEvent) {
 					WiimoteButtonsEvent b = (WiimoteButtonsEvent) this.button;
 					return b.isButtonBJustPressed();
@@ -75,16 +72,15 @@ public class WiimoteMovement extends WiimoteInteraction {
 		};
 		
 		
-		// Stop interaction
+		// Stop interaction, when B button is released
 		new ButtonPressedTransition(start, stop) {
 			public void action() {
 				super.action();	
-				
-				// Disable motion sensing tracking
 				WiimoteEventManager.getInstance().disableMotionEvent();
 			}
 			
 			public boolean isGuardRespected() {
+				// TODO: Parameterize button (should be defined by the user)
 				if(this.button instanceof WiimoteButtonsEvent) {
 					WiimoteButtonsEvent b = (WiimoteButtonsEvent) this.button;
 					return b.isButtonBJustReleased();

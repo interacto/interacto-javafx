@@ -8,10 +8,9 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
 
 
 /**
- * Occurs when one or several buttons are pressed on the wiimote
+ * Occurs when one or several buttons are pressed on the wiimote.
  * 
  * @author Maxime Lorant
- *
  */
 public class ButtonPressed extends WiimoteInteraction {
 	

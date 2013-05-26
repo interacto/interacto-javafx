@@ -9,7 +9,6 @@ import org.malai.interaction.EventHandler;
 
 import wiiusej.WiiUseApiManager;
 import wiiusej.Wiimote;
-import wiiusej.utils.NunchukJoystickEventPanel;
 import wiiusej.wiiusejevents.physicalevents.ExpansionEvent;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 import wiiusej.wiiusejevents.physicalevents.JoystickEvent;
@@ -73,7 +72,7 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 	private WiimoteEventManager(int nbWiimotes) throws AttachWiimoteException {
 		super();
 		
-		wiimotes = WiiUseApiManager.getWiimotes(nbWiimotes, true);
+		wiimotes = WiiUseApiManager.getWiimotes(nbWiimotes, false);
 		
 		// Check if every wiimotes has been connected
 		if(wiimotes.length != nbWiimotes) {
