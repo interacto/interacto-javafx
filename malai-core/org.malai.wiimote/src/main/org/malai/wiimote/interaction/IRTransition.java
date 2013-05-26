@@ -7,21 +7,20 @@ import org.malai.stateMachine.TargetableState;
 import wiiusej.wiiusejevents.physicalevents.IREvent;
 
 /**
- * Occur every 10ms, when the IR tracking is enabled. Provide
- * IR tracking, about the wiimote position relative to the sensor bar
+ * Occur every 10ms, when the IR (InfraRed) tracking is enabled. Provide
+ * IR tracking, about the wiimote position relative to the sensor bar.
  * 
  * @see wiiusej.wiiusejevents.physicalevents.IREvent
  * @author Maxime Lorant
- *
  */
 public class IRTransition extends Transition {
-		
+	
+	/** IR (= infra-red) event received */
 	protected IREvent ir;
 
 	public IRTransition(SourceableState inputState, TargetableState outputState) {
 		super(inputState, outputState);
 	}
-
 
 	/**
 	 * @return IR data
@@ -30,7 +29,6 @@ public class IRTransition extends Transition {
 	public IREvent getIR() {
 		return ir;
 	}
-
 
 	/**
 	 * Sets IR data

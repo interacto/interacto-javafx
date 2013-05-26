@@ -11,10 +11,11 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
  * 
  * @see wiiusej.wiiusejevents.physicalevents.ButtonsEvent
  * @author Maxime Lorant
- *
+ * @since 0.2
  */
 public class ButtonPressedTransition extends Transition {
 	
+	/** Button event received */
 	protected ButtonsEvent button;
 	
 	/**
@@ -27,7 +28,6 @@ public class ButtonPressedTransition extends Transition {
 
 	/**
 	 * @return The pressed button.
-	 * @since 0.2
 	 */
 	public ButtonsEvent getButton() {
 		return button;
@@ -37,7 +37,6 @@ public class ButtonPressedTransition extends Transition {
 	/**
 	 * Sets the pressed button.
 	 * @param button The pressed button. Must not be null.
-	 * @since 0.2
 	 */
 	public void setButton(final ButtonsEvent button) {
 		if(button!=null)

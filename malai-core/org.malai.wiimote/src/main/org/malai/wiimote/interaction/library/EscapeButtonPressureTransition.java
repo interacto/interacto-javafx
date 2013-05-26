@@ -1,6 +1,5 @@
 package org.malai.wiimote.interaction.library;
 
-import org.malai.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 import org.malai.wiimote.interaction.ButtonPressedTransition;
