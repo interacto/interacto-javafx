@@ -36,7 +36,7 @@ public class JoystickMove extends WiimoteInteraction {
 		final TerminalState moved = new TerminalState("moved"); //$NON-NLS-1$
 
 		addState(moved);
-
+		
 		new JoystickMoveTransition(initState, moved) {
 			@Override
 			public void action() {
