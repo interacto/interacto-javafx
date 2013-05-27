@@ -19,7 +19,7 @@ public class ButtonHeld extends WiimoteInteraction {
 	protected ButtonsEvent button;
 	
 	/** The justPressed button id, to check at every released button if it's the same */
-	private int buttonPressed;
+	protected int buttonPressed;
 	
 	/** Pressed state */
 	protected IntermediaryState pressed;
@@ -48,10 +48,14 @@ public class ButtonHeld extends WiimoteInteraction {
 				ButtonHeld.this.buttonPressed = this.button.getButtonsJustPressed();
 				ButtonHeld.this.button = this.button;
 			}
+			
+			@Override
+			public boolean isGuardRespected() {
+				return super.isGuardRespected() && this.button.getButtonsJustPressed() != 0;
+			}
 		};
 		
-		new ButtonPressedTransition(pressed, released) {
-			
+		new ButtonPressedTransition(pressed, released) {	
 			@Override
 			public boolean isGuardRespected() {
 				int released = this.button.getButtonsJustReleased();
