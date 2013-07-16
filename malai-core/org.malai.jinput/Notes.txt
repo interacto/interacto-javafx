@@ -1,0 +1,2 @@
+Javadoc : http://www.jarvana.com/jarvana/view/net/java/jinput/jinput/2.0.5/jinput-2.0.5-javadoc.jar!/index.html
+Truc potentiellement utile : http://www.java-gaming.org/index.php?topic=16866.0
