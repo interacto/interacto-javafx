@@ -14,7 +14,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_RdClweyKEeKDwcNzCCT-GQ" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EClass" href="IAFlowGraph.ecore#//inria/IAFlowGraph/IAFlowGraph"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RdClwuyKEeKDwcNzCCT-GQ" x="315" y="55"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RdClwuyKEeKDwcNzCCT-GQ" x="270" y="36" width="165" height="63"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_7K10YOycEeKDwcNzCCT-GQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_7K3CgOycEeKDwcNzCCT-GQ" type="4001"/>
@@ -29,8 +29,8 @@
       <styles xmi:type="notation:FilteringStyle" xmi:id="_7K3pk-ycEeKDwcNzCCT-GQ"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_7K10YeycEeKDwcNzCCT-GQ" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
-    <element xmi:type="ecore:EClass" href="IAFlowGraph.ecore#//inria/IAFlowGraph/Event"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7K10YuycEeKDwcNzCCT-GQ" x="270" y="162"/>
+    <element xmi:type="ecore:EClass" href="IAFlowGraph.ecore#//inria/IAFlowGraph/InteractionTransition"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7K10YuycEeKDwcNzCCT-GQ" x="216" y="162"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_ySgP0OyeEeKDwcNzCCT-GQ" type="1001">
     <children xmi:type="notation:Node" xmi:id="_ySiFAOyeEeKDwcNzCCT-GQ" type="4001"/>
@@ -94,28 +94,28 @@
   <element xmi:type="ecore:EPackage" href="IAFlowGraph.ecore#//inria/IAFlowGraph"/>
   <edges xmi:type="notation:Edge" xmi:id="_dEczIOydEeKDwcNzCCT-GQ" type="3002" source="_RdClwOyKEeKDwcNzCCT-GQ" target="_7K10YOycEeKDwcNzCCT-GQ">
     <children xmi:type="notation:Node" xmi:id="_dEeoUOydEeKDwcNzCCT-GQ" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dEeoUeydEeKDwcNzCCT-GQ" x="-4" y="-28"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_dEeoUeydEeKDwcNzCCT-GQ" x="-12" y="-38"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_dEf2cOydEeKDwcNzCCT-GQ" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_dEf2ceydEeKDwcNzCCT-GQ" x="-4" y="21"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_dEf2ceydEeKDwcNzCCT-GQ" x="-12" y="14"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_dEczIeydEeKDwcNzCCT-GQ" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_dEczIuydEeKDwcNzCCT-GQ" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/IAFlowGraph/events"/>
+    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/IAFlowGraph/transitions"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_dEczI-ydEeKDwcNzCCT-GQ" points="[1, 11, 2, -63]$[1, 66, 2, -8]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_dEku8OydEeKDwcNzCCT-GQ" id="(0.23529411764705882,0.7380952380952381)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_dEku8eydEeKDwcNzCCT-GQ" id="(0.6274509803921569,0.21428571428571427)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_m6BUoOyeEeKDwcNzCCT-GQ" type="3002" source="_7K10YOycEeKDwcNzCCT-GQ" target="_7K10YOycEeKDwcNzCCT-GQ">
     <children xmi:type="notation:Node" xmi:id="_m6DJ0OyeEeKDwcNzCCT-GQ" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_m6DJ0eyeEeKDwcNzCCT-GQ" x="-24" y="23"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_m6DJ0eyeEeKDwcNzCCT-GQ" x="-53" y="-13"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_m6DJ0uyeEeKDwcNzCCT-GQ" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_m6DJ0-yeEeKDwcNzCCT-GQ" x="16" y="23"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_m6DJ0-yeEeKDwcNzCCT-GQ" x="16" y="17"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_m6BUoeyeEeKDwcNzCCT-GQ" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_m6BUouyeEeKDwcNzCCT-GQ" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/Event/events"/>
+    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/InteractionTransition/outgoingTransitions"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_m6BUo-yeEeKDwcNzCCT-GQ" points="[14, 6, 27, -1]$[68, 6, 81, -1]$[68, 66, 81, 59]$[-13, 66, 0, 59]$[-13, 38, 0, 31]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_m6ICUOyeEeKDwcNzCCT-GQ" id="(0.8947368421052632,0.20408163265306123)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_m6ICUeyeEeKDwcNzCCT-GQ" id="(0.7969924812030075,0.3469387755102041)"/>
@@ -129,35 +129,35 @@
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_1o2gkeyeEeKDwcNzCCT-GQ" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_1o2gkuyeEeKDwcNzCCT-GQ" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/Event/action"/>
+    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/InteractionTransition/action"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_1o2gk-yeEeKDwcNzCCT-GQ" points="[-6, 11, 1, -74]$[-6, 80, 1, -5]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1o8AIOyeEeKDwcNzCCT-GQ" id="(0.09774436090225563,0.9387755102040817)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1o8AIeyeEeKDwcNzCCT-GQ" id="(0.39896373056994816,0.025974025974025976)"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1o8AIOyeEeKDwcNzCCT-GQ" id="(0.19047619047619047,0.8571428571428571)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_1o8AIeyeEeKDwcNzCCT-GQ" id="(0.19689119170984457,0.05194805194805195)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_Ga-RkOytEeKDwcNzCCT-GQ" type="3002" source="_ySgP0OyeEeKDwcNzCCT-GQ" target="__2MV8OysEeKDwcNzCCT-GQ">
     <children xmi:type="notation:Node" xmi:id="_Ga-4oOytEeKDwcNzCCT-GQ" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ga-4oeytEeKDwcNzCCT-GQ" x="-10" y="-10"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ga-4oeytEeKDwcNzCCT-GQ" x="10" y="26"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_Ga_fsOytEeKDwcNzCCT-GQ" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ga_fseytEeKDwcNzCCT-GQ" x="-2" y="17"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ga_fseytEeKDwcNzCCT-GQ" x="-1" y="-10"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_Ga-RkeytEeKDwcNzCCT-GQ" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_Ga-RkuytEeKDwcNzCCT-GQ" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/ResultingAction/action"/>
+    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/ResultingAction/concreteAction"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Ga-Rk-ytEeKDwcNzCCT-GQ" points="[12, 2, -86, 2]$[99, 17, 1, 17]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_GbDKEOytEeKDwcNzCCT-GQ" id="(0.904,0.5238095238095238)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_GbDKEeytEeKDwcNzCCT-GQ" id="(0.0784313725490196,0.575)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_prMKkO00EeKWrPCnz4tZbA" type="3002" source="_7K10YOycEeKDwcNzCCT-GQ" target="_l4PdYO00EeKWrPCnz4tZbA">
     <children xmi:type="notation:Node" xmi:id="_prNYsO00EeKWrPCnz4tZbA" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_prNYse00EeKWrPCnz4tZbA" x="-16" y="-14"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_prNYse00EeKWrPCnz4tZbA" x="12" y="-20"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_prNYsu00EeKWrPCnz4tZbA" type="4012">
       <layoutConstraint xmi:type="notation:Location" xmi:id="_prNYs-00EeKWrPCnz4tZbA" x="7" y="16"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_prMKke00EeKWrPCnz4tZbA" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_prMKku00EeKWrPCnz4tZbA" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/Event/transition"/>
+    <element xmi:type="ecore:EReference" href="IAFlowGraph.ecore#//inria/IAFlowGraph/InteractionTransition/concreteTransition"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_prMKk-00EeKWrPCnz4tZbA" points="[18, 2, -120, 1]$[139, -9, 1, -10]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_prQcAO00EeKWrPCnz4tZbA" id="(0.8235294117647058,0.09523809523809523)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_prQcAe00EeKWrPCnz4tZbA" id="(0.3333333333333333,0.21568627450980393)"/>
