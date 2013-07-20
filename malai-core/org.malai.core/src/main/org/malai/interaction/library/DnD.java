@@ -15,7 +15,6 @@ import org.malai.stateMachine.TargetableState;
 
 /**
  * A DnD interaction is a Drag-And-Drop: press-drag-release.<br>
- * When key 'escape' is pressed, the interaction is aborted.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2009-2013 Arnaud BLOUIN<br>
