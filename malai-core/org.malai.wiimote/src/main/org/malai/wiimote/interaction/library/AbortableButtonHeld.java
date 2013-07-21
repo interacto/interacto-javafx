@@ -28,6 +28,7 @@ public class AbortableButtonHeld extends ButtonHeld {
 	 * Build the interaction, with a new state, to
 	 * abort the current interaction
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		

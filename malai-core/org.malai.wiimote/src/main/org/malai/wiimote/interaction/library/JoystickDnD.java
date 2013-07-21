@@ -17,6 +17,7 @@ public class JoystickDnD extends ButtonHeld {
 	/** The joystick activity */
 	protected JoystickEvent joystick;
 	
+	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		
@@ -39,8 +40,7 @@ public class JoystickDnD extends ButtonHeld {
 		new ButtonPressedTransition(move, released) {	
 			@Override
 			public boolean isGuardRespected() {
-				int released = this.button.getButtonsJustReleased();
-				return super.isGuardRespected() && JoystickDnD.this.buttonPressed==released;
+				return super.isGuardRespected() && JoystickDnD.this.buttonPressed==button.getButtonsJustReleased();
 			}
 		};
 	}

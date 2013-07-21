@@ -33,6 +33,7 @@ public class ButtonHeld extends WiimoteInteraction {
 		initStateMachine();
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		pressed  = new IntermediaryState("pressed"); //$NON-NLS-1$
@@ -58,8 +59,7 @@ public class ButtonHeld extends WiimoteInteraction {
 		new ButtonPressedTransition(pressed, released) {	
 			@Override
 			public boolean isGuardRespected() {
-				int released = this.button.getButtonsJustReleased();
-				return super.isGuardRespected() && ButtonHeld.this.buttonPressed==released;
+				return super.isGuardRespected() && ButtonHeld.this.buttonPressed==button.getButtonsJustReleased();
 			}
 		};
 	}

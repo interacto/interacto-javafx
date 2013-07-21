@@ -8,7 +8,7 @@
      <build>
 		<sourceDirectory>src/main</sourceDirectory>
     	<resources>
-      		<resource><directory>src/resources/</directory></resource>
+      		<resource><directory>src/resources</directory></resource>
   		</resources>
     	<plugins>
       <plugin>
@@ -17,7 +17,6 @@
         <configuration>
           <descriptors>
             <descriptor>src/assembly/assemblySrc.xml</descriptor>
-            <descriptor>src/assembly/assemblyBin.xml</descriptor>
           </descriptors>
         </configuration>
                 <executions>
@@ -30,16 +29,31 @@
           </execution>
         </executions>
 		</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>2.0.2</version>
+			<configuration>
+				<source>1.6</source>
+				<target>1.6</target>
+				<encoding>UTF-8</encoding>
+			</configuration>
+		</plugin>
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-jar-plugin</artifactId>
+	        <version>2.4</version>
+	        <configuration>
+	          <archive>
+	            <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+	            <addMavenDescriptor>false</addMavenDescriptor>
+	          </archive>
+	          <includes>
+	            <include>org/</include>
+	            <include>lib/</include>
+	          </includes>
+	        </configuration>
+	      </plugin>
         </plugins>
     </build>
   
@@ -49,10 +63,12 @@
   		<artifactId>malai.core</artifactId>
   		<version>0.2-SNAPSHOT</version>
   	</dependency>
-  	<dependency>
-  		<groupId>org.wiimote</groupId>
-  		<artifactId>wiiusej</artifactId>
-  		<version>1</version>
-  	</dependency>
+	<dependency>
+	    <groupId>org.wiiusej</groupId>
+	    <artifactId>wiiusej</artifactId>
+	    <version>0.12b</version>
+	    <scope>system</scope>
+	    <systemPath>${project.basedir}/src/resources/lib/wiiusej.jar</systemPath>
+	</dependency>
   </dependencies>
 </project>

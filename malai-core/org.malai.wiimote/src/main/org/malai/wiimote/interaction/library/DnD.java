@@ -5,7 +5,6 @@ import java.awt.Point;
 import org.malai.interaction.Interaction;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.MoveTransition;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
@@ -13,9 +12,7 @@ import org.malai.stateMachine.TargetableState;
 import org.malai.wiimote.interaction.ButtonPressedTransition;
 import org.malai.wiimote.interaction.WiimoteInteraction;
 
-import wiiusej.Wiimote;
 import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
-
 
 /**
  * A DnD interaction is a Drag-And-Drop: press-drag-release.<br>
@@ -32,9 +29,9 @@ import wiiusej.wiiusejevents.physicalevents.ButtonsEvent;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 05/19/2010<br>
- * @author Arnaud BLOUIN
- * @since 0.1
+ * 2013/05/01<br>
+ * @author Arnaud BLOUIN, Maxime Lorant
+ * @since 2.0
  */
 public class DnD extends WiimoteInteraction {
 	
@@ -69,6 +66,7 @@ public class DnD extends WiimoteInteraction {
 	}
 
 
+	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
