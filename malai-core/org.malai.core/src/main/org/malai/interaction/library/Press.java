@@ -33,7 +33,7 @@ public class Press extends PointInteraction {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
 
 		addState(pressed);
 
