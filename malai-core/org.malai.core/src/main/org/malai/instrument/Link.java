@@ -243,8 +243,13 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 	@Override
 	public void interactionStops(final Interaction inter) {
-		if(action!=null && interaction==inter) {
+		if(interaction==inter)
 			if(isConditionRespected()) {
+				if(action==null) {
+					createAction();
+					initAction();
+				}
+
     			if(!execute)
     				updateAction();
 
@@ -265,14 +270,15 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
     				}
 
     			action = null;
+    			instrument.interimFeedback();
 			}
-			else {
-				action.abort();
-				instrument.onActionAborted(action);
-				action = null;
-			}
-			instrument.interimFeedback();
-		}
+			else
+				if(action!=null) {
+					action.abort();
+					instrument.onActionAborted(action);
+					action = null;
+					instrument.interimFeedback();
+				}
 	}
 
 

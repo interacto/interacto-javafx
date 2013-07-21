@@ -26,7 +26,7 @@ import org.malai.swing.interaction.SwingEventManager;
  * @version 0.2
  * @since 0.2
  */
-class SwingWidgetUtilities {
+public class SwingWidgetUtilities {
 	/** The singleton of the class. */
 	public static final SwingWidgetUtilities INSTANCE = new SwingWidgetUtilities();
 
