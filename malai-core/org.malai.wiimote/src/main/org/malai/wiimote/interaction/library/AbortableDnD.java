@@ -3,9 +3,7 @@ package org.malai.wiimote.interaction.library;
 import java.util.List;
 
 import org.malai.interaction.AbortingState;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.stateMachine.ITransition;
-
 import org.malai.wiimote.interaction.ButtonPressedTransition;
 
 /**

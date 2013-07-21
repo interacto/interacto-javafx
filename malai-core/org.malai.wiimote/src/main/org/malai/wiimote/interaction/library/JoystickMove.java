@@ -31,6 +31,7 @@ public class JoystickMove extends WiimoteInteraction {
 		joystick = null;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final TerminalState moved = new TerminalState("moved"); //$NON-NLS-1$

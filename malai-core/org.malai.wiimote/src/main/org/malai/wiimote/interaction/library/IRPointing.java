@@ -37,6 +37,7 @@ public class IRPointing extends WiimoteInteraction {
 	}
 
 
+	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final IntermediaryState start = new IntermediaryState("start");
