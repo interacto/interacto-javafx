@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.malai</groupId>
   <artifactId>malai.wiimote</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
   <name>malai.wiimote :: Malai Wiimote component</name>
   
      <build>
@@ -61,7 +61,7 @@
   	<dependency>
   		<groupId>org.malai</groupId>
   		<artifactId>malai.core</artifactId>
-  		<version>0.2-SNAPSHOT</version>
+  		<version>2.0-SNAPSHOT</version>
   	</dependency>
 	<dependency>
 	    <groupId>org.wiiusej</groupId>
