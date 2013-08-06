@@ -1,0 +1,83 @@
+using kermeta::standard::*
+using kermeta::io::StdIO => stdio
+using org::malai::interaction::*
+using org::malai::instrument::*
+using org::malai::generator::Context
+using fr::inria::IAFlowGraph::*
+
+
+package org::malai::generator{
+
+	class Graph{
+		attribute rootNode : GraphNode
+	}
+
+	class GraphNode
+	{
+		attribute relatedLink : Link //Interaction to be translated to EFG
+		attribute childrenNode : Bag<GraphNode> //Following accessible Links
+	
+		attribute initialTransitions : Set<InteractionTransition>
+		attribute terminalTransitions : Set<InteractionTransition>
+			
+		/* 
+		 * Convert an Interaction to a FlowGraph.
+		 * The collection returned is the InteractionTransitions accessible
+		 * from the source of the flow graph. 
+		 */
+		operation convertLink( link : Link) : Void is do
+		
+			initialTransitions := Set<InteractionTransition>.new
+			terminalTransitions := Set<InteractionTransition>.new
+			
+			var paths : Collection<OrderedSet<Transition>> := link.interaction.visit(Context.new) //need context parameter, but useless here
+			
+			paths.each{ p |
+				addPathInGraph(initialTransitions, p)
+			}
+			
+			terminalTransitions.select{ tr | tr.action.actionProduced}.each{tr | tr.concreteAction := link.action}
+		end
+		
+		/* 
+		 * Add recursively Transitions of the path in the graph.
+		 *
+		 * @outgoingTransitions Transitions from the current node
+		 * @path Ordered transitions to be added in the graph
+		 */
+		operation addPathInGraph(outgoingTransitions : Collection<InteractionTransition>, path : OrderedSet<Transition>) : Void is do
+		
+			if path.size > 0 then
+			
+				if not outgoingTransitions.exists{e |e.concreteTransition.equals(path.one)} then
+					var tr : InteractionTransition := IntercationTransition.new
+					tr.concreteTransition := path.one
+					outgoingTransitions.add(tr)
+				end
+				
+				var firstTransition : InteractionTransition := outgoingTransitions.detect{e | e.concreteTransition.equals(path.one) }
+			
+				if path.size == 1 then //Stop case
+					if path.one.isInstanceOf(TerminalState) then
+						firstTransition.action := ResultingAction.new
+						firstTransition.action.actionProduced := true
+						terminalTransitions.add(firstTransition)
+					end
+					if path.one.isInstanceOf(AbortingState) then
+						firstTransition.action := ResultingAction.new
+						firstTransition.action.actionProduced := false
+						terminalTransitions.add(firstTransition)
+					end
+				else //Recursion
+					var newPath : OrderedSet<Transition> := path.remove(path.one)
+					addPathInGraph(firstTransition.outgoingTransitions, newPath)
+				end
+			
+			end			
+		
+		end
+
+	}
+	
+	
+}
