@@ -1,4 +1,5 @@
 using kermeta::standard::*
+using kermeta::utils::*
 using kermeta::io::StdIO => stdio
 using org::malai::action::*
 using org::malai::instrument::*
@@ -20,14 +21,27 @@ package org::malai::generator{
 		 * and then creates a new Context
 		 */
 		attribute contexts : seq Context[0..*]
+		
+		/*
+		 * Hashtable to store computed Graph from a Link
+		 * Avoid to generate Graph each time of Link.visit()
+		 */
+		attribute graphTable : Hashtable<Link,Graph>
+		
+		//Help to "attach" context to each other
+		attribute currentNode : GraphNode
 	
 		/*
 		 * Entry point
 		 * 
 		 * Creates the initial context and visits it, which will creates new contexts
 		 * Then do the same for created contexts
+		 *
+		 * Return the Event Flow Graph corresponding to the possible executions
 		 */
-		operation run(instr : Collection<Instrument>) : Void is do
+		operation run(instr : Collection<Instrument>) : Graph is do
+		
+			result := Graph.new
 		
 			var newContext :  Context := initialize(instr)
 			addContext(newContext)
@@ -45,7 +59,20 @@ package org::malai::generator{
 					currentLink := currentContext.nextLink()
 					if(currentLink == void) then
 						stop := true
-					else
+					else		
+						if(currentContext.attachNode == Void) then
+							//Init graph
+							currentContext.attachNode := GraphNode.new
+							currentContext.attachNode.relatedLink := currentLink
+							result.rootNode := currentContext.attachNode
+						else
+							//Update graph
+							currentNode := currentContext.attachNode
+							var nextNode : GraphNode := GraphNode.new
+							nextNode.relatedLink := currentLink
+							currentNode.childrenNode.add(nextNode)
+							currentNode := nextNode		
+						end
 						currentLink.visit(currentContext,self)
 					end
 				end
@@ -58,11 +85,31 @@ package org::malai::generator{
 		 * Retrieve instruments from the system
 		 */
 		operation initialize( instr : Collection<Instrument>) : Context is do
+		
+			cache4Links(instr)
 			
 			allInstruments.addAll(instr)
 			result := Context.new
 			result.initialize(allInstruments.select{e | e.initiallyActivated}, Bag<Action>.new)
 			
+		end
+		
+		/*
+		 * Convert all Links of all Instruments to graph and store them 
+		 * into a cache
+		 */
+		operation cache4Links(instr : Collection<Instrument>) : Void is do
+		
+			graphTable := Hashtable<Link,Graph>.new
+			
+			instr.each{i |
+				i.links{l |
+					var gr : Graph := Graph.new
+					gr.convertLink(l)
+					graphTable.put(l,gr)
+				}
+			}
+		
 		end
 		
 		operation addContext(context : Context) : Void is do

@@ -24,6 +24,9 @@ package org::malai::generator{
 		//PARAMETER
 		attribute MAXVISITS : Integer
 		
+		//Root used to attach futur nodes of the context
+		attribute attachNode : GraphNode
+		
 		
 		/*
 		 * Setup the context

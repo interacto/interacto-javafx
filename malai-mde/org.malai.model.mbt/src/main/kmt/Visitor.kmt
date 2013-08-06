@@ -63,6 +63,7 @@ package org::malai::instrument{
 						newContext := context
 					else
 						newContext := context.copy
+						newContext.attachNode := generator.currentNode
 						generator.addContext(newContext)
 					end
 					
@@ -83,7 +84,7 @@ package org::malai::interaction{
 	aspect class Interaction{
 	
 		/*
-		 * Visits all paths and return paths to TerminalState
+		 * Visits all paths and return paths to TerminalState & AbortingState
 		 */
 		operation visit(context : Context) : Collection<OrderedSet<Transition>> is do 
 		
@@ -203,7 +204,9 @@ package org::malai::interaction{
 			
 			result := Bag<OrderedSet<Transition>>.new
 			//Return a collection containing the path to the AbordingState
-			//result.add(visitedTransition)
+			var clonedPath : OrderedSet<Transition> := OrderedSet<Transition>.new
+			visitedTransition.each{e | clonedPath.add(e)} //Protection to side effect
+			result.add(clonedPath)
 		end
 	}
 		
