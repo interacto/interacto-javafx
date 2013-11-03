@@ -1,0 +1,7 @@
+*******************************************************************
+Version 1.1 - November 4th 2012
+
+- Malai is now separated in several components (core, Swing, android, etc.)
+- Two interactions added to the library
+- Fixed: action not created when the last event of the interaction permits its creation.
+
