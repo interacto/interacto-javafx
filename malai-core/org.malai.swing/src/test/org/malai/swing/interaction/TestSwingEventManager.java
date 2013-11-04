@@ -1,5 +1,10 @@
 package org.malai.swing.interaction;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.awt.Component;
 import java.awt.ItemSelectable;
 import java.awt.event.ActionEvent;
@@ -21,8 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.TreePath;
-
-import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -69,11 +72,10 @@ class EventHandlerMock implements EventHandler, SwingEventHandler {
 }
 
 
-public class TestSwingEventManager extends TestCase {
+public class TestSwingEventManager {
 	protected SwingEventManager manager;
 	protected EventHandlerMock eh;
 
-	@Override
 	@Before
 	public void setUp() {
 		manager = new SwingEventManager();

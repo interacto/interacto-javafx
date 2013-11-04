@@ -1,8 +1,14 @@
 package org.malai.swing.action;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.lang.reflect.Field;
 
+import org.junit.Test;
 import org.malai.instrument.Instrument;
 import org.malai.swing.action.library.IOAction;
 import org.malai.swing.ui.ISOpenSaver;
@@ -13,6 +19,7 @@ import test.org.malai.HelperTest;
 import test.org.malai.action.TestAbstractAction;
 
 public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestAbstractAction<IOAction<UI, Object>> {
+	@Test
 	public void testSetUI() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		if(HelperTest.isX11Set()) {
 			final UI ui = new UIMock();
@@ -23,7 +30,8 @@ public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestA
 			assertNull(field.get(action));
 		}
 	}
-
+	
+	@Test
 	public void testSetOpenSaveManager() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final ISOpenSaver<UI,Object> os = new ISOpenSaverMock();
 		action.setOpenSaveManager(os);
@@ -33,6 +41,7 @@ public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestA
 		assertNull(field.get(action));
 	}
 
+	@Test
 	public void testSetFile() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final File file = new File("/foo");
 		action.setFile(file);

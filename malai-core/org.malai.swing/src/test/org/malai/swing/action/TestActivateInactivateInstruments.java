@@ -14,6 +14,7 @@ import org.malai.swing.widget.MProgressBar;
 
 import test.org.malai.HelperTest;
 import test.org.malai.action.TestAbstractAction;
+import static org.junit.Assert.*;
 
 public class TestActivateInactivateInstruments extends TestAbstractAction<ActivateInactivateInstruments> {
 

@@ -12,6 +12,7 @@ import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.swing.interaction.library.AbortableDnD;
 
 import test.org.malai.interaction.TestDnD;
+import static org.junit.Assert.*;
 
 public class TestAbortableDnD extends TestDnD {
 	@Override

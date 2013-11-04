@@ -10,6 +10,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.swing.interaction.library.MultiClick;
+import static org.junit.Assert.*;
 
 public class TestMultiClick extends TestInteraction<MultiClick> {
 	@Override
@@ -268,13 +269,13 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
 				final MultiClick multi = (MultiClick) inter;
-				assertEquals(200., multi.getPoints().get(1).getX());
-				assertEquals(-123., multi.getPoints().get(1).getY());
-				assertEquals(100., multi.getPoints().get(0).getX());
-				assertEquals(-23., multi.getPoints().get(0).getY());
+				assertEquals(200., multi.getPoints().get(1).getX(), 0.0);
+				assertEquals(-123., multi.getPoints().get(1).getY(), 0.0);
+				assertEquals(100., multi.getPoints().get(0).getX(), 0.0);
+				assertEquals(-23., multi.getPoints().get(0).getY(), 0.0);
 				assertEquals(1, multi.getLastHIDUsed());
-				assertEquals(200., multi.getCurrentPosition().getX());
-				assertEquals(-123., multi.getCurrentPosition().getY());
+				assertEquals(200., multi.getCurrentPosition().getX(), 0.0);
+				assertEquals(-123., multi.getCurrentPosition().getY(), 0.0);
 			}
 			@Override
 			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
@@ -364,11 +365,11 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 			@Override
 			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				final MultiClick multi = (MultiClick) inter;
-				assertEquals(100., multi.getPoints().get(0).getX());
-				assertEquals(-23., multi.getPoints().get(0).getY());
+				assertEquals(100., multi.getPoints().get(0).getX(), 0.0);
+				assertEquals(-23., multi.getPoints().get(0).getY(), 0.0);
 				assertEquals(1, multi.getLastHIDUsed());
-				assertEquals(120., multi.getCurrentPosition().getX());
-				assertEquals(-13., multi.getCurrentPosition().getY());
+				assertEquals(120., multi.getCurrentPosition().getX(), 0.0);
+				assertEquals(-13., multi.getCurrentPosition().getY(), 0.0);
 				visitUpdate = true;
 			}
 			@Override
@@ -401,8 +402,8 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 			@Override
 			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				final MultiClick multi = (MultiClick) inter;
-				assertEquals(100., multi.getPoints().get(0).getX());
-				assertEquals(-23., multi.getPoints().get(0).getY());
+				assertEquals(100., multi.getPoints().get(0).getX(), 0.0);
+				assertEquals(-23., multi.getPoints().get(0).getY(), 0.0);
 				assertEquals(1, multi.getLastHIDUsed());
 				visitUpdate = true;
 			}
@@ -435,11 +436,11 @@ public class TestMultiClick extends TestInteraction<MultiClick> {
 			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
 				final MultiClick multi = (MultiClick) inter;
-				assertEquals(100., multi.getPoints().get(0).getX());
-				assertEquals(-23., multi.getPoints().get(0).getY());
+				assertEquals(100., multi.getPoints().get(0).getX(), 0.0);
+				assertEquals(-23., multi.getPoints().get(0).getY(), 0.0);
 				assertEquals(1, multi.getLastHIDUsed());
-				assertEquals(100., multi.getCurrentPosition().getX());
-				assertEquals(-23., multi.getCurrentPosition().getY());
+				assertEquals(100., multi.getCurrentPosition().getX(), 0.0);
+				assertEquals(-23., multi.getCurrentPosition().getY(), 0.0);
 			}
 			@Override
 			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {

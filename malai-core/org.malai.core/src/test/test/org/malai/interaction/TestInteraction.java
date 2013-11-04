@@ -2,15 +2,13 @@ package test.org.malai.interaction;
 
 import javax.swing.JButton;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 
 
-public abstract class TestInteraction<T extends Interaction> extends TestCase {
+public abstract class TestInteraction<T extends Interaction> {
 	protected T interaction;
 
 	protected InteractionHandler handler;
@@ -20,8 +18,6 @@ public abstract class TestInteraction<T extends Interaction> extends TestCase {
 	protected boolean visitUpdate;
 	protected boolean visitAbort;
 
-
-	@Override
 	@Before
 	public void setUp() {
 		visitAbort	= false;

@@ -8,7 +8,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.interaction.library.DnD;
 import org.malai.stateMachine.MustAbortStateMachineException;
-
+import static org.junit.Assert.*;
 
 public class TestDnD extends TestInteraction<DnD> {
 	@Override
@@ -27,19 +27,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -57,19 +57,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -87,25 +87,25 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
-				DnD dnd = (DnD) inter;
-				assertEquals(1., dnd.getStartPt().getX());
-				assertEquals(2., dnd.getStartPt().getY());
-				assertEquals(20., dnd.getEndPt().getX());
-				assertEquals(30., dnd.getEndPt().getY());
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
+				final DnD dnd = (DnD) inter;
+				assertEquals(1., dnd.getStartPt().getX(), 0.0);
+				assertEquals(2., dnd.getStartPt().getY(), 0.0);
+				assertEquals(20., dnd.getEndPt().getX(), 0.0);
+				assertEquals(30., dnd.getEndPt().getY(), 0.0);
 				assertEquals(3, dnd.getLastHIDUsed());
 				visitStop = true;
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -124,19 +124,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -153,19 +153,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -182,25 +182,25 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
-				DnD dnd = (DnD) inter;
-				assertEquals(1., dnd.getStartPt().getX());
-				assertEquals(2., dnd.getStartPt().getY());
-				assertEquals(10., dnd.getEndPt().getX());
-				assertEquals(20., dnd.getEndPt().getY());
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
+				final DnD dnd = (DnD) inter;
+				assertEquals(1., dnd.getStartPt().getX(), 0.0);
+				assertEquals(2., dnd.getStartPt().getY(), 0.0);
+				assertEquals(10., dnd.getEndPt().getX(), 0.0);
+				assertEquals(20., dnd.getEndPt().getY(), 0.0);
 				assertEquals(3, dnd.getLastHIDUsed());
 				visitStop = true;
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -219,19 +219,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -248,25 +248,25 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
-				DnD dnd = (DnD) inter;
-				assertEquals(1., dnd.getStartPt().getX());
-				assertEquals(2., dnd.getStartPt().getY());
-				assertEquals(20., dnd.getEndPt().getX());
-				assertEquals(30., dnd.getEndPt().getY());
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
+				final DnD dnd = (DnD) inter;
+				assertEquals(1., dnd.getStartPt().getX(), 0.0);
+				assertEquals(2., dnd.getStartPt().getY(), 0.0);
+				assertEquals(20., dnd.getEndPt().getX(), 0.0);
+				assertEquals(30., dnd.getEndPt().getY(), 0.0);
 				assertEquals(3, dnd.getLastHIDUsed());
 				visitUpdate = true;
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -284,19 +284,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -312,25 +312,25 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
-				DnD dnd = (DnD) inter;
-				assertEquals(1., dnd.getStartPt().getX());
-				assertEquals(2., dnd.getStartPt().getY());
-				assertEquals(10., dnd.getEndPt().getX());
-				assertEquals(20., dnd.getEndPt().getY());
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
+				final DnD dnd = (DnD) inter;
+				assertEquals(1., dnd.getStartPt().getX(), 0.0);
+				assertEquals(2., dnd.getStartPt().getY(), 0.0);
+				assertEquals(10., dnd.getEndPt().getX(), 0.0);
+				assertEquals(20., dnd.getEndPt().getY(), 0.0);
 				assertEquals(3, dnd.getLastHIDUsed());
 				visitUpdate = true;
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -347,25 +347,25 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				visitStop = true;
-				DnD dnd = (DnD) inter;
-				assertEquals(1., dnd.getStartPt().getX());
-				assertEquals(2., dnd.getStartPt().getY());
-				assertEquals(1., dnd.getEndPt().getX());
-				assertEquals(2., dnd.getEndPt().getY());
+				final DnD dnd = (DnD) inter;
+				assertEquals(1., dnd.getStartPt().getX(), 0.0);
+				assertEquals(2., dnd.getStartPt().getY(), 0.0);
+				assertEquals(1., dnd.getEndPt().getX(), 0.0);
+				assertEquals(2., dnd.getEndPt().getY(), 0.0);
 				assertEquals(3, dnd.getLastHIDUsed());
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -382,19 +382,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -411,19 +411,19 @@ public class TestDnD extends TestInteraction<DnD> {
 
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};
@@ -437,26 +437,26 @@ public class TestDnD extends TestInteraction<DnD> {
 	public void testOnPress() {
 		handler = new InteractionHandler() {
 			@Override
-			public void interactionUpdates(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionUpdates(final Interaction inter) throws MustAbortStateMachineException {
 				visitUpdate = true;
-				DnD dnd = (DnD) inter;
-				assertEquals(1., dnd.getStartPt().getX());
-				assertEquals(2., dnd.getStartPt().getY());
-				assertEquals(1., dnd.getEndPt().getX());
-				assertEquals(2., dnd.getEndPt().getY());
+				final DnD dnd = (DnD) inter;
+				assertEquals(1., dnd.getStartPt().getX(), 0.0);
+				assertEquals(2., dnd.getStartPt().getY(), 0.0);
+				assertEquals(1., dnd.getEndPt().getX(), 0.0);
+				assertEquals(2., dnd.getEndPt().getY(), 0.0);
 				assertNull(dnd.getEndObjet());
 				assertEquals(3, dnd.getLastHIDUsed());
 			}
 			@Override
-			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
 			@Override
-			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
+			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				visitStart = true;
 			}
 			@Override
-			public void interactionAborts(Interaction inter) {
+			public void interactionAborts(final Interaction inter) {
 				fail();
 			}
 		};

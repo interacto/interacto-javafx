@@ -1,8 +1,8 @@
 package test.org.malai.action;
 
-import java.lang.reflect.Field;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
+import java.lang.reflect.Field;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,10 +11,9 @@ import org.malai.action.ActionHandler;
 import org.malai.action.ActionsRegistry;
 import org.malai.undo.Undoable;
 
-public class TestAction extends TestCase {
+public class TestAction {
 	protected Action action;
 
-	@Override
 	@Before
 	public void setUp() {
 		action = getActionCanDo();

@@ -1,9 +1,9 @@
 package test.org.malai.action;
 
+import static org.junit.Assert.*;
+
 import java.lang.reflect.Field;
 import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +16,9 @@ import org.malai.undo.Undoable;
 
 import test.org.malai.HelperTest;
 
-public class TestActionRegistry extends TestCase {
+public class TestActionRegistry {
 	boolean visited;
 
-	@Override
 	@Before
 	public void setUp() {
 		ActionsRegistry.INSTANCE.removeAllHandlers();

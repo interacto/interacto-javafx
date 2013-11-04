@@ -8,7 +8,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.swing.interaction.library.SimpleClick;
-
+import static org.junit.Assert.*;
 
 public class TestSimpleClick extends TestInteraction<SimpleClick> {
 	@Override
@@ -118,8 +118,8 @@ public class TestSimpleClick extends TestInteraction<SimpleClick> {
 			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
 				SimpleClick press = (SimpleClick) inter;
 				assertEquals(5, press.getButton());
-				assertEquals(200., press.getPoint().getX());
-				assertEquals(-13., press.getPoint().getY());
+				assertEquals(200., press.getPoint().getX(), 0.0);
+				assertEquals(-13., press.getPoint().getY(), 0.0);
 				assertEquals(2, press.getLastHIDUsed());
 				visitStop = true;
 			}
@@ -157,8 +157,8 @@ public class TestSimpleClick extends TestInteraction<SimpleClick> {
 			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
 				SimpleClick press = (SimpleClick) inter;
 				assertEquals(5, press.getButton());
-				assertEquals(200., press.getPoint().getX());
-				assertEquals(-13., press.getPoint().getY());
+				assertEquals(200., press.getPoint().getX(), 0.0);
+				assertEquals(-13., press.getPoint().getY(), 0.0);
 				assertEquals(2, press.getLastHIDUsed());
 				visitStart = true;
 			}
@@ -188,8 +188,8 @@ public class TestSimpleClick extends TestInteraction<SimpleClick> {
 			public void interactionStops(Interaction inter) throws MustAbortStateMachineException {
 				SimpleClick press = (SimpleClick) inter;
 				assertEquals(10, press.getButton());
-				assertEquals(100., press.getPoint().getX());
-				assertEquals(-23., press.getPoint().getY());
+				assertEquals(100., press.getPoint().getX(), 0.0);
+				assertEquals(-23., press.getPoint().getY(), 0.0);
 				assertEquals(1, press.getLastHIDUsed());
 				visitStop = true;
 			}
@@ -225,8 +225,8 @@ public class TestSimpleClick extends TestInteraction<SimpleClick> {
 			public void interactionStarts(Interaction inter) throws MustAbortStateMachineException {
 				SimpleClick press = (SimpleClick) inter;
 				assertEquals(10, press.getButton());
-				assertEquals(100., press.getPoint().getX());
-				assertEquals(-23., press.getPoint().getY());
+				assertEquals(100., press.getPoint().getX(), 0.0);
+				assertEquals(-23., press.getPoint().getY(), 0.0);
 				assertEquals(1, press.getLastHIDUsed());
 				visitStart = true;
 			}

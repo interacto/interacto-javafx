@@ -8,7 +8,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.interaction.library.KeysScrolling;
 import org.malai.stateMachine.MustAbortStateMachineException;
-
+import static org.junit.Assert.*;
 
 public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 	@Override
@@ -38,8 +38,8 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals((int)interaction.getKeys().get(1), 234);
 				assertEquals(interaction.getLastHIDUsed(), 33);
 				assertEquals(interaction.getKeyHIDUsed(), 100);
-				assertEquals(interaction.getPx(), 200.);
-				assertEquals(interaction.getPy(), 300.);
+				assertEquals(interaction.getPx(), 200., 0.0);
+				assertEquals(interaction.getPy(), 300., 0.0);
 				visitStop = true;
 			}
 			@Override
@@ -104,8 +104,8 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals((int)interaction.getKeys().get(0), 234);
 				assertEquals(interaction.getLastHIDUsed(), -1);
 				assertEquals(interaction.getKeyHIDUsed(), 100);
-				assertEquals(interaction.getPx(), 0.);
-				assertEquals(interaction.getPy(), 0.);
+				assertEquals(interaction.getPx(), 0., 0.0);
+				assertEquals(interaction.getPy(), 0., 0.0);
 			}
 			@Override
 			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
@@ -142,8 +142,8 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals((int)interaction.getKeys().get(0), 123);
 				assertEquals(interaction.getLastHIDUsed(), -1);
 				assertEquals(interaction.getKeyHIDUsed(), 100);
-				assertEquals(interaction.getPx(), 0.);
-				assertEquals(interaction.getPy(), 0.);
+				assertEquals(interaction.getPx(), 0., 0.0);
+				assertEquals(interaction.getPy(), 0., 0.0);
 			}
 			@Override
 			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
@@ -209,8 +209,8 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals((int)interaction.getKeys().get(1), 234);
 				assertEquals(interaction.getLastHIDUsed(), -1);
 				assertEquals(interaction.getKeyHIDUsed(), 100);
-				assertEquals(interaction.getPx(), 0.);
-				assertEquals(interaction.getPy(), 0.);
+				assertEquals(interaction.getPx(), 0., 0.0);
+				assertEquals(interaction.getPy(), 0., 0.0);
 			}
 			@Override
 			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
@@ -330,8 +330,8 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals((int)interaction.getKeys().get(0), 123);
 				assertEquals(interaction.getLastHIDUsed(), -1);
 				assertEquals(interaction.getKeyHIDUsed(), 100);
-				assertEquals(interaction.getPx(), 0.);
-				assertEquals(interaction.getPy(), 0.);
+				assertEquals(interaction.getPx(), 0., 0.0);
+				assertEquals(interaction.getPy(), 0., 0.0);
 			}
 			@Override
 			public void interactionStops(final Interaction inter) throws MustAbortStateMachineException {
@@ -372,8 +372,8 @@ public class TestKeysScrolling extends TestInteraction<KeysScrolling> {
 				assertEquals(interaction.getKeys().size(), 0);
 				assertEquals(interaction.getLastHIDUsed(), 50);
 				assertEquals(interaction.getKeyHIDUsed(), -1);
-				assertEquals(interaction.getPx(), 10.);
-				assertEquals(interaction.getPy(), 20.);
+				assertEquals(interaction.getPx(), 10., 0.0);
+				assertEquals(interaction.getPy(), 20., 0.0);
 			}
 			@Override
 			public void interactionAborts(final Interaction inter) {
