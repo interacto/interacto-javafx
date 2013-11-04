@@ -3,23 +3,19 @@ package test.org.malai.mapping;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.mapping.ActiveArrayList;
 import org.malai.mapping.IActiveList;
 import org.malai.mapping.MappingRegistry;
 import org.malai.mapping.SymmetricList2ListMapping;
+import static org.junit.Assert.*;
 
-
-public class testActiveArrayList extends TestCase {
+public class testActiveArrayList {
 	protected IActiveList<Integer> list;
 
 	protected List<Integer> list2;
 
-
-	@Override
 	@Before
 	public void setUp() {
 		list  = new ActiveArrayList<Integer>();

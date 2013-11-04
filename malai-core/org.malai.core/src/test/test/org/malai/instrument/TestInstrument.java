@@ -1,15 +1,15 @@
 package test.org.malai.instrument;
 
-import java.util.List;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
+import java.util.List;
 
 import org.junit.Test;
 import org.malai.instrument.Instrument;
 import org.malai.instrument.Link;
 
 
-public abstract class TestInstrument<T extends Instrument> extends TestCase {
+public abstract class TestInstrument<T extends Instrument> {
 	protected T instrument;
 
 	@Test
@@ -31,7 +31,7 @@ public abstract class TestInstrument<T extends Instrument> extends TestCase {
 
 	public Link<?, ?, ?> getLink(final String nameClassLink) {
 		Link<?, ?, ?> link = null;
-		List<Link<?, ?, ?>> links = instrument.getLinks();
+		final List<Link<?, ?, ?>> links = instrument.getLinks();
 
 		for(int i=0; i<links.size() && link==null; i++)
 			if(links.get(i).getClass().getName().endsWith(nameClassLink))

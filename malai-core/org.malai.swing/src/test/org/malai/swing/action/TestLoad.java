@@ -1,8 +1,13 @@
 package org.malai.swing.action;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.lang.reflect.Field;
 
+import org.junit.Test;
 import org.malai.swing.action.library.IOAction;
 import org.malai.swing.action.library.Load;
 import org.malai.swing.ui.UI;
@@ -61,6 +66,7 @@ public class TestLoad extends TestIOAction<Load<UI, Object>> {
 
 
 	@SuppressWarnings("serial")
+	@Test
 	public void testDoNotOpened() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		if(HelperTest.isX11Set()) {
 			final Field field = HelperTest.getField(IOAction.class, "ok");

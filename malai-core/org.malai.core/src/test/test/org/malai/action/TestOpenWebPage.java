@@ -1,6 +1,7 @@
 package test.org.malai.action;
 
 import java.awt.Desktop;
+import static org.junit.Assert.*;
 import java.lang.reflect.Field;
 import java.net.URI;
 

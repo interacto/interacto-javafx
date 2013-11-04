@@ -8,7 +8,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.interaction.library.KeyPressure;
 import org.malai.stateMachine.MustAbortStateMachineException;
-
+import static org.junit.Assert.*;
 
 public class TestKeyPressure extends TestInteraction<KeyPressure> {
 	@Override

@@ -1,7 +1,5 @@
 package test.org.malai.mapping;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,15 +7,13 @@ import org.malai.mapping.ActiveUnary;
 import org.malai.mapping.IUnary;
 import org.malai.mapping.MappingRegistry;
 import org.malai.mapping.Unary2UnaryMapping;
+import static org.junit.Assert.*;
 
-
-public class TestActiveUnary extends TestCase {
+public class TestActiveUnary {
 	protected IUnary<Integer> s2;
 
 	protected IUnary<Integer> s1;
 
-
-	@Override
 	@Before
 	public void setUp() {
 		s1 = new ActiveUnary<Integer>();

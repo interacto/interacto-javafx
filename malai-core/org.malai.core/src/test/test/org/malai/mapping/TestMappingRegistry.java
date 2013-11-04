@@ -4,15 +4,14 @@ import java.util.List;
 
 import javax.swing.JButton;
 
-import junit.framework.TestCase;
-
 import org.malai.mapping.ActiveArrayList;
 import org.malai.mapping.IMapping;
 import org.malai.mapping.IUnary;
 import org.malai.mapping.List2ObjectMapping;
 import org.malai.mapping.MappingRegistry;
+import static org.junit.Assert.*;
 
-public class TestMappingRegistry extends TestCase {
+public class TestMappingRegistry {
 	public void testMappingAddedThenRemovedFromSourceObject() {
 		final List<Double> list2 = new ActiveArrayList<Double>();
 		final JButton b2 = new JButton("b2");

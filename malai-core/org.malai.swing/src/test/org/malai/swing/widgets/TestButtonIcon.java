@@ -1,16 +1,15 @@
 package org.malai.swing.widgets;
 
 import java.awt.Color;
+import static org.junit.Assert.*;
 
 import javax.swing.JButton;
-
-import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.swing.widget.MButtonIcon;
 
-public class TestButtonIcon extends TestCase {
+public class TestButtonIcon {
 	private MButtonIcon	bi;
 
 	private final Color	cNull	= null;
@@ -19,8 +18,6 @@ public class TestButtonIcon extends TestCase {
 
 	private final Color	c2		= new Color(50, 50, 50);
 
-
-	@Override
 	@Before
 	public void setUp() {
 		bi = new MButtonIcon(c1);
