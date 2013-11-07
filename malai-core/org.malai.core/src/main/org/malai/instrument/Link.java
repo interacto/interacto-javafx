@@ -57,7 +57,9 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	 * @param ins The instrument that contains the link.
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
 	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
