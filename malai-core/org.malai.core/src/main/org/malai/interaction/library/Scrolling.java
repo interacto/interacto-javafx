@@ -148,6 +148,11 @@ public class Scrolling extends Interaction {
 	 * This scroll transition modifies the scrolling interaction.
 	 */
 	public class ScrollingScrollTransition extends ScrollTransition {
+		/**
+		 * Creates the transition.
+		 * @param inputState The input state of the transition.
+		 * @param outputState The output state of the transition.
+		 */
 		public ScrollingScrollTransition(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}

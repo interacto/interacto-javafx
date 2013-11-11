@@ -118,6 +118,11 @@ public class DnDWithKeys extends PointInteraction {
 
 
 	private class DnDWithKeysKeyRelease extends KeyReleaseTransition {
+		/**
+		 * Creates the transition.
+		 * @param inputState The input state of the transition.
+		 * @param outputState The output state of the transition.
+		 */
 		public DnDWithKeysKeyRelease(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
@@ -129,6 +134,11 @@ public class DnDWithKeys extends PointInteraction {
 	}
 
 	private class DnDWithKeysKeyPress extends KeyPressureTransition {
+		/**
+		 * Creates the transition.
+		 * @param inputState The input state of the transition.
+		 * @param outputState The output state of the transition.
+		 */
 		public DnDWithKeysKeyPress(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
@@ -187,7 +197,15 @@ public class DnDWithKeys extends PointInteraction {
 	}
 
 
+	/**
+	 * A transition dedicated for the DnD interaction. Corresponds to the release event.
+	 */
 	public class Release4DnD extends ReleaseTransition {
+		/**
+		 * Creates the transition.
+		 * @param inputState The input state of the transition.
+		 * @param outputState The output state of the transition.
+		 */
 		public Release4DnD(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
@@ -198,7 +216,15 @@ public class DnDWithKeys extends PointInteraction {
 	}
 
 
+	/**
+	 * A transition dedicated for the DnD interaction. Corresponds to the move events.
+	 */
 	public class Move4DnD extends MoveTransition {
+		/**
+		 * Creates the transition.
+		 * @param inputState The input state of the transition.
+		 * @param outputState The output state of the transition.
+		 */
 		public Move4DnD(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
