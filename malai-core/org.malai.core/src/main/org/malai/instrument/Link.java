@@ -99,8 +99,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	 * @since 0.2
 	 */
 	public void clearEvents() {
-		interaction.reinit();
-		interaction.clearEventsStillInProcess();
+		interaction.clearEvents();
 	}
 
 
