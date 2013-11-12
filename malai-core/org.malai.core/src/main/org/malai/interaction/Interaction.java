@@ -663,6 +663,16 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 		if(stillProcessingEvents!=null)
 			stillProcessingEvents.clear();
 	}
+
+
+	/**
+	 * Stops the interaction and clears all its events waiting for a process.
+	 * @since  0.2
+	 */
+	public void clearEvents() {
+		reinit();
+		clearEventsStillInProcess();
+	}
 }
 
 
