@@ -66,7 +66,7 @@ public class AndroidEventManager extends BasicEventManager<View> implements OnCl
 	public void addHandlers(final EventHandler h) {
 		super.addHandlers(h);
 		if(h instanceof AndroidEventHandler) {
-			if(androidHandlers==null) androidHandlers = new CopyOnWriteArrayList<AndroidEventHandler>();
+			if(androidHandlers==null) androidHandlers = new CopyOnWriteArrayList<>();
 			androidHandlers.add((AndroidEventHandler)h);
 		}
 	}
