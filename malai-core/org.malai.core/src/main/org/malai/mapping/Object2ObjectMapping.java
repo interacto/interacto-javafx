@@ -91,7 +91,8 @@ public abstract class Object2ObjectMapping<S, T> implements IMapping {
 
 	@Override
 	public void init() {
-		onObjectModified(sourceObject);
+		if(sourceObject!=null)
+			onObjectModified(sourceObject);
 	}
 
 
