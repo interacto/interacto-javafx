@@ -15,8 +15,19 @@ public abstract class TestInstrument<T extends Instrument> {
 	@Test
 	public void testNotNoLink() {
 		assertTrue(instrument.getSizeLinks()==0);
-		instrument.setActivated(true);
-		assertTrue(instrument.getSizeLinks()>0);
+		if(!instrument.getLinks().isEmpty()) {
+			instrument.setActivated(true);
+			assertTrue(instrument.getSizeLinks()>0);
+		}
+	}
+
+
+	@Test
+	public void testCreation() {
+		assertFalse(instrument.isActivated());
+		assertFalse(instrument.isModified());
+		assertNotNull(instrument.getLinks());
+		assertTrue(instrument.getLinks().isEmpty());
 	}
 
 

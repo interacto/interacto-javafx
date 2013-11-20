@@ -11,20 +11,20 @@ import org.junit.Before;
 import org.junit.Test;
 import org.malai.error.ErrorCatcher;
 import org.malai.error.ErrorNotifier;
-import org.malai.instrument.Instrument;
 import org.malai.instrument.Link;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
 import test.org.malai.action.ActionMock;
+import test.org.malai.instrument.TestMockInstrument.MockInstrument;
 import test.org.malai.interaction.InteractionMock;
 
 public class TestLink {
 	protected MockLink link;
-	protected InstrumentMock instrument;
+	protected MockInstrument instrument;
 
 	@Before
 	public void setUp() throws InstantiationException, IllegalAccessException {
-		instrument = new InstrumentMock();
+		instrument = new MockInstrument();
 		link = new MockLink(instrument, false, ActionMock.class, InteractionMock.class);
 		ErrorCatcher.INSTANCE.setNotifier(new ErrorNotifier() {
 			@Override
@@ -157,8 +157,8 @@ public class TestLink {
 				ok[0] = true;
 			}
 		});
-		Link<?,?,?> link2 = new Link<ActionMock2, InteractionMock, InstrumentMock>
-							(new InstrumentMock(), false, ActionMock2.class, InteractionMock.class) {
+		Link<?,?,?> link2 = new Link<ActionMock2, InteractionMock, MockInstrument>
+							(new MockInstrument(), false, ActionMock2.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -173,7 +173,7 @@ public class TestLink {
 		assertNull(link2.getAction());
 
 		ok[0] = false;
-		link2 = new Link<ActionMock3, InteractionMock, InstrumentMock>(new InstrumentMock(), false, ActionMock3.class, InteractionMock.class) {
+		link2 = new Link<ActionMock3, InteractionMock, MockInstrument>(new MockInstrument(), false, ActionMock3.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -202,11 +202,11 @@ class ActionMock3 extends ActionMock {
 }
 
 
-class MockLink extends Link<ActionMock, InteractionMock, InstrumentMock>{
+class MockLink extends Link<ActionMock, InteractionMock, MockInstrument>{
 	public boolean conditionRespected;
 	public boolean mustAbort;
 
-	public MockLink(final InstrumentMock ins, final boolean exec, final Class<ActionMock> clazzAction, final Class<InteractionMock> clazzInteraction)
+	public MockLink(final MockInstrument ins, final boolean exec, final Class<ActionMock> clazzAction, final Class<InteractionMock> clazzInteraction)
 			throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 		conditionRespected = false;
@@ -224,13 +224,5 @@ class MockLink extends Link<ActionMock, InteractionMock, InstrumentMock>{
 	@Override
 	public boolean isInteractionMustBeAborted() {
 		return mustAbort;
-	}
-}
-
-
-class InstrumentMock extends Instrument {
-	@Override
-	protected void initialiseLinks() {
-		//
 	}
 }
