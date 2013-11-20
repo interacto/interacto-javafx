@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src/main"/>
 	<classpathentry kind="src" path="src/resources"/>
-	<classpathentry kind="var" path="M2_REPO/org/malai/malai.core/2.0-SNAPSHOT/malai.core-2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/malai/malai.core/1.1/malai.core-1.1.jar"/>
 	<classpathentry kind="lib" path="src/resources/lib/wiiusej.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-6-openjdk-amd64"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
