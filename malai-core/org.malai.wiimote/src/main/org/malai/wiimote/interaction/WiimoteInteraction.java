@@ -111,7 +111,7 @@ public class WiimoteInteraction extends Interaction implements WiimoteEventHandl
 		ITransition t;
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
-			if(t instanceof NunchukEvent) {
+			if(t instanceof NunchukTransition) {
 				((NunchukTransition)t).setNunchukEvent(nunchuk);
 				again = !checkTransition(t);
 			}

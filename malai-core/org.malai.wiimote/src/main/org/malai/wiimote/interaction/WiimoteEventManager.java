@@ -121,7 +121,7 @@ public class WiimoteEventManager extends BasicEventManager<Wiimote> implements W
 		super.addHandlers(h);
 		if(h instanceof WiimoteEventHandler) {
 			if(wiimoteHandlers==null) 
-				wiimoteHandlers = new ArrayList<WiimoteEventHandler>();
+				wiimoteHandlers = new ArrayList<>();
 			wiimoteHandlers.add((WiimoteEventHandler)h);
 		}
 	}
