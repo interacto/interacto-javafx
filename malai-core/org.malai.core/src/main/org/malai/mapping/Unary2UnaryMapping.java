@@ -65,14 +65,15 @@ public abstract class Unary2UnaryMapping<S, T> implements IMapping {
 	public void onObjectRemoved(final Object list, final Object object, final int index) {
 		// Cannot be applied for such a mapping.
 	}
-	
-	
+
+
 	@Override
 	public void init() {
-		onObjectReplaced(sourceObject, sourceObject.getValue());
+		if(sourceObject!=null)
+			onObjectReplaced(sourceObject, sourceObject.getValue());
 	}
-	
-	
+
+
 	@Override
 	public void onListCleaned(final Object list) {
 		//
