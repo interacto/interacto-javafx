@@ -37,7 +37,7 @@ public class Presentation<A extends AbstractPresentation, C extends ConcretePres
 	 * Creates a presentation.
 	 * @param absPres The abstract presentation, i.e. the manipulated data model.
 	 * @param concPres The concrete presentation, i.e. the representation of the abstract presentation.
-	 * @throws IllegalArgumentException If one of the given argument is null.
+	 * @throws IllegalArgumentException If one of the given arguments is null.
 	 * @since 0.1
 	 */
 	public Presentation(final A absPres, final C concPres) {
