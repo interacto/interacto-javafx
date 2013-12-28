@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/resources"/>
-	<classpathentry kind="src" path="src/test"/>
+	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test"/>
+	<classpathentry including="**/*.java" kind="src" path="src/main"/>
+	<classpathentry excluding="**/*.java" kind="src" path="src/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5.jar" sourcepath="M2_REPO/org/mockito/mockito-all/1.9.5/mockito-all-1.9.5-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jacoco/jacoco-maven-plugin/0.6.3.201306030806/jacoco-maven-plugin-0.6.3.201306030806.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/4.11/junit-4.11.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jacoco/org.jacoco.agent/0.6.3.201306030806/org.jacoco.agent-0.6.3.201306030806-runtime.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jacoco/org.jacoco.core/0.6.3.201306030806/org.jacoco.core-0.6.3.201306030806.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jacoco/org.jacoco.report/0.6.3.201306030806/org.jacoco.report-0.6.3.201306030806.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
