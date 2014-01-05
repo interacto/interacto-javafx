@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
  * Defines the concept of User Interface based on a JFrame.<br>
  * <br>
  * This file is part of libMalai.<br>
- * Copyright (c) 2009-2013 Arnaud BLOUIN<br>
+ * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
  * <br>
  * libMalan is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
