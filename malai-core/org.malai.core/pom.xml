@@ -6,6 +6,19 @@
     <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>malai.core :: Malai core library</name>
+   
+<repositories>
+    <repository>
+        <id>mavenInriaSnapshot</id>
+        <name>http://maven.inria.fr-snapshots</name>
+        <url>http://maven.inria.fr/artifactory/malai-public-snapshot</url>
+    </repository>
+	<repository>
+        <id>mavenInriaRelease</id>
+        <name>http://maven.inria.fr-releases</name>
+        <url>http://maven.inria.fr/artifactory/malai-public-release</url>
+    </repository>
+</repositories>   
     
     <build>
 		<sourceDirectory>src/main</sourceDirectory>
