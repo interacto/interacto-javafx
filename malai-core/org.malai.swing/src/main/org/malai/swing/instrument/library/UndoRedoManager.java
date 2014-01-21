@@ -12,7 +12,7 @@ import org.malai.instrument.Link;
 import org.malai.interaction.library.KeysPressure;
 import org.malai.swing.instrument.WidgetInstrument;
 import org.malai.swing.interaction.library.ButtonPressed;
-import org.malai.swing.ui.UIComposer;
+import org.malai.swing.ui.SwingUIComposer;
 import org.malai.swing.utils.MSystem;
 import org.malai.swing.widget.MButton;
 import org.malai.undo.UndoCollector;
@@ -52,7 +52,7 @@ public class UndoRedoManager extends WidgetInstrument {
 	 * @param composer The composer that compose the widgets provided by this instrument.
 	 * @since 0.1
 	 */
-	public UndoRedoManager(final UIComposer<?> composer) {
+	public UndoRedoManager(final SwingUIComposer<?> composer) {
 		super(composer);
 
 		initialiseWidgets();
