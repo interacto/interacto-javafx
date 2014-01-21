@@ -49,7 +49,7 @@ public class ListSelectionModified extends SwingInteraction {
 			@Override
 			public void action() {
 				super.action();
-				ListSelectionModified.this.list = this.list;
+				ListSelectionModified.this.list = this.widget;
 			}
 		};
 	}

@@ -3,6 +3,7 @@ package org.malai.swing.interaction;
 import javax.swing.JCheckBox;
 
 import org.malai.interaction.Transition;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -24,35 +25,12 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class CheckBoxTransition extends Transition {
-	/** The modified checkbox. */
-	protected JCheckBox checkBox;
-
+public class CheckBoxTransition extends WidgetTransition<JCheckBox> {
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 * @since 0.2
 	 */
 	public CheckBoxTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-	}
-
-
-	/**
-	 * @return The modified checkbox.
-	 * @since 0.2
-	 */
-	public JCheckBox getCheckBox() {
-		return checkBox;
-	}
-
-
-	/**
-	 * Sets the checkbox that produced the transition.
-	 * @param checkBox The checkbox.
-	 * @since 0.2
-	 */
-	public void setCheckBox(final JCheckBox checkBox) {
-		if(checkBox!=null)
-			this.checkBox = checkBox;
 	}
 }

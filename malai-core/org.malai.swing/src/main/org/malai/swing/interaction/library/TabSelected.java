@@ -55,7 +55,7 @@ public class TabSelected extends SwingInteraction {
 			@Override
 			public void action() {
 				super.action();
-				TabSelected.this.tabbedPane = this.tabbedPane;
+				TabSelected.this.tabbedPane = this.widget;
 			}
 		};
 	}

@@ -3,7 +3,7 @@ package org.malai.swing.interaction.library;
 import javax.swing.AbstractButton;
 
 import org.malai.interaction.TerminalState;
-import org.malai.swing.interaction.ButtonPressedTransition;
+import org.malai.swing.interaction.SwingButtonPressedTransition;
 import org.malai.swing.interaction.SwingInteraction;
 
 /**
@@ -52,12 +52,12 @@ public class ButtonPressed extends SwingInteraction {
 
 		addState(pressed);
 
-		new ButtonPressedTransition(initState, pressed) {
+		new SwingButtonPressedTransition(initState, pressed) {
 			@Override
 			public void action() {
 				super.action();
 
-				ButtonPressed.this.button = this.button;
+				ButtonPressed.this.button = this.widget;
 			}
 		};
 	}

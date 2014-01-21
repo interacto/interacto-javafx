@@ -51,7 +51,7 @@ public class MenuItemPressed extends SwingInteraction {
 			public void action() {
 				super.action();
 
-				MenuItemPressed.this.menuItem = this.menuItem;
+				MenuItemPressed.this.menuItem = this.widget;
 			}
 		};
 	}

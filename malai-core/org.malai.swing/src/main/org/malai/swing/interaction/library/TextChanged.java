@@ -64,7 +64,7 @@ public class TextChanged extends SwingInteraction {
 			public void action() {
 				super.action();
 
-				TextChanged.this.textComp = this.textComp;
+				TextChanged.this.textComp = this.widget;
 				TextChanged.this.text 	  = this.text;
 			}
 		};

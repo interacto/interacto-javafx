@@ -51,7 +51,7 @@ public class CheckBoxModified extends SwingInteraction {
 			public void action() {
 				super.action();
 
-				CheckBoxModified.this.checkBox = this.checkBox;
+				CheckBoxModified.this.checkBox = this.widget;
 			}
 		};
 	}

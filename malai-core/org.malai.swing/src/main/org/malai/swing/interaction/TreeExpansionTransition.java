@@ -2,7 +2,7 @@ package org.malai.swing.interaction;
 
 import javax.swing.tree.TreePath;
 
-import org.malai.interaction.Transition;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -24,10 +24,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class TreeExpansionTransition extends Transition {
-	/** The source object that produced the event (normally a JTree). */
-	protected Object src;
-	
+public class TreeExpansionTransition extends WidgetTransition<Object> {
 	/** The tree path of the expanded/collapsed node. */
 	protected TreePath expandedPath;
 	
@@ -42,20 +39,6 @@ public class TreeExpansionTransition extends Transition {
 	 */
 	public TreeExpansionTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-	}
-
-	/**
-	 * @return The source object that produced the event (normally a JTree).
-	 */
-	public Object getSrc() {
-		return src;
-	}
-
-	/**
-	 * @param src The source object that produced the event.
-	 */
-	public void setSrc(final Object src) {
-		this.src = src;
 	}
 
 	/**

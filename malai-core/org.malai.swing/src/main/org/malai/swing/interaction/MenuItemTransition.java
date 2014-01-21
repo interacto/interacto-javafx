@@ -3,10 +3,9 @@ package org.malai.swing.interaction;
 import javax.swing.JMenuItem;
 
 import org.malai.interaction.Transition;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-
-
 
 /**
  * This transition is mapped to a menu item that has been pressed.<br>
@@ -26,36 +25,12 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class MenuItemTransition extends Transition {
-	/** The pressed menu item. */
-	protected JMenuItem menuItem;
-
-
+public class MenuItemTransition extends WidgetTransition<JMenuItem> {
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 * @since 0.2
 	 */
 	public MenuItemTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-	}
-
-
-	/**
-	 * @return The pressed menu item.
-	 * @since 0.2
-	 */
-	public JMenuItem getMenuItem() {
-		return menuItem;
-	}
-
-
-	/**
-	 * Sets the menu item concerned by the transition.
-	 * @param menuItem The pressed menu item.
-	 * @since 0.2
-	 */
-	public void setMenuItem(final JMenuItem menuItem) {
-		if(menuItem!=null)
-			this.menuItem = menuItem;
 	}
 }
