@@ -24,7 +24,7 @@ import org.malai.swing.widget.MProgressBar;
  * @param <A> The type of the UI that the implementation will support.
  * @param <B> The type of the widget that will be used to display some information.
  */
-public interface ISOpenSaver<A extends UI, B> {
+public interface ISOpenSaver<A extends SwingUI, B> {
 	/**
 	 * Saves the abstract presentations and the instruments parameters of the given UI
 	 * to the given file.

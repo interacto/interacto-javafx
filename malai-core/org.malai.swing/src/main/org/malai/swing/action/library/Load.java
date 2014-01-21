@@ -1,6 +1,6 @@
 package org.malai.swing.action.library;
 
-import org.malai.swing.ui.UI;
+import org.malai.swing.ui.SwingUI;
 
 /**
  * This action allows to load abstract presentations and instruments' parameters to a file.
@@ -20,7 +20,7 @@ import org.malai.swing.ui.UI;
  * @author Arnaud Blouin
  * @since 0.2
  */
-public class Load<A extends UI, B extends Object> extends IOAction<A, B> {
+public class Load<A extends SwingUI, B extends Object> extends IOAction<A, B> {
 	/**
 	 * Creates a save action.
 	 * @since 0.2

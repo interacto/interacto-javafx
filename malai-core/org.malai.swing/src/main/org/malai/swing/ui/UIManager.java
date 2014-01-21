@@ -35,7 +35,7 @@ public final class UIManager implements WindowFocusListener {
 	public static final UIManager INSTANCE = new UIManager();
 
 	/** The UI registered. */
-	private Set<UI> uiRegistered;
+	private Set<SwingUI> uiRegistered;
 
 	/**
 	 * Creates the register.
@@ -51,7 +51,7 @@ public final class UIManager implements WindowFocusListener {
 	 * @param ui The UI to register. Nothing is done if null.
 	 * @since 0.2
 	 */
-	public void registerUI(final UI ui) {
+	public void registerUI(final SwingUI ui) {
 		if(ui!=null) {
 			if(uiRegistered==null)
 				uiRegistered = new HashSet<>();
@@ -69,7 +69,7 @@ public final class UIManager implements WindowFocusListener {
 	 * @param ui The UI to unregister.
 	 * @since 0.2
 	 */
-	public void unregisterUI(final UI ui) {
+	public void unregisterUI(final SwingUI ui) {
 		if(ui!=null && uiRegistered!=null) {
 			uiRegistered.remove(ui);
 			ui.removeWindowFocusListener(this);
@@ -86,8 +86,8 @@ public final class UIManager implements WindowFocusListener {
 	@Override
 	public void windowLostFocus(final WindowEvent e) {
 		// When a registered UI loses its focus, its events are cleared.
-		if(e!=null && e.getWindow() instanceof UI)
-			clearUIEvents((UI)e.getWindow());
+		if(e!=null && e.getWindow() instanceof SwingUI)
+			clearUIEvents((SwingUI)e.getWindow());
 	}
 
 
@@ -96,7 +96,7 @@ public final class UIManager implements WindowFocusListener {
 	 * @param ui The UI to clear.
 	 * @since 0.2
 	 */
-	private void clearUIEvents(final UI ui) {
+	private void clearUIEvents(final SwingUI ui) {
 		Interaction interaction;
 
 		for(final Instrument instrument : ui.getInstruments())
