@@ -50,7 +50,7 @@ public abstract class State implements IState {
 
 		this.name 	 = name;
 		stateMachine = null;
-		transitions  = new ArrayList<ITransition>();
+		transitions  = new ArrayList<>();
 	}
 
 

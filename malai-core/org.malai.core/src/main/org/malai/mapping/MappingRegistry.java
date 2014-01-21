@@ -53,10 +53,10 @@ public final class MappingRegistry implements IMappingRegistry {
 	private MappingRegistry() {
 		super();
 
-		uniqueMappings = new IdentityHashMap<Object, IMapping>();
-		multiMappings  = new IdentityHashMap<Object, List<IMapping>>();
-		invertedUniqueMappings = new IdentityHashMap<Object, IMapping>();
-		invertedMultiMappings  = new IdentityHashMap<Object, List<IMapping>>();
+		uniqueMappings = new IdentityHashMap<>();
+		multiMappings  = new IdentityHashMap<>();
+		invertedUniqueMappings = new IdentityHashMap<>();
+		invertedMultiMappings  = new IdentityHashMap<>();
 	}
 
 
@@ -147,7 +147,7 @@ public final class MappingRegistry implements IMappingRegistry {
 
 
 	private static List<IMapping> getMapping(final Object object, final Map<Object,IMapping> uniqueMap, final Map<Object,List<IMapping>> multiMap) {
-		final List<IMapping> mappings = new ArrayList<IMapping>();
+		final List<IMapping> mappings = new ArrayList<>();
 
 		if(object!=null) {
 			final IMapping mapping = uniqueMap.get(object);
@@ -196,7 +196,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			if(uniqueMap.get(object)==null)
 				uniqueMap.put(object, mapping);
 			else {
-				final List<IMapping> list = new ArrayList<IMapping>();
+				final List<IMapping> list = new ArrayList<>();
 				list.add(uniqueMap.remove(object));
 				list.add(mapping);
 				multiMap.put(object, list);

@@ -39,7 +39,7 @@ public class PressWithKeys extends PointInteraction {
 	 */
 	public PressWithKeys() {
 		super();
-		keys = new ArrayList<Integer>();
+		keys = new ArrayList<>();
 		initStateMachine();
 	}
 

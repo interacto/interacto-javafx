@@ -51,7 +51,7 @@ public class DnDWithKeys extends PointInteraction {
 	 */
 	public DnDWithKeys() {
 		super();
-		keys = new ArrayList<Integer>();
+		keys = new ArrayList<>();
 		initStateMachine();
 	}
 
