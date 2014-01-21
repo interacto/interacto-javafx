@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.malai</groupId>
+  <artifactId>malai.javafx</artifactId>
+  <version>1.2-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>malai.javafx :: Malai JavaFX component</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+    <build>
+		<sourceDirectory>src/main</sourceDirectory>
+    	<resources>
+      		<resource><directory>src/resources/</directory></resource>
+  		</resources>
+    	<plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/assemblySrc.xml</descriptor>
+            <descriptor>src/assembly/assemblyBin.xml</descriptor>
+          </descriptors>
+        </configuration>
+                <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase> 
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+		</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+		         	<parallel>methods</parallel>
+		          	<threadCount>2</threadCount>
+                    <instructions>
+                        <Export-Package>
+                        	org.malai.*
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+		    <plugin>
+		    	<groupId>org.apache.maven.plugins</groupId>
+		    	<artifactId>maven-surefire-plugin</artifactId>
+		    	<version>2.13</version>
+		    	<dependencies>
+		      		<dependency>
+		        		<groupId>org.apache.maven.surefire</groupId>
+		        		<artifactId>surefire-junit47</artifactId>
+		        		<version>2.13</version>
+		     		 </dependency>
+		    	</dependencies>
+		  	</plugin>
+        </plugins>
+    </build>
+	<dependencies>
+	    <dependency>
+	      <groupId>net.java.javafx</groupId>
+	      <artifactId>javafx</artifactId>
+	      <version>2.0</version>
+	      <scope>system</scope>
+	      <systemPath>${project.basedir}/lib/jfxrt.jar</systemPath>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.malai</groupId>
+	      <artifactId>malai.core</artifactId>
+	      <version>1.2-SNAPSHOT</version>
+	    </dependency>
+	 	<dependency>
+		  <groupId>org.malai</groupId>
+		  <artifactId>malai.core</artifactId>
+		  <version>1.2-SNAPSHOT</version>
+		  <type>test-jar</type>
+		  <scope>test</scope>
+		</dependency>
+	</dependencies>
+
+<repositories>
+    <repository>
+        <id>mavenInriaSnapshot</id>
+        <name>http://maven.inria.fr-snapshots</name>
+        <url>http://maven.inria.fr/artifactory/malai-public-snapshot</url>
+    </repository>
+	<repository>
+        <id>mavenInriaRelease</id>
+        <name>http://maven.inria.fr-releases</name>
+        <url>http://maven.inria.fr/artifactory/malai-public-release</url>
+    </repository>
+</repositories> 
+</project>
