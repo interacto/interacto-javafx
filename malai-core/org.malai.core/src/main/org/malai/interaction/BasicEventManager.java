@@ -31,7 +31,7 @@ public abstract class BasicEventManager<T> implements EventManager<T> {
 	 */
 	public BasicEventManager() {
 		super();
-		handlers = new CopyOnWriteArrayList<EventHandler>();
+		handlers = new CopyOnWriteArrayList<>();
 	}
 
 

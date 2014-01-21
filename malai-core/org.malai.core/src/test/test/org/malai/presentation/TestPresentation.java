@@ -18,7 +18,7 @@ public class TestPresentation {
 	public void setUp() throws Exception {
 		abs = new MockPresAbs();
 		conc = new MockPresConc();
-		pres = new Presentation<MockPresAbs, MockPresConc>(abs, conc);
+		pres = new Presentation<>(abs, conc);
 	}
 
 
@@ -60,18 +60,18 @@ public class TestPresentation {
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testConstructorAbsNull() {
-		pres = new Presentation<MockPresAbs, MockPresConc>(null, new MockPresConc());
+		pres = new Presentation<>(null, new MockPresConc());
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testConstructorConcNull() {
-		pres = new Presentation<MockPresAbs, MockPresConc>(new MockPresAbs(), null);
+		pres = new Presentation<>(new MockPresAbs(), null);
 	}
 
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testConstructorAbsConcNull() {
-		pres = new Presentation<MockPresAbs, MockPresConc>(null, null);
+		pres = new Presentation<>(null, null);
 	}
 
 

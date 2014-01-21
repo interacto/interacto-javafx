@@ -16,8 +16,8 @@ public class TestUnary2UnaryMapping {
 
 	@Before
 	public void setUp() {
-		src = new ActiveUnary<Object>();
-		tgt = new ActiveUnary<Object>();
+		src = new ActiveUnary<>();
+		tgt = new ActiveUnary<>();
 		map = new MockUnary2UnaryMapping(src, tgt);
 	}
 

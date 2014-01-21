@@ -16,15 +16,15 @@ public class TestActiveUnary {
 
 	@Before
 	public void setUp() {
-		s1 = new ActiveUnary<Integer>();
-		s2 = new ActiveUnary<Integer>();
+		s1 = new ActiveUnary<>();
+		s2 = new ActiveUnary<>();
 		MappingRegistry.REGISTRY.addMapping(new S2S(s1, s2));
 	}
 
 
 	@Test
 	public void testConstructorValue() {
-		s1 = new ActiveUnary<Integer>(12);
+		s1 = new ActiveUnary<>(12);
 		assertEquals(12, (int)s1.getValue());
 	}
 

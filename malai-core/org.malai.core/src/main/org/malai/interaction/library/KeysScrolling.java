@@ -51,7 +51,7 @@ public class KeysScrolling extends Scrolling {
 		keyHIDUsed = -1;
 
 		if(keys==null)
-			keys = new ArrayList<Integer>();
+			keys = new ArrayList<>();
 		else
 			keys.clear();
 	}

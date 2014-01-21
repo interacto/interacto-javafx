@@ -18,7 +18,7 @@ public class TestList2ObjectMapping {
 
 	@Before
 	public void setUp() {
-		src = new ArrayList<Object>();
+		src = new ArrayList<>();
 		tgt = new Object();
 		map = new MockList2ObjectMapping(src, tgt);
 	}

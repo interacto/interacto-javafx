@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class TestMappingRegistry {
 	public void testMappingAddedThenRemovedFromSourceObject() {
-		final List<Double> list2 = new ActiveArrayList<Double>();
+		final List<Double> list2 = new ActiveArrayList<>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
@@ -30,7 +30,7 @@ public class TestMappingRegistry {
 
 
 	public void testMappingAddedThenRemovedFromSourceObjectClass() {
-		final List<Double> list2 = new ActiveArrayList<Double>();
+		final List<Double> list2 = new ActiveArrayList<>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
@@ -47,7 +47,7 @@ public class TestMappingRegistry {
 
 
 	public void testMappingAddedThenRemovedFromTargetObjectClass() {
-		final List<Double> list2 = new ActiveArrayList<Double>();
+		final List<Double> list2 = new ActiveArrayList<>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override
@@ -64,7 +64,7 @@ public class TestMappingRegistry {
 
 
 	public void testMappingAddedThenRemovedFromTargetObject() {
-		final List<Double> list2 = new ActiveArrayList<Double>();
+		final List<Double> list2 = new ActiveArrayList<>();
 		final JButton b2 = new JButton("b2");
 		final IMapping mapping = new MappingMock(list2, b2) {
 			@Override

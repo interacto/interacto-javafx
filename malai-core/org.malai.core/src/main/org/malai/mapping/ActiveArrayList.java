@@ -112,7 +112,7 @@ public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 		final boolean ok = super.addAll(index, collection);
 
 		if(ok) {
-			final List<E> array = new ArrayList<E>(collection);
+			final List<E> array = new ArrayList<>(collection);
 			int i = array.size()-1;
 
 			while(i>=0) {

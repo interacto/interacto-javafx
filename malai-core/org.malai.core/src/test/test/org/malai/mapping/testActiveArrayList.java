@@ -18,8 +18,8 @@ public class testActiveArrayList {
 
 	@Before
 	public void setUp() {
-		list  = new ActiveArrayList<Integer>();
-		list2 = new ArrayList<Integer>();
+		list  = new ActiveArrayList<>();
+		list2 = new ArrayList<>();
 		MappingRegistry.REGISTRY.addMapping(new List2List(list, list2));
 	}
 
@@ -174,7 +174,7 @@ public class testActiveArrayList {
 
 	@Test
 	public void testAddAll1() {
-		final ArrayList<Integer> list3 = new ArrayList<Integer>();
+		final ArrayList<Integer> list3 = new ArrayList<>();
 
 		list3.add(new Integer(0));
 		list3.add(new Integer(1));
@@ -197,7 +197,7 @@ public class testActiveArrayList {
 
 	@Test
 	public void testAddAll2() {
-		final ArrayList<Integer> list3 = new ArrayList<Integer>();
+		final ArrayList<Integer> list3 = new ArrayList<>();
 
 		list3.add(new Integer(0));
 		list3.add(new Integer(1));
