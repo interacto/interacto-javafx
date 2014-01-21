@@ -43,7 +43,7 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 	protected boolean modified;
 
 	/** The composer that composes the UI. */
-	protected UIComposer<?> composer;
+	protected SwingUIComposer<?> composer;
 
 
 	/**
@@ -185,7 +185,7 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 	 * @return The composer that composes the UI.
 	 * @since 0.2
 	 */
-	public UIComposer<?> getComposer() {
+	public SwingUIComposer<?> getComposer() {
 		return composer;
 	}
 }

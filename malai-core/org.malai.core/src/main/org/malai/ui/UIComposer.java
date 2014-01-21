@@ -1,8 +1,4 @@
-package org.malai.swing.ui;
-
-import java.awt.Component;
-
-import org.malai.swing.widget.MProgressBar;
+package org.malai.ui;
 
 /**
  * A UI composer is a object that composes a user interface using instruments and presentations.<br>
@@ -23,8 +19,10 @@ import org.malai.swing.widget.MProgressBar;
  * @version 0.2
  * @since 0.2
  * @param <T> The type of widget produced by the composer.
+ * @param <R> The type of root widget class of the GUI toolkit.
+ * @param <S> The type of the progress bar in the GUI toolkit.
  */
-public abstract class UIComposer<T extends Component> {
+public abstract class UIComposer<R, T, S> {
 	/** The widget composed by the composer. */
 	protected T widget;
 
@@ -42,7 +40,7 @@ public abstract class UIComposer<T extends Component> {
 	 * This method composes the user interface using instruments, presentations and widgets of the interactive system.
 	 * @param progressBar The progress bar that can be used to show the progress of the UI composition. Can be null.
 	 */
-	public abstract void compose(final MProgressBar progressBar);
+	public abstract void compose(final S progressBar);
 
 
 	/**
@@ -51,10 +49,7 @@ public abstract class UIComposer<T extends Component> {
 	 * @param visible True: the widget will be visible.
 	 * @since 0.2
 	 */
-	public void setWidgetVisible(final Component widget, final boolean visible) {
-		if(widget!=null)
-			widget.setVisible(visible);
-	}
+	public abstract void setWidgetVisible(final R widget, final boolean visible);
 
 
 	/**

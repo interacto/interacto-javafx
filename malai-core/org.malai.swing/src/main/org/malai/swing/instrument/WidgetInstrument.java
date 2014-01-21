@@ -1,7 +1,7 @@
 package org.malai.swing.instrument;
 
 import org.malai.instrument.Instrument;
-import org.malai.swing.ui.UIComposer;
+import org.malai.swing.ui.SwingUIComposer;
 
 /**
  * Defines an abstract model of an instrument that has widgets.<br>
@@ -23,7 +23,7 @@ import org.malai.swing.ui.UIComposer;
  */
 public abstract class WidgetInstrument extends Instrument {
 	/** The composer that manages the widgets of the instrument. */
-	protected UIComposer<?> composer;
+	protected SwingUIComposer<?> composer;
 
 
 	/**
@@ -32,7 +32,7 @@ public abstract class WidgetInstrument extends Instrument {
 	 * @throws IllegalArgumentException If the given argument is null.
 	 * @since 0.2
 	 */
-	public WidgetInstrument(final UIComposer<?> composer) {
+	public WidgetInstrument(final SwingUIComposer<?> composer) {
 		super();
 
 		if(composer==null)
@@ -68,7 +68,7 @@ public abstract class WidgetInstrument extends Instrument {
 	 * @return The composer that manages the widgets of the instrument.
 	 * @since 0.2
 	 */
-	public UIComposer<?> getComposer() {
+	public SwingUIComposer<?> getComposer() {
 		return composer;
 	}
 }

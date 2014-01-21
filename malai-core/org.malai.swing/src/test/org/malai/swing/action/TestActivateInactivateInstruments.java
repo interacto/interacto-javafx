@@ -9,7 +9,7 @@ import org.malai.action.Action;
 import org.malai.instrument.Instrument;
 import org.malai.swing.action.library.ActivateInactivateInstruments;
 import org.malai.swing.instrument.WidgetInstrument;
-import org.malai.swing.ui.UIComposer;
+import org.malai.swing.ui.SwingUIComposer;
 import org.malai.swing.widget.MProgressBar;
 
 import test.org.malai.HelperTest;
@@ -238,7 +238,7 @@ public class TestActivateInactivateInstruments extends TestAbstractAction<Activa
 
 	@Test
 	public void testDoActivateWhenHideWidgetsAndHasWidgetInstrument() {
-		action.addInstrumentToInactivate(new WidgetInstrument(new UIComposer<Component>() {
+		action.addInstrumentToInactivate(new WidgetInstrument(new SwingUIComposer<Component>() {
 			@Override
 			public void compose(MProgressBar progressBar) {
 				//
@@ -267,7 +267,7 @@ public class TestActivateInactivateInstruments extends TestAbstractAction<Activa
 
 	@Test
 	public void testDoActivateWhenDoNotHideWidgetsAndHasWidgetInstrument() {
-		action.addInstrumentToInactivate(new WidgetInstrument(new UIComposer<Component>() {
+		action.addInstrumentToInactivate(new WidgetInstrument(new SwingUIComposer<Component>() {
 			@Override
 			public void compose(MProgressBar progressBar) {
 				//
