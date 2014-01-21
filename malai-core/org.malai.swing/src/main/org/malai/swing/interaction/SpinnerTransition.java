@@ -3,6 +3,7 @@ package org.malai.swing.interaction;
 import javax.swing.JSpinner;
 
 import org.malai.interaction.Transition;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -24,36 +25,12 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class SpinnerTransition extends Transition {
-	/** The modified spinner. */
-	protected JSpinner spinner;
-
-
+public class SpinnerTransition extends WidgetTransition<JSpinner> {
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 * @since 0.2
 	 */
 	public SpinnerTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-	}
-
-
-	/**
-	 * @return The modified spinner.
-	 * @since 0.2
-	 */
-	public JSpinner getSpinner() {
-		return spinner;
-	}
-
-
-	/**
-	 * Sets the modified spinner.
-	 * @param spinner The modified spinner.
-	 * @since 0.2
-	 */
-	public void setSpinner(final JSpinner spinner) {
-		if(spinner!=null)
-			this.spinner = spinner;
 	}
 }

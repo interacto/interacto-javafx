@@ -3,6 +3,7 @@ package org.malai.swing.interaction;
 import javax.swing.text.JTextComponent;
 
 import org.malai.interaction.Transition;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -24,10 +25,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class TextChangedTransition extends Transition {
-	/** The modified text field. */
-	protected JTextComponent textComp;
-
+public class TextChangedTransition extends WidgetTransition<JTextComponent> {
 	/** The modified text. */
 	protected String text;
 
@@ -37,20 +35,8 @@ public class TextChangedTransition extends Transition {
 	 */
 	public TextChangedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-
-		textComp = null;
 		text	 = null;
 	}
-
-
-	/**
-	 * @return The modified text field.
-	 * @since 0.1
-	 */
-	public JTextComponent getTextComp() {
-		return textComp;
-	}
-
 
 	/**
 	 * @return The modified text.
@@ -58,17 +44,6 @@ public class TextChangedTransition extends Transition {
 	 */
 	public String getText() {
 		return text;
-	}
-
-
-	/**
-	 * Sets the modified text field.
-	 * @param textComp The modified text field. Must not be null.
-	 * @since 0.1
-	 */
-	public void setTextComp(final JTextComponent textComp) {
-		if(textComp!=null)
-			this.textComp = textComp;
 	}
 
 

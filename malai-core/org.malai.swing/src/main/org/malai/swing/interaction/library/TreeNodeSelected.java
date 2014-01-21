@@ -52,8 +52,8 @@ public class TreeNodeSelected extends SwingInteraction {
 			@Override
 			public void action() {
 				super.action();
-				if(src instanceof MTree)
-					TreeNodeSelected.this.tree = (MTree) src;
+				if(widget instanceof MTree)
+					TreeNodeSelected.this.tree = (MTree) widget;
 				TreeNodeSelected.this.changedPaths = changedPaths;
 				TreeNodeSelected.this.isSelectionAdded = isSelectionAdded;
 			}

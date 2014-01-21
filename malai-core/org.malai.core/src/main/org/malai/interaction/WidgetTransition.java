@@ -1,13 +1,10 @@
-package org.malai.swing.interaction;
+package org.malai.interaction;
 
-import org.malai.interaction.Transition;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-import org.malai.swing.widget.MFrame;
 
 /**
- * This transition corresponds to a press on the decorative close button of a frame.<br>
+ * This transition must be used to use a widget within an interaction.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -20,15 +17,32 @@ import org.malai.swing.widget.MFrame;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 05/31/2011<br>
  * @author Arnaud BLOUIN
- * @since 0.2
  */
-public class WindowClosedTransition extends WidgetTransition<MFrame> {
+public abstract class WidgetTransition<T> extends Transition {
+	/** The pressed button. */
+	protected T widget;
+
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 */
-	public WindowClosedTransition(final SourceableState inputState, final TargetableState outputState) {
+	public WidgetTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
+	}
+
+	/**
+	 * @return The widget used.
+	 */
+	public T getWidget() {
+		return widget;
+	}
+
+	/**
+	 * Sets the widget.
+	 * @param widget The widget to set. Must not be null.
+	 */
+	public void setWidget(final T widget) {
+		if(widget!=null)
+			this.widget = widget;
 	}
 }

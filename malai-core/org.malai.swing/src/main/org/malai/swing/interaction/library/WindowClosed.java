@@ -55,7 +55,7 @@ public class WindowClosed extends SwingInteraction {
 			@Override
 			public void action() {
 				super.action();
-				WindowClosed.this.frame = this.frame;
+				WindowClosed.this.frame = this.widget;
 			}
 		};
 	}

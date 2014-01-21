@@ -66,7 +66,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 			if(t instanceof TextChangedTransition) {
 				final TextChangedTransition tct = (TextChangedTransition) t;
 
-				tct.setTextComp(textComp);
+				tct.setWidget(textComp);
 				tct.setText(textComp.getText());
 				again = !checkTransition(t);
 			}
@@ -85,8 +85,8 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
 
-			if(t instanceof ButtonPressedTransition) {
-				((ButtonPressedTransition)t).setButton(button);
+			if(t instanceof SwingButtonPressedTransition) {
+				((SwingButtonPressedTransition)t).setWidget(button);
 				again = !checkTransition(t);
 			}
 		}
@@ -105,7 +105,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 			t = currentState.getTransition(i);
 
 			if(t instanceof ListTransition) {
-				((ListTransition)t).setList(itemSelectable);
+				((ListTransition)t).setWidget(itemSelectable);
 				again = !checkTransition(t);
 			}
 		}
@@ -124,7 +124,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 			t = currentState.getTransition(i);
 
 			if(t instanceof SpinnerTransition) {
-				((SpinnerTransition)t).setSpinner(spinner);
+				((SpinnerTransition)t).setWidget(spinner);
 				again = !checkTransition(t);
 			}
 		}
@@ -143,7 +143,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 
 			if(t instanceof TreeSelectionTransition) {
 				TreeSelectionTransition treeTrans = (TreeSelectionTransition) t;
-				treeTrans.setSrc(src);
+				treeTrans.setWidget(src);
 				treeTrans.setChangedPaths(changedPaths);
 				treeTrans.setSelectionAdded(isSelectionAdded);
 				again = !checkTransition(t);
@@ -164,7 +164,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 
 			if(t instanceof TreeExpansionTransition) {
 				TreeExpansionTransition treeTrans = (TreeExpansionTransition) t;
-				treeTrans.setSrc(src);
+				treeTrans.setWidget(src);
 				treeTrans.setExpanded(isExpanded);
 				treeTrans.setExpandedPath(expandedPath);
 				again = !checkTransition(t);
@@ -184,7 +184,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 			t = currentState.getTransition(i);
 
 			if(t instanceof CheckBoxTransition) {
-				((CheckBoxTransition)t).setCheckBox(checkbox);
+				((CheckBoxTransition)t).setWidget(checkbox);
 				again = !checkTransition(t);
 			}
 		}
@@ -202,7 +202,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 			t = currentState.getTransition(i);
 
 			if(t instanceof MenuItemTransition) {
-				((MenuItemTransition)t).setMenuItem(menuItem);
+				((MenuItemTransition)t).setWidget(menuItem);
 				again = !checkTransition(t);
 			}
 		}
@@ -220,7 +220,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 			transition = currentState.getTransition(i);
 
 			if(transition instanceof WindowClosedTransition) {
-				((WindowClosedTransition)transition).setFrame(frame);
+				((WindowClosedTransition)transition).setWidget(frame);
 
 				if(transition.isGuardRespected())
 					again = !checkTransition(transition);
@@ -240,7 +240,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 			transition = currentState.getTransition(i);
 
 			if(transition instanceof TabSelectedTransition) {
-				((TabSelectedTransition)transition).setTabbedPane(tabbedPanel);
+				((TabSelectedTransition)transition).setWidget(tabbedPanel);
 
 				if(transition.isGuardRespected())
 					again = !checkTransition(transition);

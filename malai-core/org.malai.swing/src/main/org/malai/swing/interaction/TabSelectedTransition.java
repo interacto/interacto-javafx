@@ -3,6 +3,7 @@ package org.malai.swing.interaction;
 import javax.swing.JTabbedPane;
 
 import org.malai.interaction.Transition;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -24,33 +25,11 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class TabSelectedTransition extends Transition {
-	/** The tabbed pane that produced the event. */
-	protected JTabbedPane tabbedPane;
-
-
+public class TabSelectedTransition extends WidgetTransition<JTabbedPane> {
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 */
 	public TabSelectedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-	}
-
-
-	/**
-	 * @return The tabbed pane that produced the event.
-	 * @since 0.2
-	 */
-	public JTabbedPane getTabbedPane() {
-		return tabbedPane;
-	}
-
-
-	/**
-	 * @param tabbedPane The tabbed pane that produced the event.
-	 * @since 0.2
-	 */
-	public void setTabbedPane(final JTabbedPane tabbedPane) {
-		this.tabbedPane = tabbedPane;
 	}
 }

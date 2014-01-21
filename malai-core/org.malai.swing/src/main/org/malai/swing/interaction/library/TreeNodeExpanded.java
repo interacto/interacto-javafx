@@ -53,8 +53,8 @@ public class TreeNodeExpanded extends SwingInteraction {
 			@Override
 			public void action() {
 				super.action();
-				if(src instanceof MTree)
-					TreeNodeExpanded.this.tree = (MTree) this.src;
+				if(widget instanceof MTree)
+					TreeNodeExpanded.this.tree = (MTree) this.widget;
 				TreeNodeExpanded.this.expandedPath = this.expandedPath;
 				TreeNodeExpanded.this.isExpanded = this.isExpanded;
 			}

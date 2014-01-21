@@ -84,7 +84,7 @@ public class SpinnerModified extends SwingInteraction {
 		@Override
 		public void action() {
 			super.action();
-			SpinnerModified.this.spinner = this.spinner;
+			SpinnerModified.this.spinner = this.widget;
 		}
 	}
 }

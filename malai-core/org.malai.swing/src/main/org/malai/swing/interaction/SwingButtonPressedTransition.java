@@ -3,9 +3,9 @@ package org.malai.swing.interaction;
 import javax.swing.AbstractButton;
 
 import org.malai.interaction.Transition;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-
 
 /**
  * This transition must be used to use a button pressed event within an interaction.<br>
@@ -25,34 +25,11 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class ButtonPressedTransition extends Transition {
-	/** The pressed button. */
-	protected AbstractButton button;
-
+public class SwingButtonPressedTransition extends WidgetTransition<AbstractButton> {
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 */
-	public ButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
+	public SwingButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-	}
-
-
-	/**
-	 * @return The pressed button.
-	 * @since 0.1
-	 */
-	public AbstractButton getButton() {
-		return button;
-	}
-
-
-	/**
-	 * Sets the pressed button.
-	 * @param button The pressed button. Must not be null.
-	 * @since 0.2
-	 */
-	public void setButton(final AbstractButton button) {
-		if(button!=null)
-			this.button = button;
 	}
 }
