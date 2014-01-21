@@ -10,15 +10,15 @@ import java.lang.reflect.Field;
 import org.junit.Test;
 import org.malai.swing.action.library.IOAction;
 import org.malai.swing.action.library.Load;
-import org.malai.swing.ui.UI;
+import org.malai.swing.ui.SwingUI;
 import org.malai.swing.widget.MProgressBar;
 
 import test.org.malai.HelperTest;
 
-public class TestLoad extends TestIOAction<Load<UI, Object>> {
+public class TestLoad extends TestIOAction<Load<SwingUI, Object>> {
 
 	@Override
-	protected Load<UI, Object> createAction() {
+	protected Load<SwingUI, Object> createAction() {
 		return new Load<>();
 	}
 
@@ -27,7 +27,7 @@ public class TestLoad extends TestIOAction<Load<UI, Object>> {
 	public void testConstructor() throws SecurityException,
 			NoSuchFieldException, IllegalArgumentException,
 			IllegalAccessException {
-		new Load<UI, Object>();
+		new Load<SwingUI, Object>();
 	}
 
 	boolean visit1Ok;
@@ -44,7 +44,7 @@ public class TestLoad extends TestIOAction<Load<UI, Object>> {
 			action.setFile(new File("/foo"));
 			action.setOpenSaveManager(new ISOpenSaverMock() {
 				@Override
-				public boolean open(final String path, final UI ui, final MProgressBar progressBar, final Object statusBar) {
+				public boolean open(final String path, final SwingUI ui, final MProgressBar progressBar, final Object statusBar) {
 					visit1Ok = true;
 					assertEquals("/foo", path);
 					return true;
@@ -75,7 +75,7 @@ public class TestLoad extends TestIOAction<Load<UI, Object>> {
 			action.setFile(new File("/foo"));
 			action.setOpenSaveManager(new ISOpenSaverMock() {
 				@Override
-				public boolean open(final String path, final UI ui, final MProgressBar progressBar, final Object statusBar) {
+				public boolean open(final String path, final SwingUI ui, final MProgressBar progressBar, final Object statusBar) {
 					visit1Ok = true;
 					assertEquals("/foo", path);
 					return false;

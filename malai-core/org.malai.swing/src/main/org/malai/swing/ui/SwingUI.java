@@ -6,13 +6,11 @@ import java.util.List;
 import javax.swing.WindowConstants;
 
 import org.malai.instrument.Instrument;
-import org.malai.preferences.Preferenciable;
 import org.malai.presentation.AbstractPresentation;
 import org.malai.presentation.ConcretePresentation;
 import org.malai.presentation.Presentation;
-import org.malai.properties.Modifiable;
-import org.malai.properties.Reinitialisable;
 import org.malai.swing.widget.MFrame;
+import org.malai.ui.UI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -33,7 +31,7 @@ import org.w3c.dom.Element;
  * @since 0.1
  * @version 0.2
  */
-public abstract class UI extends MFrame implements Modifiable, Reinitialisable, Preferenciable {
+public abstract class SwingUI extends MFrame implements UI<SwingUIComposer<?>> {
 	private static final long serialVersionUID = 1L;
 
 	/** The presentations of the interactive system. */
@@ -50,9 +48,8 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 	 * Creates a user interface.
 	 * @since 0.1
 	 */
-	public UI() {
+	public SwingUI() {
 		super(true);
-
 		modified 		= false;
 		presentations 	= new ArrayList<>();
 		initialisePresentations();
@@ -95,39 +92,14 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 		return ok;
 	}
 
-
-	/**
-	 * @return The instruments of the interactive system.
-	 * @since 0.2
-	 */
-	public abstract Instrument[] getInstruments();
-
-
-
-	/**
-	 * Initialises the presentations of the UI.
-	 * @since 0.2
-	 */
-	public abstract void initialisePresentations();
-
-
-	/**
-	 * Updates the presentations.
-	 * @since 0.2
-	 */
+	@Override
 	public void updatePresentations() {
 		for(final Presentation<?,?> presentation : presentations)
 			presentation.update();
 	}
 
 
-	/**
-	 * Allows to get the presentation which abstract and concrete presentations match the given classes.
-	 * @param absPresClass The class of the abstract presentation to find.
-	 * @param concPresClass The class of the concrete presentation to find.
-	 * @return The found presentation or null.
-	 * @since 0.2
-	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public <A extends AbstractPresentation, C extends ConcretePresentation>
 	Presentation<A, C> getPresentation(final Class<A> absPresClass, final Class<C> concPresClass) {
@@ -156,19 +128,12 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 	}
 
 
-	/**
-	 * @return The presentations of the interactive system.
-	 * @since 0.2
-	 */
+	@Override
 	public List<Presentation<?,?>> getPresentations() {
 		return presentations;
 	}
 
 
-	/**
-	 * Reinitialises the UI and its instruments, presentations and so on.
-	 * @since 0.2
-	 */
 	@Override
 	public void reinit() {
 		for(final Presentation<?,?> presentation : presentations)
@@ -181,10 +146,7 @@ public abstract class UI extends MFrame implements Modifiable, Reinitialisable, 
 	}
 
 
-	/**
-	 * @return The composer that composes the UI.
-	 * @since 0.2
-	 */
+	@Override
 	public SwingUIComposer<?> getComposer() {
 		return composer;
 	}

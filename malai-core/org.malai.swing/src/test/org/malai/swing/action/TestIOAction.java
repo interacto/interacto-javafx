@@ -12,17 +12,17 @@ import org.junit.Test;
 import org.malai.instrument.Instrument;
 import org.malai.swing.action.library.IOAction;
 import org.malai.swing.ui.ISOpenSaver;
-import org.malai.swing.ui.UI;
+import org.malai.swing.ui.SwingUI;
 import org.malai.swing.widget.MProgressBar;
 
 import test.org.malai.HelperTest;
 import test.org.malai.action.TestAbstractAction;
 
-public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestAbstractAction<IOAction<UI, Object>> {
+public abstract class TestIOAction<T extends IOAction<SwingUI, Object>> extends TestAbstractAction<IOAction<SwingUI, Object>> {
 	@Test
 	public void testSetUI() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		if(HelperTest.isX11Set()) {
-			final UI ui = new UIMock();
+			final SwingUI ui = new UIMock();
 			action.setUi(ui);
 			final Field field = HelperTest.getField(IOAction.class, "ui");
 			assertNotNull(field.get(action));
@@ -33,7 +33,7 @@ public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestA
 	
 	@Test
 	public void testSetOpenSaveManager() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final ISOpenSaver<UI,Object> os = new ISOpenSaverMock();
+		final ISOpenSaver<SwingUI,Object> os = new ISOpenSaverMock();
 		action.setOpenSaveManager(os);
 		final Field field = HelperTest.getField(IOAction.class, "openSaveManager");
 		assertNotNull(field.get(action));
@@ -111,20 +111,20 @@ public abstract class TestIOAction<T extends IOAction<UI, Object>> extends TestA
 
 
 
-	public class ISOpenSaverMock implements ISOpenSaver<UI,Object> {
+	public class ISOpenSaverMock implements ISOpenSaver<SwingUI,Object> {
 		@Override
-		public boolean save(final String path, final UI ui, final MProgressBar progressBar, final Object statusBar) {
+		public boolean save(final String path, final SwingUI ui, final MProgressBar progressBar, final Object statusBar) {
 			return false;
 		}
 
 		@Override
-		public boolean open(final String path, final UI ui, final MProgressBar progressBar, final Object statusBar) {
+		public boolean open(final String path, final SwingUI ui, final MProgressBar progressBar, final Object statusBar) {
 			return false;
 		}
 	}
 
 
-	public class UIMock extends UI {
+	public class UIMock extends SwingUI {
 		private static final long serialVersionUID = 1L;
 
 		@Override
