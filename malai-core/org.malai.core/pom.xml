@@ -164,6 +164,21 @@
 	          </execution>
 	        </executions>
 	      </plugin>
+
+		  <plugin>
+			 <groupId>org.pitest</groupId>
+			 <artifactId>pitest-maven</artifactId>
+			 <version>0.32</version>
+			 <configuration>
+				<targetClasses>
+				  <param>org.malai.*</param>
+				</targetClasses>
+				<targetTests>
+				  <param>test.org.malai.*</param>
+				</targetTests>
+			 </configuration>
+		  </plugin>
+
         </plugins>
     </build>
 <dependencies>

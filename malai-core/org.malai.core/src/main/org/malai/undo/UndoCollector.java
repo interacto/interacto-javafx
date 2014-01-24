@@ -50,16 +50,7 @@ public final class UndoCollector {
 	private List<UndoHandler> handlers;
 
 	/** This object is used to avaoid the use of null when no undoable handler are provided. */
-	private UndoHandler MOCK_UNDO_HANDLER = new UndoHandler(){
-		@Override
-		public void onUndoableAdded(final Undoable undoable) {/**/}
-		@Override
-		public void onUndoableUndo(final Undoable undoable) {/**/}
-		@Override
-		public void onUndoableRedo(final Undoable undoable) {/**/}
-		@Override
-		public void onUndoableCleared() {/**/}
-	};
+	private UndoHandler MOCK_UNDO_HANDLER = new EmptyUndoHandler();
 
 
 
