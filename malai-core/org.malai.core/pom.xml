@@ -91,7 +91,7 @@
 		     </plugin>
 
 	  	
-	      <plugin>
+<!--	      <plugin>
 	        <groupId>org.jacoco</groupId>
 	        <artifactId>jacoco-maven-plugin</artifactId>
 	        <version>0.6.3.201306030806</version>
@@ -163,13 +163,14 @@
 	            </configuration>
 	          </execution>
 	        </executions>
-	      </plugin>
+	      </plugin>-->
 
 		  <plugin>
 			 <groupId>org.pitest</groupId>
 			 <artifactId>pitest-maven</artifactId>
 			 <version>0.32</version>
 			 <configuration>
+			 	<verbose>false</verbose>
 				<targetClasses>
 				  <param>org.malai.*</param>
 				</targetClasses>
@@ -188,12 +189,12 @@
 		<version>1.9.5</version>
 		<scope>test</scope>
 	</dependency>
-	<dependency>
+<!--	<dependency>
 	    <groupId>org.jacoco</groupId>
 	    <artifactId>jacoco-maven-plugin</artifactId>
 	    <version>0.6.3.201306030806</version>
 	    <scope>test</scope>
-	</dependency>
+	</dependency>-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
