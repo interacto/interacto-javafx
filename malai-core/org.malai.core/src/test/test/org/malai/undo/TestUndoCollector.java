@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+import java.util.Deque;
 import java.util.List;
 
 import org.junit.Before;
@@ -18,10 +19,14 @@ import org.malai.undo.Undoable;
 import test.org.malai.HelperTest;
 
 public class TestUndoCollector {
+	boolean ok;
+
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
+		ok = false;
 		UndoCollector.INSTANCE.clear();
+		UndoCollector.INSTANCE.setSizeMax(10);
 		final Field field = HelperTest.getField(UndoCollector.class, "handlers");
 		final List<UndoHandler> list = (List<UndoHandler>)field.get(UndoCollector.INSTANCE);
 		list.clear();
@@ -64,6 +69,18 @@ public class TestUndoCollector {
 		assertTrue(ok);
 	}
 
+
+	@Test public void testUndoCall_undo() {
+		final MockUndoable undoable = new MockUndoable() {
+			@Override public void undo() { ok = true; }
+		};
+
+		UndoCollector.INSTANCE.add(undoable, null);
+		UndoCollector.INSTANCE.undo();
+		assertTrue(ok);
+	}
+
+
 	@Test public void testUndo_whenUndoEmpty() {
 		final UndoHandler handler = new EmptyUndoHandler() {
 			@Override public void onUndoableUndo(final Undoable undoable) { ok = false; }
@@ -76,7 +93,26 @@ public class TestUndoCollector {
 	}
 
 
-	boolean ok;
+	@Test public void testRedoCall_redo() {
+		final MockUndoable undoable = new MockUndoable() {
+			@Override public void redo() { ok = true; }
+		};
+		final UndoHandler handler = new EmptyUndoHandler() {
+			@Override
+			public void onUndoableUndo(final Undoable u) {
+				assertEquals(undoable, u);
+			}
+		};
+
+		UndoCollector.INSTANCE.add(undoable, handler);
+		UndoCollector.INSTANCE.undo();
+		UndoCollector.INSTANCE.redo();
+		assertTrue(ok);
+		assertEquals(undoable, UndoCollector.INSTANCE.getLastUndo());
+		UndoCollector.INSTANCE.undo();
+	}
+
+
 	@Test public void testAddUndoableFollowedByUndo_withUndoHandler() {
 		UndoCollector.INSTANCE.setSizeMax(5);
 		ok = false;
@@ -114,6 +150,15 @@ public class TestUndoCollector {
 		UndoCollector.INSTANCE.add(new MockUndoable(), null);
 
 		UndoCollector.INSTANCE.undo();
+		assertTrue(ok);
+	}
+
+
+	@Test public void testAddCall_onUndoableAdded() {
+		UndoCollector.INSTANCE.addHandler(new EmptyUndoHandler() {
+			@Override public void onUndoableAdded(final Undoable undoable) { ok = true; }
+		});
+		UndoCollector.INSTANCE.add(new MockUndoable(), null);
 		assertTrue(ok);
 	}
 
@@ -229,6 +274,23 @@ public class TestUndoCollector {
 		UndoCollector.INSTANCE.addHandler(handler);
 		UndoCollector.INSTANCE.clear();
 		assertTrue(ok);
+	}
+
+
+	@Test public void testClearLaunchedHandlersCleaned() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		final UndoHandler handler1 = new EmptyUndoHandler() {
+			@Override public void onUndoableCleared() { ok = true; }
+		};
+		final UndoHandler handler2 = new EmptyUndoHandler() {
+			@Override public void onUndoableCleared() { ok = true; }
+		};
+
+		UndoCollector.INSTANCE.add(new MockUndoable(), handler1);
+		UndoCollector.INSTANCE.add(new MockUndoable(), handler2);
+		UndoCollector.INSTANCE.undo();
+		UndoCollector.INSTANCE.clear();
+		assertTrue(((Deque<?>)HelperTest.getField(UndoCollector.class, "undoHandlers").get(UndoCollector.INSTANCE)).isEmpty());
+		assertTrue(((Deque<?>)HelperTest.getField(UndoCollector.class, "redoHandlers").get(UndoCollector.INSTANCE)).isEmpty());
 	}
 
 

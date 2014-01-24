@@ -11,7 +11,7 @@ import org.malai.mapping.MappingRegistry;
 import org.malai.mapping.SymmetricList2ListMapping;
 import static org.junit.Assert.*;
 
-public class testActiveArrayList {
+public class TestActiveArrayList {
 	protected IActiveList<Integer> list;
 
 	protected List<Integer> list2;
