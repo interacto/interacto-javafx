@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.malai.undo.EmptyUndoHandler;
 import org.malai.undo.UndoCollector;
 import org.malai.undo.UndoHandler;
 import org.malai.undo.Undoable;
@@ -27,20 +28,8 @@ public class TestUndoCollector {
 	}
 
 	@Test public void testRedo_withUndoDone_withGlobalUndoable() {
-		final UndoHandler handler = new UndoHandler() {
-			@Override
-			public void onUndoableUndo(final Undoable undoable) {//
-			}
-			@Override
-			public void onUndoableRedo(final Undoable undoable) {
-				ok = true;
-			}
-			@Override
-			public void onUndoableCleared() {//
-			}
-			@Override
-			public void onUndoableAdded(final Undoable undoable) {//
-			}
+		final UndoHandler handler = new EmptyUndoHandler() {
+			@Override public void onUndoableRedo(final Undoable undoable) { ok = true; }
 		};
 
 		ok = false;
@@ -52,20 +41,8 @@ public class TestUndoCollector {
 	}
 
 	@Test public void testRedo_withUndoDone_withUndoable() {
-		final UndoHandler handler = new UndoHandler() {
-			@Override
-			public void onUndoableUndo(final Undoable undoable) {//
-			}
-			@Override
-			public void onUndoableRedo(final Undoable undoable) {
-				ok = true;
-			}
-			@Override
-			public void onUndoableCleared() {//
-			}
-			@Override
-			public void onUndoableAdded(final Undoable undoable) {//
-			}
+		final UndoHandler handler = new EmptyUndoHandler() {
+			@Override public void onUndoableRedo(final Undoable undoable) { ok = true; }
 		};
 
 		ok = false;
@@ -77,20 +54,8 @@ public class TestUndoCollector {
 
 
 	@Test public void testRedo_whenRedoEmpty() {
-		final UndoHandler handler = new UndoHandler() {
-			@Override
-			public void onUndoableUndo(final Undoable undoable) {//
-			}
-			@Override
-			public void onUndoableRedo(final Undoable undoable) {
-				ok = false;
-			}
-			@Override
-			public void onUndoableCleared() {//
-			}
-			@Override
-			public void onUndoableAdded(final Undoable undoable) {//
-			}
+		final UndoHandler handler = new EmptyUndoHandler() {
+			@Override public void onUndoableRedo(final Undoable undoable) { ok = false; }
 		};
 
 		ok = true;
@@ -100,20 +65,8 @@ public class TestUndoCollector {
 	}
 
 	@Test public void testUndo_whenUndoEmpty() {
-		final UndoHandler handler = new UndoHandler() {
-			@Override
-			public void onUndoableUndo(final Undoable undoable) {
-				ok = false;
-			}
-			@Override
-			public void onUndoableRedo(final Undoable undoable) {//
-			}
-			@Override
-			public void onUndoableCleared() {//
-			}
-			@Override
-			public void onUndoableAdded(final Undoable undoable) {//
-			}
+		final UndoHandler handler = new EmptyUndoHandler() {
+			@Override public void onUndoableUndo(final Undoable undoable) { ok = false; }
 		};
 
 		ok = true;
@@ -153,20 +106,8 @@ public class TestUndoCollector {
 
 	@Test public void testAddUndoableFollowedByUndo_withDefaultndoHandler() {
 		UndoCollector.INSTANCE.setSizeMax(5);
-		final UndoHandler handler = new UndoHandler() {
-			@Override
-			public void onUndoableUndo(final Undoable undoable) {
-				ok = true;
-			}
-			@Override
-			public void onUndoableRedo(final Undoable undoable) {//
-			}
-			@Override
-			public void onUndoableCleared() {//
-			}
-			@Override
-			public void onUndoableAdded(final Undoable undoable) {//
-			}
+		final UndoHandler handler = new EmptyUndoHandler() {
+			@Override public void onUndoableUndo(final Undoable undoable) { ok = true; }
 		};
 		ok = false;
 		UndoCollector.INSTANCE.addHandler(handler);
@@ -281,12 +222,21 @@ public class TestUndoCollector {
 	}
 
 
+	@Test public void testClearLaunch_UndoableCleaned() {
+		final UndoHandler handler = new EmptyUndoHandler() {
+			@Override public void onUndoableCleared() { ok = true; }
+		};
+		UndoCollector.INSTANCE.addHandler(handler);
+		UndoCollector.INSTANCE.clear();
+		assertTrue(ok);
+	}
+
 
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testAddHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final UndoHandler handler1 = new MockUndoHandler();
-		final UndoHandler handler2 = new MockUndoHandler();
+		final UndoHandler handler1 = new EmptyUndoHandler();
+		final UndoHandler handler2 = new EmptyUndoHandler();
 
 		UndoCollector.INSTANCE.addHandler(null);
 		final Field field = HelperTest.getField(UndoCollector.class, "handlers");
@@ -305,8 +255,8 @@ public class TestUndoCollector {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testremoveHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final UndoHandler handler1 = new MockUndoHandler();
-		final UndoHandler handler2 = new MockUndoHandler();
+		final UndoHandler handler1 = new EmptyUndoHandler();
+		final UndoHandler handler2 = new EmptyUndoHandler();
 
 		UndoCollector.INSTANCE.removeHandler(null);
 		final Field field = HelperTest.getField(UndoCollector.class, "handlers");
@@ -364,30 +314,6 @@ public class TestUndoCollector {
 		@Override
 		public String getUndoName() {
 			return undoMsg;
-		}
-	}
-
-
-	public class MockUndoHandler implements UndoHandler {
-		public MockUndoHandler() {
-		}
-
-		@Override
-		public void onUndoableAdded(final Undoable undoable) {//
-		}
-
-		@Override
-		public void onUndoableUndo(final Undoable undoable) {//
-		}
-
-		@Override
-		public void onUndoableRedo(final Undoable undoable) {//
-		}
-
-		@Override
-		public void onUndoableCleared() {
-			// TODO Auto-generated method stub
-
 		}
 	}
 }
