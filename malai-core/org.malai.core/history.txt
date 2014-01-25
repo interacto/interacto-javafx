@@ -1,4 +1,12 @@
 *******************************************************************
+Version 1.2
+
+- The executing of an action may provoke the execution of other actions. 
+For instance with a drawing editor, one may want that after having pasting shapes, the new shapes must be selected.
+Thus, the action PasteShapes will be followed by an action SelectShapes.
+This is the goal of this feature.
+
+*******************************************************************
 Version 1.1 - November 4th 2012
 
 - Malai is now separated in several components (core, Swing, android, etc.)

@@ -1,5 +1,9 @@
 package org.malai.action;
 
+import java.util.Collections;
+import java.util.List;
+
+
 /**
  * An action is based on the command design pattern: it is an object that
  * encapsulates information to execute a task and to undo/redo it if
@@ -175,5 +179,19 @@ public abstract class Action {
 	 */
 	public ActionStatus getStatus() {
 		return status;
+	}
+
+	/**
+	 * The executing of an action may provoke the execution of other actions.<br>
+	 * For instance with a drawing editor, one may want that after having pasting
+	 * shapes, the new shapes must be selected.
+	 * Thus, the action PasteShapes will be followed by an action SelectShapes.<br>
+	 * This is the goal of the operation.<br>
+	 * This operation creates an initialises the action that will be executed after
+	 * each final execution of the current action.
+	 * @return A list of actions that must be executed afterward. Cannot be null.
+	 */
+	public List<Action> followingActions() {
+		return Collections.emptyList();
 	}
 }
