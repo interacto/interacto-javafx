@@ -260,16 +260,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
     				instrument.onActionDone(action);
     			}
 
-    			if(action.hadEffect())
-					if(action.isRegisterable()) {
-    					 ActionsRegistry.INSTANCE.addAction(action, instrument);
-    					 instrument.onActionAdded(action);
-    				}
-    				else {
-    					ActionsRegistry.INSTANCE.cancelActions(action);
-    					instrument.onActionCancelled(action);
-    				}
-
+    			executeAction(action);
     			action = null;
     			instrument.interimFeedback();
 			}
@@ -280,6 +271,28 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 					action = null;
 					instrument.interimFeedback();
 				}
+	}
+
+
+	private void executeAction(final Action act) {
+		if(act.doIt()) {
+			instrument.onActionExecuted(act);
+			act.done();
+			instrument.onActionDone(act);
+		}
+
+		if(act.hadEffect()) {
+			if(act.isRegisterable()) {
+				 ActionsRegistry.INSTANCE.addAction(act, instrument);
+				 instrument.onActionAdded(act);
+			}
+			else {
+				ActionsRegistry.INSTANCE.cancelActions(act);
+				instrument.onActionCancelled(act);
+			}
+			for(final Action followAction : act.followingActions())
+				executeAction(followAction);
+		}
 	}
 
 
