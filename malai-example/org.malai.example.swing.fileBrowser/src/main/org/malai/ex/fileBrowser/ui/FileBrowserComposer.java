@@ -2,13 +2,13 @@ package org.malai.ex.fileBrowser.ui;
 
 import javax.swing.JSplitPane;
 
-import org.malai.swing.ui.UIComposer;
+import org.malai.swing.ui.SwingUIComposer;
 import org.malai.swing.widget.MProgressBar;
 
 // The GUI composer of the application.
 // Its uses all the widgets provided by the instruments and the presentations
 // to compose the final user interface.
-public class FileBrowserComposer extends UIComposer<FileBrowserFrame> {
+public class FileBrowserComposer extends SwingUIComposer<FileBrowserFrame> {
 
 	// The parameter here is the frame (already created) that will be filled
 	// of widgets and presentations.

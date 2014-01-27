@@ -8,7 +8,7 @@ import org.malai.ex.draw.view.MyViewDrawing;
 import org.malai.instrument.Instrument;
 import org.malai.mapping.MappingRegistry;
 import org.malai.presentation.Presentation;
-import org.malai.swing.ui.UI;
+import org.malai.swing.ui.SwingUI;
 
 /*
  * The main GUI of the application.
@@ -16,7 +16,7 @@ import org.malai.swing.ui.UI;
  * of the Malai class UI that represents a GUI.
  * A Malai UI is a JFrame. 
  */
-public class EditorFrame extends UI {
+public class EditorFrame extends SwingUI {
 	private static final long serialVersionUID = 1L;
 	
 	protected Pencil pencil;
