@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.malai</groupId>
     <artifactId>malai.example.swing.drawingEditor</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
     <name>malai.example.swing.drawingEditor :: A simple drawing editor powered by Malai</name>
     
@@ -65,12 +65,12 @@
     <dependency>
       <groupId>org.malai</groupId>
       <artifactId>malai.core</artifactId>
-      <version>1.1</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.malai</groupId>
       <artifactId>malai.swing</artifactId>
-      <version>1.1</version>
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 

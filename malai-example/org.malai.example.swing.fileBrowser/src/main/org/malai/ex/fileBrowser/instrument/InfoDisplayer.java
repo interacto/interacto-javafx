@@ -9,7 +9,7 @@ import org.malai.ex.fileBrowser.action.ShowFileInformation;
 import org.malai.instrument.Link;
 import org.malai.swing.instrument.WidgetInstrument;
 import org.malai.swing.interaction.library.TreeNodeSelected;
-import org.malai.swing.ui.UIComposer;
+import org.malai.swing.ui.SwingUIComposer;
 import org.malai.swing.widget.MTree;
 
 // This instrument interacts with the tree view to show pieces of 
@@ -27,7 +27,7 @@ public class InfoDisplayer extends WidgetInstrument {
 	
 	
 	// The constructor of a widget instrument requires the GUI composer.
-	public InfoDisplayer(final UIComposer<?> composer, final MTree tree) {
+	public InfoDisplayer(final SwingUIComposer<?> composer, final MTree tree) {
 		super(composer);
 		fileTree = tree;
 		initialiseWidgets();
