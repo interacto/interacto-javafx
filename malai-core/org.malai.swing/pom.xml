@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.malai</groupId>
     <artifactId>malai.swing</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
     <name>malai.swing :: Malai Swing component</name>
     
@@ -70,7 +70,7 @@
 		     		 </dependency>
 		    	</dependencies>
 		  	</plugin>
-	      <plugin>
+<!--	      <plugin>
 	        <groupId>org.jacoco</groupId>
 	        <version>0.6.2.201302030002</version>
 	        <artifactId>jacoco-maven-plugin</artifactId>
@@ -105,16 +105,16 @@
 	            </configuration>
 	          </execution>
 	        </executions>
-	      </plugin>
+	      </plugin>-->
         </plugins>
     </build>
 <dependencies>
-	<dependency>
+<!--	<dependency>
 	    <groupId>org.jacoco</groupId>
 	    <artifactId>jacoco-maven-plugin</artifactId>
 	    <version>0.6.2.201302030002</version>
 	    <scope>test</scope>
-	</dependency>
+	</dependency>-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -124,12 +124,12 @@
     <dependency>
       <groupId>org.malai</groupId>
       <artifactId>malai.core</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
  	<dependency>
 	  <groupId>org.malai</groupId>
 	  <artifactId>malai.core</artifactId>
-	  <version>1.0</version>
+	  <version>${project.version}</version>
 	  <type>test-jar</type>
 	  <scope>test</scope>
 	</dependency>
