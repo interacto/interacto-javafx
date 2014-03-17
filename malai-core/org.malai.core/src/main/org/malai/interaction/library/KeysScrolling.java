@@ -86,14 +86,14 @@ public class KeysScrolling extends Scrolling {
 
 			@Override
 			public boolean isGuardRespected() {
-				return super.isGuardRespected() && this.hid==KeysScrolling.this.getKeyHIDUsed();
+				return this.hid==KeysScrolling.this.getKeyHIDUsed();
 			}
 		};
 
 		new KeyReleaseTransition(keyPressed, keyReleased) {
 			@Override
 			public boolean isGuardRespected() {
-				return super.isGuardRespected() && KeysScrolling.this.keys.size()==1 &&
+				return KeysScrolling.this.keys.size()==1 &&
 						this.hid==KeysScrolling.this.getKeyHIDUsed() && KeysScrolling.this.keys.contains(this.key);
 			}
 		};
@@ -101,7 +101,7 @@ public class KeysScrolling extends Scrolling {
 		new KeyReleaseTransition(keyPressed, keyPressed) {
 			@Override
 			public boolean isGuardRespected() {
-				return super.isGuardRespected() && KeysScrolling.this.keys.size()>1 &&
+				return KeysScrolling.this.keys.size()>1 &&
 						this.hid==KeysScrolling.this.getKeyHIDUsed() && KeysScrolling.this.keys.contains(this.key);
 			}
 

@@ -46,7 +46,7 @@ public class KeyTyped extends KeyInteraction {
 		new KeyReleaseTransition(pressed, released) {
 			@Override
 			public boolean isGuardRespected() {
-				return super.isGuardRespected() && KeyTyped.this.key==this.key && KeyTyped.this.getLastHIDUsed()==this.hid;
+				return KeyTyped.this.key==this.key && KeyTyped.this.getLastHIDUsed()==this.hid;
 			}
 		};
 	}
