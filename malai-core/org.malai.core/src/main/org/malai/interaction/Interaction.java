@@ -359,11 +359,21 @@ public abstract class Interaction implements IStateMachine, EventHandler {
 
 				again = !checkTransition(t);
 
-				if(!again)
+				if(!again && !stillInProgressContainsKey(idHID, key))
 					// Adding an event 'still in process'
 					addEvent(new KeyPressEvent(idHID, key, keyChar, object));
 			}
 		}
+	}
+
+
+	/** Checks that the list stillProcessingEvents does not contains a keyEvent corresponding to the given one. */
+	private boolean stillInProgressContainsKey(final int idHID, final int key) {
+		if(stillProcessingEvents==null) return false;
+		for(final Event evt : stillProcessingEvents)
+			if(idHID==evt.idHID && evt instanceof KeyPressEvent && ((KeyPressEvent)evt).keyCode==key)
+				return true;
+		return false;
 	}
 
 

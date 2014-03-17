@@ -1,4 +1,9 @@
 *******************************************************************
+Version 1.3
+
+- fixed: infinite loop when continuously pressing a key.
+
+*******************************************************************
 Version 1.2
 
 - The executing of an action may provoke the execution of other actions. 
