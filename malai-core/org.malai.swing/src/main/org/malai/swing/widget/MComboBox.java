@@ -67,13 +67,13 @@ public class MComboBox<E> extends JComboBox<E> implements Pickable {
 	 */
 	public void setLabel(final JLabel label) {
 		//FIXME SCALA: to extract as a trait.
+		if(this.label!=null)
+			this.label.setLabelFor(null);
+		
 		this.label = label;
 
-		if(label!=null) {
-			if(this.label!=null)
-				this.label.setLabelFor(null);
+		if(label!=null)
 			label.setLabelFor(this);
-		}
 	}
 
 
