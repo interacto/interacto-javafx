@@ -130,7 +130,7 @@ public class WidgetZoomer extends BasicZoomer {
 	/**
 	 * This link maps a button that changes the zoom to a button-pressed interaction.
 	 */
-	protected class Button2Zoom extends Link<Zoom, ButtonPressed, WidgetZoomer> {
+	protected static class Button2Zoom extends Link<Zoom, ButtonPressed, WidgetZoomer> {
 		/**
 		 * Initialises the link.
 		 * @param ins The zoomer.
@@ -158,7 +158,7 @@ public class WidgetZoomer extends BasicZoomer {
 	/**
 	 * The links maps the zoom spinner to the zoom action.
 	 */
-	protected class Spinner2Zoom extends Link<Zoom, SpinnerModified, WidgetZoomer> {
+	protected static class Spinner2Zoom extends Link<Zoom, SpinnerModified, WidgetZoomer> {
 		/**
 		 * Initialises the link.
 		 * @param ins The zoomer.
