@@ -52,9 +52,9 @@ public class MoveCamera extends PositionAction {
 		final JScrollBar ver = scrollPane.getVerticalScrollBar();
 		
 		if(hor!=null)
-			moveScrollBar(hor, (int)(px-hor.getWidth()/2));
+			moveScrollBar(hor, (int)(px-hor.getWidth()/2.0));
 		if(ver!=null)
-			moveScrollBar(ver, (int)(py-ver.getHeight()/2));
+			moveScrollBar(ver, (int)(py-ver.getHeight()/2.0));
 	}
 
 
