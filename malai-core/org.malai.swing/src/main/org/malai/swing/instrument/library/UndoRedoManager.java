@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import org.malai.action.library.Redo;
 import org.malai.action.library.Undo;
 import org.malai.error.ErrorCatcher;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.interaction.library.KeysPressure;
 import org.malai.swing.instrument.WidgetInstrument;
 import org.malai.swing.interaction.library.ButtonPressed;
@@ -68,12 +68,12 @@ public class UndoRedoManager extends WidgetInstrument {
 
 
 	@Override
-	protected void initialiseLinks() {
+	protected void initialiseInteractors() {
 		try{
-			addLink(new ButtonPressed2Undo(this));
-			addLink(new ButtonPressed2Redo(this));
-			addLink(new Keys2Undo(this));
-			addLink(new Keys2Redo(this));
+			addInteractor(new ButtonPressed2Undo(this));
+			addInteractor(new ButtonPressed2Redo(this));
+			addInteractor(new Keys2Undo(this));
+			addInteractor(new Keys2Redo(this));
 		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
@@ -158,7 +158,7 @@ public class UndoRedoManager extends WidgetInstrument {
  * This link maps a button to a redo action.
  * @author Arnaud Blouin
  */
-class ButtonPressed2Redo extends Link<Redo, ButtonPressed, UndoRedoManager> {
+class ButtonPressed2Redo extends Interactor<Redo, ButtonPressed, UndoRedoManager> {
 	/**
 	 * Creates the link.
 	 * @param ins The instrument that contains this link.
@@ -185,7 +185,7 @@ class ButtonPressed2Redo extends Link<Redo, ButtonPressed, UndoRedoManager> {
  * This link maps a key interaction to an undo action.
  * @author Arnaud Blouin
  */
-class Keys2Redo extends Link<Redo, KeysPressure, UndoRedoManager> {
+class Keys2Redo extends Interactor<Redo, KeysPressure, UndoRedoManager> {
 	/**
 	 * Creates the link.
 	 * @param ins The instrument that contains this link.
@@ -214,7 +214,7 @@ class Keys2Redo extends Link<Redo, KeysPressure, UndoRedoManager> {
  * This link maps a key interaction to an undo action.
  * @author Arnaud Blouin
  */
-class Keys2Undo extends Link<Undo, KeysPressure, UndoRedoManager> {
+class Keys2Undo extends Interactor<Undo, KeysPressure, UndoRedoManager> {
 	/**
 	 * Creates the link.
 	 * @param ins The instrument that contains this link.
@@ -242,7 +242,7 @@ class Keys2Undo extends Link<Undo, KeysPressure, UndoRedoManager> {
  * This link maps a button to an undo action.
  * @author Arnaud Blouin
  */
-class ButtonPressed2Undo extends Link<Undo, ButtonPressed, UndoRedoManager> {
+class ButtonPressed2Undo extends Interactor<Undo, ButtonPressed, UndoRedoManager> {
 	/**
 	 * Creates the link.
 	 * @param ins The instrument that contains this link.

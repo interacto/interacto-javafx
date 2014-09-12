@@ -39,7 +39,7 @@ public abstract class TestAbstractAction<T extends Action> {
 			super();
 		}
 		@Override
-		protected void initialiseLinks() {
+		protected void initialiseInteractors() {
 			//
 		}
 	}

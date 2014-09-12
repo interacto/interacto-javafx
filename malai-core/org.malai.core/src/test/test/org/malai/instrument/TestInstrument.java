@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 
 
 public abstract class TestInstrument<T extends Instrument> {
@@ -14,10 +14,10 @@ public abstract class TestInstrument<T extends Instrument> {
 
 	@Test
 	public void testNotNoLink() {
-		assertTrue(instrument.getSizeLinks()==0);
-		if(!instrument.getLinks().isEmpty()) {
+		assertTrue(instrument.getNbInteractors()==0);
+		if(!instrument.getInteractors().isEmpty()) {
 			instrument.setActivated(true);
-			assertTrue(instrument.getSizeLinks()>0);
+			assertTrue(instrument.getNbInteractors()>0);
 		}
 	}
 
@@ -26,8 +26,8 @@ public abstract class TestInstrument<T extends Instrument> {
 	public void testCreation() {
 		assertFalse(instrument.isActivated());
 		assertFalse(instrument.isModified());
-		assertNotNull(instrument.getLinks());
-		assertTrue(instrument.getLinks().isEmpty());
+		assertNotNull(instrument.getInteractors());
+		assertTrue(instrument.getInteractors().isEmpty());
 	}
 
 
@@ -40,14 +40,14 @@ public abstract class TestInstrument<T extends Instrument> {
 	}
 
 
-	public Link<?, ?, ?> getLink(final String nameClassLink) {
-		Link<?, ?, ?> link = null;
-		final List<Link<?, ?, ?>> links = instrument.getLinks();
+	public Interactor<?, ?, ?> getLink(final String nameClassLink) {
+		Interactor<?, ?, ?> interactor = null;
+		final List<Interactor<?, ?, ?>> interactors = instrument.getInteractors();
 
-		for(int i=0; i<links.size() && link==null; i++)
-			if(links.get(i).getClass().getName().endsWith(nameClassLink))
-				link = links.get(i);
+		for(int i=0; i<interactors.size() && interactor==null; i++)
+			if(interactors.get(i).getClass().getName().endsWith(nameClassLink))
+				interactor = interactors.get(i);
 
-		return link;
+		return interactor;
 	}
 }

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.interaction.Interaction;
 
 
@@ -100,7 +100,7 @@ public final class UIManager implements WindowFocusListener {
 		Interaction interaction;
 
 		for(final Instrument instrument : ui.getInstruments())
-			for(final Link<?,?,?> link : instrument.getLinks()) {
+			for(final Interactor<?,?,?> link : instrument.getInteractors()) {
 				interaction = link.getInteraction();
 				interaction.reinit();
 				interaction.clearEventsStillInProcess();

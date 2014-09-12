@@ -11,7 +11,7 @@ import org.malai.undo.Undoable;
 
 /**
  * In the Malai interaction model, an instrument links interactions to actions.
- * Thus, an instrument is composed of Link definitions: each Link links an interaction
+ * Thus, an instrument is composed of Link definitions: each interactor links an interaction
  * to an action. A Link manages the life cycle of an action following the life cycle
  * of the interaction (started, aborted, etc.).<br>
  * <br>
@@ -30,11 +30,11 @@ import org.malai.undo.Undoable;
  * @author Arnaud BLOUIN
  * @version 0.2
  * @since 0.2
- * @param <A> The type of the action that will produce this link.
- * @param <I> The type of the interaction that will use this link.
- * @param <N> The type of the instrument that will contain this link.
+ * @param <A> The type of the action that will produce this interactor.
+ * @param <I> The type of the interaction that will use this interactor.
+ * @param <N> The type of the instrument that will contain this interactor.
  */
-public abstract class Link<A extends Action, I extends Interaction, N extends Instrument> implements InteractionHandler {
+public abstract class Interactor<A extends Action, I extends Interaction, N extends Instrument> implements InteractionHandler {
 
 	/** The source interaction. */
 	protected I interaction;
@@ -42,7 +42,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	/** The target action. */
 	protected A action;
 
-	/** The instrument that contains the link. */
+	/** The instrument that contains the interactor. */
 	protected N instrument;
 
 	/** Specifies if the action must be execute or update
@@ -52,9 +52,9 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	protected Class<A> clazzAction;
 
 	/**
-	 * Creates a link. This constructor must initialise the interaction. The link is (de-)activated if the given
+	 * Creates a interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param ins The instrument that contains the link.
+	 * @param ins The instrument that contains the interactor.
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
@@ -65,7 +65,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @since 0.2
 	 */
-	public Link(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction) throws InstantiationException, IllegalAccessException {
+	public Interactor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction) throws InstantiationException, IllegalAccessException {
 		super();
 
 		if(ins==null || clazzAction==null || clazzInteraction==null)
@@ -83,7 +83,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * Binds the interaction of the link to a Eventable object that produces
+	 * Binds the interaction of the interactor to a Eventable object that produces
 	 * events used by the interaction.
 	 * @param eventable The eventable object that gathers event used by the interaction.
 	 * @since 0.2
@@ -104,7 +104,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * Initialises the action of the link. If the attribute 'action' is
+	 * Initialises the action of the interactor. If the attribute 'action' is
 	 * not null, nothing will be done.
 	 * @since 0.2
 	 */
@@ -138,7 +138,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * @return True if the condition of the link is respected.
+	 * @return True if the condition of the interactor is respected.
 	 */
 	public abstract boolean isConditionRespected();
 
@@ -161,7 +161,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * @return True if the link is activated.
+	 * @return True if the interactor is activated.
 	 */
 	public boolean isActivated() {
 		return instrument.isActivated();
@@ -169,9 +169,9 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 //	/**
-//	* Indicates if the link can be run. To be run, no link, of the instrument, that produces the
+//	* Indicates if the interactor can be run. To be run, no interactor, of the instrument, that produces the
 //	* same type of action must be running.
-//	* @return True: The link can be run.
+//	* @return True: The interactor can be run.
 //	*/
 //	public boolean isRunnable() {
 //		for(final Link<?, ?, ?> link : instrument.links)
@@ -187,7 +187,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	* @return True: if the link is currently used.
+	* @return True: if the interactor is currently used.
 	* since 0.2
 	*/
 	public boolean isRunning() {
@@ -196,7 +196,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * Sometimes the interaction of two different links can overlap themselves. It provokes
+	 * Sometimes the interaction of two different interactors can overlap themselves. It provokes
 	 * that the first interaction can stops while the second is blocked in a intermediary state.
 	 * Two solutions are possible to avoid such a problem:<br>
 	 * - the use of this function that perform some tests. If the test fails, the starting interaction
@@ -326,7 +326,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * Defines the interim feedback of the link. If overridden, the interim
+	 * Defines the interim feedback of the interactor. If overridden, the interim
 	 * feedback of its instrument should be define too.
 	 */
 	public void interimFeedback() {
@@ -335,8 +335,8 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * Activates the link.
-	 * @param activated True: the link is activated. Otherwise, it is desactivated.
+	 * Activates the interactor.
+	 * @param activated True: the interactor is activated. Otherwise, it is desactivated.
 	 * @since 3.0
 	 */
 	public void setActivated(final boolean activated) {
@@ -345,7 +345,7 @@ public abstract class Link<A extends Action, I extends Interaction, N extends In
 
 
 	/**
-	 * @return The instrument that contains the link.
+	 * @return The instrument that contains the interactor.
 	 * @since 0.1
 	 */
 	public N getInstrument() {

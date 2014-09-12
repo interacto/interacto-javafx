@@ -36,8 +36,8 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 	/**  Defines if the instrument is activated or not. */
 	protected boolean activated;
 
-	/**  The links of the instrument. */
-	protected List<Link<?,?,?>> links;
+	/**  The interactors of the instrument. */
+	protected List<Interactor<?,?,?>> interactors;
 
 	/** Defined if the instrument has been modified. */
 	protected boolean modified;
@@ -53,75 +53,75 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 	public Instrument() {
 		activated = false;
 		modified  = false;
-		links	  = new ArrayList<>();
+		interactors	  = new ArrayList<>();
 	}
 
 
 	/**
-	 * @return The number of links that compose the instrument.
+	 * @return The number of interactors that compose the instrument.
 	 * @since 0.2
 	 */
-	public int getSizeLinks() {
-		return links.size();
+	public int getNbInteractors() {
+		return interactors.size();
 	}
 
 
 	/**
-	 * @return True: the instrument has at least one link. False otherwise.
+	 * @return True: the instrument has at least one interactor. False otherwise.
 	 * @since 0.2
 	 */
-	public boolean hasLinks() {
-		return getSizeLinks()>0;
+	public boolean hasInteractors() {
+		return getNbInteractors()>0;
 	}
 
 
 	/**
-	 * @return The links that compose the instrument. Cannot be null.
+	 * @return The interactors that compose the instrument. Cannot be null.
 	 * @since 0.2
 	 */
-	public List<Link<?,?,?>> getLinks() {
-		return links;
+	public List<Interactor<?,?,?>> getInteractors() {
+		return interactors;
 	}
 
 
 	/**
-	 * Initialises the links of the instrument.
+	 * Initialises the interactors of the instrument.
 	 * @since 0.2
 	 */
-	protected abstract void initialiseLinks();
+	protected abstract void initialiseInteractors();
 
 
 	/**
-	 * Adds the given link to the list of links of the instrument.
+	 * Adds the given interactor to the list of interactors of the instrument.
 	 * Eventables object previously added to the instrument are added
-	 * to the added link.
-	 * @param link The link to add. If null, nothing is done.
+	 * to the added interactor.
+	 * @param interactor The interactor to add. If null, nothing is done.
 	 * @since 0.2
 	 */
-	protected void addLink(final Link<?,?,?> link) {
-		if(link!=null) {
-			links.add(link);
+	protected void addInteractor(final Interactor<?,?,?> interactor) {
+		if(interactor!=null) {
+			interactors.add(interactor);
 
 			if(eventables!=null)
 				for(final Eventable eventable : eventables)
-					link.addEventable(eventable);
+					interactor.addEventable(eventable);
 		}
 	}
 
 
 	/**
-	 * Removes the given link from the list of links of the instrument.
-	 * @param link The link to remove.
-	 * @return True: the given link has been removed. False otherwise.
+	 * Removes the given interactor from the list of interactors of the instrument.
+	 * @param interactor The interactor to remove.
+	 * @return True: the given interactor has been removed. False otherwise.
 	 * @since 0.2
 	 */
-	protected boolean removeLink(final Link<?,?,?> link) {
-		return link==null ? false : links.remove(link);
+	protected boolean removeInteractor(final Interactor<?,?,?> interactor) {
+		return interactor==null ? false : interactors.remove(interactor);
 	}
 
 
 	/**
-	 * Binds the interaction of the links of the instrument to a Eventable object that produces
+	 * Binds the interaction of the interactors of the instrument to a Eventable object that produces
 	 * events used by the interactions.
 	 * @param eventable The eventable object that gathers event used by the interactions.
 	 * @since 0.2
@@ -133,8 +133,8 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 
 			eventables.add(eventable);
 
-			for(final Link<?,?,?> link : links)
-				link.addEventable(eventable);
+			for(final Interactor<?,?,?> interactor : interactors)
+				interactor.addEventable(eventable);
 		}
 	}
 
@@ -144,8 +144,8 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 	 * @since 0.2
 	 */
 	public void clearEvents() {
-		for(final Link<?,?,?> link : links)
-			link.clearEvents();
+		for(final Interactor<?,?,?> interactor : interactors)
+			interactor.clearEvents();
 	}
 
 
@@ -164,11 +164,11 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 	public void setActivated(final boolean activated) {
 		this.activated = activated;
 
-		if(activated && !hasLinks())
-			initialiseLinks();
+		if(activated && !hasInteractors())
+			initialiseInteractors();
 		else
-			for(final Link<?,?,?> link : links)
-				link.setActivated(activated);
+			for(final Interactor<?,?,?> interactor : interactors)
+				interactor.setActivated(activated);
 
 		interimFeedback();
 	}

@@ -6,7 +6,7 @@ import javax.swing.Icon;
 
 import org.malai.action.library.Zoom;
 import org.malai.error.ErrorCatcher;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.properties.Zoomable;
 import org.malai.swing.interaction.library.ButtonPressed;
 import org.malai.swing.interaction.library.SpinnerModified;
@@ -78,11 +78,11 @@ public class WidgetZoomer extends BasicZoomer {
 
 
 	@Override
-	protected void initialiseLinks() {
-		super.initialiseLinks();
+	protected void initialiseInteractors() {
+		super.initialiseInteractors();
 		try{
-			addLink(new Spinner2Zoom(this));
-			addLink(new Button2Zoom(this));
+			addInteractor(new Spinner2Zoom(this));
+			addInteractor(new Button2Zoom(this));
 		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
@@ -130,7 +130,7 @@ public class WidgetZoomer extends BasicZoomer {
 	/**
 	 * This link maps a button that changes the zoom to a button-pressed interaction.
 	 */
-	protected static class Button2Zoom extends Link<Zoom, ButtonPressed, WidgetZoomer> {
+	protected static class Button2Zoom extends Interactor<Zoom, ButtonPressed, WidgetZoomer> {
 		/**
 		 * Initialises the link.
 		 * @param ins The zoomer.
@@ -158,7 +158,7 @@ public class WidgetZoomer extends BasicZoomer {
 	/**
 	 * The links maps the zoom spinner to the zoom action.
 	 */
-	protected static class Spinner2Zoom extends Link<Zoom, SpinnerModified, WidgetZoomer> {
+	protected static class Spinner2Zoom extends Interactor<Zoom, SpinnerModified, WidgetZoomer> {
 		/**
 		 * Initialises the link.
 		 * @param ins The zoomer.
