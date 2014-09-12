@@ -11,21 +11,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.malai.error.ErrorCatcher;
 import org.malai.error.ErrorNotifier;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
 import test.org.malai.action.ActionMock;
 import test.org.malai.instrument.TestMockInstrument.MockInstrument;
 import test.org.malai.interaction.InteractionMock;
 
-public class TestLink {
-	protected MockLink link;
+public class TestInteractor {
+	protected MockInteractor interactor;
 	protected MockInstrument instrument;
 
 	@Before
 	public void setUp() throws InstantiationException, IllegalAccessException {
 		instrument = new MockInstrument();
-		link = new MockLink(instrument, false, ActionMock.class, InteractionMock.class);
+		interactor = new MockInteractor(instrument, false, ActionMock.class, InteractionMock.class);
 		ErrorCatcher.INSTANCE.setNotifier(new ErrorNotifier() {
 			@Override
 			public void onMalaiException(final Exception exception) {
@@ -38,113 +38,113 @@ public class TestLink {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorInstrumentNull() throws Exception {
-		link = new MockLink(null, false, ActionMock.class, InteractionMock.class);
+		interactor = new MockInteractor(null, false, ActionMock.class, InteractionMock.class);
 	}
 
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorActionNull() throws Exception {
-		link = new MockLink(instrument, false, null, InteractionMock.class);
+		interactor = new MockInteractor(instrument, false, null, InteractionMock.class);
 	}
 
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorInteractionNull() throws Exception {
-		link = new MockLink(instrument, false, ActionMock.class, null);
+		interactor = new MockInteractor(instrument, false, ActionMock.class, null);
 	}
 
 
 	@Test public void testConstructorCreatedInteractionNotNull() {
-		assertNotNull(link.getInteraction());
+		assertNotNull(interactor.getInteraction());
 	}
 
 
 	@Test public void testConstructorCreatedActionIsNull() {
-		assertNull(link.getAction());
+		assertNull(interactor.getAction());
 	}
 
 
 	@Test public void testLinkActivation() {
 		instrument.setActivated(false);
-		assertFalse(link.isActivated());
+		assertFalse(interactor.isActivated());
 		instrument.setActivated(true);
-		assertTrue(link.isActivated());
+		assertTrue(interactor.isActivated());
 	}
 
 
 	@Test public void testExecute() throws InstantiationException, IllegalAccessException {
-		assertFalse(link.isExecute());
-		link = new MockLink(instrument, true, ActionMock.class, InteractionMock.class);
-		assertTrue(link.isExecute());
+		assertFalse(interactor.isExecute());
+		interactor = new MockInteractor(instrument, true, ActionMock.class, InteractionMock.class);
+		assertTrue(interactor.isExecute());
 	}
 
 
 	@Test public void testGetInstrument() {
-		assertEquals(instrument, link.getInstrument());
+		assertEquals(instrument, interactor.getInstrument());
 	}
 
 	@Test public void testIsInteractionMustBeAborted() {
-		assertFalse(link.isInteractionMustBeAborted());
+		assertFalse(interactor.isInteractionMustBeAborted());
 	}
 
 
 	@Test public void testNotRunning() {
-		assertFalse(link.isRunning());
+		assertFalse(interactor.isRunning());
 	}
 
 	@Test public void testInteractionAbortWhenNotStarted() {
-		link.interactionAborts(null);
-		link.interactionAborts(link.getInteraction());
-		link.interactionAborts(new InteractionMock());
+		interactor.interactionAborts(null);
+		interactor.interactionAborts(interactor.getInteraction());
+		interactor.interactionAborts(new InteractionMock());
 	}
 
 
 	@Test public void testInteractionUpdatesWhenNotStarted() {
-		link.interactionUpdates(null);
-		link.interactionUpdates(link.getInteraction());
-		link.interactionUpdates(new InteractionMock());
+		interactor.interactionUpdates(null);
+		interactor.interactionUpdates(interactor.getInteraction());
+		interactor.interactionUpdates(new InteractionMock());
 	}
 
 
 	@Test public void testInteractionStopsWhenNotStarted() {
-		link.interactionStops(null);
-		link.interactionStops(link.getInteraction());
-		link.conditionRespected = false;
-		link.interactionStops(new InteractionMock());
+		interactor.interactionStops(null);
+		interactor.interactionStops(interactor.getInteraction());
+		interactor.conditionRespected = false;
+		interactor.interactionStops(new InteractionMock());
 	}
 
 
 	@Test public void testInteractionStartsWhenNoCorrectInteraction() throws MustAbortStateMachineException {
-		link.mustAbort = true;
-		link.interactionStarts(null);
-		assertNull(link.getAction());
-		link.interactionStarts(new InteractionMock());
-		assertNull(link.getAction());
+		interactor.mustAbort = true;
+		interactor.interactionStarts(null);
+		assertNull(interactor.getAction());
+		interactor.interactionStarts(new InteractionMock());
+		assertNull(interactor.getAction());
 
-		link.mustAbort = false;
+		interactor.mustAbort = false;
 		instrument.setActivated(false);
-		link.interactionStarts(link.getInteraction());
-		assertNull(link.getAction());
+		interactor.interactionStarts(interactor.getInteraction());
+		assertNull(interactor.getAction());
 
 		instrument.setActivated(true);
-		link.conditionRespected = false;
-		link.interactionStarts(link.getInteraction());
-		assertNull(link.getAction());
+		interactor.conditionRespected = false;
+		interactor.interactionStarts(interactor.getInteraction());
+		assertNull(interactor.getAction());
 	}
 
 
 	@Test(expected=MustAbortStateMachineException.class)
 	public void testInteractionStartsThrowMustAbortStateMachineException() throws MustAbortStateMachineException {
-		link.mustAbort = true;
-		link.interactionStarts(link.getInteraction());
+		interactor.mustAbort = true;
+		interactor.interactionStarts(interactor.getInteraction());
 	}
 
 
 	@Test public void testInteractionStartsOk() throws MustAbortStateMachineException {
 		instrument.setActivated(true);
-		link.conditionRespected = true;
-		link.interactionStarts(link.getInteraction());
-		assertNotNull(link.getAction());
+		interactor.conditionRespected = true;
+		interactor.interactionStarts(interactor.getInteraction());
+		assertNotNull(interactor.getAction());
 	}
 
 
@@ -157,7 +157,7 @@ public class TestLink {
 				ok[0] = true;
 			}
 		});
-		Link<?,?,?> link2 = new Link<ActionMock2, InteractionMock, MockInstrument>
+		Interactor<?,?,?> interactor2 = new Interactor<ActionMock2, InteractionMock, MockInstrument>
 							(new MockInstrument(), false, ActionMock2.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
@@ -167,13 +167,13 @@ public class TestLink {
 				return true;
 			}
 		};
-		link2.getInstrument().setActivated(true);
-		link2.interactionStarts(link2.getInteraction());
+		interactor2.getInstrument().setActivated(true);
+		interactor2.interactionStarts(interactor2.getInteraction());
 		assertTrue(ok[0]);
-		assertNull(link2.getAction());
+		assertNull(interactor2.getAction());
 
 		ok[0] = false;
-		link2 = new Link<ActionMock3, InteractionMock, MockInstrument>(new MockInstrument(), false, ActionMock3.class, InteractionMock.class) {
+		interactor2 = new Interactor<ActionMock3, InteractionMock, MockInstrument>(new MockInstrument(), false, ActionMock3.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -182,10 +182,10 @@ public class TestLink {
 				return true;
 			}
 		};
-		link2.getInstrument().setActivated(true);
-		link2.interactionStarts(link2.getInteraction());
+		interactor2.getInstrument().setActivated(true);
+		interactor2.interactionStarts(interactor2.getInteraction());
 		assertTrue(ok[0]);
-		assertNull(link2.getAction());
+		assertNull(interactor2.getAction());
 	}
 }
 
@@ -202,11 +202,11 @@ class ActionMock3 extends ActionMock {
 }
 
 
-class MockLink extends Link<ActionMock, InteractionMock, MockInstrument>{
+class MockInteractor extends Interactor<ActionMock, InteractionMock, MockInstrument>{
 	public boolean conditionRespected;
 	public boolean mustAbort;
 
-	public MockLink(final MockInstrument ins, final boolean exec, final Class<ActionMock> clazzAction, final Class<InteractionMock> clazzInteraction)
+	public MockInteractor(final MockInstrument ins, final boolean exec, final Class<ActionMock> clazzAction, final Class<InteractionMock> clazzInteraction)
 			throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 		conditionRespected = false;

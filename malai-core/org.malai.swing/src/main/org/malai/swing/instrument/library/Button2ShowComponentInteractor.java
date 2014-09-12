@@ -7,7 +7,7 @@ import org.malai.swing.interaction.library.ButtonPressed;
 import org.malai.swing.widget.MButton;
 
 /**
- * This link links a button interaction to an action that shows a JComponent.<br>
+ * This interactor links a button interaction to an action that shows a JComponent.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -23,13 +23,13 @@ import org.malai.swing.widget.MButton;
  * 2012-10-23<br>
  * @author Arnaud BLOUIN
  * @since 0.2
- * @param <N> The type of the instrument that will contain this link.
+ * @param <N> The type of the instrument that will contain this interactor.
  */
-public class Button2ShowComponentLink<N extends Instrument> extends Interaction2ShowComponentLink<ButtonPressed, N> {
+public class Button2ShowComponentInteractor<N extends Instrument> extends Interaction2ShowComponentInteractor<ButtonPressed, N> {
 	/** The button used to shows the component. */
 	protected MButton button;
 
-	public Button2ShowComponentLink(final N ins, final Component component, final MButton button)
+	public Button2ShowComponentInteractor(final N ins, final Component component, final MButton button)
 			throws InstantiationException, IllegalAccessException {
 		super(ins, false, ButtonPressed.class, component);
 		this.button = button;

@@ -245,7 +245,7 @@ public class TestActivateInactivateInstruments extends TestAbstractAction<Activa
 			}
 		}) {
 			@Override
-			protected void initialiseLinks() {
+			protected void initialiseInteractors() {
 				//
 			}
 			@Override
@@ -274,7 +274,7 @@ public class TestActivateInactivateInstruments extends TestAbstractAction<Activa
 			}
 		}) {
 			@Override
-			protected void initialiseLinks() {
+			protected void initialiseInteractors() {
 				//
 			}
 			@Override

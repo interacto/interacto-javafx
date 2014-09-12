@@ -21,15 +21,15 @@ public class TestMockInstrument extends TestInstrument<MockInstrument> {
 
 	@Test
 	public void testHasLink() throws InstantiationException, IllegalAccessException {
-		assertFalse(instrument.hasLinks());
-		instrument.getLinks().add(new MockLink(instrument, false, ActionMock.class, InteractionMock.class));
-		assertTrue(instrument.hasLinks());
+		assertFalse(instrument.hasInteractors());
+		instrument.getInteractors().add(new MockInteractor(instrument, false, ActionMock.class, InteractionMock.class));
+		assertTrue(instrument.hasInteractors());
 	}
 
 
 	public static class MockInstrument extends Instrument {
 		@Override
-		protected void initialiseLinks() {
+		protected void initialiseInteractors() {
 			//
 		}
 	}

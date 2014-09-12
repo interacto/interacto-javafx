@@ -2,7 +2,7 @@ package org.malai.swing.instrument.library;
 
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.interaction.library.KeysScrolling;
 import org.malai.swing.action.library.Scroll;
 import org.malai.swing.widget.ScrollableWidget;
@@ -49,9 +49,9 @@ public class Scroller extends Instrument {
 
 
 	@Override
-	protected void initialiseLinks() {
+	protected void initialiseInteractors() {
 		try{
-			addLink(new Scrolling2Scroll(this));
+			addInteractor(new Scrolling2Scroll(this));
 		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
@@ -62,7 +62,7 @@ public class Scroller extends Instrument {
 /**
  * ScrollInteraction -> ScrollAction
  */
-class Scrolling2Scroll extends Link<Scroll, KeysScrolling, Scroller> {
+class Scrolling2Scroll extends Interactor<Scroll, KeysScrolling, Scroller> {
 	/**
 	 * Creates a link ScrollInteraction -> ScrollAction
 	 * @param scroller The instrument.

@@ -6,7 +6,7 @@ import java.util.List;
 import org.malai.action.library.Zoom;
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.interaction.library.KeysScrolling;
 import org.malai.properties.Zoomable;
 import org.malai.swing.interaction.library.KeyPressureNoModifier;
@@ -65,10 +65,10 @@ public class BasicZoomer extends Instrument {
 
 
 	@Override
-	protected void initialiseLinks() {
+	protected void initialiseInteractors() {
 		try{
-			if(withKeys) addLink(new KeysZoom(this));
-			addLink(new Scroll2Zoom(this));
+			if(withKeys) addInteractor(new KeysZoom(this));
+			addInteractor(new Scroll2Zoom(this));
 		}catch(final InstantiationException | IllegalAccessException e){
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
@@ -76,9 +76,9 @@ public class BasicZoomer extends Instrument {
 
 
 	/**
-	 * This link maps a key pressure interaction to a zoom action.
+	 * This interactor maps a key pressure interaction to a zoom action.
 	 */
-	protected static class KeysZoom extends Link<Zoom, KeyPressureNoModifier, BasicZoomer> {
+	protected static class KeysZoom extends Interactor<Zoom, KeyPressureNoModifier, BasicZoomer> {
 		/**
 		 * Creates the action.
 		 */
@@ -108,9 +108,9 @@ public class BasicZoomer extends Instrument {
 
 
 	/**
-	 * This link maps a scroll interaction to a zoom action.
+	 * This interactor maps a scroll interaction to a zoom action.
 	 */
-	protected static class Scroll2Zoom extends Link<Zoom, KeysScrolling, BasicZoomer> {
+	protected static class Scroll2Zoom extends Interactor<Zoom, KeysScrolling, BasicZoomer> {
 		/**
 		 * Creates the action.
 		 */
