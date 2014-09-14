@@ -1,4 +1,4 @@
-Version 1.3
+Version 1.3 -- 2014-09-14
 - fixed: some transitions of key-based interactions were always triggered
 - change: Link renamed as Interactor
 
