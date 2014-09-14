@@ -6,7 +6,7 @@ import javax.swing.JTextArea;
 import javax.swing.tree.TreePath;
 
 import org.malai.ex.fileBrowser.action.ShowFileInformation;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.swing.instrument.WidgetInstrument;
 import org.malai.swing.interaction.library.TreeNodeSelected;
 import org.malai.swing.ui.SwingUIComposer;
@@ -41,13 +41,13 @@ public class InfoDisplayer extends WidgetInstrument {
 		infoField.setEditable(false);
 	}
 
-	// Each instrument has a special operation dedicated to the creation of its links.
+	// Each instrument has a special operation dedicated to the creation of its interactors.
 	// This operation should not be called explicitly since it is called the first time
 	// the instrument is activated (lazy instantiation).
 	@Override
-	protected void initialiseLinks() {
+	protected void initialiseInteractors() {
 		try {
-			addLink(new TreeSelection2ShowFileInfo(this));
+			addInteractor(new TreeSelection2ShowFileInfo(this));
 		} catch (InstantiationException e) { e.printStackTrace(); } 
 		catch (IllegalAccessException e) { e.printStackTrace();	}
 	}
@@ -61,12 +61,12 @@ public class InfoDisplayer extends WidgetInstrument {
 }
 
 
-// An instrument is composed of links.
-// Each link is a class that can be defined as a nested class of its instrument or somewhere else.
-// Extending the class Link implies the specification of the type of the produced action, the type
+// An instrument is composed of interactors.
+// Each interactor is a class that can be defined as a nested class of its instrument or somewhere else.
+// Extending the class Interactor implies the specification of the type of the produced action, the type
 // of the interaction used, and the type of the instrument.
-class TreeSelection2ShowFileInfo extends Link<ShowFileInformation, TreeNodeSelected, InfoDisplayer> {
-	// The definition of the constructor of a link is boring thanks to some Java syntax sugars.
+class TreeSelection2ShowFileInfo extends Interactor<ShowFileInformation, TreeNodeSelected, InfoDisplayer> {
+	// The definition of the constructor of an interactor is boring thanks to some Java syntax sugars.
 	public TreeSelection2ShowFileInfo(final InfoDisplayer ins) throws InstantiationException, IllegalAccessException {
 		// Notably, the type (class) of the action and the interaction must be provided explicitly...
 		super(ins, false, ShowFileInformation.class, TreeNodeSelected.class);

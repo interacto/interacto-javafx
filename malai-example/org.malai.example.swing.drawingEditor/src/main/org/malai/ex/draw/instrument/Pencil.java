@@ -10,7 +10,7 @@ import org.malai.ex.draw.view.MyViewDrawing;
 import org.malai.ex.draw.view.MyViewShape;
 import org.malai.ex.draw.view.ViewFactory;
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Link;
+import org.malai.instrument.Interactor;
 import org.malai.mapping.MappingRegistry;
 import org.malai.swing.interaction.library.AbortableDnD;
 
@@ -31,18 +31,18 @@ public class Pencil extends Instrument {
 
 	
 	@Override
-	protected void initialiseLinks() {
+	protected void initialiseInteractors() {
 		/*
-		 * This operation contains the creation of the links (action-to-interaction links).
+		 * This operation contains the creation of the interactors (action-to-interaction transformers).
 		 * To order of the creation may have an effect. The interaction contained into other ones
-		 * should be initialized first. For instance, if a press2addText link must but added here,
+		 * should be initialized first. For instance, if a press2addText interactor must but added here,
 		 * it should be put before DnD2AddShape since the press interaction is contained by the
 		 * dnd.
 		 * This operation should not be called explicitly. Lazy instantiation permits to create
-		 * the links the first time the instrument is activated.
+		 * the interactors the first time the instrument is activated.
 		 */
 		try {
-			addLink(new DnD2AddShape(this));
+			addInteractor(new DnD2AddShape(this));
 		}catch (IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
@@ -52,7 +52,7 @@ public class Pencil extends Instrument {
 	/*
 	 * The interim feedback of the instrument permits to display/hide some information
 	 * to the users and different major events such as at the creation and the execution of an action
-	 * produced by one of its links.
+	 * produced by one of its interactors.
 	 */
 	@Override
 	public void interimFeedback() {
@@ -62,22 +62,22 @@ public class Pencil extends Instrument {
 	
 	
 	/*
-	 * Defines a link mapping a DnD interaction to an action that adds a shape into the drawing.
-	 * A Malai link has three generics: the type of the Mala action to create; the type of the
-	 * interaction to use; the instrument containing this link.
+	 * Defines a interactor mapping a DnD interaction to an action that adds a shape into the drawing.
+	 * A Malai interactor has three generics: the type of the Mala action to create; the type of the
+	 * interaction to use; the instrument containing this interactor.
 	 * Developers never have to explicitly instantiate the action or the interaction. This is
 	 * performed automatically by the Malai library.
 	 */
-	class DnD2AddShape extends Link<AddShape, AbortableDnD, Pencil> {
+	class DnD2AddShape extends Interactor<AddShape, AbortableDnD, Pencil> {
 		/*
-		 * Some attributes of the link.
+		 * Some attributes of the interactor.
 		 */
 		protected MyRect rect;
 		
 		protected MyViewShape<?> tmpView;
 		
 		/*
-		 * The constructor of a link must define:
+		 * The constructor of a interactor must define:
 		 * - its parent instrument object
 		 * - if the action must be executed on each update of the interaction
 		 * - the class of the action (to instantiate reflexively the action)
@@ -105,7 +105,7 @@ public class Pencil extends Instrument {
 		
 
 		/*
-		 * The interim feedback of the link.
+		 * The interim feedback of the interactor.
 		 * This operation is called each time the interaction's state changes.
 		 */
 		@Override
