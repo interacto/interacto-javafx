@@ -51,6 +51,7 @@ public abstract class Interactor<A extends Action, I extends Interaction, N exte
 
 	protected Class<A> clazzAction;
 
+
 	/**
 	 * Creates a interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -76,8 +77,8 @@ public abstract class Interactor<A extends Action, I extends Interaction, N exte
 		action		= null;
 		instrument  = ins;
 		execute		= exec;
-		setActivated(ins.isActivated());
 		interaction.addHandler(this);
+		setActivated(ins.isActivated());
 	}
 
 
@@ -234,7 +235,7 @@ public abstract class Interactor<A extends Action, I extends Interaction, N exte
 		if(inter==interaction && isInteractionMustBeAborted())
 			throw new MustAbortStateMachineException();
 //isRunnable() &&
-		if(action==null && inter==interaction && instrument.isActivated() && isConditionRespected()) {
+		if(action==null && inter==interaction && isActivated() && isConditionRespected()) {
 			createAction();
 			initAction();
 			interimFeedback();
@@ -336,11 +337,11 @@ public abstract class Interactor<A extends Action, I extends Interaction, N exte
 
 	/**
 	 * Activates the interactor.
-	 * @param activated True: the interactor is activated. Otherwise, it is desactivated.
+	 * @param activ True: the interactor is activated. Otherwise, it is desactivated.
 	 * @since 3.0
 	 */
-	public void setActivated(final boolean activated) {
-		interaction.setActivated(activated);
+	public void setActivated(final boolean activ) {
+		interaction.setActivated(activ);
 	}
 
 
