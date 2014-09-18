@@ -23,9 +23,19 @@ public class TestInteractor {
 	protected MockInstrument instrument;
 
 	@Before
-	public void setUp() throws InstantiationException, IllegalAccessException {
-		instrument = new MockInstrument();
-		interactor = new MockInteractor(instrument, false, ActionMock.class, InteractionMock.class);
+	public void setUp() {
+		instrument = new MockInstrument() {
+			@Override
+			protected void initialiseInteractors() {
+				try {
+					TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionMock.class, InteractionMock.class);
+					addInteractor(interactor);
+				} catch (InstantiationException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		instrument.setActivated(true);
 		ErrorCatcher.INSTANCE.setNotifier(new ErrorNotifier() {
 			@Override
 			public void onMalaiException(final Exception exception) {
@@ -157,8 +167,9 @@ public class TestInteractor {
 				ok[0] = true;
 			}
 		});
+		MockInstrument ins = new MockInstrument();
 		Interactor<?,?,?> interactor2 = new Interactor<ActionMock2, InteractionMock, MockInstrument>
-							(new MockInstrument(), false, ActionMock2.class, InteractionMock.class) {
+							(ins, false, ActionMock2.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -167,13 +178,14 @@ public class TestInteractor {
 				return true;
 			}
 		};
-		interactor2.getInstrument().setActivated(true);
+		ins.setActivated(true);
 		interactor2.interactionStarts(interactor2.getInteraction());
 		assertTrue(ok[0]);
-		assertNull(interactor2.getAction());
+		assertNull(interactor.getAction());
 
 		ok[0] = false;
-		interactor2 = new Interactor<ActionMock3, InteractionMock, MockInstrument>(new MockInstrument(), false, ActionMock3.class, InteractionMock.class) {
+		ins = new MockInstrument();
+		interactor2 = new Interactor<ActionMock3, InteractionMock, MockInstrument>(ins, false, ActionMock3.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -182,7 +194,7 @@ public class TestInteractor {
 				return true;
 			}
 		};
-		interactor2.getInstrument().setActivated(true);
+		ins.setActivated(true);
 		interactor2.interactionStarts(interactor2.getInteraction());
 		assertTrue(ok[0]);
 		assertNull(interactor2.getAction());

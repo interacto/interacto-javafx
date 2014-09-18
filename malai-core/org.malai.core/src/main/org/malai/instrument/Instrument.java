@@ -101,6 +101,7 @@ public abstract class Instrument implements Preferenciable, Modifiable, Reinitia
 	protected void addInteractor(final Interactor<?,?,?> interactor) {
 		if(interactor!=null) {
 			interactors.add(interactor);
+			interactor.setActivated(isActivated());
 
 			if(eventables!=null)
 				for(final Eventable eventable : eventables)
