@@ -23,11 +23,11 @@ import org.malai.stateMachine.TargetableState;
  * <br>
  * @author Arnaud BLOUIN
  */
-public class JavafxButtonPressedTransition extends WidgetTransition<ButtonBase> {
+public class JfxButtonPressedTransition extends WidgetTransition<ButtonBase> {
 	/**
 	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 */
-	public JavafxButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
+	public JfxButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 }

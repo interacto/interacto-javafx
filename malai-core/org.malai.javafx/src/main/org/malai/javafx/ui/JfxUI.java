@@ -3,8 +3,9 @@ package org.malai.javafx.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Application;
+
 import org.malai.instrument.Instrument;
-import org.malai.javafx.widget.MApplication;
 import org.malai.presentation.AbstractPresentation;
 import org.malai.presentation.ConcretePresentation;
 import org.malai.presentation.Presentation;
@@ -27,7 +28,7 @@ import org.w3c.dom.Element;
  * General Public License for more details.<br>
  * @author Arnaud BLOUIN
  */
-public abstract class JavafxUI extends MApplication implements UI<JavafxUIComposer<?>> {
+public abstract class JfxUI extends Application implements UI<JfxUIComposer<?>> {
 	/** The presentations of the interactive system. */
 	protected List<Presentation<?,?>> presentations;
 
@@ -35,14 +36,14 @@ public abstract class JavafxUI extends MApplication implements UI<JavafxUICompos
 	protected boolean modified;
 
 	/** The composer that composes the UI. */
-	protected JavafxUIComposer<?> composer;
+	protected JfxUIComposer<?> composer;
 
 
 	/**
 	 * Creates a user interface.
 	 * @since 0.1
 	 */
-	public JavafxUI() {
+	public JfxUI() {
 		super();
 		modified 		= false;
 		presentations 	= new ArrayList<>();
@@ -140,7 +141,7 @@ public abstract class JavafxUI extends MApplication implements UI<JavafxUICompos
 
 
 	@Override
-	public JavafxUIComposer<?> getComposer() {
+	public JfxUIComposer<?> getComposer() {
 		return composer;
 	}
 }

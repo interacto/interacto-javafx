@@ -22,11 +22,11 @@ import org.malai.ui.UIComposer;
  * @author Arnaud BLOUIN
  * @param <T> The type of widget produced by the composer.
  */
-public abstract class JavafxUIComposer<T extends Node> extends UIComposer<Node, T, ProgressBar> {
+public abstract class JfxUIComposer<T extends Node> extends UIComposer<Node, T, ProgressBar> {
 	/**
 	 * Creates the composer.
 	 */
-	public JavafxUIComposer() {
+	public JfxUIComposer() {
 		super();
 	}
 
