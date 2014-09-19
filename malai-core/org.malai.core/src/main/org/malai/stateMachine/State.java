@@ -21,13 +21,13 @@ import java.util.List;
  * @version 0.2
  * @since 0.2
  */
-public interface IState {
+public interface State {
 	/**
 	 * Adds a transition to the state.
 	 * @param trans The new transition. Must not be null.
 	 * @since 0.1
 	 */
-	void addTransition(final ITransition trans);
+	void addTransition(final Transition trans);
 
 	/**
 	 * @return The name of the state.
@@ -39,25 +39,25 @@ public interface IState {
 	 * @return The transitions that leaves the state.
 	 * @since 0.1
 	 */
-	List<ITransition> getTransitions();
+	List<Transition> getTransitions();
 
 	/**
 	 * @param index The position of the transition to get.
 	 * @return The corresponding transition or null if the given index is not valid.
 	 * @since 0.2
 	 */
-	ITransition getTransition(final int index);
+	Transition getTransition(final int index);
 
 	/**
 	 * Sets the state machine of the state.
 	 * @param sm The new state machine. If null, nothing is done.
 	 * @since 0.2
 	 */
-	void setStateMachine(final IStateMachine sm);
+	void setStateMachine(final StateMachine sm);
 
 	/**
 	 * @return The state machine that contains the state.
 	 * @since 0.2
 	 */
-	IStateMachine getStateMachine();
+	StateMachine getStateMachine();
 }

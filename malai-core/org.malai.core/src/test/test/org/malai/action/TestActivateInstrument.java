@@ -3,7 +3,6 @@ package test.org.malai.action;
 import static org.junit.Assert.*;
 import org.malai.action.Action;
 import org.malai.action.library.ActivateInstrument;
-import org.malai.instrument.Instrument;
 
 public class TestActivateInstrument extends TestInstrumentAction<ActivateInstrument> {
 
@@ -21,7 +20,7 @@ public class TestActivateInstrument extends TestInstrumentAction<ActivateInstrum
 
 	@Override
 	public void testDo() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final Instrument ins = new InstrumentMock();
+		final InstrumentMock ins = new InstrumentMock();
 		ins.setActivated(false);
 		action.setInstrument(ins);
 		action.doIt();

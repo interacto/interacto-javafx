@@ -19,7 +19,7 @@ package org.malai.stateMachine;
  * @version 0.2
  * @since 0.2
  */
-public interface ITransition {
+public interface Transition {
 	/**
 	 * Performs the actions to do when the transition is executed.
 	 * Should be overridden.

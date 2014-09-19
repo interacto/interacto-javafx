@@ -8,6 +8,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.interaction.library.KeysScrolling;
 import org.malai.stateMachine.MustAbortStateMachineException;
+
 import static org.junit.Assert.*;
 
 public class TestKeysScrolling extends TestInteraction<KeysScrolling> {

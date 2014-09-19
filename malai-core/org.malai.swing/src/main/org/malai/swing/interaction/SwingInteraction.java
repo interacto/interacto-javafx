@@ -11,8 +11,8 @@ import javax.swing.text.JTextComponent;
 import javax.swing.tree.TreePath;
 
 import org.malai.interaction.InitState;
-import org.malai.interaction.Interaction;
-import org.malai.stateMachine.ITransition;
+import org.malai.interaction.InteractionImpl;
+import org.malai.stateMachine.Transition;
 import org.malai.swing.widget.MFrame;
 
 /**
@@ -33,7 +33,7 @@ import org.malai.swing.widget.MFrame;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public abstract class SwingInteraction extends Interaction implements SwingEventHandler {
+public abstract class SwingInteraction extends InteractionImpl implements SwingEventHandler {
 	/**
 	 * Creates a Swing interaction.
 	 */
@@ -58,7 +58,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -80,7 +80,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -99,7 +99,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -118,7 +118,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -136,7 +136,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -157,7 +157,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -178,7 +178,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -196,7 +196,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 		if(!activated) return ;
 
 		boolean again = true;
-		ITransition t;
+		Transition t;
 
 		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
 			t = currentState.getTransition(i);
@@ -213,7 +213,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 	public void onWindowClosed(final MFrame frame) {
 		if(!activated) return ;
 
-		ITransition transition;
+		Transition transition;
 		boolean again = true;
 
 		for(int i=0, j=currentState.getTransitions().size(); again && i<j; i++) {
@@ -233,7 +233,7 @@ public abstract class SwingInteraction extends Interaction implements SwingEvent
 	public void onTabChanged(final JTabbedPane tabbedPanel) {
 		if(!activated) return ;
 
-		ITransition transition;
+		Transition transition;
 		boolean again = true;
 
 		for(int i=0, j=currentState.getTransitions().size(); again && i<j; i++) {

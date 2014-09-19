@@ -2,7 +2,6 @@ package org.malai.swing.interaction;
 
 import java.awt.ItemSelectable;
 
-import org.malai.interaction.Transition;
 import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -27,7 +26,6 @@ import org.malai.stateMachine.TargetableState;
  */
 public class ListTransition extends WidgetTransition<ItemSelectable> {
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 * @since 0.2
 	 */
 	public ListTransition(final SourceableState inputState, final TargetableState outputState) {

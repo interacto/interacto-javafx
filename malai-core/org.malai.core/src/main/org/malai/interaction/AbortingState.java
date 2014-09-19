@@ -20,9 +20,9 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class AbortingState extends State implements TargetableState {
+public class AbortingState extends StateImpl implements TargetableState {
 	/**
-	 * @see State#State(String)
+	 * @see StateImpl#State(String)
 	 */
 	public AbortingState(final String name) {
 		super(name);

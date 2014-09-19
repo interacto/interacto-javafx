@@ -2,7 +2,6 @@ package org.malai.swing.interaction;
 
 import javax.swing.text.JTextComponent;
 
-import org.malai.interaction.Transition;
 import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -31,7 +30,7 @@ public class TextChangedTransition extends WidgetTransition<JTextComponent> {
 
 
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * Creates the transition.
 	 */
 	public TextChangedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

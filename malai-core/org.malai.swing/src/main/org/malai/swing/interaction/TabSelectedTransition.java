@@ -2,7 +2,6 @@ package org.malai.swing.interaction;
 
 import javax.swing.JTabbedPane;
 
-import org.malai.interaction.Transition;
 import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -27,7 +26,7 @@ import org.malai.stateMachine.TargetableState;
  */
 public class TabSelectedTransition extends WidgetTransition<JTabbedPane> {
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * Creates the transition.
 	 */
 	public TabSelectedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

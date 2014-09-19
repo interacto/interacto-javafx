@@ -23,7 +23,7 @@ import org.malai.stateMachine.TargetableState;
  */
 public class ReleaseTransition extends PointingDeviceTransition {
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public ReleaseTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

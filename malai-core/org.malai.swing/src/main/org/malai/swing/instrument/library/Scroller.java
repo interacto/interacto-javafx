@@ -1,10 +1,10 @@
 package org.malai.swing.instrument.library;
 
 import org.malai.error.ErrorCatcher;
-import org.malai.instrument.Instrument;
-import org.malai.instrument.Interactor;
+import org.malai.instrument.InteractorImpl;
 import org.malai.interaction.library.KeysScrolling;
 import org.malai.swing.action.library.Scroll;
+import org.malai.swing.instrument.SwingInstrument;
 import org.malai.swing.widget.ScrollableWidget;
 
 /**
@@ -26,7 +26,7 @@ import org.malai.swing.widget.ScrollableWidget;
  * @version 0.2
  * @since 0.2
  */
-public class Scroller extends Instrument {
+public class Scroller extends SwingInstrument {
 	/** The panel to scroll. */
 	protected ScrollableWidget scrollableWidget;
 
@@ -62,7 +62,7 @@ public class Scroller extends Instrument {
 /**
  * ScrollInteraction -> ScrollAction
  */
-class Scrolling2Scroll extends Interactor<Scroll, KeysScrolling, Scroller> {
+class Scrolling2Scroll extends InteractorImpl<Scroll, KeysScrolling, Scroller> {
 	/**
 	 * Creates a link ScrollInteraction -> ScrollAction
 	 * @param scroller The instrument.

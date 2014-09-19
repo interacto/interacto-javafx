@@ -1,6 +1,6 @@
 package org.malai.interaction;
 
-import org.malai.stateMachine.ITransition;
+import org.malai.stateMachine.Transition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -23,7 +23,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public abstract class Transition implements ITransition {
+public abstract class TransitionImpl implements Transition {
 	/** The source state. */
 	protected SourceableState inputState;
 
@@ -41,7 +41,7 @@ public abstract class Transition implements ITransition {
 	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
 	 * @since 0.1
 	 */
-	public Transition(final SourceableState inputState, final TargetableState outputState) {
+	public TransitionImpl(final SourceableState inputState, final TargetableState outputState) {
 		if(inputState==null || outputState==null)
 			throw new IllegalArgumentException();
 

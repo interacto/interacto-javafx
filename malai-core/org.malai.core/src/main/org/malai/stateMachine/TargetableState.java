@@ -20,7 +20,7 @@ package org.malai.stateMachine;
  * @version 0.2
  * @since 0.2
  */
-public interface TargetableState extends IState {
+public interface TargetableState extends State {
 	/**
 	 * @throws MustAbortStateMachineException To launch when the state machine must stop.
 	 */

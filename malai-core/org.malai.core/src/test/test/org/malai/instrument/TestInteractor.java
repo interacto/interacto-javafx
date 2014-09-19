@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.malai.error.ErrorCatcher;
 import org.malai.error.ErrorNotifier;
 import org.malai.instrument.Interactor;
+import org.malai.instrument.InteractorImpl;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
 import test.org.malai.action.ActionMock;
@@ -168,7 +169,7 @@ public class TestInteractor {
 			}
 		});
 		MockInstrument ins = new MockInstrument();
-		Interactor<?,?,?> interactor2 = new Interactor<ActionMock2, InteractionMock, MockInstrument>
+		Interactor interactor2 = new InteractorImpl<ActionMock2, InteractionMock, MockInstrument>
 							(ins, false, ActionMock2.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
@@ -185,7 +186,7 @@ public class TestInteractor {
 
 		ok[0] = false;
 		ins = new MockInstrument();
-		interactor2 = new Interactor<ActionMock3, InteractionMock, MockInstrument>(ins, false, ActionMock3.class, InteractionMock.class) {
+		interactor2 = new InteractorImpl<ActionMock3, InteractionMock, MockInstrument>(ins, false, ActionMock3.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -214,7 +215,7 @@ class ActionMock3 extends ActionMock {
 }
 
 
-class MockInteractor extends Interactor<ActionMock, InteractionMock, MockInstrument>{
+class MockInteractor extends InteractorImpl<ActionMock, InteractionMock, MockInstrument>{
 	public boolean conditionRespected;
 	public boolean mustAbort;
 

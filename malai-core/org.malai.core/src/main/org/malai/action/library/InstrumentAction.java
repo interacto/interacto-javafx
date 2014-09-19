@@ -19,7 +19,7 @@ import org.malai.instrument.Instrument;
  * @author Arnaud Blouin
  * @since 0.2
  */
-public abstract class InstrumentAction  extends Action {
+public abstract class InstrumentAction extends Action {
 	/** The manipulated instrument. */
 	protected Instrument instrument;
 

@@ -8,6 +8,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.swing.interaction.library.SimpleClick;
+
 import static org.junit.Assert.*;
 
 public class TestSimpleClick extends TestInteraction<SimpleClick> {

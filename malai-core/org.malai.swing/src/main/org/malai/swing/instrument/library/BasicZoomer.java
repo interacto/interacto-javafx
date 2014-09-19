@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.malai.action.library.Zoom;
 import org.malai.error.ErrorCatcher;
-import org.malai.instrument.Instrument;
-import org.malai.instrument.Interactor;
+import org.malai.instrument.InteractorImpl;
 import org.malai.interaction.library.KeysScrolling;
 import org.malai.properties.Zoomable;
+import org.malai.swing.instrument.SwingInstrument;
 import org.malai.swing.interaction.library.KeyPressureNoModifier;
 
 /**
@@ -30,7 +30,7 @@ import org.malai.swing.interaction.library.KeyPressureNoModifier;
  * @version 0.2
  * @since 0.2
  */
-public class BasicZoomer extends Instrument {
+public class BasicZoomer extends SwingInstrument {
 	/** The object to zoom in/out. */
 	protected Zoomable zoomable;
 
@@ -78,7 +78,7 @@ public class BasicZoomer extends Instrument {
 	/**
 	 * This interactor maps a key pressure interaction to a zoom action.
 	 */
-	protected static class KeysZoom extends Interactor<Zoom, KeyPressureNoModifier, BasicZoomer> {
+	protected static class KeysZoom extends InteractorImpl<Zoom, KeyPressureNoModifier, BasicZoomer> {
 		/**
 		 * Creates the action.
 		 */
@@ -110,7 +110,7 @@ public class BasicZoomer extends Instrument {
 	/**
 	 * This interactor maps a scroll interaction to a zoom action.
 	 */
-	protected static class Scroll2Zoom extends Interactor<Zoom, KeysScrolling, BasicZoomer> {
+	protected static class Scroll2Zoom extends InteractorImpl<Zoom, KeysScrolling, BasicZoomer> {
 		/**
 		 * Creates the action.
 		 */

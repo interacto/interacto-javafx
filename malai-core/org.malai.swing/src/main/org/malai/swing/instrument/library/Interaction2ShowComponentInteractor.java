@@ -3,7 +3,7 @@ package org.malai.swing.instrument.library;
 import java.awt.Component;
 
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Interactor;
+import org.malai.instrument.InteractorImpl;
 import org.malai.interaction.Interaction;
 import org.malai.swing.action.library.ShowWidget;
 
@@ -27,7 +27,7 @@ import org.malai.swing.action.library.ShowWidget;
  * @param <N> The type of the instrument that will contain this interactor.
  * @param <I> The type of the interaction.
  */
-public abstract class Interaction2ShowComponentInteractor<I extends Interaction, N extends Instrument> extends Interactor<ShowWidget, I, N> {
+public abstract class Interaction2ShowComponentInteractor<I extends Interaction, N extends Instrument> extends InteractorImpl<ShowWidget, I, N> {
 	/** The component to show. */
 	protected Component component;
 

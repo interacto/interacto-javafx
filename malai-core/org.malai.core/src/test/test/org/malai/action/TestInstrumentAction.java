@@ -9,8 +9,6 @@ import java.lang.reflect.Field;
 
 import org.junit.Test;
 import org.malai.action.library.InstrumentAction;
-import org.malai.instrument.Instrument;
-
 import test.org.malai.HelperTest;
 
 public abstract class TestInstrumentAction<T extends InstrumentAction> extends TestAbstractAction<InstrumentAction> {
@@ -32,7 +30,7 @@ public abstract class TestInstrumentAction<T extends InstrumentAction> extends T
 	}
 
 	@Test public void testGetSetInstrument() {
-		final Instrument ins = new InstrumentMock();
+		final InstrumentMock ins = new InstrumentMock();
 		action.setInstrument(ins);
 		assertEquals(ins, action.getInstrument());
 	}

@@ -6,6 +6,7 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.interaction.library.Press;
 import org.malai.stateMachine.MustAbortStateMachineException;
+
 import static org.junit.Assert.*;
 
 public class TestPress extends TestInteraction<Press> {
