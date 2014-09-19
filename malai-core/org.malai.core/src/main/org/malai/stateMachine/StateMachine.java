@@ -20,7 +20,7 @@ package org.malai.stateMachine;
  * @since 0.2
  */
 public interface StateMachine {
-	/** Terminates the state machine. 
+	/** Terminates the state machine.
 	 * @throws MustAbortStateMachineException If something happens requiring the interaction to abort.
 	 * */
 	void onTerminating() throws MustAbortStateMachineException;
@@ -28,7 +28,7 @@ public interface StateMachine {
 	/** Aborts the state machine. */
 	void onAborting();
 
-	/** Starts the state machine. 
+	/** Starts the state machine.
 	 * @throws MustAbortStateMachineException If something happens requiring the interaction to abort.
 	 * */
 	void onStarting() throws MustAbortStateMachineException;
@@ -57,6 +57,25 @@ public interface StateMachine {
 	 * @since 0.2
 	 */
 	void setActivated(final boolean activated);
+
+	/**
+	 * @return The current state of the running state machine. Or null when the machine is not running.
+	 * @since 2.0
+	 */
+	State getCurrentState();
+
+	/**
+	 * @return True or false depending on whether the state machine is activated.
+	 * @since 2.0
+	 */
+	boolean isActivated();
+
+	/**
+	 * Checks whether the transition can be executed and executes it when possible.
+	 * @param transition The transition to check.
+	 * @return True: the transition has been executed. False otherwise.
+	 */
+	boolean checkTransition(final Transition transition);
 
 	/**
 	* @return True: the state machine is running.
