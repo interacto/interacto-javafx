@@ -24,9 +24,7 @@ public class TestLoad extends TestIOAction<Load<SwingUI, Object>> {
 
 	@SuppressWarnings("unused")
 	@Override
-	public void testConstructor() throws SecurityException,
-			NoSuchFieldException, IllegalArgumentException,
-			IllegalAccessException {
+	public void testConstructor() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		new Load<SwingUI, Object>();
 	}
 
@@ -35,8 +33,7 @@ public class TestLoad extends TestIOAction<Load<SwingUI, Object>> {
 
 	@SuppressWarnings("serial")
 	@Override
-	public void testDo() throws SecurityException, NoSuchFieldException,
-			IllegalArgumentException, IllegalAccessException {
+	public void testDo() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		if(HelperTest.isX11Set()) {
 			final Field field = HelperTest.getField(IOAction.class, "ok");
 			visit1Ok = false;

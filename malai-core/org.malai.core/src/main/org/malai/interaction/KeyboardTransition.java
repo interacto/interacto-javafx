@@ -21,7 +21,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public abstract class KeyboardTransition extends Transition {
+public abstract class KeyboardTransition extends TransitionImpl {
 	/** The pressed key. */
 	protected int key;
 
@@ -34,11 +34,10 @@ public abstract class KeyboardTransition extends Transition {
 
 
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public KeyboardTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-
 		key = -1;
 	}
 

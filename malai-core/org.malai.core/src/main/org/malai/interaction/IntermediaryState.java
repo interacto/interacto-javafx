@@ -22,9 +22,9 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class IntermediaryState extends State implements SourceableState, TargetableState {
+public class IntermediaryState extends StateImpl implements SourceableState, TargetableState {
 	/**
-	 * @see State#State(String)
+	 * @see StateImpl#State(String)
 	 */
 	public IntermediaryState(final String name) {
 		super(name);

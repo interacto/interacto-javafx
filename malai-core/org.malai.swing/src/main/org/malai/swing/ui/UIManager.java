@@ -100,7 +100,7 @@ public final class UIManager implements WindowFocusListener {
 		Interaction interaction;
 
 		for(final Instrument instrument : ui.getInstruments())
-			for(final Interactor<?,?,?> link : instrument.getInteractors()) {
+			for(final Interactor link : instrument.getInteractors()) {
 				interaction = link.getInteraction();
 				interaction.reinit();
 				interaction.clearEventsStillInProcess();

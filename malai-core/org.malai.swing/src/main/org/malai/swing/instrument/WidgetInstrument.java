@@ -1,6 +1,5 @@
 package org.malai.swing.instrument;
 
-import org.malai.instrument.Instrument;
 import org.malai.swing.ui.SwingUIComposer;
 
 /**
@@ -21,7 +20,7 @@ import org.malai.swing.ui.SwingUIComposer;
  * @date 12/08/11
  * @version 0.2
  */
-public abstract class WidgetInstrument extends Instrument {
+public abstract class WidgetInstrument extends SwingInstrument {
 	/** The composer that manages the widgets of the instrument. */
 	protected SwingUIComposer<?> composer;
 

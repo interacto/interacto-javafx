@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 
-import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.library.KeyPressure;
 
 import junit.framework.TestCase;
@@ -15,7 +15,7 @@ public class TestInteractionEventRecyling extends TestCase {
 	public void testKeyPressureInteraction() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final KeyPressure kp = new KeyPressure();
 		final int key = 10;
-		final Field stillProcField = Interaction.class.getDeclaredField("stillProcessingEvents");
+		final Field stillProcField = InteractionImpl.class.getDeclaredField("stillProcessingEvents");
 		stillProcField.setAccessible(true);
 
 		kp.onKeyPressure(key, 'a', 0, new JButton());

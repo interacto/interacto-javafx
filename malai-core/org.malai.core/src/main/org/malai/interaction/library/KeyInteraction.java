@@ -1,6 +1,6 @@
 package org.malai.interaction.library;
 
-import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -23,7 +23,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public abstract class KeyInteraction extends Interaction {
+public abstract class KeyInteraction extends InteractionImpl {
 	/** The key pressed. */
 	protected int key;
 

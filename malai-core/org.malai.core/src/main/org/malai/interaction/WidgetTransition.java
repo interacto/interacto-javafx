@@ -19,12 +19,12 @@ import org.malai.stateMachine.TargetableState;
  * <br>
  * @author Arnaud BLOUIN
  */
-public abstract class WidgetTransition<T> extends Transition {
+public abstract class WidgetTransition<T> extends TransitionImpl {
 	/** The pressed button. */
 	protected T widget;
 
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public WidgetTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

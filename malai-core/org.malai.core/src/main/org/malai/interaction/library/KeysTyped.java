@@ -3,7 +3,7 @@ package org.malai.interaction.library;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.KeyPressureTransition;
 import org.malai.interaction.KeyReleaseTransition;
@@ -28,7 +28,7 @@ import org.malai.interaction.TimeoutTransition;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class KeysTyped extends Interaction {
+public class KeysTyped extends InteractionImpl {
 	/** The keys pressed while scrolling. */
 	protected List<Integer> keys;
 

@@ -27,7 +27,7 @@ public class MoveTransition extends PointingDeviceTransition {
 
 
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public MoveTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

@@ -33,7 +33,7 @@ public class ScrollTransition extends PointingDeviceTransition {
 
 
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public ScrollTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

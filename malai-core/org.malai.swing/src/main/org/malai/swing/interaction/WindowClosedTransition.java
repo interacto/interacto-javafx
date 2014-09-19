@@ -1,6 +1,5 @@
 package org.malai.swing.interaction;
 
-import org.malai.interaction.Transition;
 import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -26,7 +25,7 @@ import org.malai.swing.widget.MFrame;
  */
 public class WindowClosedTransition extends WidgetTransition<MFrame> {
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * Creates the transition.
 	 */
 	public WindowClosedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

@@ -2,7 +2,6 @@ package org.malai.swing.interaction;
 
 import javax.swing.JMenuItem;
 
-import org.malai.interaction.Transition;
 import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -27,7 +26,6 @@ import org.malai.stateMachine.TargetableState;
  */
 public class MenuItemTransition extends WidgetTransition<JMenuItem> {
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
 	 * @since 0.2
 	 */
 	public MenuItemTransition(final SourceableState inputState, final TargetableState outputState) {

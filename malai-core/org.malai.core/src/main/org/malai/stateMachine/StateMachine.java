@@ -19,7 +19,7 @@ package org.malai.stateMachine;
  * @version 0.2
  * @since 0.2
  */
-public interface IStateMachine {
+public interface StateMachine {
 	/** Terminates the state machine. 
 	 * @throws MustAbortStateMachineException If something happens requiring the interaction to abort.
 	 * */
@@ -43,7 +43,7 @@ public interface IStateMachine {
 	 * @param state The state to add. Must not be null.
 	 * @since 0.2
 	 */
-	void addState(final IState state);
+	void addState(final State state);
 
 	/**
 	 * Reinits the state machine.

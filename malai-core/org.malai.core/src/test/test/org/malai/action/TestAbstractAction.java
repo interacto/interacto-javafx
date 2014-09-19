@@ -3,7 +3,8 @@ package test.org.malai.action;
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.Action;
-import org.malai.instrument.Instrument;
+import org.malai.instrument.Interactor;
+import org.malai.instrument.InstrumentImpl;
 
 public abstract class TestAbstractAction<T extends Action> {
 	protected T action;
@@ -34,7 +35,7 @@ public abstract class TestAbstractAction<T extends Action> {
 	public abstract void testHadEffect() throws Exception;
 
 
-	public class InstrumentMock extends Instrument {
+	public class InstrumentMock extends InstrumentImpl<Interactor> {
 		public InstrumentMock() {
 			super();
 		}

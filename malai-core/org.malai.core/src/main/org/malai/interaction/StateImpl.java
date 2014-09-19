@@ -3,9 +3,9 @@ package org.malai.interaction;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.malai.stateMachine.IState;
-import org.malai.stateMachine.IStateMachine;
-import org.malai.stateMachine.ITransition;
+import org.malai.stateMachine.State;
+import org.malai.stateMachine.StateMachine;
+import org.malai.stateMachine.Transition;
 
 /**
  * A state is a component of a state machine.<br>
@@ -25,12 +25,12 @@ import org.malai.stateMachine.ITransition;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public abstract class State implements IState {
+public abstract class StateImpl implements State {
 	/** The name of the state. */
 	protected String name;
 
 	/** The list of the transitions that leave the state. */
-	protected List<ITransition> transitions;
+	protected List<Transition> transitions;
 
 	/** The state machine that contains the state. */
 	protected Interaction stateMachine;
@@ -42,7 +42,7 @@ public abstract class State implements IState {
 	 * @throws IllegalArgumentException If the given name is null.
 	 * @since 0.1
 	 */
-	public State(final String name) {
+	public StateImpl(final String name) {
 		super();
 
 		if(name==null)
@@ -55,7 +55,7 @@ public abstract class State implements IState {
 
 
 	@Override
-	public void setStateMachine(final IStateMachine sm) {
+	public void setStateMachine(final StateMachine sm) {
 		if(sm instanceof Interaction)
 			stateMachine = (Interaction)sm;
 	}
@@ -68,7 +68,7 @@ public abstract class State implements IState {
 
 
 	@Override
-	public void addTransition(final ITransition trans) {
+	public void addTransition(final Transition trans) {
 		if(trans!=null)
 			transitions.add(trans);
 	}
@@ -81,13 +81,13 @@ public abstract class State implements IState {
 
 
 	@Override
-	public List<ITransition> getTransitions() {
+	public List<Transition> getTransitions() {
 		return transitions;
 	}
 
 
 	@Override
-	public ITransition getTransition(final int i) {
+	public Transition getTransition(final int i) {
 		return i<0 || i>=transitions.size() ? null : transitions.get(i);
 	}
 
@@ -98,7 +98,7 @@ public abstract class State implements IState {
 
 		sb.append(getClass().getCanonicalName()).append('[').append(name).append(',').append(' ');
 
-		for(final ITransition t : transitions)
+		for(final Transition t : transitions)
 			sb.append(t).append(',').append(' ');
 
 		sb.append(']');

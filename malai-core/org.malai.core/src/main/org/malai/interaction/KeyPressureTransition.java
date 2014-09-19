@@ -24,7 +24,7 @@ import org.malai.stateMachine.TargetableState;
  */
 public class KeyPressureTransition extends KeyboardTransition {
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public KeyPressureTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

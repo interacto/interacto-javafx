@@ -1,6 +1,6 @@
 package org.malai.interaction.library;
 
-import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.ScrollTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
@@ -26,7 +26,7 @@ import org.malai.stateMachine.TargetableState;
  * @version 0.2
  * @since 0.2
  */
-public class Scrolling extends Interaction {
+public class Scrolling extends InteractionImpl {
 	/** The object on which the scroll is performed. */
 	protected Pickable scrollTarget;
 
@@ -163,7 +163,7 @@ public class Scrolling extends Interaction {
 			Scrolling.this.increment  	= Scrolling.this.increment + (this.direction>0 ? -this.amount : this.amount);
 			Scrolling.this.px			= this.x;
 			Scrolling.this.py        	= this.y;
-			Scrolling.this.scrollTarget = Interaction.getPickableAt(this.x, this.y, this.source);
+			Scrolling.this.scrollTarget = InteractionImpl.getPickableAt(this.x, this.y, this.source);
 		}
 	}
 }

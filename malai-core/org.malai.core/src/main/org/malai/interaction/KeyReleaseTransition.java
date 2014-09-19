@@ -24,7 +24,7 @@ import org.malai.stateMachine.TargetableState;
  */
 public class KeyReleaseTransition extends KeyboardTransition {
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public KeyReleaseTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.malai.interaction.AbortingState;
-import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.KeyPressureTransition;
 import org.malai.interaction.KeyReleaseTransition;
@@ -43,7 +43,6 @@ public class DnDWithKeys extends PointInteraction {
 
 	/** The list of the keys pressed. */
 	protected List<Integer> keys;
-
 
 
 	/**
@@ -232,7 +231,7 @@ public class DnDWithKeys extends PointInteraction {
 		public void action() {
 			super.action();
 			DnDWithKeys.this.endPt.setLocation(x, y);
-			DnDWithKeys.this.target = Interaction.getPickableAt(this.x, this.y, this.source);
+			DnDWithKeys.this.target = InteractionImpl.getPickableAt(this.x, this.y, this.source);
 		}
 		@Override
 		public boolean isGuardRespected() {

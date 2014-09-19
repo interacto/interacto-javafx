@@ -2,7 +2,7 @@ package org.malai.interaction.library;
 
 import java.awt.Point;
 
-import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.MoveTransition;
 import org.malai.interaction.PressureTransition;
@@ -11,7 +11,6 @@ import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-
 
 /**
  * A DnD interaction is a Drag-And-Drop: press-drag-release.<br>
@@ -31,7 +30,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class DnD extends Interaction {
+public class DnD extends InteractionImpl {
 	/** The starting point of the dnd. */
 	protected Point startPt;
 
@@ -58,7 +57,6 @@ public class DnD extends Interaction {
 	 */
 	public DnD() {
 		super();
-
 		initStateMachine();
 	}
 
@@ -78,12 +76,11 @@ public class DnD extends Interaction {
 			@Override
 			public void action() {
 				super.action();
-
 				setLastHIDUsed(this.hid);
 				DnD.this.startPt 	 = new Point(this.x, this.y);
 				DnD.this.endPt	 	 = new Point(this.x, this.y);
 				DnD.this.button  	 = this.button;
-				DnD.this.startObject = Interaction.getPickableAt(this.x, this.y, this.source);
+				DnD.this.startObject = InteractionImpl.getPickableAt(this.x, this.y, this.source);
 				DnD.this.endObject 	 = DnD.this.startObject;
 			}
 		};
@@ -98,7 +95,6 @@ public class DnD extends Interaction {
 	@Override
 	public void reinit() {
 		super.reinit();
-
 		startPt 	= null;
 		endPt 		= null;
 		button		= -1;
@@ -187,7 +183,7 @@ public class DnD extends Interaction {
 		public void action() {
 			super.action();
 			DnD.this.endPt.setLocation(x, y);
-			DnD.this.endObject = Interaction.getPickableAt(this.x, this.y, this.source);
+			DnD.this.endObject = InteractionImpl.getPickableAt(this.x, this.y, this.source);
 		}
 		@Override
 		public boolean isGuardRespected() {

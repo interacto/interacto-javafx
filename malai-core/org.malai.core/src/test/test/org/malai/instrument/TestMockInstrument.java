@@ -1,10 +1,12 @@
 package test.org.malai.instrument;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.malai.instrument.Instrument;
+import org.malai.instrument.InstrumentImpl;
+import org.malai.instrument.InteractorImpl;
 
 import test.org.malai.action.ActionMock;
 import test.org.malai.instrument.TestMockInstrument.MockInstrument;
@@ -27,7 +29,7 @@ public class TestMockInstrument extends TestInstrument<MockInstrument> {
 	}
 
 
-	public static class MockInstrument extends Instrument {
+	public static class MockInstrument extends InstrumentImpl<InteractorImpl<?,?,MockInstrument>> {
 		@Override
 		protected void initialiseInteractors() {
 			//

@@ -21,7 +21,7 @@ import org.malai.stateMachine.SourceableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class InitState extends State implements SourceableState {
+public class InitState extends StateImpl implements SourceableState {
 	/**
 	 * Creates the initial state.
 	 * @since 0.1

@@ -21,7 +21,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public abstract class PointingDeviceTransition extends Transition {
+public abstract class PointingDeviceTransition extends TransitionImpl {
 	/** The X-coordinate of the pointing device. */
 	protected int x;
 
@@ -36,7 +36,7 @@ public abstract class PointingDeviceTransition extends Transition {
 
 
 	/**
-	 * {@link Transition#Transition(SourceableState, TargetableState)}
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
 	public PointingDeviceTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);

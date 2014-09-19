@@ -21,9 +21,9 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class TerminalState extends State implements TargetableState {
+public class TerminalState extends StateImpl implements TargetableState {
 	/**
-	 * @see State#State(String)
+	 * @see StateImpl#State(String)
 	 */
 	public TerminalState(final String name) {
 		super(name);

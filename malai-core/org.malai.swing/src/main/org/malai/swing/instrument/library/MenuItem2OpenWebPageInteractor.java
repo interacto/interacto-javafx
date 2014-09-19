@@ -3,8 +3,8 @@ package org.malai.swing.instrument.library;
 import java.net.URI;
 
 import org.malai.action.library.OpenWebPage;
-import org.malai.instrument.Instrument;
-import org.malai.instrument.Interactor;
+import org.malai.instrument.InteractorImpl;
+import org.malai.swing.instrument.SwingInstrument;
 import org.malai.swing.interaction.library.MenuItemPressed;
 import org.malai.swing.widget.MMenuItem;
 
@@ -28,7 +28,7 @@ import org.malai.swing.widget.MMenuItem;
  * @version 0.2
  * @since 0.2
  */
-public class MenuItem2OpenWebPageInteractor extends Interactor<OpenWebPage, MenuItemPressed, Instrument> {
+public class MenuItem2OpenWebPageInteractor extends InteractorImpl<OpenWebPage, MenuItemPressed, SwingInstrument> {
 	/** The menu item that will be uses to create the action. */
 	protected MMenuItem menuItem;
 
@@ -45,7 +45,7 @@ public class MenuItem2OpenWebPageInteractor extends Interactor<OpenWebPage, Menu
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 0.2
 	 */
-	public MenuItem2OpenWebPageInteractor(final Instrument ins, final MMenuItem menuItem,
+	public MenuItem2OpenWebPageInteractor(final SwingInstrument ins, final MMenuItem menuItem,
 									final URI uri) throws InstantiationException, IllegalAccessException {
 		super(ins, false, OpenWebPage.class, MenuItemPressed.class);
 

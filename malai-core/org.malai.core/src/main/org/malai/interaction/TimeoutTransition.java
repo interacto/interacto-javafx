@@ -1,6 +1,6 @@
 package org.malai.interaction;
 
-import org.malai.stateMachine.IStateMachine;
+import org.malai.stateMachine.StateMachine;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -23,7 +23,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class TimeoutTransition extends Transition {
+public class TimeoutTransition extends TransitionImpl {
 	/** The timeout in ms. */
 	protected int timeout;
 
@@ -104,11 +104,11 @@ public class TimeoutTransition extends Transition {
 				Thread.sleep(TimeoutTransition.this.timeout);
 
 				// There is a timeout and the interaction must be notified of that.
-				final IStateMachine sm = TimeoutTransition.this.getInputState().getStateMachine();
+				final StateMachine sm = TimeoutTransition.this.getInputState().getStateMachine();
 				// Notifying the interaction of the timeout.
 				if(sm instanceof Interaction)
 					((Interaction)sm).onTimeout(TimeoutTransition.this);
-			}catch(InterruptedException ex){
+			}catch(final InterruptedException ex){
 				// OK, thread stopped.
 			}
 		}

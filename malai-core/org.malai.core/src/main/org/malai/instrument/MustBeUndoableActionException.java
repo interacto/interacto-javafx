@@ -38,7 +38,6 @@ public class MustBeUndoableActionException extends RuntimeException {
 	}
 
 
-
 	@Override
 	public String toString() {
 		return super.toString() + (clazz==null ?  "" : " " + clazz.getSimpleName()); //$NON-NLS-1$ //$NON-NLS-2$

@@ -3,7 +3,7 @@ package org.malai.interaction.library;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.malai.interaction.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.KeyPressureTransition;
 import org.malai.interaction.KeyReleaseTransition;
@@ -30,7 +30,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class KeysPressure extends Interaction {
+public class KeysPressure extends InteractionImpl {
 	/** The list of the keys pressed. */
 	protected List<Integer> keys;
 

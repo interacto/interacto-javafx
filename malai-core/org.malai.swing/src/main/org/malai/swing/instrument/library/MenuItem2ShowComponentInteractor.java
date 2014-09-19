@@ -2,7 +2,7 @@ package org.malai.swing.instrument.library;
 
 import java.awt.Component;
 
-import org.malai.instrument.Instrument;
+import org.malai.swing.instrument.SwingInstrument;
 import org.malai.swing.interaction.library.MenuItemPressed;
 import org.malai.swing.widget.MMenuItem;
 
@@ -25,7 +25,7 @@ import org.malai.swing.widget.MMenuItem;
  * @since 0.2
  * @param <N> The type of the instrument that will contain this link.
  */
-public class MenuItem2ShowComponentInteractor<N extends Instrument> extends Interaction2ShowComponentInteractor<MenuItemPressed, N> {
+public class MenuItem2ShowComponentInteractor<N extends SwingInstrument> extends Interaction2ShowComponentInteractor<MenuItemPressed, N> {
 	/** The menu item used to shows the component. */
 	protected MMenuItem menuItem;
 
