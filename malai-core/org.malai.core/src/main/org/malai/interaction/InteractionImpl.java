@@ -113,6 +113,19 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
+	public boolean isActivated() {
+		return activated;
+	}
+
+
+	@Override
+	public State getCurrentState() {
+		return currentState;
+
+	}
+
+
+	@Override
 	public void reinit() {
 		if(currentTimeout!=null)
 			currentTimeout.stopTimeout();
@@ -282,13 +295,8 @@ public abstract class InteractionImpl implements Interaction {
 	}
 
 
-	/**
-	 * Checks if the transition can be executed and executes it if possible.
-	 * @param transition The transition to check.
-	 * @return True: the transition has been executed.
-	 * @since 0.2
-	 */
-	protected boolean checkTransition(final Transition transition) {
+	@Override
+	public boolean checkTransition(final Transition transition) {
 		final boolean ok;
 
 		if(transition.isGuardRespected()) {
