@@ -1,14 +1,9 @@
 package org.malai.javafx.interaction;
 
-import javafx.scene.control.ButtonBase;
-
-import org.malai.interaction.TransitionImpl;
-import org.malai.interaction.WidgetTransition;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.interaction.InteractionImpl;
 
 /**
- * This transition must be used to use a button pressed event within an interaction.<br>
+ * The core class for defining interactions using the JavaFX library.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -21,13 +16,15 @@ import org.malai.stateMachine.TargetableState;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
+ * 2014-09-18<br>
  * @author Arnaud BLOUIN
+ * @since 2.0
  */
-public class JfxButtonPressedTransition extends WidgetTransition<ButtonBase> {
+public abstract class JfxInteraction extends InteractionImpl implements JfxDefaultEventProcessor {
 	/**
-	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
+	 * Creates a JavaFX interaction.
 	 */
-	public JfxButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public JfxInteraction() {
+		super();
 	}
 }
