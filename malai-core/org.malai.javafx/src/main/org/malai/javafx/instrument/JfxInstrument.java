@@ -3,12 +3,19 @@ package org.malai.javafx.instrument;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.ComboBoxBase;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView.EditEvent;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollToEvent;
 import javafx.scene.control.SortEvent;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
@@ -56,30 +63,45 @@ public abstract class JfxInstrument extends InstrumentImpl<JfxInteractor<?, ? ex
 
 		final Object src = e.getSource();
 
-//		if(src instanceof JMenuItem) {
-//			final JMenuItem mi = (JMenuItem) e.getSource();
-//
-//    		for(final SwingEventHandler handler : swingHandlers)
-//				handler.onMenuItemPressed(mi);
-//		}
-//		else if(src instanceof JCheckBox) {
-//			final JCheckBox cb = (JCheckBox) e.getSource();
-//
-//    		for(final SwingEventHandler handler : swingHandlers)
-//				handler.onCheckBoxModified(cb);
-//		}
-//		else 
-		if(src instanceof ButtonBase) {
-			final ButtonBase widg = (ButtonBase)e.getSource();
+		if(src instanceof Button) {
+			final Button widg = (Button)e.getSource();
 			interactors.forEach(inter -> inter.getInteraction().onJfxButtonPressed(widg));
 		}
-		else if(src instanceof ComboBoxBase<?>) {
-			final ComboBoxBase<?> widg = (ComboBoxBase<?>)e.getSource();
-			interactors.forEach(inter -> inter.getInteraction().onJfxComboBoxSelected(widg));
+		else if(src instanceof CheckBox) {
+			final CheckBox widg = (CheckBox)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxCheckBoxUsed(widg));
+		}
+		else if(src instanceof MenuItem) {
+			final MenuItem widg = (MenuItem)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxMenuItemPressed(widg));
+		}
+		else if(src instanceof ToggleButton) {
+			final ToggleButton widg = (ToggleButton)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxToggleButtonsPressed(widg));
 		}
 		else if(src instanceof TextField) {
 			final TextField widg = (TextField)e.getSource();
 			interactors.forEach(inter -> inter.getInteraction().onTextChanged(widg));
+		}
+		else if(src instanceof ComboBox<?>) {
+			final ComboBox<?> widg = (ComboBox<?>)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxComboBoxSelected(widg));
+		}
+		else if(src instanceof ColorPicker) {
+			final ColorPicker widg = (ColorPicker)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxColorPicked(widg));
+		}
+		else if(src instanceof DatePicker) {
+			final DatePicker widg = (DatePicker)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxDatePicked(widg));
+		}
+		else if(src instanceof Hyperlink) {
+			final Hyperlink widg = (Hyperlink)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxHyperlinkClicked(widg));
+		}
+		else if(src instanceof MenuButton) {
+			final MenuButton widg = (MenuButton)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxMenuButtonPressed(widg));
 		}
     }
 
