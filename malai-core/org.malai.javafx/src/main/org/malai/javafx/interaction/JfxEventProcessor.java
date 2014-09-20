@@ -1,7 +1,7 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.ButtonBase;
-import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBoxBase;
 
 /**
  * Defines all the events an JavaFX interaction must manage.<br>
@@ -28,8 +28,8 @@ public interface JfxEventProcessor {
 	void onJfxButtonPressed(final ButtonBase button);
 	
 	/**
-	 * Defines actions to do when a colour is selected.
-	 * @param picker the colour picker.
+	 * Defines actions to do when a combo box is used.
+	 * @param cc the combo box.
 	 */
-	void onJfxColorPicked(final ColorPicker picker);
+	void onJfxComboBoxSelected(final ComboBoxBase<?> cc);
 }

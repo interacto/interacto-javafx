@@ -1,6 +1,6 @@
 package org.malai.javafx.interaction;
 
-import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBoxBase;
 
 import org.malai.interaction.TransitionImpl;
 import org.malai.interaction.WidgetTransition;
@@ -8,7 +8,7 @@ import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * This transition corresponds to the picking of a colour using the widget ColorPicker.<br>
+ * This transition corresponds to the use of a combo box.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -23,11 +23,11 @@ import org.malai.stateMachine.TargetableState;
  * <br>
  * @author Arnaud BLOUIN
  */
-public class JfxColorPickedTransition extends WidgetTransition<ColorPicker> {
+public class JfxComboBoxUsedTransition extends WidgetTransition<ComboBoxBase<?>> {
 	/**
 	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
-	public JfxColorPickedTransition(final SourceableState inputState, final TargetableState outputState) {
+	public JfxComboBoxUsedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 }

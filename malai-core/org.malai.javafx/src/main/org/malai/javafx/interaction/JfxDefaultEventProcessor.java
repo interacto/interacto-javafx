@@ -1,7 +1,7 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.ButtonBase;
-import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBoxBase;
 
 import org.malai.interaction.Interaction;
 import org.malai.stateMachine.State;
@@ -44,7 +44,7 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 	}
 	
 	@Override
-	default void onJfxColorPicked(final ColorPicker picker) {
+	default void onJfxComboBoxSelected(final ComboBoxBase<?> cc) {
 		if(!isActivated()) return ;
 
 		boolean again = true;
@@ -54,8 +54,8 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
 			t = state.getTransition(i);
 
-			if(t instanceof JfxColorPickedTransition) {
-				((JfxColorPickedTransition)t).setWidget(picker);
+			if(t instanceof JfxComboBoxUsedTransition) {
+				((JfxComboBoxUsedTransition)t).setWidget(cc);
 				again = !checkTransition(t);
 			}
 		}	
