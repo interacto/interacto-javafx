@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBase;
-import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.ListView.EditEvent;
 import javafx.scene.control.ScrollToEvent;
 import javafx.scene.control.SortEvent;
@@ -72,9 +72,9 @@ public abstract class JfxInstrument extends InstrumentImpl<JfxInteractor<?, ? ex
 			final ButtonBase widg = (ButtonBase)e.getSource();
 			interactors.forEach(inter -> inter.getInteraction().onJfxButtonPressed(widg));
 		}
-		else if(src instanceof ColorPicker) {
-			final ColorPicker widg = (ColorPicker)e.getSource();
-			interactors.forEach(inter -> inter.getInteraction().onJfxColorPicked(widg));
+		else if(src instanceof ComboBoxBase<?>) {
+			final ComboBoxBase<?> widg = (ComboBoxBase<?>)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onJfxComboBoxSelected(widg));
 		}
 //		else if(src instanceof JTextComponent) {
 //			final JTextComponent tc = (JTextComponent)e.getSource();

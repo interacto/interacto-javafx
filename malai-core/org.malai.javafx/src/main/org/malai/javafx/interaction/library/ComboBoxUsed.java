@@ -1,13 +1,12 @@
 package org.malai.javafx.interaction.library;
 
-import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBoxBase;
 
 import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxColorPickedTransition;
-import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
 
 /**
- * A ButtonPressed interaction occurs when a button is pressed.<br>
+ * A ButtonPressed interaction occurs when a combo box is used.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -24,23 +23,13 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ColorPicked extends JfxInteraction {
-	/** The pressed button. */
-	protected ColorPicker picker;
-
+public class ComboBoxUsed extends JfxWidgetInteraction<ComboBoxBase<?>> {
 	/**
 	 * Creates the interaction.
 	 */
-	public ColorPicked() {
+	public ComboBoxUsed() {
 		super();
 		initStateMachine();
-	}
-
-
-	@Override
-	public void reinit() {
-		super.reinit();
-		picker = null;
 	}
 
 
@@ -51,20 +40,12 @@ public class ColorPicked extends JfxInteraction {
 
 		addState(pressed);
 
-		new JfxColorPickedTransition(initState, pressed) {
+		new JfxComboBoxUsedTransition(initState, pressed) {
 			@Override
 			public void action() {
 				super.action();
-				ColorPicked.this.picker = this.widget;
+				ComboBoxUsed.this.widget = this.widget;
 			}
 		};
-	}
-
-
-	/**
-	 * @return The colour picker used by the interaction.
-	 */
-	public ColorPicker getButton() {
-		return picker;
 	}
 }

@@ -1,12 +1,11 @@
 package org.malai.javafx.interaction.library;
 
-import javafx.scene.control.ButtonBase;
+import javafx.scene.Node;
 
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxButtonPressedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * This interaction occurs when a button is pressed.<br>
+ * A JavaFX interaction that uses a single widget.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -19,33 +18,33 @@ import org.malai.javafx.interaction.JfxButtonPressedTransition;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 2014-09-18<br>
+ * 2014-09-20<br>
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ButtonPressed extends JfxWidgetInteraction<ButtonBase> {
+public abstract class JfxWidgetInteraction<T extends Node> extends JfxInteraction {
+	/** The widget used during the interaction. */
+	protected T widget;
+	
 	/**
 	 * Creates the interaction.
 	 */
-	public ButtonPressed() {
+	public JfxWidgetInteraction() {
 		super();
-		initStateMachine();
 	}
-
-
-	@SuppressWarnings("unused")
+	
+	
 	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+	public void reinit() {
+		super.reinit();
+		widget = null;
+	}
+	
 
-		addState(pressed);
-
-		new JfxButtonPressedTransition(initState, pressed) {
-			@Override
-			public void action() {
-				super.action();
-				ButtonPressed.this.widget = this.widget;
-			}
-		};
+	/**
+	 * @return The widget used during the interaction.
+	 */
+	public T getWidget() {
+		return widget;
 	}
 }
