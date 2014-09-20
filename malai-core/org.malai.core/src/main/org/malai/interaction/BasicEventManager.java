@@ -23,7 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public abstract class BasicEventManager<T> implements EventManager<T> {
 	/** The handlers that are notified when events occur. */
-	protected List<EventHandler> handlers;
+	protected List<EventProcessor> handlers;
 
 	/**
 	 * Creates a event manager that gathers events and transfers them to handlers.
@@ -36,14 +36,14 @@ public abstract class BasicEventManager<T> implements EventManager<T> {
 
 
 	@Override
-	public void addHandlers(final EventHandler h) {
+	public void addHandlers(final EventProcessor h) {
 		if(h!=null)
 			handlers.add(h);
 	}
 
 
 	@Override
-	public void removeHandler(final EventHandler h) {
+	public void removeHandler(final EventProcessor h) {
 		if(h!=null)
 			handlers.remove(h);
 	}

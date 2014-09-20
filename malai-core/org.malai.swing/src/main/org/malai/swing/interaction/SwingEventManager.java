@@ -36,7 +36,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.tree.TreePath;
 
 import org.malai.interaction.BasicEventManager;
-import org.malai.interaction.EventHandler;
+import org.malai.interaction.EventProcessor;
 import org.malai.swing.widget.MFrame;
 
 /**
@@ -74,7 +74,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	public static final String OWNING_PROPERTY = "malai_owner";
 
 	/** A subset of the set 'handlers' corresponding to the swing Handlers. */
-	private List<SwingEventHandler> swingHandlers;
+	private List<SwingEventProcessor> swingHandlers;
 
 
 	/**
@@ -161,17 +161,17 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 
 	@Override
-	public void addHandlers(final EventHandler h) {
+	public void addHandlers(final EventProcessor h) {
 		super.addHandlers(h);
-		if(h instanceof SwingEventHandler) {
+		if(h instanceof SwingEventProcessor) {
 			if(swingHandlers==null) swingHandlers = new CopyOnWriteArrayList<>();
-			swingHandlers.add((SwingEventHandler)h);
+			swingHandlers.add((SwingEventProcessor)h);
 		}
 	}
 
 
 	@Override
-	public void removeHandler(final EventHandler h) {
+	public void removeHandler(final EventProcessor h) {
 		super.removeHandler(h);
 		if(h!=null && swingHandlers!=null) 
 			swingHandlers.remove(h);
@@ -209,7 +209,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventHandler handler : handlers)
+		for(final EventProcessor handler : handlers)
 			handler.onPressure(button, x, y, ID_MOUSE, src);
 	}
 
@@ -224,7 +224,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventHandler handler : handlers)
+		for(final EventProcessor handler : handlers)
 			handler.onRelease(button, x, y, ID_MOUSE, src);
 	}
 
@@ -234,7 +234,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	public void keyPressed(final KeyEvent e) {
 		if(e==null) return;
 
-		for(final EventHandler handler : handlers)
+		for(final EventProcessor handler : handlers)
 			handler.onKeyPressure(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
 	}
 
@@ -244,7 +244,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	public void keyReleased(final KeyEvent e) {
 		if(e==null) return;
 
-		for(final EventHandler handler : handlers)
+		for(final EventProcessor handler : handlers)
 			handler.onKeyRelease(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
 	}
 
@@ -266,7 +266,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventHandler handler : handlers)
+		for(final EventProcessor handler : handlers)
 			handler.onMove(button, x, y, true, ID_MOUSE, src);
 	}
 
@@ -281,7 +281,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventHandler handler : handlers)
+		for(final EventProcessor handler : handlers)
 			handler.onMove(button, x, y, false, ID_MOUSE, src);
 	}
 
@@ -298,7 +298,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int type 		= e.getScrollType();
 		final int amount 	= e.getScrollAmount();
 
-		for(final EventHandler handler : handlers)
+		for(final EventProcessor handler : handlers)
 			handler.onScroll(posX, posY, direction, amount, type, ID_MOUSE, src);
 	}
 
@@ -311,7 +311,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final TreePath[] changedPaths = event.getPaths();
 		final boolean isSelectionAdded = event.isAddedPath();
 
-		for(final SwingEventHandler handler : swingHandlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onTreeSelectionChanged(src, changedPaths, isSelectionAdded);
 	}
 
@@ -323,7 +323,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final Object src = event.getSource();
 		final TreePath pathExpanded = event.getPath();
 		
-		for(final SwingEventHandler handler : swingHandlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onTreeExpanded(src, pathExpanded, true);
 	}
 
@@ -335,7 +335,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final Object src = event.getSource();
 		final TreePath pathExpanded = event.getPath();
 		
-		for(final SwingEventHandler handler : swingHandlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onTreeExpanded(src, pathExpanded, false);
 	}
 
@@ -349,25 +349,25 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		if(src instanceof JMenuItem) {
 			final JMenuItem mi = (JMenuItem) e.getSource();
 
-    		for(final SwingEventHandler handler : swingHandlers)
+    		for(final SwingEventProcessor handler : swingHandlers)
 				handler.onMenuItemPressed(mi);
 		}
 		else if(src instanceof JCheckBox) {
 			final JCheckBox cb = (JCheckBox) e.getSource();
 
-    		for(final SwingEventHandler handler : swingHandlers)
+    		for(final SwingEventProcessor handler : swingHandlers)
 				handler.onCheckBoxModified(cb);
 		}
 		else if(src instanceof AbstractButton) {
 			final AbstractButton ab = (AbstractButton)e.getSource();
 
-    		for(final SwingEventHandler handler : swingHandlers)
+    		for(final SwingEventProcessor handler : swingHandlers)
 				handler.onButtonPressed(ab);
 		}
 		else if(src instanceof JTextComponent) {
 			final JTextComponent tc = (JTextComponent)e.getSource();
 
-    		for(final SwingEventHandler handler : swingHandlers)
+    		for(final SwingEventProcessor handler : swingHandlers)
 				handler.onTextChanged(tc);
 		}
 	}
@@ -380,7 +380,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		if(e.getItemSelectable() instanceof JComboBox) {
 			final JComboBox<?> cb = (JComboBox<?>) e.getItemSelectable();
 
-    		for(final SwingEventHandler handler : swingHandlers)
+    		for(final SwingEventProcessor handler : swingHandlers)
 				handler.onItemSelected(cb);
 		}
 	}
@@ -394,13 +394,13 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		if(src instanceof JSpinner) {
 			final JSpinner spinner = (JSpinner)src;
 
-    		for(final SwingEventHandler handler : swingHandlers)
+    		for(final SwingEventProcessor handler : swingHandlers)
 				handler.onSpinnerChanged(spinner);
 		}
 		else if(src instanceof JTabbedPane) {
 			final JTabbedPane tabbedPanel = (JTabbedPane)src;
 
-    		for(final SwingEventHandler handler : swingHandlers)
+    		for(final SwingEventProcessor handler : swingHandlers)
 				handler.onTabChanged(tabbedPanel);
 		}
 	}
@@ -414,7 +414,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	public void windowClosed(final MFrame frame) {
 		if(frame==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
-		for(final SwingEventHandler handler : swingHandlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onWindowClosed(frame);
 	}
 
@@ -432,7 +432,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		if(owner instanceof JTextComponent) {
 			final JTextComponent comp = (JTextComponent)owner;
 
-			for(final SwingEventHandler handler : swingHandlers)
+			for(final SwingEventProcessor handler : swingHandlers)
 				handler.onTextChanged(comp);
 		}
 	}

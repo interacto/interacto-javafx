@@ -40,12 +40,12 @@ public interface EventManager<T> {
 	 * @param h The handler to add. Must not be null.
 	 * @since 0.1
 	 */
-	void addHandlers(final EventHandler h);
+	void addHandlers(final EventProcessor h);
 
 	/**
 	 * Removes a handler from the event manager.
 	 * @param h The handler to remove. Must not be null.
 	 * @since 0.1
 	 */
-	void removeHandler(final EventHandler h);
+	void removeHandler(final EventProcessor h);
 }

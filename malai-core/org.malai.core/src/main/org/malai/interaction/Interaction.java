@@ -23,7 +23,7 @@ import org.malai.stateMachine.MustAbortStateMachineException;
  * @date 2014-09-19
  * @version 2.0
  */
-public interface Interaction extends StateMachine, EventHandler {
+public interface Interaction extends StateMachine, EventProcessor {
 	@Override
 	void setActivated(boolean activated);
 

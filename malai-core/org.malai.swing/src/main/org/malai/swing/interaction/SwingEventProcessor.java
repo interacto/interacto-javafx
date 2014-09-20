@@ -30,7 +30,7 @@ import org.malai.swing.widget.MFrame;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public interface SwingEventHandler {
+public interface SwingEventProcessor {
 	/**
 	 * Defines actions to do when a button is activated.
 	 * @param button The pressed button.
