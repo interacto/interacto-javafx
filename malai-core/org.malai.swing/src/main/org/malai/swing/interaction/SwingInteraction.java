@@ -33,7 +33,7 @@ import org.malai.swing.widget.MFrame;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public abstract class SwingInteraction extends InteractionImpl implements SwingEventHandler {
+public abstract class SwingInteraction extends InteractionImpl implements SwingEventProcessor {
 	/**
 	 * Creates a Swing interaction.
 	 */

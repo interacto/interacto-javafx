@@ -18,14 +18,13 @@ package org.malai.interaction;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public interface EventHandler {
+public interface EventProcessor {
 	/**
 	 * Defines action to do when a timeout is elapsed.
 	 * @param timeoutTransition The transition which produced the timeout event.
 	 * @since 0.2
 	 */
 	void onTimeout(final TimeoutTransition timeoutTransition);
-
 
 	/**
 	 * Defines action to do when the button of a mouse or something equivalent is pressed.

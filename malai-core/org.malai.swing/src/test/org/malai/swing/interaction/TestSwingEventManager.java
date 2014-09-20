@@ -30,11 +30,11 @@ import javax.swing.tree.TreePath;
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.interaction.BasicEventManager;
-import org.malai.interaction.EventHandler;
+import org.malai.interaction.EventProcessor;
 import org.malai.interaction.TimeoutTransition;
 import org.malai.swing.widget.MFrame;
 
-class EventHandlerMock implements EventHandler, SwingEventHandler {
+class EventHandlerMock implements EventProcessor, SwingEventProcessor {
 	@Override
 	public void onTimeout(final TimeoutTransition timeoutTransition) {/* */}
 	@Override
@@ -109,7 +109,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testKeyReleasedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onKeyRelease(final int key, final char keyChar, final int idHID, final Object object) {
 				fail();
@@ -123,7 +123,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testKeyReleased() {
 		final KeyEvent ke = new KeyEvent(new JButton(), 123, 9871, 124, 634, 'r');
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onKeyRelease(final int key, final char keyChar, final int idHID, final Object object) {
 				assertEquals(ke.getKeyCode(), key);
@@ -136,7 +136,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testKeyPressedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onKeyPressure(final int key, final char keyChar, final int idHID, final Object object) {
 				fail();
@@ -150,7 +150,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testKeyPressed() {
 		final KeyEvent ke = new KeyEvent(new JButton(), 123, 9871, 124, 634, 'r');
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onKeyPressure(final int key, final char keyChar, final int idHID, final Object object) {
 				assertEquals(ke.getKeyCode(), key);
@@ -164,7 +164,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testStateChangedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onSpinnerChanged(final JSpinner spinner) {fail();}
 		};
@@ -177,7 +177,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testStateChangedSpinner() {
 		final ChangeEvent ae = new ChangeEvent(new JSpinner());
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onSpinnerChanged(final JSpinner spinner) {
 				assertEquals(ae.getSource(), spinner);
@@ -191,7 +191,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testItemChangedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onItemSelected(final ItemSelectable itemSelectable) {fail();}
 		};
@@ -204,7 +204,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testItemChangedComboBox() {
 		final ItemEvent ae = new ItemEvent(new JComboBox<String>(), 1298, "coucou", 1);
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onItemSelected(final ItemSelectable itemSelectable) {
 				assertEquals(ae.getSource(), itemSelectable);
@@ -217,7 +217,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testActionPerformedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onMenuItemPressed(final JMenuItem menuItem) { fail();}
 			@Override
@@ -235,7 +235,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testActionPerformedButton() {
 		final ActionEvent ae = new ActionEvent(new JButton(), 122, "cmd");
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onButtonPressed(final AbstractButton button) {
 				assertEquals(ae.getSource(), button);
@@ -255,7 +255,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testActionPerformedMenuItem() {
 		final ActionEvent ae = new ActionEvent(new JMenuItem(), 122, "cmd");
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onButtonPressed(final AbstractButton button) {fail(); }
 			@Override
@@ -273,7 +273,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testActionPerformedCheckBox() {
 		final ActionEvent ae = new ActionEvent(new JCheckBox(), 122, "cmd");
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onButtonPressed(final AbstractButton button) {fail(); }
 			@Override
@@ -291,7 +291,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testActionPerformedTextField() {
 		final ActionEvent ae = new ActionEvent(new JTextField(), 122, "cmd");
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onButtonPressed(final AbstractButton button) {fail(); }
 			@Override
@@ -309,7 +309,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testMouseWheelMovedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onScroll(final int posX, final int posY, final int direction, final int amount, final int type, final int idHID, final Object src) {
 				fail();
@@ -323,7 +323,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testMouseWheelMoved() {
 		final MouseWheelEvent mwe = new MouseWheelEvent(new JButton(), 1232, 973, 1234, 8643, 8973, 98732, true, 1, 12454, -1);
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onScroll(final int posX, final int posY, final int direction, final int amount, final int type, final int idHID, final Object src) {
 				assertEquals(mwe.getSource(), src);
@@ -341,7 +341,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testMouseMovedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				fail();
@@ -355,7 +355,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testMouseMoved() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
@@ -373,7 +373,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testMouseDraggedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				fail();
@@ -387,7 +387,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testMouseDragged() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
@@ -404,7 +404,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testMouseReleasedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onRelease(final int button, final int x, final int y, final int idHID, final Object source) {
 				fail();
@@ -418,7 +418,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testMouseReleased() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onRelease(final int button, final int x, final int y, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
@@ -434,7 +434,7 @@ public class TestSwingEventManager {
 
 	@Test
 	public void testMousePressedNull() {
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onPressure(final int button, final int x, final int y, final int idHID, final Object source) {
 				fail();
@@ -448,7 +448,7 @@ public class TestSwingEventManager {
 	@Test
 	public void testMousePressed() {
 		final MouseEvent me = new MouseEvent(new JButton(), 101, 123, 98, 12978, 53, 9873, 9733, 12, true, 2);
-		final EventHandler eh2 = new EventHandlerMock() {
+		final EventProcessor eh2 = new EventHandlerMock() {
 			@Override
 			public void onPressure(final int button, final int x, final int y, final int idHID, final Object source) {
 				assertEquals(me.getButton(), button);
@@ -476,7 +476,7 @@ public class TestSwingEventManager {
 	public void testRemoveHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final Field field = BasicEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
-		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
+		final List<EventProcessor> ehs = (List<EventProcessor>) field.get(manager);
 		final int size = ehs.size();
 		manager.addHandlers(eh);
 		manager.removeHandler(eh);
@@ -497,7 +497,7 @@ public class TestSwingEventManager {
 	public void testAddHandlerNull() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final Field field = BasicEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
-		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
+		final List<EventProcessor> ehs = (List<EventProcessor>) field.get(manager);
 		final int size = ehs.size();
 		manager.addHandlers(null);
 		assertEquals(size, ehs.size());
@@ -509,7 +509,7 @@ public class TestSwingEventManager {
 	public void testAddHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final Field field = BasicEventManager.class.getDeclaredField("handlers");
 		field.setAccessible(true);
-		final List<EventHandler> ehs = (List<EventHandler>) field.get(manager);
+		final List<EventProcessor> ehs = (List<EventProcessor>) field.get(manager);
 		final int size = ehs.size();
 		manager.addHandlers(eh);
 		assertEquals(size+1, ehs.size());
