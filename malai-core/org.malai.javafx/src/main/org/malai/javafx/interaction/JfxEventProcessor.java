@@ -2,6 +2,7 @@ package org.malai.javafx.interaction;
 
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ComboBoxBase;
+import javafx.scene.control.TextField;
 
 /**
  * Defines all the events an JavaFX interaction must manage.<br>
@@ -32,4 +33,10 @@ public interface JfxEventProcessor {
 	 * @param cc the combo box.
 	 */
 	void onJfxComboBoxSelected(final ComboBoxBase<?> cc);
+	
+	/**
+	 * Defines actions to do when a text are set within a text field.
+	 * @param tf The involved text field.
+	 */
+	void onTextChanged(final TextField tf);
 }

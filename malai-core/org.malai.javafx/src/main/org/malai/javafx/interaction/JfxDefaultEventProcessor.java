@@ -2,6 +2,7 @@ package org.malai.javafx.interaction;
 
 import javafx.scene.control.ButtonBase;
 import javafx.scene.control.ComboBoxBase;
+import javafx.scene.control.TextField;
 
 import org.malai.interaction.Interaction;
 import org.malai.stateMachine.State;
@@ -56,6 +57,24 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 
 			if(t instanceof JfxComboBoxUsedTransition) {
 				((JfxComboBoxUsedTransition)t).setWidget(cc);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+	
+	@Override
+	default void onTextChanged(final TextField cc) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxTextChangedTransition) {
+				((JfxTextChangedTransition)t).setWidget(cc);
 				again = !checkTransition(t);
 			}
 		}	

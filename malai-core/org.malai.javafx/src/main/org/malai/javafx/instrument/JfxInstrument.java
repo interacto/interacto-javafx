@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBoxBase;
 import javafx.scene.control.ListView.EditEvent;
 import javafx.scene.control.ScrollToEvent;
 import javafx.scene.control.SortEvent;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DragEvent;
@@ -76,12 +77,10 @@ public abstract class JfxInstrument extends InstrumentImpl<JfxInteractor<?, ? ex
 			final ComboBoxBase<?> widg = (ComboBoxBase<?>)e.getSource();
 			interactors.forEach(inter -> inter.getInteraction().onJfxComboBoxSelected(widg));
 		}
-//		else if(src instanceof JTextComponent) {
-//			final JTextComponent tc = (JTextComponent)e.getSource();
-//
-//    		for(final SwingEventHandler handler : swingHandlers)
-//				handler.onTextChanged(tc);
-//		}
+		else if(src instanceof TextField) {
+			final TextField widg = (TextField)e.getSource();
+			interactors.forEach(inter -> inter.getInteraction().onTextChanged(widg));
+		}
     }
 
 
