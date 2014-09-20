@@ -1,8 +1,15 @@
 package org.malai.javafx.interaction;
 
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.ComboBoxBase;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 
 import org.malai.interaction.Interaction;
 import org.malai.stateMachine.State;
@@ -27,7 +34,7 @@ import org.malai.stateMachine.Transition;
  */
 public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction {
 	@Override
-	default void onJfxButtonPressed(final ButtonBase button) {
+	default void onJfxButtonPressed(final Button button) {
 		if(!isActivated()) return ;
 
 		boolean again = true;
@@ -45,7 +52,97 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 	}
 	
 	@Override
-	default void onJfxComboBoxSelected(final ComboBoxBase<?> cc) {
+	default void onJfxCheckBoxUsed(final CheckBox button) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxCheckBoxUsedTransition) {
+				((JfxCheckBoxUsedTransition)t).setWidget(button);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+	
+	@Override
+	default void onJfxHyperlinkClicked(final Hyperlink button) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxHyperlinkClickedTransition) {
+				((JfxHyperlinkClickedTransition)t).setWidget(button);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+	
+	@Override
+	default void onJfxMenuButtonPressed(final MenuButton button) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxMenuButtonPressedTransition) {
+				((JfxMenuButtonPressedTransition)t).setWidget(button);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+	
+	@Override
+	default void onJfxMenuItemPressed(final MenuItem item) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxMenuItemPressedTransition) {
+				((JfxMenuItemPressedTransition)t).setWidget(item);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+	
+	@Override
+	default void onJfxToggleButtonsPressed(final ToggleButton button) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxToggleButtonPressedTransition) {
+				((JfxToggleButtonPressedTransition)t).setWidget(button);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+	
+	@Override
+	default void onJfxComboBoxSelected(final ComboBox<?> cc) {
 		if(!isActivated()) return ;
 
 		boolean again = true;
@@ -61,6 +158,45 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 			}
 		}	
 	}
+	
+	
+	@Override
+	default void onJfxDatePicked(final DatePicker cc) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxDatePickedTransition) {
+				((JfxDatePickedTransition)t).setWidget(cc);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+
+	
+	@Override
+	default void onJfxColorPicked(final ColorPicker cc) {
+		if(!isActivated()) return ;
+
+		boolean again = true;
+		Transition t;
+		final State state = getCurrentState();
+
+		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
+			t = state.getTransition(i);
+
+			if(t instanceof JfxColorPickedTransition) {
+				((JfxColorPickedTransition)t).setWidget(cc);
+				again = !checkTransition(t);
+			}
+		}	
+	}
+
 	
 	@Override
 	default void onTextChanged(final TextField cc) {

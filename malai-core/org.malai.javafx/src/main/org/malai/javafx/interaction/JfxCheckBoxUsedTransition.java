@@ -1,6 +1,6 @@
 package org.malai.javafx.interaction;
 
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
 
 import org.malai.interaction.TransitionImpl;
 import org.malai.interaction.WidgetTransition;
@@ -8,7 +8,7 @@ import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * A transition based on the onAction event of combo boxes.<br>
+ * A transition based on the onAction event of check boxes.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -23,11 +23,11 @@ import org.malai.stateMachine.TargetableState;
  * <br>
  * @author Arnaud BLOUIN
  */
-public class JfxComboBoxUsedTransition extends WidgetTransition<ComboBox<?>> {
+public class JfxCheckBoxUsedTransition extends WidgetTransition<CheckBox> {
 	/**
 	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
-	public JfxComboBoxUsedTransition(final SourceableState inputState, final TargetableState outputState) {
+	public JfxCheckBoxUsedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 }
