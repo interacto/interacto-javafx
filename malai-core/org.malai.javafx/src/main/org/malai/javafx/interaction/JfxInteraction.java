@@ -1,5 +1,9 @@
 package org.malai.javafx.interaction;
 
+import java.util.List;
+
+import javafx.scene.Node;
+
 import org.malai.interaction.InteractionImpl;
 
 /**
@@ -26,5 +30,15 @@ public abstract class JfxInteraction extends InteractionImpl implements JfxDefau
 	 */
 	public JfxInteraction() {
 		super();
+	}
+	
+	/**
+	 * Registers the given listeners to the interaction.
+	 * The given widgets must be the ones used that the interaction.
+	 * This operation has to be overridden by each interaction to register the widgets.
+	 * @param widgets The widgets that will produce events used by the interaction.
+	 */
+	public void registerToWidgets(List<Node> widgets) {
+		// Should be overridden.
 	}
 }
