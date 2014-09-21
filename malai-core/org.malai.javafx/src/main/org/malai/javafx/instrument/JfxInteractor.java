@@ -1,8 +1,12 @@
 package org.malai.javafx.instrument;
 
+import java.util.List;
+
+import javafx.scene.Node;
+
 import org.malai.action.Action;
 import org.malai.instrument.InteractorImpl;
-import org.malai.interaction.Interaction;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
  * Base of an interactor for JavaFX applications.<br>
@@ -21,7 +25,7 @@ import org.malai.interaction.Interaction;
  * @date 2014-09-19
  * @version 2.0
  */
-public abstract class JfxInteractor<A extends Action, I extends Interaction, N extends JfxInstrument> extends InteractorImpl<A, I, N> {
+public abstract class JfxInteractor<A extends Action, I extends JfxInteraction, N extends JfxInstrument> extends InteractorImpl<A, I, N> {
 	/**
 	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -36,7 +40,8 @@ public abstract class JfxInteractor<A extends Action, I extends Interaction, N e
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @since 2.0
 	 */
-	public JfxInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction) throws InstantiationException, IllegalAccessException {
+	public JfxInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
+		interaction.registerToWidgets(widgets);
 	}
 }

@@ -1,6 +1,7 @@
 package org.malai.ex.draw.instrument;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.control.ComboBox;
 import org.malai.ex.draw.action.ChangeCol;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
-import org.malai.javafx.interaction.library.ComboBoxUsed;
+import org.malai.javafx.interaction.library.ColorPicked;
 
 public class LineCustomiser extends JfxInstrument implements Initializable {
 
@@ -41,9 +42,9 @@ public class LineCustomiser extends JfxInstrument implements Initializable {
 }
 
 
-class ColButton2ChangeCol extends JfxInteractor<ChangeCol, ComboBoxUsed, LineCustomiser> {
+class ColButton2ChangeCol extends JfxInteractor<ChangeCol, ColorPicked, LineCustomiser> {
 	ColButton2ChangeCol(LineCustomiser ins) throws InstantiationException, IllegalAccessException {
-		super(ins, false, ChangeCol.class, ComboBoxUsed.class);
+		super(ins, false, ChangeCol.class, ColorPicked.class, Collections.singletonList(ins.lineCol));
 	}
 
 	@Override

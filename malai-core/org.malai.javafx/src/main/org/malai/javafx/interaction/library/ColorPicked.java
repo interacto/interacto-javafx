@@ -1,5 +1,8 @@
 package org.malai.javafx.interaction.library;
 
+import java.util.List;
+
+import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 
 import org.malai.interaction.TerminalState;
@@ -47,5 +50,10 @@ public class ColorPicked extends JfxWidgetInteraction<ColorPicker> {
 				ColorPicked.this.widget = this.widget;
 			}
 		};
+	}
+	
+	@Override
+	public void registerToWidgets(List<Node> widgets) {
+		widgets.stream().filter(w -> w instanceof ColorPicker).map(w -> (ColorPicker)w).forEach(picker -> picker.setOnAction(evt -> onJfxColorPicked((ColorPicker)evt.getSource())));
 	}
 }
