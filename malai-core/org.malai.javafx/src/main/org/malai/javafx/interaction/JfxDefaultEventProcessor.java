@@ -12,8 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 
 import org.malai.interaction.Interaction;
-import org.malai.stateMachine.State;
-import org.malai.stateMachine.Transition;
 
 /**
  * A trait implementing services of the interface JfxEventProcessor.<br>
@@ -36,183 +34,90 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 	@Override
 	default void onJfxButtonPressed(final Button button) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxButtonPressedTransition) {
-				((JfxButtonPressedTransition)t).setWidget(button);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxButtonPressedTransition).filter(tr -> {
+			((JfxButtonPressedTransition)tr).setWidget(button);
+			return checkTransition(tr);
+		}).findFirst();
 	}
 	
 	@Override
 	default void onJfxCheckBoxUsed(final CheckBox button) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxCheckBoxUsedTransition) {
-				((JfxCheckBoxUsedTransition)t).setWidget(button);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxCheckBoxUsedTransition).filter(tr -> {
+			((JfxCheckBoxUsedTransition)tr).setWidget(button);
+			return checkTransition(tr);
+		}).findFirst();
 	}
 	
 	@Override
 	default void onJfxHyperlinkClicked(final Hyperlink button) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxHyperlinkClickedTransition) {
-				((JfxHyperlinkClickedTransition)t).setWidget(button);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxHyperlinkClickedTransition).filter(tr -> {
+			((JfxHyperlinkClickedTransition)tr).setWidget(button);
+			return checkTransition(tr);
+		}).findFirst();
 	}
 	
 	@Override
 	default void onJfxMenuButtonPressed(final MenuButton button) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxMenuButtonPressedTransition) {
-				((JfxMenuButtonPressedTransition)t).setWidget(button);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxMenuButtonPressedTransition).filter(tr -> {
+			((JfxMenuButtonPressedTransition)tr).setWidget(button);
+			return checkTransition(tr);
+		}).findFirst();
 	}
 	
 	@Override
 	default void onJfxMenuItemPressed(final MenuItem item) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxMenuItemPressedTransition) {
-				((JfxMenuItemPressedTransition)t).setWidget(item);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxMenuItemPressedTransition).filter(tr -> {
+			((JfxMenuItemPressedTransition)tr).setWidget(item);
+			return checkTransition(tr);
+		}).findFirst();
 	}
 	
 	@Override
 	default void onJfxToggleButtonsPressed(final ToggleButton button) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxToggleButtonPressedTransition) {
-				((JfxToggleButtonPressedTransition)t).setWidget(button);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxToggleButtonPressedTransition).filter(tr -> {
+			((JfxToggleButtonPressedTransition)tr).setWidget(button);
+			return checkTransition(tr);
+		}).findFirst();
 	}
 	
 	@Override
 	default void onJfxComboBoxSelected(final ComboBox<?> cc) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxComboBoxUsedTransition) {
-				((JfxComboBoxUsedTransition)t).setWidget(cc);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxComboBoxUsedTransition).filter(tr -> {
+			((JfxComboBoxUsedTransition)tr).setWidget(cc);
+			return checkTransition(tr);
+		}).findFirst();
 	}
-	
 	
 	@Override
 	default void onJfxDatePicked(final DatePicker cc) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxDatePickedTransition) {
-				((JfxDatePickedTransition)t).setWidget(cc);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxDatePickedTransition).filter(tr -> {
+			((JfxDatePickedTransition)tr).setWidget(cc);
+			return checkTransition(tr);
+		}).findFirst();
 	}
-
 	
 	@Override
 	default void onJfxColorPicked(final ColorPicker cc) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxColorPickedTransition) {
-				((JfxColorPickedTransition)t).setWidget(cc);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxColorPickedTransition).filter(tr -> {
+			((JfxColorPickedTransition)tr).setWidget(cc);
+			return checkTransition(tr);
+		}).findFirst();
 	}
-
 	
 	@Override
 	default void onTextChanged(final TextField cc) {
 		if(!isActivated()) return ;
-
-		boolean again = true;
-		Transition t;
-		final State state = getCurrentState();
-
-		for(int i=0, size=state.getTransitions().size(); i<size && again; i++) {
-			t = state.getTransition(i);
-
-			if(t instanceof JfxTextChangedTransition) {
-				((JfxTextChangedTransition)t).setWidget(cc);
-				again = !checkTransition(t);
-			}
-		}	
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxTextChangedTransition).filter(tr -> {
+			((JfxTextChangedTransition)tr).setWidget(cc);
+			return checkTransition(tr);
+		}).findFirst();
 	}
 }
