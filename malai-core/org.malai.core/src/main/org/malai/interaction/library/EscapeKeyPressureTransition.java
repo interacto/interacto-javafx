@@ -1,4 +1,4 @@
-package org.malai.swing.interaction.library;
+package org.malai.interaction.library;
 
 import java.awt.event.KeyEvent;
 
