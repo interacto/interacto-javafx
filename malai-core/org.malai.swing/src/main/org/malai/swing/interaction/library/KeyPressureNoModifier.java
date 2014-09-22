@@ -3,7 +3,6 @@ package org.malai.swing.interaction.library;
 import java.awt.event.KeyEvent;
 
 import org.malai.interaction.TerminalState;
-import org.malai.interaction.library.KeyInteraction;
 
 /**
  * This interaction occurs when a key (but NOT a modifier) of a keyboard is pressed.<br>

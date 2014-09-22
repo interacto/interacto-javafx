@@ -2,9 +2,9 @@ package org.malai.swing.instrument.library;
 
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.InteractorImpl;
-import org.malai.interaction.library.KeysScrolling;
 import org.malai.swing.action.library.Scroll;
 import org.malai.swing.instrument.SwingInstrument;
+import org.malai.swing.interaction.library.KeysScrolling;
 import org.malai.swing.widget.ScrollableWidget;
 
 /**

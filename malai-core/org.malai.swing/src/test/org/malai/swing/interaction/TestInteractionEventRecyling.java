@@ -1,14 +1,14 @@
-package test.org.malai.interaction;
+package org.malai.swing.interaction;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.swing.JButton;
 
-import org.malai.interaction.InteractionImpl;
-import org.malai.interaction.library.KeyPressure;
-
 import junit.framework.TestCase;
+
+import org.malai.interaction.InteractionImpl;
+import org.malai.swing.interaction.library.KeyPressure;
 
 public class TestInteractionEventRecyling extends TestCase {
 
