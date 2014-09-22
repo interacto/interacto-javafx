@@ -1,11 +1,10 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction.library;
 
 import java.util.List;
 
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.library.DnD;
-import org.malai.interaction.library.EscapeKeyPressureTransition;
 import org.malai.stateMachine.Transition;
 
 /**

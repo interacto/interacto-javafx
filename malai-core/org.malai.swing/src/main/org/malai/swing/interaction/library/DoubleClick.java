@@ -6,7 +6,6 @@ import org.malai.interaction.MoveTransition;
 import org.malai.interaction.PressureTransition;
 import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
-import org.malai.interaction.library.EscapeKeyPressureTransition;
 import org.malai.interaction.library.PointInteraction;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
