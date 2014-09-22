@@ -5,7 +5,6 @@ import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.MoveTransition;
 import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
-import org.malai.interaction.library.EscapeKeyPressureTransition;
 import org.malai.interaction.library.PointInteraction;
 
 /**
