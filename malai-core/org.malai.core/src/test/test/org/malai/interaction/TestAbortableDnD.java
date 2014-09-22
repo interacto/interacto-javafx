@@ -1,4 +1,7 @@
-package org.malai.swing.interaction;
+package test.org.malai.interaction;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.event.KeyEvent;
 
@@ -8,11 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
+import org.malai.interaction.library.AbortableDnD;
 import org.malai.stateMachine.MustAbortStateMachineException;
-import org.malai.swing.interaction.library.AbortableDnD;
-
-import test.org.malai.interaction.TestDnD;
-import static org.junit.Assert.*;
 
 public class TestAbortableDnD extends TestDnD {
 	@Override
@@ -42,7 +42,6 @@ public class TestAbortableDnD extends TestDnD {
 			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
@@ -74,7 +73,6 @@ public class TestAbortableDnD extends TestDnD {
 			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
@@ -106,7 +104,6 @@ public class TestAbortableDnD extends TestDnD {
 			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;
@@ -138,7 +135,6 @@ public class TestAbortableDnD extends TestDnD {
 			public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 				fail();
 			}
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void interactionAborts(final Interaction inter) {
 				visitAbort = true;

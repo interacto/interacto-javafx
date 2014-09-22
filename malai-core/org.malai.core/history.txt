@@ -3,6 +3,7 @@ Version 2.0
 - change: Should use the interfaces Instrument, Interactor, and Interaction instead of their implementation class when possible.
   So, the classes Instrument, Interactor, and Interaction have been renamed as InstrumentImpl, InteractorImpl, and InteractionImpl.
 - change: API renaming: State, Transition -> StateImpl, TransitionImpl; IState, ITransition, IStateMachine -> State, Transition, StateMachine.
+- change: AbortableDnD and the transition EscapeKeyPressureTransition are now part of org.malai.core
 
 *******************************************************************
 Version 1.3 -- 2014-09-14
