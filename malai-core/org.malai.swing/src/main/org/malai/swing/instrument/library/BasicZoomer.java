@@ -6,10 +6,10 @@ import java.util.List;
 import org.malai.action.library.Zoom;
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.InteractorImpl;
-import org.malai.interaction.library.KeysScrolling;
 import org.malai.properties.Zoomable;
 import org.malai.swing.instrument.SwingInstrument;
 import org.malai.swing.interaction.library.KeyPressureNoModifier;
+import org.malai.swing.interaction.library.KeysScrolling;
 
 /**
  * This instrument allows to zoom on the canvas.<br>

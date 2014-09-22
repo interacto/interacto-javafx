@@ -1,4 +1,4 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction.library;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.KeyPressureTransition;
 import org.malai.interaction.KeyReleaseTransition;
 import org.malai.interaction.TerminalState;
+import org.malai.interaction.library.Scrolling;
 
 
 /**

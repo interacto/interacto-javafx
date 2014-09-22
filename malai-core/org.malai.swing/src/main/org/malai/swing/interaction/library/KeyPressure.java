@@ -1,4 +1,4 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction.library;
 
 import org.malai.interaction.TerminalState;
 

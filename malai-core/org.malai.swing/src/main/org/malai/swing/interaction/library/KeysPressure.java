@@ -1,9 +1,9 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction.library;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.malai.interaction.AbortingState;
+import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.KeyPressureTransition;
 import org.malai.interaction.KeyReleaseTransition;
@@ -12,7 +12,8 @@ import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * This interaction permits to mouse press with key pressures (eg modifiers).<br>
+ * This interaction permits to define combo a key pressed that can be used to define
+ * shortcuts, etc.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -25,19 +26,22 @@ import org.malai.stateMachine.TargetableState;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 2013/07/20<br>
+ * 06/06/2011<br>
  * @author Arnaud BLOUIN
- * @since 1.1
+ * @since 0.2
  */
-public class PressWithKeys extends PointInteraction {
+public class KeysPressure extends InteractionImpl {
 	/** The list of the keys pressed. */
 	protected List<Integer> keys;
+
+	/** The object that produced the interaction. */
+	protected Object object;
 
 
 	/**
 	 * Creates the interaction.
 	 */
-	public PressWithKeys() {
+	public KeysPressure() {
 		super();
 		keys = new ArrayList<>();
 		initStateMachine();
@@ -50,6 +54,16 @@ public class PressWithKeys extends PointInteraction {
 
 		if(keys!=null)
 			keys.clear();
+		object = null;
+	}
+
+
+	/**
+	 * @param object The object that produced the interaction.
+	 * @since 0.2
+	 */
+	protected void setObject(final Object object) {
+		this.object = object;
 	}
 
 
@@ -58,38 +72,25 @@ public class PressWithKeys extends PointInteraction {
 	protected void initStateMachine() {
 		final IntermediaryState pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
 		final TerminalState end			= new TerminalState("ended"); //$NON-NLS-1$
-		final AbortingState abort		= new AbortingState("abort"); //$NON-NLS-1$
 
 		addState(pressed);
 		addState(end);
-		addState(abort);
 
-		new PressWithKeysKeyPressedTransition(initState, pressed);
-		new PressWithKeysKeyPressedTransition(pressed, pressed) {
+		new KeysPressureKeyPressedTransition(initState, pressed);
+		new KeysPressureKeyPressedTransition(pressed, pressed) {
 			@Override
 			public boolean isGuardRespected() {
-				return this.hid==PressWithKeys.this.getLastHIDUsed();
+				return this.hid==KeysPressure.this.getLastHIDUsed();
 			}
 		};
-		new KeyReleaseTransition(pressed, abort) {
+		// The interaction stops once one of the key pressed is released. The other key pressed
+		// events will be recycled.
+		new KeyReleaseTransition(pressed, end) {
 			@Override
 			public boolean isGuardRespected() {
-				return this.hid==PressWithKeys.this.getLastHIDUsed() && PressWithKeys.this.keys.contains(key) && PressWithKeys.this.keys.size()==1;
+				return this.hid==KeysPressure.this.getLastHIDUsed() && KeysPressure.this.keys.contains(this.key);
 			}
 		};
-		new KeyReleaseTransition(pressed, pressed) {
-			@Override
-			public boolean isGuardRespected() {
-				return this.hid==PressWithKeys.this.getLastHIDUsed() && PressWithKeys.this.keys.contains(key) && PressWithKeys.this.keys.size()>1;
-			}
-
-			@Override
-			public void action() {
-				PressWithKeys.this.keys.remove((Integer)this.key);
-			}
-		};
-		new PointPressureTransition(initState, end);
-		new PointPressureTransition(pressed, end);
 	}
 
 
@@ -97,20 +98,21 @@ public class PressWithKeys extends PointInteraction {
 	/**
 	 * Defines a transition modifying the keys attribute of the interaction.
 	 */
-	public class PressWithKeysKeyPressedTransition extends KeyPressureTransition {
+	public class KeysPressureKeyPressedTransition extends KeyPressureTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.
 		 * @param outputState The target state of the transition.
 		 */
-		public PressWithKeysKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
+		public KeysPressureKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
 
 		@Override
 		public void action() {
-			PressWithKeys.this.keys.add(this.key);
-			PressWithKeys.this.setLastHIDUsed(this.hid);
+			KeysPressure.this.object = this.source;
+			KeysPressure.this.keys.add(this.key);
+			KeysPressure.this.setLastHIDUsed(this.hid);
 		}
 	}
 
@@ -121,6 +123,15 @@ public class PressWithKeys extends PointInteraction {
 	 */
 	public List<Integer> getKeys() {
 		return keys;
+	}
+
+
+	/**
+	 * @return The object that produced the interaction.
+	 * @since 0.2
+	 */
+	public Object getObject() {
+		return object;
 	}
 }
 
