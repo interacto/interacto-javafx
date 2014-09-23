@@ -26,7 +26,7 @@ import org.malai.javafx.interaction.JfxColorPickedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ColorPicked extends JfxWidgetInteraction<ColorPicker> {
+public class ColorPicked extends WidgetInteraction<ColorPicker> {
 	/**
 	 * Creates the interaction.
 	 */

@@ -23,7 +23,7 @@ import org.malai.javafx.interaction.JfxButtonPressedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ButtonPressed extends JfxWidgetInteraction<ButtonBase> {
+public class ButtonPressed extends WidgetInteraction<ButtonBase> {
 	/**
 	 * Creates the interaction.
 	 */

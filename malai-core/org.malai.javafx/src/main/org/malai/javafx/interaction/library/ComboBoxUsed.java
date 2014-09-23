@@ -23,7 +23,7 @@ import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ComboBoxUsed extends JfxWidgetInteraction<ComboBoxBase<?>> {
+public class ComboBoxUsed extends WidgetInteraction<ComboBoxBase<?>> {
 	/**
 	 * Creates the interaction.
 	 */

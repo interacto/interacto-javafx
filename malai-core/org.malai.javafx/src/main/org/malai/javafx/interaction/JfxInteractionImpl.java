@@ -1,11 +1,9 @@
 package org.malai.javafx.interaction;
 
-import java.util.List;
-
-import javafx.scene.Node;
+import org.malai.interaction.InteractionImpl;
 
 /**
- * The core interface for defining interactions using the JavaFX library.<br>
+ * The core class for defining interactions using the JavaFX library.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -18,18 +16,15 @@ import javafx.scene.Node;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 2014-09-22<br>
+ * 2014-09-18<br>
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public interface JfxInteraction extends JfxDefaultEventProcessor {
+public abstract class JfxInteractionImpl extends InteractionImpl implements JfxInteraction {
 	/**
-	 * Registers the given listeners to the interaction.
-	 * The given widgets must be the ones used that the interaction.
-	 * This operation has to be overridden by each interaction to register the widgets.
-	 * @param widgets The widgets that will produce events used by the interaction.
+	 * Creates a JavaFX interaction.
 	 */
-	default void registerToWidgets(final List<Node> widgets) {
-		// Should be overriden.
+	public JfxInteractionImpl() {
+		super();
 	}
 }
