@@ -1,11 +1,11 @@
 package org.malai.javafx.interaction;
 
-import java.util.List;
+import org.malai.stateMachine.SourceableState;
+import org.malai.stateMachine.TargetableState;
 
-import javafx.scene.Node;
 
 /**
- * The core interface for defining interactions using the JavaFX library.<br>
+ * Defines a transition for a pressure of a key of a keyboard.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -18,18 +18,14 @@ import javafx.scene.Node;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 2014-09-22<br>
+ * 2014-09-23<br>
  * @author Arnaud BLOUIN
- * @since 2.0
  */
-public interface JfxInteraction extends JfxDefaultEventProcessor {
+public class KeyPressureTransition extends KeyboardTransition {
 	/**
-	 * Registers the given listeners to the interaction.
-	 * The given widgets must be the ones used that the interaction.
-	 * This operation has to be overridden by each interaction to register the widgets.
-	 * @param widgets The widgets that will produce events used by the interaction.
+	 * Creates the transition.
 	 */
-	default void registerToWidgets(final List<Node> widgets) {
-		// Should be overriden.
+	public KeyPressureTransition(final SourceableState inputState, final TargetableState outputState) {
+		super(inputState, outputState);
 	}
 }

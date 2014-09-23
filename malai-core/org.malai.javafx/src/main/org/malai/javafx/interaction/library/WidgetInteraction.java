@@ -2,7 +2,7 @@ package org.malai.javafx.interaction.library;
 
 import javafx.scene.Node;
 
-import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.JfxInteractionImpl;
 
 /**
  * A JavaFX interaction that uses a single widget.<br>
@@ -22,14 +22,14 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public abstract class JfxWidgetInteraction<T extends Node> extends JfxInteraction {
+public abstract class WidgetInteraction<T extends Node> extends JfxInteractionImpl {
 	/** The widget used during the interaction. */
 	protected T widget;
 	
 	/**
 	 * Creates the interaction.
 	 */
-	public JfxWidgetInteraction() {
+	public WidgetInteraction() {
 		super();
 	}
 	
