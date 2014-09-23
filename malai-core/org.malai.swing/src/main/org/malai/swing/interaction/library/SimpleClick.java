@@ -2,9 +2,9 @@ package org.malai.swing.interaction.library;
 
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.MoveTransition;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
+import org.malai.swing.interaction.MoveTransition;
+import org.malai.swing.interaction.ReleaseTransition;
 
 /**
  * This interaction defines a simple click. The interaction is aborted if the user move the pointing

@@ -1,5 +1,6 @@
-package org.malai.interaction;
+package org.malai.swing.interaction;
 
+import org.malai.interaction.TransitionImpl;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 

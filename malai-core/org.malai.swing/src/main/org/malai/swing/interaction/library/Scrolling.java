@@ -1,11 +1,11 @@
 package org.malai.swing.interaction.library;
 
 import org.malai.interaction.InteractionImpl;
-import org.malai.interaction.ScrollTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.ScrollTransition;
 import org.malai.swing.interaction.SwingInteraction;
 
 /**

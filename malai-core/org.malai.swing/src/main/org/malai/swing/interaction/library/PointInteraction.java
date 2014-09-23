@@ -3,10 +3,10 @@ package org.malai.swing.interaction.library;
 import java.awt.Point;
 
 import org.malai.interaction.InteractionImpl;
-import org.malai.interaction.PressureTransition;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.PressureTransition;
 import org.malai.swing.interaction.SwingInteraction;
 
 

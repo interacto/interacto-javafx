@@ -3,8 +3,8 @@ package org.malai.swing.interaction.library;
 import java.util.List;
 
 import org.malai.interaction.AbortingState;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.stateMachine.Transition;
+import org.malai.swing.interaction.ReleaseTransition;
 
 /**
  * This interaction defines a drag-and-drop which can be aborted.
