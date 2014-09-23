@@ -3,13 +3,13 @@ package org.malai.swing.interaction.library;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.KeyPressureTransition;
-import org.malai.interaction.KeyReleaseTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.KeyPressureTransition;
+import org.malai.swing.interaction.KeyReleaseTransition;
+import org.malai.swing.interaction.SwingInteraction;
 
 /**
  * This interaction permits to define combo a key pressed that can be used to define
@@ -30,7 +30,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class KeysPressure extends InteractionImpl {
+public class KeysPressure extends SwingInteraction {
 	/** The list of the keys pressed. */
 	protected List<Integer> keys;
 

@@ -1,11 +1,11 @@
-package org.malai.interaction;
+package org.malai.swing.interaction;
 
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 
 /**
- * This transition corresponds to a pressure of a key of a keyboard.<br>
+ * This transition corresponds to a release of a key of a keyboard.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -22,11 +22,11 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class KeyPressureTransition extends KeyboardTransition {
+public class KeyReleaseTransition extends KeyboardTransition {
 	/**
 	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
-	public KeyPressureTransition(final SourceableState inputState, final TargetableState outputState) {
+	public KeyReleaseTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 }

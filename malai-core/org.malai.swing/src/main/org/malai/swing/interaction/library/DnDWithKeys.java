@@ -7,15 +7,14 @@ import java.util.List;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.KeyPressureTransition;
-import org.malai.interaction.KeyReleaseTransition;
 import org.malai.interaction.MoveTransition;
 import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
-import org.malai.interaction.library.PointInteraction;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.KeyPressureTransition;
+import org.malai.swing.interaction.KeyReleaseTransition;
 
 /**
  * A DnD interaction is a Drag-And-Drop: press-drag-release that can have key pressures (eg modifiers).<br>
@@ -72,7 +71,6 @@ public class DnDWithKeys extends PointInteraction {
 		addState(abort);
 
 		new PointPressureTransition(initState, pressed) {
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void action() {
 				super.action();
@@ -84,7 +82,6 @@ public class DnDWithKeys extends PointInteraction {
 		};
 
 		new PointPressureTransition(keyPressed, pressed) {
-			@SuppressWarnings("synthetic-access")
 			@Override
 			public void action() {
 				super.action();
@@ -211,7 +208,6 @@ public class DnDWithKeys extends PointInteraction {
 		public Release4DnD(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
-		@SuppressWarnings("synthetic-access")
 		@Override
 		public boolean isGuardRespected() {
 			return DnDWithKeys.this.button==this.button && DnDWithKeys.this.getLastHIDUsed()==this.hid;
@@ -231,7 +227,6 @@ public class DnDWithKeys extends PointInteraction {
 		public Move4DnD(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
-		@SuppressWarnings("synthetic-access")
 		@Override
 		public void action() {
 			super.action();

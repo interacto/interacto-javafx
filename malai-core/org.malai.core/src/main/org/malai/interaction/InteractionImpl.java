@@ -338,76 +338,6 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
-	public void onKeyPressure(final int key, final char keyChar, final int idHID, final Object object) {
-		if(!activated) return ;
-
-		boolean again = true;
-		Transition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof KeyPressureTransition) {
-				final KeyPressureTransition kpt = (KeyPressureTransition)t;
-				kpt.setKey(key);
-				kpt.setKeyChar(keyChar);
-				kpt.setSource(object);
-				kpt.setHid(idHID);
-
-				again = !checkTransition(t);
-
-				if(!again && !stillInProgressContainsKey(idHID, key))
-					// Adding an event 'still in process'
-					addEvent(new KeyPressEvent(idHID, key, keyChar, object));
-			}
-		}
-	}
-
-
-	/** Checks that the list stillProcessingEvents does not contains a keyEvent corresponding to the given one. */
-	private boolean stillInProgressContainsKey(final int idHID, final int key) {
-		if(stillProcessingEvents==null) return false;
-		for(final Event evt : stillProcessingEvents)
-			if(idHID==evt.idHID && evt instanceof KeyPressEvent && ((KeyPressEvent)evt).keyCode==key)
-				return true;
-		return false;
-	}
-
-
-
-	@Override
-	public void onKeyRelease(final int key, final char keyChar, final int idHID, final Object object) {
-		boolean again = true;
-
-		if(activated) {
-			Transition t;
-
-			for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-				t = currentState.getTransition(i);
-
-				if(t instanceof KeyReleaseTransition) {
-					final KeyReleaseTransition krt = (KeyReleaseTransition)t;
-					krt.setKey(key);
-					krt.setKeyChar(keyChar);
-					krt.setHid(idHID);
-					krt.setSource(object);
-
-					if(t.isGuardRespected()) {
-						// Removing from the 'still in process' list
-						removeKeyEvent(idHID, key);
-						again = !checkTransition(t);
-					}
-				}
-			}
-		}
-
-		// Removing from the 'still in process' list
-		if(again)
-			removeKeyEvent(idHID, key);
-	}
-
-
-	@Override
 	public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
 		if(!activated) return ;
 
@@ -513,30 +443,6 @@ public abstract class InteractionImpl implements Interaction {
 	}
 
 
-
-	/**
-	 * Removes the given KeyPress event from the events 'still in process' list.
-	 * @param idHID The identifier of the HID which produced the event.
-	 * @param key The key code of the event to remove.
-	 * @since 0.2
-	 */
-	protected void removeKeyEvent(final int idHID, final int key) {
-		if(stillProcessingEvents==null) return ;
-
-		boolean removed = false;
-		Event event;
-
-		for(int i=0, size=stillProcessingEvents.size(); i<size && !removed; i++) {
-			event = stillProcessingEvents.get(i);
-
-			if(event instanceof KeyPressEvent && event.idHID==idHID && ((KeyPressEvent)event).keyCode==key) {
-				removed = true;
-				stillProcessingEvents.remove(i);
-			}
-		}
-	}
-
-
 	/**
 	 * Removes the given Press event from the events 'still in process' list.
 	 * @param idHID The identifier of the HID which produced the event.
@@ -578,15 +484,23 @@ public abstract class InteractionImpl implements Interaction {
 				event = list.remove(0);
 				// Do not forget to remove the event from its original list.
 				stillProcessingEvents.remove(0);
-
-				if(event instanceof MousePressEvent) {
-					final MousePressEvent press = (MousePressEvent)event;
-					onPressure(press.button, press.x, press.y, press.idHID, press.source);
-				} else if(event instanceof KeyPressEvent) {
-					final KeyPressEvent key = (KeyPressEvent)event;
-					onKeyPressure(key.keyCode, key.keyChar, key.idHID, key.source);
-				}
+				processEvent(event);
 			}
+		}
+	}
+
+
+	/**
+	 * At the end of the interaction, the events still in process must be recycled
+	 * to be reused in the interaction. For instance will the KeysScrolling interaction,
+	 * if key 'ctrl' is pressed and the user scrolls the key event 'ctrl' is re-introduced
+	 * into the state machine of the interaction to be processed.
+	 * Companion operation of processEvents. Must be implemented by the different GUI libraries.
+	 */
+	protected void processEvent(final Event event) {
+		if(event instanceof MousePressEvent) {
+			final MousePressEvent press = (MousePressEvent)event;
+			onPressure(press.button, press.x, press.y, press.idHID, press.source);
 		}
 	}
 
@@ -666,89 +580,63 @@ public abstract class InteractionImpl implements Interaction {
 		reinit();
 		clearEventsStillInProcess();
 	}
-}
-
-
-/**
- * This class defines an event corresponding to the pressure of a key.
- */
-class KeyPressEvent extends Event {
-	/** The code of the key pressed. */
-	protected int keyCode;
-
-	/** The char of the key. */
-	protected char keyChar;
-
-	/** The object that produced the key event. */
-	protected Object source;
 
 
 	/**
-	 * Creates the event.
-	 * @param idHID The identifier of the HID.
-	 * @param keyCode The key code.
-	 * @param keyChar The char of the key.
-	 * @param source The object that produced the event.
-	 * @since 0.2
+	 * This class defines an event corresponding to the pressure of a button of a mouse.
 	 */
-	public KeyPressEvent(final int idHID, final int keyCode, final char keyChar, final Object source) {
-		super(idHID);
-		this.keyCode = keyCode;
-		this.keyChar = keyChar;
-		this.source  = source;
+	protected static class MousePressEvent extends Event {
+		/** The x coordinate of the pressure. */
+		protected int x;
+
+		/** The y coordinate of the pressure. */
+		protected int y;
+
+		/** The object targeted during the pressure. */
+		protected Object source;
+
+		/** The button used to perform the pressure. */
+		protected int button;
+
+		/**
+		 * Creates the event.
+		 * @param idHID The identifier of the HID.
+		 * @param x The x coordinate of the pressure.
+		 * @param y The y coordinate of the pressure.
+		 * @param button The button used to perform the pressure.
+		 * @param source The object targeted during the pressure.
+		 * @since 0.2
+		 */
+		public MousePressEvent(final int idHID, final int x, final int y, final int button, final Object source) {
+			super(idHID);
+			this.x = x;
+			this.y = y;
+			this.button = button;
+			this.source = source;
+		}
 	}
-}
 
-
-/**
- * This class defines an event corresponding to the pressure of a button of a mouse.
- */
-class MousePressEvent extends Event {
-	/** The x coordinate of the pressure. */
-	protected int x;
-
-	/** The y coordinate of the pressure. */
-	protected int y;
-
-	/** The object targeted during the pressure. */
-	protected Object source;
-
-	/** The button used to perform the pressure. */
-	protected int button;
 
 	/**
-	 * Creates the event.
-	 * @param idHID The identifier of the HID.
-	 * @param x The x coordinate of the pressure.
-	 * @param y The y coordinate of the pressure.
-	 * @param button The button used to perform the pressure.
-	 * @param source The object targeted during the pressure.
-	 * @since 0.2
+	 * Defines the concept of event.
 	 */
-	public MousePressEvent(final int idHID, final int x, final int y, final int button, final Object source) {
-		super(idHID);
-		this.x = x;
-		this.y = y;
-		this.button = button;
-		this.source = source;
-	}
-}
+	protected abstract static class Event {
+		/** The identifier of the HID. */
+		protected int idHID;
 
+		/**
+		 * Creates the event.
+		 * @param idHID The identifier of the HID.
+		 * @since 0.2
+		 */
+		public Event(final int idHID) {
+			super();
+			this.idHID = idHID;
+		}
 
-/**
- * Defines the concept of event.
- */
-abstract class Event {
-	/** The identifier of the HID. */
-	protected int idHID;
-
-	/**
-	 * Creates the event.
-	 * @param idHID The identifier of the HID.
-	 * @since 0.2
-	 */
-	public Event(final int idHID) {
-		super();
-		this.idHID = idHID;
+		/**
+		 * @return The ID of the HID used.
+		 */
+		public int getIdHID() { return idHID; }
 	}
 }

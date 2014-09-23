@@ -1,9 +1,9 @@
 package org.malai.swing.interaction.library;
 
-import org.malai.interaction.InteractionImpl;
-import org.malai.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.KeyPressureTransition;
+import org.malai.swing.interaction.SwingInteraction;
 
 /**
  * This abstract interaction should be used to define interaction based on keyboards.<br>
@@ -23,7 +23,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public abstract class KeyInteraction extends InteractionImpl {
+public abstract class KeyInteraction extends SwingInteraction {
 	/** The key pressed. */
 	protected int key;
 

@@ -1,8 +1,8 @@
 package org.malai.swing.interaction.library;
 
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.KeyReleaseTransition;
 import org.malai.interaction.TerminalState;
+import org.malai.swing.interaction.KeyReleaseTransition;
 
 /**
  * A KeyTyped interaction occurs when a key of a keyboard is pressed and then released.<br>

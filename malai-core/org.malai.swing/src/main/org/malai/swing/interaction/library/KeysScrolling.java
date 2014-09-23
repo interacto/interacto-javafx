@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.KeyPressureTransition;
-import org.malai.interaction.KeyReleaseTransition;
 import org.malai.interaction.TerminalState;
-import org.malai.interaction.library.Scrolling;
+import org.malai.swing.interaction.KeyPressureTransition;
+import org.malai.swing.interaction.KeyReleaseTransition;
 
 
 /**

@@ -234,7 +234,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	public void keyPressed(final KeyEvent e) {
 		if(e==null) return;
 
-		for(final EventProcessor handler : handlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onKeyPressure(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
 	}
 
@@ -244,7 +244,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	public void keyReleased(final KeyEvent e) {
 		if(e==null) return;
 
-		for(final EventProcessor handler : handlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onKeyRelease(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
 	}
 

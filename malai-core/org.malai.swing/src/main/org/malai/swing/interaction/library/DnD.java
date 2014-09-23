@@ -1,4 +1,4 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction.library;
 
 import java.awt.Point;
 
@@ -11,6 +11,7 @@ import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.SwingInteraction;
 
 /**
  * A DnD interaction is a Drag-And-Drop: press-drag-release.<br>
@@ -30,7 +31,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class DnD extends InteractionImpl {
+public class DnD extends SwingInteraction {
 	/** The starting point of the dnd. */
 	protected Point startPt;
 
