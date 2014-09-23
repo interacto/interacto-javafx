@@ -2,12 +2,12 @@ package org.malai.swing.interaction.library;
 
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.MoveTransition;
-import org.malai.interaction.PressureTransition;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.MoveTransition;
+import org.malai.swing.interaction.PressureTransition;
+import org.malai.swing.interaction.ReleaseTransition;
 
 /**
  * This interaction defines a double click. Between the two clicks the mouse must not

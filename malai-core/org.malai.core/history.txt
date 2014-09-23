@@ -3,7 +3,7 @@ Version 2.0
 - change: Should use the interfaces Instrument, Interactor, and Interaction instead of their implementation class when possible.
   So, the classes Instrument, Interactor, and Interaction have been renamed as InstrumentImpl, InteractorImpl, and InteractionImpl.
 - change: API renaming: State, Transition -> StateImpl, TransitionImpl; IState, ITransition, IStateMachine -> State, Transition, StateMachine.
-- change: All the interactions and transitions based on key events have been moved to org.malai.swing
+- change: All the interactions and transitions based on key or mouse events have been moved from org.malai.core to org.malai.swing
 - change: All the interactions defined in the core module have been moved to org.malai.swing
 
 *******************************************************************

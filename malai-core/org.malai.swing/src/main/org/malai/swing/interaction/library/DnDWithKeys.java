@@ -7,14 +7,14 @@ import java.util.List;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.MoveTransition;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 import org.malai.swing.interaction.KeyPressureTransition;
 import org.malai.swing.interaction.KeyReleaseTransition;
+import org.malai.swing.interaction.MoveTransition;
+import org.malai.swing.interaction.ReleaseTransition;
 
 /**
  * A DnD interaction is a Drag-And-Drop: press-drag-release that can have key pressures (eg modifiers).<br>

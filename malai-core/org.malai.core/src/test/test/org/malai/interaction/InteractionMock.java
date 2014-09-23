@@ -12,4 +12,10 @@ public class InteractionMock extends InteractionImpl {
 	protected void initStateMachine() {
 		//
 	}
+
+
+	@Override
+	protected void processEvent(final Event event) {
+		//
+	}
 }

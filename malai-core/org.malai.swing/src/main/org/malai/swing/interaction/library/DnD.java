@@ -4,13 +4,13 @@ import java.awt.Point;
 
 import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.MoveTransition;
-import org.malai.interaction.PressureTransition;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.MoveTransition;
+import org.malai.swing.interaction.PressureTransition;
+import org.malai.swing.interaction.ReleaseTransition;
 import org.malai.swing.interaction.SwingInteraction;
 
 /**

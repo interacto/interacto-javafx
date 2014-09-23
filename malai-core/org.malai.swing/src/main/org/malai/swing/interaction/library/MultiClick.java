@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.MoveTransition;
-import org.malai.interaction.PressureTransition;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
+import org.malai.swing.interaction.MoveTransition;
+import org.malai.swing.interaction.PressureTransition;
+import org.malai.swing.interaction.ReleaseTransition;
 import org.malai.swing.interaction.SwingInteraction;
 
 /**

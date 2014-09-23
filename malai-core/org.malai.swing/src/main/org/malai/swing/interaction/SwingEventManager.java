@@ -209,7 +209,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventProcessor handler : handlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onPressure(button, x, y, ID_MOUSE, src);
 	}
 
@@ -224,7 +224,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventProcessor handler : handlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onRelease(button, x, y, ID_MOUSE, src);
 	}
 
@@ -266,7 +266,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventProcessor handler : handlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onMove(button, x, y, true, ID_MOUSE, src);
 	}
 
@@ -281,7 +281,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int y			= e.getY();
 		final int button	= e.getButton();
 
-		for(final EventProcessor handler : handlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onMove(button, x, y, false, ID_MOUSE, src);
 	}
 
@@ -298,7 +298,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 		final int type 		= e.getScrollType();
 		final int amount 	= e.getScrollAmount();
 
-		for(final EventProcessor handler : handlers)
+		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onScroll(posX, posY, direction, amount, type, ID_MOUSE, src);
 	}
 

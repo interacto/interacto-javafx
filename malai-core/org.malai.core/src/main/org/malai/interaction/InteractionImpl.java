@@ -311,157 +311,9 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
-	public void onScroll(final int posX, final int posY, final int direction, final int amount,
-							final int type, final int idHID, final Object src) {
-		if(!activated) return ;
-
-		boolean again = true;
-		Transition transition;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			transition = currentState.getTransition(i);
-
-			if(transition instanceof ScrollTransition) {
-				final ScrollTransition st = (ScrollTransition)transition;
-
-				st.setAmount(amount);
-				st.setDirection(direction);
-				st.setSource(src);
-				st.setType(type);
-				st.setX(posX);
-				st.setY(posY);
-				st.setHid(idHID);
-				again = !checkTransition(transition);
-			}
-		}
-	}
-
-
-	@Override
-	public void onMove(final int button, final int x, final int y, final boolean pressed, final int idHID, final Object source) {
-		if(!activated) return ;
-
-		boolean again = true;
-		Transition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof MoveTransition) {
-				final MoveTransition mt = (MoveTransition)t;
-
-				mt.setX(x);
-				mt.setY(y);
-				mt.setButton(button);
-				mt.setSource(source);
-				mt.setPressed(pressed);
-				mt.setHid(idHID);
-				again = !checkTransition(t);
-			}
-		}
-	}
-
-
-	@Override
-	public void onPressure(final int button, final int x, final int y, final int idHID, final Object source) {
-		if(!activated) return ;
-
-		boolean again = true;
-		Transition t;
-
-		for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-			t = currentState.getTransition(i);
-
-			if(t instanceof PressureTransition) {
-				final PressureTransition pt =  (PressureTransition)t;
-
-				pt.setX(x);
-				pt.setY(y);
-				pt.setButton(button);
-				pt.setSource(source);
-				pt.setHid(idHID);
-				again = !checkTransition(t);
-
-				if(!again)
-					// Adding an event 'still in process'
-					addEvent(new MousePressEvent(idHID, x, y, button, source));
-			}
-		}
-	}
-
-
-	@Override
-	public void onRelease(final int button, final int x, final int y, final int idHID, final Object source) {
-		boolean again = true;
-
-		if(activated) {
-			Transition t;
-
-			for(int i=0, j=currentState.getTransitions().size(); i<j && again; i++) {
-				t = currentState.getTransition(i);
-
-				if(t instanceof ReleaseTransition) {
-					final ReleaseTransition rt = (ReleaseTransition)t;
-
-					rt.setX(x);
-					rt.setY(y);
-					rt.setButton(button);
-					rt.setSource(source);
-					t.setHid(idHID);
-					if(t.isGuardRespected()) {
-						// Removing from the 'still in process' list
-						removePressEvent(idHID);
-						again = !checkTransition(t);
-					}
-				}
-			}
-		}
-
-		// Removing from the 'still in process' list
-		if(again)
-			removePressEvent(idHID);
-	}
-
-
-	@Override
 	public void onTimeout(final TimeoutTransition timeoutTransition) {
 		if(!activated || timeoutTransition==null) return ;
 		executeTransition(timeoutTransition);
-	}
-
-
-	/**
-	 * Adds the given event to the events 'still in process' list.
-	 * @param event The event to add.
-	 * @since 0.2
-	 */
-	protected void addEvent(final Event event) {
-		if(stillProcessingEvents==null)
-			stillProcessingEvents = new ArrayList<>();
-
-		stillProcessingEvents.add(event);
-	}
-
-
-	/**
-	 * Removes the given Press event from the events 'still in process' list.
-	 * @param idHID The identifier of the HID which produced the event.
-	 * @since 0.2
-	 */
-	protected void removePressEvent(final int idHID) {
-		if(stillProcessingEvents==null) return ;
-
-		boolean removed = false;
-		Event event;
-
-		for(int i=0, size=stillProcessingEvents.size(); i<size && !removed; i++) {
-			event = stillProcessingEvents.get(i);
-
-			if(event instanceof MousePressEvent && event.idHID==idHID) {
-				removed = true;
-				stillProcessingEvents.remove(i);
-			}
-		}
 	}
 
 
@@ -497,12 +349,7 @@ public abstract class InteractionImpl implements Interaction {
 	 * into the state machine of the interaction to be processed.
 	 * Companion operation of processEvents. Must be implemented by the different GUI libraries.
 	 */
-	protected void processEvent(final Event event) {
-		if(event instanceof MousePressEvent) {
-			final MousePressEvent press = (MousePressEvent)event;
-			onPressure(press.button, press.x, press.y, press.idHID, press.source);
-		}
-	}
+	protected abstract void processEvent(final Event event);
 
 
 	@Override
@@ -579,41 +426,6 @@ public abstract class InteractionImpl implements Interaction {
 	public void clearEvents() {
 		reinit();
 		clearEventsStillInProcess();
-	}
-
-
-	/**
-	 * This class defines an event corresponding to the pressure of a button of a mouse.
-	 */
-	protected static class MousePressEvent extends Event {
-		/** The x coordinate of the pressure. */
-		protected int x;
-
-		/** The y coordinate of the pressure. */
-		protected int y;
-
-		/** The object targeted during the pressure. */
-		protected Object source;
-
-		/** The button used to perform the pressure. */
-		protected int button;
-
-		/**
-		 * Creates the event.
-		 * @param idHID The identifier of the HID.
-		 * @param x The x coordinate of the pressure.
-		 * @param y The y coordinate of the pressure.
-		 * @param button The button used to perform the pressure.
-		 * @param source The object targeted during the pressure.
-		 * @since 0.2
-		 */
-		public MousePressEvent(final int idHID, final int x, final int y, final int button, final Object source) {
-			super(idHID);
-			this.x = x;
-			this.y = y;
-			this.button = button;
-			this.source = source;
-		}
 	}
 
 

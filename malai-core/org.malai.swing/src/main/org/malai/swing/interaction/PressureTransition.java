@@ -1,10 +1,10 @@
-package org.malai.interaction;
+package org.malai.swing.interaction;
 
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * This transition corresponds to a release of a button of a pointing device.<br>
+ * This transition corresponds to a pressure of a button of a pointing device.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -21,11 +21,11 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class ReleaseTransition extends PointingDeviceTransition {
+public class PressureTransition extends PointingDeviceTransition {
 	/**
 	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
-	public ReleaseTransition(final SourceableState inputState, final TargetableState outputState) {
+	public PressureTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 }
