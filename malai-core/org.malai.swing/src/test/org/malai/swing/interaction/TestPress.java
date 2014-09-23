@@ -1,13 +1,15 @@
-package test.org.malai.interaction;
+package org.malai.swing.interaction;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
-import org.malai.interaction.library.Press;
 import org.malai.stateMachine.MustAbortStateMachineException;
-
-import static org.junit.Assert.*;
+import org.malai.swing.interaction.library.Press;
 
 public class TestPress extends TestInteraction<Press> {
 	@Override

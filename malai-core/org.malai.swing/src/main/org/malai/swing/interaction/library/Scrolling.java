@@ -1,4 +1,4 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction.library;
 
 import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.ScrollTransition;
@@ -6,6 +6,7 @@ import org.malai.interaction.TerminalState;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.SwingInteraction;
 
 /**
  * Defines an interaction based on mouse scrolling.<br>
@@ -26,7 +27,7 @@ import org.malai.stateMachine.TargetableState;
  * @version 0.2
  * @since 0.2
  */
-public class Scrolling extends InteractionImpl {
+public class Scrolling extends SwingInteraction {
 	/** The object on which the scroll is performed. */
 	protected Pickable scrollTarget;
 

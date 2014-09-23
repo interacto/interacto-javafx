@@ -2,9 +2,9 @@ package org.malai.swing.interaction.library;
 
 import java.awt.event.KeyEvent;
 
-import org.malai.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.KeyPressureTransition;
 
 /**
  * This transition should be used to cancel an interaction using key ESCAPE.

@@ -4,11 +4,10 @@ import javax.swing.JButton;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 
 
-public abstract class TestInteraction<T extends Interaction> {
+public abstract class TestInteraction<T extends SwingInteraction> {
 	protected T interaction;
 
 	protected InteractionHandler handler;

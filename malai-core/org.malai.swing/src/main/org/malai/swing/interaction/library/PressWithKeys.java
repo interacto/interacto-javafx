@@ -5,12 +5,11 @@ import java.util.List;
 
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.KeyPressureTransition;
-import org.malai.interaction.KeyReleaseTransition;
 import org.malai.interaction.TerminalState;
-import org.malai.interaction.library.PointInteraction;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.KeyPressureTransition;
+import org.malai.swing.interaction.KeyReleaseTransition;
 
 /**
  * This interaction permits to mouse press with key pressures (eg modifiers).<br>

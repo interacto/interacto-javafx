@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.ReleaseTransition;
-import org.malai.interaction.library.DnD;
 import org.malai.stateMachine.Transition;
 
 /**

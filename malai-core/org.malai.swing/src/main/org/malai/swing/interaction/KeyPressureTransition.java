@@ -1,9 +1,11 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction;
 
-import org.malai.interaction.TerminalState;
+import org.malai.stateMachine.SourceableState;
+import org.malai.stateMachine.TargetableState;
+
 
 /**
- * This interaction starts and ends when a button of a pointing device is pressed.<br>
+ * This transition corresponds to a pressure of a key of a keyboard.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
@@ -16,27 +18,15 @@ import org.malai.interaction.TerminalState;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 05/19/2010<br>
+ * 06/01/2010<br>
  * @author Arnaud BLOUIN
  * @since 0.1
  */
-public class Press extends PointInteraction {
+public class KeyPressureTransition extends KeyboardTransition {
 	/**
-	 * Creates the interaction.
+	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
-	public Press() {
-		super();
-		initStateMachine();
-	}
-
-
-	@SuppressWarnings("unused")
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
-
-		addState(pressed);
-
-		new PointPressureTransition(initState, pressed);
+	public KeyPressureTransition(final SourceableState inputState, final TargetableState outputState) {
+		super(inputState, outputState);
 	}
 }

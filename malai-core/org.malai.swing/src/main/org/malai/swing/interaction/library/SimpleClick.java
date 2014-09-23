@@ -5,7 +5,6 @@ import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.MoveTransition;
 import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
-import org.malai.interaction.library.PointInteraction;
 
 /**
  * This interaction defines a simple click. The interaction is aborted if the user move the pointing

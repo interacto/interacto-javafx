@@ -1,4 +1,4 @@
-package org.malai.interaction.library;
+package org.malai.swing.interaction.library;
 
 import java.awt.Point;
 
@@ -7,6 +7,7 @@ import org.malai.interaction.PressureTransition;
 import org.malai.picking.Pickable;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.swing.interaction.SwingInteraction;
 
 
 /**
@@ -27,7 +28,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public abstract class PointInteraction extends InteractionImpl {
+public abstract class PointInteraction extends SwingInteraction {
 	/** The pressed position. */
 	protected Point point;
 

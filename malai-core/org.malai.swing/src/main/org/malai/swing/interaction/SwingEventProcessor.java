@@ -32,6 +32,26 @@ import org.malai.swing.widget.MFrame;
  */
 public interface SwingEventProcessor {
 	/**
+	 * Defines actions to do when a key of a keyboard is pressed.
+	 * @param key The pressed key code.
+	 * @param idHID The identifier of the HID that produced the event.
+	 * @param source The object that produces the event.
+	 * @param keyChar The char corresponding to the key.
+	 * @since 0.2
+	 */
+	void onKeyPressure(final int key, final char keyChar, final int idHID, final Object source);
+
+	/**
+	 * Defines actions to do when a key of a keyboard is released.
+	 * @param key The released key code.
+	 * @param keyChar The char corresponding to the key.
+	 * @param idHID The identifier of the HID that produced the event.
+	 * @param source The object that produces the event.
+	 * @since 0.2
+	 */
+	void onKeyRelease(final int key, final char keyChar, final int idHID, final Object source);
+	
+	/**
 	 * Defines actions to do when a button is activated.
 	 * @param button The pressed button.
 	 * @since 0.1
