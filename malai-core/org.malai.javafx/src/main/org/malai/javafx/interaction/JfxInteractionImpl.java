@@ -27,4 +27,9 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	public JfxInteractionImpl() {
 		super();
 	}
+
+	@Override
+	protected void processEvent(final Event event) {
+		//TODO
+	}
 }

@@ -36,6 +36,6 @@ public class EscapeKeyPressureTransition extends KeyPressureTransition {
 
 	@Override
 	public boolean isGuardRespected() {
-		return keyCode==KeyCode.ESCAPE;
+		return event.getCode()==KeyCode.ESCAPE;
 	}
 }

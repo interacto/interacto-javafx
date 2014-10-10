@@ -1,6 +1,6 @@
 package org.malai.javafx.interaction;
 
-import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import org.malai.interaction.TransitionImpl;
 import org.malai.stateMachine.SourceableState;
@@ -24,70 +24,28 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  */
 public abstract class KeyboardTransition extends TransitionImpl {
-	/** The pressed key. */
-	protected String key;
-
-	/** The object that produced the event. */
-	protected Object source;
-	
-	/** The code of the key.*/
-	protected KeyCode keyCode;
-
+	protected KeyEvent event;
 
 	/**
 	 * Creates the transition.
 	 */
 	public KeyboardTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
-		key = "";
 	}
 
-
 	/**
-	 * @return The pressed key.
+	 * @return The event. Cannot be null.
 	 */
-	public String getKey() {
-		return key;
+	public KeyEvent getEvent() {
+		return event;
 	}
-
-
+	
 	/**
-	 * Sets the pressed key.
-	 * @param key The pressed key.
+	 * Sets the event;
+	 * @param evt The event. Cannot be null.
 	 */
-	public void setKey(final String key) {
-		this.key = key;
-	}
-
-
-	/**
-	 * @return The object that produced the event.
-	 */
-	public Object getSource() {
-		return source;
-	}
-
-
-	/**
-	 * @param source The object that produced the event.
-	 */
-	public void setSource(final Object source) {
-		this.source = source;
-	}
-
-
-	/**
-	 * @return The code corresponding to the key pressed.
-	 */
-	public KeyCode getKeyCode() {
-		return keyCode;
-	}
-
-
-	/**
-	 * @param keyCode The code corresponding to the key pressed.
-	 */
-	public void setKeyCode(final KeyCode keyCode) {
-		this.keyCode = keyCode;
+	public void setEvent(final KeyEvent evt) {
+		if(evt!=null)
+			event = evt;
 	}
 }

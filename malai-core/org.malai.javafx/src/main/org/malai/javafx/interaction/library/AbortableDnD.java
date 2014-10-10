@@ -2,9 +2,10 @@ package org.malai.javafx.interaction.library;
 
 import java.util.List;
 
+import javafx.scene.Node;
+
 import org.malai.interaction.AbortingState;
-import org.malai.interaction.ReleaseTransition;
-import org.malai.stateMachine.Transition;
+import org.malai.javafx.interaction.ReleaseTransition;
 
 public class AbortableDnD extends DnD {
 
@@ -22,22 +23,14 @@ public class AbortableDnD extends DnD {
 
 		new EscapeKeyPressureTransition(pressed, aborted);
 		new EscapeKeyPressureTransition(dragged, aborted);
-
-		List<Transition> ts = pressed.getTransitions();
-		boolean ok = false;
-		int i=0, size = ts.size();
-		Transition t;
-
-		while(!ok && i<size) {
-			t = ts.get(i);
-
-			if(t instanceof ReleaseTransition && t.getOutputState()==released) {
-				ok = true;
-				ts.remove(t);
-			}
-			else i++;
-		}
-
+		pressed.getTransitions().stream().filter(t -> t instanceof ReleaseTransition).findFirst().ifPresent(t -> pressed.getTransitions().remove(t));
 		new Release4DnD(pressed, aborted);
+	}
+
+	
+	@Override
+	public void registerToWidgets(List<Node> widgets) {
+		super.registerToWidgets(widgets);
+		widgets.stream().forEach(widget -> widget.setOnKeyReleased(evt -> onKeyRelease(evt, 0)));
 	}
 }

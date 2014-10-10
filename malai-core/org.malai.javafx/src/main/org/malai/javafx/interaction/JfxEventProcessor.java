@@ -10,6 +10,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Defines all the events an JavaFX interaction must manage.<br>
@@ -29,6 +31,41 @@ import javafx.scene.control.ToggleButton;
  * @version 2.0
  */
 public interface JfxEventProcessor {
+	/**
+	 * Defines action to do when the button of a mouse or something equivalent is pressed.
+	 * @param idHID The identifier of the used HID.
+	 * @since 2.0
+	 */
+	void onPressure(final MouseEvent evt, final int idHID);
+
+	/**
+	 * Defines action to do when the button of a mouse or something equivalent is released.
+	 * @param idHID The identifier of the used HID.
+	 * @since 2.0
+	 */
+	void onRelease(final MouseEvent evt, final int idHID);
+
+	/**
+	 * Defines action to do when a mouse or something equivalent is moved.
+	 * @param idHID The identifier of the used HID.
+	 * @since 2.0
+	 */
+	void onMove(final MouseEvent evt, final int idHID);
+	
+	/**
+	 * Defines actions to do when a key of a keyboard is pressed.
+	 * @param idHID The identifier of the HID that produced the event.
+	 * @since 2.0
+	 */
+	void onKeyPressure(final KeyEvent event, final int idHID);
+
+	/**
+	 * Defines actions to do when a key of a keyboard is released.
+	 * @param idHID The identifier of the HID that produced the event.
+	 * @since 2.0
+	 */
+	void onKeyRelease(final KeyEvent event, final int idHID);
+	
 	/**
 	 * Defines actions to do when a button is triggered.
 	 * @param button The pressed button.

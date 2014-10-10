@@ -1,13 +1,18 @@
 package org.malai.javafx.interaction.library;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.List;
+import java.util.Optional;
+
+import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 
 import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.MoveTransition;
-import org.malai.interaction.PressureTransition;
-import org.malai.interaction.ReleaseTransition;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxInteractionImpl;
+import org.malai.javafx.interaction.MoveTransition;
+import org.malai.javafx.interaction.PressureTransition;
+import org.malai.javafx.interaction.ReleaseTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -30,19 +35,19 @@ import org.malai.stateMachine.TargetableState;
  */
 public class DnD extends JfxInteractionImpl {
 	/** The starting point of the dnd. */
-	protected Point startPt;
+	protected Optional<Point2D.Double> startPt;
 
 	/** The ending point of the dnd. */
-	protected Point endPt;
+	protected Optional<Point2D.Double> endPt;
 
-	/** The button of the device used to performed the dnd (-1 if no button). */
-	protected int button;
+	/** The button of the device used to performed the dnd. */
+	protected MouseButton button;
 
 	/** The object picked at the beginning of the dnd. */
-	protected Object startObject;
+	protected Optional<Object> startObject;
 
 	/** The object picked at the end of the dnd. */
-	protected Object endObject;
+	protected Optional<Object> endObject;
 
 	protected IntermediaryState pressed;
 
@@ -75,10 +80,10 @@ public class DnD extends JfxInteractionImpl {
 			public void action() {
 				super.action();
 				setLastHIDUsed(this.hid);
-				DnD.this.startPt 	 = new Point(this.x, this.y);
-				DnD.this.endPt	 	 = new Point(this.x, this.y);
-				DnD.this.button  	 = this.button;
-				DnD.this.startObject = this.source;
+				DnD.this.startPt 	 = Optional.of(new Point2D.Double(this.event.getX(), this.event.getY()));
+				DnD.this.endPt	 	 = Optional.of(new Point2D.Double(this.event.getX(), this.event.getY()));
+				DnD.this.button  	 = this.event.getButton();
+				DnD.this.startObject = Optional.ofNullable(this.event.getSource());
 				DnD.this.endObject 	 = DnD.this.startObject;
 			}
 		};
@@ -93,37 +98,44 @@ public class DnD extends JfxInteractionImpl {
 	@Override
 	public void reinit() {
 		super.reinit();
-		startPt 	= null;
-		endPt 		= null;
-		button		= -1;
-		startObject = null;
-		endObject 	= null;
+		startPt 	= Optional.empty();
+		endPt 		= Optional.empty();
+		button		= MouseButton.NONE;
+		startObject = Optional.empty();
+		endObject 	= Optional.empty();
 	}
 
+	
+	@Override
+	public void registerToWidgets(List<Node> widgets) {
+		widgets.stream().forEach(widget -> {
+			widget.setOnMousePressed(evt -> onPressure(evt, 0));
+			widget.setOnMouseReleased(evt -> onRelease(evt, 0));
+			widget.setOnMouseMoved(evt -> onMove(evt, 0));
+		});
+	}
+	
 
 	/**
 	 * @return The starting point of the dnd.
-	 * @since 0.1
 	 */
-	public Point getStartPt() {
+	public Optional<Point2D.Double> getStartPt() {
 		return startPt;
 	}
 
 
 	/**
 	 * @return The ending point of the dnd.
-	 * @since 0.1
 	 */
-	public Point getEndPt() {
+	public Optional<Point2D.Double> getEndPt() {
 		return endPt;
 	}
 
 
 	/**
-	 * @return The button of the device used to performed the dnd (-1 if no button).
-	 * @since 0.1
+	 * @return The button of the device used to performed the dnd.
 	 */
-	public int getButton() {
+	public MouseButton getButton() {
 		return button;
 	}
 
@@ -131,7 +143,7 @@ public class DnD extends JfxInteractionImpl {
 	/**
  	 * @return The object picked at the beginning of the dnd.
 	 */
-	public Object getStartObject() {
+	public Optional<Object> getStartObject() {
 		return startObject;
 	}
 
@@ -139,7 +151,7 @@ public class DnD extends JfxInteractionImpl {
 	/**
 	 * @return The object picked at the end of the dnd.
 	 */
-	public Object getEndObjet() {
+	public Optional<Object> getEndObjet() {
 		return endObject;
 	}
 
@@ -158,7 +170,7 @@ public class DnD extends JfxInteractionImpl {
 		}
 		@Override
 		public boolean isGuardRespected() {
-			return DnD.this.button==this.button && DnD.this.getLastHIDUsed()==this.hid;
+			return DnD.this.button==this.event.getButton() && DnD.this.getLastHIDUsed()==this.hid;
 		}
 	}
 
@@ -178,8 +190,8 @@ public class DnD extends JfxInteractionImpl {
 		@Override
 		public void action() {
 			super.action();
-			DnD.this.endPt.setLocation(x, y);
-			DnD.this.endObject = this.source;
+			DnD.this.endPt.ifPresent(pt -> pt.setLocation(event.getX(), event.getY()));
+			DnD.this.endObject = Optional.ofNullable(this.event.getPickResult().getIntersectedNode());
 		}
 		@Override
 		public boolean isGuardRespected() {
