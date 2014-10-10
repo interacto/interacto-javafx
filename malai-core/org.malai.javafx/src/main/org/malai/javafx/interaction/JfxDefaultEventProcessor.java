@@ -10,6 +10,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import org.malai.interaction.Interaction;
 
@@ -31,6 +33,61 @@ import org.malai.interaction.Interaction;
  * @version 2.0
  */
 public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction {
+	@Override
+	default void onPressure(final MouseEvent evt, final int idHID) {
+		if(!isActivated()) return ;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof PressureTransition).filter(tr -> {
+			final PressureTransition pt = (PressureTransition)tr;
+			pt.setEvent(evt);
+			pt.setHid(idHID);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+
+	@Override
+	default void onRelease(final MouseEvent evt, final int idHID) {
+		if(!isActivated()) return ;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof ReleaseTransition).filter(tr -> {
+			final ReleaseTransition pt = (ReleaseTransition)tr;
+			pt.setEvent(evt);
+			pt.setHid(idHID);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+
+	@Override
+	default void onMove(final MouseEvent evt, final int idHID) {
+		if(!isActivated()) return ;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof MoveTransition).filter(tr -> {
+			final MoveTransition pt = (MoveTransition)tr;
+			pt.setEvent(evt);
+			pt.setHid(idHID);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+	
+	@Override
+	default void onKeyPressure(final KeyEvent event, final int idHID) {
+		if(!isActivated()) return ;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof KeyPressureTransition).filter(tr -> {
+			final KeyPressureTransition pt =  (KeyPressureTransition)tr;
+			pt.setEvent(event);
+			pt.setHid(idHID);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+
+	@Override
+	default void onKeyRelease(final KeyEvent event, final int idHID) {
+		if(!isActivated()) return ;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof KeyReleaseTransition).filter(tr -> {
+			final KeyReleaseTransition pt =  (KeyReleaseTransition)tr;
+			pt.setEvent(event);
+			pt.setHid(idHID);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+	
 	@Override
 	default void onJfxButtonPressed(final Button button) {
 		if(!isActivated()) return ;

@@ -1,6 +1,14 @@
 package org.malai.javafx.interaction.library;
 
+import java.util.List;
+
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.ToggleButton;
 
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxButtonPressedTransition;
@@ -47,5 +55,16 @@ public class ButtonPressed extends WidgetInteraction<ButtonBase> {
 				ButtonPressed.this.widget = this.widget;
 			}
 		};
+	}
+	
+	@Override
+	public void registerToWidgets(List<Node> widgets) {
+		widgets.stream().filter(w -> w instanceof ButtonBase).forEach(w -> {
+			if(w instanceof Button) ((Button)w).setOnAction(evt -> onJfxButtonPressed((Button)evt.getSource()));
+			else if(w instanceof CheckBox) ((CheckBox)w).setOnAction(evt -> onJfxCheckBoxUsed((CheckBox)evt.getSource()));
+			else if(w instanceof ToggleButton) ((ToggleButton)w).setOnAction(evt -> onJfxToggleButtonsPressed((ToggleButton)evt.getSource()));
+			else if(w instanceof Hyperlink) ((Hyperlink)w).setOnAction(evt -> onJfxHyperlinkClicked((Hyperlink)evt.getSource()));
+			else if(w instanceof MenuButton) ((MenuButton)w).setOnAction(evt -> onJfxMenuButtonPressed((MenuButton)evt.getSource()));
+		});
 	}
 }

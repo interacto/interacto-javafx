@@ -1,5 +1,7 @@
 package org.malai.javafx.interaction;
 
+import javafx.scene.input.MouseEvent;
+
 import org.malai.interaction.TransitionImpl;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -21,7 +23,7 @@ import org.malai.stateMachine.TargetableState;
  * 2014-09-23<br>
  * @author Arnaud BLOUIN
  */
-public class MoveTransition extends PointingDeviceTransition {
+public class MoveTransition extends PointingDeviceTransition<MouseEvent> {
 	/** Defines if a button is pressed while the pointing device is moving. */
 	protected boolean pressed;
 

@@ -1,5 +1,9 @@
 package org.malai.javafx.interaction.library;
 
+import java.util.List;
+import java.util.Optional;
+
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 
 import org.malai.javafx.interaction.JfxInteractionImpl;
@@ -26,13 +30,13 @@ import org.malai.stateMachine.TargetableState;
  */
 public abstract class KeyInteraction extends JfxInteractionImpl {
 	/** The key pressed. */
-	protected String key;
+	protected Optional<String> key;
 
 	/** The object that produced the interaction. */
-	protected Object object;
+	protected Optional<Object> object;
 	
 	/** The code of the key.*/
-	protected KeyCode keyCode;
+	protected Optional<KeyCode> keyCode;
 
 
 	/**
@@ -46,22 +50,30 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 	@Override
 	public void reinit() {
 		super.reinit();
-		key = "";
+		key = Optional.empty();
+		object = Optional.empty();
+		keyCode = Optional.empty();
 	}
 
 
 	/**
 	 * @return The object that produced the interaction.
 	 */
-	public Object getObject() {
+	public Optional<Object> getObject() {
 		return object;
 	}
 
+	/**
+	 * @return The key code used by the interaction.
+	 */
+	public Optional<KeyCode> getKeyCode() {
+		return keyCode;
+	}
 
 	/**
-	 * @return The key pressed.
+	 * @return The key used by the interaction.
 	 */
-	public String getKey() {
+	public Optional<String> getKey() {
 		return key;
 	}
 
@@ -70,7 +82,14 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 	 * @param key The key pressed.
 	 */
 	protected void setKey(final String key) {
-		this.key = key;
+		this.key = Optional.ofNullable(key);
+	}
+	
+	/**
+	 * @param key The key pressed.
+	 */
+	protected void setKeyCode(final KeyCode keycode) {
+		this.keyCode = Optional.ofNullable(keycode);
 	}
 
 
@@ -78,7 +97,7 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 	 * @param object The object that produced the interaction.
 	 */
 	protected void setObject(final Object object) {
-		this.object = object;
+		this.object = Optional.ofNullable(object);
 	}
 
 
@@ -97,10 +116,18 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 
 		@Override
 		public void action() {
-			KeyInteraction.this.object 	= this.source;
-			KeyInteraction.this.key 	= this.key;
-			KeyInteraction.this.keyCode	= this.keyCode;
+			KeyInteraction.this.setObject(event.getSource());
+			KeyInteraction.this.setKey(event.getCharacter());
+			KeyInteraction.this.setKeyCode(event.getCode());
 			KeyInteraction.this.setLastHIDUsed(this.hid);
 		}
+	}
+	
+	@Override
+	public void registerToWidgets(List<Node> widgets) {
+		widgets.stream().forEach(w -> {
+			w.setOnKeyPressed(evt -> onKeyPressure(evt, 0));
+			w.setOnKeyReleased(evt -> onKeyRelease(evt, 0));
+		});
 	}
 }

@@ -27,7 +27,8 @@ public interface JfxInteraction extends JfxDefaultEventProcessor {
 	 * Registers the given listeners to the interaction.
 	 * The given widgets must be the ones used that the interaction.
 	 * This operation has to be overridden by each interaction to register the widgets.
-	 * @param widgets The widgets that will produce events used by the interaction.
+	 * @param widgets The widgets that will produce events used by the interaction. Cannot be null.
+	 * @throws NullPointerException When the given <code>widgets</code> is null.
 	 */
 	default void registerToWidgets(final List<Node> widgets) {
 		// Should be overriden.
