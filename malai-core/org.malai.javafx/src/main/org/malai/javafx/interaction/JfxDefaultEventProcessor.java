@@ -67,6 +67,17 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 	}
 	
 	@Override
+	default void onDrag(final MouseEvent evt, final int idHID) {
+		if(!isActivated()) return ;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof DragTransition).filter(tr -> {
+			final DragTransition pt = (DragTransition)tr;
+			pt.setEvent(evt);
+			pt.setHid(idHID);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+	
+	@Override
 	default void onKeyPressure(final KeyEvent event, final int idHID) {
 		if(!isActivated()) return ;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof KeyPressureTransition).filter(tr -> {

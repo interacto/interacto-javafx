@@ -53,6 +53,13 @@ public interface JfxEventProcessor {
 	void onMove(final MouseEvent evt, final int idHID);
 	
 	/**
+	 * Defines action to do when a mouse or something equivalent is dragged.
+	 * @param idHID The identifier of the used HID.
+	 * @since 2.0
+	 */
+	void onDrag(final MouseEvent evt, final int idHID);
+	
+	/**
 	 * Defines actions to do when a key of a keyboard is pressed.
 	 * @param idHID The identifier of the HID that produced the event.
 	 * @since 2.0
