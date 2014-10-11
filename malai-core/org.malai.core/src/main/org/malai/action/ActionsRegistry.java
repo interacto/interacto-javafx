@@ -24,10 +24,10 @@ import org.malai.undo.Undoable;
  */
 public final class ActionsRegistry {
 	/** The saved actions. */
-	private List<Action> actions;
+	private final List<Action> actions;
 
 	/** The actions handlers. */
-	private List<ActionHandler> handlers;
+	private final List<ActionHandler> handlers;
 
 	/** The max number of actions that can contains the register. */
 	private int sizeMax;

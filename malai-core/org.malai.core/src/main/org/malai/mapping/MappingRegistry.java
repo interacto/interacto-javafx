@@ -32,18 +32,18 @@ public final class MappingRegistry implements IMappingRegistry {
 	public static final IMappingRegistry REGISTRY = new MappingRegistry();
 
 	/** Contains objects and their unique mapping. */
-	private Map<Object, IMapping> uniqueMappings;
+	private final Map<Object, IMapping> uniqueMappings;
 
 	/**
 	 * Contains objects and their mappings. The difference with uniqueMappings is that
 	 * multiMappings is not used by default (i.e. when only one mapping is attributed to an object)
 	 * to save memory.
 	 */
-	private Map<Object, List<IMapping>> multiMappings;
+	private final Map<Object, List<IMapping>> multiMappings;
 
-	private Map<Object, IMapping> invertedUniqueMappings;
+	private final Map<Object, IMapping> invertedUniqueMappings;
 
-	private Map<Object, List<IMapping>> invertedMultiMappings;
+	private final Map<Object, List<IMapping>> invertedMultiMappings;
 
 
 	/**

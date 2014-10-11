@@ -27,10 +27,10 @@ import org.malai.stateMachine.Transition;
  */
 public abstract class StateImpl implements State {
 	/** The name of the state. */
-	protected String name;
+	protected final String name;
 
 	/** The list of the transitions that leave the state. */
-	protected List<Transition> transitions;
+	protected final List<Transition> transitions;
 
 	/** The state machine that contains the state. */
 	protected Interaction stateMachine;

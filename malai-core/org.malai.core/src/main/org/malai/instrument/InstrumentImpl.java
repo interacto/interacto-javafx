@@ -33,7 +33,7 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	protected boolean activated;
 
 	/**  The interactors of the instrument. */
-	protected List<T> interactors;
+	protected final List<T> interactors;
 
 	/** Defined if the instrument has been modified. */
 	protected boolean modified;
