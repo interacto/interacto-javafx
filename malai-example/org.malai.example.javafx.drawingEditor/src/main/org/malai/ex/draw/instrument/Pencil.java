@@ -12,6 +12,7 @@ import org.malai.ex.draw.action.AddShape;
 import org.malai.ex.draw.model.MyDrawing;
 import org.malai.ex.draw.model.MyRect;
 import org.malai.ex.draw.view.shape.MyViewDrawing;
+import org.malai.ex.draw.view.shape.MyViewRect;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.DnD;
@@ -67,9 +68,11 @@ class DnD2AddShape extends JfxInteractor<AddShape, DnD, Pencil> {
 		
 		rect.setWidth(1);
 		rect.setHeight(1);
+		final MyViewRect vRect = new MyViewRect(rect);
 		action.setDrawing(instrument.drawing);
 		action.setShape(rect);
 		shape = Optional.of(rect);
+		instrument.canvas.setTempShape(Optional.of(vRect));
 	}
 	
 	@Override
@@ -80,6 +83,7 @@ class DnD2AddShape extends JfxInteractor<AddShape, DnD, Pencil> {
 				sh.setHeight(pt.getY()-sh.getY());
 			});
 		});
+		instrument.canvas.repaint();
 	}
 
 	
