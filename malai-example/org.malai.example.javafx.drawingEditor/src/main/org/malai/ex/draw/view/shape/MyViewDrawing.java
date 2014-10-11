@@ -25,7 +25,7 @@ import org.malai.ex.draw.model.MyShape;
  * Moreover, this view is a concrete presentation, i.e. the
  * representation of the model of the application (MyDrawing).
  */
-public class MyViewDrawing extends Canvas { // MCanvas implements ConcretePresentation {
+public class MyViewDrawing extends Canvas {
 	protected final List<MyViewShape<?>> views;
 	
 	protected Optional<MyViewShape<?>> tmpShape;
@@ -33,7 +33,7 @@ public class MyViewDrawing extends Canvas { // MCanvas implements ConcretePresen
 	protected boolean modified;
 
 
-	public MyViewDrawing(final MyDrawing drawing) {
+	public MyViewDrawing() {
 		/*
 		 * The constructors of the Malai widgets have special parameters.
 		 * withScrollPane is specific to panels and defines if the panel
@@ -52,7 +52,10 @@ public class MyViewDrawing extends Canvas { // MCanvas implements ConcretePresen
 		modified = false;
 		setWidth(800);
 		setHeight(600);
-		
+	}
+	
+	
+	public void bindModel(final MyDrawing drawing) {
 		drawing.getShapes().addListener((ListChangeListener.Change<? extends MyShape> ch) -> {
 			while(ch.next()) {
 				if(ch.wasAdded()) {
