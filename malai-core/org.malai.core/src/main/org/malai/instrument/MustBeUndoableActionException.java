@@ -23,7 +23,7 @@ public class MustBeUndoableActionException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	/** The class of the action that want to be undone/redone. */
-	protected Class<?> clazz;
+	protected final Class<?> clazz;
 
 
 	/**

@@ -27,10 +27,10 @@ import org.malai.properties.Reinitialisable;
  */
 public class Presentation<A extends AbstractPresentation, C extends ConcretePresentation> implements Modifiable, Reinitialisable {
 	/** The abstract presentation, i.e. the manipulated data model. */
-	protected A abstractPresentation;
+	protected final A abstractPresentation;
 
 	/** The concrete presentation, i.e. the representation of the abstract presentation. */
-	protected C concretePresentation;
+	protected final C concretePresentation;
 
 
 	/**

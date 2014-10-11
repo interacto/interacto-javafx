@@ -32,25 +32,25 @@ public final class UndoCollector {
 	public static final String EMPTY_UNDO = "undo";
 
 	/** Contains the handlers of each undoable of the undo stack */
-	private Deque<UndoHandler> undoHandlers;
+	private final Deque<UndoHandler> undoHandlers;
 
 	/** Contains the handlers of each undoable of the redo stack */
-	private Deque<UndoHandler> redoHandlers;
+	private final Deque<UndoHandler> redoHandlers;
 
 	/** Contains the undoable objects. */
-	private Deque<Undoable> undo;
+	private final Deque<Undoable> undo;
 
 	/** Contains the redoable objects. */
-	private Deque<Undoable> redo;
+	private final Deque<Undoable> redo;
 
 	/** The maximal number of undo. */
 	private int sizeMax;
 
 	/** The handlers that handles the collector. */
-	private List<UndoHandler> handlers;
+	private final List<UndoHandler> handlers;
 
 	/** This object is used to avaoid the use of null when no undoable handler are provided. */
-	private UndoHandler MOCK_UNDO_HANDLER = new EmptyUndoHandler();
+	private static final UndoHandler STUB_UNDO_HANDLER = new EmptyUndoHandler();
 
 
 
@@ -118,7 +118,7 @@ public final class UndoCollector {
 
 			undo.push(undoable);
 			// When undo handler is null, a fake object is added instead of using null.
-			if(undoHandler==null) undoHandlers.push(MOCK_UNDO_HANDLER);
+			if(undoHandler==null) undoHandlers.push(STUB_UNDO_HANDLER);
 			else undoHandlers.push(undoHandler);
 			redo.clear(); /* The redoable objects must be removed. */
 			redoHandlers.clear();

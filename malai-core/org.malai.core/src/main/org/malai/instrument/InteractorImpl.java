@@ -35,19 +35,19 @@ import org.malai.undo.Undoable;
  */
 public abstract class InteractorImpl<A extends Action, I extends Interaction, N extends Instrument> implements Interactor {
 	/** The source interaction. */
-	protected I interaction;
+	protected final I interaction;
 
 	/** The target action. */
 	protected A action;
 
 	/** The instrument that contains the interactor. */
-	protected N instrument;
+	protected final N instrument;
 
 	/** Specifies if the action must be execute or update
 	 * on each evolution of the interaction. */
 	protected boolean execute;
 
-	protected Class<A> clazzAction;
+	protected final Class<A> clazzAction;
 
 
 	/**

@@ -25,10 +25,10 @@ import org.malai.stateMachine.TargetableState;
  */
 public abstract class TransitionImpl implements Transition {
 	/** The source state. */
-	protected SourceableState inputState;
+	protected final SourceableState inputState;
 
 	/** The target state. */
-	protected TargetableState outputState;
+	protected final TargetableState outputState;
 
 	/** The ID of the HID that produced the transition. */
 	protected int hid;

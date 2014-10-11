@@ -30,10 +30,10 @@ import org.malai.stateMachine.MustAbortStateMachineException;
  */
 public abstract class InteractionImpl implements Interaction {
 	/** The states that compose the finite state machine. */
-	protected List<State> states;
+	protected final List<State> states;
 
 	/** The initial state the starts the state machine. */
-	protected InitState initState;
+	protected final InitState initState;
 
 	/** The current state of the state machine when the state machine is executed. */
 	protected State currentState;
