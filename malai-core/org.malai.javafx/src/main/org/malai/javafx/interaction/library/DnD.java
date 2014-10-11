@@ -9,8 +9,8 @@ import javafx.scene.input.MouseButton;
 
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
+import org.malai.javafx.interaction.DragTransition;
 import org.malai.javafx.interaction.JfxInteractionImpl;
-import org.malai.javafx.interaction.MoveTransition;
 import org.malai.javafx.interaction.PressureTransition;
 import org.malai.javafx.interaction.ReleaseTransition;
 import org.malai.stateMachine.SourceableState;
@@ -111,7 +111,7 @@ public class DnD extends JfxInteractionImpl {
 		widgets.stream().forEach(widget -> {
 			widget.setOnMousePressed(evt -> onPressure(evt, 0));
 			widget.setOnMouseReleased(evt -> onRelease(evt, 0));
-			widget.setOnMouseMoved(evt -> onMove(evt, 0));
+			widget.setOnMouseDragged(evt -> onDrag(evt, 0));
 		});
 	}
 	
@@ -178,7 +178,7 @@ public class DnD extends JfxInteractionImpl {
 	/**
 	 * A transition dedicated for the DnD interaction. Corresponds to the move events.
 	 */
-	public class Move4DnD extends MoveTransition {
+	public class Move4DnD extends DragTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The input state of the transition.
