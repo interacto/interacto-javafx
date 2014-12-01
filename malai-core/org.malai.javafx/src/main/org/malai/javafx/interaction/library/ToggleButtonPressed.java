@@ -3,10 +3,10 @@ package org.malai.javafx.interaction.library;
 import java.util.List;
 
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 
 import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxButtonPressedTransition;
+import org.malai.javafx.interaction.JfxToggleButtonPressedTransition;
 
 /**
  * This interaction occurs when a button is pressed.<br>
@@ -26,11 +26,11 @@ import org.malai.javafx.interaction.JfxButtonPressedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ButtonPressed extends WidgetInteraction<Button> {
+public class ToggleButtonPressed extends WidgetInteraction<ToggleButton> {
 	/**
 	 * Creates the interaction.
 	 */
-	public ButtonPressed() {
+	public ToggleButtonPressed() {
 		super();
 		initStateMachine();
 	}
@@ -43,17 +43,17 @@ public class ButtonPressed extends WidgetInteraction<Button> {
 
 		addState(pressed);
 
-		new JfxButtonPressedTransition(initState, pressed) {
+		new JfxToggleButtonPressedTransition(initState, pressed) {
 			@Override
 			public void action() {
 				super.action();
-				ButtonPressed.this.widget = this.widget;
+				ToggleButtonPressed.this.widget = this.widget;
 			}
 		};
 	}
-	
+
 	@Override
 	public void registerToWidgets(List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof Button).forEach(w -> ((Button)w).setOnAction(evt -> onJfxButtonPressed((Button)evt.getSource())));
+		widgets.stream().filter(w -> w instanceof ToggleButton).forEach(w -> ((ToggleButton)w).setOnAction(evt -> onJfxToggleButtonsPressed((ToggleButton)evt.getSource())));
 	}
 }
