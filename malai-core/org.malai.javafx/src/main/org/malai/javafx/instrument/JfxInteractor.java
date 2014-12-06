@@ -44,4 +44,10 @@ public abstract class JfxInteractor<A extends Action, I extends JfxInteraction, 
 		super(ins, exec, clazzAction, clazzInteraction);
 		interaction.registerToWidgets(widgets);
 	}
+
+
+	@Override
+	public boolean isConditionRespected() {
+		return true;
+	}
 }
