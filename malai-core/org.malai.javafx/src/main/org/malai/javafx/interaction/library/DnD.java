@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
@@ -109,9 +110,9 @@ public class DnD extends JfxInteractionImpl {
 	@Override
 	public void registerToWidgets(List<Node> widgets) {
 		widgets.stream().forEach(widget -> {
-			widget.setOnMousePressed(evt -> onPressure(evt, 0));
-			widget.setOnMouseReleased(evt -> onRelease(evt, 0));
-			widget.setOnMouseDragged(evt -> onDrag(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
 		});
 	}
 	

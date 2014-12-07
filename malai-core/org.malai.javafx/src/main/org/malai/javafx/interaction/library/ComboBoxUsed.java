@@ -2,11 +2,9 @@ package org.malai.javafx.interaction.library;
 
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ComboBoxBase;
-import javafx.scene.control.DatePicker;
 
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
@@ -29,7 +27,7 @@ import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ComboBoxUsed extends WidgetInteraction<ComboBoxBase<?>> {
+public class ComboBoxUsed extends WidgetInteraction<ComboBox<?>> {
 	/**
 	 * Creates the interaction.
 	 */
@@ -56,11 +54,8 @@ public class ComboBoxUsed extends WidgetInteraction<ComboBoxBase<?>> {
 	}
 	
 	@Override
-	public void registerToWidgets(List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof ComboBoxBase<?>).forEach(w -> {
-			if(w instanceof ComboBox<?>) ((ComboBox<?>)w).setOnAction(evt -> onJfxComboBoxSelected((ComboBox<?>)evt.getSource()));
-			else if(w instanceof ColorPicker) ((ColorPicker)w).setOnAction(evt -> onJfxColorPicked((ColorPicker)evt.getSource()));
-			else if(w instanceof DatePicker) ((DatePicker)w).setOnAction(evt -> onJfxDatePicked((DatePicker)evt.getSource()));
-		});
+	public void registerToWidgets(final List<Node> widgets) {
+		widgets.stream().filter(w -> w instanceof ComboBox<?>).forEach(w -> 
+			((ComboBox<?>)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxComboBoxSelected((ComboBox<?>)evt.getSource())));
 	}
 }

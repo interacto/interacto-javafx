@@ -2,6 +2,7 @@ package org.malai.javafx.interaction.library;
 
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
@@ -53,7 +54,8 @@ public class ButtonPressed extends WidgetInteraction<Button> {
 	}
 	
 	@Override
-	public void registerToWidgets(List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof Button).forEach(w -> ((Button)w).setOnAction(evt -> onJfxButtonPressed((Button)evt.getSource())));
+	public void registerToWidgets(final List<Node> widgets) {
+		widgets.stream().filter(w -> w instanceof Button).forEach(w -> 
+			((Button)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxButtonPressed((Button)evt.getSource())));
 	}
 }
