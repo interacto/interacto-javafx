@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.KeyPressureTransition;
@@ -126,8 +127,8 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 	@Override
 	public void registerToWidgets(List<Node> widgets) {
 		widgets.stream().forEach(w -> {
-			w.setOnKeyPressed(evt -> onKeyPressure(evt, 0));
-			w.setOnKeyReleased(evt -> onKeyRelease(evt, 0));
+			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
+			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
 		});
 	}
 }

@@ -2,6 +2,7 @@ package org.malai.javafx.interaction.library;
 
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 
@@ -53,7 +54,8 @@ public class ToggleButtonPressed extends WidgetInteraction<ToggleButton> {
 	}
 
 	@Override
-	public void registerToWidgets(List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof ToggleButton).forEach(w -> ((ToggleButton)w).setOnAction(evt -> onJfxToggleButtonsPressed((ToggleButton)evt.getSource())));
+	public void registerToWidgets(final List<Node> widgets) {
+		widgets.stream().filter(w -> w instanceof ToggleButton).forEach(w -> 
+			((ToggleButton)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxToggleButtonsPressed((ToggleButton)evt.getSource())));
 	}
 }
