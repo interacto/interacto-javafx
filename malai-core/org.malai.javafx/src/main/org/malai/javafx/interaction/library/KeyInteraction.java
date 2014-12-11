@@ -126,7 +126,7 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 	
 	@Override
 	public void registerToWidgets(List<Node> widgets) {
-		widgets.stream().forEach(w -> {
+		widgets.forEach(w -> {
 			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
 			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
 		});

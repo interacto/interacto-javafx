@@ -1,17 +1,4 @@
-package org.malai.javafx.interaction.library;
-
-import java.util.List;
-
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.ColorPicker;
-
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxColorPickedTransition;
-
-/**
- * An interaction dedicated to the use of colour pickers.<br>
- * <br>
+/*
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
  * <br>
@@ -23,15 +10,28 @@ import org.malai.javafx.interaction.JfxColorPickedTransition;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * <br>
- * 2014-09-18<br>
- * @author Arnaud BLOUIN
- * @since 2.0
  */
-public class ColorPicked extends WidgetInteraction<ColorPicker> {
+package org.malai.javafx.interaction.library;
+
+import java.util.List;
+
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
+
+import org.malai.interaction.TerminalState;
+import org.malai.javafx.interaction.JfxBoxCheckedTransition;
+
+/**
+ * This interaction occurs when a check box is selected.<br>
+ * 2014-12-11<br>
+ * @author Arnaud BLOUIN
+ */
+public class BoxChecked extends WidgetInteraction<CheckBox> {
 	/**
 	 * Creates the interaction.
 	 */
-	public ColorPicked() {
+	public BoxChecked() {
 		super();
 		initStateMachine();
 	}
@@ -40,22 +40,22 @@ public class ColorPicked extends WidgetInteraction<ColorPicker> {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("picked"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("checked"); //$NON-NLS-1$
 
 		addState(pressed);
 
-		new JfxColorPickedTransition(initState, pressed) {
+		new JfxBoxCheckedTransition(initState, pressed) {
 			@Override
 			public void action() {
 				super.action();
-				ColorPicked.this.widget = this.widget;
+				BoxChecked.this.widget = this.widget;
 			}
 		};
 	}
 	
 	@Override
 	public void registerToWidgets(final List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof ColorPicker).forEach(w -> 
-			((ColorPicker)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxColorPicked((ColorPicker)evt.getSource())));
+		widgets.stream().filter(w -> w instanceof CheckBox).forEach(w -> 
+			((CheckBox)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxBoxChecked((CheckBox)evt.getSource())));
 	}
 }

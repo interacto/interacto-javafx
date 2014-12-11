@@ -23,11 +23,11 @@ import org.malai.stateMachine.TargetableState;
  * <br>
  * @author Arnaud BLOUIN
  */
-public class JfxCheckBoxUsedTransition extends WidgetTransition<CheckBox> {
+public class JfxBoxCheckedTransition extends WidgetTransition<CheckBox> {
 	/**
 	 * {@link TransitionImpl#Transition(SourceableState, TargetableState)}
 	 */
-	public JfxCheckBoxUsedTransition(final SourceableState inputState, final TargetableState outputState) {
+	public JfxBoxCheckedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 }

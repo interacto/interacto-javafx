@@ -27,11 +27,11 @@ import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ComboBoxUsed extends WidgetInteraction<ComboBox<?>> {
+public class ComboBoxSelected extends WidgetInteraction<ComboBox<?>> {
 	/**
 	 * Creates the interaction.
 	 */
-	public ComboBoxUsed() {
+	public ComboBoxSelected() {
 		super();
 		initStateMachine();
 	}
@@ -48,7 +48,7 @@ public class ComboBoxUsed extends WidgetInteraction<ComboBox<?>> {
 			@Override
 			public void action() {
 				super.action();
-				ComboBoxUsed.this.widget = this.widget;
+				ComboBoxSelected.this.widget = this.widget;
 			}
 		};
 	}

@@ -109,10 +109,10 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 	}
 	
 	@Override
-	default void onJfxCheckBoxUsed(final CheckBox button) {
+	default void onJfxBoxChecked(final CheckBox button) {
 		if(!isActivated()) return ;
-		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxCheckBoxUsedTransition).filter(tr -> {
-			((JfxCheckBoxUsedTransition)tr).setWidget(button);
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxBoxCheckedTransition).filter(tr -> {
+			((JfxBoxCheckedTransition)tr).setWidget(button);
 			return checkTransition(tr);
 		}).findFirst();
 	}
@@ -145,7 +145,7 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 	}
 	
 	@Override
-	default void onJfxToggleButtonsPressed(final ToggleButton button) {
+	default void onJfxToggleButtonPressed(final ToggleButton button) {
 		if(!isActivated()) return ;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxToggleButtonPressedTransition).filter(tr -> {
 			((JfxToggleButtonPressedTransition)tr).setWidget(button);
