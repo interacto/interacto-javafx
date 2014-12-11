@@ -83,7 +83,7 @@ public interface JfxEventProcessor {
 	 * Defines actions to do when a checkbox is used.
 	 * @param cb The pressed button.
 	 */
-	void onJfxCheckBoxUsed(final CheckBox cb);
+	void onJfxBoxChecked(final CheckBox cb);
 	
 	/**
 	 * Defines actions to do when a combo box is used.
@@ -131,5 +131,5 @@ public interface JfxEventProcessor {
 	 * Defines actions to do when a toggle button is clicked.
 	 * @param button The pressed toggle button.
 	 */
-	void onJfxToggleButtonsPressed(ToggleButton button);
+	void onJfxToggleButtonPressed(ToggleButton button);
 }

@@ -8,7 +8,9 @@ import org.malai.interaction.AbortingState;
 import org.malai.javafx.interaction.ReleaseTransition;
 
 public class AbortableDnD extends DnD {
-
+	/**
+	 * Creates the interaction.
+	 */
 	public AbortableDnD() {
 		super();
 	}
@@ -31,6 +33,6 @@ public class AbortableDnD extends DnD {
 	@Override
 	public void registerToWidgets(List<Node> widgets) {
 		super.registerToWidgets(widgets);
-		widgets.stream().forEach(widget -> widget.setOnKeyReleased(evt -> onKeyRelease(evt, 0)));
+		widgets.forEach(widget -> widget.setOnKeyReleased(evt -> onKeyRelease(evt, 0)));
 	}
 }
