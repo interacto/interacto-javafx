@@ -35,10 +35,10 @@ public abstract class JfxInteractor<A extends Action, I extends JfxInteraction, 
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
+	 * @param widgets The widgets used by the interactor. Cannot be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-	 * @since 2.0
 	 */
 	public JfxInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
