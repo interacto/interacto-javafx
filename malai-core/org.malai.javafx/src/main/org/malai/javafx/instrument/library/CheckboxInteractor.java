@@ -19,14 +19,14 @@ import javafx.scene.Node;
 import org.malai.action.Action;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
-import org.malai.javafx.interaction.library.ToggleButtonPressed;
+import org.malai.javafx.interaction.library.BoxChecked;
 
 /**
- *	An interactor using a JFX toggle button interaction.
+ *	An interactor using a JFX checkbox interaction.
  * @param <A> The action to produce.
  * @param <I> The instrument.
  */
-public abstract class ToggleButtonInteractor<A extends Action, I extends JfxInstrument> extends JfxInteractor<A, ToggleButtonPressed, I> {
+public abstract class CheckboxInteractor<A extends Action, I extends JfxInstrument> extends JfxInteractor<A, BoxChecked, I> {
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.
@@ -37,7 +37,7 @@ public abstract class ToggleButtonInteractor<A extends Action, I extends JfxInst
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ToggleButtonInteractor(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, ToggleButtonPressed.class, widgets);
+	public CheckboxInteractor(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
+		super(ins, false, clazzAction, BoxChecked.class, widgets);
 	}
 }
