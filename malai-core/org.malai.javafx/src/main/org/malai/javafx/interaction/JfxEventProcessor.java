@@ -1,15 +1,6 @@
 package org.malai.javafx.interaction;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -132,4 +123,10 @@ public interface JfxEventProcessor {
 	 * @param button The pressed toggle button.
 	 */
 	void onJfxToggleButtonPressed(ToggleButton button);
+	
+	/**
+	 * Defines actions to do when the value of a spinner has changed.
+	 * @param button The spinner.
+	 */
+	void onJfxSpinnerValueChanged(Spinner<?> spinner);
 }
