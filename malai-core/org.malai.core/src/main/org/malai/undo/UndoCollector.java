@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Defines a collector of undone/redone objects.<br>
  * This file is part of libMalai.
- * Copyright (c) 2005-2014 Arnaud BLOUIN
+ * Copyright (c) 2005-2015 Arnaud BLOUIN
  *
  * libMalan is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

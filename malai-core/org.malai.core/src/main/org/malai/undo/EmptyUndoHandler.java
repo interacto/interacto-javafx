@@ -3,7 +3,7 @@ package org.malai.undo;
 /**
  * An implementation of UndoHandler that does nothing. Useful to avoid implementing all the operations.<br>
  * This file is part of libMalai.
- * Copyright (c) 2005-2014 Arnaud BLOUIN
+ * Copyright (c) 2005-2015 Arnaud BLOUIN
  *
  * libMalan is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
