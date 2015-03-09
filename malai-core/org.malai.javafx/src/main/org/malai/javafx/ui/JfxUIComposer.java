@@ -9,7 +9,7 @@ import org.malai.ui.UIComposer;
  * A UI composer is a object that composes a user interface using instruments and presentations.<br>
  * <br>
  * This file is part of Malai.<br>
- * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
+ * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
  * <br>
  * Malai is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software

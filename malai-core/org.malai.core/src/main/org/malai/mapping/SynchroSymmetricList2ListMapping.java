@@ -7,7 +7,7 @@ import java.util.List;
  * The modification of the target list are synchronised in opposite to SymmetricList2ListMapping<br>
  * <br>
  * This file is part of Malai.<br>
- * Copyright (c) 2005-2014 Arnaud BLOUIN<br>
+ * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
  * <br>
  * Malai is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
