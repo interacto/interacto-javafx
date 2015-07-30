@@ -27,13 +27,9 @@ public class TestInteractor {
 	public void setUp() {
 		instrument = new MockInstrument() {
 			@Override
-			protected void initialiseInteractors() {
-				try {
-					TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionMock.class, InteractionMock.class);
-					addInteractor(interactor);
-				} catch (InstantiationException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
+			protected void initialiseInteractors() throws InstantiationException, IllegalAccessException {
+				TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionMock.class, InteractionMock.class);
+				addInteractor(interactor);
 			}
 		};
 		instrument.setActivated(true);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.malai.action.Action;
+import org.malai.error.ErrorCatcher;
 import org.malai.interaction.Eventable;
 import org.malai.undo.Undoable;
 import org.w3c.dom.Document;
@@ -74,9 +75,11 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 
 	/**
 	 * Initialises the interactors of the instrument.
+	 * @throws InstantiationException When an interactor cannot instantiate its interaction.
+	 * @throws IllegalAccessException When an interactor cannot instantiate its interaction.
 	 * @since 0.2
 	 */
-	protected abstract void initialiseInteractors();
+	protected abstract void initialiseInteractors() throws InstantiationException, IllegalAccessException;
 
 
 	/**
@@ -141,7 +144,11 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 		this.activated = activated;
 
 		if(activated && !hasInteractors())
-			initialiseInteractors();
+			try{
+				initialiseInteractors();
+			}catch(InstantiationException | IllegalAccessException e) {
+				ErrorCatcher.INSTANCE.reportError(e);
+			}
 		else
 			for(final T interactor : interactors)
 				interactor.setActivated(activated);
