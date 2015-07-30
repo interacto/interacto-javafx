@@ -31,7 +31,7 @@ public class TestMockInstrument extends TestInstrument<MockInstrument> {
 
 	public static class MockInstrument extends InstrumentImpl<InteractorImpl<?,?,MockInstrument>> {
 		@Override
-		protected void initialiseInteractors() {
+		protected void initialiseInteractors() throws InstantiationException, IllegalAccessException {
 			//
 		}
 	}
