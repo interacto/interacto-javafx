@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.scene.Node;
 
 import org.malai.interaction.AbortingState;
+import org.malai.javafx.interaction.EscapeKeyPressureTransition;
 import org.malai.javafx.interaction.ReleaseTransition;
 
 public class AbortableDnD extends DnD {
