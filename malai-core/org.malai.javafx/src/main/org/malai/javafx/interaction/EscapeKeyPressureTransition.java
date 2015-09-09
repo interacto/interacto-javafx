@@ -1,8 +1,7 @@
-package org.malai.javafx.interaction.library;
+package org.malai.javafx.interaction;
 
 import javafx.scene.input.KeyCode;
 
-import org.malai.javafx.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
