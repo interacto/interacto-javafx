@@ -1,15 +1,11 @@
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.malai.javafx.interaction.JfxInteractionImpl;
-import org.malai.javafx.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 
 /**
  * This abstract interaction should be used to define JavaFX interactions based on keyboards.<br>
@@ -26,62 +22,73 @@ import javafx.scene.input.KeyEvent;
  * 2014-09-22<br>
  * @author Arnaud BLOUIN
  */
-public abstract class KeyInteraction extends JfxInteractionImpl {
-	/** The object that produced the interaction. */
-	protected Optional<Object> object;
+public abstract class SingleKeyInteraction extends KeyInteraction {
+	/** The key pressed. */
+	protected Optional<String> key;
+
+	/** The code of the key. */
+	protected Optional<KeyCode> keyCode;
 
 	/**
 	 * Creates the interaction.
 	 */
-	public KeyInteraction() {
+	public SingleKeyInteraction() {
 		super();
 	}
 
 	@Override
 	public void reinit() {
 		super.reinit();
-		object = Optional.empty();
+		key = Optional.empty();
+		keyCode = Optional.empty();
 	}
 
 	/**
-	 * @return The object that produced the interaction.
+	 * @return The key code used by the interaction.
 	 */
-	public Optional<Object> getObject() {
-		return object;
+	public Optional<KeyCode> getKeyCode() {
+		return keyCode;
 	}
 
 	/**
-	 * @param object The object that produced the interaction.
+	 * @return The key used by the interaction.
 	 */
-	protected void setObject(final Object object) {
-		this.object = Optional.ofNullable(object);
+	public Optional<String> getKey() {
+		return key;
+	}
+
+	/**
+	 * @param key The key pressed.
+	 */
+	protected void setKey(final String key) {
+		this.key = Optional.ofNullable(key);
+	}
+
+	/**
+	 * @param keys The key pressed.
+	 */
+	protected void setKeyCode(final KeyCode keycode) {
+		this.keyCode = Optional.ofNullable(keycode);
 	}
 
 	/**
 	 * Defines a transition modifying the key attribute of the interaction.
 	 */
-	public abstract class KeyInteractionKeyPressedTransition extends KeyPressureTransition {
+	public class SingleKeyInteractionKeyPressedTransition extends KeyInteractionKeyPressedTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.
 		 * @param outputState The target state of the transition.
 		 */
-		public KeyInteractionKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
+		public SingleKeyInteractionKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
 
 		@Override
 		public void action() {
-			KeyInteraction.this.setObject(event.getSource());
-			KeyInteraction.this.setLastHIDUsed(this.hid);
+			super.action();
+			SingleKeyInteraction.this.setKey(event.getCharacter());
+			SingleKeyInteraction.this.setKeyCode(event.getCode());
 		}
-	}
-
-	@Override
-	public void registerToWidgets(List<Node> widgets) {
-		widgets.forEach(w -> {
-			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
-		});
 	}
 }
