@@ -325,20 +325,21 @@ public abstract class InteractionImpl implements Interaction {
 	 * @since 0.2
 	 */
 	protected void processEvents() {
-		if(stillProcessingEvents!=null) {
-			Event event;
-			// All the events must be processed but the list stillProcessingEvents can be modified
-			// during the process. So, a clone of the list must be created.
-			final List<Event> list = new ArrayList<>(stillProcessingEvents);
+		if(stillProcessingEvents!=null)
+			synchronized(stillProcessingEvents) {
+				Event event;
+				// All the events must be processed but the list stillProcessingEvents can be modified
+				// during the process. So, a clone of the list must be created.
+				final List<Event> list = new ArrayList<>(stillProcessingEvents);
 
-			// All the events must be processed.
-			while(!list.isEmpty()) {
-				event = list.remove(0);
-				// Do not forget to remove the event from its original list.
-				stillProcessingEvents.remove(0);
-				processEvent(event);
+				// All the events must be processed.
+				while(!list.isEmpty()) {
+					event = list.remove(0);
+					// Do not forget to remove the event from its original list.
+					stillProcessingEvents.remove(0);
+					processEvent(event);
+				}
 			}
-		}
 	}
 
 
@@ -418,7 +419,9 @@ public abstract class InteractionImpl implements Interaction {
 	@Override
 	public void clearEventsStillInProcess() {
 		if(stillProcessingEvents!=null)
-			stillProcessingEvents.clear();
+			synchronized(stillProcessingEvents) {
+				stillProcessingEvents.clear();
+			}
 	}
 
 
