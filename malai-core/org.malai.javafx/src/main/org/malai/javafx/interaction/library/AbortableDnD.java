@@ -32,8 +32,8 @@ public class AbortableDnD extends DnD {
 
 	
 	@Override
-	public void registerToWidgets(List<Node> widgets) {
-		super.registerToWidgets(widgets);
+	public void registerToNodes(List<Node> widgets) {
+		super.registerToNodes(widgets);
 		widgets.forEach(widget -> widget.setOnKeyReleased(evt -> onKeyRelease(evt, 0)));
 	}
 }

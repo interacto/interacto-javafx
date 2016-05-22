@@ -25,7 +25,7 @@ import org.malai.javafx.interaction.JfxSpinnerValueChangedTransition;
  * 2014-12-21<br>
  * @author Arnaud BLOUIN
  */
-public class SpinnerValueChanged extends WidgetInteraction<Spinner<?>> {
+public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
 	/**
 	 * Creates the interaction.
 	 */
@@ -52,7 +52,7 @@ public class SpinnerValueChanged extends WidgetInteraction<Spinner<?>> {
 	}
 	
 	@Override
-	public void registerToWidgets(final List<Node> widgets) {
+	public void registerToNodes(final List<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof Spinner<?>).forEach(w -> 
 			((Spinner<?>)w).valueProperty().addListener((observable, oldValue, newValue) -> onJfxSpinnerValueChanged((Spinner<?>)w)));
 	}

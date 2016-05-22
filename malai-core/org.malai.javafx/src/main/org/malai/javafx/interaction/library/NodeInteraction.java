@@ -22,14 +22,14 @@ import org.malai.javafx.interaction.JfxInteractionImpl;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public abstract class WidgetInteraction<T extends Node> extends JfxInteractionImpl {
+public abstract class NodeInteraction<T extends Node> extends JfxInteractionImpl {
 	/** The widget used during the interaction. */
 	protected T widget;
 	
 	/**
 	 * Creates the interaction.
 	 */
-	public WidgetInteraction() {
+	public NodeInteraction() {
 		super();
 	}
 	

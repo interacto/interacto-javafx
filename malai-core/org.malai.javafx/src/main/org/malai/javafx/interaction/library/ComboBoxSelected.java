@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ComboBoxSelected extends WidgetInteraction<ComboBox<?>> {
+public class ComboBoxSelected extends NodeInteraction<ComboBox<?>> {
 	/**
 	 * Creates the interaction.
 	 */
@@ -54,7 +54,7 @@ public class ComboBoxSelected extends WidgetInteraction<ComboBox<?>> {
 	}
 	
 	@Override
-	public void registerToWidgets(final List<Node> widgets) {
+	public void registerToNodes(final List<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof ComboBox<?>).forEach(w -> 
 			((ComboBox<?>)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxComboBoxSelected((ComboBox<?>)evt.getSource())));
 	}

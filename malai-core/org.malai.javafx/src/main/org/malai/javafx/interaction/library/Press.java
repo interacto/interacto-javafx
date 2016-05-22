@@ -42,7 +42,7 @@ public class Press extends PointInteraction {
 	}
 
 	@Override
-	public void registerToWidgets(final List<Node> widgets) {
+	public void registerToNodes(final List<Node> widgets) {
 		widgets.forEach(widget -> {
 			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));

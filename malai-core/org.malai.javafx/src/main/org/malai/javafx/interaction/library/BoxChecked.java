@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.JfxBoxCheckedTransition;
  * 2014-12-11<br>
  * @author Arnaud BLOUIN
  */
-public class BoxChecked extends WidgetInteraction<CheckBox> {
+public class BoxChecked extends NodeInteraction<CheckBox> {
 	/**
 	 * Creates the interaction.
 	 */
@@ -54,7 +54,7 @@ public class BoxChecked extends WidgetInteraction<CheckBox> {
 	}
 	
 	@Override
-	public void registerToWidgets(final List<Node> widgets) {
+	public void registerToNodes(final List<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof CheckBox).forEach(w -> 
 			((CheckBox)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxBoxChecked((CheckBox)evt.getSource())));
 	}

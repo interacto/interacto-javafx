@@ -43,7 +43,7 @@ public abstract class JfxInteractor<A extends Action, I extends JfxInteraction, 
 	 */
 	public JfxInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
-		interaction.registerToWidgets(widgets);
+		interaction.registerToNodes(widgets);
 	}
 	
 	/**
