@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.JfxButtonPressedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ButtonPressed extends WidgetInteraction<Button> {
+public class ButtonPressed extends NodeInteraction<Button> {
 	/**
 	 * Creates the interaction.
 	 */
@@ -54,7 +54,7 @@ public class ButtonPressed extends WidgetInteraction<Button> {
 	}
 	
 	@Override
-	public void registerToWidgets(final List<Node> widgets) {
+	public void registerToNodes(final List<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof Button).forEach(w -> 
 			((Button)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxButtonPressed((Button)evt.getSource())));
 	}

@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.JfxToggleButtonPressedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ToggleButtonPressed extends WidgetInteraction<ToggleButton> {
+public class ToggleButtonPressed extends NodeInteraction<ToggleButton> {
 	/**
 	 * Creates the interaction.
 	 */
@@ -54,7 +54,7 @@ public class ToggleButtonPressed extends WidgetInteraction<ToggleButton> {
 	}
 
 	@Override
-	public void registerToWidgets(final List<Node> widgets) {
+	public void registerToNodes(final List<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof ToggleButton).forEach(w -> 
 			((ToggleButton)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxToggleButtonPressed((ToggleButton)evt.getSource())));
 	}

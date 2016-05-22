@@ -1,8 +1,8 @@
 package org.malai.javafx.interaction;
 
-import java.util.List;
-
 import javafx.scene.Node;
+
+import java.util.List;
 
 /**
  * The core interface for defining interactions using the JavaFX library.<br>
@@ -30,7 +30,7 @@ public interface JfxInteraction extends JfxDefaultEventProcessor {
 	 * @param widgets The widgets that will produce events used by the interaction. Cannot be null.
 	 * @throws NullPointerException When the given <code>widgets</code> is null.
 	 */
-	default void registerToWidgets(final List<Node> widgets) {
+	default void registerToNodes(final List<Node> widgets) {
 		// Should be overriden.
 	}
 }

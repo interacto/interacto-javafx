@@ -1,16 +1,14 @@
 package org.malai.javafx.interaction.library;
 
+import javafx.event.ActionEvent;
+import javafx.scene.control.MenuItem;
+import org.malai.interaction.TerminalState;
+import org.malai.javafx.interaction.JfxMenuItemPressedTransition;
+
 import java.util.List;
 
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.ColorPicker;
-
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxColorPickedTransition;
-
 /**
- * An interaction dedicated to the use of colour pickers.<br>
+ * This interaction occurs when a button is pressed.<br>
  * <br>
  * This file is part of Malai.<br>
  * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
@@ -27,11 +25,11 @@ import org.malai.javafx.interaction.JfxColorPickedTransition;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class ColorPicked extends NodeInteraction<ColorPicker> {
+public class MenuItemPressed extends MenuItemInteraction<MenuItem> {
 	/**
 	 * Creates the interaction.
 	 */
-	public ColorPicked() {
+	public MenuItemPressed() {
 		super();
 		initStateMachine();
 	}
@@ -40,22 +38,22 @@ public class ColorPicked extends NodeInteraction<ColorPicker> {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("picked"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
 
 		addState(pressed);
 
-		new JfxColorPickedTransition(initState, pressed) {
+		new JfxMenuItemPressedTransition(initState, pressed) {
 			@Override
 			public void action() {
 				super.action();
-				ColorPicked.this.widget = this.widget;
+				MenuItemPressed.this.widget = this.widget;
 			}
 		};
 	}
 	
 	@Override
-	public void registerToNodes(final List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof ColorPicker).forEach(w -> 
-			((ColorPicker)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxColorPicked((ColorPicker)evt.getSource())));
+	public void registerToMenuItems(final List<MenuItem> widgets) {
+		widgets.stream().forEach(w ->
+			w.addEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem)evt.getSource())));
 	}
 }
