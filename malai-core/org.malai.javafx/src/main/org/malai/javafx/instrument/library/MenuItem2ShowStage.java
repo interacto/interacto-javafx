@@ -1,13 +1,11 @@
 package org.malai.javafx.instrument.library;
 
 import javafx.scene.control.MenuItem;
-import org.malai.javafx.action.library.OpenWebPageJFX;
+import javafx.stage.Stage;
+import org.malai.javafx.action.library.ShowStage;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxMenuItemInteractor;
 import org.malai.javafx.interaction.library.MenuItemPressed;
-
-import java.net.URI;
-
 
 /**
  * An interactor that opens a URL using a menu item.<br>
@@ -27,33 +25,35 @@ import java.net.URI;
  * @author Arnaud BLOUIN
  * @since 2.0
  */
-public class MenuItem2OpenWebPageInteractor extends JfxMenuItemInteractor<OpenWebPageJFX, MenuItemPressed, JfxInstrument> {
-	/** The URI to open. */
-	protected URI uri;
+public class MenuItem2ShowStage extends JfxMenuItemInteractor<ShowStage, MenuItemPressed, JfxInstrument> {
+	protected Stage stageToShow;
+
+	protected boolean show;
 
 	/**
 	 * Creates the interactor.
 	 * @param ins The instrument that will contain the interactor.
 	 * @param menuItem he menu item that will be uses to create the action.
-	 * @param uri The URI to open.
+	 * @param stage The stage to show or hide
 	 * @throws IllegalArgumentException If one of the given parameters is null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2OpenWebPageInteractor(final JfxInstrument ins, final MenuItem menuItem,
-										  final URI uri) throws InstantiationException, IllegalAccessException {
-		super(ins, false, OpenWebPageJFX.class, MenuItemPressed.class, menuItem);
+	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow)
+								throws InstantiationException, IllegalAccessException {
+		super(ins, false, ShowStage.class, MenuItemPressed.class, menuItem);
 
-		if(uri==null)
+		if(stage==null)
 			throw new IllegalArgumentException();
 
-		this.uri = uri;
+		stageToShow = stage;
+		show = toshow;
 	}
-
 
 	@Override
 	public void initAction() {
-		action.setUri(uri);
+		action.setWidget(stageToShow);
+		action.setVisible(show);
 	}
 }
