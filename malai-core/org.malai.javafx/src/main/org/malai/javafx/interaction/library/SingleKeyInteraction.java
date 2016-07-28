@@ -1,11 +1,10 @@
 package org.malai.javafx.interaction.library;
 
-import java.util.Optional;
-
+import javafx.scene.input.KeyCode;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-import javafx.scene.input.KeyCode;
+import java.util.Optional;
 
 /**
  * This abstract interaction should be used to define JavaFX interactions based on keyboards.<br>
@@ -65,7 +64,7 @@ public abstract class SingleKeyInteraction extends KeyInteraction {
 	}
 
 	/**
-	 * @param keys The key pressed.
+	 * @param keycode The key pressed.
 	 */
 	protected void setKeyCode(final KeyCode keycode) {
 		this.keyCode = Optional.ofNullable(keycode);
