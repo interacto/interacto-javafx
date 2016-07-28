@@ -1,15 +1,14 @@
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
-import java.util.Optional;
-
+import javafx.scene.Node;
+import javafx.scene.input.KeyEvent;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * This abstract interaction should be used to define JavaFX interactions based on keyboards.<br>
@@ -60,7 +59,7 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 	/**
 	 * Defines a transition modifying the key attribute of the interaction.
 	 */
-	public abstract class KeyInteractionKeyPressedTransition extends KeyPressureTransition {
+	public class KeyInteractionKeyPressedTransition extends KeyPressureTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.
