@@ -206,7 +206,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void keyPressed(final KeyEvent e) {
-		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty() || e.getKeyCode()==KeyEvent.VK_UNDEFINED) return;
 
 		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onKeyPressure(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
@@ -216,7 +216,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void keyReleased(final KeyEvent e) {
-		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty() || e.getKeyCode()==KeyEvent.VK_UNDEFINED) return;
 
 		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onKeyRelease(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
