@@ -1,43 +1,17 @@
 package org.malai.swing.interaction;
 
-import java.awt.Component;
-import java.awt.ItemSelectable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.swing.AbstractButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JMenuItem;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JTree;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeExpansionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.text.JTextComponent;
-import javax.swing.tree.TreePath;
-
 import org.malai.interaction.BasicEventManager;
 import org.malai.interaction.EventProcessor;
 import org.malai.swing.widget.MFrame;
+
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A Swing event manager gathers Swing events produces by widgets and transfers them handlers.<br>
@@ -173,7 +147,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	@Override
 	public void removeHandler(final EventProcessor h) {
 		super.removeHandler(h);
-		if(h!=null && swingHandlers!=null) 
+		if(h!=null && swingHandlers!=null && h instanceof SwingEventProcessor)
 			swingHandlers.remove(h);
 	}
 
@@ -202,7 +176,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void mousePressed(final MouseEvent e) {
-		if(e==null) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		final Object src 	= e.getSource();
 		final int x			= e.getX();
@@ -217,7 +191,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void mouseReleased(final MouseEvent e) {
-		if(e==null) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		final Object src 	= e.getSource();
 		final int x			= e.getX();
@@ -232,7 +206,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void keyPressed(final KeyEvent e) {
-		if(e==null) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onKeyPressure(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
@@ -242,7 +216,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void keyReleased(final KeyEvent e) {
-		if(e==null) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		for(final SwingEventProcessor handler : swingHandlers)
 			handler.onKeyRelease(e.getKeyCode(), e.getKeyChar(), ID_KB, e.getSource());
@@ -259,7 +233,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void mouseDragged(final MouseEvent e) {
-		if(e==null) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		final Object src 	= e.getSource();
 		final int x			= e.getX();
@@ -274,7 +248,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void mouseMoved(final MouseEvent e) {
-		if(e==null) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		final Object src 	= e.getSource();
 		final int x			= e.getX();
@@ -289,7 +263,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 
 	@Override
 	public void mouseWheelMoved(final MouseWheelEvent e) {
-		if(e==null) return;
+		if(e==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		final int posX 		= e.getX();
 		final int posY 		= e.getY();
