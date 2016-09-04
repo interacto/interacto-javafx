@@ -385,7 +385,7 @@ public class SwingEventManager extends BasicEventManager<Component> implements M
 	 * @param frame The frame closed. Must not be null.
 	 * @since 0.2
 	 */
-	public void windowClosed(final MFrame frame) {
+	public void windowClosed(final Window frame) {
 		if(frame==null || swingHandlers==null || swingHandlers.isEmpty()) return;
 
 		for(final SwingEventProcessor handler : swingHandlers)

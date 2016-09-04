@@ -1,38 +1,21 @@
 package org.malai.swing.interaction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.awt.Component;
-import java.awt.ItemSelectable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.lang.reflect.Field;
-import java.util.List;
-
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JMenuItem;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.text.JTextComponent;
-import javax.swing.tree.TreePath;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.interaction.BasicEventManager;
 import org.malai.interaction.EventProcessor;
 import org.malai.interaction.TimeoutTransition;
-import org.malai.swing.widget.MFrame;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.text.JTextComponent;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.*;
+import java.lang.reflect.Field;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 class EventHandlerMock implements EventProcessor, SwingEventProcessor {
 	@Override
@@ -62,7 +45,7 @@ class EventHandlerMock implements EventProcessor, SwingEventProcessor {
 	@Override
 	public void onButtonPressed(final AbstractButton button) {/* */}
 	@Override
-	public void onWindowClosed(final MFrame frame) { /* */ }
+	public void onWindowClosed(final Window frame) { /* */ }
 	@Override
 	public void onTabChanged(final JTabbedPane tabbedPanel) { /* */ }
 	@Override

@@ -3,7 +3,8 @@ package org.malai.swing.interaction.library;
 import org.malai.interaction.TerminalState;
 import org.malai.swing.interaction.SwingInteraction;
 import org.malai.swing.interaction.WindowClosedTransition;
-import org.malai.swing.widget.MFrame;
+
+import java.awt.*;
 
 /**
  * This interaction is performed when a window is closed by pressing the decorating close button.<br>
@@ -25,7 +26,7 @@ import org.malai.swing.widget.MFrame;
  */
 public class WindowClosed extends SwingInteraction {
 	/** The frame closed. */
-	protected MFrame frame;
+	protected Window frame;
 
 
 	/**
@@ -65,7 +66,7 @@ public class WindowClosed extends SwingInteraction {
 	 * @return the frame closed.
 	 * @since 0.2
 	 */
-	public MFrame getFrame() {
+	public Window getFrame() {
 		return frame;
 	}
 }
