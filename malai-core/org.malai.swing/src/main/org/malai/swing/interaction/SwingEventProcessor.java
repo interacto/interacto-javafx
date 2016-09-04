@@ -1,16 +1,9 @@
 package org.malai.swing.interaction;
 
-import java.awt.ItemSelectable;
-
-import javax.swing.AbstractButton;
-import javax.swing.JCheckBox;
-import javax.swing.JMenuItem;
-import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.TreePath;
-
-import org.malai.swing.widget.MFrame;
+import java.awt.*;
 
 /**
  * This interface can be used for object that want to gather Swing events (button pressed, etc.) produced by HIDs.<br>
@@ -146,7 +139,7 @@ public interface SwingEventProcessor {
 	 * @param frame The frame closed.
 	 * @since 0.2
 	 */
-	void onWindowClosed(final MFrame frame);
+	void onWindowClosed(final Window frame);
 
 	/**
 	 * Defines actions to do when the selected tab of a tabbed panel has changed.

@@ -1,6 +1,6 @@
 package org.malai.swing.interaction;
 
-import java.awt.ItemSelectable;
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
@@ -391,7 +391,7 @@ public abstract class SwingInteraction extends InteractionImpl implements SwingE
 	
 	
 	@Override
-	public void onWindowClosed(final MFrame frame) {
+	public void onWindowClosed(final Window frame) {
 		if(!activated) return ;
 
 		Transition transition;

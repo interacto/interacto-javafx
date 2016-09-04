@@ -3,7 +3,8 @@ package org.malai.swing.interaction;
 import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-import org.malai.swing.widget.MFrame;
+
+import java.awt.*;
 
 /**
  * This transition corresponds to a press on the decorative close button of a frame.<br>
@@ -23,7 +24,7 @@ import org.malai.swing.widget.MFrame;
  * @author Arnaud BLOUIN
  * @since 0.2
  */
-public class WindowClosedTransition extends WidgetTransition<MFrame> {
+public class WindowClosedTransition extends WidgetTransition<Window> {
 	/**
 	 * Creates the transition.
 	 */
