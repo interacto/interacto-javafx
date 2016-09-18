@@ -47,7 +47,7 @@ public class KeysPressure extends MultiKeyInteraction {
 		new MultiKeyReleaseTransition(pressed, end) {
 			@Override
 			public boolean isGuardRespected() {
-				return this.hid == KeysPressure.this.getLastHIDUsed() && KeysPressure.this.keyCode.contains(this.event.getCode());
+				return this.hid == KeysPressure.this.getLastHIDUsed() && KeysPressure.this.keyCodes.contains(this.event.getCode());
 			}
 		};
 	}
