@@ -1,10 +1,10 @@
 package org.malai.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.malai.undo.UndoCollector;
 import org.malai.undo.Undoable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A register of actions.<br>
@@ -201,13 +201,17 @@ public final class ActionsRegistry {
 	 * @return The first action of the exact same class of the given class.
 	 * @since 0.1
 	 */
-	public <T extends Action> T getAction(final Class<T> clazz) {
+	@SafeVarargs
+	public final <T extends Action> T getAction(final Class<? extends T>... clazz) {
 		T action = null;
 
-		if(clazz!=null)
-			for(int i=0, size=actions.size(); i<size && action==null; i++)
-				if(actions.get(i).getClass()==clazz)
-					action = clazz.cast(actions.get(i));
+		if(clazz!=null) {
+			for(int j=0; j<clazz.length && action == null; j++) {
+				for(int i = 0, size = actions.size(); i < size && action == null; i++)
+					if(actions.get(i).getClass() == clazz[j])
+						action = clazz[j].cast(actions.get(i));
+			}
+		}
 
 		return action;
 	}
