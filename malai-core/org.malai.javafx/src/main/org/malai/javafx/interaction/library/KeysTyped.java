@@ -1,7 +1,5 @@
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
-
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.interaction.TimeoutTransition;
@@ -60,14 +58,6 @@ public class KeysTyped extends MultiKeyInteraction {
 		};
 
 		timeoutTransition = new TimeoutTransition(pressed, ended, 1000);
-	}
-
-	/**
-	 * @return the current key pressed.
-	 * @since 0.2
-	 */
-	public List<String> getKeys() {
-		return keys;
 	}
 
 	/**
