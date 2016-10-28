@@ -1,6 +1,6 @@
 package org.malai.swing.action.library;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.swing.widget.ScrollableWidget;
 
 /**
@@ -22,7 +22,7 @@ import org.malai.swing.widget.ScrollableWidget;
  * @version 0.2
  * @since 0.2
  */
-public class Scroll extends Action {
+public class Scroll extends ActionImpl {
 	/** The panel that contains the scroller. */
 	protected ScrollableWidget scrollableWidget;
 

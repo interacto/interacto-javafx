@@ -12,21 +12,20 @@
  */
 package org.malai.javafx.instrument.library;
 
-import java.util.List;
-
 import javafx.scene.Node;
-
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.ComboBoxSelected;
+
+import java.util.List;
 
 /**
  *	An interactor using a JFX combo box interaction.
  * @param <A> The action to produce.
  * @param <I> The instrument.
  */
-public abstract class ComboBoxInteractor<A extends Action, I extends JfxInstrument> extends JfxInteractor<A, ComboBoxSelected, I> {
+public abstract class ComboBoxInteractor<A extends ActionImpl, I extends JfxInstrument> extends JfxInteractor<A, ComboBoxSelected, I> {
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.

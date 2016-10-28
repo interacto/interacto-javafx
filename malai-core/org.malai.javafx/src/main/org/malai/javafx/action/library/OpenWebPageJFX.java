@@ -1,8 +1,8 @@
 package org.malai.javafx.action.library;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 
@@ -25,7 +25,7 @@ import java.net.URI;
  * @version 0.2
  * @since 0.2
  */
-public class OpenWebPageJFX extends Action {
+public class OpenWebPageJFX extends ActionImpl {
 	/** The URI to open. */
 	protected URI uri;
 

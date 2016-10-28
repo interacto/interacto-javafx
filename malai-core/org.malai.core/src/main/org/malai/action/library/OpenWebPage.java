@@ -4,7 +4,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 
 /**
  * This action opens an URI in the default browser.<br>
@@ -25,7 +25,7 @@ import org.malai.action.Action;
  * @version 0.2
  * @since 0.2
  */
-public class OpenWebPage extends Action {
+public class OpenWebPage extends ActionImpl {
 	/** The URI to open. */
 	protected URI uri;
 

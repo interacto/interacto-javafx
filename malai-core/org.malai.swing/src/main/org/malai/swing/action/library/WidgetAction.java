@@ -1,8 +1,8 @@
 package org.malai.swing.action.library;
 
-import java.awt.Component;
+import org.malai.action.ActionImpl;
 
-import org.malai.action.Action;
+import java.awt.Component;
 
 
 /**
@@ -24,7 +24,7 @@ import org.malai.action.Action;
  * @version 0.2
  * @since 0.2
  */
-public abstract class WidgetAction extends Action {
+public abstract class WidgetAction extends ActionImpl {
 	/** The component concerned by the action. */
 	protected Component component;
 

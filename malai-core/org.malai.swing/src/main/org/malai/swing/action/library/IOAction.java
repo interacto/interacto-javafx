@@ -1,11 +1,11 @@
 package org.malai.swing.action.library;
 
-import java.io.File;
-
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.swing.ui.ISOpenSaver;
 import org.malai.swing.ui.SwingUI;
 import org.malai.swing.widget.MProgressBar;
+
+import java.io.File;
 
 /**
  * This abstract action defines an model for loading and saving actions.
@@ -27,7 +27,7 @@ import org.malai.swing.widget.MProgressBar;
  * @param <A> The type of the UI that the implementation will support.
  * @param <B> The type of the widget that will be used to display some information.
  */
-public abstract class IOAction<A extends SwingUI, B extends Object> extends Action {
+public abstract class IOAction<A extends SwingUI, B extends Object> extends ActionImpl {
 	/** The current file loaded or saved. */
 	protected File file;
 

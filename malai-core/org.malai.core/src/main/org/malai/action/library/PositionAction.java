@@ -1,6 +1,6 @@
 package org.malai.action.library;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 
 /**
  * Defines an abstract action that move an object to the given position.<br>
@@ -21,7 +21,7 @@ import org.malai.action.Action;
  * @version 0.2
  * @since 0.2
  */
-public abstract class PositionAction extends Action {
+public abstract class PositionAction extends ActionImpl {
 	/** The X-coordinate of the location to zoom. */
 	protected double px;
 

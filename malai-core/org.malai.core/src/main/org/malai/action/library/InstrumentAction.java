@@ -1,6 +1,6 @@
 package org.malai.action.library;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.instrument.Instrument;
 
 /**
@@ -19,7 +19,7 @@ import org.malai.instrument.Instrument;
  * @author Arnaud Blouin
  * @since 0.2
  */
-public abstract class InstrumentAction extends Action {
+public abstract class InstrumentAction extends ActionImpl {
 	/** The manipulated instrument. */
 	protected Instrument instrument;
 

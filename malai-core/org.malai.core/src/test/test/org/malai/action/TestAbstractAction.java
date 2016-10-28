@@ -2,11 +2,11 @@ package test.org.malai.action;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.instrument.Interactor;
 import org.malai.instrument.InstrumentImpl;
 
-public abstract class TestAbstractAction<T extends Action> {
+public abstract class TestAbstractAction<T extends ActionImpl> {
 	protected T action;
 
 	@Before

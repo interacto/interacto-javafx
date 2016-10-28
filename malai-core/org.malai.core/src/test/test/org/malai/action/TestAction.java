@@ -1,52 +1,58 @@
 package test.org.malai.action;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Field;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.Action;
 import org.malai.action.ActionHandler;
+import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
 import org.malai.undo.Undoable;
 
+import java.lang.reflect.Field;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 public class TestAction {
-	protected Action action;
+	protected Action IAction;
 
 	@Before
 	public void setUp() {
-		action = getActionCanDo();
+		IAction = getActionCanDo();
 		ActionsRegistry.INSTANCE.removeAllHandlers();
 	}
 
 	@Test
 	public void testActionStatusAfterCreation() {
-		assertEquals(Action.ActionStatus.CREATED, action.getStatus());
+		assertEquals(Action.ActionStatus.CREATED, IAction.getStatus());
 	}
 
 	@Test
 	public void testActionStatusAfterFlush() {
-		action.flush();
-		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
+		IAction.flush();
+		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
 	}
 
 	@Test
 	public void testActionCannotDoItWhenFlushed() {
-		action.flush();
-		assertFalse(action.doIt());
+		IAction.flush();
+		assertFalse(IAction.doIt());
 	}
 
 	@Test
 	public void testActionCannotDoItWhenDone() {
-		action.done();
-		assertFalse(action.doIt());
+		IAction.done();
+		assertFalse(IAction.doIt());
 	}
 
 	@Test
 	public void testActionCannotDoItWhenAborted() {
-		action.abort();
-		assertFalse(action.doIt());
+		IAction.abort();
+		assertFalse(IAction.doIt());
 	}
 
 	@Test
@@ -118,7 +124,7 @@ public class TestAction {
 
 
 	public Action getActionCanDo() {
-		return new Action() {
+		return new ActionImpl() {
 			@Override
 			public boolean isRegisterable() {
 				return false;
@@ -135,7 +141,7 @@ public class TestAction {
 	}
 
 	public Action getActionCannotDo() {
-		return new Action() {
+		return new ActionImpl() {
 			@Override
 			public boolean isRegisterable() {
 				return false;
@@ -154,29 +160,29 @@ public class TestAction {
 
 	@Test
 	public void testActionHadEffectWhenDone() {
-		action.done();
-		assertTrue(action.hadEffect());
+		IAction.done();
+		assertTrue(IAction.hadEffect());
 	}
 
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndCreated() {
-		assertFalse(action.hadEffect());
+		assertFalse(IAction.hadEffect());
 	}
 
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndAborted() {
-		action.abort();
-		assertFalse(action.hadEffect());
+		IAction.abort();
+		assertFalse(IAction.hadEffect());
 	}
 
 
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndFlushed() {
-		action.flush();
-		assertFalse(action.hadEffect());
+		IAction.flush();
+		assertFalse(IAction.hadEffect());
 	}
 
 
@@ -190,30 +196,30 @@ public class TestAction {
 
 	@Test
 	public void testActionNotCancelledByByDefault() {
-		assertFalse(action.cancelledBy(null));
-		assertFalse(action.cancelledBy(getActionCanDo()));
+		assertFalse(IAction.cancelledBy(null));
+		assertFalse(IAction.cancelledBy(getActionCanDo()));
 	}
 
 
 	@Test
 	public void testActionNotDoneWhenFlushed() {
-		action.flush();
-		action.done();
-		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
+		IAction.flush();
+		IAction.done();
+		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
 	}
 
 
 	@Test
 	public void testActionNotDoneWhenAborted() {
-		action.abort();
-		action.done();
-		assertEquals(Action.ActionStatus.ABORTED, action.getStatus());
+		IAction.abort();
+		IAction.done();
+		assertEquals(Action.ActionStatus.ABORTED, IAction.getStatus());
 	}
 
 
 	@Test
 	public void testActionNotDoneWhenDone() {
-		action.done();
+		IAction.done();
 		// Cannot visit ActionDone if already done.
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandler() {
 			@Override
@@ -239,7 +245,7 @@ public class TestAction {
 			}
 		});
 
-		action.done();
+		IAction.done();
 	}
 
 
@@ -271,8 +277,8 @@ public class TestAction {
 
 			}
 		});
-		action.done();
-		assertEquals(Action.ActionStatus.DONE, action.getStatus());
+		IAction.done();
+		assertEquals(Action.ActionStatus.DONE, IAction.getStatus());
 		assertTrue(visitOnActionDone);
 	}
 
@@ -314,44 +320,44 @@ public class TestAction {
 
 	@Test
 	public void testToStringNotNull() {
-		assertNotNull(action.toString());
+		assertNotNull(IAction.toString());
 	}
 
 	@Test
 	public void testIsDoneWhenCreated() {
-		assertFalse(action.isDone());
+		assertFalse(IAction.isDone());
 	}
 
 	@Test
 	public void testIsDoneWhenAborted() {
-		action.abort();
-		assertFalse(action.isDone());
+		IAction.abort();
+		assertFalse(IAction.isDone());
 	}
 
 	@Test
 	public void testIsDoneWhenFlushed() {
-		action.flush();
-		assertFalse(action.isDone());
+		IAction.flush();
+		assertFalse(IAction.isDone());
 	}
 
 
 	@Test
 	public void testIsDoneWhenDone() {
-		action.done();
-		assertTrue(action.isDone());
+		IAction.done();
+		assertTrue(IAction.isDone());
 	}
 
 	@Test
 	public void testIsDoneWhenExecuted() {
 		final Action a = getActionCanDo();
 		a.doIt();
-		assertFalse(action.isDone());
+		assertFalse(IAction.isDone());
 	}
 
 	@Test
 	public void testAbort() {
-		assertNotSame(Action.ActionStatus.ABORTED, action.getStatus());
-		action.abort();
-		assertEquals(Action.ActionStatus.ABORTED, action.getStatus());
+		assertNotSame(Action.ActionStatus.ABORTED, IAction.getStatus());
+		IAction.abort();
+		assertEquals(Action.ActionStatus.ABORTED, IAction.getStatus());
 	}
 }

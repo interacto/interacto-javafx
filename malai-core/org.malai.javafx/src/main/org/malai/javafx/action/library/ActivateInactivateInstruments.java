@@ -12,11 +12,11 @@
  */
 package org.malai.javafx.action.library;
 
+import org.malai.action.ActionImpl;
+import org.malai.javafx.instrument.JfxInstrument;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.malai.action.Action;
-import org.malai.javafx.instrument.JfxInstrument;
 
 /**
  * This instrument activates and inactivates instruments.<br>
@@ -24,7 +24,7 @@ import org.malai.javafx.instrument.JfxInstrument;
  * @author Arnaud Blouin
  * @since 2.0
  */
-public class ActivateInactivateInstruments extends Action {
+public class ActivateInactivateInstruments extends ActionImpl {
 	/** The instruments to activate. */
 	protected List<JfxInstrument> insActivate;
 

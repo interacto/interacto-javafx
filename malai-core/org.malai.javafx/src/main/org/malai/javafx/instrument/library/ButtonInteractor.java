@@ -12,21 +12,20 @@
  */
 package org.malai.javafx.instrument.library;
 
-import java.util.List;
-
 import javafx.scene.Node;
-
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.ButtonPressed;
+
+import java.util.List;
 
 /**
  *	An interactor using a JFX button interaction.
  * @param <A> The action to produce.
  * @param <I> The instrument.
  */
-public abstract class ButtonInteractor<A extends Action, I extends JfxInstrument> extends JfxInteractor<A, ButtonPressed, I> {
+public abstract class ButtonInteractor<A extends ActionImpl, I extends JfxInstrument> extends JfxInteractor<A, ButtonPressed, I> {
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.
