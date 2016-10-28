@@ -12,7 +12,7 @@
  */
 package org.malai.javafx.action.library;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 
 /**
  * Defines an abstract action that concerns a widget.
@@ -20,7 +20,7 @@ import org.malai.action.Action;
  * @author Arnaud BLOUIN
  * @version 2.0
  */
-public abstract class WidgetAction<T> extends Action {
+public abstract class WidgetAction<T> extends ActionImpl {
 	/** The component concerned by the action. */
 	protected T widget;
 

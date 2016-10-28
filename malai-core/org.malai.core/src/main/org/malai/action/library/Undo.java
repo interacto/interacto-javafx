@@ -1,6 +1,6 @@
 package org.malai.action.library;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.undo.UndoCollector;
 
 /**
@@ -22,7 +22,7 @@ import org.malai.undo.UndoCollector;
  * @version 0.2
  * @since 0.2
  */
-public class Undo extends Action {
+public class Undo extends ActionImpl {
 	/**
 	 * Initialises an Undo action.
 	 * @since 0.2

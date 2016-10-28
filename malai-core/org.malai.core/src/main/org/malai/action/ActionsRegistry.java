@@ -24,7 +24,7 @@ import java.util.List;
  */
 public final class ActionsRegistry {
 	/** The saved actions. */
-	private final List<Action> actions;
+	private final List<Action> IActions;
 
 	/** The actions handlers. */
 	private final List<ActionHandler> handlers;
@@ -43,7 +43,7 @@ public final class ActionsRegistry {
 	 */
 	private ActionsRegistry() {
 		super();
-		actions 	= new ArrayList<>();
+		IActions = new ArrayList<>();
 		handlers 	= new ArrayList<>();
 		sizeMax		= 30;
 	}
@@ -52,26 +52,26 @@ public final class ActionsRegistry {
 
 	/**
 	 * Notifies handlers that an action has been executed.
-	 * @param action The executed action.
+	 * @param IAction The executed action.
 	 * @since 0.2
 	 */
-	public void onActionExecuted(final Action action) {
-		if(action!=null)
+	public void onActionExecuted(final Action IAction) {
+		if(IAction !=null)
 			for(final ActionHandler handler : handlers)
-				handler.onActionExecuted(action);
+				handler.onActionExecuted(IAction);
 	}
 
 
 
 	/**
 	 * Notifies handlers that an action ends.
-	 * @param action The action that ends.
+	 * @param IAction The action that ends.
 	 * @since 0.2
 	 */
-	public void onActionDone(final Action action) {
-		if(action!=null)
+	public void onActionDone(final Action IAction) {
+		if(IAction !=null)
 			for(final ActionHandler handler : handlers)
-				handler.onActionDone(action);
+				handler.onActionDone(IAction);
 	}
 
 
@@ -81,25 +81,25 @@ public final class ActionsRegistry {
 	 * @since 0.1
 	 */
 	public List<Action> getActions() {
-		return actions;
+		return IActions;
 	}
 
 
 
 	/**
 	 * Removes and flushes actions from the register using a given action.
-	 * @param action The action that may cancels others.
+	 * @param IAction The action that may cancels others.
 	 * @since 0.1
 	 */
-	public void cancelActions(final Action action) {
-		if(action==null)
+	public void cancelActions(final Action IAction) {
+		if(IAction ==null)
 			return;
 
 		int i=0;
 
-		while(i<actions.size())
-			if(actions.get(i).cancelledBy(action)) {
-				final Action act = actions.remove(i);
+		while(i< IActions.size())
+			if(IActions.get(i).cancelledBy(IAction)) {
+				final Action act = IActions.remove(i);
 
 				for(final ActionHandler handler : handlers)
 					handler.onActionCancelled(act);
@@ -116,25 +116,25 @@ public final class ActionsRegistry {
 	 * Adds an action to the register. Before being added, the given action is used to cancel actions
 	 * already added. Handlers are notified of the add of the given action. If Undoable, the action is
 	 * added to the undo collector as well.
-	 * @param action The action to add. Cannot be null.
+	 * @param IAction The action to add. Cannot be null.
 	 * @param actionHanndler The handler that produced or is associated to the action. Cannot be null.
 	 * @since 0.2
 	 */
-	public void addAction(final Action action, final ActionHandler actionHanndler) {
-		if(action!=null && actionHanndler!=null && !actions.contains(action) && sizeMax>0) {
-			cancelActions(action);
+	public void addAction(final Action IAction, final ActionHandler actionHanndler) {
+		if(IAction !=null && actionHanndler!=null && !IActions.contains(IAction) && sizeMax>0) {
+			cancelActions(IAction);
 
 			// If there is too many actions in the register, the oldest action is removed and flushed.
-			if(actions.size()==sizeMax)
-				actions.remove(0).flush();
+			if(IActions.size()==sizeMax)
+				IActions.remove(0).flush();
 
-			actions.add(action);
+			IActions.add(IAction);
 
 			for(final ActionHandler handler : handlers)
-				handler.onActionAdded(action);
+				handler.onActionAdded(IAction);
 
-			if(action instanceof Undoable)
-				UndoCollector.INSTANCE.add((Undoable)action, actionHanndler);
+			if(IAction instanceof Undoable)
+				UndoCollector.INSTANCE.add((Undoable) IAction, actionHanndler);
 		}
 	}
 
@@ -142,15 +142,15 @@ public final class ActionsRegistry {
 
 	/**
 	 * Removes the action from the register. The action is then flushes.
-	 * @param action The action to remove.
+	 * @param IAction The action to remove.
 	 * @since 0.1
 	 */
-	public void removeAction(final Action action) {
-		if(action==null)
+	public void removeAction(final Action IAction) {
+		if(IAction ==null)
 			return;
 
-		actions.remove(action);
-		action.flush();
+		IActions.remove(IAction);
+		IAction.flush();
 	}
 
 
@@ -191,8 +191,8 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void clear() {
-		while(!actions.isEmpty())
-			actions.remove(0).flush();
+		while(!IActions.isEmpty())
+			IActions.remove(0).flush();
 	}
 
 
@@ -202,14 +202,14 @@ public final class ActionsRegistry {
 	 * @since 0.1
 	 */
 	@SafeVarargs
-	public final <T extends Action> T getAction(final Class<? extends T>... clazz) {
+	public final <T extends ActionImpl> T getAction(final Class<? extends T>... clazz) {
 		T action = null;
 
 		if(clazz!=null) {
 			for(int j=0; j<clazz.length && action == null; j++) {
-				for(int i = 0, size = actions.size(); i < size && action == null; i++)
-					if(actions.get(i).getClass() == clazz[j])
-						action = clazz[j].cast(actions.get(i));
+				for(int i = 0, size = IActions.size(); i < size && action == null; i++)
+					if(IActions.get(i).getClass() == clazz[j])
+						action = clazz[j].cast(IActions.get(i));
 			}
 		}
 
@@ -221,18 +221,18 @@ public final class ActionsRegistry {
 	/**
 	 * Aborts the given action, i.e. the action is aborted then remove from
 	 * the register. Handlers are then notified. The action is finally flushes.
-	 * @param action The action to abort.
+	 * @param IAction The action to abort.
 	 * @since 0.1
 	 */
-	public void abortAction(final Action action) {
-		if(action!=null) {
-			action.abort();
-			actions.remove(action);
+	public void abortAction(final Action IAction) {
+		if(IAction !=null) {
+			IAction.abort();
+			IActions.remove(IAction);
 
 			for(final ActionHandler handler : handlers)
-				handler.onActionAborted(action);
+				handler.onActionAborted(IAction);
 
-			action.flush();
+			IAction.flush();
 		}
 	}
 
@@ -253,8 +253,8 @@ public final class ActionsRegistry {
 	public void setSizeMax(final int sizeMax) {
 		if(sizeMax>=0) {
 			// If there is too many actions in the register, they are removed.
-			for(int i=0, nb=actions.size()-sizeMax; i<nb; i++)
-				actions.remove(0).flush();
+			for(int i = 0, nb = IActions.size()-sizeMax; i<nb; i++)
+				IActions.remove(0).flush();
 
 			this.sizeMax = sizeMax;
 		}

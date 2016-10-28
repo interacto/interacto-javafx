@@ -12,21 +12,20 @@
  */
 package org.malai.javafx.instrument.library;
 
-import java.util.List;
-
 import javafx.scene.Node;
-
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.BoxChecked;
+
+import java.util.List;
 
 /**
  *	An interactor using a JFX checkbox interaction.
  * @param <A> The action to produce.
  * @param <I> The instrument.
  */
-public abstract class CheckboxInteractor<A extends Action, I extends JfxInstrument> extends JfxInteractor<A, BoxChecked, I> {
+public abstract class CheckboxInteractor<A extends ActionImpl, I extends JfxInstrument> extends JfxInteractor<A, BoxChecked, I> {
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.

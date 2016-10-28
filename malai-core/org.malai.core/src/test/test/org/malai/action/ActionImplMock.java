@@ -1,9 +1,9 @@
 package test.org.malai.action;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 
-public class ActionMock extends Action {
-	public ActionMock() {
+public class ActionImplMock extends ActionImpl {
+	public ActionImplMock() {
 		super();
 	}
 

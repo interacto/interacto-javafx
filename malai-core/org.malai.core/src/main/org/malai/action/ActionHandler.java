@@ -23,36 +23,36 @@ import org.malai.undo.UndoHandler;
 public interface ActionHandler extends UndoHandler {
 	/**
 	 * Notifies the handler when the given action is cancelled.
-	 * @param action The cancelled action.
+	 * @param IAction The cancelled action.
 	 * @since 0.2
 	 */
-	void onActionCancelled(final Action action);
+	void onActionCancelled(final Action IAction);
 
 	/**
 	 * Notifies the handler when the given action is added to the registry.
-	 * @param action The added action.
+	 * @param IAction The added action.
 	 * @since 0.2
 	 */
-	void onActionAdded(final Action action);
+	void onActionAdded(final Action IAction);
 
 	/**
 	 * Notifies the handler when the given action is aborted.
-	 * @param action The aborted action.
+	 * @param IAction The aborted action.
 	 * @since 0.2
 	 */
-	void onActionAborted(final Action action);
+	void onActionAborted(final Action IAction);
 
 	/**
 	 * Notifies the handler when the given action is executed.
-	 * @param action The executed action.
+	 * @param IAction The executed action.
 	 * @since 0.2
 	 */
-	void onActionExecuted(final Action action);
+	void onActionExecuted(final Action IAction);
 
 	/**
 	 * Notifies the handler when the given action is done.
-	 * @param action The action that ends.
+	 * @param IAction The action that ends.
 	 * @since 0.2
 	 */
-	void onActionDone(final Action action);
+	void onActionDone(final Action IAction);
 }

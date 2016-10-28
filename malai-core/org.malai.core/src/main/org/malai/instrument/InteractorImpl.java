@@ -1,7 +1,8 @@
 package org.malai.instrument;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
+import org.malai.action.Action;
 import org.malai.error.ErrorCatcher;
 import org.malai.interaction.Eventable;
 import org.malai.interaction.Interaction;
@@ -33,7 +34,7 @@ import org.malai.undo.Undoable;
  * @param <I> The type of the interaction that will use this interactor.
  * @param <N> The type of the instrument that will contain this interactor.
  */
-public abstract class InteractorImpl<A extends Action, I extends Interaction, N extends Instrument> implements Interactor {
+public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction, N extends Instrument> implements Interactor {
 	/** The source interaction. */
 	protected final I interaction;
 
@@ -251,8 +252,8 @@ public abstract class InteractorImpl<A extends Action, I extends Interaction, N 
 				ActionsRegistry.INSTANCE.cancelActions(act);
 				instrument.onActionCancelled(act);
 			}
-			for(final Action followAction : act.followingActions())
-				executeAction(followAction);
+			for(final Action followIAction : act.followingActions())
+				executeAction(followIAction);
 		}
 	}
 

@@ -1,11 +1,11 @@
 package org.malai.swing.action.library;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.instrument.Instrument;
 import org.malai.swing.instrument.WidgetInstrument;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This instrument activates and inactivates instruments.<br>
@@ -23,7 +23,7 @@ import org.malai.swing.instrument.WidgetInstrument;
  * @author Arnaud Blouin
  * @since 0.1
  */
-public class ActivateInactivateInstruments extends Action {
+public class ActivateInactivateInstruments extends ActionImpl {
 	/** The instruments to activate. */
 	protected List<Instrument> insActivate;
 

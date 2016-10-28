@@ -1,6 +1,6 @@
 package org.malai.action.library;
 
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 
 /**
  * The goal of this abstract action is to modify an object. This object can be for instance
@@ -25,7 +25,7 @@ import org.malai.action.Action;
  * @author Arnaud Blouin
  * @since 0.2
  */
-public abstract class ModifyValue extends Action {
+public abstract class ModifyValue extends ActionImpl {
 	/** The new value of the property. */
 	protected Object value;
 

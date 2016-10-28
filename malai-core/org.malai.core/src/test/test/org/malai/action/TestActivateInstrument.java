@@ -1,6 +1,7 @@
 package test.org.malai.action;
 
 import static org.junit.Assert.*;
+
 import org.malai.action.Action;
 import org.malai.action.library.ActivateInstrument;
 

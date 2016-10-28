@@ -15,7 +15,7 @@ import org.malai.instrument.Interactor;
 import org.malai.instrument.InteractorImpl;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
-import test.org.malai.action.ActionMock;
+import test.org.malai.action.ActionImplMock;
 import test.org.malai.instrument.TestMockInstrument.MockInstrument;
 import test.org.malai.interaction.InteractionMock;
 
@@ -28,7 +28,7 @@ public class TestInteractor {
 		instrument = new MockInstrument() {
 			@Override
 			protected void initialiseInteractors() throws InstantiationException, IllegalAccessException {
-				TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionMock.class, InteractionMock.class);
+				TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionImplMock.class, InteractionMock.class);
 				addInteractor(interactor);
 			}
 		};
@@ -45,7 +45,7 @@ public class TestInteractor {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorInstrumentNull() throws Exception {
-		interactor = new MockInteractor(null, false, ActionMock.class, InteractionMock.class);
+		interactor = new MockInteractor(null, false, ActionImplMock.class, InteractionMock.class);
 	}
 
 
@@ -57,7 +57,7 @@ public class TestInteractor {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorInteractionNull() throws Exception {
-		interactor = new MockInteractor(instrument, false, ActionMock.class, null);
+		interactor = new MockInteractor(instrument, false, ActionImplMock.class, null);
 	}
 
 
@@ -81,7 +81,7 @@ public class TestInteractor {
 
 	@Test public void testExecute() throws InstantiationException, IllegalAccessException {
 		assertFalse(interactor.isExecute());
-		interactor = new MockInteractor(instrument, true, ActionMock.class, InteractionMock.class);
+		interactor = new MockInteractor(instrument, true, ActionImplMock.class, InteractionMock.class);
 		assertTrue(interactor.isExecute());
 	}
 
@@ -165,8 +165,8 @@ public class TestInteractor {
 			}
 		});
 		MockInstrument ins = new MockInstrument();
-		Interactor interactor2 = new InteractorImpl<ActionMock2, InteractionMock, MockInstrument>
-							(ins, false, ActionMock2.class, InteractionMock.class) {
+		Interactor interactor2 = new InteractorImpl<ActionImplMock2, InteractionMock, MockInstrument>
+							(ins, false, ActionImplMock2.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -182,7 +182,7 @@ public class TestInteractor {
 
 		ok[0] = false;
 		ins = new MockInstrument();
-		interactor2 = new InteractorImpl<ActionMock3, InteractionMock, MockInstrument>(ins, false, ActionMock3.class, InteractionMock.class) {
+		interactor2 = new InteractorImpl<ActionImplMock3, InteractionMock, MockInstrument>(ins, false, ActionImplMock3.class, InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
@@ -199,23 +199,23 @@ public class TestInteractor {
 }
 
 
-class ActionMock2 extends ActionMock {
+class ActionImplMock2 extends ActionImplMock {
 //
 }
 
 
-class ActionMock3 extends ActionMock {
-	ActionMock3(@SuppressWarnings("unused") final int foo) {
+class ActionImplMock3 extends ActionImplMock {
+	ActionImplMock3(@SuppressWarnings("unused") final int foo) {
 		//
 	}
 }
 
 
-class MockInteractor extends InteractorImpl<ActionMock, InteractionMock, MockInstrument>{
+class MockInteractor extends InteractorImpl<ActionImplMock, InteractionMock, MockInstrument>{
 	public boolean conditionRespected;
 	public boolean mustAbort;
 
-	public MockInteractor(final MockInstrument ins, final boolean exec, final Class<ActionMock> clazzAction, final Class<InteractionMock> clazzInteraction)
+	public MockInteractor(final MockInstrument ins, final boolean exec, final Class<ActionImplMock> clazzAction, final Class<InteractionMock> clazzInteraction)
 			throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 		conditionRespected = false;

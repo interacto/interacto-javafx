@@ -1,20 +1,25 @@
 package test.org.malai.action;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Field;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.Action;
 import org.malai.action.Action.ActionStatus;
 import org.malai.action.ActionHandler;
+import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
 import org.malai.undo.UndoCollector;
 import org.malai.undo.Undoable;
-
 import test.org.malai.HelperTest;
+
+import java.lang.reflect.Field;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class TestActionRegistry {
 	boolean visited;
@@ -53,19 +58,19 @@ public class TestActionRegistry {
 	@Test
 	public void testSetSizeMaxRemovesAction() {
 		final List<Action> handlers = ActionsRegistry.INSTANCE.getActions();
-		final Action action1 = new ActionMock();
-		final Action action2 = new ActionMock();
+		final Action IAction1 = new ActionImplMock();
+		final Action IAction2 = new ActionImplMock();
 		ActionsRegistry.INSTANCE.setSizeMax(10);
-		ActionsRegistry.INSTANCE.addAction(action1, new ActionHandlerMock());
-		ActionsRegistry.INSTANCE.addAction(action2, new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(IAction1, new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(IAction2, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.setSizeMax(1);
-		assertEquals(ActionStatus.FLUSHED, action1.getStatus());
-		assertEquals(ActionStatus.CREATED, action2.getStatus());
+		assertEquals(ActionStatus.FLUSHED, IAction1.getStatus());
+		assertEquals(ActionStatus.CREATED, IAction2.getStatus());
 		assertEquals(1, handlers.size());
-		assertEquals(action2, handlers.get(0));
+		assertEquals(IAction2, handlers.get(0));
 
 		ActionsRegistry.INSTANCE.setSizeMax(0);
-		assertEquals(ActionStatus.FLUSHED, action2.getStatus());
+		assertEquals(ActionStatus.FLUSHED, IAction2.getStatus());
 		assertEquals(0, handlers.size());
 	}
 
@@ -78,15 +83,15 @@ public class TestActionRegistry {
 
 	@Test
 	public void testAbortActionFlush() {
-		final Action action = new ActionMock();
-		ActionsRegistry.INSTANCE.abortAction(action);
-		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
+		final Action IAction = new ActionImplMock();
+		ActionsRegistry.INSTANCE.abortAction(IAction);
+		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
 	}
 
 
 	@Test
 	public void testAbortActionNotify() {
-		final Action action = new ActionMock();
+		final Action IAction = new ActionImplMock();
 		visited = false;
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
@@ -96,16 +101,16 @@ public class TestActionRegistry {
 			}
 		});
 
-		ActionsRegistry.INSTANCE.abortAction(action);
+		ActionsRegistry.INSTANCE.abortAction(IAction);
 		assertTrue(visited);
 	}
 
 
 	@Test
 	public void testAbortActionRemoved() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final Action action = new ActionMock();
-		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
-		ActionsRegistry.INSTANCE.abortAction(action);
+		final Action IAction = new ActionImplMock();
+		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.abortAction(IAction);
 		final List<ActionHandler> handlers = getListHandler();
 		assertTrue(handlers.isEmpty());
 	}
@@ -113,24 +118,24 @@ public class TestActionRegistry {
 
 	@Test
 	public void testGetActionThatExists() {
-		final Action action1 = new ActionMock();
-		final Action action2 = new ActionMock();
-		ActionsRegistry.INSTANCE.addAction(action1, new ActionHandlerMock());
-		ActionsRegistry.INSTANCE.addAction(action2, new ActionHandlerMock());
-		assertEquals(action1, ActionsRegistry.INSTANCE.getAction(ActionMock.class));
+		final Action IAction1 = new ActionImplMock();
+		final Action IAction2 = new ActionImplMock();
+		ActionsRegistry.INSTANCE.addAction(IAction1, new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(IAction2, new ActionHandlerMock());
+		assertEquals(IAction1, ActionsRegistry.INSTANCE.getAction(ActionImplMock.class));
 	}
 
 
 	@Test
 	public void testGetActionThatDoesNotExist() {
-		ActionsRegistry.INSTANCE.addAction(new ActionMock(), new ActionHandlerMock());
-		assertNull(ActionsRegistry.INSTANCE.getAction(ActionMock2.class));
+		ActionsRegistry.INSTANCE.addAction(new ActionImplMock(), new ActionHandlerMock());
+		assertNull(ActionsRegistry.INSTANCE.getAction(ActionImplMock2.class));
 	}
 
 
 	@Test
 	public void testGetActionNull() {
-		ActionsRegistry.INSTANCE.addAction(new ActionMock(), new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(new ActionImplMock(), new ActionHandlerMock());
 		assertNull(ActionsRegistry.INSTANCE.getAction(null));
 	}
 
@@ -169,7 +174,7 @@ public class TestActionRegistry {
 
 	@Test
 	public void testRemoveActionNull() {
-		ActionsRegistry.INSTANCE.addAction(new ActionMock(), new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(new ActionImplMock(), new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.removeAction(null);
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 	}
@@ -177,11 +182,11 @@ public class TestActionRegistry {
 
 	@Test
 	public void testRemoveActionNotNull() {
-		final Action action = new ActionMock();
-		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
-		ActionsRegistry.INSTANCE.removeAction(action);
+		final Action IAction = new ActionImplMock();
+		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.removeAction(IAction);
 		assertTrue(ActionsRegistry.INSTANCE.getActions().isEmpty());
-		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
+		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
 	}
 
 
@@ -191,7 +196,7 @@ public class TestActionRegistry {
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.onActionExecuted(null);
 		ActionsRegistry.INSTANCE.removeAllHandlers();
-		final Action a = new ActionMock();
+		final Action a = new ActionImplMock();
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
@@ -214,7 +219,7 @@ public class TestActionRegistry {
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.onActionDone(null);
 		ActionsRegistry.INSTANCE.removeAllHandlers();
-		final Action a = new ActionMock();
+		final Action a = new ActionImplMock();
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
@@ -246,9 +251,9 @@ public class TestActionRegistry {
 
 	@Test
 	public void testCancelsActionNotNullDoNotCancel() {
-		final Action act = new ActionMock();
+		final Action act = new ActionImplMock();
 		ActionsRegistry.INSTANCE.addAction(act, new ActionHandlerMock());
-		ActionsRegistry.INSTANCE.cancelActions(new ActionMock2());
+		ActionsRegistry.INSTANCE.cancelActions(new ActionImplMock2());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 		assertNotSame(Action.ActionStatus.FLUSHED, act.getStatus());
 	}
@@ -258,7 +263,7 @@ public class TestActionRegistry {
 	@Test
 	public void testCancelsActionNotNullDoesCancel() {
 		visited = false;
-		final Action act = new ActionMock2();
+		final Action act = new ActionImplMock2();
 
 		ActionsRegistry.INSTANCE.addAction(act, new ActionHandlerMock());
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
@@ -268,7 +273,7 @@ public class TestActionRegistry {
 				assertEquals(act, a);
 			}
 		});
-		ActionsRegistry.INSTANCE.cancelActions(new ActionMock());
+		ActionsRegistry.INSTANCE.cancelActions(new ActionImplMock());
 		assertTrue(ActionsRegistry.INSTANCE.getActions().isEmpty());
 		assertEquals(Action.ActionStatus.FLUSHED, act.getStatus());
 		assertTrue(visited);
@@ -278,18 +283,18 @@ public class TestActionRegistry {
 
 	@Test
 	public void testAddActionCannotAddBecauseNullOrAlreadyAdded() {
-		final Action action = new ActionMock();
-		ActionsRegistry.INSTANCE.getActions().add(action);
+		final Action IAction = new ActionImplMock();
+		ActionsRegistry.INSTANCE.getActions().add(IAction);
 		ActionsRegistry.INSTANCE.addAction(null, new ActionHandlerMock());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 
-		ActionsRegistry.INSTANCE.addAction(new ActionMock2(), null);
+		ActionsRegistry.INSTANCE.addAction(new ActionImplMock2(), null);
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 
 		ActionsRegistry.INSTANCE.addAction(null, null);
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 
-		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerMock());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 	}
 
@@ -299,20 +304,20 @@ public class TestActionRegistry {
 	@Test
 	public void testAddActionCancelsAction() {
 		visited = false;
-		final Action action = new ActionMock2();
-		ActionsRegistry.INSTANCE.getActions().add(action);
+		final Action IAction = new ActionImplMock2();
+		ActionsRegistry.INSTANCE.getActions().add(IAction);
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerMock() {
 			@Override
 			public void onActionCancelled(final Action a) {
 				visited = true;
-				assertEquals(action, a);
+				assertEquals(IAction, a);
 			}
 			@Override
 			public void onActionAdded(final Action a) {//
 			}
 		});
-		ActionsRegistry.INSTANCE.addAction(new ActionMock(), new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(new ActionImplMock(), new ActionHandlerMock());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 		assertTrue(visited);
 	}
@@ -328,37 +333,37 @@ public class TestActionRegistry {
 				visited = true;
 			}
 		});
-		ActionsRegistry.INSTANCE.addAction(new ActionMock(), new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(new ActionImplMock(), new ActionHandlerMock());
 		assertTrue(visited);
 	}
 
 
 	@Test
 	public void testAddActionRemovesActionWhenMaxCapacity() {
-		final Action action = new ActionMock();
-		final Action action2 = new ActionMock();
+		final Action IAction = new ActionImplMock();
+		final Action IAction2 = new ActionImplMock();
 		ActionsRegistry.INSTANCE.setSizeMax(1);
-		ActionsRegistry.INSTANCE.getActions().add(action2);
-		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.getActions().add(IAction2);
+		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerMock());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
-		assertEquals(action, ActionsRegistry.INSTANCE.getActions().get(0));
-		assertEquals(Action.ActionStatus.FLUSHED, action2.getStatus());
+		assertEquals(IAction, ActionsRegistry.INSTANCE.getActions().get(0));
+		assertEquals(Action.ActionStatus.FLUSHED, IAction2.getStatus());
 	}
 
 
 	@Test
 	public void testAddActionMaxCapacityIs0() {
 		ActionsRegistry.INSTANCE.setSizeMax(0);
-		ActionsRegistry.INSTANCE.addAction(new ActionMock(), new ActionHandlerMock());
+		ActionsRegistry.INSTANCE.addAction(new ActionImplMock(), new ActionHandlerMock());
 		assertTrue(ActionsRegistry.INSTANCE.getActions().isEmpty());
 	}
 
 
 	@Test
 	public void testAddActionAddsUndoableCollector() {
-		final Action action = new ActionUndoableMock();
-		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerMock());
-		assertEquals(action, UndoCollector.INSTANCE.getLastUndo());
+		final Action IAction = new ActionImplUndoableMock();
+		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerMock());
+		assertEquals(IAction, UndoCollector.INSTANCE.getLastUndo());
 	}
 
 
@@ -395,8 +400,8 @@ public class TestActionRegistry {
 	}
 
 
-	private class ActionUndoableMock extends Action implements Undoable {
-		public ActionUndoableMock() {
+	private class ActionImplUndoableMock extends ActionImpl implements Undoable {
+		public ActionImplUndoableMock() {
 			super();
 		}
 
@@ -433,8 +438,8 @@ public class TestActionRegistry {
 	}
 
 
-	private class ActionMock extends Action {
-		public ActionMock() {
+	private class ActionImplMock extends ActionImpl {
+		public ActionImplMock() {
 			super();
 		}
 
@@ -455,14 +460,14 @@ public class TestActionRegistry {
 	}
 
 
-	private class ActionMock2 extends Action {
-		public ActionMock2() {
+	private class ActionImplMock2 extends ActionImpl {
+		public ActionImplMock2() {
 			super();
 		}
 
 		@Override
-		public boolean cancelledBy(final Action action) {
-			return action instanceof ActionMock;
+		public boolean cancelledBy(final Action IAction) {
+			return IAction instanceof ActionImplMock;
 		}
 
 		@Override

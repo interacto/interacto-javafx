@@ -1,7 +1,7 @@
 package org.malai.javafx.instrument;
 
 import javafx.scene.control.MenuItem;
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
 
 import java.util.Collections;
@@ -22,7 +22,7 @@ import java.util.Collections;
  * @author Arnaud BLOUIN
  * @version 2.0
  */
-public abstract class JfxMenuItemInteractor<A extends Action, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxInteractor<A, I, N> {
+public abstract class JfxMenuItemInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxInteractor<A, I, N> {
 	/** The menu item that will be uses to create the action. */
 	protected MenuItem menuItem;
 
