@@ -55,7 +55,6 @@ public class ButtonPressed extends NodeInteraction<Button> {
 	
 	@Override
 	public void registerToNodes(final List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof Button).forEach(w -> 
-			((Button)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxButtonPressed((Button)evt.getSource())));
+		widgets.stream().filter(w -> w instanceof Button).forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxButtonPressed((Button)evt.getSource())));
 	}
 }

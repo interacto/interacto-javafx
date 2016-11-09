@@ -55,7 +55,6 @@ public class BoxChecked extends NodeInteraction<CheckBox> {
 	
 	@Override
 	public void registerToNodes(final List<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof CheckBox).forEach(w -> 
-			((CheckBox)w).addEventHandler(ActionEvent.ACTION, evt -> onJfxBoxChecked((CheckBox)evt.getSource())));
+		widgets.stream().filter(w -> w instanceof CheckBox).forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxBoxChecked((CheckBox)evt.getSource())));
 	}
 }

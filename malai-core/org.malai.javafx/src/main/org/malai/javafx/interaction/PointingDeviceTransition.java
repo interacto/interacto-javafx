@@ -29,7 +29,7 @@ public abstract class PointingDeviceTransition<T extends MouseEvent> extends Tra
 	/**
 	 * Defines a transition.
 	 * @param inputState The source state of the transition.
-	 * @param outputState The target state of the transition.
+	 * @param outputState The srcObject state of the transition.
 	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
 	 */
 	public PointingDeviceTransition(final SourceableState inputState, final TargetableState outputState) {

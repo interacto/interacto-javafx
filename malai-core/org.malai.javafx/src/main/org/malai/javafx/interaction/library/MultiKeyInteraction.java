@@ -88,7 +88,7 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.
-		 * @param outputState The target state of the transition.
+		 * @param outputState The srcObject state of the transition.
 		 */
 		public MultiKeyInteractionKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
@@ -109,7 +109,7 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.
-		 * @param outputState The target state of the transition.
+		 * @param outputState The srcObject state of the transition.
 		 */
 		public MultiKeyReleaseTransition(SourceableState inputState, TargetableState outputState) {
 			super(inputState, outputState);

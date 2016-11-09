@@ -11,10 +11,12 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.List;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.EscapeKeyPressureTransition;
 import org.malai.javafx.interaction.MoveTransition;
 import org.malai.javafx.interaction.ReleaseTransition;
 import org.malai.stateMachine.SourceableState;
@@ -51,19 +53,36 @@ public class DoubleClick extends PointInteraction {
 		addState(released2);
 
 		new PointPressureTransition(initState, pressed1);
-		new EscapeKeyPressureTransition(pressed1, aborted);
 		new MoveTransition(pressed1, aborted);
 		new ReleaseTransition4DoubleClick(pressed1, released1);
 		new MoveTransition(released1, aborted);
 		new PointPressureTransition(released1, pressed2) {
 			@Override
 			public boolean isGuardRespected() {
-				return this.hid == DoubleClick.this.getLastHIDUsed() && this.event.getButton() == DoubleClick.this.getButton();
+				return this.hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().isPresent() &&
+					DoubleClick.this.getButton().get() == this.event.getButton();
+			}
+
+			@Override
+			public void action() {
+				super.action();
+				DoubleClick.this.altPressed = this.event.isAltDown();
+				DoubleClick.this.shiftPressed = this.event.isShiftDown();
+				DoubleClick.this.ctrlPressed = this.event.isControlDown();
+				DoubleClick.this.metaPressed = this.event.isMetaDown();
 			}
 		};
-		new EscapeKeyPressureTransition(pressed2, aborted);
 		new MoveTransition(pressed2, aborted);
 		new ReleaseTransition4DoubleClick(pressed2, released2);
+	}
+
+	@Override
+	public void registerToNodes(final List<Node> widgets) {
+		widgets.forEach(widget -> {
+			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
+		});
 	}
 
 
@@ -74,7 +93,17 @@ public class DoubleClick extends PointInteraction {
 
 		@Override
 		public boolean isGuardRespected() {
-			return this.hid == DoubleClick.this.getLastHIDUsed() && this.event.getButton() == DoubleClick.this.getButton();
+			return this.hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().isPresent() &&
+				DoubleClick.this.getButton().get() == this.event.getButton();
+		}
+
+		@Override
+		public void action() {
+			super.action();
+			DoubleClick.this.altPressed = this.event.isAltDown();
+			DoubleClick.this.shiftPressed = this.event.isShiftDown();
+			DoubleClick.this.ctrlPressed = this.event.isControlDown();
+			DoubleClick.this.metaPressed = this.event.isMetaDown();
 		}
 	}
 }

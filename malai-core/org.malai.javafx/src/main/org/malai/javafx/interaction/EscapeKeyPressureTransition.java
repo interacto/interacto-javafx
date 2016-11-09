@@ -26,7 +26,7 @@ public class EscapeKeyPressureTransition extends KeyPressureTransition {
 	/**
 	 * Creates the transition.
 	 * @param inputState The source state.
-	 * @param outputState The target state.
+	 * @param outputState The srcObject state.
 	 * @since 0.2
 	 */
 	public EscapeKeyPressureTransition(final SourceableState inputState, final TargetableState outputState) {

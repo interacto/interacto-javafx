@@ -11,34 +11,36 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.Optional;
+import javafx.event.EventTarget;
+import javafx.geometry.Point3D;
+import javafx.scene.input.MouseButton;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.PressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-
-import javafx.event.EventTarget;
-import javafx.geometry.Point3D;
-import javafx.scene.input.MouseButton;
 
 /**
  * @author Arnaud BLOUIN
  */
 public abstract class PointInteraction extends JfxInteractionImpl {
 	/** The pressed position. */
-	protected Point3D point;
+	protected Optional<Point3D> srcPoint;
 
 	/** The button used for the pressure. */
-	protected MouseButton button;
+	protected Optional<MouseButton> button;
 
 	/** The object picked at the pressed position. */
-	protected EventTarget target;
+	protected Optional<EventTarget> srcObject;
 	
 	protected boolean altPressed;
 	
 	protected boolean ctrlPressed;
 	
 	protected boolean shiftPressed;
-	
+
+	protected boolean metaPressed;
+
 	/**
 	 * Creates the interaction.
 	 */
@@ -49,11 +51,13 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	@Override
 	public void reinit() {
 		super.reinit();
-		point = null;
-		target = null;
+		srcPoint = Optional.empty();
+		srcObject = Optional.empty();
+		button = Optional.empty();
 		altPressed = false;
 		ctrlPressed = false;
 		shiftPressed = false;
+		metaPressed = false;
 	}
 
 	/**
@@ -80,24 +84,32 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	}
 
 	/**
+	 * @return True: the meta key is pressed.
+	 */
+
+	public boolean isMetaPressed() {
+		return metaPressed;
+	}
+
+	/**
 	 * @return The pressed position.
 	 */
-	public Point3D getPoint() {
-		return point;
+	public Optional<Point3D> getSrcPoint() {
+		return srcPoint;
 	}
 
 	/**
 	 * @return The button used for the pressure.
 	 */
-	public MouseButton getButton() {
+	public Optional<MouseButton> getButton() {
 		return button;
 	}
 
 	/**
 	 * @return The object picked at the pressed position.
 	 */
-	public EventTarget getTarget() {
-		return target;
+	public Optional<EventTarget> getSrcObject() {
+		return srcObject;
 	}
 
 	class PointPressureTransition extends PressureTransition {
@@ -107,12 +119,13 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 
 		@Override
 		public void action() {
-			PointInteraction.this.point = new Point3D(this.event.getX(), this.event.getY(), this.event.getZ());
-			PointInteraction.this.button = this.event.getButton();
-			PointInteraction.this.target = this.event.getTarget();
+			PointInteraction.this.srcPoint = Optional.of(new Point3D(this.event.getX(), this.event.getY(), this.event.getZ()));
+			PointInteraction.this.button = Optional.of(this.event.getButton());
+			PointInteraction.this.srcObject = Optional.of(this.event.getTarget());
 			PointInteraction.this.altPressed = this.event.isAltDown();
 			PointInteraction.this.shiftPressed = this.event.isShiftDown();
 			PointInteraction.this.ctrlPressed = this.event.isControlDown();
+			PointInteraction.this.metaPressed = this.event.isMetaDown();
 //			PointInteraction.this.setLastHIDUsed(this.hid);
 		}
 	}
