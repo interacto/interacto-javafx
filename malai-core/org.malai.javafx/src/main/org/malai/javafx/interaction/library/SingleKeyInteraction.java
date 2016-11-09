@@ -77,7 +77,7 @@ public abstract class SingleKeyInteraction extends KeyInteraction {
 		/**
 		 * Creates the transition.
 		 * @param inputState The source state of the transition.
-		 * @param outputState The target state of the transition.
+		 * @param outputState The srcObject state of the transition.
 		 */
 		public SingleKeyInteractionKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);

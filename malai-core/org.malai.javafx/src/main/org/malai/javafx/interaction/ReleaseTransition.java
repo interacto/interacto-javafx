@@ -26,7 +26,7 @@ public class ReleaseTransition extends PointingDeviceTransition<MouseEvent> {
 	/**
 	 * Defines a transition.
 	 * @param inputState The source state of the transition.
-	 * @param outputState The target state of the transition.
+	 * @param outputState The srcObject state of the transition.
 	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
 	 * @since 0.1
 	 */
