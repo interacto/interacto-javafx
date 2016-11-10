@@ -12,8 +12,8 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Optional;
-import javafx.event.EventTarget;
 import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.PressureTransition;
@@ -31,7 +31,7 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	protected Optional<MouseButton> button;
 
 	/** The object picked at the pressed position. */
-	protected Optional<EventTarget> srcObject;
+	protected Optional<Node> srcObject;
 	
 	protected boolean altPressed;
 	
@@ -108,7 +108,7 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	/**
 	 * @return The object picked at the pressed position.
 	 */
-	public Optional<EventTarget> getSrcObject() {
+	public Optional<Node> getSrcObject() {
 		return srcObject;
 	}
 
@@ -121,7 +121,7 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 		public void action() {
 			PointInteraction.this.srcPoint = Optional.of(new Point3D(this.event.getX(), this.event.getY(), this.event.getZ()));
 			PointInteraction.this.button = Optional.of(this.event.getButton());
-			PointInteraction.this.srcObject = Optional.of(this.event.getTarget());
+			PointInteraction.this.srcObject = Optional.of(this.event.getPickResult().getIntersectedNode());
 			PointInteraction.this.altPressed = this.event.isAltDown();
 			PointInteraction.this.shiftPressed = this.event.isShiftDown();
 			PointInteraction.this.ctrlPressed = this.event.isControlDown();

@@ -13,7 +13,6 @@ package org.malai.javafx.interaction.library;
 
 import java.util.List;
 import java.util.Optional;
-import javafx.event.EventTarget;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -33,7 +32,7 @@ public class DnD extends PointInteraction {
 	protected Optional<Point3D> endPt;
 
 	/** The object picked at the beginning of the dnd. */
-	protected Optional<EventTarget> endObject;
+	protected Optional<Node> endObject;
 
 	protected IntermediaryState pressed;
 
@@ -108,7 +107,7 @@ public class DnD extends PointInteraction {
 	/**
 	 * @return The object picked at the end of the dnd.
 	 */
-	public Optional<EventTarget> getEndObjet() {
+	public Optional<Node> getEndObjet() {
 		return endObject;
 	}
 
