@@ -82,6 +82,7 @@ public class DoubleClick extends PointInteraction {
 			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onDrag(evt, 0));
 		});
 	}
 
