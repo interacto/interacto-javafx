@@ -119,14 +119,14 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 
 		@Override
 		public void action() {
-			PointInteraction.this.srcPoint = Optional.of(new Point3D(this.event.getX(), this.event.getY(), this.event.getZ()));
-			PointInteraction.this.button = Optional.of(this.event.getButton());
-			PointInteraction.this.srcObject = Optional.of(this.event.getPickResult().getIntersectedNode());
-			PointInteraction.this.altPressed = this.event.isAltDown();
-			PointInteraction.this.shiftPressed = this.event.isShiftDown();
-			PointInteraction.this.ctrlPressed = this.event.isControlDown();
-			PointInteraction.this.metaPressed = this.event.isMetaDown();
-//			PointInteraction.this.setLastHIDUsed(this.hid);
+			PointInteraction.this.srcPoint = Optional.of(new Point3D(event.getX(), event.getY(), event.getZ()));
+			PointInteraction.this.button = Optional.of(event.getButton());
+			PointInteraction.this.srcObject = Optional.of(event.getPickResult().getIntersectedNode());
+			PointInteraction.this.altPressed = event.isAltDown();
+			PointInteraction.this.shiftPressed = event.isShiftDown();
+			PointInteraction.this.ctrlPressed = event.isControlDown();
+			PointInteraction.this.metaPressed = event.isMetaDown();
+			PointInteraction.this.setLastHIDUsed(hid);
 		}
 	}
 }
