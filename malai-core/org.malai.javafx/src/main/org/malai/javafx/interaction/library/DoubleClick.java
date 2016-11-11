@@ -13,6 +13,7 @@ package org.malai.javafx.interaction.library;
 
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
@@ -59,17 +60,16 @@ public class DoubleClick extends PointInteraction {
 		new PointPressureTransition(released1, pressed2) {
 			@Override
 			public boolean isGuardRespected() {
-				return this.hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().isPresent() &&
-					DoubleClick.this.getButton().get() == this.event.getButton();
+				return hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().orElse(MouseButton.NONE) == event.getButton();
 			}
 
 			@Override
 			public void action() {
 				super.action();
-				DoubleClick.this.altPressed = this.event.isAltDown();
-				DoubleClick.this.shiftPressed = this.event.isShiftDown();
-				DoubleClick.this.ctrlPressed = this.event.isControlDown();
-				DoubleClick.this.metaPressed = this.event.isMetaDown();
+				DoubleClick.this.altPressed = event.isAltDown();
+				DoubleClick.this.shiftPressed = event.isShiftDown();
+				DoubleClick.this.ctrlPressed = event.isControlDown();
+				DoubleClick.this.metaPressed = event.isMetaDown();
 			}
 		};
 		new MoveTransition(pressed2, aborted);
@@ -94,17 +94,16 @@ public class DoubleClick extends PointInteraction {
 
 		@Override
 		public boolean isGuardRespected() {
-			return this.hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().isPresent() &&
-				DoubleClick.this.getButton().get() == this.event.getButton();
+			return hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().orElse(MouseButton.NONE) == event.getButton();
 		}
 
 		@Override
 		public void action() {
 			super.action();
-			DoubleClick.this.altPressed = this.event.isAltDown();
-			DoubleClick.this.shiftPressed = this.event.isShiftDown();
-			DoubleClick.this.ctrlPressed = this.event.isControlDown();
-			DoubleClick.this.metaPressed = this.event.isMetaDown();
+			DoubleClick.this.altPressed = event.isAltDown();
+			DoubleClick.this.shiftPressed = event.isShiftDown();
+			DoubleClick.this.ctrlPressed = event.isControlDown();
+			DoubleClick.this.metaPressed = event.isMetaDown();
 		}
 	}
 }
