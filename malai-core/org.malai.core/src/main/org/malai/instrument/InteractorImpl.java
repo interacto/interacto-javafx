@@ -1,3 +1,13 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2015 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.instrument;
 
 import org.malai.action.ActionImpl;
@@ -13,23 +23,8 @@ import org.malai.undo.Undoable;
  * In the Malai interaction model, an instrument links interactions to actions.
  * Thus, an instrument is composed of Link definitions: each interactor links an interaction
  * to an action. A Link manages the life cycle of an action following the life cycle
- * of the interaction (started, aborted, etc.).<br>
- * <br>
- * This file is part of Malai.<br>
- * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
- * <br>
- * Malai is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later version.
- * <br>
- * Malai is distributed without any warranty; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.<br>
- * <br>
- * 05/10/2010<br>
+ * of the interaction (started, aborted, etc.).
  * @author Arnaud BLOUIN
- * @version 0.2
- * @since 0.2
  * @param <A> The type of the action that will produce this interactor.
  * @param <I> The type of the interaction that will use this interactor.
  * @param <N> The type of the instrument that will contain this interactor.
@@ -84,8 +79,9 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 	@Override
 	public void addEventable(final Eventable eventable) {
-		if(eventable!=null && interaction!=null)
+		if(eventable!=null && interaction!=null) {
 			interaction.linkToEventable(eventable);
+		}
 	}
 
 
@@ -180,10 +176,13 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 			// The instrument is notified about the aborting of the action.
 			instrument.onActionAborted(action);
 
-			if(isExecute())
-				if(action instanceof Undoable)
-					((Undoable)action).undo();
-				else throw new MustBeUndoableActionException(action.getClass());
+			if(isExecute()) {
+				if(action instanceof Undoable) {
+					((Undoable) action).undo();
+				}else {
+					throw new MustBeUndoableActionException(action.getClass());
+				}
+			}
 
 			action = null;
 			instrument.interimFeedback();
@@ -206,33 +205,35 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 	@Override
 	public void interactionStops(final Interaction inter) {
-		if(interaction==inter)
+		if(interaction==inter) {
 			if(isConditionRespected()) {
-				if(action==null) {
+				if(action == null) {
 					createAction();
 					initAction();
 				}
 
-    			if(!execute)
-    				updateAction();
+				if(!execute) {
+					updateAction();
+				}
 
-    			if(action.doIt()) {
-    				instrument.onActionExecuted(action);
-    				action.done();
-    				instrument.onActionDone(action);
-    			}
+				if(action.doIt()) {
+					instrument.onActionExecuted(action);
+					action.done();
+					instrument.onActionDone(action);
+				}
 
-    			executeAction(action);
-    			action = null;
-    			instrument.interimFeedback();
-			}
-			else
-				if(action!=null) {
+				executeAction(action);
+				action = null;
+				instrument.interimFeedback();
+			}else {
+				if(action != null) {
 					action.abort();
 					instrument.onActionAborted(action);
 					action = null;
 					instrument.interimFeedback();
 				}
+			}
+		}
 	}
 
 
@@ -252,8 +253,7 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 				ActionsRegistry.INSTANCE.cancelActions(act);
 				instrument.onActionCancelled(act);
 			}
-			for(final Action followIAction : act.followingActions())
-				executeAction(followIAction);
+			act.followingActions().forEach(this::executeAction);
 		}
 	}
 
