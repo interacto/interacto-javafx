@@ -1,8 +1,19 @@
 package org.malai.javafx.interaction;
 
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 
 /**
  * Defines all the events an JavaFX interaction must manage.<br>
@@ -18,8 +29,8 @@ import javafx.scene.input.MouseEvent;
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.<br>
  * @author Arnaud BLOUIN
- * @date 2014-09-19
  * @version 2.0
+ * @date 2014-09-19
  */
 public interface JfxEventProcessor {
 	/**
@@ -42,14 +53,14 @@ public interface JfxEventProcessor {
 	 * @since 2.0
 	 */
 	void onMove(final MouseEvent evt, final int idHID);
-	
+
 	/**
 	 * Defines action to do when a mouse or something equivalent is dragged.
 	 * @param idHID The identifier of the used HID.
 	 * @since 2.0
 	 */
 	void onDrag(final MouseEvent evt, final int idHID);
-	
+
 	/**
 	 * Defines actions to do when a key of a keyboard is pressed.
 	 * @param idHID The identifier of the HID that produced the event.
@@ -63,37 +74,37 @@ public interface JfxEventProcessor {
 	 * @since 2.0
 	 */
 	void onKeyRelease(final KeyEvent event, final int idHID);
-	
+
 	/**
 	 * Defines actions to do when a button is triggered.
 	 * @param button The pressed button.
 	 */
 	void onJfxButtonPressed(final Button button);
-	
+
 	/**
 	 * Defines actions to do when a checkbox is used.
 	 * @param cb The pressed button.
 	 */
 	void onJfxBoxChecked(final CheckBox cb);
-	
+
 	/**
 	 * Defines actions to do when a combo box is used.
 	 * @param cc the combo box.
 	 */
 	void onJfxComboBoxSelected(final ComboBox<?> cc);
-	
+
 	/**
 	 * Defines actions to do when a date is picked.
-	 * @param cc the combo box.
+	 * @param picker the date picker.
 	 */
 	void onJfxDatePicked(final DatePicker picker);
-	
+
 	/**
 	 * Defines actions to do when a colour is picked.
-	 * @param cc the combo box.
+	 * @param picker The colour picker.
 	 */
 	void onJfxColorPicked(final ColorPicker picker);
-	
+
 	/**
 	 * Defines actions to do when a text are set within a text field.
 	 * @param tf The involved text field.
@@ -114,7 +125,7 @@ public interface JfxEventProcessor {
 
 	/**
 	 * Defines actions to do when a menu item is clicked.
-	 * @param button The pressed menu button.
+	 * @param item The pressed menu button.
 	 */
 	void onJfxMenuItemPressed(final MenuItem item);
 
@@ -122,11 +133,18 @@ public interface JfxEventProcessor {
 	 * Defines actions to do when a toggle button is clicked.
 	 * @param button The pressed toggle button.
 	 */
-	void onJfxToggleButtonPressed(ToggleButton button);
-	
+	void onJfxToggleButtonPressed(final ToggleButton button);
+
 	/**
 	 * Defines actions to do when the value of a spinner has changed.
-	 * @param button The spinner.
+	 * @param spinner The spinner.
 	 */
-	void onJfxSpinnerValueChanged(Spinner<?> spinner);
+	void onJfxSpinnerValueChanged(final Spinner<?> spinner);
+
+	/**
+	 * Actions to do on scroll.
+	 * @param evt The scroll event.
+	 * @param idHID The ID of the HID that produced the event.
+	 */
+	void onScroll(final ScrollEvent evt, final int idHID);
 }

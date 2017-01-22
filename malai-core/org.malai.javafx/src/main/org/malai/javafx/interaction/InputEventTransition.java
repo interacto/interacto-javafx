@@ -10,21 +10,41 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.InputEvent;
+import org.malai.interaction.TransitionImpl;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * A scroll event transition.
+ * This abstract transition defines a model for transitions based on input events.
  */
-public class ScrollTransition extends InputEventTransition<ScrollEvent> {
+public abstract class InputEventTransition<T extends InputEvent> extends TransitionImpl {
+	protected T event;
+
 	/**
-	 * Creates the transition.
+	 * Creates a transition.
 	 * @param inputState The source state of the transition.
 	 * @param outputState The srcObject state of the transition.
 	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
 	 */
-	public ScrollTransition(final SourceableState inputState, final TargetableState outputState) {
+	public InputEventTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
+	}
+
+	/**
+	 * @return The events at the origin of the transition. Cannot be null.
+	 */
+	public T getEvent() {
+		return event;
+	}
+
+	/**
+	 * Sets the event of the transition.
+	 * @param evt The new transition. Cannot be null.
+	 */
+	public void setEvent(final T evt) {
+		if(evt != null) {
+			event = evt;
+		}
 	}
 }

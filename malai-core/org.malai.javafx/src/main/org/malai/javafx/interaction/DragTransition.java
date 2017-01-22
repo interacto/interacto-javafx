@@ -22,7 +22,7 @@ import org.malai.stateMachine.TargetableState;
  * 2014-10-11<br>
  * @author Arnaud BLOUIN
  */
-public class DragTransition extends PointingDeviceTransition<MouseEvent> {
+public class DragTransition extends InputEventTransition<MouseEvent> {
 	/**
 	 * Defines a transition.
 	 * @param inputState The source state of the transition.
