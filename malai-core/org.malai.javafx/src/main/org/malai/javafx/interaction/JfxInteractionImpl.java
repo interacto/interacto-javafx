@@ -63,7 +63,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	@Override
 	public void onKeyRelease(final KeyEvent event, final int idHID) {
 		if(!isActivated()) return ;
-		boolean found = getCurrentState().getTransitions().stream().filter(tr -> tr instanceof KeyReleaseTransition).filter(tr -> {
+		boolean found = getCurrentState().getTransitions().stream().filter(tr -> tr instanceof KeyReleaseTransition).anyMatch(tr -> {
 			final KeyReleaseTransition pt =  (KeyReleaseTransition)tr;
 			pt.setEvent(event);
 			pt.setHid(idHID);
@@ -74,7 +74,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 				return checkTransition(tr);
 			}
 			return false;
-		}).findFirst().isPresent();
+		});
 		
 		if(!found) {
 			removeKeyEvent(idHID, event.getCode());
@@ -102,7 +102,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	@Override
 	public void onRelease(final MouseEvent evt, final int idHID) {
 		if(!isActivated()) return ;
-		boolean found = getCurrentState().getTransitions().stream().filter(tr -> tr instanceof ReleaseTransition).filter(tr -> {
+		boolean found = getCurrentState().getTransitions().stream().filter(tr -> tr instanceof ReleaseTransition).anyMatch(tr -> {
 			final ReleaseTransition pt = (ReleaseTransition)tr;
 			pt.setEvent(evt);
 			pt.setHid(idHID);
@@ -113,7 +113,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 				return checkTransition(tr);
 			}
 			return false;
-		}).findFirst().isPresent();
+		});
 		
 		if(!found) {
 			removePressEvent(idHID);
@@ -178,8 +178,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 		if(stillProcessingEvents == null)
 			return false;
 		synchronized(stillProcessingEvents) {
-			return stillProcessingEvents.stream().filter(evt -> idHID == evt.getIdHID() && evt instanceof KeyPressEvent && ((KeyPressEvent)evt).evt.getCode() == key).
-					findFirst().isPresent();
+			return stillProcessingEvents.stream().anyMatch(evt -> idHID == evt.getIdHID() && evt instanceof KeyPressEvent && ((KeyPressEvent)evt).evt.getCode() == key);
 		}
 	}
 

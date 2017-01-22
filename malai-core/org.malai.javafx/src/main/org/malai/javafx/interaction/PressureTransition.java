@@ -22,7 +22,7 @@ import org.malai.stateMachine.TargetableState;
  * 2014-09-23<br>
  * @author Arnaud BLOUIN
  */
-public class PressureTransition extends PointingDeviceTransition<MouseEvent> {
+public class PressureTransition extends InputEventTransition<MouseEvent> {
 	/**
 	 * Creates the transition.
 	 */
