@@ -12,9 +12,9 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.List;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.input.KeyEvent;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxTextChangedTransition;
 
@@ -50,6 +50,6 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 	@Override
 	public void registerToNodes(final List<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof TextInputControl).forEach(w ->
-			w.addEventHandler(KeyEvent.KEY_TYPED, evt -> onTextChanged((TextInputControl)evt.getSource())));
+			w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl)evt.getSource())));
 	}
 }
