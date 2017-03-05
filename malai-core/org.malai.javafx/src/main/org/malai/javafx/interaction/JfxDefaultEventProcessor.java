@@ -19,7 +19,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -144,7 +144,7 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 	}
 
 	@Override
-	default void onTextChanged(final TextField tf) {
+	default void onTextChanged(final TextInputControl tf) {
 		if(!isActivated()) return;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxTextChangedTransition).filter(tr -> {
 			((JfxTextChangedTransition) tr).setWidget(tf);
