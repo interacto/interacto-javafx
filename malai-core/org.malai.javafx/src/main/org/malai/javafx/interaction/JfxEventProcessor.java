@@ -9,7 +9,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -109,7 +109,7 @@ public interface JfxEventProcessor {
 	 * Defines actions to do when a text are set within a text field.
 	 * @param tf The involved text field.
 	 */
-	void onTextChanged(final TextField tf);
+	void onTextChanged(final TextInputControl tf);
 
 	/**
 	 * Defines actions to do when an hyperlink is clicked.
