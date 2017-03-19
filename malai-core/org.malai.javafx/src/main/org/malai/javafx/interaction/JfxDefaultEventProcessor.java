@@ -19,6 +19,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
@@ -157,6 +158,15 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 		if(!isActivated()) return;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxSpinnerValueChangedTransition).filter(tr -> {
 			((JfxSpinnerValueChangedTransition) tr).setWidget(spinner);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+
+	@Override
+	default void onJfXTabSelected(final TabPane tabPane) {
+		if(!isActivated()) return;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxTabSelectedTransition).filter(tr -> {
+			((JfxTabSelectedTransition) tr).setWidget(tabPane);
 			return checkTransition(tr);
 		}).findFirst();
 	}

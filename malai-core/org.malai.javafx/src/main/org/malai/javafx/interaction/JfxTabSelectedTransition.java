@@ -14,17 +14,17 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.scene.control.Button;
+import javafx.scene.control.TabPane;
 import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * A transition based on the button action event.
- * @author Arnaud BLOUIN
+ * A JFX interaction transition based on the selection of a tab.
+ * @author Arnaud Blouin
  */
-public class JfxButtonPressedTransition extends WidgetTransition<Button> {
-	public JfxButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
+public class JfxTabSelectedTransition extends WidgetTransition<TabPane> {
+	public JfxTabSelectedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 }

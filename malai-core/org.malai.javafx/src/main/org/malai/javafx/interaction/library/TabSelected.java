@@ -15,20 +15,20 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.List;
-import javafx.event.ActionEvent;
-import javafx.scene.control.MenuItem;
+import javafx.scene.Node;
+import javafx.scene.control.TabPane;
 import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxMenuItemPressedTransition;
+import org.malai.javafx.interaction.JfxTabSelectedTransition;
 
 /**
- * This interaction occurs when a menu item is triggered.
- * @author Arnaud BLOUIN
+ * A JFX interaction for clicking on tabs.
+ * @author Arnaud Blouin
  */
-public class MenuItemPressed extends MenuItemInteraction<MenuItem> {
+public class TabSelected extends NodeInteraction<TabPane> {
 	/**
 	 * Creates the interaction.
 	 */
-	public MenuItemPressed() {
+	public TabSelected() {
 		super();
 		initStateMachine();
 	}
@@ -41,17 +41,18 @@ public class MenuItemPressed extends MenuItemInteraction<MenuItem> {
 
 		addState(pressed);
 
-		new JfxMenuItemPressedTransition(initState, pressed) {
+		new JfxTabSelectedTransition(initState, pressed) {
 			@Override
 			public void action() {
 				super.action();
-				MenuItemPressed.this.widget = this.widget;
+				TabSelected.this.widget = this.widget;
 			}
 		};
 	}
 
 	@Override
-	public void registerToMenuItems(final List<MenuItem> widgets) {
-		widgets.forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem) evt.getSource())));
+	public void registerToNodes(final List<Node> widgets) {
+		widgets.stream().filter(w -> w instanceof TabPane).forEach(w -> ((TabPane) w).getSelectionModel().selectedItemProperty().
+			addListener(evt -> onJfXTabSelected((TabPane) w)));
 	}
 }
