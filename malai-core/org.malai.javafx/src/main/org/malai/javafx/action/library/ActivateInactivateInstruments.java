@@ -12,17 +12,14 @@
  */
 package org.malai.javafx.action.library;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * This instrument activates and inactivates instruments.<br>
- * <br>
+ * This instrument activates and inactivates instruments.
  * @author Arnaud Blouin
- * @since 2.0
  */
 public class ActivateInactivateInstruments extends ActionImpl {
 	/** The instruments to activate. */
@@ -34,26 +31,30 @@ public class ActivateInactivateInstruments extends ActionImpl {
 	/** Defines the activations must be performed before the inactivations. */
 	protected boolean activateFirst;
 
+	/** Defines if the widgets of WidgetInstrument instances must be hidden during their deactivation. */
+	protected boolean hideWidgets;
 
 
 	/**
 	 * Creates and initialises the instrument.
 	 * By default instruments are not hidden and activation is performed first.
-	 * @since 0.1
 	 */
 	public ActivateInactivateInstruments() {
 		super();
 		activateFirst = true;
+		hideWidgets = false;
 	}
 
 
 	@Override
 	public void flush() {
 		super.flush();
-		if(insActivate!=null)
+		if(insActivate != null) {
 			insActivate.clear();
-		if(insInactivate!=null)
+		}
+		if(insInactivate != null) {
 			insInactivate.clear();
+		}
 	}
 
 
@@ -62,7 +63,7 @@ public class ActivateInactivateInstruments extends ActionImpl {
 		if(activateFirst) {
 			activate();
 			deactivate();
-		} else {
+		}else {
 			deactivate();
 			activate();
 		}
@@ -70,27 +71,28 @@ public class ActivateInactivateInstruments extends ActionImpl {
 
 
 	protected void deactivate() {
-		if(insInactivate!=null)
-			insInactivate.forEach(ins -> ins.setActivated(false));
+		if(insInactivate != null) {
+			insInactivate.forEach(ins -> ins.setActivated(false, hideWidgets));
+		}
 	}
 
 
 	protected void activate() {
-		if(insActivate!=null)
+		if(insActivate != null) {
 			insActivate.forEach(ins -> ins.setActivated(true));
+		}
 	}
 
 
 	/**
 	 * Adds an instrument to activate.
 	 * @param ins The instrument to activate.
-	 * @since 0.1
 	 */
 	public void addInstrumentToActivate(final JfxInstrument ins) {
-		if(ins!=null) {
-			if(insActivate==null)
+		if(ins != null) {
+			if(insActivate == null) {
 				insActivate = new ArrayList<>();
-
+			}
 			insActivate.add(ins);
 		}
 	}
@@ -99,13 +101,12 @@ public class ActivateInactivateInstruments extends ActionImpl {
 	/**
 	 * Adds an instrument to inactivate.
 	 * @param ins The instrument to inactivate.
-	 * @since 0.1
 	 */
 	public void addInstrumentToInactivate(final JfxInstrument ins) {
-		if(ins!=null) {
-			if(insInactivate==null)
+		if(ins != null) {
+			if(insInactivate == null) {
 				insInactivate = new ArrayList<>();
-
+			}
 			insInactivate.add(ins);
 		}
 	}
@@ -113,13 +114,10 @@ public class ActivateInactivateInstruments extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return insActivate!=null || insInactivate!=null;
+		return insActivate != null || insInactivate != null;
 	}
 
 
-	/**
-	 * @return False. Action ActivateInactivateInstruments cannot be registered.
-	 */
 	@Override
 	public boolean isRegisterable() {
 		return false;
@@ -128,9 +126,15 @@ public class ActivateInactivateInstruments extends ActionImpl {
 
 	/**
 	 * @param activateFirst True: the activations will be performed before the inactivations.
-	 * @since 0.2
 	 */
 	public void setActivateFirst(final boolean activateFirst) {
 		this.activateFirst = activateFirst;
+	}
+
+	/**
+	 * @param hideWidgets Defines whether the widgets of WidgetInstrument instances must be hidden during their deactivation.
+	 */
+	public void setHideWidgets(final boolean hideWidgets) {
+		this.hideWidgets = hideWidgets;
 	}
 }

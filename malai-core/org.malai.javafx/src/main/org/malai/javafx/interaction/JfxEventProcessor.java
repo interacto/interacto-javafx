@@ -1,3 +1,17 @@
+/*
+ * This interaction permits to mouse press with key pressures (eg modifiers).<br>
+ * <br>
+ * This file is part of Malai.<br>
+ * Copyright (c) 2005-2017 Arnaud BLOUIN<br>
+ * <br>
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * <br>
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.Button;
@@ -9,6 +23,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
@@ -16,21 +31,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
 /**
- * Defines all the events an JavaFX interaction must manage.<br>
- * <br>
- * This file is part of libMalai.<br>
- * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
- * <br>
- * libMalan is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later version.<br>
- * <br>
- * libMalan is distributed without any warranty; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.<br>
+ * Defines all the events a JavaFX interaction must manage.
  * @author Arnaud BLOUIN
- * @version 2.0
- * @date 2014-09-19
  */
 public interface JfxEventProcessor {
 	/**
@@ -140,6 +142,12 @@ public interface JfxEventProcessor {
 	 * @param spinner The spinner.
 	 */
 	void onJfxSpinnerValueChanged(final Spinner<?> spinner);
+
+	/**
+	 * Defines actions to do when a tab is selected.
+	 * @param tabPane The tab pane.
+	 */
+	void onJfXTabSelected(final TabPane tabPane);
 
 	/**
 	 * Actions to do on scroll.
