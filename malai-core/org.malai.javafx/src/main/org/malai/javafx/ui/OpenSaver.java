@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.ui;
 
+import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
 
 /**
@@ -25,8 +26,7 @@ public interface OpenSaver<B> {
 	 * @param statusWidget The widget that displays the status of the saving operation. Can be null.
 	 * @return True: the operation is successful.
 	 */
-	boolean save(final String path, final ProgressBar progressBar, final B statusWidget);
-
+	Task<Boolean> save(final String path, final ProgressBar progressBar, final B statusWidget);
 
 	/**
 	 * Opens the given file and sets the abstract presentations and the instruments parameters of the given UI to the given file.
@@ -35,5 +35,5 @@ public interface OpenSaver<B> {
 	 * @param statusWidget The widget that displays the status of the loading operation. Can be null.
 	 * @return True: the operation is successful.
 	 */
-	boolean open(final String path, final ProgressBar progressBar, final B statusWidget);
+	Task<Boolean> open(final String path, final ProgressBar progressBar, final B statusWidget);
 }
