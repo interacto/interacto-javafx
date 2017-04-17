@@ -14,7 +14,15 @@
  */
 package org.malai.javafx.instrument;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.function.Consumer;
+import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Window;
+import org.malai.action.ActionImpl;
 import org.malai.instrument.InstrumentImpl;
+import org.malai.javafx.instrument.library.KeysShortcutInteractor;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
@@ -39,5 +47,29 @@ public abstract class JfxInstrument extends InstrumentImpl<JfxInteractor<?, ? ex
 	 */
 	public void setActivated(final boolean activ, final boolean hide) {
 		setActivated(activ);
+	}
+
+	protected <A extends ActionImpl> void addKeyShortcutInteractor(final Collection<KeyCode> keys, final Class<A> clazzAction,
+																   final Consumer<A> initActionFct, final Node... widgets)
+			throws IllegalAccessException, InstantiationException {
+		addInteractor(new KeysShortcutInteractor<>(this, clazzAction, initActionFct, keys, widgets));
+	}
+
+	protected <A extends ActionImpl> void addKeyShortcutInteractor(final KeyCode key, final Class<A> clazzAction,
+																   final Consumer<A> initActionFct, final Node... widgets)
+			throws IllegalAccessException, InstantiationException {
+		addKeyShortcutInteractor(Collections.singletonList(key), clazzAction, initActionFct, widgets);
+	}
+
+	protected <A extends ActionImpl> void addKeyShortcutInteractor(final KeyCode key, final Class<A> clazzAction,
+																   final Consumer<A> initActionFct, final Window... windows)
+		throws IllegalAccessException, InstantiationException {
+		addKeyShortcutInteractor(Collections.singletonList(key), clazzAction, initActionFct, windows);
+	}
+
+	protected <A extends ActionImpl> void addKeyShortcutInteractor(final Collection<KeyCode> keys, final Class<A> clazzAction,
+																   final Consumer<A> initActionFct, final Window... windows)
+		throws IllegalAccessException, InstantiationException {
+		addInteractor(new KeysShortcutInteractor<>(this, clazzAction, initActionFct, keys, windows));
 	}
 }

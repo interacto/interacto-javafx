@@ -11,11 +11,12 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Window;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.DragTransition;
@@ -87,8 +88,17 @@ public class DnD extends PointInteraction {
 
 
 	@Override
-	public void registerToNodes(final List<Node> widgets) {
+	public void registerToNodes(final Collection<Node> widgets) {
 		widgets.forEach(widget -> {
+			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
+			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
+		});
+	}
+
+	@Override
+	public void registerToWindows(final Collection<Window> windows) {
+		windows.forEach(widget -> {
 			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));

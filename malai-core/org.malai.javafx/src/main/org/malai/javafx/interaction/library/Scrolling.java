@@ -10,9 +10,10 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
+import java.util.Collection;
 import javafx.scene.Node;
 import javafx.scene.input.ScrollEvent;
+import javafx.stage.Window;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.ScrollTransition;
@@ -21,6 +22,7 @@ import org.malai.stateMachine.TargetableState;
 
 /**
  * A JFX scrolling interaction
+ * @author Arnaud Blouin
  */
 public class Scrolling extends JfxInteractionImpl {
 	/** The scrolled node. */
@@ -123,8 +125,13 @@ public class Scrolling extends JfxInteractionImpl {
 
 
 	@Override
-	public void registerToNodes(List<Node> widgets) {
+	public void registerToNodes(Collection<Node> widgets) {
 		widgets.forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
+	}
+
+	@Override
+	public void registerToWindows(Collection<Window> windows) {
+		windows.forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
 	}
 
 

@@ -1,3 +1,13 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2017 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.javafx.interaction.library;
 
 import org.malai.interaction.IntermediaryState;
@@ -5,18 +15,7 @@ import org.malai.interaction.TerminalState;
 import org.malai.interaction.TimeoutTransition;
 
 /**
- * A KeyTyped interaction occurs when several keys are typed. It stops when the defined timeout
- * expired.<br>
- * <br>
- * This file is part of Malai.<br>
- * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
- * <br>
- * Malai is free software; you can redistribute it and/or modify it under the terms of the GNU
- * General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version. <br>
- * Malai is distributed without any warranty; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.<br>
- * <br>
+ * A KeyTyped interaction occurs when several keys are typed. It stops when the defined timeout expired.
  * @author Arnaud BLOUIN
  */
 public class KeysTyped extends MultiKeyInteraction {
@@ -25,7 +24,6 @@ public class KeysTyped extends MultiKeyInteraction {
 
 	/**
 	 * Creates the interaction.
-	 * @since 0.2
 	 */
 	public KeysTyped() {
 		super();
@@ -62,7 +60,6 @@ public class KeysTyped extends MultiKeyInteraction {
 
 	/**
 	 * @return the current timeout.
-	 * @since 0.2
 	 */
 	public int getTimeout() {
 		return timeoutTransition.getTimeout();
@@ -70,7 +67,6 @@ public class KeysTyped extends MultiKeyInteraction {
 
 	/**
 	 * @param timeout the timeout to set. Must be greater than 0.
-	 * @since 0.2
 	 */
 	public void setTimeout(final int timeout) {
 		if(timeout > 0)

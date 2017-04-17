@@ -13,12 +13,10 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
-
+import java.util.Collection;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxBoxCheckedTransition;
 
@@ -54,7 +52,7 @@ public class BoxChecked extends NodeInteraction<CheckBox> {
 	}
 	
 	@Override
-	public void registerToNodes(final List<Node> widgets) {
+	public void registerToNodes(final Collection<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof CheckBox).forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxBoxChecked((CheckBox)evt.getSource())));
 	}
 }
