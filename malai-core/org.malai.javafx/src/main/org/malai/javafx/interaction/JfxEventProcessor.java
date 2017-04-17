@@ -29,6 +29,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.stage.WindowEvent;
 
 /**
  * Defines all the events a JavaFX interaction must manage.
@@ -155,4 +156,10 @@ public interface JfxEventProcessor {
 	 * @param idHID The ID of the HID that produced the event.
 	 */
 	void onScroll(final ScrollEvent evt, final int idHID);
+
+	/**
+	 * Actions to do when a window is closed.
+	 * @param event The event produced to close the window.
+	 */
+	void onWindowClosed(final WindowEvent event);
 }
