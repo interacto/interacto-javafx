@@ -1,114 +1,66 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2017 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.javafx.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Set;
+import java.util.stream.Stream;
 import javafx.application.Application;
-
-import org.malai.instrument.Instrument;
-import org.malai.presentation.AbstractPresentation;
-import org.malai.presentation.ConcretePresentation;
-import org.malai.presentation.Presentation;
-import org.malai.ui.UI;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.preferences.Preferenciable;
+import org.malai.properties.Modifiable;
+import org.malai.properties.Reinitialisable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Defines the concept of User Interface based on a JavaFX Application.<br>
- * <br>
- * This file is part of libMalai.<br>
- * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
- * <br>
- * libMalan is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later version.<br>
- * <br>
- * libMalan is distributed without any warranty; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.<br>
+ * A JFX user interface.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxUI extends Application implements UI<JfxUIComposer<?>> {
-	/** The presentations of the interactive system. */
-	protected List<Presentation<?,?>> presentations;
-
+public abstract class JfxUI extends Application implements Modifiable, Reinitialisable, Preferenciable {
 	/** Defined if the UI has been modified. */
-	protected boolean modified;
-
-	/** The composer that composes the UI. */
-	protected JfxUIComposer<?> composer;
-
+	protected final BooleanProperty modified;
 
 	/**
 	 * Creates a user interface.
-	 * @since 0.1
 	 */
 	public JfxUI() {
 		super();
-		modified 		= false;
-		presentations 	= new ArrayList<>();
-		initialisePresentations();
+		modified = new SimpleBooleanProperty(false);
 	}
 
+	/**
+	 * @return The instruments of the app.
+	 */
+	public abstract Set<JfxInstrument> getInstruments();
+
+	/**
+	 * @param <T> The components must be Modifiable and Reinitialisable
+	 * @return The set of objects that must be set as modified or be reinitialised (in complement to the instruments).
+	 */
+	protected abstract <T extends Modifiable & Reinitialisable> Set<T> getAdditionalComponents();
 
 	@Override
-	public void setModified(final boolean modified) {
-		this.modified = modified;
-
-		for(final Presentation<?, ?> pres : presentations)
-			pres.setModified(modified);
-
-		for(final Instrument ins : getInstruments())
-			ins.setModified(modified);
+	public void setModified(final boolean isModified) {
+		modified.set(isModified);
+		getAdditionalComponents().forEach(comp -> comp.setModified(isModified));
+		getInstruments().forEach(ins -> ins.setModified(isModified));
 	}
 
 
 	@Override
 	public boolean isModified() {
-		boolean ok = modified;
-		int i=0;
-		final int size = presentations.size();
-
-		// Looking for a modified presentation.
-		while(!ok && i<size)
-			if(presentations.get(i).isModified())
-				ok = true;
-			else i++;
-
-		final Instrument[] instruments = getInstruments();
-		i=0;
-
-		while(i<instruments.length && !ok)
-			if(instruments[i].isModified())
-				 ok = true;
-			else i++;
-
-		return ok;
+		return modified.get() || Stream.concat(getInstruments().stream(), getAdditionalComponents().stream()).anyMatch(ins -> ins.isModified());
 	}
-
-	@Override
-	public void updatePresentations() {
-		for(final Presentation<?,?> presentation : presentations)
-			presentation.update();
-	}
-
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public <A extends AbstractPresentation, C extends ConcretePresentation>
-	Presentation<A, C> getPresentation(final Class<A> absPresClass, final Class<C> concPresClass) {
-		Presentation<A, C> pres = null;
-		Presentation<?, ?> tmp;
-
-		for(int i=0, size=presentations.size(); i<size && pres==null; i++) {
-			tmp = presentations.get(i);
-			if(absPresClass.isInstance(tmp.getAbstractPresentation()) && concPresClass.isInstance(tmp.getConcretePresentation()))
-				pres = (Presentation<A, C>)tmp;
-		}
-
-		return pres;
-	}
-
 
 	@Override
 	public void save(final boolean generalPreferences, final String nsURI, final Document document, final Element root) {
@@ -123,25 +75,9 @@ public abstract class JfxUI extends Application implements UI<JfxUIComposer<?>> 
 
 
 	@Override
-	public List<Presentation<?,?>> getPresentations() {
-		return presentations;
-	}
-
-
-	@Override
 	public void reinit() {
-		for(final Presentation<?,?> presentation : presentations)
-			presentation.reinit();
-
-		for(final Instrument ins : getInstruments())
-			ins.reinit();
-
+		getAdditionalComponents().forEach(comp -> comp.reinit());
+		getInstruments().forEach(ins -> ins.reinit());
 		setModified(false);
-	}
-
-
-	@Override
-	public JfxUIComposer<?> getComposer() {
-		return composer;
 	}
 }
