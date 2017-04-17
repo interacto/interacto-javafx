@@ -11,7 +11,6 @@
 package org.malai.javafx.instrument;
 
 import java.util.Arrays;
-import java.util.List;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
@@ -21,9 +20,6 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  * @author Arnaud BLOUIN
  */
 public abstract class JfxMenuItemInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxInteractor<A, I, N> {
-	/** The menu item that will be used to create the action. */
-	protected final List<MenuItem> menuItem;
-
 	/**
 	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -33,24 +29,17 @@ public abstract class JfxMenuItemInteractor<A extends ActionImpl, I extends Menu
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param widgets The menu item used by the interactor. Cannot be null.
+	 * @param widgets The menu item used by the interactor. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, MenuItem... widgets) throws InstantiationException, IllegalAccessException {
+	public JfxMenuItemInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, MenuItem... widgets)
+				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 
-		if(widgets == null) throw new IllegalArgumentException();
-
-		menuItem = Arrays.asList(widgets);
-		interaction.registerToMenuItems(menuItem);
-	}
-
-
-	@Override
-	public boolean isConditionRespected() {
-		final MenuItem widget = interaction.getWidget();
-		return menuItem.stream().anyMatch(menu -> menu == widget);
+		if(widgets != null) {
+			interaction.registerToMenuItems(Arrays.asList(widgets));
+		}
 	}
 }
