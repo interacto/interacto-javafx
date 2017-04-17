@@ -18,12 +18,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Consumer;
 import javafx.scene.Node;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.instrument.InstrumentImpl;
 import org.malai.javafx.instrument.library.KeysShortcutInteractor;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.library.MenuItemPressed;
 
 /**
  * Base of an instrument for JavaFX applications.
@@ -63,13 +65,18 @@ public abstract class JfxInstrument extends InstrumentImpl<JfxInteractor<?, ? ex
 
 	protected <A extends ActionImpl> void addKeyShortcutInteractor(final KeyCode key, final Class<A> clazzAction,
 																   final Consumer<A> initActionFct, final Window... windows)
-		throws IllegalAccessException, InstantiationException {
+			throws IllegalAccessException, InstantiationException {
 		addKeyShortcutInteractor(Collections.singletonList(key), clazzAction, initActionFct, windows);
 	}
 
 	protected <A extends ActionImpl> void addKeyShortcutInteractor(final Collection<KeyCode> keys, final Class<A> clazzAction,
 																   final Consumer<A> initActionFct, final Window... windows)
-		throws IllegalAccessException, InstantiationException {
+			throws IllegalAccessException, InstantiationException {
 		addInteractor(new KeysShortcutInteractor<>(this, clazzAction, initActionFct, keys, windows));
+	}
+
+	protected <A extends ActionImpl> void addMenuInteractor(final Class<A> clazzAction, final Consumer<A> initActionFct, final MenuItem... menus)
+			throws IllegalAccessException, InstantiationException {
+		addInteractor(new JFxAnonMenuInteractor<>(this, false, clazzAction, MenuItemPressed.class, initActionFct, menus));
 	}
 }
