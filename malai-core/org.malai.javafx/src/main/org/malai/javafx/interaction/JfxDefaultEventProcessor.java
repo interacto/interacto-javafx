@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.stage.WindowEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
@@ -167,6 +168,16 @@ public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction
 		if(!isActivated()) return;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxTabSelectedTransition).filter(tr -> {
 			((JfxTabSelectedTransition) tr).setWidget(tabPane);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+
+
+	@Override
+	default void onWindowClosed(final WindowEvent event) {
+		if(!isActivated()) return;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof JfxWindowClosedTransition).filter(tr -> {
+			((JfxWindowClosedTransition) tr).setEvent(event);
 			return checkTransition(tr);
 		}).findFirst();
 	}

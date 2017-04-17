@@ -79,4 +79,10 @@ public abstract class JfxInstrument extends InstrumentImpl<JfxInteractor<?, ? ex
 			throws IllegalAccessException, InstantiationException {
 		addInteractor(new JFxAnonMenuInteractor<>(this, false, clazzAction, MenuItemPressed.class, initActionFct, menus));
 	}
+
+	protected <A extends ActionImpl, I extends JfxInteraction> void addWindowInteractor(final Class<A> clazzAction, final Consumer<A> initActionFct,
+															  final Class<I> interaction, final Window...windows)
+			throws IllegalAccessException, InstantiationException {
+		addInteractor(new JFxAnonWindowInteractor<>(this, false, clazzAction, interaction, initActionFct, windows));
+	}
 }
