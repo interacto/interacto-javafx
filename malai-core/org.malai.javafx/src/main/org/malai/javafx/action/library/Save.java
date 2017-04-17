@@ -10,6 +10,9 @@
  */
 package org.malai.javafx.action.library;
 
+import java.util.concurrent.ExecutionException;
+import org.malai.error.ErrorCatcher;
+
 /**
  * A save action.
  * @author Arnaud Blouin
@@ -24,7 +27,12 @@ public class Save<B extends Object> extends IOAction<B> {
 
 	@Override
 	protected void doActionBody() {
-		ok = openSaveManager.save(file.getPath(), progressBar, statusWidget);
+		try {
+			ok = openSaveManager.save(file.getPath(), progressBar, statusWidget).get();
+		}catch(InterruptedException | ExecutionException ex) {
+			ok = false;
+			ErrorCatcher.INSTANCE.reportError(ex);
+		}
 		ui.setModified(false);
 	}
 }
