@@ -11,12 +11,14 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Window;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
@@ -160,13 +162,24 @@ public class MultiClick extends JfxInteractionImpl {
 	}
 
 	@Override
-	public void registerToNodes(final List<Node> widgets) {
+	public void registerToNodes(final Collection<Node> widgets) {
 		widgets.forEach(widget -> {
 			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onMove(evt, 0));
 			widget.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
 			widget.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
+		});
+	}
+
+	@Override
+	public void registerToWindows(final Collection<Window> windows) {
+		windows.forEach(window -> {
+			window.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
+			window.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
+			window.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onMove(evt, 0));
+			window.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
+			window.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
 		});
 	}
 

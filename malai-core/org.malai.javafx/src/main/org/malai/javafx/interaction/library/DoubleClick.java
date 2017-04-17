@@ -11,10 +11,11 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
+import java.util.Collection;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Window;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
@@ -77,12 +78,22 @@ public class DoubleClick extends PointInteraction {
 	}
 
 	@Override
-	public void registerToNodes(final List<Node> widgets) {
+	public void registerToNodes(final Collection<Node> widgets) {
 		widgets.forEach(widget -> {
 			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onDrag(evt, 0));
+		});
+	}
+
+	@Override
+	public void registerToWindows(final Collection<Window> windows) {
+		windows.forEach(window -> {
+			window.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
+			window.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
+			window.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
+			window.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onDrag(evt, 0));
 		});
 	}
 

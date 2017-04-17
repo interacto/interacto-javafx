@@ -17,11 +17,11 @@ import org.malai.action.ActionImpl;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
 
 /**
- * Base of an interactor for JavaFX applications.
+ * Base of a menu item interactor for JavaFX applications.
  * @author Arnaud BLOUIN
  */
 public abstract class JfxMenuItemInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxInteractor<A, I, N> {
-	/** The menu item that will be uses to create the action. */
+	/** The menu item that will be used to create the action. */
 	protected final List<MenuItem> menuItem;
 
 	/**

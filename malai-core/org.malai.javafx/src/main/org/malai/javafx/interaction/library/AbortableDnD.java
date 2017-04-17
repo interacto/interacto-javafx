@@ -11,9 +11,10 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
+import java.util.Collection;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Window;
 import org.malai.interaction.AbortingState;
 import org.malai.javafx.interaction.EscapeKeyPressureTransition;
 import org.malai.javafx.interaction.ReleaseTransition;
@@ -46,9 +47,18 @@ public class AbortableDnD extends DnD {
 
 
 	@Override
-	public void registerToNodes(List<Node> widgets) {
+	public void registerToNodes(Collection<Node> widgets) {
 		super.registerToNodes(widgets);
 		widgets.forEach(widget -> {
+			widget.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
+			widget.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
+		});
+	}
+
+	@Override
+	public void registerToWindows(Collection<Window> windows) {
+		super.registerToWindows(windows);
+		windows.forEach(widget -> {
 			widget.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
 			widget.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
 		});

@@ -11,6 +11,7 @@
 package org.malai.javafx.instrument;
 
 import javafx.scene.Node;
+import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.instrument.InteractorImpl;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -37,7 +38,8 @@ public abstract class JfxInteractor<A extends ActionImpl, I extends JfxInteracti
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
+	public JfxInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+						 final List<Node> widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 		interaction.registerToNodes(widgets);
 	}
@@ -56,10 +58,30 @@ public abstract class JfxInteractor<A extends ActionImpl, I extends JfxInteracti
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, Node... widgets) throws InstantiationException, IllegalAccessException {
+	public JfxInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+						 final Node... widgets) throws InstantiationException, IllegalAccessException {
 		this(ins, exec, clazzAction, clazzInteraction, Arrays.asList(widgets));
 	}
 
+	/**
+	 * Creates an interactor for windows. This constructor must initialise the interaction. The interactor is (de-)activated if the given
+	 * instrument is (de-)activated.
+	 * @param ins The instrument that contains the interactor.
+	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
+	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param windows The windows used by the interactor. Cannot be null.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 * @throws IllegalArgumentException If the given interaction or instrument is null.
+	 */
+	public JfxInteractor(final N ins, final boolean exec, final List<Window> windows, final Class<A> clazzAction,
+						 final Class<I> clazzInteraction) throws InstantiationException, IllegalAccessException {
+		super(ins, exec, clazzAction, clazzInteraction);
+		interaction.registerToWindows(windows);
+	}
 
 	@Override
 	public boolean isConditionRespected() {

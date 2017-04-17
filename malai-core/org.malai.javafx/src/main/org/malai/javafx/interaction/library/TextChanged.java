@@ -11,7 +11,7 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
+import java.util.Collection;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
@@ -21,6 +21,7 @@ import org.malai.javafx.interaction.JfxTextChangedTransition;
 
 /**
  * This interaction is performed when the text of a text field is modified.
+ * @author Arnaud Blouin
  */
 public class TextChanged extends NodeInteraction<TextInputControl> {
 	/**
@@ -48,7 +49,7 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 	}
 
 	@Override
-	public void registerToNodes(final List<Node> widgets) {
+	public void registerToNodes(final Collection<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof TextInputControl).forEach(w ->
 			w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl)evt.getSource())));
 	}

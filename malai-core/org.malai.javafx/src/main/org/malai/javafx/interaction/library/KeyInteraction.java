@@ -1,28 +1,27 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2017 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.javafx.interaction.library;
 
+import java.util.Collection;
+import java.util.Optional;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Window;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
-import java.util.List;
-import java.util.Optional;
-
 /**
- * This abstract interaction should be used to define JavaFX interactions based on keyboards.<br>
- * <br>
- * This file is part of Malai.<br>
- * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
- * <br>
- * Malai is free software; you can redistribute it and/or modify it under the terms of the GNU
- * General Public License as published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version. <br>
- * Malai is distributed without any warranty; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.<br>
- * <br>
- * 2014-09-22<br>
+ * An abstract interaction for defining JavaFX interactions based on key events.
  * @author Arnaud BLOUIN
  */
 public abstract class KeyInteraction extends JfxInteractionImpl {
@@ -77,8 +76,16 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 	}
 
 	@Override
-	public void registerToNodes(List<Node> widgets) {
+	public void registerToNodes(Collection<Node> widgets) {
 		widgets.forEach(w -> {
+			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
+			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
+		});
+	}
+
+	@Override
+	public void registerToWindows(Collection<Window> windows) {
+		windows.forEach(w -> {
 			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
 			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
 		});
