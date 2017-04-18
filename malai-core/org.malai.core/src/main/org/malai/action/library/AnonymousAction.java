@@ -1,3 +1,13 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2017 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.action.library;
 
 import org.malai.action.ActionImpl;
@@ -5,7 +15,7 @@ import org.malai.action.ActionImpl;
 /**
  * An anonymous class that permits to create an action without defining a specific ActionImpl class.
  * A runnable, corresponding to the body of the action has to be provided to the action.
- * Created by Arnaud Blouin on 18/07/16.
+ * @author Arnaud Blouin
  */
 public class AnonymousAction extends ActionImpl {
 	/** The runnable executed when the action is executed. */

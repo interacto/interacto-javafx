@@ -14,6 +14,7 @@ package org.malai.action;
  * An anonymous action that takes an anonymous function as a parameter corresponding
  * to the command to execute.
  * The goal of this action is to avoid the creation of an action class for a small action.
+ * @author Arnaud Blouin
  */
 public class AnonAction extends ActionImpl {
 	Runnable exec;

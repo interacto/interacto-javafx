@@ -1,27 +1,24 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2017 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.action.library;
 
 import org.malai.action.ActionImpl;
 
 /**
  * The goal of this abstract action is to modify an object. This object can be for instance
- * a property of an object.<br>
+ * a property of an object.
  * The use of this action can be made when an object has a lot of properties which modification
  * follow the same process. Thus, a same action can be used to modify all the properties. To do
  * so, a enumeration of the properties can be defined and used into the action to specify which
  * property will be modified by the current action instance.
- * <br>
- * This file is part of Malai<br>
- * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
- * <br>
- *  Malai is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  any later version.<br>
- * <br>
- *  Malai is distributed without any warranty; without even the
- *  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- *  PURPOSE. See the GNU General Public License for more details.<br>
- * <br>
  * @author Arnaud Blouin
  * @since 0.2
  */

@@ -18,6 +18,7 @@ import org.malai.interaction.Interaction;
 /**
  * This anonymous interactor takes a function as a parameter that will be executed to initialise the action.
  * The goal is to avoid the creation of a specific class when the interactor is quite simple.
+ * @author Arnaud Blouin
  */
 public class AnonInteractor<A extends ActionImpl, I extends Interaction, N extends Instrument> extends InteractorImpl<A, I, N> {
 	final Consumer<A> execInitAction;
