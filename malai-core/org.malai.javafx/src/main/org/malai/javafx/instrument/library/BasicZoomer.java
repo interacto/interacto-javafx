@@ -22,6 +22,7 @@ import org.malai.properties.Zoomable;
 
 /**
  * A base JFX instrument to zoom.
+ * @author Arnaud Blouin
  */
 public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 	/** The node to zoom in/out. */

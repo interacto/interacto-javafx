@@ -17,6 +17,7 @@ import org.malai.stateMachine.TargetableState;
 
 /**
  * A transition based on the onAction event of text fields.
+ * @author Arnaud Blouin
  */
 public class JfxTextChangedTransition extends WidgetTransition<TextInputControl> {
 	public JfxTextChangedTransition(final SourceableState inputState, final TargetableState outputState) {

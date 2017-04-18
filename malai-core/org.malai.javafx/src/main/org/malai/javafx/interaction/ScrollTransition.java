@@ -16,6 +16,7 @@ import org.malai.stateMachine.TargetableState;
 
 /**
  * A scroll event transition.
+ * @author Arnaud Blouin
  */
 public class ScrollTransition extends InputEventTransition<ScrollEvent> {
 	/**

@@ -20,6 +20,7 @@ import org.malai.javafx.interaction.JfxInteraction;
 /**
  * This anonymous interactor for windows takes a function as a parameter that will be executed to initialise the action.
  * The goal is to avoid the creation of a specific class when the interactor is quite simple.
+ * @author Arnaud Blouin
  */
 public class JFxAnonWindowInteractor<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends JfxInteractor<A, I, N> {
 	final Consumer<A> execInitAction;
