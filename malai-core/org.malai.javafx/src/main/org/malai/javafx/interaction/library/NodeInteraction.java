@@ -15,7 +15,7 @@ import javafx.scene.Node;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 
 /**
- * A JavaFX interaction that uses a single widget.<br>
+ * A JavaFX interaction that uses a single widget.
  * @author Arnaud BLOUIN
  */
 public abstract class NodeInteraction<T extends Node> extends JfxInteractionImpl {

@@ -17,6 +17,7 @@ import org.malai.stateMachine.TargetableState;
 
 /**
  * This abstract transition defines a model for transitions based on input events.
+ * @author Arnaud Blouin
  */
 public abstract class InputEventTransition<T extends InputEvent> extends TransitionImpl {
 	protected T event;

@@ -19,6 +19,7 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
 /**
  * This anonymous interactor for menus takes a function as a parameter that will be executed to initialise the action.
  * The goal is to avoid the creation of a specific class when the interactor is quite simple.
+ * @author Arnaud Blouin
  */
 public class JFxAnonMenuInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxMenuItemInteractor<A, I, N> {
 	final Consumer<A> execInitAction;

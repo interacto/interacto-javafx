@@ -29,6 +29,7 @@ import org.malai.interaction.Interaction;
 
 /**
  * A trait implementing services of the interface JfxEventProcessor.
+ * @author Arnaud Blouin
  */
 public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction {
 	@Override

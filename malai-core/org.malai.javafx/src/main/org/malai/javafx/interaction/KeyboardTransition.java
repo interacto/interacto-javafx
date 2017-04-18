@@ -16,6 +16,7 @@ import org.malai.stateMachine.TargetableState;
 
 /**
  * A transition based on keyboard events.
+ * @author Arnaud Blouin
  */
 public abstract class KeyboardTransition extends InputEventTransition<KeyEvent> {
 	/**
