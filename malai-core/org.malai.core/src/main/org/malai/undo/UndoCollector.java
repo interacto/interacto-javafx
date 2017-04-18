@@ -1,3 +1,13 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2017 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.undo;
 
 import java.util.ArrayDeque;
@@ -6,18 +16,7 @@ import java.util.Deque;
 import java.util.List;
 
 /**
- * Defines a collector of undone/redone objects.<br>
- * This file is part of libMalai.
- * Copyright (c) 2005-2015 Arnaud BLOUIN
- *
- * libMalan is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later version.
- *
- * libMalan is distributed without any warranty; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- * @date 05/23/2010
+ * A collector of undone/redone objects.
  * @author Arnaud BLOUIN
  * @since 0.1
  */

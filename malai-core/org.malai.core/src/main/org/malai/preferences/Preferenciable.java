@@ -1,25 +1,22 @@
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2005-2017 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 package org.malai.preferences;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * The interface can be applied on classes which can preferences can be saved into an XML document.<br>
- * <br>
- * This file is part of libMalai.<br>
- * Copyright (c) 2005-2015 Arnaud BLOUIN<br>
- * <br>
- * libMalan is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later version.<br>
- * <br>
- * libMalan is distributed without any warranty; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.<br>
+ * The interface can be applied on classes which can preferences can be saved into an XML document.
  * @author Arnaud BLOUIN
- * @date 01/10/11
  * @since 0.2
- * @version 0.2
  */
 public interface Preferenciable {
 	/**
