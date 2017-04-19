@@ -29,7 +29,7 @@ public abstract class Unary2UnaryMapping<S, T> implements IMapping {
 	 * Creates a unary relation to unary relation mapping.
 	 * @param source The source unary relation.
 	 * @param target The target unary relation.
-	 * @throw IllegalArgumentException If one of the given arguments is null or if they are equal.
+	 * @throws IllegalArgumentException If one of the given arguments is null or if they are equal.
 	 * @since 0.2
 	 */
 	public Unary2UnaryMapping(final IUnary<S> source, final IUnary<T> target) {
