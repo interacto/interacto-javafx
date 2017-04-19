@@ -315,7 +315,7 @@ public final class MappingRegistry implements IMappingRegistry {
 	 * @param removeTargetMappings True: the inverted hash maps will be cleaned too.
 	 * @since 0.2
 	 */
-	protected void removeMappingsUsingSource(final Object source, final Class<? extends IMapping> clazz, final boolean removeTargetMappings) {
+	void removeMappingsUsingSource(final Object source, final Class<? extends IMapping> clazz, final boolean removeTargetMappings) {
 		removeMappings(source, clazz, uniqueMappings, multiMappings, false, removeTargetMappings);
 	}
 
@@ -329,7 +329,7 @@ public final class MappingRegistry implements IMappingRegistry {
 	 * @param removeSourceMappings True: the standard hash maps will be cleaned too.
 	 * @since 0.2
 	 */
-	protected void removeMappingsUsingTarget(final Object target, final Class<? extends IMapping> clazz, final boolean removeSourceMappings) {
+	void removeMappingsUsingTarget(final Object target, final Class<? extends IMapping> clazz, final boolean removeSourceMappings) {
 		removeMappings(target, clazz, invertedUniqueMappings, invertedMultiMappings, true, removeSourceMappings);
 	}
 
@@ -343,7 +343,7 @@ public final class MappingRegistry implements IMappingRegistry {
 	 * @param removeOppositeMappings True: mappings contains is the opposite hash maps will be removed too.
 	 * @since 0.2
 	 */
-	protected void removeMappings(final Object object, final Class<? extends IMapping> clazz, final Map<Object, IMapping> uniqueMaps,
+	void removeMappings(final Object object, final Class<? extends IMapping> clazz, final Map<Object, IMapping> uniqueMaps,
 								  final Map<Object, List<IMapping>> multiMaps, final boolean removeUsingTarget, final boolean removeOppositeMappings) {
 		if(object == null) return;
 
