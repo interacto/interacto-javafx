@@ -14,14 +14,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Consumer;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.instrument.InstrumentImpl;
 import org.malai.javafx.instrument.library.KeysShortcutInteractor;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.library.BoxChecked;
+import org.malai.javafx.interaction.library.ButtonPressed;
+import org.malai.javafx.interaction.library.ComboBoxSelected;
 import org.malai.javafx.interaction.library.MenuItemPressed;
+import org.malai.javafx.interaction.library.SpinnerValueChanged;
+import org.malai.javafx.interaction.library.TabSelected;
 
 /**
  * Base of an instrument for JavaFX applications.
@@ -80,5 +90,30 @@ public abstract class JfxInstrument extends InstrumentImpl<JfxInteractor<?, ? ex
 															  final Class<I> interaction, final Window...windows)
 			throws IllegalAccessException, InstantiationException {
 		addInteractor(new JFxAnonWindowInteractor<>(this, false, clazzAction, interaction, initActionFct, windows));
+	}
+
+	protected <A extends ActionImpl> void addButtonInteractor(final Class<A> clazzAction, final Consumer<A> initActionFct, final Button... buttons)
+		throws IllegalAccessException, InstantiationException {
+		addInteractor(new JFxAnonInteractor<>(this, false, clazzAction, ButtonPressed.class, initActionFct, buttons));
+	}
+
+	protected <A extends ActionImpl> void addComboBoxInteractor(final Class<A> clazzAction, final Consumer<A> initActionFct, final ComboBox<?>... cbs)
+		throws IllegalAccessException, InstantiationException {
+		addInteractor(new JFxAnonInteractor<>(this, false, clazzAction, ComboBoxSelected.class, initActionFct, cbs));
+	}
+
+	protected <A extends ActionImpl> void addCheckBoxInteractor(final Class<A> clazzAction, final Consumer<A> initActionFct, final CheckBox... cbs)
+		throws IllegalAccessException, InstantiationException {
+		addInteractor(new JFxAnonInteractor<>(this, false, clazzAction, BoxChecked.class, initActionFct, cbs));
+	}
+
+	protected <A extends ActionImpl> void addSpinnerInteractor(final Class<A> clazzAction, final Consumer<A> initActionFct, final Spinner<?>... spinners)
+		throws IllegalAccessException, InstantiationException {
+		addInteractor(new JFxAnonInteractor<>(this, false, clazzAction, SpinnerValueChanged.class, initActionFct, spinners));
+	}
+
+	protected <A extends ActionImpl> void addTabInteractor(final Class<A> clazzAction, final Consumer<A> initActionFct, final TabPane... tabs)
+		throws IllegalAccessException, InstantiationException {
+		addInteractor(new JFxAnonInteractor<>(this, false, clazzAction, TabSelected.class, initActionFct, tabs));
 	}
 }
