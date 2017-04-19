@@ -10,11 +10,10 @@
  */
 package org.malai.action;
 
-import org.malai.undo.UndoCollector;
-import org.malai.undo.Undoable;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.malai.undo.UndoCollector;
+import org.malai.undo.Undoable;
 
 /**
  * A register of actions.
@@ -22,18 +21,14 @@ import java.util.List;
  * @since 0.1
  */
 public final class ActionsRegistry {
-	/** The saved actions. */
-	private final List<Action> IActions;
-
-	/** The actions handlers. */
-	private final List<ActionHandler> handlers;
-
-	/** The max number of actions that can contains the register. */
-	private int sizeMax;
-
 	/** The register of actions. */
 	public static final ActionsRegistry INSTANCE = new ActionsRegistry();
-
+	/** The saved actions. */
+	private final List<Action> IActions;
+	/** The actions handlers. */
+	private final List<ActionHandler> handlers;
+	/** The max number of actions that can contains the register. */
+	private int sizeMax;
 
 
 	/**
@@ -43,10 +38,9 @@ public final class ActionsRegistry {
 	private ActionsRegistry() {
 		super();
 		IActions = new ArrayList<>();
-		handlers 	= new ArrayList<>();
-		sizeMax		= 30;
+		handlers = new ArrayList<>();
+		sizeMax = 30;
 	}
-
 
 
 	/**
@@ -55,11 +49,12 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void onActionExecuted(final Action IAction) {
-		if(IAction !=null)
-			for(final ActionHandler handler : handlers)
+		if(IAction != null) {
+			for(final ActionHandler handler : handlers) {
 				handler.onActionExecuted(IAction);
+			}
+		}
 	}
-
 
 
 	/**
@@ -68,11 +63,12 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void onActionDone(final Action IAction) {
-		if(IAction !=null)
-			for(final ActionHandler handler : handlers)
+		if(IAction != null) {
+			for(final ActionHandler handler : handlers) {
 				handler.onActionDone(IAction);
+			}
+		}
 	}
-
 
 
 	/**
@@ -84,31 +80,28 @@ public final class ActionsRegistry {
 	}
 
 
-
 	/**
 	 * Removes and flushes actions from the register using a given action.
 	 * @param IAction The action that may cancels others.
 	 * @since 0.1
 	 */
 	public void cancelActions(final Action IAction) {
-		if(IAction ==null)
-			return;
+		if(IAction == null) return;
 
-		int i=0;
+		int i = 0;
 
-		while(i< IActions.size())
-			if(IActions.get(i).cancelledBy(IAction)) {
-				final Action act = IActions.remove(i);
+		while(i < IActions.size()) if(IActions.get(i).cancelledBy(IAction)) {
+			final Action act = IActions.remove(i);
 
-				for(final ActionHandler handler : handlers)
-					handler.onActionCancelled(act);
-
-				act.flush();
+			for(final ActionHandler handler : handlers) {
+				handler.onActionCancelled(act);
 			}
-			else
-				i++;
-	}
 
+			act.flush();
+		}else {
+			i++;
+		}
+	}
 
 
 	/**
@@ -120,23 +113,25 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void addAction(final Action IAction, final ActionHandler actionHanndler) {
-		if(IAction !=null && actionHanndler!=null && !IActions.contains(IAction) && sizeMax>0) {
+		if(IAction != null && actionHanndler != null && !IActions.contains(IAction) && sizeMax > 0) {
 			cancelActions(IAction);
 
 			// If there is too many actions in the register, the oldest action is removed and flushed.
-			if(IActions.size()==sizeMax)
+			if(IActions.size() == sizeMax) {
 				IActions.remove(0).flush();
+			}
 
 			IActions.add(IAction);
 
-			for(final ActionHandler handler : handlers)
+			for(final ActionHandler handler : handlers) {
 				handler.onActionAdded(IAction);
+			}
 
-			if(IAction instanceof Undoable)
+			if(IAction instanceof Undoable) {
 				UndoCollector.INSTANCE.add((Undoable) IAction, actionHanndler);
+			}
 		}
 	}
-
 
 
 	/**
@@ -145,13 +140,11 @@ public final class ActionsRegistry {
 	 * @since 0.1
 	 */
 	public void removeAction(final Action IAction) {
-		if(IAction ==null)
-			return;
+		if(IAction == null) return;
 
 		IActions.remove(IAction);
 		IAction.flush();
 	}
-
 
 
 	/**
@@ -160,8 +153,9 @@ public final class ActionsRegistry {
 	 * @since 0.1
 	 */
 	public void addHandler(final ActionHandler handler) {
-		if(handler!=null)
+		if(handler != null) {
 			handlers.add(handler);
+		}
 	}
 
 
@@ -171,8 +165,9 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void removeHandler(final ActionHandler handler) {
-		if(handler!=null)
+		if(handler != null) {
 			handlers.remove(handler);
+		}
 	}
 
 
@@ -190,8 +185,9 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void clear() {
-		while(!IActions.isEmpty())
+		while(!IActions.isEmpty()) {
 			IActions.remove(0).flush();
+		}
 	}
 
 
@@ -204,17 +200,16 @@ public final class ActionsRegistry {
 	public final <T extends ActionImpl> T getAction(final Class<? extends T>... clazz) {
 		T action = null;
 
-		if(clazz!=null) {
-			for(int j=0; j<clazz.length && action == null; j++) {
-				for(int i = 0, size = IActions.size(); i < size && action == null; i++)
-					if(IActions.get(i).getClass() == clazz[j])
-						action = clazz[j].cast(IActions.get(i));
+		if(clazz != null) {
+			for(int j = 0; j < clazz.length && action == null; j++) {
+				for(int i = 0, size = IActions.size(); i < size && action == null; i++) {
+					if(IActions.get(i).getClass() == clazz[j]) action = clazz[j].cast(IActions.get(i));
+				}
 			}
 		}
 
 		return action;
 	}
-
 
 
 	/**
@@ -224,12 +219,13 @@ public final class ActionsRegistry {
 	 * @since 0.1
 	 */
 	public void abortAction(final Action IAction) {
-		if(IAction !=null) {
+		if(IAction != null) {
 			IAction.abort();
 			IActions.remove(IAction);
 
-			for(final ActionHandler handler : handlers)
+			for(final ActionHandler handler : handlers) {
 				handler.onActionAborted(IAction);
+			}
 
 			IAction.flush();
 		}
@@ -250,10 +246,11 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void setSizeMax(final int sizeMax) {
-		if(sizeMax>=0) {
+		if(sizeMax >= 0) {
 			// If there is too many actions in the register, they are removed.
-			for(int i = 0, nb = IActions.size()-sizeMax; i<nb; i++)
+			for(int i = 0, nb = IActions.size() - sizeMax; i < nb; i++) {
 				IActions.remove(0).flush();
+			}
 
 			this.sizeMax = sizeMax;
 		}

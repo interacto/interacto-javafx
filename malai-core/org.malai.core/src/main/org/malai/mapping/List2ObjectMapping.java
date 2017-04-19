@@ -14,10 +14,10 @@ import java.util.List;
 
 /**
  * Defines a mapping established between a list and an object.
- * @author Arnaud BLOUIN
- * @since 0.2
  * @param <E> The type of the source element, contained in a list, of the mapping.
  * @param <F> The type of the target element of the mapping.
+ * @author Arnaud BLOUIN
+ * @since 0.2
  */
 public abstract class List2ObjectMapping<E, F> implements IMapping {
 	/** The source list. */
@@ -37,8 +37,7 @@ public abstract class List2ObjectMapping<E, F> implements IMapping {
 	public List2ObjectMapping(final List<E> source, final F target) {
 		super();
 
-		if(source==null || target==null || source==target)
-			throw new IllegalArgumentException();
+		if(source == null || target == null || source == target) throw new IllegalArgumentException();
 
 		this.source = source;
 		this.target = target;

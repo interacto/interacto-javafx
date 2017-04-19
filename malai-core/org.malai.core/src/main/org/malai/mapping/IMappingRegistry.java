@@ -78,7 +78,6 @@ public interface IMappingRegistry {
 	void onObjectModified(final Object object);
 
 
-
 	/**
 	 * Executes the mapping when an object has been replaced by an other one.
 	 * @param object The singleton that contains the new object.

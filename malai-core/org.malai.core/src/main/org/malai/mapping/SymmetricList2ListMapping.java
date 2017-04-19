@@ -14,10 +14,10 @@ import java.util.List;
 
 /**
  * This interface defines the concept of mapping that link source objects with target objects.
- * @author Arnaud BLOUIN
- * @since 0.2
  * @param <E> The type of the source list of the mapping.
  * @param <F> The type of the target list of the mapping.
+ * @author Arnaud BLOUIN
+ * @since 0.2
  */
 public abstract class SymmetricList2ListMapping<E, F> extends List2ListMapping<E, F> {
 	/**
@@ -26,7 +26,6 @@ public abstract class SymmetricList2ListMapping<E, F> extends List2ListMapping<E
 	public SymmetricList2ListMapping(final List<E> source, final List<F> target) {
 		super(source, target);
 	}
-
 
 
 	/**
@@ -38,13 +37,13 @@ public abstract class SymmetricList2ListMapping<E, F> extends List2ListMapping<E
 	protected abstract F createTargetObject(final Object sourceObject);
 
 
-
 	@Override
 	public void onObjectAdded(final Object list, final Object object, final int index) {
-		if(index==-1 || index>=target.size())
+		if(index == -1 || index >= target.size()) {
 			target.add(createTargetObject(object));
-		else
+		}else {
 			target.add(index, createTargetObject(object));
+		}
 	}
 
 
@@ -56,31 +55,33 @@ public abstract class SymmetricList2ListMapping<E, F> extends List2ListMapping<E
 
 	@Override
 	public void onObjectMoved(final Object list, final Object object, final int srcIndex, final int targetIndex) {
-		final int srcPos	= srcIndex==-1 ? target.size()-1 : srcIndex;
-		final F targetObj 	= target.remove(srcPos);
+		final int srcPos = srcIndex == -1 ? target.size() - 1 : srcIndex;
+		final F targetObj = target.remove(srcPos);
 
-		if(targetIndex== target.size() || targetIndex==-1)
+		if(targetIndex == target.size() || targetIndex == -1) {
 			target.add(targetObj);
-		else
+		}else {
 			target.add(targetIndex, targetObj);
+		}
 	}
 
 
 	@Override
 	public void onObjectRemoved(final Object list, final Object object, final int index) {
-		if(index==-1)
-			target.remove(target.size()-1);
-		else
+		if(index == -1) {
+			target.remove(target.size() - 1);
+		}else {
 			target.remove(index);
+		}
 	}
-	
-	
+
+
 	@Override
 	public void onListCleaned(final Object list) {
 		target.clear();
 	}
 
-	
+
 	@Override
 	public void init() {
 		onListCleaned(source);

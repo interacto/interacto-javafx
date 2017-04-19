@@ -12,9 +12,9 @@ package org.malai.interaction;
 
 /**
  * This interface is the base interface of object that want to manager events produced by, for example, Swing, Android.
+ * @param <T> The root type of the component to support. For instance with Swing the root component is Component, for Android it is View.
  * @author Arnaud BLOUIN
  * @since 0.2
-*  @param <T> The root type of the component to support. For instance with Swing the root component is Component, for Android it is View.
  */
 public interface EventManager<T> {
 	/**

@@ -12,10 +12,10 @@ package org.malai.mapping;
 
 /**
  * This interface defines the concept of mapping that link a source object to a target object.
- * @author Arnaud BLOUIN
- * @since 0.2
  * @param <S> The type of the source object of the mapping.
  * @param <T> The type of the target object of the mapping.
+ * @author Arnaud BLOUIN
+ * @since 0.2
  */
 public abstract class Object2ObjectMapping<S, T> implements IMapping {
 	/** The source object. */
@@ -35,8 +35,7 @@ public abstract class Object2ObjectMapping<S, T> implements IMapping {
 	public Object2ObjectMapping(final S source, final T target) {
 		super();
 
-		if(source==null || target==null || source==target)
-			throw new IllegalArgumentException();
+		if(source == null || target == null || source == target) throw new IllegalArgumentException();
 
 		sourceObject = source;
 		targetObject = target;
@@ -48,7 +47,6 @@ public abstract class Object2ObjectMapping<S, T> implements IMapping {
 	}
 
 
-
 	@Override
 	public T getTarget() {
 		return targetObject;
@@ -58,7 +56,6 @@ public abstract class Object2ObjectMapping<S, T> implements IMapping {
 	public void onObjectAdded(final Object list, final Object object, final int index) {
 		//
 	}
-
 
 
 	@Override
@@ -87,8 +84,9 @@ public abstract class Object2ObjectMapping<S, T> implements IMapping {
 
 	@Override
 	public void init() {
-		if(sourceObject!=null)
+		if(sourceObject != null) {
 			onObjectModified(sourceObject);
+		}
 	}
 
 

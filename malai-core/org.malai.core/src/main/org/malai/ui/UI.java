@@ -11,7 +11,6 @@
 package org.malai.ui;
 
 import java.util.List;
-
 import org.malai.instrument.Instrument;
 import org.malai.preferences.Preferenciable;
 import org.malai.presentation.AbstractPresentation;
@@ -24,8 +23,9 @@ import org.malai.properties.Reinitialisable;
  * Defines the concept of User Interface.
  * @author Arnaud BLOUIN
  */
-public interface UI<S extends UIComposer<?,?,?>> extends Modifiable, Reinitialisable, Preferenciable {
+public interface UI<S extends UIComposer<?, ?, ?>> extends Modifiable, Reinitialisable, Preferenciable {
 	//FIXME java 8: use default implementation to factorise the code with the other components.
+
 	/**
 	 * @return The instruments of the interactive system.
 	 * @since 0.2
@@ -60,7 +60,7 @@ public interface UI<S extends UIComposer<?,?,?>> extends Modifiable, Reinitialis
 	 * @return The presentations of the interactive system.
 	 * @since 0.2
 	 */
-	List<Presentation<?,?>> getPresentations();
+	List<Presentation<?, ?>> getPresentations();
 
 
 	/**

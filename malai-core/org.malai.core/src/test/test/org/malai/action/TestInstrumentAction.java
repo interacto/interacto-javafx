@@ -1,15 +1,14 @@
 package test.org.malai.action;
 
+import java.lang.reflect.Field;
+import org.junit.Test;
+import org.malai.action.library.InstrumentAction;
+import test.org.malai.HelperTest;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import java.lang.reflect.Field;
-
-import org.junit.Test;
-import org.malai.action.library.InstrumentAction;
-import test.org.malai.HelperTest;
 
 public abstract class TestInstrumentAction<T extends InstrumentAction> extends TestAbstractAction<InstrumentAction> {
 	@Test
@@ -29,7 +28,8 @@ public abstract class TestInstrumentAction<T extends InstrumentAction> extends T
 		assertNull(field.get(action));
 	}
 
-	@Test public void testGetSetInstrument() {
+	@Test
+	public void testGetSetInstrument() {
 		final InstrumentMock ins = new InstrumentMock();
 		action.setInstrument(ins);
 		assertEquals(ins, action.getInstrument());

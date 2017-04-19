@@ -27,18 +27,78 @@ public final class MappingRegistry implements IMappingRegistry {
 	/** The singleton of the class. */
 	public static final IMappingRegistry REGISTRY = new MappingRegistry();
 
+	private static List<IMapping> getMapping(final Object object, final Map<Object, IMapping> uniqueMap, final Map<Object, List<IMapping>>
+		multiMap) {
+		final List<IMapping> mappings = new ArrayList<>();
+
+		if(object != null) {
+			final IMapping mapping = uniqueMap.get(object);
+
+			if(mapping == null) {
+				final List<IMapping> multi = multiMap.get(object);
+
+				if(multi != null) {
+					mappings.addAll(multi);
+				}
+			}else {
+				mappings.add(mapping);
+			}
+		}
+
+		return mappings;
+	}
+
+	/**
+	 * Is used by method addMapping(mapping).
+	 * @param mapping The mapping to add.
+	 * @param object The object that will be used as key in the map.
+	 * @param uniqueMap The map that contains unique mappings.
+	 * @param multiMap The map that contains multiple mappings.
+	 * @since 0.2
+	 */
+	private static void addMappings(final IMapping mapping, final Object object, final Map<Object, IMapping> uniqueMap, final Map<Object,
+		List<IMapping>> multiMap) {
+		final List<IMapping> mappings = multiMap.get(object);
+
+		if(mappings != null) {
+			mappings.add(mapping);
+		}else {
+			if(uniqueMap.get(object) == null) {
+				uniqueMap.put(object, mapping);
+			}else {
+				final List<IMapping> list = new ArrayList<>();
+				list.add(uniqueMap.remove(object));
+				list.add(mapping);
+				multiMap.put(object, list);
+			}
+		}
+	}
+
+	/**
+	 * This method is used by the toString function to print the register.
+	 * @since 0.2
+	 */
+	private static void printMappings(final StringBuilder buf, final Map<Object, IMapping> uMappings, final Map<Object, List<IMapping>>
+		mMappings) {
+		for(final IMapping mapping : uMappings.values()) {
+			buf.append(mapping).append('\n');
+		}
+
+		for(final List<IMapping> mappings : mMappings.values()) {
+			for(final IMapping mapping : mappings) {
+				buf.append(mapping).append('\n');
+			}
+		}
+	}
 	/** Contains objects and their unique mapping. */
 	private final Map<Object, IMapping> uniqueMappings;
-
 	/**
 	 * Contains objects and their mappings. The difference with uniqueMappings is that
 	 * multiMappings is not used by default (i.e. when only one mapping is attributed to an object)
 	 * to save memory.
 	 */
 	private final Map<Object, List<IMapping>> multiMappings;
-
 	private final Map<Object, IMapping> invertedUniqueMappings;
-
 	private final Map<Object, List<IMapping>> invertedMultiMappings;
 
 
@@ -50,39 +110,35 @@ public final class MappingRegistry implements IMappingRegistry {
 		super();
 
 		uniqueMappings = new IdentityHashMap<>();
-		multiMappings  = new IdentityHashMap<>();
+		multiMappings = new IdentityHashMap<>();
 		invertedUniqueMappings = new IdentityHashMap<>();
-		invertedMultiMappings  = new IdentityHashMap<>();
+		invertedMultiMappings = new IdentityHashMap<>();
 	}
-
-
 
 	@Override
 	public void initMappings() {
 		final Collection<IMapping> coll = uniqueMappings.values();
-		for(final IMapping mapping : coll)
+		for(final IMapping mapping : coll) {
 			mapping.init();
+		}
 
 		final Collection<List<IMapping>> collList = multiMappings.values();
-		for(final List<IMapping> list : collList)
-			for(final IMapping mapping : list)
+		for(final List<IMapping> list : collList) {
+			for(final IMapping mapping : list) {
 				mapping.init();
+			}
+		}
 	}
-
-
 
 	@Override
 	public <T> T getTargetFromSource(final Object source, final Class<T> targetType) {
 		return getSrcOrTarFromTarOrSrc(true, source, targetType);
 	}
 
-
-
 	@Override
 	public <T> T getSourceFromTarget(final Object target, final Class<T> sourceType) {
 		return getSrcOrTarFromTarOrSrc(false, target, sourceType);
 	}
-
 
 	/**
 	 * Allows to get the source or the target object of a mapping using the target or the source object.
@@ -108,19 +164,19 @@ public final class MappingRegistry implements IMappingRegistry {
 				final int size = mappings.size();
 				int i = 0;
 
-				while(result==null && i<size) {
+				while(result == null && i < size) {
 					obj = fromSource ? mappings.get(i).getTarget() : mappings.get(i).getSource();
 					i++;
 
-					if(type.isInstance(obj))
+					if(type.isInstance(obj)) {
 						result = type.cast(obj);
+					}
 				}
 				break;
 		}
 
 		return result;
 	}
-
 
 	/**
 	 * @param source This object is used to find the mapping that uses is as a source object.
@@ -140,173 +196,119 @@ public final class MappingRegistry implements IMappingRegistry {
 		return getMapping(target, invertedUniqueMappings, invertedMultiMappings);
 	}
 
-
-
-	private static List<IMapping> getMapping(final Object object, final Map<Object,IMapping> uniqueMap, final Map<Object,List<IMapping>> multiMap) {
-		final List<IMapping> mappings = new ArrayList<>();
-
-		if(object!=null) {
-			final IMapping mapping = uniqueMap.get(object);
-
-			if(mapping==null) {
-				final List<IMapping> multi = multiMap.get(object);
-
-				if(multi!=null)
-					for(final IMapping map : multi)
-						mappings.add(map);
-			}else
-				mappings.add(mapping);
-		}
-
-		return mappings;
-	}
-
-
-
 	@Override
 	public void addMapping(final IMapping mapping) {
-		if(mapping==null)
-			return ;
+		if(mapping == null) return;
 
 		//TODO manage mappings with several sources or targets.
 		addMappings(mapping, mapping.getSource(), uniqueMappings, multiMappings);
 		addMappings(mapping, mapping.getTarget(), invertedUniqueMappings, invertedMultiMappings);
 	}
 
-
-	/**
-	 * Is used by method addMapping(mapping).
-	 * @param mapping The mapping to add.
-	 * @param object The object that will be used as key in the map.
-	 * @param uniqueMap The map that contains unique mappings.
-	 * @param multiMap The map that contains multiple mappings.
-	 * @since 0.2
-	 */
-	private static void addMappings(final IMapping mapping, final Object object, final Map<Object, IMapping> uniqueMap,
-							final Map<Object, List<IMapping>> multiMap) {
-		final List<IMapping> mappings = multiMap.get(object);
-
-		if(mappings!=null)
-			mappings.add(mapping);
-		else
-			if(uniqueMap.get(object)==null)
-				uniqueMap.put(object, mapping);
-			else {
-				final List<IMapping> list = new ArrayList<>();
-				list.add(uniqueMap.remove(object));
-				list.add(mapping);
-				multiMap.put(object, list);
-			}
-	}
-
-
-
 	@Override
 	public <T> void onObjectAdded(final IActiveList<T> list, final T object, final int index) {
 		final IMapping mapping = uniqueMappings.get(list);
 
-		if(mapping==null) {
+		if(mapping == null) {
 			final List<IMapping> mappings = multiMappings.get(list);
 
-			if(mappings!=null)
-				for(final IMapping map : mappings)
-					map.onObjectAdded(list, object, index);
-		}
-		else
+			if(mappings != null) for(final IMapping map : mappings) {
+				map.onObjectAdded(list, object, index);
+			}
+		}else {
 			mapping.onObjectAdded(list, object, index);
+		}
 	}
-
-
 
 	@Override
 	public void onObjectRemoved(final IActiveList<?> list, final Object object, final int index) {
 		final IMapping mapping = uniqueMappings.get(list);
 
-		if(mapping==null) {
+		if(mapping == null) {
 			final List<IMapping> mappings = multiMappings.get(list);
 
-			if(mappings!=null)
-				for(final IMapping map : mappings)
+			if(mappings != null) {
+				for(final IMapping map : mappings) {
 					map.onObjectRemoved(list, object, index);
-		}
-		else
+				}
+			}
+		}else {
 			mapping.onObjectRemoved(list, object, index);
+		}
 	}
-
 
 	@Override
 	public void onListCleaned(final Object list) {
 		final IMapping mapping = uniqueMappings.get(list);
 
-		if(mapping==null) {
+		if(mapping == null) {
 			final List<IMapping> mappings = multiMappings.get(list);
 
-			if(mappings!=null)
-				for(final IMapping map : mappings)
+			if(mappings != null) {
+				for(final IMapping map : mappings) {
 					map.onListCleaned(list);
-		}
-		else
+				}
+			}
+		}else {
 			mapping.onListCleaned(list);
+		}
 	}
-
-
 
 	@Override
 	public <T> void onObjectMoved(final IActiveList<T> list, final T object, final int srcIndex, final int targetIndex) {
 		final IMapping mapping = uniqueMappings.get(list);
 
-		if(mapping==null) {
+		if(mapping == null) {
 			final List<IMapping> mappings = multiMappings.get(list);
 
-			if(mappings!=null)
-				for(final IMapping map : mappings)
+			if(mappings != null) {
+				for(final IMapping map : mappings) {
 					map.onObjectMoved(list, object, srcIndex, targetIndex);
-		}
-		else
+				}
+			}
+		}else {
 			mapping.onObjectMoved(list, object, srcIndex, targetIndex);
+		}
 	}
-
-
 
 	@Override
 	public <T> void onObjectReplaced(final IUnary<T> object, final T replacedObject) {
 		final IMapping mapping = uniqueMappings.get(object);
 
-		if(mapping==null) {
+		if(mapping == null) {
 			final List<IMapping> mappings = multiMappings.get(object);
 
-			if(mappings!=null)
-				for(final IMapping map : mappings)
+			if(mappings != null) {
+				for(final IMapping map : mappings) {
 					map.onObjectReplaced(object, replacedObject);
-		}
-		else
+				}
+			}
+		}else {
 			mapping.onObjectReplaced(object, replacedObject);
+		}
 	}
-
-
 
 	@Override
 	public void onObjectModified(final Object object) {
 		final IMapping mapping = uniqueMappings.get(object);
 
-		if(mapping==null) {
+		if(mapping == null) {
 			final List<IMapping> mappings = multiMappings.get(object);
 
-			if(mappings!=null)
-				for(final IMapping map : mappings)
+			if(mappings != null) {
+				for(final IMapping map : mappings) {
 					map.onObjectModified(object);
-		}
-		else
+				}
+			}
+		}else {
 			mapping.onObjectModified(object);
+		}
 	}
-
-
 
 	@Override
 	public void removeMappingsUsingSource(final Object source, final Class<? extends IMapping> clazz) {
 		removeMappingsUsingSource(source, clazz, true);
 	}
-
 
 	/**
 	 * Idem than removeMappingsUsingSource.
@@ -317,13 +319,10 @@ public final class MappingRegistry implements IMappingRegistry {
 		removeMappings(source, clazz, uniqueMappings, multiMappings, false, removeTargetMappings);
 	}
 
-
-
 	@Override
 	public void removeMappingsUsingTarget(final Object target, final Class<? extends IMapping> clazz) {
 		removeMappingsUsingTarget(target, clazz, true);
 	}
-
 
 	/**
 	 * Idem than removeMappingsUsingTarget.
@@ -333,7 +332,6 @@ public final class MappingRegistry implements IMappingRegistry {
 	protected void removeMappingsUsingTarget(final Object target, final Class<? extends IMapping> clazz, final boolean removeSourceMappings) {
 		removeMappings(target, clazz, invertedUniqueMappings, invertedMultiMappings, true, removeSourceMappings);
 	}
-
 
 	/**
 	 * Remove the mappings of the given type and using the given object from the hash maps.
@@ -345,50 +343,46 @@ public final class MappingRegistry implements IMappingRegistry {
 	 * @param removeOppositeMappings True: mappings contains is the opposite hash maps will be removed too.
 	 * @since 0.2
 	 */
-	protected void removeMappings(final Object object, final Class<? extends IMapping> clazz,
-							final Map<Object, IMapping> uniqueMaps, final Map<Object, List<IMapping>> multiMaps,
-							final boolean removeUsingTarget, final boolean removeOppositeMappings) {
-		if(object==null)
-			return ;
+	protected void removeMappings(final Object object, final Class<? extends IMapping> clazz, final Map<Object, IMapping> uniqueMaps,
+								  final Map<Object, List<IMapping>> multiMaps, final boolean removeUsingTarget, final boolean removeOppositeMappings) {
+		if(object == null) return;
 
 		final List<IMapping> mappings = multiMaps.get(object);
-		IMapping mapping		= uniqueMaps.get(object);
+		IMapping mapping = uniqueMaps.get(object);
 
 		//TODO manage mappings with several sources or targets.
-		if(mapping!=null && (clazz==null || clazz.isInstance(mapping))) {
+		if(mapping != null && (clazz == null || clazz.isInstance(mapping))) {
 			// Removing the mapping.
 			uniqueMaps.remove(object);
 			// Removing the opposite mappings if required.
-			if(removeOppositeMappings)
+			if(removeOppositeMappings) {
 				removeOppositeMapping(mapping, removeUsingTarget);
+			}
 			// Freeing the mapping.
 			mapping.clear();
 		}
 
-		if(mappings!=null) {
-			int i=0;
-			while(i<mappings.size()) {
+		if(mappings != null) {
+			int i = 0;
+			while(i < mappings.size()) {
 				mapping = mappings.get(i);
 				// Each mapping is tested.
-				if(clazz==null || clazz.isInstance(mapping)) {
+				if(clazz == null || clazz.isInstance(mapping)) {
 					// Removing the mapping.
 					mappings.remove(i);
 					// Removing the opposite mappings if required.
-					if(removeOppositeMappings)
+					if(removeOppositeMappings) {
 						removeOppositeMapping(mapping, removeUsingTarget);
+					}
 					// Freeing the mapping.
 					mapping.clear();
-				}
-				else i++;
+				}else i++;
 			}
 
 			// If the list is now empty, it is removed from the hash map.
-			if(mappings.isEmpty())
-				multiMaps.remove(object);
+			if(mappings.isEmpty()) multiMaps.remove(object);
 		}
 	}
-
-
 
 	@Override
 	public String toString() {
@@ -401,24 +395,8 @@ public final class MappingRegistry implements IMappingRegistry {
 		return buf.toString();
 	}
 
-
-	/**
-	 * This method is used by the toString function to print the register.
-	 * @since 0.2
-	 */
-	private static void printMappings(final StringBuilder buf, final Map<Object, IMapping> uMappings,
-								final Map<Object, List<IMapping>> mMappings) {
-		for(final IMapping mapping : uMappings.values())
-			buf.append(mapping).append('\n');
-
-		for(final List<IMapping> mappings : mMappings.values())
-			for(final IMapping mapping : mappings)
-				buf.append(mapping).append('\n');
-	}
-
-
 	private void removeOppositeMapping(final IMapping mapping, final boolean removeUsingTarget) {
-		if(mapping==null) return;
+		if(mapping == null) return;
 
 		final Object ref;
 		final Map<Object, IMapping> uniqueMap;
@@ -428,7 +406,7 @@ public final class MappingRegistry implements IMappingRegistry {
 			ref = mapping.getSource();
 			uniqueMap = uniqueMappings;
 			uniqueMultiMap = multiMappings;
-		} else {
+		}else {
 			ref = mapping.getTarget();
 			uniqueMap = invertedUniqueMappings;
 			uniqueMultiMap = invertedMultiMappings;
@@ -438,11 +416,11 @@ public final class MappingRegistry implements IMappingRegistry {
 
 		final List<IMapping> maps = uniqueMultiMap.get(ref);
 
-		if(maps!=null) {
+		if(maps != null) {
 			maps.remove(mapping);
-
-			if(maps.isEmpty())
+			if(maps.isEmpty()) {
 				uniqueMultiMap.remove(ref);
+			}
 		}
 	}
 
@@ -451,7 +429,6 @@ public final class MappingRegistry implements IMappingRegistry {
 	public void removeMappingsUsingSource(final Object source) {
 		removeMappingsUsingSource(source, null);
 	}
-
 
 
 	@Override

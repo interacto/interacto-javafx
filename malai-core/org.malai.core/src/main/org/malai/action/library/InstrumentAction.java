@@ -41,7 +41,7 @@ public abstract class InstrumentAction extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return instrument!=null;
+		return instrument != null;
 	}
 
 

@@ -22,13 +22,11 @@ public interface Undoable {
 	 */
 	void undo();
 
-
 	/**
 	 * Redoes the cancelled action.
 	 * @since 0.1
 	 */
 	void redo();
-
 
 	/**
 	 * @return The name of the undo action.

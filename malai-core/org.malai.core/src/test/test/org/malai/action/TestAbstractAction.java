@@ -3,8 +3,8 @@ package test.org.malai.action;
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.ActionImpl;
-import org.malai.instrument.Interactor;
 import org.malai.instrument.InstrumentImpl;
+import org.malai.instrument.Interactor;
 
 public abstract class TestAbstractAction<T extends ActionImpl> {
 	protected T action;
@@ -39,6 +39,7 @@ public abstract class TestAbstractAction<T extends ActionImpl> {
 		public InstrumentMock() {
 			super();
 		}
+
 		@Override
 		protected void initialiseInteractors() {
 			//

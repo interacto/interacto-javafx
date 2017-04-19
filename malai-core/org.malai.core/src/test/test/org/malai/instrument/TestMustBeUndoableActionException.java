@@ -1,16 +1,15 @@
 package test.org.malai.instrument;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.malai.instrument.MustBeUndoableActionException;
+
+import static org.junit.Assert.assertNotNull;
 
 public class TestMustBeUndoableActionException {
 
 	@Test
 	public void testMustBeUndoableActionException() {
-		@SuppressWarnings("unused")
-		MustBeUndoableActionException ex = new MustBeUndoableActionException(null);
+		@SuppressWarnings("unused") MustBeUndoableActionException ex = new MustBeUndoableActionException(null);
 		ex = new MustBeUndoableActionException(Class.class);
 	}
 

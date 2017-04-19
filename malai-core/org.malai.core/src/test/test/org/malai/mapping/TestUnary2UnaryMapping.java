@@ -1,12 +1,14 @@
 package test.org.malai.mapping;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.mapping.ActiveUnary;
 import org.malai.mapping.IUnary;
 import org.malai.mapping.Unary2UnaryMapping;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class TestUnary2UnaryMapping {
 	protected MockUnary2UnaryMapping map;
@@ -22,25 +24,25 @@ public class TestUnary2UnaryMapping {
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullSrc() {
 		new MockUnary2UnaryMapping(null, tgt);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullTgt() {
 		new MockUnary2UnaryMapping(src, null);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullSrcTgt() {
 		new MockUnary2UnaryMapping(src, null);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorSameSrcTgt() {
 		new MockUnary2UnaryMapping(src, src);
 	}

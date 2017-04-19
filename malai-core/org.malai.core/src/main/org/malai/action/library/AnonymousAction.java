@@ -38,7 +38,7 @@ public class AnonymousAction extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return actionBody!=null;
+		return actionBody != null;
 	}
 
 	/**

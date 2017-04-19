@@ -50,20 +50,21 @@ public abstract class ActionImpl implements Action {
 	 * Executes the action. Should be overridden by sub-class to define stuffs to execute.
 	 * If the status of the action differs than CREATED or EXECUTED and if the action cannot be done (canDo),
 	 * the action is not executed.
-	 * @since 0.1
 	 * @return True if the execution is successful. False otherwise.
+	 * @since 0.1
 	 */
 	@Override
 	public boolean doIt() {
 		final boolean ok;
 
-		if((status==ActionStatus.CREATED || status==ActionStatus.EXECUTED) && canDo()) {
+		if((status == ActionStatus.CREATED || status == ActionStatus.EXECUTED) && canDo()) {
 			ok = true;
 			doActionBody();
 			status = ActionStatus.EXECUTED;
 			ActionsRegistry.INSTANCE.onActionExecuted(this);
+		}else {
+			ok = false;
 		}
-		else ok = false;
 
 		return ok;
 	}
@@ -87,7 +88,6 @@ public abstract class ActionImpl implements Action {
 	}
 
 
-
 	/**
 	 * Defines if the given action can cancel the calling action. Should be overridden.
 	 * By default, false is returned.
@@ -101,19 +101,17 @@ public abstract class ActionImpl implements Action {
 	}
 
 
-
 	/**
 	 * Sets the action to "done".
 	 * @since 0.1
 	 */
 	@Override
 	public void done() {
-		if(status==ActionStatus.CREATED || status==ActionStatus.EXECUTED) {
+		if(status == ActionStatus.CREATED || status == ActionStatus.EXECUTED) {
 			status = ActionStatus.DONE;
 			ActionsRegistry.INSTANCE.onActionDone(this);
 		}
 	}
-
 
 
 	/**
@@ -122,16 +120,14 @@ public abstract class ActionImpl implements Action {
 	 */
 	@Override
 	public boolean isDone() {
-		return status==ActionStatus.DONE;
+		return status == ActionStatus.DONE;
 	}
-
 
 
 	@Override
 	public String toString() {
 		return getClass().getSimpleName();
 	}
-
 
 
 	/**

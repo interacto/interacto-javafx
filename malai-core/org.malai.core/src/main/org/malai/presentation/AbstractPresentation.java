@@ -19,5 +19,5 @@ import org.malai.properties.Reinitialisable;
  * @since 0.1
  */
 public interface AbstractPresentation extends Modifiable, Reinitialisable {
-//
+	//
 }

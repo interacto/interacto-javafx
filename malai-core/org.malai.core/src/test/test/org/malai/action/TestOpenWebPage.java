@@ -1,13 +1,15 @@
 package test.org.malai.action;
 
 import java.awt.Desktop;
-import static org.junit.Assert.*;
 import java.lang.reflect.Field;
 import java.net.URI;
-
 import org.malai.action.library.OpenWebPage;
-
 import test.org.malai.HelperTest;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class TestOpenWebPage extends TestAbstractAction<OpenWebPage> {
 	@Override
@@ -17,9 +19,7 @@ public class TestOpenWebPage extends TestAbstractAction<OpenWebPage> {
 
 	@SuppressWarnings("unused")
 	@Override
-	public void testConstructor() throws SecurityException,
-			NoSuchFieldException, IllegalArgumentException,
-			IllegalAccessException {
+	public void testConstructor() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		new OpenWebPage();
 	}
 
@@ -56,9 +56,7 @@ public class TestOpenWebPage extends TestAbstractAction<OpenWebPage> {
 	}
 
 	@Override
-	public void testIsRegisterable() throws SecurityException,
-			NoSuchFieldException, IllegalArgumentException,
-			IllegalAccessException {
+	public void testIsRegisterable() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		assertFalse(action.isRegisterable());
 	}
 

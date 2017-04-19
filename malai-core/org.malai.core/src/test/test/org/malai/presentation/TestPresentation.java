@@ -2,12 +2,15 @@ package test.org.malai.presentation;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.malai.presentation.AbstractPresentation;
 import org.malai.presentation.ConcretePresentation;
 import org.malai.presentation.Presentation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TestPresentation {
 	protected Presentation<MockPresAbs, MockPresConc> pres;
@@ -58,18 +61,18 @@ public class TestPresentation {
 	}
 
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAbsNull() {
 		pres = new Presentation<>(null, new MockPresConc());
 	}
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorConcNull() {
 		pres = new Presentation<>(new MockPresAbs(), null);
 	}
 
 
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAbsConcNull() {
 		pres = new Presentation<>(null, null);
 	}

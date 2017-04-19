@@ -14,9 +14,9 @@ import java.util.List;
 
 /**
  * This interface completes the List interface with necessary methods.
+ * @param <E> The type of the elements contained in the active list.
  * @author Arnaud BLOUIN
  * @since 0.2
- * @param <E> The type of the elements contained in the active list.
  */
 public interface IActiveList<E> extends List<E> {
 	/**

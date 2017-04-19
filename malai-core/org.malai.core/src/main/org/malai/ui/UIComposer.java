@@ -12,11 +12,11 @@ package org.malai.ui;
 
 /**
  * A UI composer is a object that composes a user interface using instruments and presentations.
- * @author Arnaud BLOUIN
- * @since 0.2
  * @param <T> The type of widget produced by the composer.
  * @param <R> The type of root widget class of the GUI toolkit.
  * @param <S> The type of the progress bar in the GUI toolkit.
+ * @author Arnaud BLOUIN
+ * @since 0.2
  */
 public abstract class UIComposer<R, T, S> {
 	/** The widget composed by the composer. */

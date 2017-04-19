@@ -1,10 +1,13 @@
 package test.org.malai.mapping;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.mapping.Object2ObjectMapping;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class TestObject2ObjectMapping {
 	protected MockObject2ObjectMapping map;
@@ -20,25 +23,25 @@ public class TestObject2ObjectMapping {
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullSrc() {
 		new MockObject2ObjectMapping(null, tgt);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullTgt() {
 		new MockObject2ObjectMapping(src, null);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullSrcTgt() {
 		new MockObject2ObjectMapping(src, null);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorSameSrcTgt() {
 		new MockObject2ObjectMapping(src, src);
 	}

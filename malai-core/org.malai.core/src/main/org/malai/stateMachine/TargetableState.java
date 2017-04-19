@@ -10,7 +10,6 @@
  */
 package org.malai.stateMachine;
 
-
 /**
  * This interface defines a state that can be the target state of a transition.
  * @author Arnaud BLOUIN

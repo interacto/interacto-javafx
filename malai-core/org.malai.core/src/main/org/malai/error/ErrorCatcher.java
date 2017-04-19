@@ -59,7 +59,8 @@ public final class ErrorCatcher {
 	 * @since 0.1
 	 */
 	public void reportError(final Exception exception) {
-		if(exception!=null && notifier!=null)
+		if(exception != null && notifier != null) {
 			notifier.onMalaiException(exception);
+		}
 	}
 }

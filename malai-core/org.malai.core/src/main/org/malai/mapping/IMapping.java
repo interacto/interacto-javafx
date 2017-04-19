@@ -22,16 +22,16 @@ public interface IMapping {
 	 * @since 0.2
 	 */
 	Object getSource();
-	
-	
+
+
 	/**
 	 * Returns the target object of the mapping. If there is several target objects, a collection is returned.
 	 * @return The source object of the mapping.
 	 * @since 0.2
 	 */
 	Object getTarget();
-	
-	
+
+
 	/**
 	 * Executes the mapping for the addition of an object.
 	 * @param list The modified source list.
@@ -51,7 +51,7 @@ public interface IMapping {
 	 */
 	void onObjectRemoved(final Object list, final Object object, final int index);
 
-	
+
 	/**
 	 * Executes the mapping when all the elements of the source were removed.
 	 * @param list The list before the cleaning, i.e. it still contains all the elements in
@@ -59,7 +59,7 @@ public interface IMapping {
 	 * @since 3.0
 	 */
 	void onListCleaned(final Object list);
-	
+
 
 	/**
 	 * Executes the mapping for the move of an object.
@@ -98,7 +98,7 @@ public interface IMapping {
 
 	/**
 	 * At start, the mapping must be executed one time to initialise the binding between
-	 * source and target objects. 
+	 * source and target objects.
 	 * @since 3.0
 	 */
 	void init();

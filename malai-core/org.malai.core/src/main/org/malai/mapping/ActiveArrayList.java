@@ -16,9 +16,9 @@ import java.util.List;
 
 /**
  * Defines an active list that when an element is added/removed, then mapping registry is then notified.
+ * @param <E> The type of the elements contained in the list.
  * @author Arnaud BLOUIN
  * @since 0.2
- * @param <E> The type of the elements contained in the list.
  */
 public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 
 
 	/**
- 	 * {@link ArrayList#ArrayList(int)}
+	 * {@link ArrayList#ArrayList(int)}
 	 */
 	public ActiveArrayList(final int initialCapacity) {
 		super(initialCapacity);
@@ -48,37 +48,34 @@ public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 	}
 
 
-
 	@Override
 	public void move(final int srcIndex, final int targetIndex) {
-		if(srcIndex<0 || targetIndex<0 || srcIndex>=size() || targetIndex>size())
-			throw new IndexOutOfBoundsException();
+		if(srcIndex < 0 || targetIndex < 0 || srcIndex >= size() || targetIndex > size()) throw new IndexOutOfBoundsException();
 
-		if(srcIndex==targetIndex)
-			return ;
+		if(srcIndex == targetIndex) return;
 
 		final E elt = super.remove(srcIndex);
 
-		if(targetIndex==size())
+		if(targetIndex == size()) {
 			super.add(elt);
-		else
+		}else {
 			super.add(targetIndex, elt);
+		}
 
 		MappingRegistry.REGISTRY.onObjectMoved(this, elt, srcIndex, targetIndex);
 	}
-
 
 
 	@Override
 	public boolean add(final E element) {
 		final boolean ok = super.add(element);
 
-		if(ok)
+		if(ok) {
 			MappingRegistry.REGISTRY.onObjectAdded(this, element, -1);
+		}
 
 		return ok;
 	}
-
 
 
 	@Override
@@ -88,18 +85,18 @@ public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 	}
 
 
-
 	@Override
 	public boolean addAll(final Collection<? extends E> collection) {
 		final boolean ok = super.addAll(collection);
 
-		if(ok)
-			for(final E obj : collection)
+		if(ok) {
+			for(final E obj : collection) {
 				MappingRegistry.REGISTRY.onObjectAdded(this, obj, -1);
+			}
+		}
 
 		return ok;
 	}
-
 
 
 	@Override
@@ -108,9 +105,9 @@ public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 
 		if(ok) {
 			final List<E> array = new ArrayList<>(collection);
-			int i = array.size()-1;
+			int i = array.size() - 1;
 
-			while(i>=0) {
+			while(i >= 0) {
 				MappingRegistry.REGISTRY.onObjectAdded(this, array.get(i), index);
 				i--;
 			}
@@ -120,7 +117,6 @@ public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 	}
 
 
-
 	@Override
 	public void clear() {
 		MappingRegistry.REGISTRY.onListCleaned(this);
@@ -128,32 +124,29 @@ public class ActiveArrayList<E> extends ArrayList<E> implements IActiveList<E> {
 	}
 
 
-
 	@Override
 	public E remove(final int index) {
 		final E elt = super.remove(index);
 
-		if(elt!=null)
+		if(elt != null) {
 			MappingRegistry.REGISTRY.onObjectRemoved(this, elt, index);
+		}
 
 		return elt;
 	}
-
 
 
 	@Override
 	public boolean remove(final Object obj) {
 		final int index = indexOf(obj);
 
-		if(index==-1)
-			return false;
+		if(index == -1) return false;
 
 		super.remove(index);
 		MappingRegistry.REGISTRY.onObjectRemoved(this, obj, index);
 
 		return true;
 	}
-
 
 
 	@Override

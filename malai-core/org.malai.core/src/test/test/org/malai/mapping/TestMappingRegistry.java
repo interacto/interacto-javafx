@@ -1,15 +1,15 @@
 package test.org.malai.mapping;
 
 import java.util.List;
-
 import javax.swing.JButton;
-
 import org.malai.mapping.ActiveArrayList;
 import org.malai.mapping.IMapping;
 import org.malai.mapping.IUnary;
 import org.malai.mapping.List2ObjectMapping;
 import org.malai.mapping.MappingRegistry;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 public class TestMappingRegistry {
 	public void testMappingAddedThenRemovedFromSourceObject() {
@@ -80,35 +80,41 @@ public class TestMappingRegistry {
 	}
 
 
-
 	class MappingMock extends List2ObjectMapping<Double, JButton> {
 		MappingMock(final List<Double> source, final JButton target) {
 			super(source, target);
 		}
+
 		@Override
 		public void onObjectAdded(final Object list, final Object object, final int index) {
 			//
 		}
+
 		@Override
 		public void onObjectRemoved(final Object list, final Object object, final int index) {
 			//
 		}
+
 		@Override
 		public void onListCleaned(final Object list) {
 			//
 		}
+
 		@Override
 		public void onObjectMoved(final Object list, final Object object, final int srcIndex, final int targetIndex) {
 			//
 		}
+
 		@Override
 		public void onObjectReplaced(final IUnary<?> object, final Object replacedObject) {
 			//
 		}
+
 		@Override
 		public void onObjectModified(final Object object) {
 			//
 		}
+
 		@Override
 		public void init() {
 			//

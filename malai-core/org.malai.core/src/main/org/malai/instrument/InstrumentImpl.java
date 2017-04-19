@@ -12,7 +12,6 @@ package org.malai.instrument;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.malai.action.Action;
 import org.malai.error.ErrorCatcher;
 import org.malai.interaction.Eventable;
@@ -26,10 +25,10 @@ import org.w3c.dom.Element;
  * @since 0.1
  */
 public abstract class InstrumentImpl<T extends Interactor> implements Instrument {
-	/**  Defines if the instrument is activated or not. */
+	/** Defines if the instrument is activated or not. */
 	protected boolean activated;
 
-	/**  The interactors of the instrument. */
+	/** The interactors of the instrument. */
 	protected final List<T> interactors;
 
 	/** Defined if the instrument has been modified. */
@@ -45,8 +44,8 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	 */
 	public InstrumentImpl() {
 		activated = false;
-		modified  = false;
-		interactors	  = new ArrayList<>();
+		modified = false;
+		interactors = new ArrayList<>();
 	}
 
 
@@ -58,7 +57,7 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 
 	@Override
 	public boolean hasInteractors() {
-		return getNbInteractors()>0;
+		return getNbInteractors() > 0;
 	}
 
 
@@ -86,13 +85,15 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	 * @since 0.2
 	 */
 	protected void addInteractor(final T interactor) {
-		if(interactor!=null) {
+		if(interactor != null) {
 			interactors.add(interactor);
 			interactor.setActivated(isActivated());
 
-			if(eventables!=null)
-				for(final Eventable eventable : eventables)
+			if(eventables != null) {
+				for(final Eventable eventable : eventables) {
 					interactor.addEventable(eventable);
+				}
+			}
 		}
 	}
 
@@ -104,28 +105,31 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	 * @since 0.2
 	 */
 	protected boolean removeInteractor(final T interactor) {
-		return interactor==null ? false : interactors.remove(interactor);
+		return interactor != null && interactors.remove(interactor);
 	}
 
 
 	@Override
 	public void addEventable(final Eventable eventable) {
-		if(eventable!=null) {
-			if(eventables==null)
+		if(eventable != null) {
+			if(eventables == null) {
 				eventables = new ArrayList<>();
+			}
 
 			eventables.add(eventable);
 
-			for(final Interactor interactor : interactors)
+			for(final Interactor interactor : interactors) {
 				interactor.addEventable(eventable);
+			}
 		}
 	}
 
 
 	@Override
 	public void clearEvents() {
-		for(final T interactor : interactors)
+		for(final T interactor : interactors) {
 			interactor.clearEvents();
+		}
 	}
 
 
@@ -139,19 +143,20 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	public void setActivated(final boolean activated) {
 		this.activated = activated;
 
-		if(activated && !hasInteractors())
-			try{
+		if(activated && !hasInteractors()) {
+			try {
 				initialiseInteractors();
 			}catch(InstantiationException | IllegalAccessException e) {
 				ErrorCatcher.INSTANCE.reportError(e);
 			}
-		else
-			for(final T interactor : interactors)
+		}else {
+			for(final T interactor : interactors) {
 				interactor.setActivated(activated);
+			}
+		}
 
 		interimFeedback();
 	}
-
 
 
 	@Override
@@ -160,12 +165,10 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	}
 
 
-
 	@Override
 	public void save(final boolean generalPreferences, final String nsURI, final Document document, final Element root) {
 		// Should be overridden.
 	}
-
 
 
 	@Override

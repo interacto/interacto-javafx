@@ -29,28 +29,20 @@ public final class UndoCollector {
 
 	/** The label display when there is no undo possible */
 	public static final String EMPTY_UNDO = "undo";
-
-	/** Contains the handlers of each undoable of the undo stack */
-	private final Deque<UndoHandler> undoHandlers;
-
-	/** Contains the handlers of each undoable of the redo stack */
-	private final Deque<UndoHandler> redoHandlers;
-
-	/** Contains the undoable objects. */
-	private final Deque<Undoable> undo;
-
-	/** Contains the redoable objects. */
-	private final Deque<Undoable> redo;
-
-	/** The maximal number of undo. */
-	private int sizeMax;
-
-	/** The handlers that handles the collector. */
-	private final List<UndoHandler> handlers;
-
 	/** This object is used to avaoid the use of null when no undoable handler are provided. */
 	private static final UndoHandler STUB_UNDO_HANDLER = new EmptyUndoHandler();
-
+	/** Contains the handlers of each undoable of the undo stack */
+	private final Deque<UndoHandler> undoHandlers;
+	/** Contains the handlers of each undoable of the redo stack */
+	private final Deque<UndoHandler> redoHandlers;
+	/** Contains the undoable objects. */
+	private final Deque<Undoable> undo;
+	/** Contains the redoable objects. */
+	private final Deque<Undoable> redo;
+	/** The maximal number of undo. */
+	private int sizeMax;
+	/** The handlers that handles the collector. */
+	private final List<UndoHandler> handlers;
 
 
 	/**
@@ -60,11 +52,11 @@ public final class UndoCollector {
 		super();
 
 		handlers = new ArrayList<>();
-		undo 	 = new ArrayDeque<>();
-		redo 	 = new ArrayDeque<>();
+		undo = new ArrayDeque<>();
+		redo = new ArrayDeque<>();
 		undoHandlers = new ArrayDeque<>();
 		redoHandlers = new ArrayDeque<>();
-		sizeMax  = 30;
+		sizeMax = 30;
 	}
 
 
@@ -73,10 +65,10 @@ public final class UndoCollector {
 	 * @param handler The handler to add. Must not be null.
 	 */
 	public void addHandler(final UndoHandler handler) {
-		if(handler!=null)
+		if(handler != null) {
 			handlers.add(handler);
+		}
 	}
-
 
 
 	/**
@@ -84,10 +76,10 @@ public final class UndoCollector {
 	 * @param handler The handler to remove. Must not be null.
 	 */
 	public void removeHandler(final UndoHandler handler) {
-		if(handler!=null)
+		if(handler != null) {
 			handlers.remove(handler);
+		}
 	}
-
 
 
 	/**
@@ -98,8 +90,9 @@ public final class UndoCollector {
 		redo.clear();
 		undoHandlers.clear();
 		redoHandlers.clear();
-		for(final UndoHandler h : handlers)
+		for(final UndoHandler h : handlers) {
 			h.onUndoableCleared();
+		}
 	}
 
 
@@ -109,21 +102,25 @@ public final class UndoCollector {
 	 * @param undoHandler The handler that produced or is associated to the undoable object.
 	 */
 	public void add(final Undoable undoable, final UndoHandler undoHandler) {
-		if(undoable!=null && sizeMax>0) {
-			if(undo.size()==sizeMax) {
+		if(undoable != null && sizeMax > 0) {
+			if(undo.size() == sizeMax) {
 				undo.removeLast();
 				undoHandlers.removeLast();
 			}
 
 			undo.push(undoable);
 			// When undo handler is null, a fake object is added instead of using null.
-			if(undoHandler==null) undoHandlers.push(STUB_UNDO_HANDLER);
-			else undoHandlers.push(undoHandler);
+			if(undoHandler == null) {
+				undoHandlers.push(STUB_UNDO_HANDLER);
+			}else {
+				undoHandlers.push(undoHandler);
+			}
 			redo.clear(); /* The redoable objects must be removed. */
 			redoHandlers.clear();
 
-			for(final UndoHandler handler : handlers)
+			for(final UndoHandler handler : handlers) {
 				handler.onUndoableAdded(undoable);
+			}
 		}
 	}
 
@@ -133,16 +130,17 @@ public final class UndoCollector {
 	 */
 	public void undo() {
 		if(!undo.isEmpty()) {
-			final Undoable undoable 		= undo.pop();
-			final UndoHandler undoHandler 	= undoHandlers.pop();
+			final Undoable undoable = undo.pop();
+			final UndoHandler undoHandler = undoHandlers.pop();
 
 			undoable.undo();
 			redo.push(undoable);
 			redoHandlers.push(undoHandler);
 			undoHandler.onUndoableUndo(undoable);
 
-			for(final UndoHandler handler : handlers)
+			for(final UndoHandler handler : handlers) {
 				handler.onUndoableUndo(undoable);
+			}
 		}
 	}
 
@@ -152,16 +150,17 @@ public final class UndoCollector {
 	 */
 	public void redo() {
 		if(!redo.isEmpty()) {
-			final Undoable undoable 		= redo.pop();
-			final UndoHandler redoHandler 	= redoHandlers.pop();
+			final Undoable undoable = redo.pop();
+			final UndoHandler redoHandler = redoHandlers.pop();
 
 			undoable.redo();
 			undo.push(undoable);
 			undoHandlers.push(redoHandler);
 			redoHandler.onUndoableRedo(undoable);
 
-			for(final UndoHandler handler : handlers)
+			for(final UndoHandler handler : handlers) {
 				handler.onUndoableRedo(undoable);
+			}
 		}
 	}
 
@@ -210,15 +209,14 @@ public final class UndoCollector {
 	 * @param max The max number of saved undoable objects. Must be great than 0.
 	 */
 	public void setSizeMax(final int max) {
-		if(max>=0) {
-			for(int i=0, nb=undo.size()-max; i<nb; i++) {
+		if(max >= 0) {
+			for(int i = 0, nb = undo.size() - max; i < nb; i++) {
 				undo.removeLast();
 				undoHandlers.removeLast();
 			}
 			this.sizeMax = max;
 		}
 	}
-
 
 	/**
 	 * @return The stack of saved undoable objects.
@@ -227,7 +225,6 @@ public final class UndoCollector {
 	public Deque<Undoable> getUndo() {
 		return undo;
 	}
-
 
 	/**
 	 * @return The stack of saved redoable objects

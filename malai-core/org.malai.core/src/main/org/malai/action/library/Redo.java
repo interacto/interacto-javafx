@@ -30,7 +30,7 @@ public class Redo extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return UndoCollector.INSTANCE.getLastRedo()!=null;
+		return UndoCollector.INSTANCE.getLastRedo() != null;
 	}
 
 
@@ -38,8 +38,6 @@ public class Redo extends ActionImpl {
 	public boolean isRegisterable() {
 		return false;
 	}
-
-
 
 
 	@Override

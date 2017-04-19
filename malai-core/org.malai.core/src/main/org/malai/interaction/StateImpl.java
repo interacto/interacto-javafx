@@ -12,7 +12,6 @@ package org.malai.interaction;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.malai.stateMachine.State;
 import org.malai.stateMachine.StateMachine;
 import org.malai.stateMachine.Transition;
@@ -42,19 +41,19 @@ public abstract class StateImpl implements State {
 	public StateImpl(final String name) {
 		super();
 
-		if(name==null)
-			throw new IllegalArgumentException();
+		if(name == null) throw new IllegalArgumentException();
 
-		this.name 	 = name;
+		this.name = name;
 		stateMachine = null;
-		transitions  = new ArrayList<>();
+		transitions = new ArrayList<>();
 	}
 
 
 	@Override
 	public void setStateMachine(final StateMachine sm) {
-		if(sm instanceof Interaction)
-			stateMachine = (Interaction)sm;
+		if(sm instanceof Interaction) {
+			stateMachine = (Interaction) sm;
+		}
 	}
 
 
@@ -66,8 +65,9 @@ public abstract class StateImpl implements State {
 
 	@Override
 	public void addTransition(final Transition trans) {
-		if(trans!=null)
+		if(trans != null) {
 			transitions.add(trans);
+		}
 	}
 
 
@@ -85,7 +85,7 @@ public abstract class StateImpl implements State {
 
 	@Override
 	public Transition getTransition(final int i) {
-		return i<0 || i>=transitions.size() ? null : transitions.get(i);
+		return i < 0 || i >= transitions.size() ? null : transitions.get(i);
 	}
 
 
@@ -95,8 +95,9 @@ public abstract class StateImpl implements State {
 
 		sb.append(getClass().getCanonicalName()).append('[').append(name).append(',').append(' ');
 
-		for(final Transition t : transitions)
+		for(final Transition t : transitions) {
 			sb.append(t).append(',').append(' ');
+		}
 
 		sb.append(']');
 

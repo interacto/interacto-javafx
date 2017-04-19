@@ -12,10 +12,10 @@ package org.malai.mapping;
 
 /**
  * This interface defines the concept of mapping that link a source value (unary relation) to a target one.
- * @author Arnaud BLOUIN
- * @since 0.2
  * @param <S> The type of the source unary relation of the mapping.
  * @param <T> The type of the target unary relation of the mapping.
+ * @author Arnaud BLOUIN
+ * @since 0.2
  */
 public abstract class Unary2UnaryMapping<S, T> implements IMapping {
 	/** The source unary relation of the mapping. */
@@ -35,20 +35,17 @@ public abstract class Unary2UnaryMapping<S, T> implements IMapping {
 	public Unary2UnaryMapping(final IUnary<S> source, final IUnary<T> target) {
 		super();
 
-		if(source==null || target==null || source==target)
-			throw new IllegalArgumentException();
+		if(source == null || target == null || source == target) throw new IllegalArgumentException();
 
 		sourceObject = source;
 		targetObject = target;
 	}
 
 
-
 	@Override
 	public void onObjectAdded(final Object list, final Object object, final int index) {
 		// Cannot be applied for such a mapping.
 	}
-
 
 
 	@Override
@@ -65,8 +62,9 @@ public abstract class Unary2UnaryMapping<S, T> implements IMapping {
 
 	@Override
 	public void init() {
-		if(sourceObject!=null)
+		if(sourceObject != null) {
 			onObjectReplaced(sourceObject, sourceObject.getValue());
+		}
 	}
 
 
@@ -83,12 +81,10 @@ public abstract class Unary2UnaryMapping<S, T> implements IMapping {
 	}
 
 
-
 	@Override
 	public Object getSource() {
 		return sourceObject;
 	}
-
 
 
 	@Override

@@ -37,7 +37,8 @@ public abstract class WidgetTransition<T> extends TransitionImpl {
 	 * @param widget The widget to set. Must not be null.
 	 */
 	public void setWidget(final T widget) {
-		if(widget!=null)
+		if(widget != null) {
 			this.widget = widget;
+		}
 	}
 }
