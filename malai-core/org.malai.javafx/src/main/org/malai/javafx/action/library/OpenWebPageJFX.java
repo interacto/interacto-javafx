@@ -10,11 +10,10 @@
  */
 package org.malai.javafx.action.library;
 
-import org.malai.action.ActionImpl;
-
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
+import org.malai.action.ActionImpl;
 
 /**
  * This action opens an URI in the default browser.
@@ -62,7 +61,7 @@ public class OpenWebPageJFX extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return uri!=null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
+		return uri != null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
 	}
 
 	@Override

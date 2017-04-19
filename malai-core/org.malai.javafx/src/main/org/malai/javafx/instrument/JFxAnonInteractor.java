@@ -87,8 +87,8 @@ public class JFxAnonInteractor<A extends ActionImpl, I extends JfxInteraction, N
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonInteractor(final N ins, final boolean exec, List<Window> windows, final Class<A> clazzAction, final Class<I> clazzInteraction,
-							 final Consumer<A> initActionFct) throws InstantiationException, IllegalAccessException {
+	public JFxAnonInteractor(final N ins, final boolean exec, List<Window> windows, final Class<A> clazzAction,
+							 final Class<I> clazzInteraction, final Consumer<A> initActionFct) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, windows, clazzAction, clazzInteraction);
 		execInitAction = Objects.requireNonNull(initActionFct);
 	}
@@ -109,7 +109,7 @@ public class JFxAnonInteractor<A extends ActionImpl, I extends JfxInteraction, N
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-							 final Consumer<A> initActionFct, final Window...windows) throws InstantiationException, IllegalAccessException {
+							 final Consumer<A> initActionFct, final Window... windows) throws InstantiationException, IllegalAccessException {
 		this(ins, exec, Arrays.asList(windows), clazzAction, clazzInteraction, initActionFct);
 	}
 

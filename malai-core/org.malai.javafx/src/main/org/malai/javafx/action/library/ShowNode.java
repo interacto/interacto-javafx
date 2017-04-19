@@ -40,7 +40,7 @@ public class ShowNode extends WidgetAction<Node> {
 
 	@Override
 	public boolean canDo() {
-		return super.canDo() && widget.isVisible()!=visible;
+		return super.canDo() && widget.isVisible() != visible;
 	}
 
 

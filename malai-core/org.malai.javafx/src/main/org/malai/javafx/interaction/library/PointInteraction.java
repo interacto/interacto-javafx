@@ -32,11 +32,11 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 
 	/** The object picked at the pressed position. */
 	protected Optional<Node> srcObject;
-	
+
 	protected boolean altPressed;
-	
+
 	protected boolean ctrlPressed;
-	
+
 	protected boolean shiftPressed;
 
 	protected boolean metaPressed;
@@ -66,7 +66,7 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	public boolean isAltPressed() {
 		return altPressed;
 	}
-	
+
 	/**
 	 * @return True: the control key is pressed.
 	 */
@@ -74,7 +74,7 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	public boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
-	
+
 	/**
 	 * @return True: the shift key is pressed.
 	 */

@@ -36,12 +36,11 @@ public class MenuItem2ShowNode extends JfxMenuItemInteractor<ShowNode, MenuItemP
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2ShowNode(final JfxInstrument ins, final MenuItem menuItem, final Node node, final boolean toshow)
-								throws InstantiationException, IllegalAccessException {
+	public MenuItem2ShowNode(final JfxInstrument ins, final MenuItem menuItem, final Node node, final boolean toshow) throws
+		InstantiationException, IllegalAccessException {
 		super(ins, false, ShowNode.class, MenuItemPressed.class, menuItem);
 
-		if(node==null)
-			throw new IllegalArgumentException();
+		if(node == null) throw new IllegalArgumentException();
 
 		nodeToShow = node;
 		show = toshow;

@@ -69,7 +69,8 @@ public class KeysTyped extends MultiKeyInteraction {
 	 * @param timeout the timeout to set. Must be greater than 0.
 	 */
 	public void setTimeout(final int timeout) {
-		if(timeout > 0)
+		if(timeout > 0) {
 			timeoutTransition.setTimeout(timeout);
+		}
 	}
 }

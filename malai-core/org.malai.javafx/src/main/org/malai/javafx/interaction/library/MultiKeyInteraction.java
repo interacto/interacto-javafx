@@ -10,13 +10,12 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.input.KeyCode;
 import org.malai.javafx.interaction.KeyReleaseTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This abstract interaction should be used to define JavaFX interactions based on keyboards.
@@ -40,15 +39,17 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 	public void reinit() {
 		super.reinit();
 
-		if(keys == null)
+		if(keys == null) {
 			keys = new ArrayList<>();
-		else
+		}else {
 			keys.clear();
+		}
 
-		if(keyCodes == null)
+		if(keyCodes == null) {
 			keyCodes = new ArrayList<>();
-		else
+		}else {
 			keyCodes.clear();
+		}
 	}
 
 	/**
@@ -76,8 +77,9 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 	 * @param keycode The key pressed to add.
 	 */
 	protected void addKeyCode(final KeyCode keycode) {
-		if(keycode!=null)
+		if(keycode != null) {
 			keyCodes.add(keycode);
+		}
 	}
 
 	/**

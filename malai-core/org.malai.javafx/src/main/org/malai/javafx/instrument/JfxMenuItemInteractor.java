@@ -19,7 +19,8 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  * Base of a menu item interactor for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxMenuItemInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxInteractor<A, I, N> {
+public abstract class JfxMenuItemInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument>
+	extends JfxInteractor<A, I, N> {
 	/**
 	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -34,8 +35,8 @@ public abstract class JfxMenuItemInteractor<A extends ActionImpl, I extends Menu
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, MenuItem... widgets)
-				throws InstantiationException, IllegalAccessException {
+	public JfxMenuItemInteractor(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, MenuItem... widgets) throws
+		InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 
 		if(widgets != null) {

@@ -10,7 +10,6 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.stage.WindowEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
@@ -25,6 +24,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.stage.WindowEvent;
 import org.malai.interaction.Interaction;
 
 /**

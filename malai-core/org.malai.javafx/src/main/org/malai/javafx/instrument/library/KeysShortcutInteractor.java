@@ -69,8 +69,9 @@ public class KeysShortcutInteractor<A extends ActionImpl, I extends JfxInstrumen
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @throws NullPointerException If the given lambda or the key codes list are null.
 	 */
-	public KeysShortcutInteractor(final I ins, final Class<A> clazzAction, final Consumer<A> execute, final Function<KeysPressure, Boolean> executable,
-								  final Collection<KeyCode> codes, final Node... widgets) throws InstantiationException, IllegalAccessException {
+	public KeysShortcutInteractor(final I ins, final Class<A> clazzAction, final Consumer<A> execute,
+	  			final Function<KeysPressure, Boolean> executable, final Collection<KeyCode> codes, final Node... widgets)
+				throws InstantiationException, IllegalAccessException {
 		super(ins, false, clazzAction, KeysPressure.class, execute, widgets);
 		keyCodes = Objects.requireNonNull(codes);
 		canDo = executable;
@@ -112,8 +113,9 @@ public class KeysShortcutInteractor<A extends ActionImpl, I extends JfxInstrumen
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @throws NullPointerException If the given lambda or the key codes list are null.
 	 */
-	public KeysShortcutInteractor(final I ins, final Class<A> clazzAction, final Consumer<A> execute, final Function<KeysPressure, Boolean> executable,
-								  final Collection<KeyCode> codes, final Window... windows) throws InstantiationException, IllegalAccessException {
+	public KeysShortcutInteractor(final I ins, final Class<A> clazzAction, final Consumer<A> execute, final Function<KeysPressure,
+		Boolean> executable, final Collection<KeyCode> codes, final Window... windows) throws InstantiationException,
+		IllegalAccessException {
 		super(ins, false, clazzAction, KeysPressure.class, execute, windows);
 		keyCodes = Objects.requireNonNull(codes);
 		canDo = executable;
@@ -122,6 +124,7 @@ public class KeysShortcutInteractor<A extends ActionImpl, I extends JfxInstrumen
 	@Override
 	public boolean isConditionRespected() {
 		final List<KeyCode> keys = getInteraction().getKeyCodes();
-		return keyCodes.size() == keys.size() && keyCodes.stream().allMatch(code -> keys.contains(code)) && (canDo == null || canDo.apply(getInteraction()));
+		return keyCodes.size() == keys.size() && keyCodes.stream().allMatch(code -> keys.contains(code)) && (canDo == null || canDo.apply
+			(getInteraction()));
 	}
 }

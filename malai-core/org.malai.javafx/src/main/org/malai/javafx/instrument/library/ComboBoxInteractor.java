@@ -10,16 +10,15 @@
  */
 package org.malai.javafx.instrument.library;
 
+import java.util.List;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.ComboBoxSelected;
 
-import java.util.List;
-
 /**
- *	An interactor using a JFX combo box interaction.
+ * An interactor using a JFX combo box interaction.
  * @param <A> The action to produce.
  * @param <I> The instrument.
  * @author Arnaud Blouin
@@ -38,7 +37,7 @@ public abstract class ComboBoxInteractor<A extends ActionImpl, I extends JfxInst
 	public ComboBoxInteractor(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, false, clazzAction, ComboBoxSelected.class, widgets);
 	}
-	
+
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.

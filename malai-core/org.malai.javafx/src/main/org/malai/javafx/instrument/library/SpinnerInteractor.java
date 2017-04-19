@@ -10,16 +10,15 @@
  */
 package org.malai.javafx.instrument.library;
 
+import java.util.List;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.SpinnerValueChanged;
 
-import java.util.List;
-
 /**
- *	An interactor using a JFX combo box interaction.
+ * An interactor using a JFX combo box interaction.
  * @param <A> The action to produce.
  * @param <I> The instrument.
  * @author Arnaud Blouin
@@ -35,10 +34,11 @@ public abstract class SpinnerInteractor<A extends ActionImpl, I extends JfxInstr
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerInteractor(final I ins, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException, IllegalAccessException {
+	public SpinnerInteractor(final I ins, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException,
+		IllegalAccessException {
 		super(ins, false, clazzAction, SpinnerValueChanged.class, widgets);
 	}
-	
+
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.
@@ -49,7 +49,8 @@ public abstract class SpinnerInteractor<A extends ActionImpl, I extends JfxInstr
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerInteractor(final I ins, final Class<A> clazzAction, final Node... widgets) throws InstantiationException, IllegalAccessException {
+	public SpinnerInteractor(final I ins, final Class<A> clazzAction, final Node... widgets) throws InstantiationException,
+		IllegalAccessException {
 		super(ins, false, clazzAction, SpinnerValueChanged.class, widgets);
 	}
 }

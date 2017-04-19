@@ -55,6 +55,22 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 		this.object = Optional.ofNullable(object);
 	}
 
+	@Override
+	public void registerToNodes(Collection<Node> widgets) {
+		widgets.forEach(w -> {
+			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
+			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
+		});
+	}
+
+	@Override
+	public void registerToWindows(Collection<Window> windows) {
+		windows.forEach(w -> {
+			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
+			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
+		});
+	}
+
 	/**
 	 * Defines a transition modifying the key attribute of the interaction.
 	 */
@@ -73,21 +89,5 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 			KeyInteraction.this.setObject(event.getSource());
 			KeyInteraction.this.setLastHIDUsed(this.hid);
 		}
-	}
-
-	@Override
-	public void registerToNodes(Collection<Node> widgets) {
-		widgets.forEach(w -> {
-			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
-		});
-	}
-
-	@Override
-	public void registerToWindows(Collection<Window> windows) {
-		windows.forEach(w -> {
-			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
-		});
 	}
 }

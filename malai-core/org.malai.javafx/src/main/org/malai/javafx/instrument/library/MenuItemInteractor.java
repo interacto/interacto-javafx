@@ -10,19 +10,18 @@
  */
 package org.malai.javafx.instrument.library;
 
+import java.util.List;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.MenuItemPressed;
 
-import java.util.List;
-
 /**
  * The base interactor for menu item interactions.
- * @author Arnaud Blouin
  * @param <A> The action of the interactor.
  * @param <I> The menuitem-based interaction of the interactor.
+ * @author Arnaud Blouin
  */
 public abstract class MenuItemInteractor<A extends ActionImpl, I extends JfxInstrument> extends JfxInteractor<A, MenuItemPressed, I> {
 	/**

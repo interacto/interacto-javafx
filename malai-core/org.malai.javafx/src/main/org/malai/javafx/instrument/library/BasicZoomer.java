@@ -76,8 +76,8 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 		public void initAction() {
 			interaction.getKeyCode().ifPresent(key -> {
 				action.setZoomable(instrument.getZoomable());
-				action.setZoomLevel(instrument.zoomable.getZoom() +
-					(isZoomInKey(key) ? instrument.zoomable.getZoomIncrement() : -instrument.zoomable.getZoomIncrement()));
+				action.setZoomLevel(instrument.zoomable.getZoom() + (isZoomInKey(key) ? instrument.zoomable.getZoomIncrement() :
+					-instrument.zoomable.getZoomIncrement()));
 				action.setPx(-1d);
 				action.setPy(-1d);
 			});
@@ -116,8 +116,8 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 
 		@Override
 		public void updateAction() {
-			action.setZoomLevel(instrument.zoomable.getZoom() +
-				(interaction.getIncrement() > 0 ? instrument.zoomable.getZoomIncrement() : -instrument.zoomable.getZoomIncrement()));
+			action.setZoomLevel(instrument.zoomable.getZoom() + (interaction.getIncrement() > 0 ? instrument.zoomable.getZoomIncrement() :
+				-instrument.zoomable.getZoomIncrement()));
 			action.setPx(interaction.getPx());
 			action.setPy(interaction.getPy());
 		}

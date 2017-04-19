@@ -11,12 +11,10 @@
 package org.malai.javafx.interaction;
 
 import java.util.ArrayList;
-
-import org.malai.interaction.InteractionImpl;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import org.malai.interaction.InteractionImpl;
 
 /**
  * The core class for defining interactions using the JavaFX library.
@@ -33,23 +31,23 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	@Override
 	protected void processEvent(final Event event) {
 		if(event instanceof MousePressEvent) {
-			final MousePressEvent press = (MousePressEvent)event;
+			final MousePressEvent press = (MousePressEvent) event;
 			onPressure(press.evt, press.getIdHID());
 		}else if(event instanceof KeyPressEvent) {
-			final KeyPressEvent key = (KeyPressEvent)event;
+			final KeyPressEvent key = (KeyPressEvent) event;
 			onKeyPressure(key.evt, key.getIdHID());
 		}
 	}
-	
+
 	@Override
 	public void onKeyPressure(final KeyEvent event, final int idHID) {
-		if(!isActivated()) return ;
+		if(!isActivated()) return;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof KeyPressureTransition).filter(tr -> {
-			final KeyPressureTransition pt =  (KeyPressureTransition)tr;
+			final KeyPressureTransition pt = (KeyPressureTransition) tr;
 			pt.setEvent(event);
 			pt.setHid(idHID);
 			boolean found = checkTransition(tr);
-			
+
 			if(found && !stillInProgressContainsKey(idHID, event.getCode())) {
 				// Adding an event 'still in process'
 				addEvent(new KeyPressEvent(idHID, event));
@@ -57,15 +55,15 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 			return found;
 		}).findFirst();
 	}
-	
+
 	@Override
 	public void onKeyRelease(final KeyEvent event, final int idHID) {
-		if(!isActivated()) return ;
+		if(!isActivated()) return;
 		boolean found = getCurrentState().getTransitions().stream().filter(tr -> tr instanceof KeyReleaseTransition).anyMatch(tr -> {
-			final KeyReleaseTransition pt =  (KeyReleaseTransition)tr;
+			final KeyReleaseTransition pt = (KeyReleaseTransition) tr;
 			pt.setEvent(event);
 			pt.setHid(idHID);
-			
+
 			if(tr.isGuardRespected()) {
 				// Removing from the 'still in process' list
 				removeKeyEvent(idHID, event.getCode());
@@ -73,38 +71,38 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 			}
 			return false;
 		});
-		
+
 		if(!found) {
 			removeKeyEvent(idHID, event.getCode());
 		}
 	}
-	
+
 	@Override
 	public void onPressure(final MouseEvent evt, final int idHID) {
-		if(!isActivated()) return ;
+		if(!isActivated()) return;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof PressureTransition).filter(tr -> {
-			final PressureTransition pt = (PressureTransition)tr;
+			final PressureTransition pt = (PressureTransition) tr;
 			pt.setEvent(evt);
 			pt.setHid(idHID);
 			boolean found = checkTransition(tr);
-			
+
 			if(found) {
 				// Adding an event 'still in process'
 				addEvent(new MousePressEvent(idHID, evt));
 			}
-			
+
 			return found;
 		}).findFirst();
 	}
-	
+
 	@Override
 	public void onRelease(final MouseEvent evt, final int idHID) {
-		if(!isActivated()) return ;
+		if(!isActivated()) return;
 		boolean found = getCurrentState().getTransitions().stream().filter(tr -> tr instanceof ReleaseTransition).anyMatch(tr -> {
-			final ReleaseTransition pt = (ReleaseTransition)tr;
+			final ReleaseTransition pt = (ReleaseTransition) tr;
 			pt.setEvent(evt);
 			pt.setHid(idHID);
-			
+
 			if(tr.isGuardRespected()) {
 				// Removing from the 'still in process' list
 				removePressEvent(idHID);
@@ -112,21 +110,22 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 			}
 			return false;
 		});
-		
+
 		if(!found) {
 			removePressEvent(idHID);
 		}
 	}
-	
+
 	private void addEvent(final Event event) {
-		if(stillProcessingEvents==null)
+		if(stillProcessingEvents == null) {
 			stillProcessingEvents = new ArrayList<>();
+		}
 
 		synchronized(stillProcessingEvents) {
 			stillProcessingEvents.add(event);
 		}
 	}
-	
+
 	/**
 	 * Removes the given KeyPress event from the events 'still in process' list.
 	 * @param idHID The identifier of the HID which produced the event.
@@ -134,34 +133,34 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	 * @since 0.2
 	 */
 	private void removeKeyEvent(final int idHID, final KeyCode key) {
-		if(stillProcessingEvents==null) return ;
+		if(stillProcessingEvents == null) return;
 
 		synchronized(stillProcessingEvents) {
 			boolean removed = false;
 			Event event;
-			
-			for(int i=0, size=stillProcessingEvents.size(); i<size && !removed; i++) {
+
+			for(int i = 0, size = stillProcessingEvents.size(); i < size && !removed; i++) {
 				event = stillProcessingEvents.get(i);
-	
-				if(event.getIdHID()==idHID && event instanceof KeyPressEvent && ((KeyPressEvent)event).evt.getCode()==key) {
+
+				if(event.getIdHID() == idHID && event instanceof KeyPressEvent && ((KeyPressEvent) event).evt.getCode() == key) {
 					removed = true;
 					stillProcessingEvents.remove(i);
 				}
 			}
 		}
 	}
-	
+
 	private void removePressEvent(final int idHID) {
-		if(stillProcessingEvents==null) return ;
+		if(stillProcessingEvents == null) return;
 
 		boolean removed = false;
 		Event event;
 
 		synchronized(stillProcessingEvents) {
-			for(int i=0, size=stillProcessingEvents.size(); i<size && !removed; i++) {
+			for(int i = 0, size = stillProcessingEvents.size(); i < size && !removed; i++) {
 				event = stillProcessingEvents.get(i);
-	
-				if(event.getIdHID()==idHID && event instanceof MousePressEvent) {
+
+				if(event.getIdHID() == idHID && event instanceof MousePressEvent) {
 					removed = true;
 					stillProcessingEvents.remove(i);
 				}
@@ -173,10 +172,10 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	 * Checks that the list stillProcessingEvents does not contains a keyEvent corresponding to the given one.
 	 */
 	private boolean stillInProgressContainsKey(final int idHID, final KeyCode key) {
-		if(stillProcessingEvents == null)
-			return false;
+		if(stillProcessingEvents == null) return false;
 		synchronized(stillProcessingEvents) {
-			return stillProcessingEvents.stream().anyMatch(evt -> idHID == evt.getIdHID() && evt instanceof KeyPressEvent && ((KeyPressEvent)evt).evt.getCode() == key);
+			return stillProcessingEvents.stream().
+				anyMatch(evt -> idHID == evt.getIdHID() && evt instanceof KeyPressEvent && ((KeyPressEvent)evt).evt.getCode() == key);
 		}
 	}
 

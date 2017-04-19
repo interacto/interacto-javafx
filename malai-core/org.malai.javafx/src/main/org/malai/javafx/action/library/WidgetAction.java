@@ -30,7 +30,7 @@ public abstract class WidgetAction<T> extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return widget!=null;
+		return widget != null;
 	}
 
 

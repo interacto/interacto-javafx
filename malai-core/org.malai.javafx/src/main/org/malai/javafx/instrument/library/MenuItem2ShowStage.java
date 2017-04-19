@@ -36,12 +36,11 @@ public class MenuItem2ShowStage extends JfxMenuItemInteractor<ShowStage, MenuIte
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow)
-								throws InstantiationException, IllegalAccessException {
+	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow) throws
+		InstantiationException, IllegalAccessException {
 		super(ins, false, ShowStage.class, MenuItemPressed.class, menuItem);
 
-		if(stage==null)
-			throw new IllegalArgumentException();
+		if(stage == null) throw new IllegalArgumentException();
 
 		stageToShow = stage;
 		show = toshow;

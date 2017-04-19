@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.input.MouseEvent;
-
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
