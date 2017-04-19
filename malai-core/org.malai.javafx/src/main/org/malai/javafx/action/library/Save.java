@@ -17,7 +17,7 @@ import org.malai.error.ErrorCatcher;
  * A save action.
  * @author Arnaud Blouin
  */
-public class Save<B extends Object> extends IOAction<B> {
+public class Save<B> extends IOAction<B> {
 	/**
 	 * Creates a save action.
 	 */

@@ -21,7 +21,7 @@ import org.malai.javafx.ui.OpenSaver;
  * @param <B> The type of the widget that will be used to display information.
  * @author Arnaud Blouin
  */
-public abstract class IOAction<B extends Object> extends ActionImpl {
+public abstract class IOAction<B> extends ActionImpl {
 	/** The current file loaded or saved. */
 	protected File file;
 
