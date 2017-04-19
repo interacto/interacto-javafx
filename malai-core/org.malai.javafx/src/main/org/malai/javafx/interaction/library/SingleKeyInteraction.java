@@ -10,11 +10,10 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.Optional;
 import javafx.scene.input.KeyCode;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
-
-import java.util.Optional;
 
 /**
  * This abstract interaction should be used to define JavaFX interactions based on keyboards.

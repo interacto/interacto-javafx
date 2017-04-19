@@ -21,7 +21,8 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  * The goal is to avoid the creation of a specific class when the interactor is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonMenuInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxMenuItemInteractor<A, I, N> {
+public class JFxAnonMenuInteractor<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends
+	JfxMenuItemInteractor<A, I, N> {
 	final Consumer<A> execInitAction;
 
 	/**

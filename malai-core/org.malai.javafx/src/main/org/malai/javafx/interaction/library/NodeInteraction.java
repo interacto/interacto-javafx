@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.scene.Node;
-
 import org.malai.javafx.interaction.JfxInteractionImpl;
 
 /**
@@ -21,21 +20,19 @@ import org.malai.javafx.interaction.JfxInteractionImpl;
 public abstract class NodeInteraction<T extends Node> extends JfxInteractionImpl {
 	/** The widget used during the interaction. */
 	protected T widget;
-	
+
 	/**
 	 * Creates the interaction.
 	 */
 	public NodeInteraction() {
 		super();
 	}
-	
-	
+
 	@Override
 	public void reinit() {
 		super.reinit();
 		widget = null;
 	}
-	
 
 	/**
 	 * @return The widget used during the interaction.

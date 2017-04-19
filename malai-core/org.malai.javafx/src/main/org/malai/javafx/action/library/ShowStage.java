@@ -35,16 +35,17 @@ public class ShowStage extends WidgetAction<Stage> {
 
 	@Override
 	protected void doActionBody() {
-		if(visible)
+		if(visible) {
 			widget.show();
-		else
+		}else {
 			widget.hide();
+		}
 	}
 
-//	@Override
-//	public boolean canDo() {
-//		return super.canDo() && widget.isShowing()!=visible;
-//	}
+	//	@Override
+	//	public boolean canDo() {
+	//		return super.canDo() && widget.isShowing()!=visible;
+	//	}
 
 
 	/**

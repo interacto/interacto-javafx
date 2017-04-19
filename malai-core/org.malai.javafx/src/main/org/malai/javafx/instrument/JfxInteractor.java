@@ -10,20 +10,20 @@
  */
 package org.malai.javafx.instrument;
 
+import java.util.Arrays;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.instrument.InteractorImpl;
 import org.malai.javafx.interaction.JfxInteraction;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Base of an interactor for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxInteractor<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends InteractorImpl<A, I, N> {
+public abstract class JfxInteractor<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends InteractorImpl<A, I,
+	N> {
 	/**
 	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -43,7 +43,7 @@ public abstract class JfxInteractor<A extends ActionImpl, I extends JfxInteracti
 		super(ins, exec, clazzAction, clazzInteraction);
 		interaction.registerToNodes(widgets);
 	}
-	
+
 	/**
 	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
 	 * instrument is (de-)activated.

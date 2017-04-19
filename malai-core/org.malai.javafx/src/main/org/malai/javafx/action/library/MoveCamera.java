@@ -10,9 +10,8 @@
  */
 package org.malai.javafx.action.library;
 
-import org.malai.action.library.PositionAction;
-
 import javafx.scene.control.ScrollPane;
+import org.malai.action.library.PositionAction;
 
 /**
  * This action moves a camera by moving the scroll bars of a pane.

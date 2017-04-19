@@ -10,14 +10,12 @@
  */
 package org.malai.javafx.instrument.library;
 
+import java.net.URI;
 import javafx.scene.control.MenuItem;
 import org.malai.javafx.action.library.OpenWebPageJFX;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxMenuItemInteractor;
 import org.malai.javafx.interaction.library.MenuItemPressed;
-
-import java.net.URI;
-
 
 /**
  * An interactor that opens a URL using a menu item.
@@ -37,12 +35,11 @@ public class MenuItem2OpenWebPageInteractor extends JfxMenuItemInteractor<OpenWe
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2OpenWebPageInteractor(final JfxInstrument ins, final MenuItem menuItem,
-										  final URI uri) throws InstantiationException, IllegalAccessException {
+	public MenuItem2OpenWebPageInteractor(final JfxInstrument ins, final MenuItem menuItem, final URI uri) throws InstantiationException,
+		IllegalAccessException {
 		super(ins, false, OpenWebPageJFX.class, MenuItemPressed.class, menuItem);
 
-		if(uri==null)
-			throw new IllegalArgumentException();
+		if(uri == null) throw new IllegalArgumentException();
 
 		this.uri = uri;
 	}

@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.input.KeyCode;
-
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -31,6 +30,6 @@ public class EscapeKeyPressureTransition extends KeyPressureTransition {
 
 	@Override
 	public boolean isGuardRespected() {
-		return event.getCode()==KeyCode.ESCAPE;
+		return event.getCode() == KeyCode.ESCAPE;
 	}
 }

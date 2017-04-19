@@ -10,21 +10,21 @@
  */
 package org.malai.javafx.instrument.library;
 
+import java.util.List;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxInteractor;
 import org.malai.javafx.interaction.library.ToggleButtonPressed;
 
-import java.util.List;
-
 /**
- *	An interactor using a JFX toggle button interaction.
+ * An interactor using a JFX toggle button interaction.
  * @param <A> The action to produce.
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ToggleButtonInteractor<A extends ActionImpl, I extends JfxInstrument> extends JfxInteractor<A, ToggleButtonPressed, I> {
+public abstract class ToggleButtonInteractor<A extends ActionImpl, I extends JfxInstrument> extends JfxInteractor<A, ToggleButtonPressed,
+	I> {
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.
@@ -38,7 +38,7 @@ public abstract class ToggleButtonInteractor<A extends ActionImpl, I extends Jfx
 	public ToggleButtonInteractor(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, false, clazzAction, ToggleButtonPressed.class, widgets);
 	}
-	
+
 	/**
 	 * Creates an interactor.
 	 * @param ins The instrument that contains the interactor.

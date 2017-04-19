@@ -46,7 +46,7 @@ public class ColorPicked extends NodeInteraction<ColorPicker> {
 			}
 		};
 	}
-	
+
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
 		widgets.stream().filter(w -> w instanceof ColorPicker).forEach(w ->

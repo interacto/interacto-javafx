@@ -10,10 +10,9 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.List;
 import javafx.scene.control.MenuItem;
 import org.malai.javafx.interaction.JfxInteractionImpl;
-
-import java.util.List;
 
 /**
  * A JavaFX interaction that uses a single menu item.
@@ -30,13 +29,11 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 		super();
 	}
 
-
 	@Override
 	public void reinit() {
 		super.reinit();
 		widget = null;
 	}
-	
 
 	/**
 	 * @return The widget used during the interaction.

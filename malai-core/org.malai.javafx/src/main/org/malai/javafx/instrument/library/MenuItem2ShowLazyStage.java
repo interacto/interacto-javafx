@@ -10,14 +10,13 @@
  */
 package org.malai.javafx.instrument.library;
 
+import java.util.function.Supplier;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.malai.javafx.action.library.ShowStage;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.instrument.JfxMenuItemInteractor;
 import org.malai.javafx.interaction.library.MenuItemPressed;
-
-import java.util.function.Supplier;
 
 /**
  * An interactor that opens a URL using a menu item.
@@ -39,11 +38,10 @@ public class MenuItem2ShowLazyStage extends JfxMenuItemInteractor<ShowStage, Men
 	 * @since 2.0
 	 */
 	public MenuItem2ShowLazyStage(final JfxInstrument ins, final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow)
-								throws InstantiationException, IllegalAccessException {
+		throws InstantiationException, IllegalAccessException {
 		super(ins, false, ShowStage.class, MenuItemPressed.class, menuItem);
 
-		if(stageLazy==null)
-			throw new IllegalArgumentException();
+		if(stageLazy == null) throw new IllegalArgumentException();
 
 		stageToShowLazy = stageLazy;
 		show = toshow;
@@ -51,7 +49,6 @@ public class MenuItem2ShowLazyStage extends JfxMenuItemInteractor<ShowStage, Men
 
 	@Override
 	public void initAction() {
-		System.out.println(stageToShowLazy.get());
 		action.setWidget(stageToShowLazy.get());
 		action.setVisible(show);
 	}
