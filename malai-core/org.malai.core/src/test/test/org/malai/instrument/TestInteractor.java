@@ -1,12 +1,5 @@
 package test.org.malai.instrument;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.error.ErrorCatcher;
@@ -14,10 +7,16 @@ import org.malai.error.ErrorNotifier;
 import org.malai.instrument.Interactor;
 import org.malai.instrument.InteractorImpl;
 import org.malai.stateMachine.MustAbortStateMachineException;
-
 import test.org.malai.action.ActionImplMock;
 import test.org.malai.instrument.TestMockInstrument.MockInstrument;
 import test.org.malai.interaction.InteractionMock;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class TestInteractor {
 	protected MockInteractor interactor;
@@ -42,7 +41,6 @@ public class TestInteractor {
 	}
 
 
-
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorInstrumentNull() throws Exception {
 		interactor = new MockInteractor(null, false, ActionImplMock.class, InteractionMock.class);
@@ -61,17 +59,20 @@ public class TestInteractor {
 	}
 
 
-	@Test public void testConstructorCreatedInteractionNotNull() {
+	@Test
+	public void testConstructorCreatedInteractionNotNull() {
 		assertNotNull(interactor.getInteraction());
 	}
 
 
-	@Test public void testConstructorCreatedActionIsNull() {
+	@Test
+	public void testConstructorCreatedActionIsNull() {
 		assertNull(interactor.getAction());
 	}
 
 
-	@Test public void testLinkActivation() {
+	@Test
+	public void testLinkActivation() {
 		instrument.setActivated(false);
 		assertFalse(interactor.isActivated());
 		instrument.setActivated(true);
@@ -79,41 +80,48 @@ public class TestInteractor {
 	}
 
 
-	@Test public void testExecute() throws InstantiationException, IllegalAccessException {
+	@Test
+	public void testExecute() throws InstantiationException, IllegalAccessException {
 		assertFalse(interactor.isExecute());
 		interactor = new MockInteractor(instrument, true, ActionImplMock.class, InteractionMock.class);
 		assertTrue(interactor.isExecute());
 	}
 
 
-	@Test public void testGetInstrument() {
+	@Test
+	public void testGetInstrument() {
 		assertEquals(instrument, interactor.getInstrument());
 	}
 
-	@Test public void testIsInteractionMustBeAborted() {
+	@Test
+	public void testIsInteractionMustBeAborted() {
 		assertFalse(interactor.isInteractionMustBeAborted());
 	}
 
 
-	@Test public void testNotRunning() {
+	@Test
+	public void testNotRunning() {
 		assertFalse(interactor.isRunning());
 	}
 
-	@Test public void testInteractionAbortWhenNotStarted() {
+	@Test
+	public void testInteractionAbortWhenNotStarted() {
 		interactor.interactionAborts(null);
 		interactor.interactionAborts(interactor.getInteraction());
 		interactor.interactionAborts(new InteractionMock());
 	}
 
 
-	@Test public void testInteractionUpdatesWhenNotStarted() {
+	@Test
+	public void testInteractionUpdatesWhenNotStarted() {
 		interactor.interactionUpdates(null);
 		interactor.interactionUpdates(interactor.getInteraction());
 		interactor.interactionUpdates(new InteractionMock());
 	}
 
 
-	@Test public void testInteractionStopsWhenNotStarted() {
+	@Test
+	public void testInteractionStopsWhenNotStarted() {
 		interactor.interactionStops(null);
 		interactor.interactionStops(interactor.getInteraction());
 		interactor.conditionRespected = false;
@@ -121,7 +129,8 @@ public class TestInteractor {
 	}
 
 
-	@Test public void testInteractionStartsWhenNoCorrectInteraction() throws MustAbortStateMachineException {
+	@Test
+	public void testInteractionStartsWhenNoCorrectInteraction() throws MustAbortStateMachineException {
 		interactor.mustAbort = true;
 		interactor.interactionStarts(null);
 		assertNull(interactor.getAction());
@@ -140,14 +149,15 @@ public class TestInteractor {
 	}
 
 
-	@Test(expected=MustAbortStateMachineException.class)
+	@Test(expected = MustAbortStateMachineException.class)
 	public void testInteractionStartsThrowMustAbortStateMachineException() throws MustAbortStateMachineException {
 		interactor.mustAbort = true;
 		interactor.interactionStarts(interactor.getInteraction());
 	}
 
 
-	@Test public void testInteractionStartsOk() throws MustAbortStateMachineException {
+	@Test
+	public void testInteractionStartsOk() throws MustAbortStateMachineException {
 		instrument.setActivated(true);
 		interactor.conditionRespected = true;
 		interactor.interactionStarts(interactor.getInteraction());
@@ -155,8 +165,9 @@ public class TestInteractor {
 	}
 
 
-	@Test public void testInteractionStartsOkCauseOfTheNonPublicAction()
-				throws MustAbortStateMachineException, InstantiationException, IllegalAccessException {
+	@Test
+	public void testInteractionStartsOkCauseOfTheNonPublicAction() throws MustAbortStateMachineException, InstantiationException,
+		IllegalAccessException {
 		final boolean[] ok = {false};
 		ErrorCatcher.INSTANCE.setNotifier(new ErrorNotifier() {
 			@Override
@@ -165,11 +176,12 @@ public class TestInteractor {
 			}
 		});
 		MockInstrument ins = new MockInstrument();
-		Interactor interactor2 = new InteractorImpl<ActionImplMock2, InteractionMock, MockInstrument>
-							(ins, false, ActionImplMock2.class, InteractionMock.class) {
+		Interactor interactor2 = new InteractorImpl<ActionImplMock2, InteractionMock, MockInstrument>(ins, false, ActionImplMock2.class,
+			InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
+
 			@Override
 			public boolean isConditionRespected() {
 				return true;
@@ -182,10 +194,12 @@ public class TestInteractor {
 
 		ok[0] = false;
 		ins = new MockInstrument();
-		interactor2 = new InteractorImpl<ActionImplMock3, InteractionMock, MockInstrument>(ins, false, ActionImplMock3.class, InteractionMock.class) {
+		interactor2 = new InteractorImpl<ActionImplMock3, InteractionMock, MockInstrument>(ins, false, ActionImplMock3.class,
+			InteractionMock.class) {
 			@Override
 			public void initAction() {//
 			}
+
 			@Override
 			public boolean isConditionRespected() {
 				return true;
@@ -200,7 +214,7 @@ public class TestInteractor {
 
 
 class ActionImplMock2 extends ActionImplMock {
-//
+	//
 }
 
 
@@ -211,20 +225,22 @@ class ActionImplMock3 extends ActionImplMock {
 }
 
 
-class MockInteractor extends InteractorImpl<ActionImplMock, InteractionMock, MockInstrument>{
+class MockInteractor extends InteractorImpl<ActionImplMock, InteractionMock, MockInstrument> {
 	public boolean conditionRespected;
 	public boolean mustAbort;
 
-	public MockInteractor(final MockInstrument ins, final boolean exec, final Class<ActionImplMock> clazzAction, final Class<InteractionMock> clazzInteraction)
-			throws InstantiationException, IllegalAccessException {
+	public MockInteractor(final MockInstrument ins, final boolean exec, final Class<ActionImplMock> clazzAction, final
+	Class<InteractionMock> clazzInteraction) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 		conditionRespected = false;
 		mustAbort = false;
 	}
+
 	@Override
 	public void initAction() {
 		//
 	}
+
 	@Override
 	public boolean isConditionRespected() {
 		return conditionRespected;

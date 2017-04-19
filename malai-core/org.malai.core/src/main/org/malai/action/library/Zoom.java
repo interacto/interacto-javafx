@@ -32,8 +32,8 @@ public class Zoom extends PositionAction {
 	public Zoom() {
 		super();
 
-		zoomLevel 	= Double.NaN;
-		zoomable 	= null;
+		zoomLevel = Double.NaN;
+		zoomable = null;
 	}
 
 
@@ -46,7 +46,7 @@ public class Zoom extends PositionAction {
 
 	@Override
 	public boolean canDo() {
-		return zoomable!=null && zoomLevel>=zoomable.getMinZoom() && zoomLevel<=zoomable.getMaxZoom();
+		return zoomable != null && zoomLevel >= zoomable.getMinZoom() && zoomLevel <= zoomable.getMaxZoom();
 	}
 
 

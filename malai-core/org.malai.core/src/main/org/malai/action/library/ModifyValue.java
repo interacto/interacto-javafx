@@ -44,7 +44,7 @@ public abstract class ModifyValue extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return value!=null && isValueMatchesProperty();
+		return value != null && isValueMatchesProperty();
 	}
 
 

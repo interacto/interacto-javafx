@@ -11,7 +11,6 @@
 package org.malai.instrument;
 
 import java.util.List;
-
 import org.malai.action.ActionHandler;
 import org.malai.interaction.Eventable;
 import org.malai.preferences.Preferenciable;
@@ -21,7 +20,6 @@ import org.malai.properties.Reinitialisable;
 /**
  * The concept of instrument and its related services.
  * @author Arnaud BLOUIN
- * @version 2.0
  */
 public interface Instrument extends Preferenciable, Modifiable, Reinitialisable, ActionHandler {
 	/**

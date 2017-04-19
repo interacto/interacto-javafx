@@ -1,60 +1,60 @@
 <?xml version="1.0"?>
 <project name="Template Buildfile" default="jar" basedir=".">
-	<property name="dir.out" value="out"/>
-	<property name="dir.doc" location="doc"/>
-	<property name="release.name" value="malai0.2" />
-	
-	<!-- Creates the output directories -->
-	<target name="prepare">
-		<mkdir dir="${dir.out}"/>
-    	<mkdir dir="${dir.out}/${release.name}_src"/>
-		<mkdir dir="${dir.out}/${release.name}"/>
-	</target>
-		
-	<target name="doc" depends="jar" description="Generation of the documentation.">
-	    <javadoc destdir="${dir.doc}" author="true" version="true" use="true"
-	    	notree="false" nonavbar="false" noindex="false" access="private">
-	      <fileset dir = "">
-	        <include name="src/**/*.java"/>
-	      </fileset>
-	    </javadoc>
-	</target>
-		
-		
-	<!-- Creates the jar -->
-	<target name="jar" description="Generates malai.jar">
-		<copy todir="${dir.out}/" overwrite="true" failonerror="true">
-			<fileset dir="" includes="license.txt ; history.txt ; release_note.txt"/>
-		</copy>
-		
-		<jar jarfile="${dir.out}/malai.jar">
-			 <!-- Filters the files -->
-			 <fileset dir="bin/"
-				 includes="org/" excludes="test/"
-			 />
-		</jar>
-	</target>
+    <property name="dir.out" value="out"/>
+    <property name="dir.doc" location="doc"/>
+    <property name="release.name" value="malai0.2"/>
+
+    <!-- Creates the output directories -->
+    <target name="prepare">
+        <mkdir dir="${dir.out}"/>
+        <mkdir dir="${dir.out}/${release.name}_src"/>
+        <mkdir dir="${dir.out}/${release.name}"/>
+    </target>
+
+    <target name="doc" depends="jar" description="Generation of the documentation.">
+        <javadoc destdir="${dir.doc}" author="true" version="true" use="true"
+                 notree="false" nonavbar="false" noindex="false" access="private">
+            <fileset dir="">
+                <include name="src/**/*.java"/>
+            </fileset>
+        </javadoc>
+    </target>
+
+
+    <!-- Creates the jar -->
+    <target name="jar" description="Generates malai.jar">
+        <copy todir="${dir.out}/" overwrite="true" failonerror="true">
+            <fileset dir="" includes="license.txt ; history.txt ; release_note.txt"/>
+        </copy>
+
+        <jar jarfile="${dir.out}/malai.jar">
+            <!-- Filters the files -->
+            <fileset dir="bin/"
+                     includes="org/" excludes="test/"
+            />
+        </jar>
+    </target>
 
 
     <target name="zip src" depends="jar">
         <copy todir="out/${release.name}_src">
-                <fileset dir="" includes="**/*" excludes="target/ ; out/ ; bin/"/>
+            <fileset dir="" includes="**/*" excludes="target/ ; out/ ; bin/"/>
         </copy>
         <zip destfile="${dir.out}/${release.name}_src.zip" compress="true" level="9" preserve0permissions="true">
-             <fileset dir="out/" includes="${release.name}_src/" />
+            <fileset dir="out/" includes="${release.name}_src/"/>
         </zip>
-        <delete dir="out/${release.name}_src" />
+        <delete dir="out/${release.name}_src"/>
     </target>
-	
-	
-   <target name="zip jar" depends="zip src">
+
+
+    <target name="zip jar" depends="zip src">
         <copy todir="out/${release.name}">
-            <fileset dir="out/" includes="*.txt ; *.jar" />
-   	    </copy>
+            <fileset dir="out/" includes="*.txt ; *.jar"/>
+        </copy>
 
         <zip destfile="${dir.out}/${release.name}_bin.zip" compress="true" level="9" preserve0permissions="true">
-             <fileset dir="out/" includes="${release.name}/"/>
+            <fileset dir="out/" includes="${release.name}/"/>
         </zip>
-   		<delete dir="out/${release.name}" />
+        <delete dir="out/${release.name}"/>
     </target>
 </project>

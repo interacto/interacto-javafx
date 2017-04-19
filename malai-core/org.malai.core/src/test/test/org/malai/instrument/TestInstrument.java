@@ -1,14 +1,13 @@
 package test.org.malai.instrument;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
-
 import org.junit.Test;
 import org.malai.instrument.Instrument;
 import org.malai.instrument.Interactor;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 public abstract class TestInstrument<T extends Instrument> {
@@ -16,10 +15,10 @@ public abstract class TestInstrument<T extends Instrument> {
 
 	@Test
 	public void testNotNoLink() {
-		assertTrue(instrument.getNbInteractors()==0);
+		assertTrue(instrument.getNbInteractors() == 0);
 		if(!instrument.getInteractors().isEmpty()) {
 			instrument.setActivated(true);
-			assertTrue(instrument.getNbInteractors()>0);
+			assertTrue(instrument.getNbInteractors() > 0);
 		}
 	}
 
@@ -46,9 +45,8 @@ public abstract class TestInstrument<T extends Instrument> {
 		Interactor interactor = null;
 		final List<Interactor> interactors = instrument.getInteractors();
 
-		for(int i=0; i<interactors.size() && interactor==null; i++)
-			if(interactors.get(i).getClass().getName().endsWith(nameClassLink))
-				interactor = interactors.get(i);
+		for(int i = 0; i < interactors.size() && interactor == null; i++)
+			if(interactors.get(i).getClass().getName().endsWith(nameClassLink)) interactor = interactors.get(i);
 
 		return interactor;
 	}

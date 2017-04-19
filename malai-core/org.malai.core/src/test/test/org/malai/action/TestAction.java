@@ -1,5 +1,6 @@
 package test.org.malai.action;
 
+import java.lang.reflect.Field;
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.Action;
@@ -7,8 +8,6 @@ import org.malai.action.ActionHandler;
 import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
 import org.malai.undo.Undoable;
-
-import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,6 +18,8 @@ import static org.junit.Assert.fail;
 
 public class TestAction {
 	protected Action IAction;
+	boolean visitOnActionExecuted;
+	boolean visitOnActionDone;
 
 	@Before
 	public void setUp() {
@@ -62,7 +63,8 @@ public class TestAction {
 	}
 
 	@Test
-	public void testActionCannotDoItWhenCannotDoAndExecuted() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+	public void testActionCannotDoItWhenCannotDoAndExecuted() throws SecurityException, NoSuchFieldException, IllegalArgumentException,
+		IllegalAccessException {
 		final Action act = getActionCannotDo();
 		act.doIt();
 		final Field field = act.getClass().getSuperclass().getDeclaredField("status");//
@@ -84,9 +86,6 @@ public class TestAction {
 		assertEquals(Action.ActionStatus.EXECUTED, act.getStatus());
 	}
 
-
-	boolean visitOnActionExecuted;
-
 	@Test
 	public void testNotifiedOnActionExecuted() {
 		visitOnActionExecuted = false;
@@ -94,22 +93,30 @@ public class TestAction {
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandler() {
 			@Override
 			public void onUndoableUndo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableRedo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableAdded(final Undoable undoable) {fail();}
+
 			@Override
 			public void onActionExecuted(final Action act) {
 				visitOnActionExecuted = true;
 			}
+
 			@Override
 			public void onActionDone(final Action act) {fail();}
+
 			@Override
 			public void onActionCancelled(final Action act) {fail();}
+
 			@Override
 			public void onActionAdded(final Action act) {fail();}
+
 			@Override
 			public void onActionAborted(final Action act) {fail();}
+
 			@Override
 			public void onUndoableCleared() {
 				// TODO Auto-generated method stub
@@ -122,17 +129,18 @@ public class TestAction {
 		assertTrue(visitOnActionExecuted);
 	}
 
-
 	public Action getActionCanDo() {
 		return new ActionImpl() {
 			@Override
 			public boolean isRegisterable() {
 				return false;
 			}
+
 			@Override
 			protected void doActionBody() {
 				//
 			}
+
 			@Override
 			public boolean canDo() {
 				return true;
@@ -146,10 +154,12 @@ public class TestAction {
 			public boolean isRegisterable() {
 				return false;
 			}
+
 			@Override
 			protected void doActionBody() {
 				//
 			}
+
 			@Override
 			public boolean canDo() {
 				return false;
@@ -157,19 +167,16 @@ public class TestAction {
 		};
 	}
 
-
 	@Test
 	public void testActionHadEffectWhenDone() {
 		IAction.done();
 		assertTrue(IAction.hadEffect());
 	}
 
-
 	@Test
 	public void testActionHadEffectWhenNotDoneAndCreated() {
 		assertFalse(IAction.hadEffect());
 	}
-
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndAborted() {
@@ -177,14 +184,11 @@ public class TestAction {
 		assertFalse(IAction.hadEffect());
 	}
 
-
-
 	@Test
 	public void testActionHadEffectWhenNotDoneAndFlushed() {
 		IAction.flush();
 		assertFalse(IAction.hadEffect());
 	}
-
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndExecuted() {
@@ -193,13 +197,11 @@ public class TestAction {
 		assertFalse(act.hadEffect());
 	}
 
-
 	@Test
 	public void testActionNotCancelledByByDefault() {
 		assertFalse(IAction.cancelledBy(null));
 		assertFalse(IAction.cancelledBy(getActionCanDo()));
 	}
-
 
 	@Test
 	public void testActionNotDoneWhenFlushed() {
@@ -208,14 +210,12 @@ public class TestAction {
 		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
 	}
 
-
 	@Test
 	public void testActionNotDoneWhenAborted() {
 		IAction.abort();
 		IAction.done();
 		assertEquals(Action.ActionStatus.ABORTED, IAction.getStatus());
 	}
-
 
 	@Test
 	public void testActionNotDoneWhenDone() {
@@ -224,20 +224,28 @@ public class TestAction {
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandler() {
 			@Override
 			public void onUndoableUndo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableRedo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableAdded(final Undoable undoable) {fail();}
+
 			@Override
 			public void onActionExecuted(final Action act) {fail();}
+
 			@Override
 			public void onActionDone(final Action act) {fail();}
+
 			@Override
 			public void onActionCancelled(final Action act) {fail();}
+
 			@Override
 			public void onActionAdded(final Action act) {fail();}
+
 			@Override
 			public void onActionAborted(final Action act) {fail();}
+
 			@Override
 			public void onUndoableCleared() {
 				// TODO Auto-generated method stub
@@ -248,29 +256,34 @@ public class TestAction {
 		IAction.done();
 	}
 
-
-	boolean visitOnActionDone;
-
 	@Test
 	public void testActionDoneWhenCreated() {
 		visitOnActionDone = false;
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandler() {
 			@Override
 			public void onUndoableUndo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableRedo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableAdded(final Undoable undoable) {fail();}
+
 			@Override
 			public void onActionExecuted(final Action act) {fail();}
+
 			@Override
 			public void onActionDone(final Action act) { visitOnActionDone = true; }
+
 			@Override
 			public void onActionCancelled(final Action act) {fail();}
+
 			@Override
 			public void onActionAdded(final Action act) {fail();}
+
 			@Override
 			public void onActionAborted(final Action act) {fail();}
+
 			@Override
 			public void onUndoableCleared() {
 				// TODO Auto-generated method stub
@@ -283,7 +296,6 @@ public class TestAction {
 	}
 
 
-
 	@Test
 	public void testActionDoneWhenExecuted() {
 		final Action a = getActionCanDo();
@@ -292,20 +304,28 @@ public class TestAction {
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandler() {
 			@Override
 			public void onUndoableUndo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableRedo(final Undoable undoable) {fail();}
+
 			@Override
 			public void onUndoableAdded(final Undoable undoable) {fail();}
+
 			@Override
 			public void onActionExecuted(final Action act) {fail();}
+
 			@Override
 			public void onActionDone(final Action act) { visitOnActionDone = true; }
+
 			@Override
 			public void onActionCancelled(final Action act) {fail();}
+
 			@Override
 			public void onActionAdded(final Action act) {fail();}
+
 			@Override
 			public void onActionAborted(final Action act) {fail();}
+
 			@Override
 			public void onUndoableCleared() {
 				// TODO Auto-generated method stub

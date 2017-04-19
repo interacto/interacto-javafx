@@ -1,14 +1,14 @@
 package test.org.malai.mapping;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.mapping.IUnary;
 import org.malai.mapping.List2ObjectMapping;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TestList2ObjectMapping {
 	protected MockList2ObjectMapping map;
@@ -24,25 +24,25 @@ public class TestList2ObjectMapping {
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullSrc() {
 		new MockList2ObjectMapping(null, tgt);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullTgt() {
 		new MockList2ObjectMapping(src, null);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorNullSrcTgt() {
 		new MockList2ObjectMapping(src, null);
 	}
 
 	@SuppressWarnings("unused")
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testContructorSameSrcTgt() {
 		new MockList2ObjectMapping(src, src);
 	}

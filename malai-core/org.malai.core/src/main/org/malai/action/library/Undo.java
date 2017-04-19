@@ -30,7 +30,7 @@ public class Undo extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return UndoCollector.INSTANCE.getLastUndo()!=null;
+		return UndoCollector.INSTANCE.getLastUndo() != null;
 	}
 
 

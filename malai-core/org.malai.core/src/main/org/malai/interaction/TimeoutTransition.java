@@ -10,8 +10,8 @@
  */
 package org.malai.interaction;
 
-import org.malai.stateMachine.StateMachine;
 import org.malai.stateMachine.SourceableState;
+import org.malai.stateMachine.StateMachine;
 import org.malai.stateMachine.TargetableState;
 
 /**
@@ -38,8 +38,7 @@ public class TimeoutTransition extends TransitionImpl {
 	public TimeoutTransition(final SourceableState inputState, final TargetableState outputState, final int timeout) {
 		super(inputState, outputState);
 
-		if(timeout<=0)
-			throw new IllegalArgumentException();
+		if(timeout <= 0) throw new IllegalArgumentException();
 
 		this.timeout = timeout;
 	}
@@ -50,7 +49,7 @@ public class TimeoutTransition extends TransitionImpl {
 	 * @since 0.2
 	 */
 	public void startTimeout() {
-		if(timeoutThread==null) {
+		if(timeoutThread == null) {
 			timeoutThread = new Thread(new TimeoutRunnable());
 			timeoutThread.start();
 		}
@@ -62,7 +61,7 @@ public class TimeoutTransition extends TransitionImpl {
 	 * @since 0.2
 	 */
 	public void stopTimeout() {
-		if(timeoutThread!=null) {
+		if(timeoutThread != null) {
 			timeoutThread.interrupt();
 			timeoutThread = null;
 		}
@@ -74,8 +73,7 @@ public class TimeoutTransition extends TransitionImpl {
 	 * @since 0.2
 	 */
 	public void setTimeout(final int timeout) {
-		if(timeout>0)
-			this.timeout = timeout;
+		if(timeout > 0) this.timeout = timeout;
 	}
 
 
@@ -95,16 +93,17 @@ public class TimeoutTransition extends TransitionImpl {
 	class TimeoutRunnable implements Runnable {
 		@Override
 		public void run() {
-			try{
+			try {
 				// Sleeping the thread.
 				Thread.sleep(TimeoutTransition.this.timeout);
 
 				// There is a timeout and the interaction must be notified of that.
 				final StateMachine sm = TimeoutTransition.this.getInputState().getStateMachine();
 				// Notifying the interaction of the timeout.
-				if(sm instanceof Interaction)
-					((Interaction)sm).onTimeout(TimeoutTransition.this);
-			}catch(final InterruptedException ex){
+				if(sm instanceof Interaction) {
+					((Interaction) sm).onTimeout(TimeoutTransition.this);
+				}
+			}catch(final InterruptedException ex) {
 				// OK, thread stopped.
 			}
 		}

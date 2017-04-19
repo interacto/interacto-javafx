@@ -1,5 +1,7 @@
 package test.org.malai.action;
 
+import java.lang.reflect.Field;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.Action;
@@ -10,9 +12,6 @@ import org.malai.action.ActionsRegistry;
 import org.malai.undo.UndoCollector;
 import org.malai.undo.Undoable;
 import test.org.malai.HelperTest;
-
-import java.lang.reflect.Field;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,7 +33,8 @@ public class TestActionRegistry {
 
 
 	@SuppressWarnings("unchecked")
-	public List<ActionHandler> getListHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+	public List<ActionHandler> getListHandler() throws SecurityException, NoSuchFieldException, IllegalArgumentException,
+		IllegalAccessException {
 		final Field field = HelperTest.getField(ActionsRegistry.INSTANCE.getClass(), "handlers");
 		return (List<ActionHandler>) field.get(ActionsRegistry.INSTANCE);
 	}
@@ -212,7 +212,6 @@ public class TestActionRegistry {
 	}
 
 
-
 	@Test
 	public void testOnActionDone() {
 		visited = false;
@@ -248,7 +247,6 @@ public class TestActionRegistry {
 	}
 
 
-
 	@Test
 	public void testCancelsActionNotNullDoNotCancel() {
 		final Action act = new ActionImplMock();
@@ -257,7 +255,6 @@ public class TestActionRegistry {
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 		assertNotSame(Action.ActionStatus.FLUSHED, act.getStatus());
 	}
-
 
 
 	@Test
@@ -280,7 +277,6 @@ public class TestActionRegistry {
 	}
 
 
-
 	@Test
 	public void testAddActionCannotAddBecauseNullOrAlreadyAdded() {
 		final Action IAction = new ActionImplMock();
@@ -299,8 +295,6 @@ public class TestActionRegistry {
 	}
 
 
-
-
 	@Test
 	public void testAddActionCancelsAction() {
 		visited = false;
@@ -313,6 +307,7 @@ public class TestActionRegistry {
 				visited = true;
 				assertEquals(IAction, a);
 			}
+
 			@Override
 			public void onActionAdded(final Action a) {//
 			}
@@ -367,9 +362,6 @@ public class TestActionRegistry {
 	}
 
 
-
-
-
 	private class ActionHandlerMock implements ActionHandler {
 		public ActionHandlerMock() {
 			super();
@@ -377,18 +369,25 @@ public class TestActionRegistry {
 
 		@Override
 		public void onUndoableUndo(final Undoable undoable) {fail();}
+
 		@Override
 		public void onUndoableRedo(final Undoable undoable) {fail();}
+
 		@Override
 		public void onUndoableAdded(final Undoable undoable) {fail();}
+
 		@Override
 		public void onActionExecuted(final Action act) {fail();}
+
 		@Override
 		public void onActionDone(final Action act) {fail();}
+
 		@Override
 		public void onActionCancelled(final Action act) {fail();}
+
 		@Override
 		public void onActionAdded(final Action act) {fail();}
+
 		@Override
 		public void onActionAborted(final Action act) {fail();}
 

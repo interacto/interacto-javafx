@@ -29,13 +29,12 @@ public class MustBeUndoableActionException extends RuntimeException {
 	 */
 	public MustBeUndoableActionException(final Class<?> clazz) {
 		super();
-
 		this.clazz = clazz;
 	}
 
 
 	@Override
 	public String toString() {
-		return super.toString() + (clazz==null ?  "" : " " + clazz.getSimpleName()); //$NON-NLS-1$ //$NON-NLS-2$
+		return super.toString() + (clazz == null ? "" : " " + clazz.getSimpleName()); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

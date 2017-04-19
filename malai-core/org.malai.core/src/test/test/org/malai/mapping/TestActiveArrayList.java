@@ -2,14 +2,18 @@ package test.org.malai.mapping;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.mapping.ActiveArrayList;
 import org.malai.mapping.IActiveList;
 import org.malai.mapping.MappingRegistry;
 import org.malai.mapping.SymmetricList2ListMapping;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class TestActiveArrayList {
 	protected IActiveList<Integer> list;
@@ -18,11 +22,10 @@ public class TestActiveArrayList {
 
 	@Before
 	public void setUp() {
-		list  = new ActiveArrayList<>();
+		list = new ActiveArrayList<>();
 		list2 = new ArrayList<>();
 		MappingRegistry.REGISTRY.addMapping(new List2List(list, list2));
 	}
-
 
 
 	@Test
@@ -107,7 +110,6 @@ public class TestActiveArrayList {
 	}
 
 
-
 	@Test
 	public void testAdd1() {
 		list.add(new Integer(1));
@@ -122,7 +124,6 @@ public class TestActiveArrayList {
 		assertNotSame(list.get(0), list2.get(0));
 		assertNotSame(list.get(1), list2.get(1));
 	}
-
 
 
 	@Test
@@ -171,7 +172,6 @@ public class TestActiveArrayList {
 	}
 
 
-
 	@Test
 	public void testAddAll1() {
 		final ArrayList<Integer> list3 = new ArrayList<>();
@@ -192,7 +192,6 @@ public class TestActiveArrayList {
 		assertNotSame(list.get(2), list2.get(2));
 		assertNotSame(list.get(3), list2.get(3));
 	}
-
 
 
 	@Test
@@ -230,7 +229,6 @@ public class TestActiveArrayList {
 	}
 
 
-
 	@Test
 	public void testClear() {
 		list.add(new Integer(10));
@@ -242,7 +240,6 @@ public class TestActiveArrayList {
 
 		assertEquals(0, list2.size());
 	}
-
 
 
 	@Test
@@ -283,7 +280,6 @@ public class TestActiveArrayList {
 	}
 
 
-
 	@Test
 	public void testRemove2() {
 		try {
@@ -315,25 +311,24 @@ public class TestActiveArrayList {
 	}
 
 
-
 	@Test
 	public void testSet() {
 		try {
 			list.set(0, new Integer(1));
 			fail();
-		}catch(final IndexOutOfBoundsException e){ /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 
 		list.add(new Integer(1));
 
 		try {
 			list.set(-1, new Integer(1));
 			fail();
-		}catch(final IndexOutOfBoundsException e){ /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 
 		try {
 			list.set(1, new Integer(1));
 			fail();
-		}catch(final IndexOutOfBoundsException e){ /* */ }
+		}catch(final IndexOutOfBoundsException e) { /* */ }
 
 		list.set(0, new Integer(0));
 		assertEquals(1, list2.size());

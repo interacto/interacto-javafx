@@ -13,7 +13,6 @@ package org.malai.action.library;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
-
 import org.malai.action.ActionImpl;
 
 /**
@@ -50,16 +49,18 @@ public class OpenWebPage extends ActionImpl {
 
 	@Override
 	protected void doActionBody() {
-		try{
+		try {
 			Desktop.getDesktop().browse(uri);
 			browsed = true;
-		}catch(IOException exception){ browsed = false; }
+		}catch(IOException exception) {
+			browsed = false;
+		}
 	}
 
 
 	@Override
 	public boolean canDo() {
-		return uri!=null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
+		return uri != null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
 	}
 
 	@Override

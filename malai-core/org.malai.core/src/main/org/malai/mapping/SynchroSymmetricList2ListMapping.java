@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * This interface defines the concept of mapping that link source objects with target objects.
  * The modification of the target list are synchronised in opposite to SymmetricList2ListMapping.
- * @author Arnaud BLOUIN
- * @since 0.2
  * @param <E> The type of the source list of the mapping.
  * @param <F> The type of the target list of the mapping.
+ * @author Arnaud BLOUIN
+ * @since 0.2
  */
 public abstract class SynchroSymmetricList2ListMapping<E, F> extends List2ListMapping<E, F> {
 	/**
@@ -27,7 +27,6 @@ public abstract class SynchroSymmetricList2ListMapping<E, F> extends List2ListMa
 	public SynchroSymmetricList2ListMapping(final List<E> source, final List<F> target) {
 		super(source, target);
 	}
-
 
 
 	/**
@@ -39,14 +38,14 @@ public abstract class SynchroSymmetricList2ListMapping<E, F> extends List2ListMa
 	protected abstract F createTargetObject(final Object sourceObject);
 
 
-
 	@Override
 	public void onObjectAdded(final Object list, final Object object, final int index) {
-		synchronized(target){
-			if(index==-1 || index>=target.size())
+		synchronized(target) {
+			if(index == -1 || index >= target.size()) {
 				target.add(createTargetObject(object));
-			else
+			}else {
 				target.add(index, createTargetObject(object));
+			}
 		}
 	}
 
@@ -59,32 +58,36 @@ public abstract class SynchroSymmetricList2ListMapping<E, F> extends List2ListMa
 
 	@Override
 	public void onObjectMoved(final Object list, final Object object, final int srcIndex, final int targetIndex) {
-		synchronized(target){
-			final int srcPos	= srcIndex==-1 ? target.size()-1 : srcIndex;
-			final F targetObj 	= target.remove(srcPos);
+		synchronized(target) {
+			final int srcPos = srcIndex == -1 ? target.size() - 1 : srcIndex;
+			final F targetObj = target.remove(srcPos);
 
-			if(targetIndex== target.size() || targetIndex==-1)
+			if(targetIndex == target.size() || targetIndex == -1) {
 				target.add(targetObj);
-			else
+			}else {
 				target.add(targetIndex, targetObj);
+			}
 		}
 	}
 
 
 	@Override
 	public void onObjectRemoved(final Object list, final Object object, final int index) {
-		synchronized(target){
-			if(index==-1)
-				target.remove(target.size()-1);
-			else
+		synchronized(target) {
+			if(index == -1) {
+				target.remove(target.size() - 1);
+			}else {
 				target.remove(index);
+			}
 		}
 	}
 
 
 	@Override
 	public void onListCleaned(final Object list) {
-		synchronized(target){target.clear();}
+		synchronized(target) {
+			target.clear();
+		}
 	}
 
 

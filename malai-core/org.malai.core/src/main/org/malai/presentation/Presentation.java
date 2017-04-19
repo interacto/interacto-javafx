@@ -16,10 +16,10 @@ import org.malai.properties.Reinitialisable;
 /**
  * A presentation contains an abstract presentation and a concrete presentation. The goal of a presentation is to provide users with
  * data (the abstract presentation) transformed to be displayable (the concrete presentation).
- * @author Arnaud BLOUIN
- * @since 0.1
  * @param <A> The type of the abstract presentation.
  * @param <C> The type of the concrecte presentation.
+ * @author Arnaud BLOUIN
+ * @since 0.1
  */
 public class Presentation<A extends AbstractPresentation, C extends ConcretePresentation> implements Modifiable, Reinitialisable {
 	/** The abstract presentation, i.e. the manipulated data model. */
@@ -37,11 +37,10 @@ public class Presentation<A extends AbstractPresentation, C extends ConcretePres
 	 * @since 0.1
 	 */
 	public Presentation(final A absPres, final C concPres) {
-		if(absPres==null || concPres==null)
-			throw new IllegalArgumentException();
+		if(absPres == null || concPres == null) throw new IllegalArgumentException();
 
-		abstractPresentation  = absPres;
-		concretePresentation  = concPres;
+		abstractPresentation = absPres;
+		concretePresentation = concPres;
 	}
 
 

@@ -14,10 +14,10 @@ import java.util.List;
 
 /**
  * Defines a mapping established between two lists.
- * @author Arnaud BLOUIN
- * @since 0.2
  * @param <E> The type of the source element of the mapping.
  * @param <F> The type of the target element of the mapping.
+ * @author Arnaud BLOUIN
+ * @since 0.2
  */
 public abstract class List2ListMapping<E, F> extends List2ObjectMapping<E, List<F>> {
 	/**

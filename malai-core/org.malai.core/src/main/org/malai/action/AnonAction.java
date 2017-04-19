@@ -38,7 +38,7 @@ public class AnonAction extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return exec!=null;
+		return exec != null;
 	}
 
 	@Override

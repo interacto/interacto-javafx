@@ -10,9 +10,9 @@
  */
 package org.malai.interaction;
 
-import org.malai.stateMachine.Transition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
+import org.malai.stateMachine.Transition;
 
 /**
  * A transition links two states of a state machine if a given condition is respected.
@@ -39,12 +39,10 @@ public abstract class TransitionImpl implements Transition {
 	 * @since 0.1
 	 */
 	public TransitionImpl(final SourceableState inputState, final TargetableState outputState) {
-		if(inputState==null || outputState==null)
-			throw new IllegalArgumentException();
+		if(inputState == null || outputState == null) throw new IllegalArgumentException();
 
-		this.inputState  = inputState;
+		this.inputState = inputState;
 		this.outputState = outputState;
-
 		this.inputState.addTransition(this);
 	}
 

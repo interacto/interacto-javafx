@@ -14,8 +14,7 @@ import java.util.List;
 
 /**
  * An action is based on the command design pattern: it is an object that
- * encapsulates information to execute a task and to undo/redo it if
- * necessary.
+ * encapsulates information to execute a task and to undo/redo it if necessary.
  * @author Arnaud Blouin
  */
 public interface Action {
@@ -52,8 +51,11 @@ public interface Action {
 
 	List<Action> followingActions();
 
-	/** Defines the different state of the action. @since 0.2 */
-	public static enum ActionStatus {
+	/**
+	 * Defines the different state of the action.
+	 * @since 0.2
+	 */
+	enum ActionStatus {
 		/** When the action is created but not executed yet. */
 		CREATED,
 		/** When the action has been created and executed one time. */
@@ -64,5 +66,5 @@ public interface Action {
 		DONE,
 		/** The the action has been flushed. In this case, the action cannot be used anymore. */
 		FLUSHED
-		}
+	}
 }

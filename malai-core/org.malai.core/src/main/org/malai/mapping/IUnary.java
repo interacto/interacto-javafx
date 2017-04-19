@@ -12,9 +12,9 @@ package org.malai.mapping;
 
 /**
  * This interface defines methods for an unary relation that may contain a value of type T (cardinality 0..1).
+ * @param <T> The type of the element contained by the 0-1 relation.
  * @author Arnaud BLOUIN
  * @since 0.2
- * @param <T> The type of the element contained by the 0-1 relation.
  */
 public interface IUnary<T> {
 	/**

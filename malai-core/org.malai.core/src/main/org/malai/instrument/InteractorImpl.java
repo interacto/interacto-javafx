@@ -10,9 +10,9 @@
  */
 package org.malai.instrument;
 
+import org.malai.action.Action;
 import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
-import org.malai.action.Action;
 import org.malai.error.ErrorCatcher;
 import org.malai.interaction.Eventable;
 import org.malai.interaction.Interaction;
@@ -24,10 +24,10 @@ import org.malai.undo.Undoable;
  * Thus, an instrument is composed of Link definitions: each interactor links an interaction
  * to an action. A Link manages the life cycle of an action following the life cycle
  * of the interaction (started, aborted, etc.).
- * @author Arnaud BLOUIN
  * @param <A> The type of the action that will produce this interactor.
  * @param <I> The type of the interaction that will use this interactor.
  * @param <N> The type of the instrument that will contain this interactor.
+ * @author Arnaud BLOUIN
  */
 public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction, N extends Instrument> implements Interactor {
 	/** The source interaction. */
@@ -39,8 +39,10 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 	/** The instrument that contains the interactor. */
 	protected final N instrument;
 
-	/** Specifies if the action must be execute or update
-	 * on each evolution of the interaction. */
+	/**
+	 * Specifies if the action must be execute or update
+	 * on each evolution of the interaction.
+	 */
 	protected boolean execute;
 
 	protected final Class<A> clazzAction;
@@ -60,26 +62,25 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @since 0.2
 	 */
-	public InteractorImpl(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction) throws InstantiationException, IllegalAccessException {
+	public InteractorImpl(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction) throws
+		InstantiationException, IllegalAccessException {
 		super();
 
-		if(ins==null || clazzAction==null || clazzInteraction==null)
-			throw new IllegalArgumentException();
+		if(ins == null || clazzAction == null || clazzInteraction == null) throw new IllegalArgumentException();
 
 		this.clazzAction = clazzAction;
 		interaction = clazzInteraction.newInstance();
-		action		= null;
-		instrument  = ins;
-		execute		= exec;
+		action = null;
+		instrument = ins;
+		execute = exec;
 		interaction.addHandler(this);
 		setActivated(ins.isActivated());
 	}
 
 
-
 	@Override
 	public void addEventable(final Eventable eventable) {
-		if(eventable!=null && interaction!=null) {
+		if(eventable != null && interaction != null) {
 			interaction.linkToEventable(eventable);
 		}
 	}
@@ -97,9 +98,9 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 	 * @since 0.2
 	 */
 	protected void createAction() {
-		try{
+		try {
 			action = clazzAction.newInstance();
-		}catch(final IllegalAccessException | InstantiationException e){
+		}catch(final IllegalAccessException | InstantiationException e) {
 			ErrorCatcher.INSTANCE.reportError(e);
 		}
 	}
@@ -107,7 +108,6 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 	@Override
 	public abstract void initAction();
-
 
 
 	@Override
@@ -137,25 +137,6 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 		return instrument.isActivated();
 	}
 
-
-//	/**
-//	* Indicates if the interactor can be run. To be run, no interactor, of the instrument, that produces the
-//	* same type of action must be running.
-//	* @return True: The interactor can be run.
-//	*/
-//	public boolean isRunnable() {
-//		for(final Link<?, ?, ?> link : instrument.links)
-//			if(link!=this && link.isRunning() && link.clazzAction==clazzAction) {
-//				System.out.println("Not RUNNABLE: " + this + " because of " + link);
-//				return true;
-//			//	return false;
-//			}
-//
-//		return true;
-//	}
-
-
-
 	@Override
 	public boolean isRunning() {
 		return interaction.isRunning();
@@ -170,7 +151,7 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 	@Override
 	public void interactionAborts(final Interaction inter) {
-		if(action!=null && inter==interaction) {
+		if(action != null && inter == interaction) {
 			action.abort();
 
 			// The instrument is notified about the aborting of the action.
@@ -192,10 +173,8 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 	@Override
 	public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
-		if(inter==interaction && isInteractionMustBeAborted())
-			throw new MustAbortStateMachineException();
-//isRunnable() &&
-		if(action==null && inter==interaction && isActivated() && isConditionRespected()) {
+		if(inter == interaction && isInteractionMustBeAborted()) throw new MustAbortStateMachineException();
+		if(action == null && inter == interaction && isActivated() && isConditionRespected()) {
 			createAction();
 			initAction();
 			interimFeedback();
@@ -205,7 +184,7 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 	@Override
 	public void interactionStops(final Interaction inter) {
-		if(interaction==inter) {
+		if(interaction == inter) {
 			if(isConditionRespected()) {
 				if(action == null) {
 					createAction();
@@ -246,10 +225,9 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 		if(act.hadEffect()) {
 			if(act.isRegisterable()) {
-				 ActionsRegistry.INSTANCE.addAction(act, instrument);
-				 instrument.onActionAdded(act);
-			}
-			else {
+				ActionsRegistry.INSTANCE.addAction(act, instrument);
+				instrument.onActionAdded(act);
+			}else {
 				ActionsRegistry.INSTANCE.cancelActions(act);
 				instrument.onActionCancelled(act);
 			}
@@ -260,8 +238,8 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 
 	@Override
 	public void interactionUpdates(final Interaction inter) {
-		if(inter==interaction && isConditionRespected()) {
-			if(action==null) {
+		if(inter == interaction && isConditionRespected()) {
+			if(action == null) {
 				createAction();
 				initAction();
 			}

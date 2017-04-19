@@ -7,7 +7,8 @@ import org.malai.mapping.ActiveUnary;
 import org.malai.mapping.IUnary;
 import org.malai.mapping.MappingRegistry;
 import org.malai.mapping.Unary2UnaryMapping;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestActiveUnary {
 	protected IUnary<Integer> s2;
@@ -25,7 +26,7 @@ public class TestActiveUnary {
 	@Test
 	public void testConstructorValue() {
 		s1 = new ActiveUnary<>(12);
-		assertEquals(12, (int)s1.getValue());
+		assertEquals(12, (int) s1.getValue());
 	}
 
 
@@ -39,7 +40,6 @@ public class TestActiveUnary {
 		s1.setValue(integer);
 		assertEquals(integer, s1.getValue());
 	}
-
 
 
 	@Test

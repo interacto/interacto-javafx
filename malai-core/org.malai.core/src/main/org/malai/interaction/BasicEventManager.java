@@ -34,14 +34,16 @@ public abstract class BasicEventManager<T> implements EventManager<T> {
 
 	@Override
 	public void addHandlers(final EventProcessor h) {
-		if(h!=null)
+		if(h != null) {
 			handlers.add(h);
+		}
 	}
 
 
 	@Override
 	public void removeHandler(final EventProcessor h) {
-		if(h!=null)
+		if(h != null) {
 			handlers.remove(h);
+		}
 	}
 }

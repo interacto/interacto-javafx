@@ -11,15 +11,13 @@
 package org.malai.interaction;
 
 import java.util.List;
-
+import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.stateMachine.State;
 import org.malai.stateMachine.StateMachine;
-import org.malai.stateMachine.MustAbortStateMachineException;
 
 /**
  * An interface defining the concept of interaction and its related services.
  * @author Arnaud BLOUIN
- * @version 2.0
  */
 public interface Interaction extends StateMachine, EventProcessor {
 	@Override
@@ -78,7 +76,7 @@ public interface Interaction extends StateMachine, EventProcessor {
 
 	/**
 	 * Stops the interaction and clears all its events waiting for a process.
-	 * @since  0.2
+	 * @since 0.2
 	 */
 	void clearEvents();
 }
