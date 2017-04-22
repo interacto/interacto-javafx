@@ -20,16 +20,21 @@ import javafx.stage.Window;
  */
 public interface JfxInteraction extends JfxDefaultEventProcessor {
 	/**
-	 * Registers the given listeners to the interaction.
-	 * The given widgets must be the ones used that the interaction.
+	 * Registers the given widgets to the interaction.
 	 * This operation has to be overridden by each interaction to register the widgets.
 	 * @param widgets The widgets that will produce events used by the interaction. Cannot be null.
-	 * @throws NullPointerException When the given <code>widgets</code> is null.
+	 * @throws NullPointerException When the given <code>widgets</code> is null or contains a null object.
 	 */
 	default void registerToNodes(final Collection<Node> widgets) {
 		// Should be overriden.
 	}
 
+	/**
+	 * Registers the given windows to the interaction.
+	 * This operation has to be overridden by each interaction to register the windows.
+	 * @param windows The windows that will produce events used by the interaction. Cannot be null.
+	 * @throws NullPointerException When the given <code>windows</code> is null or contains a null object.
+	 */
 	default void registerToWindows(final Collection<Window> windows) {
 		// Should be overriden.
 	}
