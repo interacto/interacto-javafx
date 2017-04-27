@@ -13,6 +13,7 @@ package org.malai.javafx.instrument;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.stage.Window;
@@ -25,7 +26,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud Blouin
  */
 public class JFxAnonInteractor<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends JfxInteractor<A, I, N> {
-	final Consumer<A> execInitAction;
+	final BiConsumer<A, I> execInitAction;
 
 	/**
 	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
@@ -46,7 +47,8 @@ public class JFxAnonInteractor<A extends ActionImpl, I extends JfxInteraction, N
 	public JFxAnonInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							 final List<Node> widgets, final Consumer<A> initActionFct) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
-		execInitAction = Objects.requireNonNull(initActionFct);
+		Objects.requireNonNull(initActionFct);
+		execInitAction = (a, i) -> initActionFct.accept(a);
 	}
 
 	/**
@@ -68,7 +70,8 @@ public class JFxAnonInteractor<A extends ActionImpl, I extends JfxInteraction, N
 	public JFxAnonInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							 final Consumer<A> initActionFct, final Node... widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
-		execInitAction = Objects.requireNonNull(initActionFct);
+		Objects.requireNonNull(initActionFct);
+		execInitAction = (a, i) -> initActionFct.accept(a);
 	}
 
 
@@ -90,6 +93,93 @@ public class JFxAnonInteractor<A extends ActionImpl, I extends JfxInteraction, N
 	public JFxAnonInteractor(final N ins, final boolean exec, List<Window> windows, final Class<A> clazzAction,
 							 final Class<I> clazzInteraction, final Consumer<A> initActionFct) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, windows, clazzAction, clazzInteraction);
+		Objects.requireNonNull(initActionFct);
+		execInitAction = (a, i) -> initActionFct.accept(a);
+	}
+
+	/**
+	 * Creates an interactor for windows. This constructor must initialise the interaction. The interactor is (de-)activated if the given
+	 * instrument is (de-)activated.
+	 * @param ins The instrument that contains the interactor.
+	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
+	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param windows The windows used by the interactor. Cannot be null.
+	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 * @throws IllegalArgumentException If the given interaction or instrument is null.
+	 */
+	public JFxAnonInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+							 final Consumer<A> initActionFct, final Window...windows) throws InstantiationException, IllegalAccessException {
+		this(ins, exec, Arrays.asList(windows), clazzAction, clazzInteraction, initActionFct);
+	}
+
+	/**
+	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
+	 * instrument is (de-)activated.
+	 * @param ins The instrument that contains the interactor.
+	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
+	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param widgets The widgets used by the interactor. Cannot be null.
+	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 * @throws IllegalArgumentException If the given interaction or instrument is null.
+	 * @throws NullPointerException If the given function is null.
+	 */
+	public JFxAnonInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+							 final List<Node> widgets, final BiConsumer<A, I> initActionFct) throws InstantiationException, IllegalAccessException {
+		super(ins, exec, clazzAction, clazzInteraction, widgets);
+		execInitAction = Objects.requireNonNull(initActionFct);
+	}
+
+	/**
+	 * Creates an interactor. This constructor must initialise the interaction. The interactor is (de-)activated if the given
+	 * instrument is (de-)activated.
+	 * @param ins The instrument that contains the interactor.
+	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
+	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param widgets The widgets used by the interactor. Cannot be null.
+	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 * @throws IllegalArgumentException If the given interaction or instrument is null.
+	 * @throws NullPointerException If the given function is null.
+	 */
+	public JFxAnonInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+							 final BiConsumer<A, I> initActionFct, final Node... widgets) throws InstantiationException, IllegalAccessException {
+		super(ins, exec, clazzAction, clazzInteraction, widgets);
+		execInitAction = Objects.requireNonNull(initActionFct);
+	}
+
+
+	/**
+	 * Creates an interactor for windows. This constructor must initialise the interaction. The interactor is (de-)activated if the given
+	 * instrument is (de-)activated.
+	 * @param ins The instrument that contains the interactor.
+	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
+	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param windows The windows used by the interactor. Cannot be null.
+	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 * @throws IllegalArgumentException If the given interaction or instrument is null.
+	 */
+	public JFxAnonInteractor(final N ins, final boolean exec, List<Window> windows, final Class<A> clazzAction,
+							 final Class<I> clazzInteraction, final BiConsumer<A, I> initActionFct) throws InstantiationException, IllegalAccessException {
+		super(ins, exec, windows, clazzAction, clazzInteraction);
 		execInitAction = Objects.requireNonNull(initActionFct);
 	}
 
@@ -109,12 +199,12 @@ public class JFxAnonInteractor<A extends ActionImpl, I extends JfxInteraction, N
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonInteractor(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-							 final Consumer<A> initActionFct, final Window... windows) throws InstantiationException, IllegalAccessException {
+							 final BiConsumer<A, I> initActionFct, final Window...windows) throws InstantiationException, IllegalAccessException {
 		this(ins, exec, Arrays.asList(windows), clazzAction, clazzInteraction, initActionFct);
 	}
 
 	@Override
 	public void initAction() {
-		execInitAction.accept(getAction());
+		execInitAction.accept(getAction(), getInteraction());
 	}
 }
