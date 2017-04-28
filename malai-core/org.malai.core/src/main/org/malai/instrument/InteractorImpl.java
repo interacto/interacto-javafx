@@ -228,7 +228,7 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 				ActionsRegistry.INSTANCE.addAction(act, instrument);
 				instrument.onActionAdded(act);
 			}else {
-				ActionsRegistry.INSTANCE.cancelActions(act);
+				ActionsRegistry.INSTANCE.unregisterActions(act);
 				instrument.onActionCancelled(act);
 			}
 			act.followingActions().forEach(this::executeAction);

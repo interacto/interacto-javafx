@@ -13,21 +13,18 @@ package org.malai.action;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
- * An action is based on the command design pattern: it is an object that encapsulates information to execute a task and to undo/redo
- * it if necessary.
+ * Base implementation of the Action interface.
  * @author Arnaud BLOUIN
  * @since 0.2
  */
 public abstract class ActionImpl implements Action {
-
-	/** Provides the state of the action. */
+	/** The state of the action. */
 	protected ActionStatus status;
-
 
 	/**
 	 * The default constructor.
+	 * Initialises the current status to created.
 	 */
 	public ActionImpl() {
 		super();
@@ -35,24 +32,12 @@ public abstract class ActionImpl implements Action {
 	}
 
 
-	/**
-	 * When an action is no more useful it can be flushes to release the used data.
-	 * Should be overridden.
-	 * @since 0.2
-	 */
 	@Override
 	public void flush() {
 		status = ActionStatus.FLUSHED;
 	}
 
 
-	/**
-	 * Executes the action. Should be overridden by sub-class to define stuffs to execute.
-	 * If the status of the action differs than CREATED or EXECUTED and if the action cannot be done (canDo),
-	 * the action is not executed.
-	 * @return True if the execution is successful. False otherwise.
-	 * @since 0.1
-	 */
 	@Override
 	public boolean doIt() {
 		final boolean ok;
@@ -71,40 +56,25 @@ public abstract class ActionImpl implements Action {
 
 
 	/**
-	 * This method contains the core code to execute when the action is executed.
+	 * This method contains the statements to execute the action.
+	 * This method is automatically called by DoIt and must not be called explicitly.
 	 * @since 0.1
 	 */
 	protected abstract void doActionBody();
 
 
-	/**
-	 * @return True if the execution of the action had effects on the target.
-	 * By default this function return the result of isDone. Should be overridden.
-	 * @since 0.1
-	 */
 	@Override
 	public boolean hadEffect() {
 		return isDone();
 	}
 
 
-	/**
-	 * Defines if the given action can cancel the calling action. Should be overridden.
-	 * By default, false is returned.
-	 * @param IAction The action to test.
-	 * @return True if the given action cancels the calling action. By default, false is returned.
-	 * @since 0.1
-	 */
 	@Override
-	public boolean cancelledBy(final Action IAction) {
+	public boolean unregisteredBy(final Action action) {
 		return false;
 	}
 
 
-	/**
-	 * Sets the action to "done".
-	 * @since 0.1
-	 */
 	@Override
 	public void done() {
 		if(status == ActionStatus.CREATED || status == ActionStatus.EXECUTED) {
@@ -114,10 +84,6 @@ public abstract class ActionImpl implements Action {
 	}
 
 
-	/**
-	 * @return True if the action is done.
-	 * @since 0.1
-	 */
 	@Override
 	public boolean isDone() {
 		return status == ActionStatus.DONE;
@@ -130,36 +96,18 @@ public abstract class ActionImpl implements Action {
 	}
 
 
-	/**
-	 * Aborts the action.
-	 * @since 0.1
-	 */
 	@Override
 	public void abort() {
 		status = ActionStatus.ABORTED;
 	}
 
 
-	/**
-	 * Provides the state of the action.
-	 * @return The state of the action.
-	 * @since 0.2
-	 */
 	@Override
 	public ActionStatus getStatus() {
 		return status;
 	}
 
-	/**
-	 * The executing of an action may provoke the execution of other actions.<br>
-	 * For instance with a drawing editor, one may want that after having pasting
-	 * shapes, the new shapes must be selected.
-	 * Thus, the action PasteShapes will be followed by an action SelectShapes.<br>
-	 * This is the goal of the operation.<br>
-	 * This operation creates an initialises the action that will be executed after
-	 * each final execution of the current action.
-	 * @return A list of actions that must be executed afterward. Cannot be null.
-	 */
+
 	@Override
 	public List<Action> followingActions() {
 		return Collections.emptyList();

@@ -216,27 +216,27 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	}
 
 	@Override
-	public void onActionCancelled(final Action IAction) {
+	public void onActionCancelled(final Action action) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionAdded(final Action IAction) {
+	public void onActionAdded(final Action action) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionAborted(final Action IAction) {
+	public void onActionAborted(final Action action) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionExecuted(final Action IAction) {
+	public void onActionExecuted(final Action action) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionDone(final Action IAction) {
+	public void onActionDone(final Action action) {
 		// Should be overridden.
 	}
 }
