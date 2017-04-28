@@ -1,3 +1,5 @@
+[![Build Status](https://ci.inria.fr/malai/job/malai_javafx/badge/icon)](https://ci.inria.fr/malai/job/malai_javafx/)<br/>
+
 # Malai and the Model-View-Instrument (MVI) pattern
 
 Malai is an implementation of the **Model-View-Instrument** (**MVI**) pattern.<br/>
@@ -77,6 +79,40 @@ public class PreferencesSetter extends JfxInstrument implements Initializable {
 
 
 Malai fully supports **Java Swing** and **JavaFX**. A **TypeScript/Javascript** version is in progress.
+
+# How to use
+
+As Maven libraries. In your POM file, adds the Malai repositories:
+
+```xml
+    <repositories>
+        <repository>
+            <id>mavenInriaSnapshot</id>
+            <name>http://maven.inria.fr-snapshots</name>
+            <url>http://maven.inria.fr/artifactory/malai-public-snapshot</url>
+        </repository>
+        <repository>
+            <id>mavenInriaRelease</id>
+            <name>http://maven.inria.fr-releases</name>
+            <url>http://maven.inria.fr/artifactory/malai-public-release</url>
+        </repository>
+    </repositories>
+```
+
+And adds the dependencies:
+
+```xml
+        <dependency>
+            <groupId>org.malai</groupId>
+            <artifactId>malai.core</artifactId>
+            <version>2.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.malai</groupId>
+            <artifactId>malai.javafx</artifactId>
+            <version>2.1-SNAPSHOT</version>
+        </dependency>
+```
 
 
 # Who use Malai?
