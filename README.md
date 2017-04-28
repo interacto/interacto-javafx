@@ -78,7 +78,7 @@ public class PreferencesSetter extends JfxInstrument implements Initializable {
 Malai fully supports **Java Swing** and **JavaFX**. A **TypeScript/Javascript** version is in progress.
 
 
-# How use Malai?
+# Who use Malai?
 
 
 [Latexdraw](https://github.com/arnobl/latexdraw) is a vector drawing editors for LaTeX. It is developed on the top of Malai JavaFX.
