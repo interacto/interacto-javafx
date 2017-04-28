@@ -57,19 +57,19 @@ public class TestActionRegistry {
 	@Test
 	public void testSetSizeMaxRemovesAction() {
 		final List<Action> handlers = ActionsRegistry.INSTANCE.getActions();
-		final Action IAction1 = new ActionImplStub();
-		final Action IAction2 = new ActionImplStub();
+		final Action action1 = new ActionImplStub();
+		final Action action2 = new ActionImplStub();
 		ActionsRegistry.INSTANCE.setSizeMax(10);
-		ActionsRegistry.INSTANCE.addAction(IAction1, new ActionHandlerStub());
-		ActionsRegistry.INSTANCE.addAction(IAction2, new ActionHandlerStub());
+		ActionsRegistry.INSTANCE.addAction(action1, new ActionHandlerStub());
+		ActionsRegistry.INSTANCE.addAction(action2, new ActionHandlerStub());
 		ActionsRegistry.INSTANCE.setSizeMax(1);
-		assertEquals(ActionStatus.FLUSHED, IAction1.getStatus());
-		assertEquals(ActionStatus.CREATED, IAction2.getStatus());
+		assertEquals(ActionStatus.FLUSHED, action1.getStatus());
+		assertEquals(ActionStatus.CREATED, action2.getStatus());
 		assertEquals(1, handlers.size());
-		assertEquals(IAction2, handlers.get(0));
+		assertEquals(action2, handlers.get(0));
 
 		ActionsRegistry.INSTANCE.setSizeMax(0);
-		assertEquals(ActionStatus.FLUSHED, IAction2.getStatus());
+		assertEquals(ActionStatus.FLUSHED, action2.getStatus());
 		assertEquals(0, handlers.size());
 	}
 
@@ -82,15 +82,15 @@ public class TestActionRegistry {
 
 	@Test
 	public void testAbortActionFlush() {
-		final Action IAction = new ActionImplStub();
-		ActionsRegistry.INSTANCE.abortAction(IAction);
-		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
+		final Action action = new ActionImplStub();
+		ActionsRegistry.INSTANCE.abortAction(action);
+		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
 	}
 
 
 	@Test
 	public void testAbortActionNotify() {
-		final Action IAction = new ActionImplStub();
+		final Action action = new ActionImplStub();
 		visited = false;
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerStub() {
@@ -100,16 +100,16 @@ public class TestActionRegistry {
 			}
 		});
 
-		ActionsRegistry.INSTANCE.abortAction(IAction);
+		ActionsRegistry.INSTANCE.abortAction(action);
 		assertTrue(visited);
 	}
 
 
 	@Test
 	public void testAbortActionRemoved() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		final Action IAction = new ActionImplStub();
-		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerStub());
-		ActionsRegistry.INSTANCE.abortAction(IAction);
+		final Action action = new ActionImplStub();
+		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
+		ActionsRegistry.INSTANCE.abortAction(action);
 		final List<ActionHandler> handlers = getListHandler();
 		assertTrue(handlers.isEmpty());
 	}
@@ -157,11 +157,11 @@ public class TestActionRegistry {
 
 	@Test
 	public void testRemoveActionNotNull() {
-		final Action IAction = new ActionImplStub();
-		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerStub());
-		ActionsRegistry.INSTANCE.removeAction(IAction);
+		final Action action = new ActionImplStub();
+		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
+		ActionsRegistry.INSTANCE.removeAction(action);
 		assertTrue(ActionsRegistry.INSTANCE.getActions().isEmpty());
-		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
+		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
 	}
 
 
@@ -254,8 +254,8 @@ public class TestActionRegistry {
 
 	@Test
 	public void testAddActionCannotAddBecauseNullOrAlreadyAdded() {
-		final Action IAction = new ActionImplStub();
-		ActionsRegistry.INSTANCE.getActions().add(IAction);
+		final Action action = new ActionImplStub();
+		ActionsRegistry.INSTANCE.getActions().add(action);
 		ActionsRegistry.INSTANCE.addAction(null, new ActionHandlerStub());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 
@@ -265,7 +265,7 @@ public class TestActionRegistry {
 		ActionsRegistry.INSTANCE.addAction(null, null);
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 
-		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerStub());
+		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 	}
 
@@ -273,14 +273,14 @@ public class TestActionRegistry {
 	@Test
 	public void testAddActionCancelsAction() {
 		visited = false;
-		final Action IAction = new ActionImplStub2();
-		ActionsRegistry.INSTANCE.getActions().add(IAction);
+		final Action action = new ActionImplStub2();
+		ActionsRegistry.INSTANCE.getActions().add(action);
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerStub() {
 			@Override
 			public void onActionCancelled(final Action action) {
 				visited = true;
-				assertEquals(IAction, action);
+				assertEquals(action, action);
 			}
 
 			@Override
@@ -310,14 +310,14 @@ public class TestActionRegistry {
 
 	@Test
 	public void testAddActionRemovesActionWhenMaxCapacity() {
-		final Action IAction = new ActionImplStub();
-		final Action IAction2 = new ActionImplStub();
+		final Action action = new ActionImplStub();
+		final Action action2 = new ActionImplStub();
 		ActionsRegistry.INSTANCE.setSizeMax(1);
-		ActionsRegistry.INSTANCE.getActions().add(IAction2);
-		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerStub());
+		ActionsRegistry.INSTANCE.getActions().add(action2);
+		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
-		assertEquals(IAction, ActionsRegistry.INSTANCE.getActions().get(0));
-		assertEquals(Action.ActionStatus.FLUSHED, IAction2.getStatus());
+		assertEquals(action, ActionsRegistry.INSTANCE.getActions().get(0));
+		assertEquals(Action.ActionStatus.FLUSHED, action2.getStatus());
 	}
 
 
@@ -331,9 +331,9 @@ public class TestActionRegistry {
 
 	@Test
 	public void testAddActionAddsUndoableCollector() {
-		final Action IAction = new ActionImplUndoableStub();
-		ActionsRegistry.INSTANCE.addAction(IAction, new ActionHandlerStub());
-		assertEquals(IAction, UndoCollector.INSTANCE.getLastUndo());
+		final Action action = new ActionImplUndoableStub();
+		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
+		assertEquals(action, UndoCollector.INSTANCE.getLastUndo());
 	}
 
 
