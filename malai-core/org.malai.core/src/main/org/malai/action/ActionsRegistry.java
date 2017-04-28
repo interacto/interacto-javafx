@@ -53,7 +53,9 @@ public final class ActionsRegistry {
 	 */
 	public void onActionExecuted(final Action action) {
 		if(action != null) {
-			handlers.forEach(handler -> handler.onActionExecuted(action));
+			synchronized(handlers) {
+				handlers.forEach(handler -> handler.onActionExecuted(action));
+			}
 		}
 	}
 
@@ -65,13 +67,15 @@ public final class ActionsRegistry {
 	 */
 	public void onActionDone(final Action action) {
 		if(action != null) {
-			handlers.forEach(handler -> handler.onActionDone(action));
+			synchronized(handlers) {
+				handlers.forEach(handler -> handler.onActionDone(action));
+			}
 		}
 	}
 
 
 	/**
-	 * @return The stored actions. Cannot be null.
+	 * @return The stored actions. Cannot be null. Because of concurrency, you should not modify this list.
 	 * @since 0.1
 	 */
 	public List<Action> getActions() {
@@ -90,13 +94,17 @@ public final class ActionsRegistry {
 
 		int i = 0;
 
-		while(i < actions.size()) {
-			if(actions.get(i).unregisteredBy(action)) {
-				final Action act = actions.remove(i);
-				handlers.forEach(handler -> handler.onActionCancelled(act));
-				act.flush();
-			}else {
-				i++;
+		synchronized(actions) {
+			while(i < actions.size()) {
+				if(actions.get(i).unregisteredBy(action)) {
+					final Action act = actions.remove(i);
+					synchronized(handlers) {
+						handlers.forEach(handler -> handler.onActionCancelled(act));
+					}
+					act.flush();
+				}else {
+					i++;
+				}
 			}
 		}
 	}
@@ -111,20 +119,24 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void addAction(final Action action, final ActionHandler actionHandler) {
-		if(action != null && actionHandler != null && !actions.contains(action) && sizeMax > 0) {
-			unregisterActions(action);
+		synchronized(actions) {
+			if(action != null && actionHandler != null && !actions.contains(action) && sizeMax > 0) {
+				unregisterActions(action);
 
-			// If there is too many actions in the register, the oldest action is removed and flushed.
-			if(actions.size() == sizeMax) {
-				actions.remove(0).flush();
-			}
+				// If there is too many actions in the register, the oldest action is removed and flushed.
+				if(actions.size() == sizeMax) {
+					actions.remove(0).flush();
+				}
 
-			actions.add(action);
+				actions.add(action);
 
-			handlers.forEach(handler -> handler.onActionAdded(action));
+				synchronized(handlers) {
+					handlers.forEach(handler -> handler.onActionAdded(action));
+				}
 
-			if(action instanceof Undoable) {
-				UndoCollector.INSTANCE.add((Undoable) action, actionHandler);
+				if(action instanceof Undoable) {
+					UndoCollector.INSTANCE.add((Undoable) action, actionHandler);
+				}
 			}
 		}
 	}
@@ -138,7 +150,9 @@ public final class ActionsRegistry {
 	public void removeAction(final Action action) {
 		if(action == null) return;
 
-		actions.remove(action);
+		synchronized(actions) {
+			actions.remove(action);
+		}
 		action.flush();
 	}
 
@@ -150,7 +164,9 @@ public final class ActionsRegistry {
 	 */
 	public void addHandler(final ActionHandler handler) {
 		if(handler != null) {
-			handlers.add(handler);
+			synchronized(handlers) {
+				handlers.add(handler);
+			}
 		}
 	}
 
@@ -162,7 +178,9 @@ public final class ActionsRegistry {
 	 */
 	public void removeHandler(final ActionHandler handler) {
 		if(handler != null) {
-			handlers.remove(handler);
+			synchronized(handlers) {
+				handlers.remove(handler);
+			}
 		}
 	}
 
@@ -172,7 +190,9 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void removeAllHandlers() {
-		handlers.clear();
+		synchronized(handlers) {
+			handlers.clear();
+		}
 	}
 
 
@@ -181,8 +201,10 @@ public final class ActionsRegistry {
 	 * @since 0.2
 	 */
 	public void clear() {
-		actions.forEach(action -> action.flush());
-		actions.clear();
+		synchronized(actions) {
+			actions.forEach(action -> action.flush());
+			actions.clear();
+		}
 	}
 
 
@@ -195,8 +217,12 @@ public final class ActionsRegistry {
 	public void abortAction(final Action action) {
 		if(action != null) {
 			action.abort();
-			actions.remove(action);
-			handlers.forEach(handler -> handler.onActionAborted(action));
+			synchronized(actions) {
+				actions.remove(action);
+			}
+			synchronized(handlers) {
+				handlers.forEach(handler -> handler.onActionAborted(action));
+			}
 			action.flush();
 		}
 	}
@@ -220,11 +246,12 @@ public final class ActionsRegistry {
 	 */
 	public void setSizeMax(final int newSizeMax) {
 		if(newSizeMax >= 0) {
-			// If there is too many actions in the register, they are removed.
-			for(int i = 0, nb = actions.size() - newSizeMax; i < nb; i++) {
-				actions.remove(0).flush();
+			synchronized(actions) {
+				// If there is too many actions in the register, they are removed.
+				for(int i = 0, nb = actions.size() - newSizeMax; i < nb; i++) {
+					actions.remove(0).flush();
+				}
 			}
-
 			sizeMax = newSizeMax;
 		}
 	}

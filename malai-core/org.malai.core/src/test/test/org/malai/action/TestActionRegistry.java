@@ -1,7 +1,10 @@
 package test.org.malai.action;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.Action;
@@ -334,6 +337,33 @@ public class TestActionRegistry {
 		final Action action = new ActionImplUndoableStub();
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
 		assertEquals(action, UndoCollector.INSTANCE.getLastUndo());
+	}
+
+
+	@Test
+	public void testRegistryConcurrentAccess() {
+		final List<Action> addedActions = new ArrayList<>();
+		final ActionHandlerStub stub = new ActionHandlerStub();
+
+		IntStream.range(0, 100000).parallel().forEach(i -> {
+			if(i % 2 == 0) {
+				final Action action = new ActionImplStub();
+				synchronized(addedActions) {
+					addedActions.add(action);
+				}
+				ActionsRegistry.INSTANCE.addAction(action, stub);
+			}else {
+				Action action = null;
+				synchronized(addedActions) {
+					if(!addedActions.isEmpty()) {
+						action = addedActions.remove(new Random().nextInt(addedActions.size()));
+					}
+				}
+				ActionsRegistry.INSTANCE.removeAction(action);
+			}
+		});
+		System.out.println(addedActions.size());
+		System.out.println(ActionsRegistry.INSTANCE.getActions().size());
 	}
 
 
