@@ -17,43 +17,43 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TestAction {
-	protected Action IAction;
+	protected Action action;
 	boolean visitOnActionExecuted;
 	boolean visitOnActionDone;
 
 	@Before
 	public void setUp() {
-		IAction = getActionCanDo();
+		action = getActionCanDo();
 		ActionsRegistry.INSTANCE.removeAllHandlers();
 	}
 
 	@Test
 	public void testActionStatusAfterCreation() {
-		assertEquals(Action.ActionStatus.CREATED, IAction.getStatus());
+		assertEquals(Action.ActionStatus.CREATED, action.getStatus());
 	}
 
 	@Test
 	public void testActionStatusAfterFlush() {
-		IAction.flush();
-		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
+		action.flush();
+		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
 	}
 
 	@Test
 	public void testActionCannotDoItWhenFlushed() {
-		IAction.flush();
-		assertFalse(IAction.doIt());
+		action.flush();
+		assertFalse(action.doIt());
 	}
 
 	@Test
 	public void testActionCannotDoItWhenDone() {
-		IAction.done();
-		assertFalse(IAction.doIt());
+		action.done();
+		assertFalse(action.doIt());
 	}
 
 	@Test
 	public void testActionCannotDoItWhenAborted() {
-		IAction.abort();
-		assertFalse(IAction.doIt());
+		action.abort();
+		assertFalse(action.doIt());
 	}
 
 	@Test
@@ -169,25 +169,25 @@ public class TestAction {
 
 	@Test
 	public void testActionHadEffectWhenDone() {
-		IAction.done();
-		assertTrue(IAction.hadEffect());
+		action.done();
+		assertTrue(action.hadEffect());
 	}
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndCreated() {
-		assertFalse(IAction.hadEffect());
+		assertFalse(action.hadEffect());
 	}
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndAborted() {
-		IAction.abort();
-		assertFalse(IAction.hadEffect());
+		action.abort();
+		assertFalse(action.hadEffect());
 	}
 
 	@Test
 	public void testActionHadEffectWhenNotDoneAndFlushed() {
-		IAction.flush();
-		assertFalse(IAction.hadEffect());
+		action.flush();
+		assertFalse(action.hadEffect());
 	}
 
 	@Test
@@ -199,27 +199,27 @@ public class TestAction {
 
 	@Test
 	public void testActionNotUnregisterByByDefault() {
-		assertFalse(IAction.unregisteredBy(null));
-		assertFalse(IAction.unregisteredBy(getActionCanDo()));
+		assertFalse(action.unregisteredBy(null));
+		assertFalse(action.unregisteredBy(getActionCanDo()));
 	}
 
 	@Test
 	public void testActionNotDoneWhenFlushed() {
-		IAction.flush();
-		IAction.done();
-		assertEquals(Action.ActionStatus.FLUSHED, IAction.getStatus());
+		action.flush();
+		action.done();
+		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
 	}
 
 	@Test
 	public void testActionNotDoneWhenAborted() {
-		IAction.abort();
-		IAction.done();
-		assertEquals(Action.ActionStatus.ABORTED, IAction.getStatus());
+		action.abort();
+		action.done();
+		assertEquals(Action.ActionStatus.ABORTED, action.getStatus());
 	}
 
 	@Test
 	public void testActionNotDoneWhenDone() {
-		IAction.done();
+		action.done();
 		// Cannot visit ActionDone if already done.
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandler() {
 			@Override
@@ -253,7 +253,7 @@ public class TestAction {
 			}
 		});
 
-		IAction.done();
+		action.done();
 	}
 
 	@Test
@@ -290,8 +290,8 @@ public class TestAction {
 
 			}
 		});
-		IAction.done();
-		assertEquals(Action.ActionStatus.DONE, IAction.getStatus());
+		action.done();
+		assertEquals(Action.ActionStatus.DONE, action.getStatus());
 		assertTrue(visitOnActionDone);
 	}
 
@@ -340,44 +340,44 @@ public class TestAction {
 
 	@Test
 	public void testToStringNotNull() {
-		assertNotNull(IAction.toString());
+		assertNotNull(action.toString());
 	}
 
 	@Test
 	public void testIsDoneWhenCreated() {
-		assertFalse(IAction.isDone());
+		assertFalse(action.isDone());
 	}
 
 	@Test
 	public void testIsDoneWhenAborted() {
-		IAction.abort();
-		assertFalse(IAction.isDone());
+		action.abort();
+		assertFalse(action.isDone());
 	}
 
 	@Test
 	public void testIsDoneWhenFlushed() {
-		IAction.flush();
-		assertFalse(IAction.isDone());
+		action.flush();
+		assertFalse(action.isDone());
 	}
 
 
 	@Test
 	public void testIsDoneWhenDone() {
-		IAction.done();
-		assertTrue(IAction.isDone());
+		action.done();
+		assertTrue(action.isDone());
 	}
 
 	@Test
 	public void testIsDoneWhenExecuted() {
 		final Action a = getActionCanDo();
 		a.doIt();
-		assertFalse(IAction.isDone());
+		assertFalse(action.isDone());
 	}
 
 	@Test
 	public void testAbort() {
-		assertNotSame(Action.ActionStatus.ABORTED, IAction.getStatus());
-		IAction.abort();
-		assertEquals(Action.ActionStatus.ABORTED, IAction.getStatus());
+		assertNotSame(Action.ActionStatus.ABORTED, action.getStatus());
+		action.abort();
+		assertEquals(Action.ActionStatus.ABORTED, action.getStatus());
 	}
 }
