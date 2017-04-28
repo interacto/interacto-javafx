@@ -51,6 +51,8 @@ public class SetUnit extends ActionImpl implements Undoable {
 }
 ```
 
+This action can be then used in an instrument to be binded to a predefined user interaction and widgets.
+
 ```java
 // An instrument is a controller/presenter/viewModel/component/etc: 
 // it gather events produced by widgets as user interactions into actions that modify the system.
