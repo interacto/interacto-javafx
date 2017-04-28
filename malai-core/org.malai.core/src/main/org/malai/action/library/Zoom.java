@@ -13,7 +13,7 @@ package org.malai.action.library;
 import org.malai.properties.Zoomable;
 
 /**
- * Defines an action that zoom int/out a panel.
+ * Defines an action for zooming in/out a zoomable object.
  * @author Arnaud BLOUIN
  * @since 0.2
  */
@@ -63,19 +63,19 @@ public class Zoom extends PositionAction {
 
 
 	/**
-	 * @param zoomable the zoomable to set.
+	 * @param newZoomable the zoomable to set.
 	 * @since 0.2
 	 */
-	public void setZoomable(final Zoomable zoomable) {
-		this.zoomable = zoomable;
+	public void setZoomable(final Zoomable newZoomable) {
+		zoomable = newZoomable;
 	}
 
 
 	/**
-	 * @param zoomLevel the zoomLevel to set.
+	 * @param newZoomLevel the zoomLevel to set.
 	 * @since 0.2
 	 */
-	public void setZoomLevel(final double zoomLevel) {
-		this.zoomLevel = zoomLevel;
+	public void setZoomLevel(final double newZoomLevel) {
+		zoomLevel = newZoomLevel;
 	}
 }

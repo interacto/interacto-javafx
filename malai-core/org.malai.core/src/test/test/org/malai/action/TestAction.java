@@ -101,21 +101,21 @@ public class TestAction {
 			public void onUndoableAdded(final Undoable undoable) {fail();}
 
 			@Override
-			public void onActionExecuted(final Action act) {
+			public void onActionExecuted(final Action action) {
 				visitOnActionExecuted = true;
 			}
 
 			@Override
-			public void onActionDone(final Action act) {fail();}
+			public void onActionDone(final Action action) {fail();}
 
 			@Override
-			public void onActionCancelled(final Action act) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
-			public void onActionAdded(final Action act) {fail();}
+			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action act) {fail();}
+			public void onActionAborted(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
@@ -198,9 +198,9 @@ public class TestAction {
 	}
 
 	@Test
-	public void testActionNotCancelledByByDefault() {
-		assertFalse(IAction.cancelledBy(null));
-		assertFalse(IAction.cancelledBy(getActionCanDo()));
+	public void testActionNotUnregisterByByDefault() {
+		assertFalse(IAction.unregisteredBy(null));
+		assertFalse(IAction.unregisteredBy(getActionCanDo()));
 	}
 
 	@Test
@@ -232,19 +232,19 @@ public class TestAction {
 			public void onUndoableAdded(final Undoable undoable) {fail();}
 
 			@Override
-			public void onActionExecuted(final Action act) {fail();}
+			public void onActionExecuted(final Action action) {fail();}
 
 			@Override
-			public void onActionDone(final Action act) {fail();}
+			public void onActionDone(final Action action) {fail();}
 
 			@Override
-			public void onActionCancelled(final Action act) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
-			public void onActionAdded(final Action act) {fail();}
+			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action act) {fail();}
+			public void onActionAborted(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
@@ -270,19 +270,19 @@ public class TestAction {
 			public void onUndoableAdded(final Undoable undoable) {fail();}
 
 			@Override
-			public void onActionExecuted(final Action act) {fail();}
+			public void onActionExecuted(final Action action) {fail();}
 
 			@Override
-			public void onActionDone(final Action act) { visitOnActionDone = true; }
+			public void onActionDone(final Action action) { visitOnActionDone = true; }
 
 			@Override
-			public void onActionCancelled(final Action act) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
-			public void onActionAdded(final Action act) {fail();}
+			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action act) {fail();}
+			public void onActionAborted(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
@@ -312,19 +312,19 @@ public class TestAction {
 			public void onUndoableAdded(final Undoable undoable) {fail();}
 
 			@Override
-			public void onActionExecuted(final Action act) {fail();}
+			public void onActionExecuted(final Action action) {fail();}
 
 			@Override
-			public void onActionDone(final Action act) { visitOnActionDone = true; }
+			public void onActionDone(final Action action) { visitOnActionDone = true; }
 
 			@Override
-			public void onActionCancelled(final Action act) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
-			public void onActionAdded(final Action act) {fail();}
+			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action act) {fail();}
+			public void onActionAborted(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
