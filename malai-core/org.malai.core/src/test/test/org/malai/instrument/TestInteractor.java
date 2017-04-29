@@ -34,7 +34,7 @@ public class TestInteractor {
 		instrument.setActivated(true);
 		ErrorCatcher.INSTANCE.setNotifier(new ErrorNotifier() {
 			@Override
-			public void onMalaiException(final Exception exception) {
+			public void onException(final Exception exception) {
 				fail(exception.toString());
 			}
 		});
@@ -171,7 +171,7 @@ public class TestInteractor {
 		final boolean[] ok = {false};
 		ErrorCatcher.INSTANCE.setNotifier(new ErrorNotifier() {
 			@Override
-			public void onMalaiException(final Exception exception) {
+			public void onException(final Exception exception) {
 				ok[0] = true;
 			}
 		});

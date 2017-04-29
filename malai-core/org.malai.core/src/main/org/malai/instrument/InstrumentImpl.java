@@ -90,9 +90,7 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 			interactor.setActivated(isActivated());
 
 			if(eventables != null) {
-				for(final Eventable eventable : eventables) {
-					interactor.addEventable(eventable);
-				}
+				eventables.forEach(eventable -> interactor.addEventable(eventable));
 			}
 		}
 	}
@@ -117,19 +115,14 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 			}
 
 			eventables.add(eventable);
-
-			for(final Interactor interactor : interactors) {
-				interactor.addEventable(eventable);
-			}
+			interactors.forEach(interactor -> interactor.addEventable(eventable));
 		}
 	}
 
 
 	@Override
 	public void clearEvents() {
-		for(final T interactor : interactors) {
-			interactor.clearEvents();
-		}
+		interactors.forEach(interactor -> interactor.clearEvents());
 	}
 
 
@@ -140,19 +133,17 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 
 
 	@Override
-	public void setActivated(final boolean activated) {
-		this.activated = activated;
+	public void setActivated(final boolean toBeActivated) {
+		activated = toBeActivated;
 
-		if(activated && !hasInteractors()) {
+		if(toBeActivated && !hasInteractors()) {
 			try {
 				initialiseInteractors();
-			}catch(InstantiationException | IllegalAccessException e) {
-				ErrorCatcher.INSTANCE.reportError(e);
+			}catch(InstantiationException | IllegalAccessException ex) {
+				ErrorCatcher.INSTANCE.reportError(ex);
 			}
 		}else {
-			for(final T interactor : interactors) {
-				interactor.setActivated(activated);
-			}
+			interactors.forEach(interactor -> interactor.setActivated(toBeActivated));
 		}
 
 		interimFeedback();
@@ -178,8 +169,8 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 
 
 	@Override
-	public void setModified(final boolean modified) {
-		this.modified = modified;
+	public void setModified(final boolean isModified) {
+		modified = isModified;
 	}
 
 

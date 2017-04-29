@@ -14,6 +14,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import org.malai.action.ActionImpl;
+import org.malai.error.ErrorCatcher;
 
 /**
  * This action opens an URI in the default browser.
@@ -24,7 +25,7 @@ public class OpenWebPage extends ActionImpl {
 	/** The URI to open. */
 	protected URI uri;
 
-	private boolean browsed;
+	protected boolean browsed;
 
 	/**
 	 * Creates the action.
@@ -52,7 +53,8 @@ public class OpenWebPage extends ActionImpl {
 		try {
 			Desktop.getDesktop().browse(uri);
 			browsed = true;
-		}catch(IOException exception) {
+		}catch(final IOException exception) {
+			ErrorCatcher.INSTANCE.reportError(exception);
 			browsed = false;
 		}
 	}
@@ -69,10 +71,10 @@ public class OpenWebPage extends ActionImpl {
 	}
 
 	/**
-	 * @param uri The URI to open.
+	 * @param newURI The URI to open.
 	 * @since 0.2
 	 */
-	public void setUri(final URI uri) {
-		this.uri = uri;
+	public void setUri(final URI newURI) {
+		uri = newURI;
 	}
 }

@@ -13,7 +13,7 @@ package org.malai.action.library;
 import org.malai.properties.Zoomable;
 
 /**
- * Defines an action for zooming in/out a zoomable object.
+ * An action for zooming in/out a zoomable object.
  * @author Arnaud BLOUIN
  * @since 0.2
  */

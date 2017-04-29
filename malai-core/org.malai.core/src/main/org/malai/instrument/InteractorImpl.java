@@ -43,7 +43,7 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 	 * Specifies if the action must be execute or update
 	 * on each evolution of the interaction.
 	 */
-	protected boolean execute;
+	protected final boolean execute;
 
 	protected final Class<A> clazzAction;
 
@@ -53,23 +53,23 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the interactor.
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param actionClass The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * @param interactionClass The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @since 0.2
 	 */
-	public InteractorImpl(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction) throws
-		InstantiationException, IllegalAccessException {
+	public InteractorImpl(final N ins, final boolean exec, final Class<A> actionClass, final Class<I> interactionClass)
+		throws InstantiationException, IllegalAccessException {
 		super();
 
-		if(ins == null || clazzAction == null || clazzInteraction == null) throw new IllegalArgumentException();
+		if(ins == null || actionClass == null || interactionClass == null) throw new IllegalArgumentException();
 
-		this.clazzAction = clazzAction;
-		interaction = clazzInteraction.newInstance();
+		clazzAction = actionClass;
+		interaction = interactionClass.newInstance();
 		action = null;
 		instrument = ins;
 		execute = exec;
@@ -100,8 +100,8 @@ public abstract class InteractorImpl<A extends ActionImpl, I extends Interaction
 	protected void createAction() {
 		try {
 			action = clazzAction.newInstance();
-		}catch(final IllegalAccessException | InstantiationException e) {
-			ErrorCatcher.INSTANCE.reportError(e);
+		}catch(final IllegalAccessException | InstantiationException ex) {
+			ErrorCatcher.INSTANCE.reportError(ex);
 		}
 	}
 

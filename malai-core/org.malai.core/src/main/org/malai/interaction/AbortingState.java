@@ -13,7 +13,7 @@ package org.malai.interaction;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * This state defines a aborting state that aborts the interaction.
+ * This state defines an aborting state that aborts the interaction.
  * @author Arnaud BLOUIN
  * @since 0.1
  */

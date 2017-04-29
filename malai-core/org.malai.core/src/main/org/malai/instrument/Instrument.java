@@ -46,7 +46,7 @@ public interface Instrument extends Preferenciable, Modifiable, Reinitialisable,
 	 * @param eventable The eventable object that gathers event used by the interactions.
 	 * @since 0.2
 	 */
-	void addEventable(Eventable eventable);
+	void addEventable(final Eventable eventable);
 
 	/**
 	 * Stops the interactions of the instrument and clears all its events waiting for a process.
@@ -63,7 +63,7 @@ public interface Instrument extends Preferenciable, Modifiable, Reinitialisable,
 	 * Activates or deactivates the instrument.
 	 * @param activated True = activation.
 	 */
-	void setActivated(boolean activated);
+	void setActivated(final boolean activated);
 
 	/**
 	 * Reinitialises the interim feedback of the instrument.
