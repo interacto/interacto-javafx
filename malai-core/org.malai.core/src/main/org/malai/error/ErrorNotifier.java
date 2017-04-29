@@ -11,15 +11,15 @@
 package org.malai.error;
 
 /**
- * This interface must be used by error gatherer of third-part applications that want to gather Malai's exceptions.
+ * This interface must be used by objects that want to be notified about the exceptions collected by the ErrorCatcher.
  * @author Arnaud BLOUIN
  * @since 0.2
  */
 public interface ErrorNotifier {
 	/**
-	 * Notifies that an exception has been thrown in the Malai code.
+	 * Notifies that an exception has been thrown.
 	 * @param exception The thrown exception.
 	 * @since 0.2
 	 */
-	void onMalaiException(final Exception exception);
+	void onException(final Exception exception);
 }

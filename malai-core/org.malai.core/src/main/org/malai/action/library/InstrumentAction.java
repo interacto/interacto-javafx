@@ -22,7 +22,6 @@ public abstract class InstrumentAction extends ActionImpl {
 	/** The manipulated instrument. */
 	protected Instrument instrument;
 
-
 	/**
 	 * Creates the action.
 	 * @since 0.2
@@ -56,10 +55,10 @@ public abstract class InstrumentAction extends ActionImpl {
 
 	/**
 	 * Sets the manipulated instrument.
-	 * @param instrument The manipulated instrument.
+	 * @param newInstrument The manipulated instrument.
 	 * @since 0.2
 	 */
-	public void setInstrument(final Instrument instrument) {
-		this.instrument = instrument;
+	public void setInstrument(final Instrument newInstrument) {
+		instrument = newInstrument;
 	}
 }

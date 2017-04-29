@@ -24,12 +24,12 @@ public class MustBeUndoableActionException extends RuntimeException {
 
 	/**
 	 * The default constructor of the exception.
-	 * @param clazz The class of the action that want to be undone/redone.
+	 * @param theClass The class of the action that want to be undone/redone.
 	 * @since 0.1
 	 */
-	public MustBeUndoableActionException(final Class<?> clazz) {
+	public MustBeUndoableActionException(final Class<?> theClass) {
 		super();
-		this.clazz = clazz;
+		clazz = theClass;
 	}
 
 

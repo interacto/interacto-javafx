@@ -73,7 +73,9 @@ public class TimeoutTransition extends TransitionImpl {
 	 * @since 0.2
 	 */
 	public void setTimeout(final int timeout) {
-		if(timeout > 0) this.timeout = timeout;
+		if(timeout > 0) {
+			this.timeout = timeout;
+		}
 	}
 
 

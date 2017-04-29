@@ -17,7 +17,7 @@ package org.malai.action.library;
  */
 public class ActivateInstrument extends InstrumentAction {
 	/**
-	 * {@link InstrumentAction#InstrumentAction()}
+	 * Creates the action.
 	 */
 	public ActivateInstrument() {
 		super();

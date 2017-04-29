@@ -16,7 +16,6 @@ package org.malai.stateMachine;
  * @since 0.1
  */
 public class MustAbortStateMachineException extends Exception {
-
 	private static final long serialVersionUID = 1L;
 
 	/**

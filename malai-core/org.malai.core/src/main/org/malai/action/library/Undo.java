@@ -14,7 +14,7 @@ import org.malai.action.ActionImpl;
 import org.malai.undo.UndoCollector;
 
 /**
- * Defines an action that undoes an action.
+ * An action that undoes an action.
  * @author Arnaud BLOUIN
  * @since 0.2
  */

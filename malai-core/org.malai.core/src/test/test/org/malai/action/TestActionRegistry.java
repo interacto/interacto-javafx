@@ -362,8 +362,6 @@ public class TestActionRegistry {
 				ActionsRegistry.INSTANCE.removeAction(action);
 			}
 		});
-		System.out.println(addedActions.size());
-		System.out.println(ActionsRegistry.INSTANCE.getActions().size());
 	}
 
 

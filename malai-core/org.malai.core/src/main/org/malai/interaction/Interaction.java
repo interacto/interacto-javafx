@@ -11,8 +11,6 @@
 package org.malai.interaction;
 
 import java.util.List;
-import org.malai.stateMachine.MustAbortStateMachineException;
-import org.malai.stateMachine.State;
 import org.malai.stateMachine.StateMachine;
 
 /**
@@ -20,12 +18,6 @@ import org.malai.stateMachine.StateMachine;
  * @author Arnaud BLOUIN
  */
 public interface Interaction extends StateMachine, EventProcessor {
-	@Override
-	void setActivated(boolean activated);
-
-	@Override
-	void reinit();
-
 	/**
 	 * @return The handlers that listens to the interaction.
 	 */
@@ -36,23 +28,14 @@ public interface Interaction extends StateMachine, EventProcessor {
 	 * @param handler The handler to add.
 	 * @since 0.1
 	 */
-	void addHandler(InteractionHandler handler);
-
-	@Override
-	void addState(State state);
+	void addHandler(final InteractionHandler handler);
 
 	/**
 	 * Links the interaction to an eventable object (e.g. a MPanel or a MButton).
 	 * @param eventable The Eventable object.
 	 * @since 0.2
 	 */
-	void linkToEventable(Eventable eventable);
-
-	@Override
-	boolean isRunning();
-
-	@Override
-	void onUpdating() throws MustAbortStateMachineException;
+	void linkToEventable(final Eventable eventable);
 
 	/**
 	 * @return The ID of last HID that has been used by the interaction. If the interaction has stopped or is
@@ -66,7 +49,7 @@ public interface Interaction extends StateMachine, EventProcessor {
 	 * aborted, the value of the attribute is -1.
 	 * @since 0.2
 	 */
-	void setLastHIDUsed(int hid);
+	void setLastHIDUsed(final int hid);
 
 	/**
 	 * Clears the events of the interaction still in process.

@@ -11,17 +11,13 @@
 package org.malai.error;
 
 /**
- * The singleton ErrorCatcher permits to Malai code to send errors to a gatherer.
- * The ErrorCatcher then send the catched exception to an ErrorNotifier (if one is
- * defined). This is useful to gather Malai errors into a third-part application.
- * For instance, a develope can define his own error manager which implements
- * the ErrorNotifier interface and which is registered to the ErrorCatcher in order
- * to manage both the Malai exceptions and the third-part application errors.
+ * The singleton ErrorCatcher collects errors.
+ * The ErrorCatcher sends the gathered exception to an ErrorNotifier (if one is defined).
  * @author Arnaud BLOUIN
  * @since 0.2
  */
 public final class ErrorCatcher {
-	/** The singleton ErrorCatcher. */
+	/** The singleton. */
 	public static final ErrorCatcher INSTANCE = new ErrorCatcher();
 
 	/** The notifier object. */
@@ -35,16 +31,16 @@ public final class ErrorCatcher {
 	}
 
 	/**
-	 * Sets the notifier that will be notified about Malai errors.
-	 * @param notifier The notifier that will be notified about errors. Can be null.
+	 * Sets the notifier that will be notified about the collected exceptions.
+	 * @param newNotifier The notifier that will be notified the collected exceptions. Can be null.
 	 * @since 0.2
 	 */
-	public void setNotifier(final ErrorNotifier notifier) {
-		this.notifier = notifier;
+	public void setNotifier(final ErrorNotifier newNotifier) {
+		notifier = newNotifier;
 	}
 
 	/**
-	 * @return The notifier that is notified about errors.
+	 * @return The notifier that is notified about the collected exceptions.
 	 * @since 0.2
 	 */
 	public ErrorNotifier getErrorNotifier() {
@@ -53,14 +49,13 @@ public final class ErrorCatcher {
 
 
 	/**
-	 * Gathers malai exceptions.
-	 * @param exception The errors to gather. Nothing is done if null or if no
-	 * notifier is defined.
+	 * Gathers exceptions. The notifier is then notified of the exceptions (if defined).
+	 * @param exception The errors to gather.
 	 * @since 0.1
 	 */
 	public void reportError(final Exception exception) {
 		if(exception != null && notifier != null) {
-			notifier.onMalaiException(exception);
+			notifier.onException(exception);
 		}
 	}
 }

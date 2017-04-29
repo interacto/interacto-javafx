@@ -26,7 +26,7 @@ public interface Interactor extends InteractionHandler {
 	 * @param eventable The eventable object that gathers event used by the interaction.
 	 * @since 0.2
 	 */
-	void addEventable(Eventable eventable);
+	void addEventable(final Eventable eventable);
 
 	/**
 	 * Stops the interaction and clears all its events waiting for a process.
@@ -74,10 +74,10 @@ public interface Interactor extends InteractionHandler {
 	boolean isRunning();
 
 	/**
-	 * Sometimes the interaction of two different interactors can overlap themselves. It provokes
-	 * that the first interaction can stops while the second is blocked in a intermediary state.
+	 * Sometimes the interaction of two different interactors can overlap. In this case, the first interaction can
+	 * stops while the second is blocked in an intermediary state.
 	 * Two solutions are possible to avoid such a problem:<br>
-	 * - the use of this function that perform some tests. If the test fails, the starting interaction
+	 * - the use of this function that performs some tests. If the test fails, the starting interaction
 	 * is aborted and the resulting action is never created;<br>
 	 * - the modification of one of the interactions to avoid the overlapping.
 	 * @return True: if the starting interaction must be aborted so that the action is never created.
@@ -102,7 +102,7 @@ public interface Interactor extends InteractionHandler {
 	 * @param activ True: the interactor is activated. Otherwise, it is desactivated.
 	 * @since 3.0
 	 */
-	void setActivated(boolean activ);
+	void setActivated(final boolean activ);
 
 	/**
 	 * @return The instrument that contains the interactor.

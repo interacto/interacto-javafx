@@ -50,11 +50,11 @@ public abstract class ModifyValue extends ActionImpl {
 
 	/**
 	 * Sets the new value of the parameter to change.
-	 * @param value The new value.
+	 * @param newValue The new value.
 	 * @since 0.2
 	 */
-	public void setValue(final Object value) {
-		this.value = value;
+	public void setValue(final Object newValue) {
+		value = newValue;
 	}
 
 
