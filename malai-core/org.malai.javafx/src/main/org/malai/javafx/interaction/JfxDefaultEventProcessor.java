@@ -33,6 +33,28 @@ import org.malai.interaction.Interaction;
  */
 public interface JfxDefaultEventProcessor extends JfxEventProcessor, Interaction {
 	@Override
+	default void onPressure(final MouseEvent evt, final int idHID) {
+		if(!isActivated()) return;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof PressureTransition).filter(tr -> {
+			final PressureTransition pt = (PressureTransition) tr;
+			pt.setEvent(evt);
+			pt.setHid(idHID);
+			return checkTransition(tr);
+		}).findFirst();
+	}
+
+	@Override
+	default void onRelease(final MouseEvent evt, final int idHID) {
+		if(!isActivated()) return;
+		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof ReleaseTransition).filter(tr -> {
+			final ReleaseTransition pt = (ReleaseTransition) tr;
+			pt.setEvent(evt);
+			pt.setHid(idHID);
+			return tr.isGuardRespected() && checkTransition(tr);
+		}).findFirst();
+	}
+
+	@Override
 	default void onScroll(final ScrollEvent evt, final int idHID) {
 		if(!isActivated()) return;
 		getCurrentState().getTransitions().stream().filter(tr -> tr instanceof ScrollTransition).filter(tr -> {
