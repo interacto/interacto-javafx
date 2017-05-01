@@ -29,6 +29,20 @@ public abstract class TestJfXInteraction<T extends JfxInteraction> {
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
+	protected MouseEvent createMouseReleaseEvent(final double x, final double y, final MouseButton button) {
+		return new MouseEvent(MouseEvent.MOUSE_RELEASED, x, y, 0d, 0d, button, 1, false,
+			false, false, false, false, false, false,
+			true,false, false, new PickResult(null, new Point3D(0d, 0d, 0d),
+			0d, 0, new Point2D(0d, 0d)));
+	}
+
+	protected MouseEvent createMouseMoveEvent(final double x, final double y, final MouseButton button) {
+		return new MouseEvent(MouseEvent.MOUSE_MOVED, x, y, 0d, 0d, button, 1, false,
+			false, false, false, false, false, false,
+			true,false, false, new PickResult(null, new Point3D(0d, 0d, 0d),
+			0d, 0, new Point2D(0d, 0d)));
+	}
+
 	protected KeyEvent createKeyPressEvent(final String str, final KeyCode code) {
 		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_PRESSED, str, str, code, false,
 			false, false, false);
