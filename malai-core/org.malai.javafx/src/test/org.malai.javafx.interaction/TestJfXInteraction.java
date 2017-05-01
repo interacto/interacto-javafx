@@ -1,6 +1,5 @@
 package org.malai.javafx.interaction;
 
-import javafx.event.EventTarget;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.input.KeyCode;
@@ -31,7 +30,12 @@ public abstract class TestJfXInteraction<T extends JfxInteraction> {
 	}
 
 	protected KeyEvent createKeyPressEvent(final String str, final KeyCode code) {
-		return new KeyEvent(new Object(), (EventTarget) tail -> null, KeyEvent.KEY_PRESSED, str, str, code, false,
+		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_PRESSED, str, str, code, false,
+			false, false, false);
+	}
+
+	protected KeyEvent createKeyReleaseEvent(final String str, final KeyCode code) {
+		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_RELEASED, str, str, code, false,
 			false, false, false);
 	}
 
