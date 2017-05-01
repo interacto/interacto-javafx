@@ -35,7 +35,7 @@ public class AbortableDnD extends DnD {
 	protected void initStateMachine() {
 		super.initStateMachine();
 
-		AbortingState aborted = new AbortingState("aborted"); //$NON-NLS-1$
+		final AbortingState aborted = new AbortingState("aborted"); //$NON-NLS-1$
 		addState(aborted);
 
 		new EscapeKeyPressureTransition(pressed, aborted);
@@ -57,9 +57,9 @@ public class AbortableDnD extends DnD {
 	@Override
 	public void registerToWindows(Collection<Window> windows) {
 		super.registerToWindows(windows);
-		windows.forEach(widget -> {
-			widget.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			widget.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
+		windows.forEach(window -> {
+			window.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
+			window.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
 		});
 	}
 }
