@@ -1,14 +1,11 @@
 package org.malai.swing.instrument.library;
 
 import java.awt.event.KeyEvent;
-
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
-
 import org.malai.action.library.Redo;
 import org.malai.action.library.Undo;
-import org.malai.error.ErrorCatcher;
-import org.malai.instrument.InteractorImpl;
+import org.malai.binding.WidgetBindingImpl;
 import org.malai.swing.instrument.WidgetInstrument;
 import org.malai.swing.interaction.library.ButtonPressed;
 import org.malai.swing.interaction.library.KeysPressure;
@@ -68,16 +65,12 @@ public class UndoRedoManager extends WidgetInstrument {
 
 
 	@Override
-	protected void initialiseInteractors() {
-		try{
-			addInteractor(new ButtonPressed2Undo(this));
-			addInteractor(new ButtonPressed2Redo(this));
-			addInteractor(new Keys2Undo(this));
-			addInteractor(new Keys2Redo(this));
-		}catch(final InstantiationException | IllegalAccessException e){
-			ErrorCatcher.INSTANCE.reportError(e);
-		}
-	}
+	protected void configureBindings() throws IllegalAccessException, InstantiationException {
+		addBinding(new ButtonPressed2Undo(this));
+		addBinding(new ButtonPressed2Redo(this));
+		addBinding(new Keys2Undo(this));
+		addBinding(new Keys2Redo(this));
+}
 
 
 	/**
@@ -155,13 +148,13 @@ public class UndoRedoManager extends WidgetInstrument {
 
 
 /**
- * This link maps a button to a redo action.
+ * This widget binding binds a button to a redo action.
  * @author Arnaud Blouin
  */
-class ButtonPressed2Redo extends InteractorImpl<Redo, ButtonPressed, UndoRedoManager> {
+class ButtonPressed2Redo extends WidgetBindingImpl<Redo, ButtonPressed, UndoRedoManager> {
 	/**
-	 * Creates the link.
-	 * @param ins The instrument that contains this link.
+	 * Creates the widget binding.
+	 * @param ins The instrument that contains this widget binding.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 */
@@ -182,13 +175,13 @@ class ButtonPressed2Redo extends InteractorImpl<Redo, ButtonPressed, UndoRedoMan
 
 
 /**
- * This link maps a key interaction to an undo action.
+ * This widget binding binds a key interaction to an undo action.
  * @author Arnaud Blouin
  */
-class Keys2Redo extends InteractorImpl<Redo, KeysPressure, UndoRedoManager> {
+class Keys2Redo extends WidgetBindingImpl<Redo, KeysPressure, UndoRedoManager> {
 	/**
-	 * Creates the link.
-	 * @param ins The instrument that contains this link.
+	 * Creates the widget binding.
+	 * @param ins The instrument that contains this widget binding.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 */
@@ -211,13 +204,13 @@ class Keys2Redo extends InteractorImpl<Redo, KeysPressure, UndoRedoManager> {
 
 
 /**
- * This link maps a key interaction to an undo action.
+ * This widget binding binds a key interaction to an undo action.
  * @author Arnaud Blouin
  */
-class Keys2Undo extends InteractorImpl<Undo, KeysPressure, UndoRedoManager> {
+class Keys2Undo extends WidgetBindingImpl<Undo, KeysPressure, UndoRedoManager> {
 	/**
-	 * Creates the link.
-	 * @param ins The instrument that contains this link.
+	 * Creates the widget binding.
+	 * @param ins The instrument that contains this widget binding.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 */
@@ -239,13 +232,13 @@ class Keys2Undo extends InteractorImpl<Undo, KeysPressure, UndoRedoManager> {
 
 
 /**
- * This link maps a button to an undo action.
+ * This widget binding binds a button to an undo action.
  * @author Arnaud Blouin
  */
-class ButtonPressed2Undo extends InteractorImpl<Undo, ButtonPressed, UndoRedoManager> {
+class ButtonPressed2Undo extends WidgetBindingImpl<Undo, ButtonPressed, UndoRedoManager> {
 	/**
-	 * Creates the link.
-	 * @param ins The instrument that contains this link.
+	 * Creates the widget binding.
+	 * @param ins The instrument that contains this widget binding.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 */

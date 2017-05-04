@@ -2,10 +2,8 @@ package org.malai.swing.instrument.library;
 
 import java.awt.event.KeyEvent;
 import java.util.List;
-
 import org.malai.action.library.Zoom;
-import org.malai.error.ErrorCatcher;
-import org.malai.instrument.InteractorImpl;
+import org.malai.binding.WidgetBindingImpl;
 import org.malai.properties.Zoomable;
 import org.malai.swing.instrument.SwingInstrument;
 import org.malai.swing.interaction.library.KeyPressureNoModifier;
@@ -65,20 +63,18 @@ public class BasicZoomer extends SwingInstrument {
 
 
 	@Override
-	protected void initialiseInteractors() {
-		try{
-			if(withKeys) addInteractor(new KeysZoom(this));
-			addInteractor(new Scroll2Zoom(this));
-		}catch(final InstantiationException | IllegalAccessException e){
-			ErrorCatcher.INSTANCE.reportError(e);
+	protected void configureBindings() throws IllegalAccessException, InstantiationException {
+		if(withKeys) {
+			addBinding(new KeysZoom(this));
 		}
+		addBinding(new Scroll2Zoom(this));
 	}
 
 
 	/**
-	 * This interactor maps a key pressure interaction to a zoom action.
+	 * This widget binding binds a key pressure interaction to a zoom action.
 	 */
-	protected static class KeysZoom extends InteractorImpl<Zoom, KeyPressureNoModifier, BasicZoomer> {
+	protected static class KeysZoom extends WidgetBindingImpl<Zoom, KeyPressureNoModifier, BasicZoomer> {
 		/**
 		 * Creates the action.
 		 */
@@ -108,9 +104,9 @@ public class BasicZoomer extends SwingInstrument {
 
 
 	/**
-	 * This interactor maps a scroll interaction to a zoom action.
+	 * This widget binding binds a scroll interaction to a zoom action.
 	 */
-	protected static class Scroll2Zoom extends InteractorImpl<Zoom, KeysScrolling, BasicZoomer> {
+	protected static class Scroll2Zoom extends WidgetBindingImpl<Zoom, KeysScrolling, BasicZoomer> {
 		/**
 		 * Creates the action.
 		 */

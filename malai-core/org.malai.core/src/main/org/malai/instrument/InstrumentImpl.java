@@ -13,6 +13,7 @@ package org.malai.instrument;
 import java.util.ArrayList;
 import java.util.List;
 import org.malai.action.Action;
+import org.malai.binding.WidgetBinding;
 import org.malai.error.ErrorCatcher;
 import org.malai.interaction.Eventable;
 import org.malai.undo.Undoable;
@@ -20,16 +21,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Defines an abstract model of an instrument.
+ * The base class of an instrument.
  * @author Arnaud BLOUIN
- * @since 0.1
  */
-public abstract class InstrumentImpl<T extends Interactor> implements Instrument {
+public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrument {
 	/** Defines if the instrument is activated or not. */
 	protected boolean activated;
 
-	/** The interactors of the instrument. */
-	protected final List<T> interactors;
+	/** The widget bindings of the instrument. */
+	protected final List<T> bindings;
 
 	/** Defined if the instrument has been modified. */
 	protected boolean modified;
@@ -45,65 +45,65 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	public InstrumentImpl() {
 		activated = false;
 		modified = false;
-		interactors = new ArrayList<>();
+		bindings = new ArrayList<>();
 	}
 
 
 	@Override
-	public int getNbInteractors() {
-		return interactors.size();
+	public int getNbWidgetBindings() {
+		return bindings.size();
 	}
 
 
 	@Override
-	public boolean hasInteractors() {
-		return getNbInteractors() > 0;
+	public boolean hasWidgetBindings() {
+		return getNbWidgetBindings() > 0;
 	}
 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Interactor> getInteractors() {
-		return (List<Interactor>) interactors;
+	public List<WidgetBinding> getWidgetBindings() {
+		return (List<WidgetBinding>) bindings;
 	}
 
 
 	/**
-	 * Initialises the interactors of the instrument.
-	 * @throws InstantiationException When an interactor cannot instantiate its interaction.
-	 * @throws IllegalAccessException When an interactor cannot instantiate its interaction.
+	 * Initialises the bindings of the instrument.
+	 * @throws InstantiationException When a widget binding cannot instantiate its interaction.
+	 * @throws IllegalAccessException When a widget binding cannot instantiate its interaction.
 	 * @since 0.2
 	 */
-	protected abstract void initialiseInteractors() throws InstantiationException, IllegalAccessException;
+	protected abstract void configureBindings() throws InstantiationException, IllegalAccessException;
 
 
 	/**
-	 * Adds the given interactor to the list of interactors of the instrument.
+	 * Adds the given widget binding to the list of bindings of the instrument.
 	 * Eventables object previously added to the instrument are added
-	 * to the added interactor.
-	 * @param interactor The interactor to add. If null, nothing is done.
+	 * to the added widget binding.
+	 * @param binding The widget binding to add. If null, nothing is done.
 	 * @since 0.2
 	 */
-	protected void addInteractor(final T interactor) {
-		if(interactor != null) {
-			interactors.add(interactor);
-			interactor.setActivated(isActivated());
+	protected void addBinding(final T binding) {
+		if(binding != null) {
+			bindings.add(binding);
+			binding.setActivated(isActivated());
 
 			if(eventables != null) {
-				eventables.forEach(eventable -> interactor.addEventable(eventable));
+				eventables.forEach(eventable -> binding.addEventable(eventable));
 			}
 		}
 	}
 
 
 	/**
-	 * Removes the given interactor from the list of interactors of the instrument.
-	 * @param interactor The interactor to remove.
-	 * @return True: the given interactor has been removed. False otherwise.
+	 * Removes the given widget binding from the list of bindings of the instrument.
+	 * @param binding The widget binding to remove.
+	 * @return True: the given widget binding has been removed. False otherwise.
 	 * @since 0.2
 	 */
-	protected boolean removeInteractor(final T interactor) {
-		return interactor != null && interactors.remove(interactor);
+	protected boolean removeBinding(final T binding) {
+		return binding != null && bindings.remove(binding);
 	}
 
 
@@ -115,14 +115,14 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 			}
 
 			eventables.add(eventable);
-			interactors.forEach(interactor -> interactor.addEventable(eventable));
+			bindings.forEach(binding -> binding.addEventable(eventable));
 		}
 	}
 
 
 	@Override
 	public void clearEvents() {
-		interactors.forEach(interactor -> interactor.clearEvents());
+		bindings.forEach(binding -> binding.clearEvents());
 	}
 
 
@@ -136,14 +136,14 @@ public abstract class InstrumentImpl<T extends Interactor> implements Instrument
 	public void setActivated(final boolean toBeActivated) {
 		activated = toBeActivated;
 
-		if(toBeActivated && !hasInteractors()) {
+		if(toBeActivated && !hasWidgetBindings()) {
 			try {
-				initialiseInteractors();
+				configureBindings();
 			}catch(InstantiationException | IllegalAccessException ex) {
 				ErrorCatcher.INSTANCE.reportError(ex);
 			}
 		}else {
-			interactors.forEach(interactor -> interactor.setActivated(toBeActivated));
+			bindings.forEach(binding -> binding.setActivated(toBeActivated));
 		}
 
 		interimFeedback();

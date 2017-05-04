@@ -3,7 +3,7 @@ package test.org.malai.instrument;
 import java.util.List;
 import org.junit.Test;
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Interactor;
+import org.malai.binding.WidgetBinding;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -15,10 +15,10 @@ public abstract class TestInstrument<T extends Instrument> {
 
 	@Test
 	public void testNotNoLink() {
-		assertTrue(instrument.getNbInteractors() == 0);
-		if(!instrument.getInteractors().isEmpty()) {
+		assertTrue(instrument.getNbWidgetBindings() == 0);
+		if(!instrument.getWidgetBindings().isEmpty()) {
 			instrument.setActivated(true);
-			assertTrue(instrument.getNbInteractors() > 0);
+			assertTrue(instrument.getNbWidgetBindings() > 0);
 		}
 	}
 
@@ -27,8 +27,8 @@ public abstract class TestInstrument<T extends Instrument> {
 	public void testCreation() {
 		assertFalse(instrument.isActivated());
 		assertFalse(instrument.isModified());
-		assertNotNull(instrument.getInteractors());
-		assertTrue(instrument.getInteractors().isEmpty());
+		assertNotNull(instrument.getWidgetBindings());
+		assertTrue(instrument.getWidgetBindings().isEmpty());
 	}
 
 
@@ -41,9 +41,9 @@ public abstract class TestInstrument<T extends Instrument> {
 	}
 
 
-	public Interactor getLink(final String nameClassLink) {
-		Interactor interactor = null;
-		final List<Interactor> interactors = instrument.getInteractors();
+	public WidgetBinding getLink(final String nameClassLink) {
+		WidgetBinding interactor = null;
+		final List<WidgetBinding> interactors = instrument.getWidgetBindings();
 
 		for(int i = 0; i < interactors.size() && interactor == null; i++)
 			if(interactors.get(i).getClass().getName().endsWith(nameClassLink)) interactor = interactors.get(i);

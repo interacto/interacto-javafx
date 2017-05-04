@@ -1,7 +1,7 @@
 package test.org.malai.instrument;
 
 import org.junit.Test;
-import org.malai.instrument.MustBeUndoableActionException;
+import org.malai.binding.MustBeUndoableActionException;
 
 import static org.junit.Assert.assertNotNull;
 

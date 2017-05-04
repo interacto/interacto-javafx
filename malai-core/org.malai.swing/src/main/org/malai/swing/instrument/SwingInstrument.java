@@ -1,6 +1,6 @@
 package org.malai.swing.instrument;
 
-import org.malai.instrument.Interactor;
+import org.malai.binding.WidgetBinding;
 import org.malai.instrument.InstrumentImpl;
 
 /**
@@ -20,7 +20,7 @@ import org.malai.instrument.InstrumentImpl;
  * @date 2014-09-19
  * @since 2.0
  */
-public abstract class SwingInstrument extends InstrumentImpl<Interactor> {
+public abstract class SwingInstrument extends InstrumentImpl<WidgetBinding> {
 	public SwingInstrument() {
 		super();
 	}
