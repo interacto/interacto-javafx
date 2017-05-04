@@ -1,17 +1,19 @@
-[![Build Status](https://ci.inria.fr/malai/job/malai_javafx/badge/icon)](https://ci.inria.fr/malai/job/malai_javafx/)<br/>
+[![Build Status](https://ci.inria.fr/malai/job/malai_core/badge/icon)](https://ci.inria.fr/malai/job/malai_core/) [![Build Status](https://ci.inria.fr/malai/job/malai_javafx/badge/icon)](https://ci.inria.fr/malai/job/malai_javafx/)<br/>
+
+
 
 # Malai and the Model-View-Instrument (MVI) pattern
 
 Malai is an implementation of the **Model-View-Instrument** (**MVI**) pattern.<br/>
-MVI complements traditional patterns (MVC, MVP, MVVM) by introducing the concepts the action and user interaction as first class concerns.
+MVI complements traditional patterns (MVC, MVP, MVVM) by introducing the concepts of widget binding, action, and user interaction as first class concerns.
 
 MVI is not another pattern to choose against MVP, MVC, etc.<br/> 
 MVI complements the different patterns you choose for your applications:<br/>
-with MVI, a user interface has **actions** and **user interactions** in addition to the traditional model, view, controller/presenter/viewModel/component/etc. (this last is called an instrument in MVI).
-
+with MVI, a user interface has **actions** and **user interactions** in addition to the traditional model, view, controller/presenter/viewModel/component/etc. (this last is called an instrument in MVI).  
+MVI
 MVI eases the development of highly interactive applications by:
 
-- providing binding features to transform user interactions into actions (instead of using the low level, error-prone, and not-scalable event handling system)
+- providing **widget binding**, a novel binding mechanism to transform user interactions into actions (instead of using the low level, error-prone, and not-scalable event handling system)
 - providing a library of reusable standard and modern user interactions
 - providing a support of undo/redo features
 
@@ -64,10 +66,10 @@ public class PreferencesSetter extends JfxInstrument implements Initializable {
     //...
 
     @Override
-    protected void initialiseInteractors() throws IllegalAccessException, InstantiationException {
+    protected void configureBindings() throws IllegalAccessException, InstantiationException {
         //...
-        // Defines an interactor that binds a combobox interaction to the action SetUnit
-        addComboBoxInteractor(SetUnit.class,  // The type of the action to produce
+        // Defines an widget binding that binds a combobox to the action SetUnit
+        bindComboBox(SetUnit.class,  // The type of the action to produce
             action -> action.setUnit(Unit.getUnit(unitChoice.getSelectionModel().getSelectedItem())), // The initialisation of the action
             unitChoice); // The source widget to listen
     }
@@ -105,12 +107,12 @@ And adds the dependencies:
         <dependency>
             <groupId>org.malai</groupId>
             <artifactId>malai.core</artifactId>
-            <version>2.1-SNAPSHOT</version>
+            <version>3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.malai</groupId>
             <artifactId>malai.javafx</artifactId>
-            <version>2.1-SNAPSHOT</version>
+            <version>3.0-SNAPSHOT</version>
         </dependency>
 ```
 
