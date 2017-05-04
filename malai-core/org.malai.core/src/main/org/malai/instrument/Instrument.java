@@ -12,6 +12,7 @@ package org.malai.instrument;
 
 import java.util.List;
 import org.malai.action.ActionHandler;
+import org.malai.binding.WidgetBinding;
 import org.malai.interaction.Eventable;
 import org.malai.preferences.Preferenciable;
 import org.malai.properties.Modifiable;
@@ -23,25 +24,25 @@ import org.malai.properties.Reinitialisable;
  */
 public interface Instrument extends Preferenciable, Modifiable, Reinitialisable, ActionHandler {
 	/**
-	 * @return The number of interactors that compose the instrument.
+	 * @return The number of widget bindings that compose the instrument.
 	 * @since 0.2
 	 */
-	int getNbInteractors();
+	int getNbWidgetBindings();
 
 	/**
-	 * @return True: the instrument has at least one interactor. False otherwise.
+	 * @return True: the instrument has at least one widget binding. False otherwise.
 	 * @since 0.2
 	 */
-	boolean hasInteractors();
+	boolean hasWidgetBindings();
 
 	/**
-	 * @return The interactors that compose the instrument. Cannot be null.
+	 * @return The widget bindings that compose the instrument. Cannot be null.
 	 * @since 0.2
 	 */
-	List<Interactor> getInteractors();
+	List<WidgetBinding> getWidgetBindings();
 
 	/**
-	 * Binds the interaction of the interactors of the instrument to a Eventable object that produces
+	 * Binds the interaction of the widget bindings of the instrument to a Eventable object that produces
 	 * events used by the interactions.
 	 * @param eventable The eventable object that gathers event used by the interactions.
 	 * @since 0.2

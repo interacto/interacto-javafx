@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.malai.action.ActionImpl;
 import org.malai.instrument.InstrumentImpl;
-import org.malai.instrument.Interactor;
+import org.malai.binding.WidgetBinding;
 
 public abstract class TestAbstractAction<T extends ActionImpl> {
 	protected T action;
@@ -35,13 +35,13 @@ public abstract class TestAbstractAction<T extends ActionImpl> {
 	public abstract void testHadEffect() throws Exception;
 
 
-	public class InstrumentMock extends InstrumentImpl<Interactor> {
+	public class InstrumentMock extends InstrumentImpl<WidgetBinding> {
 		public InstrumentMock() {
 			super();
 		}
 
 		@Override
-		protected void initialiseInteractors() {
+		protected void configureBindings() {
 			//
 		}
 	}

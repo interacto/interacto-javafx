@@ -4,9 +4,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.HashSet;
 import java.util.Set;
-
+import org.malai.binding.WidgetBinding;
 import org.malai.instrument.Instrument;
-import org.malai.instrument.Interactor;
 import org.malai.interaction.Interaction;
 
 
@@ -100,8 +99,8 @@ public final class UIManager implements WindowFocusListener {
 		Interaction interaction;
 
 		for(final Instrument instrument : ui.getInstruments())
-			for(final Interactor link : instrument.getInteractors()) {
-				interaction = link.getInteraction();
+			for(final WidgetBinding binding : instrument.getWidgetBindings()) {
+				interaction = binding.getInteraction();
 				interaction.reinit();
 				interaction.clearEventsStillInProcess();
 			}

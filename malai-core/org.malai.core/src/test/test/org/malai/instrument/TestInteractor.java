@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.malai.error.ErrorCatcher;
 import org.malai.error.ErrorNotifier;
-import org.malai.instrument.Interactor;
-import org.malai.instrument.InteractorImpl;
+import org.malai.binding.WidgetBinding;
+import org.malai.binding.WidgetBindingImpl;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import test.org.malai.action.ActionImplMock;
 import test.org.malai.instrument.TestMockInstrument.MockInstrument;
@@ -26,9 +26,9 @@ public class TestInteractor {
 	public void setUp() {
 		instrument = new MockInstrument() {
 			@Override
-			protected void initialiseInteractors() throws InstantiationException, IllegalAccessException {
+			protected void configureBindings() throws InstantiationException, IllegalAccessException {
 				TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionImplMock.class, InteractionMock.class);
-				addInteractor(interactor);
+				addBinding(interactor);
 			}
 		};
 		instrument.setActivated(true);
@@ -176,7 +176,7 @@ public class TestInteractor {
 			}
 		});
 		MockInstrument ins = new MockInstrument();
-		Interactor interactor2 = new InteractorImpl<ActionImplMock2, InteractionMock, MockInstrument>(ins, false, ActionImplMock2.class,
+		WidgetBinding interactor2 = new WidgetBindingImpl<ActionImplMock2, InteractionMock, MockInstrument>(ins, false, ActionImplMock2.class,
 			InteractionMock.class) {
 			@Override
 			public void initAction() {//
@@ -194,7 +194,7 @@ public class TestInteractor {
 
 		ok[0] = false;
 		ins = new MockInstrument();
-		interactor2 = new InteractorImpl<ActionImplMock3, InteractionMock, MockInstrument>(ins, false, ActionImplMock3.class,
+		interactor2 = new WidgetBindingImpl<ActionImplMock3, InteractionMock, MockInstrument>(ins, false, ActionImplMock3.class,
 			InteractionMock.class) {
 			@Override
 			public void initAction() {//
@@ -225,7 +225,7 @@ class ActionImplMock3 extends ActionImplMock {
 }
 
 
-class MockInteractor extends InteractorImpl<ActionImplMock, InteractionMock, MockInstrument> {
+class MockInteractor extends WidgetBindingImpl<ActionImplMock, InteractionMock, MockInstrument> {
 	public boolean conditionRespected;
 	public boolean mustAbort;
 

@@ -1,12 +1,9 @@
 package org.malai.swing.instrument.library;
 
 import java.awt.Dimension;
-
 import javax.swing.Icon;
-
 import org.malai.action.library.Zoom;
-import org.malai.error.ErrorCatcher;
-import org.malai.instrument.InteractorImpl;
+import org.malai.binding.WidgetBindingImpl;
 import org.malai.properties.Zoomable;
 import org.malai.swing.interaction.library.ButtonPressed;
 import org.malai.swing.interaction.library.SpinnerModified;
@@ -78,14 +75,10 @@ public class WidgetZoomer extends BasicZoomer {
 
 
 	@Override
-	protected void initialiseInteractors() {
-		super.initialiseInteractors();
-		try{
-			addInteractor(new Spinner2Zoom(this));
-			addInteractor(new Button2Zoom(this));
-		}catch(final InstantiationException | IllegalAccessException e){
-			ErrorCatcher.INSTANCE.reportError(e);
-		}
+	protected void configureBindings() throws IllegalAccessException, InstantiationException {
+		super.configureBindings();
+		addBinding(new Spinner2Zoom(this));
+		addBinding(new Button2Zoom(this));
 	}
 
 
@@ -128,11 +121,11 @@ public class WidgetZoomer extends BasicZoomer {
 
 
 	/**
-	 * This link maps a button that changes the zoom to a button-pressed interaction.
+	 * This widget binding binds a button that changes the zoom to a button-pressed interaction.
 	 */
-	protected static class Button2Zoom extends InteractorImpl<Zoom, ButtonPressed, WidgetZoomer> {
+	protected static class Button2Zoom extends WidgetBindingImpl<Zoom, ButtonPressed, WidgetZoomer> {
 		/**
-		 * Initialises the link.
+		 * Initialises the widget binding.
 		 * @param ins The zoomer.
 		 */
 		protected Button2Zoom(final WidgetZoomer ins) throws InstantiationException, IllegalAccessException {
@@ -156,11 +149,11 @@ public class WidgetZoomer extends BasicZoomer {
 
 
 	/**
-	 * The links maps the zoom spinner to the zoom action.
+	 * The widget binding maps the zoom spinner to the zoom action.
 	 */
-	protected static class Spinner2Zoom extends InteractorImpl<Zoom, SpinnerModified, WidgetZoomer> {
+	protected static class Spinner2Zoom extends WidgetBindingImpl<Zoom, SpinnerModified, WidgetZoomer> {
 		/**
-		 * Initialises the link.
+		 * Initialises the widget binding.
 		 * @param ins The zoomer.
 		 */
 		protected Spinner2Zoom(final WidgetZoomer ins) throws InstantiationException, IllegalAccessException {

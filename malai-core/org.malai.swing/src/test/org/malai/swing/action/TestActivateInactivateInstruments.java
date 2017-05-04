@@ -1,15 +1,8 @@
 package org.malai.swing.action;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.awt.Component;
 import java.lang.reflect.Field;
 import java.util.List;
-
 import org.junit.Test;
 import org.malai.action.Action;
 import org.malai.instrument.Instrument;
@@ -17,9 +10,14 @@ import org.malai.swing.action.library.ActivateInactivateInstruments;
 import org.malai.swing.instrument.WidgetInstrument;
 import org.malai.swing.ui.SwingUIComposer;
 import org.malai.swing.widget.MProgressBar;
-
 import test.org.malai.HelperTest;
 import test.org.malai.action.TestAbstractAction;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class TestActivateInactivateInstruments extends TestAbstractAction<ActivateInactivateInstruments> {
 
@@ -250,7 +248,7 @@ public class TestActivateInactivateInstruments extends TestAbstractAction<Activa
 			}
 		}) {
 			@Override
-			protected void initialiseInteractors() {
+			protected void configureBindings() {
 				//
 			}
 			@Override
@@ -279,7 +277,7 @@ public class TestActivateInactivateInstruments extends TestAbstractAction<Activa
 			}
 		}) {
 			@Override
-			protected void initialiseInteractors() {
+			protected void configureBindings() {
 				//
 			}
 			@Override

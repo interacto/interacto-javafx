@@ -54,7 +54,7 @@ public class MTextArea extends JTextArea implements Pickable, ScrollableWidget, 
 	 * @param withEvtManager True: the text area will have an event manager.
 	 * @param eventOnEachModification If true: each modification
 	 * of the underlying document will launch an event (DocumentEvent)
-	 * that can be used by a link based on the interaction TextChanged.
+	 * that can be used by a widget binding based on the interaction TextChanged.
 	 * If false, the user has to type on the back space key to create
 	 * an event.
 	 * @since 0.2

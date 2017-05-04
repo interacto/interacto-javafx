@@ -1,7 +1,6 @@
 package org.malai.swing.instrument.library;
 
-import org.malai.error.ErrorCatcher;
-import org.malai.instrument.InteractorImpl;
+import org.malai.binding.WidgetBindingImpl;
 import org.malai.swing.action.library.Scroll;
 import org.malai.swing.instrument.SwingInstrument;
 import org.malai.swing.interaction.library.KeysScrolling;
@@ -33,7 +32,7 @@ public class Scroller extends SwingInstrument {
 
 	/**
 	 * Initialises a scroller.
-	 * @param panel The panel to scroll.
+	 * @param scrollableWidget The widget to scroll.
 	 * @throw IllegalArgumentException If panel is null or is not scrollable.
 	 * @since 0.2
 	 */
@@ -49,12 +48,8 @@ public class Scroller extends SwingInstrument {
 
 
 	@Override
-	protected void initialiseInteractors() {
-		try{
-			addInteractor(new Scrolling2Scroll(this));
-		}catch(final InstantiationException | IllegalAccessException e){
-			ErrorCatcher.INSTANCE.reportError(e);
-		}
+	protected void configureBindings() throws IllegalAccessException, InstantiationException {
+		addBinding(new Scrolling2Scroll(this));
 	}
 }
 
@@ -62,9 +57,9 @@ public class Scroller extends SwingInstrument {
 /**
  * ScrollInteraction -> ScrollAction
  */
-class Scrolling2Scroll extends InteractorImpl<Scroll, KeysScrolling, Scroller> {
+class Scrolling2Scroll extends WidgetBindingImpl<Scroll, KeysScrolling, Scroller> {
 	/**
-	 * Creates a link ScrollInteraction -> ScrollAction
+	 * Creates a widget binding ScrollInteraction -> ScrollAction
 	 * @param scroller The instrument.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.

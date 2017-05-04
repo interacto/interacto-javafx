@@ -3,7 +3,7 @@ package test.org.malai.instrument;
 import org.junit.Before;
 import org.junit.Test;
 import org.malai.instrument.InstrumentImpl;
-import org.malai.instrument.InteractorImpl;
+import org.malai.binding.WidgetBindingImpl;
 import test.org.malai.action.ActionImplMock;
 import test.org.malai.instrument.TestMockInstrument.MockInstrument;
 import test.org.malai.interaction.InteractionMock;
@@ -22,15 +22,15 @@ public class TestMockInstrument extends TestInstrument<MockInstrument> {
 
 	@Test
 	public void testHasLink() throws InstantiationException, IllegalAccessException {
-		assertFalse(instrument.hasInteractors());
-		instrument.getInteractors().add(new MockInteractor(instrument, false, ActionImplMock.class, InteractionMock.class));
-		assertTrue(instrument.hasInteractors());
+		assertFalse(instrument.hasWidgetBindings());
+		instrument.getWidgetBindings().add(new MockInteractor(instrument, false, ActionImplMock.class, InteractionMock.class));
+		assertTrue(instrument.hasWidgetBindings());
 	}
 
 
-	public static class MockInstrument extends InstrumentImpl<InteractorImpl<?, ?, MockInstrument>> {
+	public static class MockInstrument extends InstrumentImpl<WidgetBindingImpl<?, ?, MockInstrument>> {
 		@Override
-		protected void initialiseInteractors() throws InstantiationException, IllegalAccessException {
+		protected void configureBindings() throws InstantiationException, IllegalAccessException {
 			//
 		}
 	}
