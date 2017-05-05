@@ -94,9 +94,9 @@ namespace malai {
          */
         public removeHandler(handler : UndoHandler) : void {
             if(handler != null) {
-                let index = this.handlers.indexOf(handler)
+                let index = this.handlers.indexOf(handler);
                 if(index != -1) {
-                    this.handlers.splice(index, 1)
+                    this.handlers.splice(index, 1);
                 }
             }
         }
