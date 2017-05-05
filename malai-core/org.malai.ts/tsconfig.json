@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "system",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "outFile": "./src-gen/js/malai.js"
+  }
+}
