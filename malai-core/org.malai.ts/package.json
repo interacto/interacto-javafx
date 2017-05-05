@@ -1,0 +1,12 @@
+{
+  "name": "org.malai.ts",
+  "description": "The typescript implementation of Malai",
+  "version": "3.0-dev",
+  "author": "Arnaud Blouin",
+  "repository": "https://github.com/arnobl/Malai.git",
+  "license": "GPL2",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-typescript-project": "^1.0.0"
+  }
+}
