@@ -19,7 +19,7 @@ import org.malai.stateMachine.State;
 import org.malai.stateMachine.Transition;
 
 /**
- * Defines an interaction as defined in the Malai model. An interaction is a state machine and a class.
+ * Base implementation of a FSM-based user interaction.
  * @author Arnaud BLOUIN
  * @since 0.1
  */
@@ -254,15 +254,15 @@ public abstract class InteractionImpl implements Interaction {
 	 * @since 0.1
 	 */
 	protected void executeTransition(final Transition transition) {
-		if(activated) try {
-			if(transition != null) {
+		if(activated && transition != null) {
+			try {
 				transition.action();
 				transition.getInputState().onOutgoing();
 				currentState = transition.getOutputState();
 				transition.getOutputState().onIngoing();
+			}catch(final MustAbortStateMachineException ex) {
+				reinit();
 			}
-		}catch(final MustAbortStateMachineException ex) {
-			reinit();
 		}
 	}
 
@@ -283,7 +283,7 @@ public abstract class InteractionImpl implements Interaction {
 	public boolean checkTransition(final Transition transition) {
 		final boolean ok;
 
-		if(transition.isGuardRespected()) {
+		if(transition != null && transition.isGuardRespected()) {
 			stopCurrentTimeout();
 			executeTransition(transition);
 			ok = true;
@@ -297,8 +297,9 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void onTimeout(final TimeoutTransition timeoutTransition) {
-		if(!activated || timeoutTransition == null) return;
-		executeTransition(timeoutTransition);
+		if(activated && timeoutTransition != null) {
+			executeTransition(timeoutTransition);
+		}
 	}
 
 
@@ -371,8 +372,7 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	/**
-	 * Checks if the current state has a timeout transition. If it is the case,
-	 * the timeout transition is launched.
+	 * Checks if the current state has a timeout transition. If it is the case, the timeout transition is launched.
 	 * @since 0.2
 	 */
 	protected void checkTimeoutTransition() {

@@ -11,7 +11,7 @@
 package org.malai.undo;
 
 /**
- * This handler must help objet that want to be aware of undone/redone event (for instance, to update some widgets).
+ * This handler must help object that want to be aware of undone/redone event (for instance, to update some widgets).
  * @author Arnaud BLOUIN
  * @since 0.1
  */

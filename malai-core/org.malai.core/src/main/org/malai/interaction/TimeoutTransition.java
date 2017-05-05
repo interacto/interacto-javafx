@@ -45,7 +45,7 @@ public class TimeoutTransition extends TransitionImpl {
 
 
 	/**
-	 * Launches the chronometre (and its thread).
+	 * Launches the timer.
 	 * @since 0.2
 	 */
 	public void startTimeout() {
@@ -57,7 +57,7 @@ public class TimeoutTransition extends TransitionImpl {
 
 
 	/**
-	 * Stops the chronometre (and its thread).
+	 * Stops the timer.
 	 * @since 0.2
 	 */
 	public void stopTimeout() {

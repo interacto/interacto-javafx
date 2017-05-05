@@ -24,12 +24,12 @@ public final class UndoCollector {
 	/** The default undo/redo collector. */
 	public static final UndoCollector INSTANCE = new UndoCollector();
 
-	/** The label display when there is no redo possible */
+	/** The standard text for redo. */
 	public static final String EMPTY_REDO = "redo";
 
-	/** The label display when there is no undo possible */
+	/** The standard text for undo. */
 	public static final String EMPTY_UNDO = "undo";
-	/** This object is used to avaoid the use of null when no undoable handler are provided. */
+	/** The Null object for UndoHandler. To avoid the use of null in the stacks. */
 	private static final UndoHandler STUB_UNDO_HANDLER = new EmptyUndoHandler();
 	/** Contains the handlers of each undoable of the undo stack */
 	private final Deque<UndoHandler> undoHandlers;
@@ -46,7 +46,7 @@ public final class UndoCollector {
 
 
 	/**
-	 * The constructor by default.
+	 * Creates the undo collector.
 	 */
 	private UndoCollector() {
 		super();
