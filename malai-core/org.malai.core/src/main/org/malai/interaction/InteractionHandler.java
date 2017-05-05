@@ -19,7 +19,7 @@ import org.malai.stateMachine.MustAbortStateMachineException;
  */
 public interface InteractionHandler {
 	/**
-	 * Happens when the interaction quits its initial state.
+	 * When the interaction quits its initial state.
 	 * @param interaction The concerned interaction.
 	 * @throws MustAbortStateMachineException If the interaction must be aborted.
 	 * @since 0.1
@@ -27,7 +27,7 @@ public interface InteractionHandler {
 	void interactionStarts(final Interaction interaction) throws MustAbortStateMachineException;
 
 	/**
-	 * Happens when the interaction goes to standard state.
+	 * When the interaction goes to standard state.
 	 * @param interaction The concerned interaction.
 	 * @throws MustAbortStateMachineException If the interaction must be aborted.
 	 * @since 0.1
@@ -35,7 +35,7 @@ public interface InteractionHandler {
 	void interactionUpdates(final Interaction interaction) throws MustAbortStateMachineException;
 
 	/**
-	 * Happens when the interaction goes to a terminal state.
+	 * When the interaction goes to a terminal state.
 	 * @param interaction The concerned interaction.
 	 * @throws MustAbortStateMachineException If the interaction must be aborted.
 	 * @since 0.1
@@ -43,7 +43,7 @@ public interface InteractionHandler {
 	void interactionStops(final Interaction interaction) throws MustAbortStateMachineException;
 
 	/**
-	 * Happens when the interaction goes to an aborting state.
+	 * When the interaction goes to an aborting state.
 	 * @param interaction The concerned interaction.
 	 * @since 0.1
 	 */

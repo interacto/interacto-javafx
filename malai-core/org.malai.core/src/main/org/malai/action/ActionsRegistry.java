@@ -17,7 +17,7 @@ import org.malai.undo.Undoable;
 
 /**
  * A register of actions.
- * This is a singleton. It automatically collects the executed actions when the actions is executed by an instrument.
+ * This is a singleton. It automatically collects the executed actions when the action is executed by an instrument.
  * The register has a limited size that can be changed.
  * It can notify handlers about changes in the registry.
  * @author Arnaud Blouin

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * An action is produced and executed in reaction of a user interaction.
  * It follows the command design pattern.
- * It contains statement to execute to perform the action.
+ * It contains statements to execute to perform the action.
  * The interface Undoable can be used to add undo/redo features to an action.
  * @author Arnaud Blouin
  */
@@ -100,7 +100,7 @@ public interface Action {
 	List<Action> followingActions();
 
 	/**
-	 * Defines the different state of the action.
+	 * Defines the different states of the action.
 	 * @since 0.2
 	 */
 	enum ActionStatus {
