@@ -30,10 +30,6 @@ public class AnonAction extends ActionImpl {
 		this.exec = exec;
 	}
 
-	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
 
 	@Override
 	public boolean canDo() {

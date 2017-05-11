@@ -132,11 +132,6 @@ public class TestAction {
 	public Action getActionCanDo() {
 		return new ActionImpl() {
 			@Override
-			public boolean isRegisterable() {
-				return false;
-			}
-
-			@Override
 			protected void doActionBody() {
 				//
 			}
@@ -150,11 +145,6 @@ public class TestAction {
 
 	public Action getActionCannotDo() {
 		return new ActionImpl() {
-			@Override
-			public boolean isRegisterable() {
-				return false;
-			}
-
 			@Override
 			protected void doActionBody() {
 				//

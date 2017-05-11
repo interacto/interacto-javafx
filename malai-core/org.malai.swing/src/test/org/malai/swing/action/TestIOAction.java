@@ -1,22 +1,22 @@
 package org.malai.swing.action;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.lang.reflect.Field;
-
 import org.junit.Test;
+import org.malai.action.Action;
 import org.malai.instrument.Instrument;
 import org.malai.swing.action.library.IOAction;
 import org.malai.swing.ui.ISOpenSaver;
 import org.malai.swing.ui.SwingUI;
 import org.malai.swing.widget.MProgressBar;
-
 import test.org.malai.HelperTest;
 import test.org.malai.action.TestAbstractAction;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public abstract class TestIOAction<T extends IOAction<SwingUI, Object>> extends TestAbstractAction<IOAction<SwingUI, Object>> {
 	@Test
@@ -89,10 +89,8 @@ public abstract class TestIOAction<T extends IOAction<SwingUI, Object>> extends 
 	}
 
 	@Override
-	public void testIsRegisterable() throws SecurityException,
-			NoSuchFieldException, IllegalArgumentException,
-			IllegalAccessException {
-		assertFalse(action.isRegisterable());
+	public void testIsRegisterable() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		assertEquals(Action.RegistrationPolicy.NONE, action.getRegistrationPolicy());
 	}
 
 	@Override

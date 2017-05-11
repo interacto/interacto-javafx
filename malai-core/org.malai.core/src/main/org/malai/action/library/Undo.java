@@ -35,12 +35,6 @@ public class Undo extends ActionImpl {
 
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	@Override
 	protected void doActionBody() {
 		UndoCollector.INSTANCE.undo();
 		done();

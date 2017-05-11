@@ -29,11 +29,6 @@ public class ShowNode extends WidgetAction<Node> {
 	}
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-	@Override
 	protected void doActionBody() {
 		widget.setVisible(visible);
 	}

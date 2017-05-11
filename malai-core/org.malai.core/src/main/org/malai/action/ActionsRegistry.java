@@ -30,7 +30,7 @@ public final class ActionsRegistry {
 	private final List<Action> actions;
 	/** The actions handlers. */
 	private final List<ActionHandler> handlers;
-	/** The max number of actions that can contain the register. */
+	/** The max number of cleanable actions (cf. Action::getRegistrationPolicy) that can contain the register. */
 	private int sizeMax;
 
 
@@ -120,12 +120,17 @@ public final class ActionsRegistry {
 	 */
 	public void addAction(final Action action, final ActionHandler actionHandler) {
 		synchronized(actions) {
-			if(action != null && actionHandler != null && !actions.contains(action) && sizeMax > 0) {
+			if(action != null && actionHandler != null && !actions.contains(action) &&
+				(sizeMax > 0 || action.getRegistrationPolicy() == Action.RegistrationPolicy.UNLIMITED)) {
 				unregisterActions(action);
 
-				// If there is too many actions in the register, the oldest action is removed and flushed.
-				if(actions.size() == sizeMax) {
-					actions.remove(0).flush();
+				// If there is too many actions in the register, the oldest removable action is removed and flushed.
+				if(actions.size() >= sizeMax) {
+					actions.stream().filter(act -> act.getRegistrationPolicy() != Action.RegistrationPolicy.UNLIMITED).findFirst().
+						ifPresent(act -> {
+							actions.remove(act);
+							act.flush();
+						});
 				}
 
 				actions.add(action);
@@ -148,12 +153,12 @@ public final class ActionsRegistry {
 	 * @since 0.1
 	 */
 	public void removeAction(final Action action) {
-		if(action == null) return;
-
-		synchronized(actions) {
-			actions.remove(action);
+		if(action != null) {
+			synchronized(actions) {
+				actions.remove(action);
+			}
+			action.flush();
 		}
-		action.flush();
 	}
 
 
@@ -240,16 +245,25 @@ public final class ActionsRegistry {
 	/**
 	 * Changes the number of actions that the register can contain.
 	 * In the case that actions have to be removed (because the new size is smaller than the old one),
-	 * the necessary number of the oldest actions are flushed and removed from the register.
+	 * the necessary number of the oldest and cleanable actions (cf. Action::getRegistrationPolicy)
+	 * are flushed and removed from the register.
 	 * @param newSizeMax The max number of actions that can contain the register. Must be equal or greater than 0.
 	 * @since 0.2
 	 */
 	public void setSizeMax(final int newSizeMax) {
 		if(newSizeMax >= 0) {
 			synchronized(actions) {
-				// If there is too many actions in the register, they are removed.
-				for(int i = 0, nb = actions.size() - newSizeMax; i < nb; i++) {
-					actions.remove(0).flush();
+				int i = 0;
+				int nb = 0;
+				final int toRemove = actions.size() - newSizeMax;
+
+				while(nb < toRemove && i < actions.size()) {
+					if(actions.get(i).getRegistrationPolicy() != Action.RegistrationPolicy.UNLIMITED) {
+						actions.remove(i).flush();
+						nb++;
+					}else {
+						i++;
+					}
 				}
 			}
 			sizeMax = newSizeMax;

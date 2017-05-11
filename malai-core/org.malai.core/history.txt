@@ -1,3 +1,11 @@
+Version 3.0
+- port to JavaFX
+- Registration policy for actions
+- Widget binding
+- fixed: problem with concurrent events
+
+
+*******************************************************************
 Version 2.0
 - change: Instruments that use Swing widgets should inherits of the class SwingInstrument
 - change: Should use the interfaces Instrument, Interactor, and Interaction instead of their implementation class when possible.

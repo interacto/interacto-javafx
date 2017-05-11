@@ -3,6 +3,7 @@ package test.org.malai.action;
 import org.malai.action.Action;
 import org.malai.action.library.ActivateInstrument;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -31,7 +32,7 @@ public class TestActivateInstrument extends TestInstrumentAction<ActivateInstrum
 
 	@Override
 	public void testIsRegisterable() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		assertFalse(action.isRegisterable());
+		assertEquals(Action.RegistrationPolicy.NONE, action.getRegistrationPolicy());
 	}
 
 	@Override

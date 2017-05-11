@@ -406,11 +406,6 @@ public class TestActionRegistry {
 		}
 
 		@Override
-		public boolean isRegisterable() {
-			return false;
-		}
-
-		@Override
 		protected void doActionBody() {
 			//
 		}
@@ -443,11 +438,6 @@ public class TestActionRegistry {
 		}
 
 		@Override
-		public boolean isRegisterable() {
-			return false;
-		}
-
-		@Override
 		protected void doActionBody() {
 			//
 		}
@@ -467,11 +457,6 @@ public class TestActionRegistry {
 		@Override
 		public boolean unregisteredBy(final Action action) {
 			return action instanceof ActionImplStub;
-		}
-
-		@Override
-		public boolean isRegisterable() {
-			return false;
 		}
 
 		@Override

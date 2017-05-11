@@ -29,11 +29,6 @@ public class ShowStage extends WidgetAction<Stage> {
 	}
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-	@Override
 	protected void doActionBody() {
 		if(visible) {
 			widget.show();

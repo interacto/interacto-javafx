@@ -61,12 +61,6 @@ public abstract class IOAction<B> extends ActionImpl {
 
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	@Override
 	public boolean canDo() {
 		return file != null && openSaveManager != null && ui != null;
 	}

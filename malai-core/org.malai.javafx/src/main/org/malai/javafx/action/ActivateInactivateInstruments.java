@@ -116,12 +116,6 @@ public class ActivateInactivateInstruments extends ActionImpl {
 	}
 
 
-	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
 	/**
 	 * @param activateFirst True: the activations will be performed before the inactivations.
 	 */

@@ -326,7 +326,7 @@ public class TestActivateInactivateInstruments extends TestAbstractAction<Activa
 
 	@Override
 	public void testIsRegisterable() {
-		assertFalse(action.isRegisterable());
+		assertEquals(Action.RegistrationPolicy.NONE, action.getRegistrationPolicy());
 	}
 
 	@Override

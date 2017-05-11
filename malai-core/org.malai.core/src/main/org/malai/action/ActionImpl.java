@@ -62,6 +62,10 @@ public abstract class ActionImpl implements Action {
 	 */
 	protected abstract void doActionBody();
 
+	@Override
+	public RegistrationPolicy getRegistrationPolicy() {
+		return RegistrationPolicy.NONE;
+	}
 
 	@Override
 	public boolean hadEffect() {

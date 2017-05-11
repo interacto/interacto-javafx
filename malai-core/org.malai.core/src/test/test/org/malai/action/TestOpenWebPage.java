@@ -3,6 +3,7 @@ package test.org.malai.action;
 import java.awt.Desktop;
 import java.lang.reflect.Field;
 import java.net.URI;
+import org.malai.action.Action;
 import org.malai.action.library.OpenWebPage;
 import test.org.malai.HelperTest;
 
@@ -57,7 +58,7 @@ public class TestOpenWebPage extends TestAbstractAction<OpenWebPage> {
 
 	@Override
 	public void testIsRegisterable() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		assertFalse(action.isRegisterable());
+		assertEquals(Action.RegistrationPolicy.NONE, action.getRegistrationPolicy());
 	}
 
 	@Override

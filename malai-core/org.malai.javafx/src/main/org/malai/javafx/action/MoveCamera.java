@@ -29,11 +29,6 @@ public class MoveCamera extends PositionAction {
 	}
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-	@Override
 	protected void doActionBody() {
 		scrollPane.setHvalue(px);
 		scrollPane.setVvalue(py);

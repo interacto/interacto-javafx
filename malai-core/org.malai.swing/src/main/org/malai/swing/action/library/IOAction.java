@@ -69,12 +69,6 @@ public abstract class IOAction<A extends SwingUI, B extends Object> extends Acti
 
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	@Override
 	public boolean canDo() {
 		return file!=null && ui!=null && openSaveManager!=null;
 	}

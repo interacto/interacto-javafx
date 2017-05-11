@@ -41,12 +41,6 @@ public class MoveCamera extends PositionAction {
 
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	@Override
 	protected void doActionBody() {
 		final JScrollBar hor = scrollPane.getHorizontalScrollBar();
 		final JScrollBar ver = scrollPane.getVerticalScrollBar();

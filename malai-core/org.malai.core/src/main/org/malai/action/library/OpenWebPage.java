@@ -36,11 +36,6 @@ public class OpenWebPage extends ActionImpl {
 		browsed = false;
 	}
 
-	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
 
 	@Override
 	public void flush() {

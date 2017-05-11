@@ -222,7 +222,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		}
 
 		if(act.hadEffect()) {
-			if(act.isRegisterable()) {
+			if(act.getRegistrationPolicy() != Action.RegistrationPolicy.NONE) {
 				ActionsRegistry.INSTANCE.addAction(act, instrument);
 				instrument.onActionAdded(act);
 			}else {
