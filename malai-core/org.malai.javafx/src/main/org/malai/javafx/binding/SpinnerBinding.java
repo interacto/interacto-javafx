@@ -33,9 +33,9 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException,
+	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException,
 		IllegalAccessException {
-		super(ins, false, clazzAction, SpinnerValueChanged.class, widgets);
+		super(ins, exec, clazzAction, SpinnerValueChanged.class, widgets);
 	}
 
 	/**
@@ -48,8 +48,8 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final Class<A> clazzAction, final Node... widgets) throws InstantiationException,
+	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final Node... widgets) throws InstantiationException,
 		IllegalAccessException {
-		super(ins, false, clazzAction, SpinnerValueChanged.class, widgets);
+		super(ins, exec, clazzAction, SpinnerValueChanged.class, widgets);
 	}
 }

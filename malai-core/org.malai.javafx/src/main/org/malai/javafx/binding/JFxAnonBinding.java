@@ -27,7 +27,8 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud Blouin
  */
 public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
-	final BiConsumer<A, I> execInitAction;
+	private final BiConsumer<A, I> execInitAction;
+	private final BiConsumer<A, I> execUpdateAction;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -50,6 +51,7 @@ public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N ex
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
 		Objects.requireNonNull(initActionFct);
 		execInitAction = (a, i) -> initActionFct.accept(a);
+		execUpdateAction = null;
 	}
 
 	/**
@@ -63,16 +65,19 @@ public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N ex
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param updateActionFct The function that updates the action. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @throws NullPointerException If the given function is null.
 	 */
 	public JFxAnonBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-						  final Consumer<A> initActionFct, final Node... widgets) throws InstantiationException, IllegalAccessException {
+						  final Consumer<A> initActionFct, final Consumer<A> updateActionFct, final Node... widgets)
+							throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
 		Objects.requireNonNull(initActionFct);
 		execInitAction = (a, i) -> initActionFct.accept(a);
+		execUpdateAction = updateActionFct == null ? null : (a, i) -> updateActionFct.accept(a);
 	}
 
 
@@ -96,6 +101,7 @@ public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N ex
 		super(ins, exec, windows, clazzAction, clazzInteraction);
 		Objects.requireNonNull(initActionFct);
 		execInitAction = (a, i) -> initActionFct.accept(a);
+		execUpdateAction = null;
 	}
 
 	/**
@@ -129,15 +135,18 @@ public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N ex
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param updateActionFct The function that updates the action. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @throws NullPointerException If the given function is null.
 	 */
 	public JFxAnonBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-						  final List<Node> widgets, final BiConsumer<A, I> initActionFct) throws InstantiationException, IllegalAccessException {
+						  final List<Node> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct)
+			throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
 		execInitAction = Objects.requireNonNull(initActionFct);
+		execUpdateAction = updateActionFct;
 	}
 
 	/**
@@ -151,15 +160,18 @@ public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N ex
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param updateActionFct The function that updates the action. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @throws NullPointerException If the given function is null.
 	 */
 	public JFxAnonBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-						  final BiConsumer<A, I> initActionFct, final Node... widgets) throws InstantiationException, IllegalAccessException {
+						  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct, final Node... widgets)
+				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
 		execInitAction = Objects.requireNonNull(initActionFct);
+		execUpdateAction = updateActionFct;
 	}
 
 
@@ -174,14 +186,17 @@ public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N ex
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param windows The windows used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param updateActionFct The function that updates the action. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonBinding(final N ins, final boolean exec, List<Window> windows, final Class<A> clazzAction,
-						  final Class<I> clazzInteraction, final BiConsumer<A, I> initActionFct) throws InstantiationException, IllegalAccessException {
+						  final Class<I> clazzInteraction, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct)
+			throws InstantiationException, IllegalAccessException {
 		super(ins, exec, windows, clazzAction, clazzInteraction);
 		execInitAction = Objects.requireNonNull(initActionFct);
+		execUpdateAction = updateActionFct;
 	}
 
 	/**
@@ -195,17 +210,26 @@ public class JFxAnonBinding<A extends ActionImpl, I extends JfxInteraction, N ex
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param windows The windows used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param updateActionFct The function that updates the action. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-						  final BiConsumer<A, I> initActionFct, final Window...windows) throws InstantiationException, IllegalAccessException {
-		this(ins, exec, Arrays.asList(windows), clazzAction, clazzInteraction, initActionFct);
+						  final BiConsumer<A, I> initActionFct,  final BiConsumer<A, I> updateActionFct, final Window...windows)
+						throws InstantiationException, IllegalAccessException {
+		this(ins, exec, Arrays.asList(windows), clazzAction, clazzInteraction, initActionFct, updateActionFct);
 	}
 
 	@Override
 	public void initAction() {
 		execInitAction.accept(getAction(), getInteraction());
+	}
+
+	@Override
+	public void updateAction() {
+		if(execUpdateAction != null) {
+			execUpdateAction.accept(getAction(), getInteraction());
+		}
 	}
 }
