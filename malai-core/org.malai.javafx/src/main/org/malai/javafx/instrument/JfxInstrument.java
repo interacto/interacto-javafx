@@ -112,61 +112,62 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 
 	protected <A extends ActionImpl> void bindButton(final Class<A> clazzAction, final Consumer<A> initActionFct, final Button... buttons)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ButtonPressed.class, initActionFct, buttons));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ButtonPressed.class, initActionFct, null, buttons));
 	}
 
 	protected <A extends ActionImpl> void bindButton(final Class<A> clazzAction, final BiConsumer<A, ButtonPressed> initActionFct, final Button... buttons)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ButtonPressed.class, initActionFct, buttons));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ButtonPressed.class, initActionFct, null, buttons));
 	}
 
 	protected <A extends ActionImpl> void bindToggleButton(final Class<A> clazzAction, final Consumer<A> initActionFct, final ToggleButton... buttons)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ToggleButtonPressed.class, initActionFct, buttons));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ToggleButtonPressed.class, initActionFct, null, buttons));
 	}
 
 	protected <A extends ActionImpl> void bindToggleButton(final Class<A> clazzAction, final BiConsumer<A, ToggleButtonPressed> initActionFct, final ToggleButton... buttons)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ToggleButtonPressed.class, initActionFct, buttons));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ToggleButtonPressed.class, initActionFct, null, buttons));
 	}
 
 	protected <A extends ActionImpl> void bindComboBox(final Class<A> clazzAction, final Consumer<A> initActionFct, final ComboBox<?>... cbs)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ComboBoxSelected.class, initActionFct, cbs));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ComboBoxSelected.class, initActionFct, null, cbs));
 	}
 
 	protected <A extends ActionImpl> void bindComboBox(final Class<A> clazzAction, final BiConsumer<A, ComboBoxSelected> initActionFct, final ComboBox<?>... cbs)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ComboBoxSelected.class, initActionFct, cbs));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, ComboBoxSelected.class, initActionFct, null, cbs));
 	}
 
 	protected <A extends ActionImpl> void bindCheckbox(final Class<A> clazzAction, final Consumer<A> initActionFct, final CheckBox... cbs)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, BoxChecked.class, initActionFct, cbs));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, BoxChecked.class, initActionFct, null, cbs));
 	}
 
 	protected <A extends ActionImpl> void bindCheckbox(final Class<A> clazzAction, final BiConsumer<A, BoxChecked> initActionFct, final CheckBox... cbs)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, BoxChecked.class, initActionFct, cbs));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, BoxChecked.class, initActionFct, null, cbs));
 	}
 
-	protected <A extends ActionImpl> void bindSpinner(final Class<A> clazzAction, final Consumer<A> initActionFct, final Spinner<?>... spinners)
-		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, SpinnerValueChanged.class, initActionFct, spinners));
+	protected <A extends ActionImpl> void bindSpinner(final Class<A> clazzAction, final Consumer<A> initActionFct, final Consumer<A> updateActionFct,
+								  final boolean execOnUpdate, final Spinner<?>... spinners) throws IllegalAccessException, InstantiationException {
+		addBinding(new JFxAnonBinding<>(this, execOnUpdate, clazzAction, SpinnerValueChanged.class, initActionFct, updateActionFct, spinners));
 	}
 
-	protected <A extends ActionImpl> void bindSpinner(final Class<A> clazzAction, final BiConsumer<A, SpinnerValueChanged> initActionFct, final Spinner<?>... spinners)
+	protected <A extends ActionImpl> void bindSpinner(final Class<A> clazzAction, final BiConsumer<A, SpinnerValueChanged> initActionFct,
+								  final boolean execOnUpdate, final BiConsumer<A, SpinnerValueChanged> updateActionFct, final Spinner<?>... spinners)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, SpinnerValueChanged.class, initActionFct, spinners));
+		addBinding(new JFxAnonBinding<>(this, execOnUpdate, clazzAction, SpinnerValueChanged.class, initActionFct, updateActionFct, spinners));
 	}
 
 	protected <A extends ActionImpl> void bindTab(final Class<A> clazzAction, final Consumer<A> initActionFct, final TabPane... tabs)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, TabSelected.class, initActionFct, tabs));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, TabSelected.class, initActionFct, null, tabs));
 	}
 
 	protected <A extends ActionImpl> void bindTab(final Class<A> clazzAction, final BiConsumer<A, TabSelected> initActionFct, final TabPane... tabs)
 		throws IllegalAccessException, InstantiationException {
-		addBinding(new JFxAnonBinding<>(this, false, clazzAction, TabSelected.class, initActionFct, tabs));
+		addBinding(new JFxAnonBinding<>(this, false, clazzAction, TabSelected.class, initActionFct, null, tabs));
 	}
 }

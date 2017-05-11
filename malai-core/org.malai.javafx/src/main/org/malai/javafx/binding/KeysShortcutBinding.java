@@ -71,7 +71,7 @@ public class KeysShortcutBinding<A extends ActionImpl, I extends JfxInstrument> 
 	public KeysShortcutBinding(final I ins, final Class<A> clazzAction, final Consumer<A> execute,
 							   final Function<KeysPressure, Boolean> executable, final Collection<KeyCode> codes, final Node... widgets)
 				throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, KeysPressure.class, execute, widgets);
+		super(ins, false, clazzAction, KeysPressure.class, execute, null, widgets);
 		keyCodes = Objects.requireNonNull(codes);
 		canDo = executable;
 	}

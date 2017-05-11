@@ -13,7 +13,9 @@ package org.malai.javafx.interaction.library;
 import java.util.Collection;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
+import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
+import org.malai.interaction.TimeoutTransition;
 import org.malai.javafx.interaction.JfxSpinnerValueChangedTransition;
 
 /**
@@ -33,17 +35,23 @@ public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("valueChanged"); //$NON-NLS-1$
+		final IntermediaryState changed = new IntermediaryState("valueChanged");
+		final TerminalState ended = new TerminalState("ended");
 
-		addState(pressed);
+		addState(changed);
+		addState(ended);
 
-		new JfxSpinnerValueChangedTransition(initState, pressed) {
+		new JfxSpinnerValueChangedTransition(initState, changed) {
 			@Override
 			public void action() {
 				super.action();
 				SpinnerValueChanged.this.widget = this.widget;
 			}
 		};
+
+		new JfxSpinnerValueChangedTransition(changed, changed);
+
+		new TimeoutTransition(changed, ended, 1000);
 	}
 
 	@Override
