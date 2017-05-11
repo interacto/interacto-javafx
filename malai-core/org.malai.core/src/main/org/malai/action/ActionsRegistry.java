@@ -42,7 +42,7 @@ public final class ActionsRegistry {
 		super();
 		actions = new ArrayList<>();
 		handlers = new ArrayList<>();
-		sizeMax = 30;
+		sizeMax = 50;
 	}
 
 
