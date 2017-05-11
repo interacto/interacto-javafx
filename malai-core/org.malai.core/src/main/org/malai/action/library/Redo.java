@@ -35,12 +35,6 @@ public class Redo extends ActionImpl {
 
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	@Override
 	protected void doActionBody() {
 		UndoCollector.INSTANCE.redo();
 		done();

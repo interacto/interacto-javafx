@@ -35,12 +35,6 @@ public class OpenWebPageJFX extends ActionImpl {
 	}
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	@Override
 	public void flush() {
 		uri = null;
 	}

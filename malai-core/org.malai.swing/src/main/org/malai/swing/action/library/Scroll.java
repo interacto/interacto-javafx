@@ -64,13 +64,6 @@ public class Scroll extends ActionImpl {
 	}
 
 
-
-	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
 	/**
 	 * @return The panel to scroll.
 	 * @since 0.2

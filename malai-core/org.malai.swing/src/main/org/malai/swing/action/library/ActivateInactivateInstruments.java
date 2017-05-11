@@ -137,15 +137,6 @@ public class ActivateInactivateInstruments extends ActionImpl {
 
 
 	/**
-	 * @return False. Action ActivateInactivateInstruments cannot be registered.
-	 */
-	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	/**
 	 * @param activateFirst True: the activations will be performed before the inactivations.
 	 * @since 0.2
 	 */

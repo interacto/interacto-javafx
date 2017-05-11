@@ -28,10 +28,4 @@ public class InactivateInstrument extends InstrumentAction {
 	protected void doActionBody() {
 		instrument.setActivated(false);
 	}
-
-
-	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
 }

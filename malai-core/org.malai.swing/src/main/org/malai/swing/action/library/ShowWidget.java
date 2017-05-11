@@ -33,11 +33,6 @@ public class ShowWidget extends WidgetAction {
 	}
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-	@Override
 	protected void doActionBody() {
 		component.setVisible(visible);
 	}

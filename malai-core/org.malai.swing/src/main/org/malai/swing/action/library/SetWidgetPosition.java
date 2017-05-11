@@ -46,12 +46,6 @@ public class SetWidgetPosition extends PositionAction {
 
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
-	@Override
 	protected void doActionBody() {
 		component.setLocation((int)px, (int)py);
 	}

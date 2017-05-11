@@ -31,12 +31,10 @@ public interface Action {
 
 	/**
 	 * Specifies whether the action must be saved in the action register. For instance,
-	 * some actions, such as a scroll of the scroll bars, should not be saved or
-	 * put in the undo/redo manager. Thus, they must not be registrable.
-	 * @return True: the action is registrable.
-	 * @since 0.1
+	 * some actions, such as a scroll, should not be saved or put in the undo/redo manager. Such actions should not be registrable.
+	 * @return The registration policy.
 	 */
-	boolean isRegisterable();
+	RegistrationPolicy getRegistrationPolicy();
 
 	/**
 	 * This method manages the execution of the action.
@@ -98,6 +96,18 @@ public interface Action {
 	 * @return A list of actions that must be executed afterward. Cannot be null.
 	 */
 	List<Action> followingActions();
+
+	/**
+	 * Defines the registration policy of the action.
+	 */
+	enum RegistrationPolicy {
+		/** The action is never registered. */
+		NONE,
+		/** The action is registered in the action register. The action is not flushed when the registry wants to free some actions. */
+		UNLIMITED,
+		/** The action is registered in the action register. The action can be flushed by the registry. */
+		LIMITED
+	}
 
 	/**
 	 * Defines the different states of the action.

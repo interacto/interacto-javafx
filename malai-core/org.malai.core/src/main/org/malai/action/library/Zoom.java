@@ -56,12 +56,6 @@ public class Zoom extends PositionAction {
 	}
 
 
-	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-
 	/**
 	 * @param newZoomable the zoomable to set.
 	 * @since 0.2

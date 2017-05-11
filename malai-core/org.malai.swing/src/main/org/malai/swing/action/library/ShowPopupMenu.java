@@ -44,11 +44,6 @@ public class ShowPopupMenu extends SetWidgetPosition {
 
 
 	@Override
-	public boolean isRegisterable() {
-		return false;
-	}
-
-	@Override
 	protected void doActionBody() {
 		popupMenu.show(component, (int)px, (int)py);
 	}
