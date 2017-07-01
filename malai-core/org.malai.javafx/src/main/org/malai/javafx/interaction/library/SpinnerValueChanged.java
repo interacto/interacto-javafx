@@ -11,6 +11,7 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import org.malai.interaction.IntermediaryState;
@@ -51,12 +52,12 @@ public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
 
 		new JfxSpinnerValueChangedTransition(changed, changed);
 
-		new TimeoutTransition(changed, ended, 1000);
+		new TimeoutTransition(changed, ended, 300);
 	}
 
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
-		widgets.stream().filter(w -> w instanceof Spinner<?>).forEach(w -> 
-			((Spinner<?>)w).valueProperty().addListener((observable, oldValue, newValue) -> onJfxSpinnerValueChanged((Spinner<?>)w)));
+		widgets.stream().filter(w -> w instanceof Spinner<?>).forEach(w ->
+			w.addEventHandler(ActionEvent.ACTION, evt -> onJfxSpinnerValueChanged((Spinner<?>) w)));
 	}
 }
