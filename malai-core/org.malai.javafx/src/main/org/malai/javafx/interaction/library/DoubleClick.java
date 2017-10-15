@@ -18,6 +18,7 @@ import javafx.stage.Window;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
+import org.malai.interaction.TimeoutTransition;
 import org.malai.javafx.interaction.MoveTransition;
 import org.malai.javafx.interaction.ReleaseTransition;
 import org.malai.stateMachine.SourceableState;
@@ -57,6 +58,7 @@ public class DoubleClick extends PointInteraction {
 		new MoveTransition(pressed1, aborted);
 		new ReleaseTransition4DoubleClick(pressed1, released1);
 		new MoveTransition(released1, aborted);
+		new TimeoutTransition(released1, aborted, 1000);
 		new PointPressureTransition(released1, pressed2) {
 			@Override
 			public boolean isGuardRespected() {
