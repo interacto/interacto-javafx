@@ -66,10 +66,7 @@ public class DoubleClick extends PointInteraction {
 			@Override
 			public void action() {
 				super.action();
-				DoubleClick.this.altPressed = event.isAltDown();
-				DoubleClick.this.shiftPressed = event.isShiftDown();
-				DoubleClick.this.ctrlPressed = event.isControlDown();
-				DoubleClick.this.metaPressed = event.isMetaDown();
+				DoubleClick.this.setOnMouseEventAction(event);
 			}
 		};
 		new MoveTransition(pressed2, aborted);
@@ -110,10 +107,14 @@ public class DoubleClick extends PointInteraction {
 		@Override
 		public void action() {
 			super.action();
-			DoubleClick.this.altPressed = event.isAltDown();
-			DoubleClick.this.shiftPressed = event.isShiftDown();
-			DoubleClick.this.ctrlPressed = event.isControlDown();
-			DoubleClick.this.metaPressed = event.isMetaDown();
+			DoubleClick.this.setOnMouseEventAction(event);
 		}
+	}
+
+	private void setOnMouseEventAction(final MouseEvent event) {
+		altPressed = event.isAltDown();
+		shiftPressed = event.isShiftDown();
+		ctrlPressed = event.isControlDown();
+		metaPressed = event.isMetaDown();
 	}
 }
