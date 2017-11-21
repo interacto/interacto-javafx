@@ -84,7 +84,7 @@ public abstract class SingleKeyInteraction extends KeyInteraction {
 		@Override
 		public void action() {
 			super.action();
-			SingleKeyInteraction.this.setKey(event.getCharacter());
+			SingleKeyInteraction.this.setKey(event.getText());
 			SingleKeyInteraction.this.setKeyCode(event.getCode());
 		}
 	}
