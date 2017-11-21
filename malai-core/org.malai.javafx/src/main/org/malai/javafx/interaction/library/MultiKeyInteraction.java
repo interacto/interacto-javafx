@@ -98,7 +98,7 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 		@Override
 		public void action() {
 			super.action();
-			MultiKeyInteraction.this.addKey(event.getCharacter());
+			MultiKeyInteraction.this.addKey(event.getText());
 			MultiKeyInteraction.this.addKeyCode(event.getCode());
 		}
 	}
@@ -118,7 +118,7 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 
 		@Override
 		public void action() {
-			MultiKeyInteraction.this.keys.remove(this.event.getCharacter());
+			MultiKeyInteraction.this.keys.remove(this.event.getText());
 		}
 	}
 }
