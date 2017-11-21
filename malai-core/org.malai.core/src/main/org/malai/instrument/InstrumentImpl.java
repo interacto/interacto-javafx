@@ -84,7 +84,7 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 	 * @param binding The widget binding to add. If null, nothing is done.
 	 * @since 0.2
 	 */
-	protected void addBinding(final T binding) {
+	public void addBinding(final T binding) {
 		if(binding != null) {
 			bindings.add(binding);
 			binding.setActivated(isActivated());
@@ -102,7 +102,7 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 	 * @return True: the given widget binding has been removed. False otherwise.
 	 * @since 0.2
 	 */
-	protected boolean removeBinding(final T binding) {
+	public boolean removeBinding(final T binding) {
 		return binding != null && bindings.remove(binding);
 	}
 
