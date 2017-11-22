@@ -10,12 +10,10 @@
  */
 package org.malai.javafx.instrument;
 
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import org.malai.action.library.Zoom;
-import org.malai.javafx.binding.JfXWidgetBinding;
-import org.malai.javafx.interaction.library.KeyPressure;
+import org.malai.javafx.interaction.library.KeyPressureNoModifier;
 import org.malai.javafx.interaction.library.KeysScrolling;
 import org.malai.properties.Zoomable;
 
@@ -57,74 +55,26 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 	@Override
 	protected void configureBindings() throws IllegalAccessException, InstantiationException {
 		if(withKeys) {
-			addBinding(new KeysZoom(this));
-		}
-		addBinding(new Scroll2Zoom(this));
-	}
-
-
-	/**
-	 * This widget binding maps a key pressure interaction to a zoom action.
-	 */
-	protected static class KeysZoom extends JfXWidgetBinding<Zoom, KeyPressure, BasicZoomer<?>> {
-		protected KeysZoom(final BasicZoomer<?> ins) throws InstantiationException, IllegalAccessException {
-			super(ins, false, Zoom.class, KeyPressure.class, ins.zoomable);
-		}
-
-		@Override
-		public void initAction() {
-			interaction.getKeyCode().ifPresent(key -> {
-				action.setZoomable(instrument.getZoomable());
-				action.setZoomLevel(instrument.zoomable.getZoom() + (isZoomInKey(key) ? instrument.zoomable.getZoomIncrement() :
-					-instrument.zoomable.getZoomIncrement()));
-				action.setPx(-1d);
-				action.setPy(-1d);
-			});
+			nodeBinder(Zoom.class, KeyPressureNoModifier.class).on(zoomable).init((a, i) -> i.getKey().ifPresent(key -> {
+				a.setZoomable(getZoomable());
+				if("+".equals(key)) {
+					a.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
+				}else {
+					a.setZoomLevel(zoomable.getZoom() - zoomable.getZoomIncrement());
+				}
+				a.setPx(-1d);
+				a.setPy(-1d);
+			})).
+			check(i -> i.getKey().map(code -> "+".equals(code) || "-".equals(code)).orElse(false)).bind();
 		}
 
-		@Override
-		public boolean isConditionRespected() {
-			return interaction.getKeyCode().map(code -> isZoomInKey(code) || isZoomOutKey(code)).orElse(false);
-		}
-
-		private boolean isZoomInKey(final KeyCode key) {
-			return key == KeyCode.PLUS;
-		}
-
-		private boolean isZoomOutKey(final KeyCode key) {
-			return key == KeyCode.MINUS;
-		}
-	}
-
-
-	/**
-	 * This widget binding maps a scroll interaction to a zoom action.
-	 */
-	protected static class Scroll2Zoom extends JfXWidgetBinding<Zoom, KeysScrolling, BasicZoomer<?>> {
-		/**
-		 * Creates the action.
-		 */
-		protected Scroll2Zoom(final BasicZoomer<?> ins) throws InstantiationException, IllegalAccessException {
-			super(ins, false, Zoom.class, KeysScrolling.class, ins.zoomable);
-		}
-
-		@Override
-		public void initAction() {
-			action.setZoomable(instrument.zoomable);
-		}
-
-		@Override
-		public void updateAction() {
-			action.setZoomLevel(instrument.zoomable.getZoom() + (interaction.getIncrement() > 0 ? instrument.zoomable.getZoomIncrement() :
-				-instrument.zoomable.getZoomIncrement()));
-			action.setPx(interaction.getPx());
-			action.setPy(interaction.getPy());
-		}
-
-		@Override
-		public boolean isConditionRespected() {
-			final List<KeyCode> keys = interaction.getKeys();
-			return keys.size() == 1 && keys.get(0) == KeyCode.CONTROL;
-		}
+		nodeBinder(Zoom.class, KeysScrolling.class).on(zoomable).
+			init(a -> a.setZoomable(zoomable)).
+			update((a, i) -> {
+				a.setZoomLevel(zoomable.getZoom() + (i.getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
+				a.setPx(i.getPx());
+				a.setPy(i.getPy());
+			}).
+			check(i -> i.getKeys().size() == 1 && i.getKeys().get(0) == KeyCode.CONTROL).bind();
 	}
 }

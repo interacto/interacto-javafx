@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.Collections;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import org.malai.javafx.action.ShowNode;
@@ -37,7 +38,7 @@ public class MenuItem2ShowNode extends JfxMenuItemBinding<ShowNode, MenuItemPres
 	 */
 	public MenuItem2ShowNode(final JfxInstrument ins, final MenuItem menuItem, final Node node, final boolean toshow) throws
 		InstantiationException, IllegalAccessException {
-		super(ins, false, ShowNode.class, MenuItemPressed.class, menuItem);
+		super(ins, false, ShowNode.class, MenuItemPressed.class, Collections.singletonList(menuItem));
 
 		if(node == null) throw new IllegalArgumentException();
 
