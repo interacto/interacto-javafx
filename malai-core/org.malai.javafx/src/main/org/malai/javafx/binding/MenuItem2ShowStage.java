@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.Collections;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.malai.javafx.action.ShowStage;
@@ -37,7 +38,7 @@ public class MenuItem2ShowStage extends JfxMenuItemBinding<ShowStage, MenuItemPr
 	 */
 	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow) throws
 		InstantiationException, IllegalAccessException {
-		super(ins, false, ShowStage.class, MenuItemPressed.class, menuItem);
+		super(ins, false, ShowStage.class, MenuItemPressed.class, Collections.singletonList(menuItem));
 
 		if(stage == null) throw new IllegalArgumentException();
 

@@ -10,25 +10,27 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
+import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * This anonymous widget binding for windows takes a function as a parameter that will be executed to initialise the action.
+ * This anonymous widget binding takes a function as a parameter that will be executed to initialise the action.
  * The goal is to avoid the creation of a specific class when the binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonWindowBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
-	final BiConsumer<A, I> execInitAction;
+public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
+	private final BiConsumer<A, I> execInitAction;
+	private final BiConsumer<A, I> execUpdateAction;
+	private final Predicate<I> checkInteraction;
 
 	/**
-	 * Creates a widget binding for windows. This constructor must initialise the interaction. The binding is (de-)activated if the given
+	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the binding.
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
@@ -36,22 +38,25 @@ public class JFxAnonWindowBinding<A extends ActionImpl, I extends JfxInteraction
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param windows The windows concerned by the binding. Cannot be null.
+	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param updateActionFct The function that updates the action. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-	 * @throws NullPointerException If the given function is null.
 	 */
-	public JFxAnonWindowBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-								final Consumer<A> initActionFct, final Window... windows) throws InstantiationException, IllegalAccessException {
-		super(ins, exec, Arrays.asList(windows), clazzAction, clazzInteraction);
-		Objects.requireNonNull(initActionFct);
-		execInitAction = (a, i) -> initActionFct.accept(a);
+	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
+							  final Predicate<I> check, final List<Node> widgets)
+				throws InstantiationException, IllegalAccessException {
+		super(ins, exec, clazzAction, clazzInteraction, widgets);
+		execInitAction = initActionFct;
+		execUpdateAction = updateActionFct;
+		checkInteraction = check == null ? i -> true : check;
 	}
 
 	/**
-	 * Creates a widget binding for windows. This constructor must initialise the interaction. The binding is (de-)activated if the given
+	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the binding.
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
@@ -59,21 +64,39 @@ public class JFxAnonWindowBinding<A extends ActionImpl, I extends JfxInteraction
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param windows The windows concerned by the binding. Cannot be null.
+	 * @param widgets The windows used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param updateActionFct The function that updates the action. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-	 * @throws NullPointerException If the given function is null.
 	 */
-	public JFxAnonWindowBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-								final BiConsumer<A, I> initActionFct, final Window... windows) throws InstantiationException, IllegalAccessException {
-		super(ins, exec, Arrays.asList(windows), clazzAction, clazzInteraction);
-		execInitAction = Objects.requireNonNull(initActionFct);
+	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
+							  final Predicate<I> check)
+		throws InstantiationException, IllegalAccessException {
+		super(ins, exec, widgets, clazzAction, clazzInteraction);
+		execInitAction = initActionFct;
+		execUpdateAction = updateActionFct;
+		checkInteraction = check == null ? i -> true : check;
 	}
 
 	@Override
 	public void initAction() {
-		execInitAction.accept(getAction(), getInteraction());
+		if(execInitAction != null) {
+			execInitAction.accept(getAction(), getInteraction());
+		}
+	}
+
+	@Override
+	public void updateAction() {
+		if(execUpdateAction != null) {
+			execUpdateAction.accept(getAction(), getInteraction());
+		}
+	}
+
+	@Override
+	public boolean isConditionRespected() {
+		return checkInteraction == null || checkInteraction.test(getInteraction());
 	}
 }

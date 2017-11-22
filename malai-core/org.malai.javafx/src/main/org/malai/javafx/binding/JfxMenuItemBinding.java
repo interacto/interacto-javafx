@@ -10,7 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.Arrays;
+import java.util.List;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -36,12 +36,12 @@ public abstract class JfxMenuItemBinding<A extends ActionImpl, I extends MenuIte
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemBinding(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, MenuItem... menuItems) throws
+	public JfxMenuItemBinding(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, List<MenuItem> menuItems) throws
 		InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction);
 
 		if(menuItems != null) {
-			interaction.registerToMenuItems(Arrays.asList(menuItems));
+			interaction.registerToMenuItems(menuItems);
 		}
 	}
 }

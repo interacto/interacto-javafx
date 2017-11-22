@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.net.URI;
+import java.util.Collections;
 import javafx.scene.control.MenuItem;
 import org.malai.javafx.action.OpenWebPageJFX;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -36,7 +37,7 @@ public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, Men
 	 */
 	public MenuItem2OpenWebPage(final JfxInstrument ins, final MenuItem menuItem, final URI uri) throws InstantiationException,
 		IllegalAccessException {
-		super(ins, false, OpenWebPageJFX.class, MenuItemPressed.class, menuItem);
+		super(ins, false, OpenWebPageJFX.class, MenuItemPressed.class, Collections.singletonList(menuItem));
 
 		if(uri == null) throw new IllegalArgumentException();
 

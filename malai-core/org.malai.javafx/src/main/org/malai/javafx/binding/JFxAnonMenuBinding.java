@@ -10,9 +10,9 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.Objects;
+import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -24,7 +24,8 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  * @author Arnaud Blouin
  */
 public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxMenuItemBinding<A, I, N> {
-	final BiConsumer<A, I> execInitAction;
+	private final BiConsumer<A, I> execInitAction;
+	private final Predicate<I> checkInteraction;
 
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -40,39 +41,21 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-	 * @throws NullPointerException If the given function is null.
 	 */
 	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-							  final Consumer<A> initActionFct, final MenuItem... menus) throws InstantiationException, IllegalAccessException {
+							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final List<MenuItem> menus) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, menus);
-		Objects.requireNonNull(initActionFct);
-		execInitAction = (a, i) -> initActionFct.accept(a);
-	}
-
-	/**
-	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
-	 * instrument is (de-)activated.
-	 * @param ins The instrument that contains the binding.
-	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
-	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
-	 * @param menus The menus used by the binding. Cannot be null.
-	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
-	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-	 * @throws NullPointerException If the given function is null.
-	 */
-	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-							  final BiConsumer<A, I> initActionFct, final MenuItem... menus) throws InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, clazzInteraction, menus);
-		execInitAction = Objects.requireNonNull(initActionFct);
+		execInitAction = initActionFct == null ? (a, i) -> {} : initActionFct;
+		checkInteraction = check == null ? i -> true : check;
 	}
 
 	@Override
 	public void initAction() {
 		execInitAction.accept(getAction(), getInteraction());
+	}
+
+	@Override
+	public boolean isConditionRespected() {
+		return checkInteraction == null || checkInteraction.test(getInteraction());
 	}
 }
