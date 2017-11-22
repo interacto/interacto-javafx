@@ -1,9 +1,8 @@
-package org.malai.javafx.interaction;
+package org.malai.javafx.interaction.library;
 
 import javafx.scene.input.MouseButton;
 import org.junit.Test;
 import org.malai.interaction.InitState;
-import org.malai.javafx.interaction.library.DnD;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

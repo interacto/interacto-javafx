@@ -1,4 +1,4 @@
-package org.malai.javafx.interaction;
+package org.malai.javafx.interaction.library;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.malai.interaction.InitState;
 import org.malai.interaction.Interaction;
 import org.malai.javafx.interaction.library.KeysPressure;
+import org.malai.javafx.interaction.library.TestJfXInteraction;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
 import static org.junit.Assert.assertEquals;

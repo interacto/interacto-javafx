@@ -1,4 +1,4 @@
-package org.malai.javafx.interaction;
+package org.malai.javafx.interaction.library;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
@@ -10,6 +10,7 @@ import javafx.scene.input.PickResult;
 import org.junit.Before;
 import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
+import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
 public abstract class TestJfXInteraction<T extends JfxInteraction> {

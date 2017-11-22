@@ -15,13 +15,6 @@
     </properties>
 
     <build>
-        <sourceDirectory>src/main</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/resources/</directory>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
