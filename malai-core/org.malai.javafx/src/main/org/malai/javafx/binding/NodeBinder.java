@@ -54,6 +54,12 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
+	public NodeBinder<A, I> feedback(final Runnable feedback) {
+		super.feedback(feedback);
+		return this;
+	}
+
+	@Override
 	public NodeBinder<A, I> on(final Node... widget) {
 		super.on(widget);
 		return this;
@@ -80,6 +86,6 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interactionClass, initAction, updateFct, checkConditions,
-			abortFct, widgets));
+			abortFct, feedbackFct, widgets));
 	}
 }

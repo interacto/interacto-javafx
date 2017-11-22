@@ -31,7 +31,8 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A> 
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, KeysPressure.class, widgets, initAction, null, checkCode, null));
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, KeysPressure.class, widgets, initAction, null,
+			checkCode, null, null));
 	}
 
 	@Override
