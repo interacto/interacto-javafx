@@ -43,6 +43,12 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
+	public SpinnerBinder<A> abort(final Runnable abort) {
+		super.abort(abort);
+		return this;
+	}
+
+	@Override
 	public SpinnerBinder<A> exec(final boolean execActionOnChanges) {
 		super.exec(execActionOnChanges);
 		return this;
@@ -75,6 +81,6 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, SpinnerValueChanged.class,
-			initAction, updateFct, checkConditions, widgets.stream().map(w -> (Node) w).collect(Collectors.toList())));
+			initAction, updateFct, checkConditions, abortFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList())));
 	}
 }
