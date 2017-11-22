@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
+import org.malai.interaction.Interaction;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 
@@ -28,6 +29,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final BiConsumer<A, I> execInitAction;
 	private final BiConsumer<A, I> execUpdateAction;
 	private final Predicate<I> checkInteraction;
+	private final Runnable abortFct;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -47,11 +49,12 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final List<Node> widgets)
+							  final Predicate<I> check, final Runnable abort, final List<Node> widgets)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
+		abortFct = abort;
 		checkInteraction = check == null ? i -> true : check;
 	}
 
@@ -73,11 +76,12 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check)
+							  final Predicate<I> check, final Runnable abort)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, clazzInteraction);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
+		abortFct = abort;
 		checkInteraction = check == null ? i -> true : check;
 	}
 
@@ -98,5 +102,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	@Override
 	public boolean isConditionRespected() {
 		return checkInteraction == null || checkInteraction.test(getInteraction());
+	}
+
+	@Override
+	public void interactionAborts(final Interaction inter) {
+		super.interactionAborts(inter);
+		if(abortFct != null) {
+			abortFct.run();
+		}
 	}
 }
