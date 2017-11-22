@@ -30,6 +30,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final BiConsumer<A, I> execUpdateAction;
 	private final Predicate<I> checkInteraction;
 	private final Runnable abortFct;
+	private final Runnable feedbackFct;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -49,12 +50,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final Runnable abort, final List<Node> widgets)
+							  final Predicate<I> check, final Runnable abort, final Runnable feedback, final List<Node> widgets)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
 		abortFct = abort;
+		feedbackFct = feedback;
 		checkInteraction = check == null ? i -> true : check;
 	}
 
@@ -76,12 +78,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final Runnable abort)
+							  final Predicate<I> check, final Runnable abort, final Runnable feedback)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, clazzInteraction);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
 		abortFct = abort;
+		feedbackFct = feedback;
 		checkInteraction = check == null ? i -> true : check;
 	}
 
@@ -109,6 +112,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		super.interactionAborts(inter);
 		if(abortFct != null) {
 			abortFct.run();
+		}
+	}
+
+	@Override
+	public void interimFeedback() {
+		if(feedbackFct != null) {
+			feedbackFct.run();
 		}
 	}
 }

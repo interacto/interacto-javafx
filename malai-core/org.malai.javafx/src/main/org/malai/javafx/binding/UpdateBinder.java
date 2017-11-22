@@ -25,6 +25,7 @@ import org.malai.javafx.interaction.JfxInteraction;
 public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction> extends Binder<W, A, I> {
 	protected BiConsumer<A, I> updateFct;
 	protected Runnable abortFct;
+	protected Runnable feedbackFct;
 	protected boolean execOnChanges;
 
 	public UpdateBinder(final Class<A> action, final Class<I> interaction, final JfxInstrument instrument) {
@@ -87,6 +88,15 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	 */
 	public UpdateBinder<W, A, I> abort(final Runnable abort) {
 		abortFct = abort;
+		return this;
+	}
+
+	/**
+	 * Defines interim feedback provided to users on each interaction updates.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public UpdateBinder<W, A, I> feedback(final Runnable feedback) {
+		feedbackFct = feedback;
 		return this;
 	}
 

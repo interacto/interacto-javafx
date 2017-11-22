@@ -47,6 +47,12 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
+	public WindowBinder<A, I> feedback(final Runnable feedback) {
+		super.feedback(feedback);
+		return this;
+	}
+
+	@Override
 	public WindowBinder<A, I> exec(final boolean execActionOnChanges) {
 		super.exec(execActionOnChanges);
 		return this;
@@ -79,6 +85,6 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interactionClass, widgets, initAction, updateFct,
-			checkConditions, abortFct));
+			checkConditions, abortFct, feedbackFct));
 	}
 }

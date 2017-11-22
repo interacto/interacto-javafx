@@ -57,6 +57,6 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, TabSelected.class,
-			initAction, null, checkConditions, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList())));
+			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList())));
 	}
 }
