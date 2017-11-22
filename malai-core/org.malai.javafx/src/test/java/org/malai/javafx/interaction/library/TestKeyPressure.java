@@ -1,27 +1,26 @@
-package org.malai.javafx.interaction;
+package org.malai.javafx.interaction.library;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.KeyCode;
 import org.junit.Test;
 import org.malai.interaction.InitState;
 import org.malai.interaction.Interaction;
-import org.malai.javafx.interaction.library.Press;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class TestPress extends TestJfXInteraction<Press> {
+public class TestKeyPressure extends TestJfXInteraction<KeyPressure> {
 	@Override
-	protected Press createInteraction() {
-		return new Press();
+	protected KeyPressure createInteraction() {
+		return new KeyPressure();
 	}
 
 	@Test
-	public void testOnePressEndsAndReinit() {
+	public void testOneKeyPressEndsAndReinit() {
 		final BooleanProperty hasEnded = new SimpleBooleanProperty(false);
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
@@ -30,13 +29,13 @@ public class TestPress extends TestJfXInteraction<Press> {
 				hasEnded.set(true);
 			}
 		});
-		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
+		interaction.onKeyPressure(createKeyPressEvent("A", KeyCode.A), 0);
 		assertTrue(interaction.getCurrentState() instanceof InitState);
 		assertTrue(hasEnded.get());
 	}
 
 	@Test
-	public void testTwoPressEndsAndReinit() {
+	public void testTwoKeyPressEndsAndReinit() {
 		final IntegerProperty nbExec = new SimpleIntegerProperty(0);
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
@@ -45,8 +44,8 @@ public class TestPress extends TestJfXInteraction<Press> {
 				nbExec.set(nbExec.get()+1);
 			}
 		});
-		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		interaction.onPressure(createMousePressEvent(11d, 21d, MouseButton.PRIMARY), 0);
+		interaction.onKeyPressure(createKeyPressEvent("A", KeyCode.A), 0);
+		interaction.onKeyPressure(createKeyPressEvent("B", KeyCode.B), 0);
 		assertTrue(interaction.getCurrentState() instanceof InitState);
 		assertEquals(2, nbExec.get());
 	}
