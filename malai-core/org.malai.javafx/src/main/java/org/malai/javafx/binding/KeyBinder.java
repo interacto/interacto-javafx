@@ -55,6 +55,12 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 	}
 
 	@Override
+	public KeyBinder<W, A> async() {
+		super.async();
+		return this;
+	}
+
+	@Override
 	public KeyBinder<W, A> init(final Consumer<A> initActionFct) {
 		super.init(initActionFct);
 		return this;

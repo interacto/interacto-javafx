@@ -53,6 +53,12 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	}
 
 	@Override
+	public MenuItemBinder<A> async() {
+		super.async();
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonMenuBinding<>(instrument, false, actionClass, MenuItemPressed.class, initAction, checkConditions, widgets));
 	}

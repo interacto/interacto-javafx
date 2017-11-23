@@ -84,8 +84,14 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
+	public NodeBinder<A, I> async() {
+		super.async();
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interactionClass, initAction, updateFct, checkConditions,
-			abortFct, feedbackFct, widgets));
+			abortFct, feedbackFct, widgets, async));
 	}
 }

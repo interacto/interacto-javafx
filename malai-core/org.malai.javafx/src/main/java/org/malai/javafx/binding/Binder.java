@@ -29,12 +29,13 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud Blouin
  */
 public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
-	protected BiConsumer<A, I> initAction = null;
-	protected Predicate<I> checkConditions = null;
+	protected BiConsumer<A, I> initAction;
+	protected Predicate<I> checkConditions;
 	protected final List<W> widgets;
 	protected final Class<A> actionClass;
 	protected final Class<I> interactionClass;
 	protected final JfxInstrument instrument;
+	protected boolean async;
 
 	public Binder(final Class<A> action, final Class<I> interaction, final JfxInstrument ins) {
 		super();
@@ -42,6 +43,9 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 		interactionClass = Objects.requireNonNull(interaction);
 		widgets = new ArrayList<>();
 		instrument = Objects.requireNonNull(ins);
+		async = false;
+		checkConditions = null;
+		initAction = null;
 	}
 
 	/**
@@ -88,6 +92,16 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 */
 	public Binder<W, A, I> check(final Predicate<I> checkAction) {
 		checkConditions = checkAction;
+		return this;
+	}
+
+	/**
+	 * Specifies that the action will be executed in a separated threads.
+	 * Beware of UI modifications: UI changes must be done in the JFX UI thread.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public Binder<W, A, I> async() {
+		async = true;
 		return this;
 	}
 

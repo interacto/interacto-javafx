@@ -55,8 +55,14 @@ public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButto
 	}
 
 	@Override
+	public ToggleButtonBinder<A> async() {
+		super.async();
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, ToggleButtonPressed.class,
-			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList())));
+			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

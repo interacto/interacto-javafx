@@ -85,8 +85,14 @@ public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextFiel
 	}
 
 	@Override
+	public TextFieldBinder<A> async() {
+		super.async();
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, KeysTyped.class,
-			initAction, updateFct, checkConditions, abortFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList())));
+			initAction, updateFct, checkConditions, abortFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }
