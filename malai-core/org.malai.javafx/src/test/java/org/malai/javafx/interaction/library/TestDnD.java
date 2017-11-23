@@ -1,11 +1,11 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.scene.input.MouseButton;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.malai.interaction.InitState;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestDnD extends TestJfXInteraction<DnD> {
 	@Override

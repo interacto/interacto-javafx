@@ -7,7 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -16,7 +16,7 @@ import org.malai.stateMachine.MustAbortStateMachineException;
 public abstract class TestJfXInteraction<T extends JfxInteraction> {
 	protected T interaction;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		interaction = createInteraction();
 	}

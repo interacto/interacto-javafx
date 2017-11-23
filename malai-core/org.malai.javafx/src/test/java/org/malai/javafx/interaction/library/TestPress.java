@@ -5,13 +5,13 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.MouseButton;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.malai.interaction.InitState;
 import org.malai.interaction.Interaction;
 import org.malai.stateMachine.MustAbortStateMachineException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestPress extends TestJfXInteraction<Press> {
 	@Override
