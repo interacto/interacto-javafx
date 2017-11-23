@@ -55,8 +55,14 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	}
 
 	@Override
+	public ButtonBinder<A> async() {
+		super.async();
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, ButtonPressed.class,
-			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList())));
+			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }
