@@ -108,7 +108,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	}
 
 	/**
-	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just before
+	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
 	 * the interaction is reinitialised and the action finally executed and discarded / saved).
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
 	 * @return The builder to chain the buiding configuration.
