@@ -113,6 +113,12 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	}
 
 	@Override
+	public UpdateBinder<W, A, I> onEnd(final BiConsumer<A, I> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public UpdateBinder<W, A, I> async() {
 		super.async();
 		return this;

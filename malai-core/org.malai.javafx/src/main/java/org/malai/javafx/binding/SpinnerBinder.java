@@ -91,8 +91,14 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
+	public SpinnerBinder<A> onEnd(final BiConsumer<A, SpinnerValueChanged> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, SpinnerValueChanged.class,
-			initAction, updateFct, checkConditions, abortFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			initAction, updateFct, checkConditions, onEnd, abortFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

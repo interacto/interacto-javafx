@@ -61,8 +61,14 @@ public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A,
 	}
 
 	@Override
+	public ComboBoxBinder<A> onEnd(final BiConsumer<A, ComboBoxSelected> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, ComboBoxSelected.class,
-			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

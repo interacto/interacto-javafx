@@ -36,6 +36,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	protected final Class<I> interactionClass;
 	protected final JfxInstrument instrument;
 	protected boolean async;
+	protected BiConsumer<A, I> onEnd;
 
 	public Binder(final Class<A> action, final Class<I> interaction, final JfxInstrument ins) {
 		super();
@@ -46,6 +47,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 		async = false;
 		checkConditions = null;
 		initAction = null;
+		onEnd = null;
 	}
 
 	/**
@@ -102,6 +104,17 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 */
 	public Binder<W, A, I> async() {
 		async = true;
+		return this;
+	}
+
+	/**
+	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just before
+	 * the interaction is reinitialised and the action finally executed and discarded / saved).
+	 * @param onEndFct The callback method to specify what to do when an interaction ends.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public Binder<W, A, I> onEnd(final BiConsumer<A, I> onEndFct) {
+		onEnd = onEndFct;
 		return this;
 	}
 

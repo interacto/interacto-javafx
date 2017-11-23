@@ -55,6 +55,12 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	}
 
 	@Override
+	public ButtonBinder<A> onEnd(final BiConsumer<A, ButtonPressed> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public ButtonBinder<A> async() {
 		super.async();
 		return this;
@@ -63,6 +69,6 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, ButtonPressed.class,
-			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }
