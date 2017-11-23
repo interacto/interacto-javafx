@@ -90,8 +90,14 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
+	public NodeBinder<A, I> onEnd(final BiConsumer<A, I> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interactionClass, initAction, updateFct, checkConditions,
-			abortFct, feedbackFct, widgets, async));
+			onEnd, abortFct, feedbackFct, widgets, async));
 	}
 }

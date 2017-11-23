@@ -32,7 +32,7 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, KeysPressure.class, initAction, null, checkCode,
-			null, null, widgets, async));
+			onEnd, null, null, widgets, async));
 	}
 
 	@Override
@@ -56,6 +56,12 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 	@Override
 	public KeyNodeBinder<A> init(final BiConsumer<A, KeysPressure> initActionFct) {
 		super.init(initActionFct);
+		return this;
+	}
+
+	@Override
+	public KeyNodeBinder<A> onEnd(final BiConsumer<A, KeysPressure> onEndFct) {
+		super.onEnd(onEndFct);
 		return this;
 	}
 

@@ -61,8 +61,14 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	}
 
 	@Override
+	public TabBinder<A> onEnd(final BiConsumer<A, TabSelected> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, TabSelected.class,
-			initAction, null, checkConditions, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

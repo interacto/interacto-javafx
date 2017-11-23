@@ -89,8 +89,14 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
+	public WindowBinder<A, I> onEnd(final BiConsumer<A, I> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interactionClass, widgets, initAction, updateFct,
-			checkConditions, abortFct, feedbackFct, async));
+			checkConditions, onEnd, abortFct, feedbackFct, async));
 	}
 }

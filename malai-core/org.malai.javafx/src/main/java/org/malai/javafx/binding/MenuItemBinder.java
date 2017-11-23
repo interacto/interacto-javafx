@@ -59,7 +59,14 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	}
 
 	@Override
+	public MenuItemBinder<A> onEnd(final BiConsumer<A, MenuItemPressed> onEndFct) {
+		super.onEnd(onEndFct);
+		return this;
+	}
+
+	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonMenuBinding<>(instrument, false, actionClass, MenuItemPressed.class, initAction, checkConditions, widgets));
+		instrument.addBinding(new JFxAnonMenuBinding<>(instrument, false, actionClass, MenuItemPressed.class, initAction,
+			checkConditions, onEnd, widgets));
 	}
 }

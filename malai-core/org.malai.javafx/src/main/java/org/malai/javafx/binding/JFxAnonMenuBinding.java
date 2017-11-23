@@ -15,6 +15,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
+import org.malai.interaction.Interaction;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
 
@@ -26,6 +27,7 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
 public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxMenuItemBinding<A, I, N> {
 	private final BiConsumer<A, I> execInitAction;
 	private final Predicate<I> checkInteraction;
+	private final BiConsumer<A, I> onEnd;
 
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -43,10 +45,12 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
-							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final List<MenuItem> menus) throws InstantiationException, IllegalAccessException {
+							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final BiConsumer<A, I> onEndFct,
+							  final List<MenuItem> menus) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, menus);
 		execInitAction = initActionFct == null ? (a, i) -> {} : initActionFct;
 		checkInteraction = check == null ? i -> true : check;
+		onEnd = onEndFct;
 	}
 
 	@Override
@@ -57,5 +61,14 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	@Override
 	public boolean isConditionRespected() {
 		return checkInteraction == null || checkInteraction.test(getInteraction());
+	}
+
+
+	@Override
+	public void interactionStops(final Interaction inter) {
+		if(onEnd != null) {
+			onEnd.accept(getAction(), getInteraction());
+		}
+		super.interactionStops(inter);
 	}
 }

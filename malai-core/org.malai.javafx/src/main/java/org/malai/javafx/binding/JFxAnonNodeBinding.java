@@ -32,6 +32,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final Runnable abortFct;
 	private final Runnable feedbackFct;
 	private final boolean asyncAction;
+	private final BiConsumer<A, I> onEnd;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -51,8 +52,8 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final Runnable abort, final Runnable feedback, final List<Node> widgets,
-							  final boolean async)
+							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Runnable abort, final Runnable feedback,
+							  final List<Node> widgets, final boolean async)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, clazzInteraction, widgets);
 		execInitAction = initActionFct;
@@ -61,6 +62,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		feedbackFct = feedback;
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
+		onEnd = onEndFct;
 	}
 
 	/**
@@ -81,7 +83,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final Runnable abort, final Runnable feedback, final boolean async)
+							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Runnable abort, final Runnable feedback, final boolean async)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, clazzInteraction);
 		execInitAction = initActionFct;
@@ -90,6 +92,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		feedbackFct = feedback;
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
+		onEnd = onEndFct;
 	}
 
 	@Override
@@ -124,5 +127,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		if(feedbackFct != null) {
 			feedbackFct.run();
 		}
+	}
+
+	@Override
+	public void interactionStops(final Interaction inter) {
+		if(onEnd != null) {
+			onEnd.accept(getAction(), getInteraction());
+		}
+		super.interactionStops(inter);
 	}
 }
