@@ -43,6 +43,11 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	 */
 	protected final boolean execute;
 
+	/**
+	 * Defines whether the action must be executed in a specific thread.
+	 */
+	protected boolean async;
+
 	protected final Class<A> clazzAction;
 
 
@@ -73,8 +78,24 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		execute = exec;
 		interaction.addHandler(this);
 		setActivated(ins.isActivated());
+		async = false;
 	}
 
+	/**
+	 * Whether the action must be executed in a specific thread.
+	 * @return True: the action will be executed asynchronously.
+	 */
+	public boolean isAsync() {
+		return async;
+	}
+
+	/**
+	 * Sets wether the action must be executed in a specific thread.
+	 * @param asyncAction True: the action will be executed asynchronously.
+	 */
+	public void setAsync(final boolean asyncAction) {
+		async = asyncAction;
+	}
 
 	@Override
 	public void addEventable(final Eventable eventable) {
