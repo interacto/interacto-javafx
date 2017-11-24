@@ -38,7 +38,8 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 
 		checkCode = interaction -> {
 			final List<KeyCode> keys = interaction.getKeyCodes();
-			return codes.size() == keys.size() && codes.stream().allMatch(code -> keys.contains(code)) &&
+
+			return (codes.isEmpty() || codes.size() == keys.size() && codes.stream().allMatch(code -> keys.contains(code))) &&
 				(checkConditions == null || checkConditions.test(interaction));
 		};
 	}
