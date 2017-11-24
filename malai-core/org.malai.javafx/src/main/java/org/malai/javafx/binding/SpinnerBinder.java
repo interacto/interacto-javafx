@@ -79,8 +79,8 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
-	public SpinnerBinder<A> check(final Predicate<SpinnerValueChanged> checkAction) {
-		super.check(checkAction);
+	public SpinnerBinder<A> when(final Predicate<SpinnerValueChanged> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

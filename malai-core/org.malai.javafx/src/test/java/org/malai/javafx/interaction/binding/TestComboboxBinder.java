@@ -67,7 +67,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
-			check(i -> false).
+			when(i -> false).
 			bind();
 		selectGivenComboBoxItem(widget1, "b");
 		assertEquals(0, instrument.exec.get());

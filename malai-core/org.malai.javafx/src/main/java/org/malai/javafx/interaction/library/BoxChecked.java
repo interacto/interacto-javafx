@@ -18,7 +18,7 @@ import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxBoxCheckedTransition;
 
 /**
- * This interaction occurs when a check box is selected.
+ * This interaction occurs when a when box is selected.
  * @author Arnaud BLOUIN
  */
 public class BoxChecked extends NodeInteraction<CheckBox> {

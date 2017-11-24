@@ -63,7 +63,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
 		new ButtonBinder<>(StubAction.class, instrument).
 			on(widget1).
-			check(i -> false).
+			when(i -> false).
 			bind();
 		clickOn(widget1);
 		assertEquals(0, instrument.exec.get());

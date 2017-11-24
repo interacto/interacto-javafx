@@ -92,7 +92,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 * This predicate takes as arguments the ongoing user interaction involved in the binding.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> check(final Predicate<I> checkAction) {
+	public Binder<W, A, I> when(final Predicate<I> checkAction) {
 		checkConditions = checkAction;
 		return this;
 	}

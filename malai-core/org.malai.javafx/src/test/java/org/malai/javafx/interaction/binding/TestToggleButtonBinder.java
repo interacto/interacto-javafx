@@ -63,7 +63,7 @@ public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
 	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
 		new ToggleButtonBinder<>(StubAction.class, instrument).
 			on(widget1).
-			check(i -> false).
+			when(i -> false).
 			bind();
 		clickOn(widget1);
 		assertEquals(0, instrument.exec.get());

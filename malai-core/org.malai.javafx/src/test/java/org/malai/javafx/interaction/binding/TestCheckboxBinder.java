@@ -63,7 +63,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
 		new CheckBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
-			check(i -> false).
+			when(i -> false).
 			bind();
 		clickOn(widget1);
 		assertEquals(0, instrument.exec.get());

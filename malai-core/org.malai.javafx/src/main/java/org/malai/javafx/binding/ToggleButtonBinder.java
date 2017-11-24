@@ -49,8 +49,8 @@ public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButto
 	}
 
 	@Override
-	public ToggleButtonBinder<A> check(final Predicate<ToggleButtonPressed> checkAction) {
-		super.check(checkAction);
+	public ToggleButtonBinder<A> when(final Predicate<ToggleButtonPressed> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

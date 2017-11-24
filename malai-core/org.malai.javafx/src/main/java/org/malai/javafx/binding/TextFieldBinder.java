@@ -79,8 +79,8 @@ public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextFiel
 	}
 
 	@Override
-	public TextFieldBinder<A> check(final Predicate<KeysTyped> checkAction) {
-		super.check(checkAction);
+	public TextFieldBinder<A> when(final Predicate<KeysTyped> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

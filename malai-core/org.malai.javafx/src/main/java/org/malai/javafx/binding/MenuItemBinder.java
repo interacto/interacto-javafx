@@ -47,8 +47,8 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	}
 
 	@Override
-	public MenuItemBinder<A> check(final Predicate<MenuItemPressed> checkAction) {
-		super.check(checkAction);
+	public MenuItemBinder<A> when(final Predicate<MenuItemPressed> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

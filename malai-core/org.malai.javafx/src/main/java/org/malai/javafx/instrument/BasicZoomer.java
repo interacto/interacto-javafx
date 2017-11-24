@@ -65,7 +65,7 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 				a.setPx(-1d);
 				a.setPy(-1d);
 			})).
-			check(i -> i.getKey().map(code -> "+".equals(code) || "-".equals(code)).orElse(false)).bind();
+				when(i -> i.getKey().map(code -> "+".equals(code) || "-".equals(code)).orElse(false)).bind();
 		}
 
 		nodeBinder(Zoom.class, KeysScrolling.class).on(zoomable).
@@ -75,6 +75,6 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 				a.setPx(i.getPx());
 				a.setPy(i.getPy());
 			}).
-			check(i -> i.getKeys().size() == 1 && i.getKeys().get(0) == KeyCode.CONTROL).bind();
+			when(i -> i.getKeys().size() == 1 && i.getKeys().get(0) == KeyCode.CONTROL).bind();
 	}
 }

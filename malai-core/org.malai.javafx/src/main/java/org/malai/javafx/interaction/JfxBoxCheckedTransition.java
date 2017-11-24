@@ -16,7 +16,7 @@ import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * A transition based on the onAction event of check boxes.
+ * A transition based on the onAction event of when boxes.
  * @author Arnaud BLOUIN
  */
 public class JfxBoxCheckedTransition extends WidgetTransition<CheckBox> {

@@ -66,8 +66,8 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 	}
 
 	@Override
-	public KeyNodeBinder<A> check(final Predicate<KeysPressure> checkAction) {
-		super.check(checkAction);
+	public KeyNodeBinder<A> when(final Predicate<KeysPressure> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 
