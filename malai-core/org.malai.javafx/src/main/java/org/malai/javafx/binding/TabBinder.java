@@ -49,8 +49,8 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	}
 
 	@Override
-	public TabBinder<A> check(final Predicate<TabSelected> checkAction) {
-		super.check(checkAction);
+	public TabBinder<A> when(final Predicate<TabSelected> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

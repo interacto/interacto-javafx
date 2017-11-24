@@ -134,7 +134,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).
 			on(widget1).
-			check(i -> false).
+			when(i -> false).
 			bind();
 		type(KeyCode.C);
 		assertEquals(0, instrument.exec.get());

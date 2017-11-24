@@ -49,8 +49,8 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 	}
 
 	@Override
-	public CheckBoxBinder<A> check(final Predicate<BoxChecked> checkAction) {
-		super.check(checkAction);
+	public CheckBoxBinder<A> when(final Predicate<BoxChecked> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

@@ -49,8 +49,8 @@ public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A,
 	}
 
 	@Override
-	public ComboBoxBinder<A> check(final Predicate<ComboBoxSelected> checkAction) {
-		super.check(checkAction);
+	public ComboBoxBinder<A> when(final Predicate<ComboBoxSelected> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

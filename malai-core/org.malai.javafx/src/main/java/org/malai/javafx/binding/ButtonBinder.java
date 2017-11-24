@@ -49,8 +49,8 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	}
 
 	@Override
-	public ButtonBinder<A> check(final Predicate<ButtonPressed> checkAction) {
-		super.check(checkAction);
+	public ButtonBinder<A> when(final Predicate<ButtonPressed> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

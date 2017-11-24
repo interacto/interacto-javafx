@@ -78,8 +78,8 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
-	public NodeBinder<A, I> check(final Predicate<I> checkAction) {
-		super.check(checkAction);
+	public NodeBinder<A, I> when(final Predicate<I> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

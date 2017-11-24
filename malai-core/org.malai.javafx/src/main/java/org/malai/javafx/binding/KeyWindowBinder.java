@@ -60,8 +60,8 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A> 
 	}
 
 	@Override
-	public KeyWindowBinder<A> check(final Predicate<KeysPressure> checkAction) {
-		super.check(checkAction);
+	public KeyWindowBinder<A> when(final Predicate<KeysPressure> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

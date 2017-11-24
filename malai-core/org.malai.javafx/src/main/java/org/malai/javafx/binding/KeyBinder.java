@@ -80,8 +80,8 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 	}
 
 	@Override
-	public KeyBinder<W, A> check(final Predicate<KeysPressure> checkAction) {
-		super.check(checkAction);
+	public KeyBinder<W, A> when(final Predicate<KeysPressure> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 }

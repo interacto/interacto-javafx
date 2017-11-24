@@ -86,7 +86,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
-			check(i -> false).
+			when(i -> false).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID1);
 		assertEquals(0, instrument.exec.get());

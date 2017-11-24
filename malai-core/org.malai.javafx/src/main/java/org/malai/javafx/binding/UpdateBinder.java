@@ -65,7 +65,7 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	}
 
 	/**
-	 * Defines whether the action must be executed on each interaction updates (if 'check' predicate is ok).
+	 * Defines whether the action must be executed on each interaction updates (if 'when' predicate is ok).
 	 * @param execActionOnChanges True: the action is executed on each interaction updates. The action must be undoable in this case
 	 * (to cancel the action).
 	 * @return The builder to chain the buiding configuration.
@@ -107,8 +107,8 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	}
 
 	@Override
-	public UpdateBinder<W, A, I> check(final Predicate<I> checkAction) {
-		super.check(checkAction);
+	public UpdateBinder<W, A, I> when(final Predicate<I> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 

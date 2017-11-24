@@ -77,8 +77,8 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
-	public WindowBinder<A, I> check(final Predicate<I> checkAction) {
-		super.check(checkAction);
+	public WindowBinder<A, I> when(final Predicate<I> checkAction) {
+		super.when(checkAction);
 		return this;
 	}
 
