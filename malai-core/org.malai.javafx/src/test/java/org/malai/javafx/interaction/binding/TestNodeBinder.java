@@ -17,5 +17,7 @@ public class TestNodeBinder<W extends Node> extends TestBinder<W> {
 		stage.setScene(scene);
 		stage.show();
 		stage.toFront();
+		stage.centerOnScreen();
+		stage.requestFocus();
 	}
 }
