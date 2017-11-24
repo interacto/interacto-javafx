@@ -17,7 +17,7 @@ public abstract class TestJfXInteraction<T extends JfxInteraction> {
 	protected T interaction;
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	public void setUp() {
 		interaction = createInteraction();
 	}
 

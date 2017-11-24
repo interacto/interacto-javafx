@@ -49,6 +49,37 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	}
 
 	@Test
+	public void testActionExecutedOnTwoKeys() throws InstantiationException, IllegalAccessException {
+		new KeyNodeBinder<>(StubAction.class, instrument).
+			on(widget1).
+			with(KeyCode.C, KeyCode.CONTROL).
+			bind();
+		press(KeyCode.CONTROL).type(KeyCode.C);
+		assertEquals(1, instrument.exec.get());
+		assertEquals(1, ((StubAction) instrument.lastCreatedAction).exec.get());
+	}
+
+	@Test
+	public void testActionExecutedOnThreeKeys() throws InstantiationException, IllegalAccessException {
+		new KeyNodeBinder<>(StubAction.class, instrument).
+			on(widget1).
+			with(KeyCode.C, KeyCode.CONTROL).
+			bind();
+		press(KeyCode.CONTROL).type(KeyCode.C).type(KeyCode.C);
+		assertEquals(2, instrument.exec.get());
+	}
+
+	@Test
+	public void testNoActionExecutedOnTwoKeysReleased() throws InstantiationException, IllegalAccessException {
+		new KeyNodeBinder<>(StubAction.class, instrument).
+			on(widget1).
+			with(KeyCode.C, KeyCode.CONTROL).
+			bind();
+		type(KeyCode.CONTROL).type(KeyCode.C);
+		assertEquals(0, instrument.exec.get());
+	}
+
+	@Test
 	public void testNoActionExecutedOnBadKey() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).
 			on(widget1).
