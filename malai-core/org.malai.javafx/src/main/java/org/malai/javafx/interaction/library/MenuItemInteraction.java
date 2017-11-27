@@ -10,7 +10,9 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javafx.scene.control.MenuItem;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 
@@ -21,12 +23,14 @@ import org.malai.javafx.interaction.JfxInteractionImpl;
 public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInteractionImpl {
 	/** The widget used during the interaction. */
 	protected T widget;
+	protected final Set<MenuItem> registeredItems;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public MenuItemInteraction() {
 		super();
+		registeredItems = new HashSet<>();
 	}
 
 	@Override
@@ -44,5 +48,8 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 
 	public void registerToMenuItems(final List<MenuItem> widgets) {
 		// Should be overriden.
+		if(widgets != null) {
+			registeredItems.addAll(widgets);
+		}
 	}
 }

@@ -48,6 +48,7 @@ public class TabSelected extends NodeInteraction<TabPane> {
 
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
+		super.registerToNodes(widgets);
 		widgets.stream().filter(w -> w instanceof TabPane).forEach(w -> ((TabPane) w).getSelectionModel().selectedItemProperty().
 			addListener(evt -> onJfXTabSelected((TabPane) w)));
 	}

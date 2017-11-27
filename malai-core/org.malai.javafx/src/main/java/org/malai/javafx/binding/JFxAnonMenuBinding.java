@@ -72,4 +72,9 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 			onEnd.accept(action, getInteraction());
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "JFxAnonMenuBinding in " + instrument + '{' + interaction + " -> " + clazzAction + '}';
+	}
 }

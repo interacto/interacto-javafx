@@ -77,6 +77,7 @@ public class DoubleClick extends PointInteraction {
 
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
+		super.registerToNodes(widgets);
 		widgets.forEach(widget -> {
 			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
@@ -87,6 +88,7 @@ public class DoubleClick extends PointInteraction {
 
 	@Override
 	public void registerToWindows(final Collection<Window> windows) {
+		super.registerToWindows(windows);
 		windows.forEach(window -> {
 			window.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			window.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));

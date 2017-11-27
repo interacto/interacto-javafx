@@ -36,7 +36,7 @@ import org.malai.javafx.interaction.ReleaseTransition;
  */
 public class MultiClick extends JfxInteractionImpl {
 	/** The list of pressed position. */
-	protected List<Point3D> points;
+	protected final List<Point3D> points;
 
 	/** The current position of the pointing device. */
 	protected Point3D currentPosition;
@@ -50,6 +50,7 @@ public class MultiClick extends JfxInteractionImpl {
 	 */
 	public MultiClick() {
 		super();
+		points = new ArrayList<>();
 		minPoints = 2;
 		initStateMachine();
 	}
@@ -57,13 +58,7 @@ public class MultiClick extends JfxInteractionImpl {
 	@Override
 	public void reinit() {
 		super.reinit();
-
-		if(points == null) {
-			points = new ArrayList<>();
-		}else {
-			points.clear();
-		}
-
+		points.clear();
 		currentPosition = null;
 	}
 
@@ -164,6 +159,7 @@ public class MultiClick extends JfxInteractionImpl {
 
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
+		super.registerToNodes(widgets);
 		widgets.forEach(widget -> {
 			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
@@ -175,6 +171,7 @@ public class MultiClick extends JfxInteractionImpl {
 
 	@Override
 	public void registerToWindows(final Collection<Window> windows) {
+		super.registerToWindows(windows);
 		windows.forEach(window -> {
 			window.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
 			window.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));

@@ -49,6 +49,7 @@ public class ComboBoxSelected extends NodeInteraction<ComboBox<?>> {
 
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
+		super.registerToNodes(widgets);
 		widgets.stream().filter(w -> w instanceof ComboBox<?>).forEach(w -> 
 			w.addEventHandler(ActionEvent.ACTION, evt -> onJfxComboBoxSelected((ComboBox<?>)evt.getSource())));
 	}
