@@ -12,13 +12,18 @@ import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.stateMachine.MustAbortStateMachineException;
+import org.mockito.Mock;
+import org.testfx.framework.junit5.ApplicationTest;
 
-public abstract class TestJfXInteraction<T extends JfxInteraction> {
+public abstract class BaseJfXInteractionTest<T extends JfxInteraction> extends ApplicationTest {
 	protected T interaction;
+	@Mock protected InteractionHandler handler;
+	@Mock protected MouseEvent evt;
 
 	@BeforeEach
 	public void setUp() {
 		interaction = createInteraction();
+		interaction.addHandler(handler);
 	}
 
 	protected abstract T createInteraction();
@@ -26,21 +31,21 @@ public abstract class TestJfXInteraction<T extends JfxInteraction> {
 	protected MouseEvent createMousePressEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_PRESSED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, new PickResult(null, new Point3D(0d, 0d, 0d),
+			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
 	protected MouseEvent createMouseReleaseEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_RELEASED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, new PickResult(null, new Point3D(0d, 0d, 0d),
+			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
 	protected MouseEvent createMouseMoveEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_MOVED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, new PickResult(null, new Point3D(0d, 0d, 0d),
+			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 

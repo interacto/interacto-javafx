@@ -1,52 +1,31 @@
 package org.malai.javafx.interaction.library;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.Test;
-import org.malai.interaction.InitState;
-import org.malai.interaction.Interaction;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
+import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-public class TestKeyPressure extends TestJfXInteraction<KeyPressure> {
+@ExtendWith(MockitoExtension.class)
+public class TestKeyPressure extends BaseJfXInteractionTest<KeyPressure> {
 	@Override
 	protected KeyPressure createInteraction() {
 		return new KeyPressure();
 	}
 
 	@Test
-	public void testOneKeyPressEndsAndReinit() {
-		final BooleanProperty hasEnded = new SimpleBooleanProperty(false);
-		interaction.addHandler(new InteractionHandlerStub() {
-			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				hasEnded.set(true);
-			}
-		});
+	public void testOneKeyPressEndsAndReinit() throws MustAbortStateMachineException {
 		interaction.onKeyPressure(createKeyPressEvent("A", KeyCode.A), 0);
-		assertTrue(interaction.getCurrentState() instanceof InitState);
-		assertTrue(hasEnded.get());
+		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
 	}
 
 	@Test
-	public void testTwoKeyPressEndsAndReinit() {
-		final IntegerProperty nbExec = new SimpleIntegerProperty(0);
-		interaction.addHandler(new InteractionHandlerStub() {
-			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				nbExec.set(nbExec.get()+1);
-			}
-		});
+	public void testTwoKeyPressEndsAndReinit() throws MustAbortStateMachineException {
 		interaction.onKeyPressure(createKeyPressEvent("A", KeyCode.A), 0);
 		interaction.onKeyPressure(createKeyPressEvent("B", KeyCode.B), 0);
-		assertTrue(interaction.getCurrentState() instanceof InitState);
-		assertEquals(2, nbExec.get());
+		Mockito.verify(handler, Mockito.times(2)).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionStarts(interaction);
 	}
 }

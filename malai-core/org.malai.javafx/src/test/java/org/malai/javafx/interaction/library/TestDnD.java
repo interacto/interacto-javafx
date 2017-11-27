@@ -1,45 +1,33 @@
 package org.malai.javafx.interaction.library;
 
+import javafx.geometry.Point3D;
 import javafx.scene.input.MouseButton;
 import org.junit.jupiter.api.Test;
-import org.malai.interaction.InitState;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.malai.javafx.MockitoExtension;
+import org.malai.stateMachine.MustAbortStateMachineException;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestDnD extends TestJfXInteraction<DnD> {
+@ExtendWith(MockitoExtension.class)
+public class TestDnD extends BaseJfXInteractionTest<DnD> {
+	/*
+		interaction.onRelease(createMouseReleaseEvent(10d, 20d, MouseButton.PRIMARY), 0);
+		interaction.onMove(createMouseMoveEvent(10d, 23d, MouseButton.PRIMARY), 0);
+		interaction.onPressure(createMousePressEvent(30d, 40d, MouseButton.SECONDARY), 0);
+	 */
 	@Override
 	protected DnD createInteraction() {
 		return new DnD();
 	}
 
 	@Test
-	public void testNoiseBeforeDnD() {
+	public void testPressStarts() throws MustAbortStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		interaction.onRelease(createMouseReleaseEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(11d, 21d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(10d, 22d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(10d, 23d, MouseButton.PRIMARY), 0);
-		interaction.onPressure(createMousePressEvent(30d, 40d, MouseButton.SECONDARY), 0);
-		interaction.onRelease(createMouseReleaseEvent(30d, 40d, MouseButton.SECONDARY), 0);
-
-		assertTrue(interaction.getCurrentState() instanceof InitState);
-	}
-
-	@Test
-	public void testCorrectButtonNoiseBeforeDnD() {
-		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		interaction.onRelease(createMouseReleaseEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(11d, 21d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(10d, 22d, MouseButton.PRIMARY), 0);
-//		interaction.onMove(createMouseMoveEvent(10d, 23d, MouseButton.PRIMARY), 0);
-		interaction.onPressure(createMousePressEvent(30d, 40d, MouseButton.SECONDARY), 0);
-		interaction.onRelease(createMouseReleaseEvent(30d, 40d, MouseButton.SECONDARY), 0);
-		interaction.onMove(createMouseMoveEvent(11d, 21d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(10d, 22d, MouseButton.PRIMARY), 0);
-
-		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
-
-		assertEquals(MouseButton.PRIMARY, interaction.getButton().orElse(MouseButton.NONE));
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcPoint().get());
 	}
 }
