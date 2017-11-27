@@ -97,7 +97,9 @@ public abstract class InteractionImpl implements Interaction {
 	public InteractionImpl(final InitState initState) {
 		super();
 
-		if(initState == null) throw new IllegalArgumentException();
+		if(initState == null) {
+			throw new IllegalArgumentException();
+		}
 
 		currentTimeout = null;
 		activated = true;
@@ -105,7 +107,8 @@ public abstract class InteractionImpl implements Interaction {
 		initState.stateMachine = this;
 		this.initState = initState;
 		addState(initState);
-		reinit();
+		currentState = initState;
+		lastHIDUsed = -1;
 	}
 
 	/**
