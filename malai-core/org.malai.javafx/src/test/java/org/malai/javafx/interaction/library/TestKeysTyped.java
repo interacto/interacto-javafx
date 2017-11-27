@@ -4,9 +4,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.javafx.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class TestKeysPressure extends BaseJfXInteractionTest<KeysPressure> {
+public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 	@Override
-	protected KeysPressure createInteraction() {
-		return new KeysPressure();
+	protected KeysTyped createInteraction() {
+		return new KeysTyped();
 	}
 }
