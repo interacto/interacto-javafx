@@ -11,8 +11,14 @@
 package org.malai.javafx.interaction;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Window;
 import org.malai.interaction.InitState;
 import org.malai.interaction.InteractionImpl;
 
@@ -21,11 +27,40 @@ import org.malai.interaction.InteractionImpl;
  * @author Arnaud BLOUIN
  */
 public abstract class JfxInteractionImpl extends InteractionImpl implements JfxInteraction {
+	protected final Set<Node> registeredWidgets;
+	protected final Set<Window> registeredWindows;
+
 	/**
 	 * Creates a JavaFX interaction.
 	 */
 	public JfxInteractionImpl() {
 		super();
+		registeredWidgets = new HashSet<>();
+		registeredWindows = new HashSet<>();
+	}
+
+	@Override
+	public void registerToNodes(final Collection<Node> widgets) {
+		if(widgets != null) {
+			registeredWidgets.addAll(widgets);
+		}
+	}
+
+	@Override
+	public void registerToWindows(final Collection<Window> windows) {
+		if(windows != null) {
+			registeredWindows.addAll(windows);
+		}
+	}
+
+	@Override
+	public Set<Node> getRegisteredWidgets() {
+		return Collections.unmodifiableSet(registeredWidgets);
+	}
+
+	@Override
+	public Set<Window> getRegisteredWindows() {
+		return Collections.unmodifiableSet(registeredWindows);
 	}
 
 	@Override

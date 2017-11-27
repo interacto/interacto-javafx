@@ -48,6 +48,7 @@ public class MenuItemPressed extends MenuItemInteraction<MenuItem> {
 
 	@Override
 	public void registerToMenuItems(final List<MenuItem> widgets) {
+		super.registerToMenuItems(widgets);
 		widgets.forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem) evt.getSource())));
 	}
 }

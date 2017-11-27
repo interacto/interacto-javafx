@@ -137,4 +137,9 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 			onEnd.accept(action, getInteraction());
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "JFxAnonNodeBinding in " + instrument + '{' + interaction + " -> " + clazzAction + '}';
+	}
 }

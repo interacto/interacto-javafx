@@ -15,6 +15,8 @@ import java.util.stream.Stream;
 import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.scene.Scene;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.preferences.Preferenciable;
 import org.malai.properties.Modifiable;
@@ -29,6 +31,8 @@ import org.w3c.dom.Element;
 public abstract class JfxUI extends Application implements Modifiable, Reinitialisable, Preferenciable {
 	/** Defined if the UI has been modified. */
 	protected final BooleanProperty modified;
+	/** The lambda that windows should register to reset interactions on focus loses. */
+	private final ChangeListener<Boolean> focusReset;
 
 	/**
 	 * Creates a user interface.
@@ -36,6 +40,8 @@ public abstract class JfxUI extends Application implements Modifiable, Reinitial
 	public JfxUI() {
 		super();
 		modified = new SimpleBooleanProperty(false);
+		focusReset = (observable, oldValue, newValue) -> getInstruments().stream().map(ins -> ins.getWidgetBindings()).flatMap(s -> s.stream()).
+			forEach(binding -> binding.clearEvents());
 	}
 
 	/**
@@ -73,6 +79,17 @@ public abstract class JfxUI extends Application implements Modifiable, Reinitial
 		// To override.
 	}
 
+	public void registerScene(final Scene scene) {
+		if(scene != null) {
+			scene.getWindow().focusedProperty().addListener(focusReset);
+		}
+	}
+
+	public void unregisterScene(final Scene scene) {
+		if(scene != null) {
+			scene.getWindow().focusedProperty().removeListener(focusReset);
+		}
+	}
 
 	@Override
 	public void reinit() {

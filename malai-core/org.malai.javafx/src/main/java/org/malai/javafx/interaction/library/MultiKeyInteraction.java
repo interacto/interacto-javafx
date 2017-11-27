@@ -23,10 +23,10 @@ import org.malai.stateMachine.TargetableState;
  */
 public abstract class MultiKeyInteraction extends KeyInteraction {
 	/** The key pressed. */
-	protected List<String> keys;
+	protected final List<String> keys = new ArrayList<>();
 
 	/** The code of the key. */
-	protected List<KeyCode> keyCodes;
+	protected final List<KeyCode> keyCodes = new ArrayList<>();
 
 	/**
 	 * Creates the interaction.
@@ -38,18 +38,8 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 	@Override
 	public void reinit() {
 		super.reinit();
-
-		if(keys == null) {
-			keys = new ArrayList<>();
-		}else {
-			keys.clear();
-		}
-
-		if(keyCodes == null) {
-			keyCodes = new ArrayList<>();
-		}else {
-			keyCodes.clear();
-		}
+		keys.clear();
+		keyCodes.clear();
 	}
 
 	/**
@@ -77,9 +67,7 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 	 * @param keycode The key pressed to add.
 	 */
 	protected void addKeyCode(final KeyCode keycode) {
-		if(keycode != null) {
-			keyCodes.add(keycode);
-		}
+		keyCodes.add(keycode);
 	}
 
 	/**

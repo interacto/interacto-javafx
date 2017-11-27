@@ -29,7 +29,7 @@ import org.malai.javafx.interaction.KeyReleaseTransition;
  */
 public class KeysScrolling extends Scrolling {
 	/** The keys pressed while scrolling. */
-	protected List<KeyCode> keys;
+	protected final List<KeyCode> keys = new ArrayList<>();
 
 	/** The id of the hid used for the keyboard events. */
 	protected int keyHIDUsed;
@@ -45,14 +45,8 @@ public class KeysScrolling extends Scrolling {
 	@Override
 	public void reinit() {
 		super.reinit();
-
 		keyHIDUsed = -1;
-
-		if(keys == null) {
-			keys = new ArrayList<>();
-		}else {
-			keys.clear();
-		}
+		keys.clear();
 	}
 
 	@Override

@@ -56,6 +56,9 @@ public class WindowClosed extends JfxInteractionImpl {
 
 	@Override
 	public void registerToWindows(final Collection<Window> windows) {
-		windows.forEach(win -> win.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, evt -> onWindowClosed(evt)));
+		super.registerToWindows(windows);
+		if(windows != null) {
+			windows.forEach(win -> win.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, evt -> onWindowClosed(evt)));
+		}
 	}
 }

@@ -8,13 +8,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * TestFX does not provide all the required routines to test GUIs. This trait defines routines for
- * selecting items in combo boxes and lists.
+ * selecting registeredItems in combo boxes and lists.
  */
 public interface FxRobotListSelection extends FxRobotInterface {
-	default <T> void selectNextComboBoxItem(final ComboBox<T> combo) {
-		clickOn(combo).type(KeyCode.DOWN).type(KeyCode.ENTER);
-	}
-
 	default <T> void selectGivenComboBoxItem(final ComboBox<T> combo, final T item) {
 		final int index = combo.getItems().indexOf(item);
 		final int indexSel = combo.getSelectionModel().getSelectedIndex();

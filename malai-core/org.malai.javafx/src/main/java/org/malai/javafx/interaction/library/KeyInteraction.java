@@ -57,6 +57,7 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 
 	@Override
 	public void registerToNodes(Collection<Node> widgets) {
+		super.registerToNodes(widgets);
 		widgets.forEach(w -> {
 			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
 			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
@@ -65,6 +66,7 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 
 	@Override
 	public void registerToWindows(Collection<Window> windows) {
+		super.registerToWindows(windows);
 		windows.forEach(w -> {
 			w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
 			w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
