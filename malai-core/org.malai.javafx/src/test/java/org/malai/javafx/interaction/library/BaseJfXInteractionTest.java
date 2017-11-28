@@ -56,6 +56,12 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction> extends A
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
+	protected ScrollEvent createScrollEvent(final double x, final double y, final double dx, final double dy) {
+		return new ScrollEvent(ScrollEvent.SCROLL, x, y, x, y, false, false, false, false, false, false, dx, dy, dx, dy,
+				null, 0d, null, 0d, 0, new PickResult(null, new Point3D(x, y, 0d),
+				0d, 0, new Point2D(0d, 0d)));
+	}
+
 	protected KeyEvent createKeyPressEvent(final String str, final KeyCode code) {
 		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_PRESSED, str, str, code, false,
 			false, false, false);
