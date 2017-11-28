@@ -1,5 +1,6 @@
 package org.malai.javafx.interaction.library;
 
+import java.util.Collections;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,8 +11,6 @@ import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.mockito.Mockito;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

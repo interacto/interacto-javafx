@@ -1,5 +1,6 @@
 package org.malai.javafx.interaction.library;
 
+import java.util.Collections;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
@@ -12,9 +13,9 @@ import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.mockito.Mockito;
 
-import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
@@ -113,6 +114,4 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
 	}
-
-
 }

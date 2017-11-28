@@ -1,9 +1,8 @@
 package org.malai.javafx.interaction.library;
 
-import javafx.scene.control.Button;
+import java.util.Collections;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.MouseButton;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +10,6 @@ import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.mockito.Mockito;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -52,7 +49,7 @@ public class TestTabSelected extends BaseJfXInteractionTest<TabSelected> {
 			@Override
 			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
 				super.interactionStops(interaction);
-				assertEquals(tabPane, ((TabSelected) interaction).widget );
+				assertEquals(tabPane, ((TabSelected) interaction).widget);
 			}
 		});
 		interaction.onJfXTabSelected(tabPane);
@@ -72,5 +69,4 @@ public class TestTabSelected extends BaseJfXInteractionTest<TabSelected> {
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
 	}
-
 }
