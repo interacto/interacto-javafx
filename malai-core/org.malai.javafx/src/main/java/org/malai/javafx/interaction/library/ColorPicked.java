@@ -50,7 +50,10 @@ public class ColorPicked extends NodeInteraction<ColorPicker> {
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
 		super.registerToNodes(widgets);
-		widgets.stream().filter(w -> w instanceof ColorPicker).forEach(w ->
-			w.addEventHandler(ActionEvent.ACTION, evt -> onJfxColorPicked((ColorPicker) evt.getSource())));
+
+		if (widgets != null) {
+			widgets.stream().filter(w -> w instanceof ColorPicker).forEach(w ->
+					w.addEventHandler(ActionEvent.ACTION, evt -> onJfxColorPicked((ColorPicker) evt.getSource())));
+		}
 	}
 }
