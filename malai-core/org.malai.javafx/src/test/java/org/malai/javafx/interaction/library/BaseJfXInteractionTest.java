@@ -1,5 +1,6 @@
 package org.malai.javafx.interaction.library;
 
+import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.input.KeyCode;
@@ -7,6 +8,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
@@ -27,6 +30,10 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction> extends A
 	}
 
 	protected abstract T createInteraction();
+
+	protected WindowEvent createWindowEvent(final Window window, final EventType<?> eventType) {
+		return new WindowEvent(window, eventType);
+	}
 
 	protected MouseEvent createMousePressEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_PRESSED, x, y, 0d, 0d, button, 1, false,
