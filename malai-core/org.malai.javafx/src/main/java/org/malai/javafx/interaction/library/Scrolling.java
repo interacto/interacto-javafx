@@ -11,6 +11,8 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
+import java.util.Objects;
+
 import javafx.scene.Node;
 import javafx.scene.input.ScrollEvent;
 import javafx.stage.Window;
@@ -127,13 +129,17 @@ public class Scrolling extends JfxInteractionImpl {
 	@Override
 	public void registerToNodes(Collection<Node> widgets) {
 		super.registerToNodes(widgets);
-		widgets.forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
+		if(widgets != null) {
+			widgets.stream().filter(Objects::nonNull).forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
+		}
 	}
 
 	@Override
 	public void registerToWindows(Collection<Window> windows) {
 		super.registerToWindows(windows);
-		windows.forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
+		if(windows != null) {
+			windows.stream().filter(Objects::nonNull).forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
+		}
 	}
 
 
