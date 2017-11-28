@@ -50,7 +50,9 @@ public class ToggleButtonPressed extends NodeInteraction<ToggleButton> {
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
 		super.registerToNodes(widgets);
-		widgets.stream().filter(w -> w instanceof ToggleButton).forEach(w -> 
-			w.addEventHandler(ActionEvent.ACTION, evt -> onJfxToggleButtonPressed((ToggleButton) evt.getSource())));
+		if(widgets != null) {
+			widgets.stream().filter(w -> w instanceof ToggleButton).forEach(w ->
+					w.addEventHandler(ActionEvent.ACTION, evt -> onJfxToggleButtonPressed((ToggleButton) evt.getSource())));
+		}
 	}
 }
