@@ -50,7 +50,10 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 	@Override
 	public void registerToNodes(final Collection<Node> widgets) {
 		super.registerToNodes(widgets);
-		widgets.stream().filter(w -> w instanceof TextInputControl).forEach(w ->
-			w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl) evt.getSource())));
+
+		if(widgets != null) {
+			widgets.stream().filter(w -> w instanceof TextInputControl).
+				forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl) evt.getSource())));
+		}
 	}
 }

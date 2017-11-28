@@ -1,12 +1,12 @@
 package org.malai.javafx.interaction.library;
 
+import java.util.Collections;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.interaction.Interaction;
@@ -14,8 +14,6 @@ import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.mockito.Mockito;
 import org.testfx.util.WaitForAsyncUtils;
-
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -52,9 +50,9 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 	void testScrollingReinit() throws MustAbortStateMachineException {
 		interaction.onScroll(createScrollEvent(1, 2, 5, 0), 1);
 		assertNull(interaction.getScrolledNode());
-		assertEquals(0d, ((Scrolling) interaction).getIncrement(), 0.00001);
-		assertEquals(0d, ((Scrolling) interaction).px, 0.00001);
-		assertEquals(0d, ((Scrolling) interaction).py, 0.00001);
+		assertEquals(0d, interaction.getIncrement(), 0.00001);
+		assertEquals(0d, interaction.px, 0.00001);
+		assertEquals(0d, interaction.py, 0.00001);
 	}
 
 	@Test

@@ -127,7 +127,7 @@ public class Scrolling extends JfxInteractionImpl {
 
 
 	@Override
-	public void registerToNodes(Collection<Node> widgets) {
+	public void registerToNodes(final Collection<Node> widgets) {
 		super.registerToNodes(widgets);
 		if(widgets != null) {
 			widgets.stream().filter(Objects::nonNull).forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
@@ -135,7 +135,7 @@ public class Scrolling extends JfxInteractionImpl {
 	}
 
 	@Override
-	public void registerToWindows(Collection<Window> windows) {
+	public void registerToWindows(final Collection<Window> windows) {
 		super.registerToWindows(windows);
 		if(windows != null) {
 			windows.stream().filter(Objects::nonNull).forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
