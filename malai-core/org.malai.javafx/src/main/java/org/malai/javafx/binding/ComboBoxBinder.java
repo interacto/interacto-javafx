@@ -37,14 +37,14 @@ public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A,
 	}
 
 	@Override
-	public ComboBoxBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public ComboBoxBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public ComboBoxBinder<A> init(final BiConsumer<A, ComboBoxSelected> initActionFct) {
-		super.init(initActionFct);
+	public ComboBoxBinder<A> first(final BiConsumer<A, ComboBoxSelected> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -61,8 +61,8 @@ public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A,
 	}
 
 	@Override
-	public ComboBoxBinder<A> onEnd(final BiConsumer<A, ComboBoxSelected> onEndFct) {
-		super.onEnd(onEndFct);
+	public ComboBoxBinder<A> end(final BiConsumer<A, ComboBoxSelected> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

@@ -37,14 +37,14 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	}
 
 	@Override
-	public TabBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public TabBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public Binder<TabPane, A, TabSelected> init(final BiConsumer<A, TabSelected> initActionFct) {
-		super.init(initActionFct);
+	public Binder<TabPane, A, TabSelected> first(final BiConsumer<A, TabSelected> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -61,8 +61,8 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	}
 
 	@Override
-	public TabBinder<A> onEnd(final BiConsumer<A, TabSelected> onEndFct) {
-		super.onEnd(onEndFct);
+	public TabBinder<A> end(final BiConsumer<A, TabSelected> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

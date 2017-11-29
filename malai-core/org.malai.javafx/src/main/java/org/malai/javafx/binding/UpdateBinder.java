@@ -40,14 +40,14 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	 * This callback takes as arguments the action to update and the ongoing interactions (and its parameters).
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> update(final BiConsumer<A, I> update) {
+	public UpdateBinder<W, A, I> then(final BiConsumer<A, I> update) {
 		updateFct = update;
 		return this;
 	}
 
 	@Override
-	public UpdateBinder<W, A, I> init(final BiConsumer<A, I> initActionFct) {
-		super.init(initActionFct);
+	public UpdateBinder<W, A, I> first(final BiConsumer<A, I> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -57,7 +57,7 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	 * This callback takes as arguments the action to update.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> update(final Consumer<A> update) {
+	public UpdateBinder<W, A, I> then(final Consumer<A> update) {
 		if(update != null) {
 			updateFct = (a, i) -> update.accept(a);
 		}
@@ -101,8 +101,8 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	}
 
 	@Override
-	public UpdateBinder<W, A, I> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public UpdateBinder<W, A, I> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -113,8 +113,8 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	}
 
 	@Override
-	public UpdateBinder<W, A, I> onEnd(final BiConsumer<A, I> onEndFct) {
-		super.onEnd(onEndFct);
+	public UpdateBinder<W, A, I> end(final BiConsumer<A, I> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

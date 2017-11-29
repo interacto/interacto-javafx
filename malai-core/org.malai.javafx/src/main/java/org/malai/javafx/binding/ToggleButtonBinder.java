@@ -37,14 +37,14 @@ public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButto
 	}
 
 	@Override
-	public ToggleButtonBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public ToggleButtonBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public Binder<ToggleButton, A, ToggleButtonPressed> init(final BiConsumer<A, ToggleButtonPressed> initActionFct) {
-		super.init(initActionFct);
+	public Binder<ToggleButton, A, ToggleButtonPressed> first(final BiConsumer<A, ToggleButtonPressed> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -61,8 +61,8 @@ public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButto
 	}
 
 	@Override
-	public ToggleButtonBinder<A> onEnd(final BiConsumer<A, ToggleButtonPressed> onEndFct) {
-		super.onEnd(onEndFct);
+	public ToggleButtonBinder<A> end(final BiConsumer<A, ToggleButtonPressed> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

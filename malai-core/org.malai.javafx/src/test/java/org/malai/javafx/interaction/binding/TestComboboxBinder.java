@@ -23,7 +23,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	public void testActionExecutedOnSingleButton() throws InstantiationException, IllegalAccessException {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
-			onEnd((a, i) -> assertEquals(1, a.exec.get())).
+			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget1, "b");
 		assertEquals(1, instrument.exec.get());
@@ -33,7 +33,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	public void testActionExecutedOnTwoComboboxes() throws InstantiationException, IllegalAccessException {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1, widget2).
-			onEnd((a, i) -> assertEquals(1, a.exec.get())).
+			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget2, "d");
 		assertEquals(1, instrument.exec.get());
@@ -45,8 +45,8 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	public void testInit1Executed() throws InstantiationException, IllegalAccessException {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
-			init(a -> a.exec.setValue(10)).
-			onEnd((a, i) -> assertEquals(11, a.exec.get())).
+			first(a -> a.exec.setValue(10)).
+			end((a, i) -> assertEquals(11, a.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget1, "b");
 		assertEquals(1, instrument.exec.get());
@@ -56,8 +56,8 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	public void testInit2Executed() throws InstantiationException, IllegalAccessException {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
-			init((a, i) -> a.exec.setValue(10)).
-			onEnd((a, i) -> assertEquals(11, a.exec.get())).
+			first((a, i) -> a.exec.setValue(10)).
+			end((a, i) -> assertEquals(11, a.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget1, "b");
 		assertEquals(1, instrument.exec.get());

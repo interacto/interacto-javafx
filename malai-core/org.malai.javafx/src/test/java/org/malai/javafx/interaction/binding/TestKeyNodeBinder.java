@@ -112,7 +112,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testInit1Executed() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).
 			on(widget1).
-			init(a -> a.exec.setValue(10)).
+			first(a -> a.exec.setValue(10)).
 			bind();
 		type(KeyCode.C);
 		assertEquals(1, instrument.exec.get());
@@ -123,7 +123,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testInit2Executed() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).
 			on(widget1).
-			init((a, i) -> a.exec.setValue(20)).
+			first((a, i) -> a.exec.setValue(20)).
 			bind();
 		type(KeyCode.C);
 		assertEquals(1, instrument.exec.get());

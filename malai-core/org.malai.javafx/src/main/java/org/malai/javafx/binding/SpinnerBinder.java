@@ -31,14 +31,14 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
-	public SpinnerBinder<A> update(final BiConsumer<A, SpinnerValueChanged> update) {
-		super.update(update);
+	public SpinnerBinder<A> then(final BiConsumer<A, SpinnerValueChanged> update) {
+		super.then(update);
 		return this;
 	}
 
 	@Override
-	public SpinnerBinder<A> update(final Consumer<A> update) {
-		super.update(update);
+	public SpinnerBinder<A> then(final Consumer<A> update) {
+		super.then(update);
 		return this;
 	}
 
@@ -67,14 +67,14 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
-	public SpinnerBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public SpinnerBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public SpinnerBinder<A> init(final BiConsumer<A, SpinnerValueChanged> initActionFct) {
-		super.init(initActionFct);
+	public SpinnerBinder<A> first(final BiConsumer<A, SpinnerValueChanged> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -91,8 +91,8 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
-	public SpinnerBinder<A> onEnd(final BiConsumer<A, SpinnerValueChanged> onEndFct) {
-		super.onEnd(onEndFct);
+	public SpinnerBinder<A> end(final BiConsumer<A, SpinnerValueChanged> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

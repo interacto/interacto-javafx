@@ -30,14 +30,14 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
-	public NodeBinder<A, I> update(final BiConsumer<A, I> update) {
-		super.update(update);
+	public NodeBinder<A, I> then(final BiConsumer<A, I> update) {
+		super.then(update);
 		return this;
 	}
 
 	@Override
-	public NodeBinder<A, I> update(final Consumer<A> update) {
-		super.update(update);
+	public NodeBinder<A, I> then(final Consumer<A> update) {
+		super.then(update);
 		return this;
 	}
 
@@ -66,14 +66,14 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
-	public NodeBinder<A, I> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public NodeBinder<A, I> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public NodeBinder<A, I> init(final BiConsumer<A, I> initActionFct) {
-		super.init(initActionFct);
+	public NodeBinder<A, I> first(final BiConsumer<A, I> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -90,8 +90,8 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
-	public NodeBinder<A, I> onEnd(final BiConsumer<A, I> onEndFct) {
-		super.onEnd(onEndFct);
+	public NodeBinder<A, I> end(final BiConsumer<A, I> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

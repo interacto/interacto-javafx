@@ -25,14 +25,14 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 	}
 
 	@Override
-	public AnonActionBinder<W, I> init(final Consumer<AnonAction> initActionFct) {
-		super.init(initActionFct);
+	public AnonActionBinder<W, I> first(final Consumer<AnonAction> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public AnonActionBinder<W, I> init(final BiConsumer<AnonAction, I> initActionFct) {
-		super.init(initActionFct);
+	public AnonActionBinder<W, I> first(final BiConsumer<AnonAction, I> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -43,8 +43,8 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 	}
 
 	@Override
-	public AnonActionBinder<W, I> onEnd(final BiConsumer<AnonAction, I> onEndFct) {
-		super.onEnd(onEndFct);
+	public AnonActionBinder<W, I> end(final BiConsumer<AnonAction, I> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 
