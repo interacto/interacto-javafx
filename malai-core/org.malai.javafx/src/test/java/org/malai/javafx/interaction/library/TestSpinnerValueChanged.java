@@ -8,24 +8,33 @@ import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.mockito.Mockito;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(MockitoExtension.class)
-public class TestSpinnerValueChanged extends BaseJfXInteractionTest<SpinnerValueChanged> {
+class TestSpinnerValueChanged extends BaseJfXInteractionTest<SpinnerValueChanged> {
 	Spinner<?> spinner;
 
 	@Override
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		super.setUp();
 		spinner = new Spinner<>();
+		DoubleClick.setTimeGap(300L);
+	}
+
+	@Test
+	void testSetTimeGap() {
+		DoubleClick.setTimeGap(200L);
+		assertEquals(200L, DoubleClick.getTimeGap());
 	}
 
 	@Override
-	protected SpinnerValueChanged createInteraction() {
+	SpinnerValueChanged createInteraction() {
 		return new SpinnerValueChanged();
 	}
 
 	@Test
-	public void testSpinnerChangedGoodState() throws MustAbortStateMachineException {
+	void testSpinnerChangedGoodState() throws MustAbortStateMachineException {
 		interaction.onJfxSpinnerValueChanged(spinner);
 		sleep(500);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
@@ -34,7 +43,7 @@ public class TestSpinnerValueChanged extends BaseJfXInteractionTest<SpinnerValue
 	}
 
 	@Test
-	public void testSpinnerChange2TimesGoodState() throws MustAbortStateMachineException {
+	void testSpinnerChange2TimesGoodState() throws MustAbortStateMachineException {
 		interaction.onJfxSpinnerValueChanged(spinner);
 		interaction.onJfxSpinnerValueChanged(spinner);
 		sleep(500);
@@ -44,7 +53,17 @@ public class TestSpinnerValueChanged extends BaseJfXInteractionTest<SpinnerValue
 	}
 
 	@Test
-	public void testSpinnerChangeTwoTimesWith500GoodState() throws MustAbortStateMachineException {
+	void testSpinnerChangedGoodStateithTimeGap() throws MustAbortStateMachineException {
+		SpinnerValueChanged.setTimeGap(50L);
+		interaction.onJfxSpinnerValueChanged(spinner);
+		sleep(100L);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionUpdates(interaction);
+	}
+
+	@Test
+	void testSpinnerChangeTwoTimesWith500GoodState() throws MustAbortStateMachineException {
 		interaction.onJfxSpinnerValueChanged(spinner);
 		sleep(500);
 		interaction.onJfxSpinnerValueChanged(spinner);

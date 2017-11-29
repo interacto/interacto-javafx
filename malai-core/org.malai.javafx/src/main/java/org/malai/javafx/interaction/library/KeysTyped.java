@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.function.LongSupplier;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.interaction.TimeoutTransition;
@@ -19,6 +20,28 @@ import org.malai.interaction.TimeoutTransition;
  * @author Arnaud BLOUIN
  */
 public class KeysTyped extends MultiKeyInteraction {
+	/** The time gap to wait after the latest key event. */
+	private static long timeGap = 1000L;
+	/** The supplier that provides the time gap. */
+	private static final LongSupplier SUPPLY_TIME_GAP = () -> getTimeGap();
+
+	/**
+	 * @return The time gap to wait after the latest key event.
+	 */
+	public static long getTimeGap() {
+		return timeGap;
+	}
+
+	/**
+	 * Sets The time gap to wait after the latest key event.
+	 * @param timeGapBetweenClicks The time gap to wait after the latest key event. Not done if negative.
+	 */
+	public static void setTimeGap(final long timeGapBetweenClicks) {
+		if(timeGapBetweenClicks > 0L) {
+			timeGap = timeGapBetweenClicks;
+		}
+	}
+
 	/** The timeout transition. Used to set the timeout value. */
 	protected TimeoutTransition timeoutTransition;
 
@@ -33,8 +56,8 @@ public class KeysTyped extends MultiKeyInteraction {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final IntermediaryState pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
-		final TerminalState ended = new TerminalState("ended"); //$NON-NLS-1$
+		final IntermediaryState pressed = new IntermediaryState("pressed");
+		final TerminalState ended = new TerminalState("ended");
 
 		addState(pressed);
 		addState(ended);
@@ -55,22 +78,6 @@ public class KeysTyped extends MultiKeyInteraction {
 			}
 		};
 
-		timeoutTransition = new TimeoutTransition(pressed, ended, 1000);
-	}
-
-	/**
-	 * @return the current timeout.
-	 */
-	public int getTimeout() {
-		return timeoutTransition.getTimeout();
-	}
-
-	/**
-	 * @param timeout the timeout to set. Must be greater than 0.
-	 */
-	public void setTimeout(final int timeout) {
-		if(timeout > 0) {
-			timeoutTransition.setTimeout(timeout);
-		}
+		timeoutTransition = new TimeoutTransition(pressed, ended, SUPPLY_TIME_GAP);
 	}
 }

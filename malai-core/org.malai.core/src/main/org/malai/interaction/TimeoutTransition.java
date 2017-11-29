@@ -10,6 +10,7 @@
  */
 package org.malai.interaction;
 
+import java.util.function.LongSupplier;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.StateMachine;
 import org.malai.stateMachine.TargetableState;
@@ -21,7 +22,7 @@ import org.malai.stateMachine.TargetableState;
  */
 public class TimeoutTransition extends TransitionImpl {
 	/** The timeout in ms. */
-	protected int timeout;
+	protected final LongSupplier timeout;
 
 	/** The current thread in progress. */
 	private Thread timeoutThread;
@@ -35,10 +36,12 @@ public class TimeoutTransition extends TransitionImpl {
 	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
 	 * @since 0.2
 	 */
-	public TimeoutTransition(final SourceableState inputState, final TargetableState outputState, final int timeout) {
+	public TimeoutTransition(final SourceableState inputState, final TargetableState outputState, final LongSupplier timeout) {
 		super(inputState, outputState);
 
-		if(timeout <= 0) throw new IllegalArgumentException();
+		if(timeout == null) {
+			throw new IllegalArgumentException();
+		}
 
 		this.timeout = timeout;
 	}
@@ -50,7 +53,24 @@ public class TimeoutTransition extends TransitionImpl {
 	 */
 	public void startTimeout() {
 		if(timeoutThread == null) {
-			timeoutThread = new Thread(new TimeoutRunnable());
+			timeoutThread = new Thread(() -> {
+				final long time = TimeoutTransition.this.timeout.getAsLong();
+
+				if(time > 0L) {
+					try {
+						// Sleeping the thread.
+						Thread.sleep(time);
+						// There is a timeout and the interaction must be notified of that.
+						final StateMachine sm = getInputState().getStateMachine();
+						// Notifying the interaction of the timeout.
+						if(sm instanceof Interaction) {
+							((Interaction) sm).onTimeout(this);
+						}
+					}catch(final InterruptedException ex) {
+						// OK, thread stopped.
+					}
+				}
+			});
 			timeoutThread.start();
 		}
 	}
@@ -64,50 +84,6 @@ public class TimeoutTransition extends TransitionImpl {
 		if(timeoutThread != null) {
 			timeoutThread.interrupt();
 			timeoutThread = null;
-		}
-	}
-
-
-	/**
-	 * @param timeout The timeout in ms. Must be greater than 0.
-	 * @since 0.2
-	 */
-	public void setTimeout(final int timeout) {
-		if(timeout > 0) {
-			this.timeout = timeout;
-		}
-	}
-
-
-	/**
-	 * @return The timeout in ms.
-	 * @since 0.2
-	 */
-	public int getTimeout() {
-		return timeout;
-	}
-
-
-	/**
-	 * A TimeoutRunnable defines the executable part of the thread which is
-	 * thrown when the chronometre of the transition is launched.
-	 */
-	class TimeoutRunnable implements Runnable {
-		@Override
-		public void run() {
-			try {
-				// Sleeping the thread.
-				Thread.sleep(TimeoutTransition.this.timeout);
-
-				// There is a timeout and the interaction must be notified of that.
-				final StateMachine sm = TimeoutTransition.this.getInputState().getStateMachine();
-				// Notifying the interaction of the timeout.
-				if(sm instanceof Interaction) {
-					((Interaction) sm).onTimeout(TimeoutTransition.this);
-				}
-			}catch(final InterruptedException ex) {
-				// OK, thread stopped.
-			}
 		}
 	}
 }
