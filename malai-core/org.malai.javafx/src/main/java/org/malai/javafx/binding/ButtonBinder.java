@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.library.ButtonPressed;
  */
 public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, ButtonPressed> {
 	public ButtonBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, ButtonPressed.class, instrument);
+		super(action, new ButtonPressed(), instrument);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, ButtonPressed.class,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

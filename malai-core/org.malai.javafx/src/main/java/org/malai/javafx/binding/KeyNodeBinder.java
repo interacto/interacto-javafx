@@ -31,7 +31,7 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, KeysPressure.class, initAction, null, checkCode,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction, initAction, null, checkCode,
 			onEnd, null, null, widgets, async));
 	}
 

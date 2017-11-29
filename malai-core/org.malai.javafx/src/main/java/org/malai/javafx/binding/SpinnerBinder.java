@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.library.SpinnerValueChanged;
  */
 public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>, A, SpinnerValueChanged> {
 	public SpinnerBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, SpinnerValueChanged.class, instrument);
+		super(action, new SpinnerValueChanged(), instrument);
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, SpinnerValueChanged.class,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
 			initAction, updateFct, checkConditions, onEnd, abortFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

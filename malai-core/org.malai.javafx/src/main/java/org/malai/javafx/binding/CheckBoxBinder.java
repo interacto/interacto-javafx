@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.library.BoxChecked;
  */
 public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, BoxChecked> {
 	public CheckBoxBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, BoxChecked.class, instrument);
+		super(action, new BoxChecked(), instrument);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, BoxChecked.class,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

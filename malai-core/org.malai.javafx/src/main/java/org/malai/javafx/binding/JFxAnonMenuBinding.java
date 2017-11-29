@@ -36,7 +36,7 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
+	 * @param interaction The user interaction to use.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param menus The menus used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
@@ -44,10 +44,10 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final BiConsumer<A, I> onEndFct,
 							  final List<MenuItem> menus) throws InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, clazzInteraction, menus);
+		super(ins, exec, clazzAction, interaction, menus);
 		execInitAction = initActionFct == null ? (a, i) -> {} : initActionFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;

@@ -22,6 +22,7 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  */
 public abstract class JfxMenuItemBinding<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument>
 	extends JfXWidgetBinding<A, I, N> {
+
 	/**
 	 * Creates a widget binding for menu items. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -29,16 +30,15 @@ public abstract class JfxMenuItemBinding<A extends ActionImpl, I extends MenuIte
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param interaction The user interaction of the binding.
 	 * @param menuItems The menu items concerned by the binding. Can be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemBinding(N ins, boolean exec, Class<A> clazzAction, Class<I> clazzInteraction, List<MenuItem> menuItems) throws
-		InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, clazzInteraction);
+	public JfxMenuItemBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction, final List<MenuItem> menuItems)
+		throws InstantiationException, IllegalAccessException {
+		super(ins, exec, clazzAction, interaction);
 
 		if(menuItems != null) {
 			interaction.registerToMenuItems(menuItems);

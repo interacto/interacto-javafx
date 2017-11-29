@@ -33,15 +33,15 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	protected Predicate<I> checkConditions;
 	protected final List<W> widgets;
 	protected final Class<A> actionClass;
-	protected final Class<I> interactionClass;
+	protected final I interaction;
 	protected final JfxInstrument instrument;
 	protected boolean async;
 	protected BiConsumer<A, I> onEnd;
 
-	public Binder(final Class<A> action, final Class<I> interaction, final JfxInstrument ins) {
+	public Binder(final Class<A> action, final I interaction, final JfxInstrument ins) {
 		super();
 		actionClass = Objects.requireNonNull(action);
-		interactionClass = Objects.requireNonNull(interaction);
+		this.interaction = Objects.requireNonNull(interaction);
 		widgets = new ArrayList<>();
 		instrument = Objects.requireNonNull(ins);
 		async = false;

@@ -34,7 +34,7 @@ public abstract class CheckboxBinding<A extends ActionImpl, I extends JfxInstrum
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public CheckboxBinding(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, BoxChecked.class, widgets);
+		super(ins, false, clazzAction, new BoxChecked(), widgets);
 	}
 
 	/**
@@ -48,6 +48,6 @@ public abstract class CheckboxBinding<A extends ActionImpl, I extends JfxInstrum
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public CheckboxBinding(I ins, Class<A> clazzAction, Node... widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, BoxChecked.class, widgets);
+		super(ins, false, clazzAction, new BoxChecked(), widgets);
 	}
 }

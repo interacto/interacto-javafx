@@ -27,7 +27,7 @@ public class TestInteractor {
 		instrument = new MockInstrument() {
 			@Override
 			protected void configureBindings() throws InstantiationException, IllegalAccessException {
-				TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionImplMock.class, InteractionMock.class);
+				TestInteractor.this.interactor = new MockInteractor(instrument, false, ActionImplMock.class, new InteractionMock());
 				addBinding(interactor);
 			}
 		};
@@ -43,13 +43,13 @@ public class TestInteractor {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorInstrumentNull() throws Exception {
-		interactor = new MockInteractor(null, false, ActionImplMock.class, InteractionMock.class);
+		interactor = new MockInteractor(null, false, ActionImplMock.class, new InteractionMock());
 	}
 
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorActionNull() throws Exception {
-		interactor = new MockInteractor(instrument, false, null, InteractionMock.class);
+		interactor = new MockInteractor(instrument, false, null, new InteractionMock());
 	}
 
 
@@ -83,7 +83,7 @@ public class TestInteractor {
 	@Test
 	public void testExecute() throws InstantiationException, IllegalAccessException {
 		assertFalse(interactor.isExecute());
-		interactor = new MockInteractor(instrument, true, ActionImplMock.class, InteractionMock.class);
+		interactor = new MockInteractor(instrument, true, ActionImplMock.class, new InteractionMock());
 		assertTrue(interactor.isExecute());
 	}
 
@@ -177,7 +177,7 @@ public class TestInteractor {
 		});
 		MockInstrument ins = new MockInstrument();
 		WidgetBinding interactor2 = new WidgetBindingImpl<ActionImplMock2, InteractionMock, MockInstrument>(ins, false, ActionImplMock2.class,
-			InteractionMock.class) {
+			new InteractionMock()) {
 			@Override
 			public void initAction() {//
 			}
@@ -195,7 +195,7 @@ public class TestInteractor {
 		ok[0] = false;
 		ins = new MockInstrument();
 		interactor2 = new WidgetBindingImpl<ActionImplMock3, InteractionMock, MockInstrument>(ins, false, ActionImplMock3.class,
-			InteractionMock.class) {
+			new InteractionMock()) {
 			@Override
 			public void initAction() {//
 			}
@@ -230,8 +230,8 @@ class MockInteractor extends WidgetBindingImpl<ActionImplMock, InteractionMock, 
 	public boolean mustAbort;
 
 	public MockInteractor(final MockInstrument ins, final boolean exec, final Class<ActionImplMock> clazzAction, final
-	Class<InteractionMock> clazzInteraction) throws InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, clazzInteraction);
+	InteractionMock interaction) throws InstantiationException, IllegalAccessException {
+		super(ins, exec, clazzAction, interaction);
 		conditionRespected = false;
 		mustAbort = false;
 	}

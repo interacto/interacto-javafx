@@ -58,25 +58,25 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
 	 * @param actionClass The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param interactionClass The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param interaction The user interaction of the binding.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 * @since 0.2
 	 */
-	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> actionClass, final Class<I> interactionClass)
-		throws InstantiationException, IllegalAccessException {
+	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> actionClass, final I interaction) throws InstantiationException, IllegalAccessException {
 		super();
 
-		if(ins == null || actionClass == null || interactionClass == null) throw new IllegalArgumentException();
+		if(ins == null || actionClass == null || interaction == null) {
+			throw new IllegalArgumentException();
+		}
 
 		clazzAction = actionClass;
-		interaction = interactionClass.newInstance();
+		this.interaction = interaction;
 		action = null;
 		instrument = ins;
 		execute = exec;
-		interaction.addHandler(this);
+		this.interaction.addHandler(this);
 		setActivated(ins.isActivated());
 		async = false;
 	}

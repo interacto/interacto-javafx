@@ -34,7 +34,7 @@ public abstract class ColorPickerBinding<A extends ActionImpl, I extends JfxInst
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ColorPickerBinding(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, ColorPicked.class, widgets);
+		super(ins, false, clazzAction, new ColorPicked(), widgets);
 	}
 
 	/**
@@ -48,6 +48,6 @@ public abstract class ColorPickerBinding<A extends ActionImpl, I extends JfxInst
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ColorPickerBinding(I ins, Class<A> clazzAction, Node... widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, ColorPicked.class, widgets);
+		super(ins, false, clazzAction, new ColorPicked(), widgets);
 	}
 }
