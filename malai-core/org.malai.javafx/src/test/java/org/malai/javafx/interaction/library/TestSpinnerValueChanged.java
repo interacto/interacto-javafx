@@ -39,7 +39,7 @@ class TestSpinnerValueChanged extends BaseJfXInteractionTest<SpinnerValueChanged
 		sleep(500);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(0)).interactionUpdates(interaction);
 	}
 
 	@Test
@@ -49,7 +49,7 @@ class TestSpinnerValueChanged extends BaseJfXInteractionTest<SpinnerValueChanged
 		sleep(500);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionUpdates(interaction);
 	}
 
 	@Test
@@ -59,17 +59,17 @@ class TestSpinnerValueChanged extends BaseJfXInteractionTest<SpinnerValueChanged
 		sleep(100L);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(0)).interactionUpdates(interaction);
 	}
 
 	@Test
 	void testSpinnerChangeTwoTimesWith500GoodState() throws MustAbortStateMachineException {
 		interaction.onJfxSpinnerValueChanged(spinner);
-		sleep(500);
+		sleep(500L);
 		interaction.onJfxSpinnerValueChanged(spinner);
-		sleep(500);
+		sleep(500L);
 		Mockito.verify(handler, Mockito.times(2)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.times(2)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionUpdates(interaction);
 	}
 }

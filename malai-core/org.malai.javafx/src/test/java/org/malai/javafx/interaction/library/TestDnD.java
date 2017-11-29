@@ -4,6 +4,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.input.MouseButton;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.mockito.Mockito;
@@ -12,11 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class TestDnD extends BaseJfXInteractionTest<DnD> {
-	/*
-		interaction.onRelease(createMouseReleaseEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(10d, 23d, MouseButton.PRIMARY), 0);
-		interaction.onPressure(createMousePressEvent(30d, 40d, MouseButton.SECONDARY), 0);
-	 */
 	@Override
 	protected DnD createInteraction() {
 		return new DnD();
@@ -24,9 +20,21 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	public void testPressStarts() throws MustAbortStateMachineException {
+		interaction.addHandler(new InteractionHandlerStub() {
+			@Override
+			public void interactionStarts(final Interaction interaction) throws MustAbortStateMachineException {
+				super.interactionStarts(interaction);
+			}
+
+			@Override
+			public void interactionUpdates(final Interaction interaction) throws MustAbortStateMachineException {
+				super.interactionUpdates(interaction);
+			}
+		});
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
 		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcPoint().get());
 	}

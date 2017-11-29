@@ -41,7 +41,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
 	}
@@ -56,7 +56,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
 	}
@@ -72,7 +72,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
 
@@ -88,7 +88,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
 
@@ -105,7 +105,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
 
@@ -118,7 +118,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		sleep(1500);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionAborts(interaction);
 	}
@@ -133,7 +133,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		sleep(1500);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionAborts(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 
@@ -148,7 +148,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		sleep(1500);
 
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 
