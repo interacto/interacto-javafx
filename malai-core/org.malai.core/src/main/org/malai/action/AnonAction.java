@@ -16,20 +16,11 @@ package org.malai.action;
  * @author Arnaud Blouin
  */
 public class AnonAction extends ActionImpl {
-	Runnable exec;
-
-	public AnonAction() {
-		this(null);
-	}
+	private final Runnable exec;
 
 	public AnonAction(final Runnable function) {
 		exec = function;
 	}
-
-	public void setExec(final Runnable exec) {
-		this.exec = exec;
-	}
-
 
 	@Override
 	public boolean canDo() {
