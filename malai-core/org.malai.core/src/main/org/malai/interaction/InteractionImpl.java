@@ -11,7 +11,10 @@
 package org.malai.interaction;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import org.malai.picking.Pickable;
 import org.malai.picking.Picker;
 import org.malai.stateMachine.MustAbortStateMachineException;
@@ -49,34 +52,23 @@ public abstract class InteractionImpl implements Interaction {
 	}
 
 	/** The states that compose the finite state machine. */
-	protected final List<State> states;
+	protected final Set<State> states;
 	/** The initial state the starts the state machine. */
 	protected final InitState initState;
 	/** The current state of the state machine when the state machine is executed. */
 	protected State currentState;
-	/**
-	 * Defines if the interaction is activated or not. If not, the interaction will not
-	 * change on events.
-	 */
+	protected Transition currentTransition;
+	/** Defines if the interaction is activated or not. If not, the interaction will not change on events. */
 	protected boolean activated;
-	/**
-	 * The handlers that want to be notified when the state machine of the
-	 * interaction changed.
-	 */
+	/** The handlers that want to be notified when the state machine of the interaction changed. */
 	protected List<InteractionHandler> handlers;
-	/**
-	 * The events still in process. For example when the user press key ctrl and scroll one
-	 * time using the wheel of the mouse, the interaction scrolling is finished but the event keyPressed
-	 * 'ctrl' is still in process. At the end of the interaction, these events are re-introduced into the
-	 * state machine of the interaction for processing.
-	 */
+	/** The events still in process. For example when the user press key ctrl and scroll one time using the wheel of the mouse, the interaction scrolling is
+	 * finished but the event keyPressed 'ctrl' is still in process. At the end of the interaction, these events are re-introduced into the
+	 * state machine of the interaction for processing. */
 	protected List<Event> stillProcessingEvents;
 	/** The current timeout in progress. */
 	protected TimeoutTransition currentTimeout;
-	/**
-	 * Defines the ID of last HID that has been used by the interaction. If the interaction has stopped or is
-	 * aborted, the value of the attribute is -1.
-	 */
+	/** Defines the ID of last HID that has been used by the interaction. If the interaction has stopped or is aborted, the value of the attribute is -1. */
 	protected int lastHIDUsed;
 
 
@@ -103,7 +95,8 @@ public abstract class InteractionImpl implements Interaction {
 
 		currentTimeout = null;
 		activated = true;
-		states = new ArrayList<>();
+		states = new HashSet<>();
+		currentTransition = null;
 		initState.stateMachine = this;
 		this.initState = initState;
 		addState(initState);
@@ -144,6 +137,7 @@ public abstract class InteractionImpl implements Interaction {
 			currentTimeout.stopTimeout();
 		}
 
+		currentTransition = null;
 		currentTimeout = null;
 		currentState = initState;
 		lastHIDUsed = -1;
@@ -222,9 +216,7 @@ public abstract class InteractionImpl implements Interaction {
 	 */
 	protected void notifyHandlersOnAborting() {
 		if(handlers != null) {
-			for(final InteractionHandler handler : handlers) {
-				handler.interactionAborts(this);
-			}
+			handlers.forEach(handler -> handler.interactionAborts(this));
 		}
 	}
 
@@ -259,10 +251,12 @@ public abstract class InteractionImpl implements Interaction {
 	protected void executeTransition(final Transition transition) {
 		if(activated && transition != null) {
 			try {
-				transition.action();
-				transition.getInputState().onOutgoing();
-				currentState = transition.getOutputState();
-				transition.getOutputState().onIngoing();
+				currentTransition = transition;
+				currentTransition.action();
+				currentTransition.getInputState().onOutgoing();
+				currentState = currentTransition.getOutputState();
+				currentTransition.getOutputState().onIngoing();
+				currentTransition = null;
 			}catch(final MustAbortStateMachineException ex) {
 				reinit();
 			}
@@ -286,7 +280,7 @@ public abstract class InteractionImpl implements Interaction {
 	public boolean checkTransition(final Transition transition) {
 		final boolean ok;
 
-		if(transition != null && transition.isGuardRespected()) {
+		if(transition != null && states.contains(transition.getInputState()) && transition.isGuardRespected()) {
 			stopCurrentTimeout();
 			executeTransition(transition);
 			ok = true;
@@ -369,7 +363,9 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void onUpdating() throws MustAbortStateMachineException {
-		notifyHandlersOnUpdate();
+		if(currentTransition == null || !(currentTransition.getInputState() instanceof InitState)) {
+			notifyHandlersOnUpdate();
+		}
 		checkTimeoutTransition();
 	}
 
@@ -379,17 +375,11 @@ public abstract class InteractionImpl implements Interaction {
 	 * @since 0.2
 	 */
 	protected void checkTimeoutTransition() {
-		boolean again = true;
-		Transition transition;
+		final Optional<TimeoutTransition> timeout = currentState.getTransitions().stream().filter(tr -> tr instanceof TimeoutTransition).findFirst().map(tr -> (TimeoutTransition) tr);
 
-		for(int i = 0, j = currentState.getTransitions().size(); i < j && again; i++) {
-			transition = currentState.getTransition(i);
-
-			if(transition instanceof TimeoutTransition) {
-				currentTimeout = (TimeoutTransition) transition;
-				again = false;
-				currentTimeout.startTimeout();
-			}
+		if(timeout.isPresent()) {
+			currentTimeout = timeout.get();
+			currentTimeout.startTimeout();
 		}
 	}
 
@@ -442,6 +432,8 @@ public abstract class InteractionImpl implements Interaction {
 		/**
 		 * @return The ID of the HID used.
 		 */
-		public int getIdHID() { return idHID; }
+		public int getIdHID() {
+			return idHID;
+		}
 	}
 }
