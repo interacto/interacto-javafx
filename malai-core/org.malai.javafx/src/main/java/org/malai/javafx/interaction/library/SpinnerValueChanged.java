@@ -11,6 +11,7 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
+import java.util.function.LongSupplier;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
@@ -24,6 +25,28 @@ import org.malai.javafx.interaction.JfxSpinnerValueChangedTransition;
  * @author Arnaud BLOUIN
  */
 public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
+	/** The time gap between the two spinner events. */
+	private static long timeGap = 300;
+	/** The supplier that provides the time gap. */
+	private static final LongSupplier SUPPLY_TIME_GAP = () -> getTimeGap();
+
+	/**
+	 * @return The time gap between the two spinner events.
+	 */
+	public static long getTimeGap() {
+		return timeGap;
+	}
+
+	/**
+	 * Sets The time gap between the two spinner events.
+	 * @param timeGapBetweenClicks The time gap between the two spinner events. Not done if negative.
+	 */
+	public static void setTimeGap(final long timeGapBetweenClicks) {
+		if(timeGapBetweenClicks > 0L) {
+			timeGap = timeGapBetweenClicks;
+		}
+	}
+
 	/**
 	 * Creates the interaction.
 	 */
@@ -52,7 +75,7 @@ public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
 
 		new JfxSpinnerValueChangedTransition(changed, changed);
 
-		new TimeoutTransition(changed, ended, 300);
+		new TimeoutTransition(changed, ended, SUPPLY_TIME_GAP);
 	}
 
 	@Override

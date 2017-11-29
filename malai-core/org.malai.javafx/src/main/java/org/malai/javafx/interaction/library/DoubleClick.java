@@ -11,6 +11,7 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
+import java.util.function.LongSupplier;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +31,28 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  */
 public class DoubleClick extends PointInteraction {
+	/** The time gap between the two clicks. */
+	private static long timeGap = 1000L;
+	/** The supplier that provides the time gap. */
+	private static final LongSupplier SUPPLY_TIME_GAP = () -> getTimeGap();
+
+	/**
+	 * @return The time gap between the two clicks.
+	 */
+	public static long getTimeGap() {
+		return timeGap;
+	}
+
+	/**
+	 * Sets The time gap between the two clicks.
+	 * @param timeGapBetweenClicks The time gap between the two clicks. Not done if negative.
+	 */
+	public static void setTimeGap(final long timeGapBetweenClicks) {
+		if(timeGapBetweenClicks > 0L) {
+			timeGap = timeGapBetweenClicks;
+		}
+	}
+
 	/**
 	 * Creates the interaction.
 	 */
@@ -58,7 +81,7 @@ public class DoubleClick extends PointInteraction {
 		new MoveTransition(pressed1, aborted);
 		new ReleaseTransition4DoubleClick(pressed1, released1);
 		new MoveTransition(released1, aborted);
-		new TimeoutTransition(released1, aborted, 1000);
+		new TimeoutTransition(released1, aborted, SUPPLY_TIME_GAP);
 		new PointPressureTransition(released1, pressed2) {
 			@Override
 			public boolean isGuardRespected() {

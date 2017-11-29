@@ -21,7 +21,7 @@ public class TestBoxChecked extends BaseJfXInteractionTest<BoxChecked> {
 
 	@Override
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		super.setUp();
 		checkbox = new CheckBox();
 	}
