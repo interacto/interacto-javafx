@@ -34,7 +34,7 @@ public abstract class ButtonBinding<A extends ActionImpl, I extends JfxInstrumen
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ButtonBinding(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, ButtonPressed.class, widgets);
+		super(ins, false, clazzAction, new ButtonPressed(), widgets);
 	}
 
 	/**
@@ -48,6 +48,6 @@ public abstract class ButtonBinding<A extends ActionImpl, I extends JfxInstrumen
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ButtonBinding(I ins, Class<A> clazzAction, Node... widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, ButtonPressed.class, widgets);
+		super(ins, false, clazzAction, new ButtonPressed(), widgets);
 	}
 }

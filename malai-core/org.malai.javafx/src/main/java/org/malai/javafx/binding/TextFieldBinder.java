@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.library.KeysTyped;
  */
 public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextField, A, KeysTyped> {
 	public TextFieldBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, KeysTyped.class, instrument);
+		super(action, new KeysTyped(), instrument);
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextFiel
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, KeysTyped.class,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
 			initAction, updateFct, checkConditions, onEnd, abortFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

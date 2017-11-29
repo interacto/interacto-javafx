@@ -28,7 +28,7 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	protected Runnable feedbackFct;
 	protected boolean execOnChanges;
 
-	public UpdateBinder(final Class<A> action, final Class<I> interaction, final JfxInstrument instrument) {
+	public UpdateBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
 		updateFct = null;
 		execOnChanges = false;

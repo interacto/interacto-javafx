@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.library.TabSelected;
  */
 public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelected> {
 	public TabBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, TabSelected.class, instrument);
+		super(action, new TabSelected(), instrument);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, TabSelected.class,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

@@ -22,8 +22,7 @@ import org.malai.javafx.interaction.library.ToggleButtonPressed;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ToggleButtonBinding<A extends ActionImpl, I extends JfxInstrument> extends JfXWidgetBinding<A, ToggleButtonPressed,
-	I> {
+public abstract class ToggleButtonBinding<A extends ActionImpl, I extends JfxInstrument> extends JfXWidgetBinding<A, ToggleButtonPressed, I> {
 	/**
 	 * Creates a toggle button binding.
 	 * @param ins The instrument that contains the binding.
@@ -34,21 +33,7 @@ public abstract class ToggleButtonBinding<A extends ActionImpl, I extends JfxIns
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ToggleButtonBinding(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, ToggleButtonPressed.class, widgets);
-	}
-
-	/**
-	 * Creates a toggle button binding.
-	 * @param ins The instrument that contains the binding.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
-	 * @param widgets The widgets used by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
-	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-	 */
-	public ToggleButtonBinding(I ins, Class<A> clazzAction, Node... widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, ToggleButtonPressed.class, widgets);
+	public ToggleButtonBinding(final I ins, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException, IllegalAccessException {
+		super(ins, false, clazzAction, new ToggleButtonPressed(), widgets);
 	}
 }

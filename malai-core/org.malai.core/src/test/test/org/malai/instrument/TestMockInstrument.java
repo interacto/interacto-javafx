@@ -23,7 +23,7 @@ public class TestMockInstrument extends TestInstrument<MockInstrument> {
 	@Test
 	public void testHasLink() throws InstantiationException, IllegalAccessException {
 		assertFalse(instrument.hasWidgetBindings());
-		instrument.getWidgetBindings().add(new MockInteractor(instrument, false, ActionImplMock.class, InteractionMock.class));
+		instrument.getWidgetBindings().add(new MockInteractor(instrument, false, ActionImplMock.class, new InteractionMock()));
 		assertTrue(instrument.hasWidgetBindings());
 	}
 

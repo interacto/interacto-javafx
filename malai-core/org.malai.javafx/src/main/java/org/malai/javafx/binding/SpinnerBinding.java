@@ -35,7 +35,7 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 */
 	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException,
 		IllegalAccessException {
-		super(ins, exec, clazzAction, SpinnerValueChanged.class, widgets);
+		super(ins, exec, clazzAction, new SpinnerValueChanged(), widgets);
 	}
 
 	/**
@@ -50,6 +50,6 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 */
 	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final Node... widgets) throws InstantiationException,
 		IllegalAccessException {
-		super(ins, exec, clazzAction, SpinnerValueChanged.class, widgets);
+		super(ins, exec, clazzAction, new SpinnerValueChanged(), widgets);
 	}
 }

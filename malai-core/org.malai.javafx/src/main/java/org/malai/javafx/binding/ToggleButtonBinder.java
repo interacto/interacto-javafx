@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.library.ToggleButtonPressed;
  */
 public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButton, A, ToggleButtonPressed> {
 	public ToggleButtonBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, ToggleButtonPressed.class, instrument);
+		super(action, new ToggleButtonPressed(), instrument);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButto
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, ToggleButtonPressed.class,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

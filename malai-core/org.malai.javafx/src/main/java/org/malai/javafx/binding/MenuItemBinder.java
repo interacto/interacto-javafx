@@ -25,7 +25,7 @@ import org.malai.javafx.interaction.library.MenuItemPressed;
  */
 public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, MenuItemPressed> {
 	public MenuItemBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, MenuItemPressed.class, instrument);
+		super(action, new MenuItemPressed(), instrument);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonMenuBinding<>(instrument, false, actionClass, MenuItemPressed.class, initAction,
+		instrument.addBinding(new JFxAnonMenuBinding<>(instrument, false, actionClass, interaction, initAction,
 			checkConditions, onEnd, widgets));
 	}
 }

@@ -25,7 +25,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud Blouin
  */
 public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends UpdateBinder<Node, A, I> {
-	public NodeBinder(final Class<A> action, final Class<I> interaction, final JfxInstrument instrument) {
+	public NodeBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
 	}
 
@@ -97,7 +97,7 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interactionClass, initAction, updateFct, checkConditions,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions,
 			onEnd, abortFct, feedbackFct, widgets, async));
 	}
 }

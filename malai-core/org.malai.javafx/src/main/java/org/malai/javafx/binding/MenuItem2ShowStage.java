@@ -38,7 +38,7 @@ public class MenuItem2ShowStage extends JfxMenuItemBinding<ShowStage, MenuItemPr
 	 */
 	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow) throws
 		InstantiationException, IllegalAccessException {
-		super(ins, false, ShowStage.class, MenuItemPressed.class, Collections.singletonList(menuItem));
+		super(ins, false, ShowStage.class, new MenuItemPressed(), Collections.singletonList(menuItem));
 
 		if(stage == null) throw new IllegalArgumentException();
 

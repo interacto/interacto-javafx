@@ -33,7 +33,7 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 	final Predicate<KeysPressure> checkCode;
 
 	public KeyBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, KeysPressure.class, instrument);
+		super(action, new KeysPressure(), instrument);
 		codes = new ArrayList<>();
 
 		checkCode = interaction -> {

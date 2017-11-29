@@ -27,7 +27,7 @@ import org.malai.javafx.interaction.library.ComboBoxSelected;
  */
 public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A, ComboBoxSelected> {
 	public ComboBoxBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, ComboBoxSelected.class, instrument);
+		super(action, new ComboBoxSelected(), instrument);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A,
 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, ComboBoxSelected.class,
+		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

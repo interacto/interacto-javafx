@@ -31,16 +31,15 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * @param exec Specifies whether the action must be execute or update on each evolution of the interaction.
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							final List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, clazzInteraction);
+		super(ins, exec, clazzAction, interaction);
 		interaction.registerToNodes(widgets);
 	}
 
@@ -51,16 +50,15 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * @param exec Specifies whether the action must be execute or update on each evolution of the interaction.
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final Class<I> clazzInteraction,
+	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							final Node... widgets) throws InstantiationException, IllegalAccessException {
-		this(ins, exec, clazzAction, clazzInteraction, Arrays.asList(widgets));
+		this(ins, exec, clazzAction, interaction, Arrays.asList(widgets));
 	}
 
 	/**
@@ -70,16 +68,15 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param clazzInteraction The type of the interaction that will be created. Used to instantiate the interaction by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param interaction The user interaction of the binding.
 	 * @param windows The windows concerned by the binding. Cannot be null.
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final Class<A> clazzAction,
-							final Class<I> clazzInteraction) throws InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, clazzInteraction);
+							final I interaction) throws InstantiationException, IllegalAccessException {
+		super(ins, exec, clazzAction, interaction);
 		interaction.registerToWindows(windows);
 	}
 

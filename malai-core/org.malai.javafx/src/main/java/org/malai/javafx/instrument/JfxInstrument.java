@@ -182,7 +182,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl, I extends JfxInteraction> WindowBinder<A, I> windowBinder(final Class<A> action, final Class<I> interaction) {
+	protected <A extends ActionImpl, I extends JfxInteraction> WindowBinder<A, I> windowBinder(final Class<A> action, final I interaction) {
 		return new WindowBinder<>(action, interaction, this);
 	}
 
@@ -197,7 +197,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl, I extends JfxInteraction> NodeBinder<A, I> nodeBinder(final Class<A> action, final Class<I> interaction) {
+	protected <A extends ActionImpl, I extends JfxInteraction> NodeBinder<A, I> nodeBinder(final Class<A> action, final I interaction) {
 		return new NodeBinder<>(action, interaction, this);
 	}
 }
