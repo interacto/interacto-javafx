@@ -5,7 +5,7 @@
     <artifactId>malai.core</artifactId>
     <version>3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>malai.core :: Malai core library</name>
+    <name>Malai core library</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -107,21 +107,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>0.32</version>
-                <configuration>
-                    <verbose>false</verbose>
-                    <targetClasses>
-                        <param>org.malai.*</param>
-                    </targetClasses>
-                    <targetTests>
-                        <param>test.org.malai.*</param>
-                    </targetTests>
-                </configuration>
             </plugin>
 
             <plugin>
