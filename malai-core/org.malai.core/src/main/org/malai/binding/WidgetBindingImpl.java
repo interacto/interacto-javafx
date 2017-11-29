@@ -31,21 +31,16 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	/** The source interaction. */
 	protected final I interaction;
 
-	/** The target action. */
+	/** The current action in progress. */
 	protected A action;
 
 	/** The instrument that contains the widget binding. */
 	protected final N instrument;
 
-	/**
-	 * Specifies if the action must be execute or update
-	 * on each evolution of the interaction.
-	 */
+	/** Specifies if the action must be execute or update * on each evolution of the interaction. */
 	protected final boolean execute;
 
-	/**
-	 * Defines whether the action must be executed in a specific thread.
-	 */
+	/** Defines whether the action must be executed in a specific thread. */
 	protected boolean async;
 
 	protected final Class<A> clazzAction;
