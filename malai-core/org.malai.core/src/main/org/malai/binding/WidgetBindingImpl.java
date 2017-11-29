@@ -42,6 +42,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	/** Defines whether the action must be executed in a specific thread. */
 	protected boolean async;
 
+	/** The action class to instantiate. */
 	protected final Class<A> clazzAction;
 
 
@@ -56,7 +57,6 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	 * @throws IllegalAccessException If no free-parameter constructor is available.
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-	 * @since 0.2
 	 */
 	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> actionClass, final I interaction) throws InstantiationException, IllegalAccessException {
 		super();
@@ -98,9 +98,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	/**
-	 * Initialises the action of the widget binding. If the attribute 'action' is
-	 * not null, nothing will be done.
-	 * @since 0.2
+	 * Initialises the action of the widget binding. If the attribute 'action' is not null, nothing will be done.
 	 */
 	protected void createAction() {
 		try {

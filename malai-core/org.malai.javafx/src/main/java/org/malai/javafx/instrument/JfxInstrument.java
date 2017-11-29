@@ -10,8 +10,10 @@
  */
 package org.malai.javafx.instrument;
 
+import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.instrument.InstrumentImpl;
+import org.malai.javafx.binding.AnonActionBinder;
 import org.malai.javafx.binding.ButtonBinder;
 import org.malai.javafx.binding.CheckBoxBinder;
 import org.malai.javafx.binding.ComboBoxBinder;
@@ -49,6 +51,17 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 */
 	public void setActivated(final boolean activ, final boolean hide) {
 		setActivated(activ);
+	}
+
+	/**
+	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given action type.
+	 * Do not forget to call bind() at the end of the build to execute the builder.
+	 * @param action The anonymous action to produce.
+	 * @return The binding builder. Cannot be null.
+	 * @throws NullPointerException If the given class is null.
+	 */
+	protected <W extends Node, I extends JfxInteraction> AnonActionBinder<W, I> anonActionBinder(final Runnable action, final I interaction) {
+		return new AnonActionBinder<>(action, interaction, this);
 	}
 
 	/**
