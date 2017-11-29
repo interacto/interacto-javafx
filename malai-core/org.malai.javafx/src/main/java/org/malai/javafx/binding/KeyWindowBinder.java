@@ -48,14 +48,14 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A> 
 	}
 
 	@Override
-	public KeyWindowBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public KeyWindowBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public KeyBinder<Window, A> init(final BiConsumer<A, KeysPressure> initActionFct) {
-		super.init(initActionFct);
+	public KeyBinder<Window, A> first(final BiConsumer<A, KeysPressure> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -66,8 +66,8 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A> 
 	}
 
 	@Override
-	public KeyWindowBinder<A> onEnd(final BiConsumer<A, KeysPressure> onEndFct) {
-		super.onEnd(onEndFct);
+	public KeyWindowBinder<A> end(final BiConsumer<A, KeysPressure> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

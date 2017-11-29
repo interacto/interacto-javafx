@@ -37,14 +37,14 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 	}
 
 	@Override
-	public CheckBoxBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public CheckBoxBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public CheckBoxBinder<A> init(final BiConsumer<A, BoxChecked> initActionFct) {
-		super.init(initActionFct);
+	public CheckBoxBinder<A> first(final BiConsumer<A, BoxChecked> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -61,8 +61,8 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 	}
 
 	@Override
-	public CheckBoxBinder<A> onEnd(final BiConsumer<A, BoxChecked> onEndFct) {
-		super.onEnd(onEndFct);
+	public CheckBoxBinder<A> end(final BiConsumer<A, BoxChecked> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

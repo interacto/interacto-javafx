@@ -55,22 +55,23 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 	@Override
 	protected void configureBindings() throws IllegalAccessException, InstantiationException {
 		if(withKeys) {
-			nodeBinder(Zoom.class, new KeyPressureNoModifier()).on(zoomable).init((a, i) -> i.getKey().ifPresent(key -> {
-				a.setZoomable(getZoomable());
-				if("+".equals(key)) {
-					a.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
-				}else {
-					a.setZoomLevel(zoomable.getZoom() - zoomable.getZoomIncrement());
-				}
-				a.setPx(-1d);
-				a.setPy(-1d);
-			})).
+			nodeBinder(Zoom.class, new KeyPressureNoModifier()).on(zoomable).
+				first((a, i) -> i.getKey().ifPresent(key -> {
+					a.setZoomable(getZoomable());
+					if("+".equals(key)) {
+						a.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
+					}else {
+						a.setZoomLevel(zoomable.getZoom() - zoomable.getZoomIncrement());
+					}
+					a.setPx(-1d);
+					a.setPy(-1d);
+				})).
 				when(i -> i.getKey().map(code -> "+".equals(code) || "-".equals(code)).orElse(false)).bind();
 		}
 
 		nodeBinder(Zoom.class, new KeysScrolling()).on(zoomable).
-			init(a -> a.setZoomable(zoomable)).
-			update((a, i) -> {
+			first(a -> a.setZoomable(zoomable)).
+			then((a, i) -> {
 				a.setZoomLevel(zoomable.getZoom() + (i.getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
 				a.setPx(i.getPx());
 				a.setPy(i.getPy());

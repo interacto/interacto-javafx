@@ -29,14 +29,14 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
-	public WindowBinder<A, I> update(final BiConsumer<A, I> update) {
-		super.update(update);
+	public WindowBinder<A, I> then(final BiConsumer<A, I> update) {
+		super.then(update);
 		return this;
 	}
 
 	@Override
-	public WindowBinder<A, I> update(final Consumer<A> update) {
-		super.update(update);
+	public WindowBinder<A, I> then(final Consumer<A> update) {
+		super.then(update);
 		return this;
 	}
 
@@ -65,14 +65,14 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
-	public WindowBinder<A, I> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public WindowBinder<A, I> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public WindowBinder<A, I> init(final BiConsumer<A, I> initActionFct) {
-		super.init(initActionFct);
+	public WindowBinder<A, I> first(final BiConsumer<A, I> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -89,8 +89,8 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
-	public WindowBinder<A, I> onEnd(final BiConsumer<A, I> onEndFct) {
-		super.onEnd(onEndFct);
+	public WindowBinder<A, I> end(final BiConsumer<A, I> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

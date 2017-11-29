@@ -48,20 +48,20 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 	}
 
 	@Override
-	public KeyNodeBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public KeyNodeBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public KeyNodeBinder<A> init(final BiConsumer<A, KeysPressure> initActionFct) {
-		super.init(initActionFct);
+	public KeyNodeBinder<A> first(final BiConsumer<A, KeysPressure> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public KeyNodeBinder<A> onEnd(final BiConsumer<A, KeysPressure> onEndFct) {
-		super.onEnd(onEndFct);
+	public KeyNodeBinder<A> end(final BiConsumer<A, KeysPressure> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

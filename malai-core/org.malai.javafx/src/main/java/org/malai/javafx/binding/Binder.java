@@ -67,7 +67,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 * This callback takes as arguments the action to configure.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> init(final Consumer<A> initActionFct) {
+	public Binder<W, A, I> first(final Consumer<A> initActionFct) {
 		if(initActionFct != null) {
 			initAction = (a, i) -> initActionFct.accept(a);
 		}
@@ -81,7 +81,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 * This callback takes as arguments both the action and interaction involved in the binding.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> init(final BiConsumer<A, I> initActionFct) {
+	public Binder<W, A, I> first(final BiConsumer<A, I> initActionFct) {
 		initAction = initActionFct;
 		return this;
 	}
@@ -113,7 +113,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> onEnd(final BiConsumer<A, I> onEndFct) {
+	public Binder<W, A, I> end(final BiConsumer<A, I> onEndFct) {
 		onEnd = onEndFct;
 		return this;
 	}

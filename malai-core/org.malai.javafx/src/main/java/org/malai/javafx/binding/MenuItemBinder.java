@@ -35,14 +35,14 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	}
 
 	@Override
-	public MenuItemBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public MenuItemBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public MenuItemBinder<A> init(final BiConsumer<A, MenuItemPressed> initActionFct) {
-		super.init(initActionFct);
+	public MenuItemBinder<A> first(final BiConsumer<A, MenuItemPressed> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -59,8 +59,8 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	}
 
 	@Override
-	public MenuItemBinder<A> onEnd(final BiConsumer<A, MenuItemPressed> onEndFct) {
-		super.onEnd(onEndFct);
+	public MenuItemBinder<A> end(final BiConsumer<A, MenuItemPressed> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

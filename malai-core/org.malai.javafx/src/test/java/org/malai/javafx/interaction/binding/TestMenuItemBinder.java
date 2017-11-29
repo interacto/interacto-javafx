@@ -42,7 +42,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testActionExecutedOnSingleButton() throws InstantiationException, IllegalAccessException {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
-			onEnd((a, i) -> assertEquals(1, a.exec.get())).
+			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID1);
 		assertEquals(1, instrument.exec.get());
@@ -52,7 +52,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testActionExecutedOnTwoMenus() throws InstantiationException, IllegalAccessException {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1, widget2).
-			onEnd((a, i) -> assertEquals(1, a.exec.get())).
+			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID2);
 		assertEquals(1, instrument.exec.get());
@@ -64,8 +64,8 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testInit1Executed() throws InstantiationException, IllegalAccessException {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
-			init(a -> a.exec.setValue(10)).
-			onEnd((a, i) -> assertEquals(11, a.exec.get())).
+			first(a -> a.exec.setValue(10)).
+			end((a, i) -> assertEquals(11, a.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID1);
 		assertEquals(1, instrument.exec.get());
@@ -75,8 +75,8 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testInit2Executed() throws InstantiationException, IllegalAccessException {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
-			init((a, i) -> a.exec.setValue(10)).
-			onEnd((a, i) -> assertEquals(11, a.exec.get())).
+			first((a, i) -> a.exec.setValue(10)).
+			end((a, i) -> assertEquals(11, a.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID1);
 		assertEquals(1, instrument.exec.get());

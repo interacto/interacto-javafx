@@ -37,14 +37,14 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	}
 
 	@Override
-	public ButtonBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public ButtonBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public ButtonBinder<A> init(final BiConsumer<A, ButtonPressed> initActionFct) {
-		super.init(initActionFct);
+	public ButtonBinder<A> first(final BiConsumer<A, ButtonPressed> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -55,8 +55,8 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	}
 
 	@Override
-	public ButtonBinder<A> onEnd(final BiConsumer<A, ButtonPressed> onEndFct) {
-		super.onEnd(onEndFct);
+	public ButtonBinder<A> end(final BiConsumer<A, ButtonPressed> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 

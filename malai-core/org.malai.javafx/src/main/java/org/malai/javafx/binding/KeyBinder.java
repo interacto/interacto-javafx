@@ -62,20 +62,20 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 	}
 
 	@Override
-	public KeyBinder<W, A> onEnd(final BiConsumer<A, KeysPressure> onEndFct) {
-		super.onEnd(onEndFct);
+	public KeyBinder<W, A> end(final BiConsumer<A, KeysPressure> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 
 	@Override
-	public KeyBinder<W, A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public KeyBinder<W, A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public KeyBinder<W, A> init(final BiConsumer<A, KeysPressure> initActionFct) {
-		super.init(initActionFct);
+	public KeyBinder<W, A> first(final BiConsumer<A, KeysPressure> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 

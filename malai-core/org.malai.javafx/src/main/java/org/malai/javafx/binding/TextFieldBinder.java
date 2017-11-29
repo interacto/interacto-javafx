@@ -31,14 +31,14 @@ public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextFiel
 	}
 
 	@Override
-	public TextFieldBinder<A> update(final BiConsumer<A, KeysTyped> update) {
-		super.update(update);
+	public TextFieldBinder<A> then(final BiConsumer<A, KeysTyped> update) {
+		super.then(update);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> update(final Consumer<A> update) {
-		super.update(update);
+	public TextFieldBinder<A> then(final Consumer<A> update) {
+		super.then(update);
 		return this;
 	}
 
@@ -67,14 +67,14 @@ public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextFiel
 	}
 
 	@Override
-	public TextFieldBinder<A> init(final Consumer<A> initActionFct) {
-		super.init(initActionFct);
+	public TextFieldBinder<A> first(final Consumer<A> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> init(final BiConsumer<A, KeysTyped> initActionFct) {
-		super.init(initActionFct);
+	public TextFieldBinder<A> first(final BiConsumer<A, KeysTyped> initActionFct) {
+		super.first(initActionFct);
 		return this;
 	}
 
@@ -91,8 +91,8 @@ public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextFiel
 	}
 
 	@Override
-	public TextFieldBinder<A> onEnd(final BiConsumer<A, KeysTyped> onEndFct) {
-		super.onEnd(onEndFct);
+	public TextFieldBinder<A> end(final BiConsumer<A, KeysTyped> onEndFct) {
+		super.end(onEndFct);
 		return this;
 	}
 
