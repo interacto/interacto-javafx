@@ -18,7 +18,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.preferences.Preferenciable;
+import org.malai.properties.Preferenciable;
 import org.malai.properties.Modifiable;
 import org.malai.properties.Reinitialisable;
 import org.w3c.dom.Document;

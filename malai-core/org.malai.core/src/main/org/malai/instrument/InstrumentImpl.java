@@ -15,7 +15,6 @@ import java.util.List;
 import org.malai.action.Action;
 import org.malai.binding.WidgetBinding;
 import org.malai.error.ErrorCatcher;
-import org.malai.interaction.Eventable;
 import org.malai.undo.Undoable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,23 +23,18 @@ import org.w3c.dom.Element;
  * The base class of an instrument.
  * @author Arnaud BLOUIN
  */
-public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrument {
-	/** Defines if the instrument is activated or not. */
+public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrument<T> {
+	/** Defines whether the instrument is activated. */
 	protected boolean activated;
 
 	/** The widget bindings of the instrument. */
 	protected final List<T> bindings;
 
-	/** Defined if the instrument has been modified. */
+	/** Defined whether the instrument has been modified. */
 	protected boolean modified;
-
-	/** The eventable objects that the instrument uses. */
-	protected List<Eventable> eventables;
-
 
 	/**
 	 * Creates and initialises the instrument.
-	 * @since 0.1
 	 */
 	public InstrumentImpl() {
 		activated = false;
@@ -61,10 +55,9 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<WidgetBinding> getWidgetBindings() {
-		return (List<WidgetBinding>) bindings;
+	public List<T> getWidgetBindings() {
+		return bindings;
 	}
 
 
@@ -72,51 +65,28 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 	 * Initialises the bindings of the instrument.
 	 * @throws InstantiationException When a widget binding cannot instantiate its interaction.
 	 * @throws IllegalAccessException When a widget binding cannot instantiate its interaction.
-	 * @since 0.2
 	 */
 	protected abstract void configureBindings() throws InstantiationException, IllegalAccessException;
 
 
 	/**
 	 * Adds the given widget binding to the list of bindings of the instrument.
-	 * Eventables object previously added to the instrument are added
-	 * to the added widget binding.
 	 * @param binding The widget binding to add. If null, nothing is done.
-	 * @since 0.2
 	 */
 	public void addBinding(final T binding) {
 		if(binding != null) {
 			bindings.add(binding);
 			binding.setActivated(isActivated());
-
-			if(eventables != null) {
-				eventables.forEach(eventable -> binding.addEventable(eventable));
-			}
 		}
 	}
-
 
 	/**
 	 * Removes the given widget binding from the list of bindings of the instrument.
 	 * @param binding The widget binding to remove.
 	 * @return True: the given widget binding has been removed. False otherwise.
-	 * @since 0.2
 	 */
 	public boolean removeBinding(final T binding) {
 		return binding != null && bindings.remove(binding);
-	}
-
-
-	@Override
-	public void addEventable(final Eventable eventable) {
-		if(eventable != null) {
-			if(eventables == null) {
-				eventables = new ArrayList<>();
-			}
-
-			eventables.add(eventable);
-			bindings.forEach(binding -> binding.addEventable(eventable));
-		}
 	}
 
 

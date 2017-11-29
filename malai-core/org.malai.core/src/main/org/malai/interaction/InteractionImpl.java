@@ -15,8 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import org.malai.picking.Pickable;
-import org.malai.picking.Picker;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.stateMachine.State;
 import org.malai.stateMachine.Transition;
@@ -27,30 +25,6 @@ import org.malai.stateMachine.Transition;
  * @since 0.1
  */
 public abstract class InteractionImpl implements Interaction {
-	/**
-	 * Try to find a Pickable object at the given coordinate in the given source object.
-	 * @param x The X-coordinate of the location to check.
-	 * @param y The Y-coordinate of the location to check.
-	 * @param source The source object in which the function will search.
-	 * @return null if nothing is found. Otherwise a pickable object.
-	 * @since 0.2
-	 */
-	public static Pickable getPickableAt(final double x, final double y, final Object source) {
-		if(source == null) return null;
-
-		if(source instanceof Picker) return ((Picker) source).getPickableAt(x, y);
-
-		if(source instanceof Pickable) {
-			final Pickable srcPickable = (Pickable) source;
-
-			if(srcPickable.contains(x, y)) return srcPickable;
-
-			return srcPickable.getPicker().getPickableAt(x, y);
-		}
-
-		return null;
-	}
-
 	/** The states that compose the finite state machine. */
 	protected final Set<State> states;
 	/** The initial state the starts the state machine. */
@@ -230,14 +204,6 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
-	public void linkToEventable(final Eventable eventable) {
-		if(eventable != null && eventable.hasEventManager()) {
-			eventable.getEventManager().addHandlers(this);
-		}
-	}
-
-
-	@Override
 	public boolean isRunning() {
 		return activated && currentState != initState;
 	}
@@ -246,7 +212,6 @@ public abstract class InteractionImpl implements Interaction {
 	/**
 	 * Executes the given transition. Only if the state machine is activated.
 	 * @param transition The transition to execute.
-	 * @since 0.1
 	 */
 	protected void executeTransition(final Transition transition) {
 		if(activated && transition != null) {
