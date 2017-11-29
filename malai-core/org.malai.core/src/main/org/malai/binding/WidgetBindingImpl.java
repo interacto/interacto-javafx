@@ -15,7 +15,6 @@ import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.Instrument;
-import org.malai.interaction.Eventable;
 import org.malai.interaction.Interaction;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.undo.Undoable;
@@ -27,7 +26,7 @@ import org.malai.undo.Undoable;
  * @param <N> The type of the instrument that will contain this widget binding.
  * @author Arnaud BLOUIN
  */
-public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interaction, N extends Instrument> implements WidgetBinding {
+public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interaction, N extends Instrument<?>> implements WidgetBinding {
 	/** The source interaction. */
 	protected final I interaction;
 
@@ -91,14 +90,6 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	public void setAsync(final boolean asyncAction) {
 		async = asyncAction;
 	}
-
-	@Override
-	public void addEventable(final Eventable eventable) {
-		if(eventable != null && interaction != null) {
-			interaction.linkToEventable(eventable);
-		}
-	}
-
 
 	@Override
 	public void clearEvents() {
