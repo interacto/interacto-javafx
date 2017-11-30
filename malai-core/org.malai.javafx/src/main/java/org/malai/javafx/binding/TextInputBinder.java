@@ -16,89 +16,89 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.KeysTyped;
 
 /**
- * The binding builder to create bindings between a text field interaction and a given action.
+ * The binding builder to create bindings between a text input interaction and a given action.
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class TextFieldBinder<A extends ActionImpl> extends UpdateBinder<TextField, A, KeysTyped> {
-	public TextFieldBinder(final Class<A> action, final JfxInstrument instrument) {
+public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, KeysTyped> {
+	public TextInputBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new KeysTyped(), instrument);
 	}
 
 	@Override
-	public TextFieldBinder<A> then(final BiConsumer<A, KeysTyped> update) {
+	public TextInputBinder<A, W> then(final BiConsumer<A, KeysTyped> update) {
 		super.then(update);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> then(final Consumer<A> update) {
+	public TextInputBinder<A, W> then(final Consumer<A> update) {
 		super.then(update);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> abort(final Runnable abort) {
+	public TextInputBinder<A, W> abort(final Runnable abort) {
 		super.abort(abort);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> feedback(final Runnable feedback) {
+	public TextInputBinder<A, W> feedback(final Runnable feedback) {
 		super.feedback(feedback);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> exec(final boolean execActionOnChanges) {
+	public TextInputBinder<A, W> exec(final boolean execActionOnChanges) {
 		super.exec(execActionOnChanges);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> on(final TextField... widget) {
+	public TextInputBinder<A, W> on(final W... widget) {
 		super.on(widget);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> first(final Consumer<A> initActionFct) {
+	public TextInputBinder<A, W> first(final Consumer<A> initActionFct) {
 		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> first(final BiConsumer<A, KeysTyped> initActionFct) {
+	public TextInputBinder<A, W> first(final BiConsumer<A, KeysTyped> initActionFct) {
 		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> when(final Predicate<KeysTyped> checkAction) {
+	public TextInputBinder<A, W> when(final Predicate<KeysTyped> checkAction) {
 		super.when(checkAction);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> when(final BooleanSupplier checkAction) {
+	public TextInputBinder<A, W> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> async() {
+	public TextInputBinder<A, W> async() {
 		super.async();
 		return this;
 	}
 
 	@Override
-	public TextFieldBinder<A> end(final BiConsumer<A, KeysTyped> onEndFct) {
+	public TextInputBinder<A, W> end(final BiConsumer<A, KeysTyped> onEndFct) {
 		super.end(onEndFct);
 		return this;
 	}
