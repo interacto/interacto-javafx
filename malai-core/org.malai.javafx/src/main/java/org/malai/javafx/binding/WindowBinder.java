@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.stage.Window;
@@ -78,6 +79,12 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 
 	@Override
 	public WindowBinder<A, I> when(final Predicate<I> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public WindowBinder<A, I> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

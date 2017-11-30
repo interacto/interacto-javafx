@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -80,6 +81,12 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 
 	@Override
 	public SpinnerBinder<A> when(final Predicate<SpinnerValueChanged> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public SpinnerBinder<A> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

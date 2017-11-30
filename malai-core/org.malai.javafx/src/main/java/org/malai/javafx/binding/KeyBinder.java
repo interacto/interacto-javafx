@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.scene.input.KeyCode;
@@ -81,6 +82,12 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 
 	@Override
 	public KeyBinder<W, A> when(final Predicate<KeysPressure> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public KeyBinder<W, A> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

@@ -2,6 +2,7 @@ package org.malai.javafx.binding;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -38,6 +39,12 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 
 	@Override
 	public AnonActionBinder<W, I> when(final Predicate<I> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public AnonActionBinder<W, I> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}
