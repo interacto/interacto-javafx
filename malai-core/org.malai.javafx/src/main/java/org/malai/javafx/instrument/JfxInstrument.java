@@ -11,11 +11,13 @@
 package org.malai.javafx.instrument;
 
 import javafx.scene.Node;
+import javafx.scene.control.TextInputControl;
 import org.malai.action.ActionImpl;
 import org.malai.instrument.InstrumentImpl;
 import org.malai.javafx.binding.AnonActionBinder;
 import org.malai.javafx.binding.ButtonBinder;
 import org.malai.javafx.binding.CheckBoxBinder;
+import org.malai.javafx.binding.ColorPickerBinder;
 import org.malai.javafx.binding.ComboBoxBinder;
 import org.malai.javafx.binding.JfXWidgetBinding;
 import org.malai.javafx.binding.KeyNodeBinder;
@@ -24,7 +26,7 @@ import org.malai.javafx.binding.MenuItemBinder;
 import org.malai.javafx.binding.NodeBinder;
 import org.malai.javafx.binding.SpinnerBinder;
 import org.malai.javafx.binding.TabBinder;
-import org.malai.javafx.binding.TextFieldBinder;
+import org.malai.javafx.binding.TextInputBinder;
 import org.malai.javafx.binding.ToggleButtonBinder;
 import org.malai.javafx.binding.WindowBinder;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -125,6 +127,18 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	}
 
 	/**
+	 * Creates binding builder to build a binding between a color picker interaction and the given action type.
+	 * Do not forget to call bind() at the end of the build to execute the builder.
+	 * @param actionClass The action to produce.
+	 * @param <A> The type of the action.
+	 * @return The binding builder. Cannot be null.
+	 * @throws NullPointerException If the given class is null.
+	 */
+	protected <A extends ActionImpl> ColorPickerBinder<A> colorPickerBinder(final Class<A> actionClass) {
+		return new ColorPickerBinder<>(actionClass, this);
+	}
+
+	/**
 	 * Creates binding builder to build a binding between a spinner interaction and the given action type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param actionClass The action to produce.
@@ -137,15 +151,15 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a text field interaction and the given action type.
+	 * Creates binding builder to build a binding between a text input interaction and the given action type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param actionClass The action to produce.
 	 * @param <A> The type of the action.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> TextFieldBinder<A> textfieldBinder(final Class<A> actionClass) {
-		return new TextFieldBinder<>(actionClass, this);
+	protected <A extends ActionImpl, W extends TextInputControl> TextInputBinder<A, W> textInputBinder(final Class<A> actionClass) {
+		return new TextInputBinder<>(actionClass, this);
 	}
 
 	/**
