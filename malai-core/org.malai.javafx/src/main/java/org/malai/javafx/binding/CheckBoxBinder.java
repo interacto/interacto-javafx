@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -50,6 +51,12 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 
 	@Override
 	public CheckBoxBinder<A> when(final Predicate<BoxChecked> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public CheckBoxBinder<A> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.malai.action.Action;
@@ -108,6 +109,12 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 
 	@Override
 	public UpdateBinder<W, A, I> when(final Predicate<I> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public UpdateBinder<W, A, I> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

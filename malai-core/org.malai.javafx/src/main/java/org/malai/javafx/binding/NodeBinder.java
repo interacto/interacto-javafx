@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.scene.Node;
@@ -79,6 +80,12 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 
 	@Override
 	public NodeBinder<A, I> when(final Predicate<I> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public NodeBinder<A, I> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

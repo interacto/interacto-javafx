@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.scene.control.MenuItem;
@@ -48,6 +49,12 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 
 	@Override
 	public MenuItemBinder<A> when(final Predicate<MenuItemPressed> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public MenuItemBinder<A> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

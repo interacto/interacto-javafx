@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.scene.input.KeyCode;
@@ -61,6 +62,12 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A> 
 
 	@Override
 	public KeyWindowBinder<A> when(final Predicate<KeysPressure> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public KeyWindowBinder<A> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

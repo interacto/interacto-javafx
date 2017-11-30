@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.scene.Node;
@@ -67,6 +68,12 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 
 	@Override
 	public KeyNodeBinder<A> when(final Predicate<KeysPressure> checkAction) {
+		super.when(checkAction);
+		return this;
+	}
+
+	@Override
+	public KeyNodeBinder<A> when(final BooleanSupplier checkAction) {
 		super.when(checkAction);
 		return this;
 	}

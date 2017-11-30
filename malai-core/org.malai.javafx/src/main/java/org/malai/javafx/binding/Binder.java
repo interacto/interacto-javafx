@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.malai.action.Action;
@@ -94,6 +95,16 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 */
 	public Binder<W, A, I> when(final Predicate<I> checkAction) {
 		checkConditions = checkAction;
+		return this;
+	}
+
+	/**
+	 * Specifies the conditions to fulfill to initialise, update, or execute the action while the interaction is running.
+	 * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public Binder<W, A, I> when(final BooleanSupplier checkAction) {
+		checkConditions = i -> checkAction.getAsBoolean();
 		return this;
 	}
 
