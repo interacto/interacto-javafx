@@ -11,6 +11,8 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
@@ -23,11 +25,14 @@ import org.malai.javafx.interaction.JfxTextChangedTransition;
  * @author Arnaud Blouin
  */
 public class TextChanged extends NodeInteraction<TextInputControl> {
+	final ObjectProperty<String> txt;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public TextChanged() {
 		super();
+		txt = new SimpleObjectProperty<>("");
 		initStateMachine();
 	}
 
@@ -42,7 +47,8 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 			@Override
 			public void action() {
 				super.action();
-				TextChanged.this.widget = this.widget;
+				TextChanged.this.widget = widget;
+				txt.setValue(widget.getText());
 			}
 		};
 	}
@@ -55,5 +61,20 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 			widgets.stream().filter(w -> w instanceof TextInputControl).
 				forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl) evt.getSource())));
 		}
+	}
+
+	/**
+	 * @return The text of the text widget during the interaction.
+	 */
+	public String getTxt() {
+		return txt.get();
+	}
+
+	/**
+	 * @return The text property that corresponds to the text of the text widget during the interaction.
+	 * This is not the text property of the text widget.
+	 */
+	public ObjectProperty<String> txtProperty() {
+		return txt;
 	}
 }

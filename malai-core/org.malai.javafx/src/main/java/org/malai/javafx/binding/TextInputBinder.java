@@ -19,20 +19,20 @@ import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.library.KeysTyped;
+import org.malai.javafx.interaction.library.TextChanged;
 
 /**
  * The binding builder to create bindings between a text input interaction and a given action.
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, KeysTyped> {
+public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, TextChanged> {
 	public TextInputBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new KeysTyped(), instrument);
+		super(action, new TextChanged(), instrument);
 	}
 
 	@Override
-	public TextInputBinder<A, W> then(final BiConsumer<A, KeysTyped> update) {
+	public TextInputBinder<A, W> then(final BiConsumer<A, TextChanged> update) {
 		super.then(update);
 		return this;
 	}
@@ -74,13 +74,13 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	}
 
 	@Override
-	public TextInputBinder<A, W> first(final BiConsumer<A, KeysTyped> initActionFct) {
+	public TextInputBinder<A, W> first(final BiConsumer<A, TextChanged> initActionFct) {
 		super.first(initActionFct);
 		return this;
 	}
 
 	@Override
-	public TextInputBinder<A, W> when(final Predicate<KeysTyped> checkAction) {
+	public TextInputBinder<A, W> when(final Predicate<TextChanged> checkAction) {
 		super.when(checkAction);
 		return this;
 	}
@@ -98,7 +98,7 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	}
 
 	@Override
-	public TextInputBinder<A, W> end(final BiConsumer<A, KeysTyped> onEndFct) {
+	public TextInputBinder<A, W> end(final BiConsumer<A, TextChanged> onEndFct) {
 		super.end(onEndFct);
 		return this;
 	}
