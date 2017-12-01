@@ -31,8 +31,10 @@ public abstract class InteractionImpl implements Interaction {
 	protected final InitState initState;
 	/** The current state of the state machine when the state machine is executed. */
 	protected State currentState;
-	protected Transition currentTransition;
-	/** Defines if the interaction is activated or not. If not, the interaction will not change on events. */
+	/**
+	 * Defines if the interaction is activated or not. If not, the interaction will not
+	 * change on events.
+	 */
 	protected boolean activated;
 	/** The handlers that want to be notified when the state machine of the interaction changed. */
 	protected List<InteractionHandler> handlers;
@@ -70,7 +72,6 @@ public abstract class InteractionImpl implements Interaction {
 		currentTimeout = null;
 		activated = true;
 		states = new HashSet<>();
-		currentTransition = null;
 		initState.stateMachine = this;
 		this.initState = initState;
 		addState(initState);
@@ -111,7 +112,6 @@ public abstract class InteractionImpl implements Interaction {
 			currentTimeout.stopTimeout();
 		}
 
-		currentTransition = null;
 		currentTimeout = null;
 		currentState = initState;
 		lastHIDUsed = -1;
@@ -216,12 +216,10 @@ public abstract class InteractionImpl implements Interaction {
 	protected void executeTransition(final Transition transition) {
 		if(activated && transition != null) {
 			try {
-				currentTransition = transition;
-				currentTransition.action();
-				currentTransition.getInputState().onOutgoing();
-				currentState = currentTransition.getOutputState();
-				currentTransition.getOutputState().onIngoing();
-				currentTransition = null;
+				transition.action();
+				transition.getInputState().onOutgoing();
+				currentState = transition.getOutputState();
+				transition.getOutputState().onIngoing();
 			}catch(final MustAbortStateMachineException ex) {
 				reinit();
 			}
@@ -328,9 +326,7 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void onUpdating() throws MustAbortStateMachineException {
-		if(currentTransition == null || !(currentTransition.getInputState() instanceof InitState)) {
-			notifyHandlersOnUpdate();
-		}
+		notifyHandlersOnUpdate();
 		checkTimeoutTransition();
 	}
 
