@@ -36,22 +36,50 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 	@Test
 	void testTextChangedGoodState() throws MustAbortStateMachineException {
 		interaction.onTextChanged(input);
+		sleep(1200L);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionUpdates(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
 	}
 
+	@Test
+	void testTextChangedThreeTimes() throws MustAbortStateMachineException {
+		interaction.onTextChanged(input);
+		sleep(500L);
+		interaction.onTextChanged(input);
+		sleep(200L);
+		interaction.onTextChanged(input);
+		sleep(1200L);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+	}
 
 	@Test
-	void testTextChangedReinit() throws MustAbortStateMachineException {
+	void testTextChangedButNotFinished() throws MustAbortStateMachineException {
 		interaction.onTextChanged(input);
+		sleep(1200L);
+		interaction.onTextChanged(input);
+		sleep(1200L);
+		Mockito.verify(handler, Mockito.times(2)).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
+	}
+
+	@Test
+	void testTextChangedReinit() {
+		input.setText("foo");
+		interaction.onTextChanged(input);
+		sleep(1200L);
 		assertNull(interaction.getWidget());
 		assertEquals(-1, interaction.getLastHIDUsed());
 		assertTrue(interaction.getCurrentState() instanceof InitState);
+		assertEquals("foo", interaction.getTxt());
 	}
 
 
 	@Test
-	void testTextChanged() throws MustAbortStateMachineException {
+	void testTextChanged() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
 			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
@@ -70,6 +98,7 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 
 		input.setText("foo");
 		interaction.onTextChanged(input);
+		sleep(1200L);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
 	}
