@@ -11,12 +11,15 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
+import java.util.function.LongSupplier;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
+import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
+import org.malai.interaction.TimeoutTransition;
 import org.malai.javafx.interaction.JfxTextChangedTransition;
 
 
@@ -25,6 +28,18 @@ import org.malai.javafx.interaction.JfxTextChangedTransition;
  * @author Arnaud Blouin
  */
 public class TextChanged extends NodeInteraction<TextInputControl> {
+	/** The time gap between the two spinner events. */
+	private static long timeout = 1000;
+	/** The supplier that provides the time gap. */
+	private static final LongSupplier SUPPLY_TIMEOUT = () -> getTimeout();
+
+	/**
+	 * @return The time gap between the two spinner events.
+	 */
+	public static long getTimeout() {
+		return timeout;
+	}
+
 	final ObjectProperty<String> txt;
 
 	/**
@@ -39,9 +54,11 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		TerminalState changed = new TerminalState("changed"); //$NON-NLS-1$
+		final IntermediaryState changed = new IntermediaryState("textChanged");
+		final TerminalState ended = new TerminalState("ended");
 
 		addState(changed);
+		addState(ended);
 
 		new JfxTextChangedTransition(initState, changed) {
 			@Override
@@ -51,6 +68,16 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 				txt.setValue(widget.getText());
 			}
 		};
+
+		new JfxTextChangedTransition(changed, changed) {
+			@Override
+			public void action() {
+				super.action();
+				txt.setValue(widget.getText());
+			}
+		};
+
+		new TimeoutTransition(changed, ended, SUPPLY_TIMEOUT);
 	}
 
 	@Override
