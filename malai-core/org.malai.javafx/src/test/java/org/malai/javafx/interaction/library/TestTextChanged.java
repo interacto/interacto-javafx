@@ -1,14 +1,15 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collections;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
-import org.junit.jupiter.api.BeforeEach;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.interaction.InitState;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.mockito.Mockito;
@@ -22,15 +23,41 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 	TextInputControl input;
 
 	@Override
-	@BeforeEach
-	public void setUp() {
-		super.setUp();
-		input = new TextField();
+	protected TextChanged createInteraction() {
+		return new TextChanged();
 	}
 
 	@Override
-	protected TextChanged createInteraction() {
-		return new TextChanged();
+	public void start(final Stage stage) throws Exception {
+		super.start(stage);
+		input = new TextField();
+		Scene scene = new Scene(input);
+		stage.setScene(scene);
+		stage.show();
+		stage.toFront();
+	}
+
+	@Test
+	void testTypeOnInputTextChanged() throws MustAbortStateMachineException {
+		interaction.registerToNodes(Collections.singletonList(input));
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+	}
+
+	@Test
+	void testTypeOnInputTextChangedStopped() throws MustAbortStateMachineException {
+		interaction.registerToNodes(Collections.singletonList(input));
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
+		sleep(1200L);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
+	}
+
+	@Test
+	void testTextTypedTextChanged() {
+		interaction.registerToNodes(Collections.singletonList(input));
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
+		assertEquals("abc", interaction.widget.getText());
 	}
 
 	@Test
@@ -74,29 +101,13 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 		assertNull(interaction.getWidget());
 		assertEquals(-1, interaction.getLastHIDUsed());
 		assertTrue(interaction.getCurrentState() instanceof InitState);
-		assertEquals("foo", interaction.getTxt());
 	}
 
-
-	@Test
-	void testTextChanged() {
-		interaction.addHandler(new InteractionHandlerStub() {
-			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				assertEquals(input, ((TextChanged) interaction).widget);
-				assertEquals("foo bar", ((TextChanged) interaction).widget.getText());
-			}
-		});
-		input.setText("foo bar");
-		interaction.onTextChanged(input);
-	}
 
 	@Test
 	void testRegisterText() throws MustAbortStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(input));
-
-		input.setText("foo");
+		clickOn(input).type(KeyCode.A);
 		interaction.onTextChanged(input);
 		sleep(1200L);
 		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
@@ -106,8 +117,7 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 	@Test
 	void testTextNoActionWhenNotRegistered() throws MustAbortStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
-
-		input.setText("foo");
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
 	}
@@ -115,7 +125,7 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 	@Test
 	void testNoActionWhenNotTextRegistered() throws MustAbortStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
-		input.setText("foo");
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
 	}
@@ -123,7 +133,7 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 	@Test
 	void testTextNoActionWhenNullRegistered() throws MustAbortStateMachineException {
 		interaction.registerToNodes(null);
-		input.setText("foo");
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
 	}
@@ -131,7 +141,7 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 	@Test
 	void testTextNoActionWhenContainsNullRegistered() throws MustAbortStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(null));
-		input.setText("foo");
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
 	}
@@ -139,7 +149,7 @@ public class TestTextChanged extends BaseJfXInteractionTest<TextChanged> {
 	@Test
 	void testTextChangedTransition() throws MustAbortStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(null));
-		input.setText("foo");
+		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
 	}
