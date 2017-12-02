@@ -12,11 +12,12 @@ package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
 import java.util.function.LongSupplier;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.interaction.TimeoutTransition;
@@ -29,9 +30,15 @@ import org.malai.javafx.interaction.JfxTextChangedTransition;
  */
 public class TextChanged extends NodeInteraction<TextInputControl> {
 	/** The time gap between the two spinner events. */
-	private static long timeout = 1000;
+	private static long timeout = 1000L;
 	/** The supplier that provides the time gap. */
 	private static final LongSupplier SUPPLY_TIMEOUT = () -> getTimeout();
+	private static final EventHandler<? super KeyEvent> HANDLER_KEY_ACTION = evt -> {
+		final KeyCode code = evt.getCode();
+		if(!code.isFunctionKey() && !code.isMediaKey() && !code.isModifierKey() && !code.isArrowKey() && !code.isNavigationKey() && evt.getSource() instanceof Node) {
+			((Node) evt.getSource()).fireEvent(new ActionEvent(evt.getSource(), null));
+		}
+	};
 
 	/**
 	 * @return The time gap between the two spinner events.
@@ -40,14 +47,11 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 		return timeout;
 	}
 
-	final ObjectProperty<String> txt;
-
 	/**
 	 * Creates the interaction.
 	 */
 	public TextChanged() {
 		super();
-		txt = new SimpleObjectProperty<>("");
 		initStateMachine();
 	}
 
@@ -65,15 +69,13 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 			public void action() {
 				super.action();
 				TextChanged.this.widget = widget;
-				txt.setValue(widget.getText());
 			}
 		};
 
 		new JfxTextChangedTransition(changed, changed) {
 			@Override
-			public void action() {
-				super.action();
-				txt.setValue(widget.getText());
+			public boolean isGuardRespected() {
+				return super.isGuardRespected() && widget == TextChanged.this.widget;
 			}
 		};
 
@@ -85,23 +87,11 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 		super.registerToNodes(widgets);
 
 		if(widgets != null) {
-			widgets.stream().filter(w -> w instanceof TextInputControl).
-				forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl) evt.getSource())));
+			widgets.stream().filter(w -> w instanceof TextInputControl).forEach(w -> {
+				w.removeEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
+				w.addEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
+				w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl) evt.getSource()));
+			});
 		}
-	}
-
-	/**
-	 * @return The text of the text widget during the interaction.
-	 */
-	public String getTxt() {
-		return txt.get();
-	}
-
-	/**
-	 * @return The text property that corresponds to the text of the text widget during the interaction.
-	 * This is not the text property of the text widget.
-	 */
-	public ObjectProperty<String> txtProperty() {
-		return txt;
 	}
 }
