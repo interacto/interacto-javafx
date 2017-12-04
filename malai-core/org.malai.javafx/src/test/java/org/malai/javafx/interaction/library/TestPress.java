@@ -38,8 +38,8 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 			@Override
 			public void interactionStarts(final Interaction interaction) throws MustAbortStateMachineException {
 				super.interactionStarts(interaction);
-				assertEquals(new Point3D(10d, 20d, 0d), ((Press) interaction).getSrcPoint().get());
-				assertEquals(MouseButton.SECONDARY, ((Press) interaction).getButton().get());
+				assertEquals(new Point3D(10d, 20d, 0d), ((Press) interaction).getSrcPoint());
+				assertEquals(MouseButton.SECONDARY, ((Press) interaction).getButton());
 			}
 		});
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.SECONDARY), 0);

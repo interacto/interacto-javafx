@@ -25,10 +25,10 @@ import org.malai.stateMachine.TargetableState;
  */
 public abstract class PointInteraction extends JfxInteractionImpl {
 	/** The pressed position. */
-	protected Optional<Point3D> srcPoint;
+	protected Point3D srcPoint;
 
 	/** The button used for the pressure. */
-	protected Optional<MouseButton> button;
+	protected MouseButton button;
 
 	/** The object picked at the pressed position. */
 	protected Optional<Node> srcObject;
@@ -51,9 +51,9 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	@Override
 	public void reinit() {
 		super.reinit();
-		srcPoint = Optional.empty();
+		srcPoint = null;
 		srcObject = Optional.empty();
-		button = Optional.empty();
+		button = null;
 		altPressed = false;
 		ctrlPressed = false;
 		shiftPressed = false;
@@ -94,14 +94,14 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	/**
 	 * @return The pressed position.
 	 */
-	public Optional<Point3D> getSrcPoint() {
+	public Point3D getSrcPoint() {
 		return srcPoint;
 	}
 
 	/**
 	 * @return The button used for the pressure.
 	 */
-	public Optional<MouseButton> getButton() {
+	public MouseButton getButton() {
 		return button;
 	}
 
@@ -119,8 +119,8 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 
 		@Override
 		public void action() {
-			PointInteraction.this.srcPoint = Optional.of(new Point3D(event.getX(), event.getY(), event.getZ()));
-			PointInteraction.this.button = Optional.of(event.getButton());
+			PointInteraction.this.srcPoint = new Point3D(event.getX(), event.getY(), event.getZ());
+			PointInteraction.this.button = event.getButton();
 			PointInteraction.this.srcObject = Optional.ofNullable(event.getPickResult().getIntersectedNode());
 			PointInteraction.this.altPressed = event.isAltDown();
 			PointInteraction.this.shiftPressed = event.isShiftDown();

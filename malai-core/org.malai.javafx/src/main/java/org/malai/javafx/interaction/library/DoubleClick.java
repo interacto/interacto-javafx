@@ -13,7 +13,6 @@ package org.malai.javafx.interaction.library;
 import java.util.Collection;
 import java.util.function.LongSupplier;
 import javafx.scene.Node;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Window;
 import org.malai.interaction.AbortingState;
@@ -85,7 +84,7 @@ public class DoubleClick extends PointInteraction {
 		new PointPressureTransition(released1, pressed2) {
 			@Override
 			public boolean isGuardRespected() {
-				return hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().orElse(MouseButton.NONE) == event.getButton();
+				return hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton() == event.getButton();
 			}
 
 			@Override
@@ -128,7 +127,7 @@ public class DoubleClick extends PointInteraction {
 
 		@Override
 		public boolean isGuardRespected() {
-			return hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton().orElse(MouseButton.NONE) == event.getButton();
+			return hid == DoubleClick.this.getLastHIDUsed() && DoubleClick.this.getButton() == event.getButton();
 		}
 
 		@Override
