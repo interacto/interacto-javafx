@@ -29,7 +29,7 @@ import org.malai.stateMachine.TargetableState;
  */
 public class DnD extends PointInteraction {
 	/** The ending srcPoint of the dnd. */
-	protected Optional<Point3D> endPt;
+	protected Point3D endPt;
 
 	/** The object picked at the beginning of the dnd. */
 	protected Optional<Node> endObject;
@@ -50,12 +50,11 @@ public class DnD extends PointInteraction {
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
-		dragged = new IntermediaryState("dragged"); //$NON-NLS-1$
-		released = new TerminalState("released"); //$NON-NLS-1$
+		pressed = new IntermediaryState("pressed");
+		dragged = new IntermediaryState("dragged");
+		released = new TerminalState("released");
 
 		addState(pressed);
 		addState(dragged);
@@ -66,7 +65,7 @@ public class DnD extends PointInteraction {
 			public void action() {
 				super.action();
 				setLastHIDUsed(this.hid);
-				DnD.this.endPt = Optional.of(new Point3D(this.event.getX(), this.event.getY(), this.event.getZ()));
+				DnD.this.endPt = new Point3D(this.event.getX(), this.event.getY(), this.event.getZ());
 				DnD.this.endObject = DnD.this.srcObject;
 			}
 		};
@@ -81,7 +80,7 @@ public class DnD extends PointInteraction {
 	@Override
 	public void reinit() {
 		super.reinit();
-		endPt = Optional.empty();
+		endPt = null;
 		endObject = Optional.empty();
 	}
 
@@ -110,7 +109,7 @@ public class DnD extends PointInteraction {
 	/**
 	 * @return The ending srcPoint of the dnd.
 	 */
-	public Optional<Point3D> getEndPt() {
+	public Point3D getEndPt() {
 		return endPt;
 	}
 
@@ -138,7 +137,7 @@ public class DnD extends PointInteraction {
 
 		@Override
 		public boolean isGuardRespected() {
-			return DnD.this.button.isPresent() && DnD.this.button.get() == this.event.getButton() && DnD.this.getLastHIDUsed() == this.hid;
+			return DnD.this.button == this.event.getButton() && DnD.this.getLastHIDUsed() == this.hid;
 		}
 
 		@Override
@@ -168,7 +167,7 @@ public class DnD extends PointInteraction {
 		@Override
 		public void action() {
 			super.action();
-			DnD.this.endPt = Optional.of(new Point3D(event.getX(), event.getY(), event.getZ()));
+			DnD.this.endPt = new Point3D(event.getX(), event.getY(), event.getZ());
 			DnD.this.endObject = Optional.ofNullable(this.event.getPickResult().getIntersectedNode());
 			DnD.this.altPressed = this.event.isAltDown();
 			DnD.this.shiftPressed = this.event.isShiftDown();

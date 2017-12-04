@@ -66,7 +66,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
-		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcPoint().get());
+		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcPoint());
 
 		interaction.onPressure(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
@@ -99,7 +99,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 
-		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcPoint().get());
+		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcPoint());
 
 		interaction.onPressure(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
