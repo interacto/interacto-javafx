@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import org.malai.ex.draw.view.shape.MyCanvas?>
+<BorderPane prefHeight="800.0" prefWidth="1200.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.malai.ex.draw.instrument.Pencil">
+    <center>
+        <ScrollPane prefHeight="800" prefWidth="1200">
+            <MyCanvas xmlns:fx="http://javafx.com/fxml/1" fx:id="canvas" prefWidth="3000" prefHeight="2000" />
+        </ScrollPane>
+    </center>
+    <bottom>
+        <HBox spacing="20">
+            <ColorPicker fx:id="lineCol" prefHeight="25.0" prefWidth="90.0" />
+            <fx:include source="Undo.fxml" />
+        </HBox>
+    </bottom>
+</BorderPane>

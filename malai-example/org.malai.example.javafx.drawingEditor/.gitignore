@@ -1,6 +1,5 @@
 /bin
 /target
-/.settings
-/.classpath
-/.project
 /META-INF
+/.idea
+*.iml
