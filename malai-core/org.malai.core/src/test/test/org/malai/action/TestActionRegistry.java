@@ -336,7 +336,7 @@ public class TestActionRegistry {
 	public void testAddActionAddsUndoableCollector() {
 		final Action action = new ActionImplUndoableStub();
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
-		assertEquals(action, UndoCollector.INSTANCE.getLastUndo());
+		assertEquals(action, UndoCollector.INSTANCE.getLastUndo().get());
 	}
 
 

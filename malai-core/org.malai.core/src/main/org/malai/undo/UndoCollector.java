@@ -14,6 +14,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A collector of undone/redone objects.
@@ -168,32 +169,32 @@ public final class UndoCollector {
 	/**
 	 * @return The last undoable object name or null if there is no last object.
 	 */
-	public String getLastUndoMessage() {
-		return undo.isEmpty() ? null : undo.peek().getUndoName();
+	public Optional<String> getLastUndoMessage() {
+		return undo.isEmpty() ? Optional.empty() : Optional.ofNullable(undo.peek().getUndoName());
 	}
 
 
 	/**
 	 * @return The last redoable object name or null if there is no last object.
 	 */
-	public String getLastRedoMessage() {
-		return redo.isEmpty() ? null : redo.peek().getUndoName();
+	public Optional<String> getLastRedoMessage() {
+		return redo.isEmpty() ? Optional.empty() : Optional.ofNullable(redo.peek().getUndoName());
 	}
 
 
 	/**
 	 * @return The last undoable object or null if there is no last object.
 	 */
-	public Undoable getLastUndo() {
-		return undo.isEmpty() ? null : undo.peek();
+	public Optional<Undoable> getLastUndo() {
+		return undo.isEmpty() ? Optional.empty() : Optional.ofNullable(undo.peek());
 	}
 
 
 	/**
 	 * @return The last redoable object or null if there is no last object.
 	 */
-	public Undoable getLastRedo() {
-		return redo.isEmpty() ? null : redo.peek();
+	public Optional<Undoable> getLastRedo() {
+		return redo.isEmpty() ? Optional.empty() : Optional.ofNullable(redo.peek());
 	}
 
 
