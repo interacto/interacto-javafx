@@ -12,6 +12,7 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
@@ -28,6 +29,7 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	private final BiConsumer<A, I> execInitAction;
 	private final Predicate<I> checkInteraction;
 	private final BiConsumer<A, I> onEnd;
+	private final Function<I, A> actionProducer;
 
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -46,11 +48,12 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	 */
 	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final BiConsumer<A, I> onEndFct,
-							  final List<MenuItem> menus) throws InstantiationException, IllegalAccessException {
+							  final Function<I, A> actionFct, final List<MenuItem> menus) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, menus);
 		execInitAction = initActionFct == null ? (a, i) -> {} : initActionFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
+		actionProducer = actionFct;
 	}
 
 	@Override
@@ -61,6 +64,14 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	@Override
 	public boolean isConditionRespected() {
 		return checkInteraction == null || checkInteraction.test(getInteraction());
+	}
+
+	@Override
+	protected A createAction() {
+		if(actionProducer == null) {
+			return super.createAction();
+		}
+		return actionProducer.apply(getInteraction());
 	}
 
 
