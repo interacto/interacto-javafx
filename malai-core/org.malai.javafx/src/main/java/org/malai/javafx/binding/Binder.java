@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import org.malai.action.Action;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -32,6 +33,7 @@ import org.malai.javafx.interaction.JfxInteraction;
 public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	protected BiConsumer<A, I> initAction;
 	protected Predicate<I> checkConditions;
+	protected Function<I, A> actionProducer;
 	protected final List<W> widgets;
 	protected final Class<A> actionClass;
 	protected final I interaction;
@@ -49,6 +51,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 		checkConditions = null;
 		initAction = null;
 		onEnd = null;
+		actionProducer = null;
 	}
 
 	/**
@@ -58,6 +61,19 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 */
 	public Binder<W, A, I> on(final W... widget) {
 		widgets.addAll(Arrays.asList(widget));
+		return this;
+	}
+
+	/**
+	 * Specifies how the action is created from the user interaction.
+	 * Called a single time per interaction executed (just before 'first' that can still be called to, somehow, configure the action).
+	 * Each time the interaction starts, an instance of the action is created and configured by the given callback.
+	 * @param actionFunction The function that creates and initialises the action.
+	 * This callback takes as arguments the current user interaction.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public Binder<W, A, I> map(final Function<I, A> actionFunction) {
+		actionProducer = actionFunction;
 		return this;
 	}
 

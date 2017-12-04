@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -33,7 +34,7 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction, initAction, null, checkCode,
-			onEnd, null, null, widgets, async));
+			onEnd, actionProducer, null, null, widgets, async));
 	}
 
 	@Override
@@ -45,6 +46,12 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 	@Override
 	public KeyNodeBinder<A> on(final Node... widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public KeyNodeBinder<A> map(final Function<KeysPressure, A> actionFunction) {
+		actionProducer = actionFunction;
 		return this;
 	}
 

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.scene.input.KeyCode;
 import org.malai.action.ActionImpl;
@@ -65,6 +66,12 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 	@Override
 	public KeyBinder<W, A> end(final BiConsumer<A, KeysPressure> onEndFct) {
 		super.end(onEndFct);
+		return this;
+	}
+
+	@Override
+	public KeyBinder<W, A> map(final Function<KeysPressure, A> actionFunction) {
+		actionProducer = actionFunction;
 		return this;
 	}
 
