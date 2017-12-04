@@ -40,12 +40,20 @@ public abstract class IOAction<B> extends ActionImpl {
 	protected JfxUI ui;
 
 
+	public IOAction(final File file, final OpenSaver<B> openSaveManager, final ProgressBar progressBar, final B statusWidget, final JfxUI ui) {
+		this.file = file;
+		this.openSaveManager = openSaveManager;
+		this.progressBar = progressBar;
+		this.statusWidget = statusWidget;
+		this.ui = ui;
+		ok = false;
+	}
+
 	/**
 	 * Creates a save action.
 	 */
 	public IOAction() {
-		super();
-		ok = false;
+		this(null, null, null, null, null);
 	}
 
 
