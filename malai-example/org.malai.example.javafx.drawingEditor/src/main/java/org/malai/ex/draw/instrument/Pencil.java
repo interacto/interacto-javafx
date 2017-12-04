@@ -1,10 +1,14 @@
 package org.malai.ex.draw.instrument;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.shape.Shape;
 import org.malai.ex.draw.action.AddShape;
@@ -22,6 +26,8 @@ import org.malai.javafx.interaction.library.Press;
 public class Pencil extends JfxInstrument implements Initializable {
 	@FXML private MyCanvas canvas;
 	@FXML private ColorPicker lineCol;
+
+	/** The model of the app. */
 	private final MyDrawing drawing;
 
 	public Pencil() {
@@ -31,10 +37,9 @@ public class Pencil extends JfxInstrument implements Initializable {
 
 	@Override
 	protected void configureBindings() throws InstantiationException, IllegalAccessException {
-		// A DnD interaction will produce an AddShape action
-		// when interacting on the canvas
-		// A temporary view of the created shape is created and displayed by the canvas. This view is removed
-		// at the end of the interaction.
+		// A DnD interaction will produce an AddShape action while interacting on the canvas.
+		// A temporary view of the created shape is created and displayed by the canvas.
+		// This view is removed at the end of the interaction.
 		nodeBinder(AddShape.class, new DnD()).on(canvas).
 			map(i -> new AddShape(drawing, new MyRect(i.getSrcPoint().getX(), i.getSrcPoint().getY()))).
 			first((a, i) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(a.getShape()))).
@@ -67,9 +72,30 @@ public class Pencil extends JfxInstrument implements Initializable {
 	}
 
 
+	/**
+	 * Binds the model to the view. MVP layout: this presenter binds the model to the view. These two last do not know each others.
+	 */
+	public void bindModel() {
+		final Group shapesPane = canvas.getShapesPane();
+
+		drawing.getShapes().addListener((ListChangeListener.Change<? extends MyShape> ch) -> {
+			while(ch.next()) {
+				if(ch.wasAdded()) {
+					shapesPane.getChildren().addAll(
+						ch.getAddedSubList().stream().map(sh -> ViewFactory.INSTANCE.createViewShape(sh)).filter(Objects::nonNull).collect(Collectors.toList()));
+				}
+				if(ch.wasRemoved()) {
+					shapesPane.getChildren().removeAll(
+						ch.getRemoved().stream().map(sh -> shapesPane.getChildren().stream().filter(v -> v.getUserData() == sh).findAny().orElse(null)).
+							filter(Objects::nonNull).collect(Collectors.toList()));
+				}
+			}
+		});
+	}
+
 	@Override
 	public void initialize(final URL url, final ResourceBundle res) {
-		canvas.bindModel(drawing);
+		bindModel();
 		setActivated(true);
 	}
 }
