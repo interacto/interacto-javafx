@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.scene.canvas.Canvas?>
-<?import org.malai.ex.draw.view.shape.MyViewDrawing?>
-
-<MyViewDrawing xmlns:fx="http://javafx.com/fxml/1" fx:id="canvas" height="765.0" width="986.0" fx:controller="org.malai.ex.draw.instrument.Pencil" />
-
