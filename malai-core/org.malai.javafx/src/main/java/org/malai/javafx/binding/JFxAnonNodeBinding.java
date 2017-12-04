@@ -12,6 +12,7 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.stage.Window;
@@ -29,6 +30,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final BiConsumer<A, I> execInitAction;
 	private final BiConsumer<A, I> execUpdateAction;
 	private final Predicate<I> checkInteraction;
+	private final Function<I, A> actionProducer;
 	private final Runnable abortFct;
 	private final Runnable feedbackFct;
 	private final boolean asyncAction;
@@ -51,14 +53,15 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Runnable abort, final Runnable feedback,
-							  final List<Node> widgets, final boolean async)
+							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
+							  final Runnable abort, final Runnable feedback, final List<Node> widgets, final boolean async)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, widgets);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
 		abortFct = abort;
 		feedbackFct = feedback;
+		actionProducer = actionFunction;
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
 		onEnd = onEndFct;
@@ -81,16 +84,26 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Runnable abort, final Runnable feedback, final boolean async)
+							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
+							  final Runnable abort, final Runnable feedback, final boolean async)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, interaction);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
 		abortFct = abort;
 		feedbackFct = feedback;
+		actionProducer = actionFunction;
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
 		onEnd = onEndFct;
+	}
+
+	@Override
+	protected A createAction() {
+		if(actionProducer == null) {
+			return super.createAction();
+		}
+		return actionProducer.apply(getInteraction());
 	}
 
 	@Override

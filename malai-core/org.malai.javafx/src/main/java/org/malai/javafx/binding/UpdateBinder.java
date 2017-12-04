@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import org.malai.action.Action;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -43,6 +44,12 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	 */
 	public UpdateBinder<W, A, I> then(final BiConsumer<A, I> update) {
 		updateFct = update;
+		return this;
+	}
+
+	@Override
+	public UpdateBinder<W, A, I> map(final Function<I, A> actionFunction) {
+		actionProducer = actionFunction;
 		return this;
 	}
 
@@ -83,7 +90,7 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	}
 
 	/**
-	 * Defines what to do when an action is aborted (because the interaction is abord first).
+	 * Defines what to do when an action is aborted (because the interaction is abord map).
 	 * The undoable action is autmatically cancelled so that nothing must be done on the action.
 	 * @return The builder to chain the buiding configuration.
 	 */

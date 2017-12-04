@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
@@ -66,6 +67,12 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
+	public WindowBinder<A, I> map(final Function<I, A> actionFunction) {
+		actionProducer = actionFunction;
+		return this;
+	}
+
+	@Override
 	public WindowBinder<A, I> first(final Consumer<A> initActionFct) {
 		super.first(initActionFct);
 		return this;
@@ -104,6 +111,6 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction, widgets, initAction, updateFct,
-			checkConditions, onEnd, abortFct, feedbackFct, async));
+			checkConditions, onEnd, actionProducer, abortFct, feedbackFct, async));
 	}
 }

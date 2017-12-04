@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
@@ -68,6 +69,12 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	}
 
 	@Override
+	public TextInputBinder<A, W> map(final Function<TextChanged, A> actionFunction) {
+		actionProducer = actionFunction;
+		return this;
+	}
+
+	@Override
 	public TextInputBinder<A, W> first(final Consumer<A> initActionFct) {
 		super.first(initActionFct);
 		return this;
@@ -106,6 +113,7 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
-			initAction, updateFct, checkConditions, onEnd, abortFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			initAction, updateFct, checkConditions, onEnd, actionProducer, abortFct, feedbackFct,
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

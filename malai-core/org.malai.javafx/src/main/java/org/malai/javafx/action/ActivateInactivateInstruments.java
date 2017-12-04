@@ -35,7 +35,7 @@ public class ActivateInactivateInstruments extends ActionImpl {
 
 	/**
 	 * Creates and initialises the instrument.
-	 * By default instruments are not hidden and activation is performed first.
+	 * By default instruments are not hidden and activation is performed map.
 	 */
 	public ActivateInactivateInstruments() {
 		super();

@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
@@ -34,6 +35,12 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	@Override
 	public TabBinder<A> on(final TabPane... widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public TabBinder<A> map(final Function<TabSelected, A> actionFunction) {
+		actionProducer = actionFunction;
 		return this;
 	}
 
@@ -76,6 +83,7 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
-			initAction, null, checkConditions, onEnd, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			initAction, null, checkConditions, onEnd, actionProducer, null, null,
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }

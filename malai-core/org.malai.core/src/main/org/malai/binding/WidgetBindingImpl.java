@@ -98,13 +98,15 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	/**
-	 * Initialises the action of the widget binding. If the attribute 'action' is not null, nothing will be done.
+	 * creates the action of the widget binding. If the attribute 'action' is not null, nothing will be done.
+	 * @return The created action or null if problems occured.
 	 */
-	protected void createAction() {
+	protected A createAction() {
 		try {
-			action = clazzAction.newInstance();
+			return clazzAction.newInstance();
 		}catch(final IllegalAccessException | InstantiationException ex) {
 			ErrorCatcher.INSTANCE.reportError(ex);
+			return null;
 		}
 	}
 
@@ -178,7 +180,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
 		if(inter == interaction && isInteractionMustBeAborted()) throw new MustAbortStateMachineException();
 		if(action == null && inter == interaction && isActivated() && isConditionRespected()) {
-			createAction();
+			action = createAction();
 			initAction();
 			interimFeedback();
 		}
@@ -190,7 +192,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		if(interaction == inter) {
 			if(isConditionRespected()) {
 				if(action == null) {
-					createAction();
+					action = createAction();
 					initAction();
 				}
 
@@ -237,7 +239,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	public void interactionUpdates(final Interaction inter) {
 		if(inter == interaction && isConditionRespected()) {
 			if(action == null) {
-				createAction();
+				action = createAction();
 				initAction();
 			}
 

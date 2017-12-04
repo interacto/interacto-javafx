@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
@@ -22,6 +23,12 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 	@Override
 	public AnonActionBinder<W, I> on(final W... widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public AnonActionBinder<W, I> map(final Function<I, AnonAction> actionFunction) {
+		actionProducer = actionFunction;
 		return this;
 	}
 
@@ -65,7 +72,7 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(
 			new AnonJfxWidgetBinding<>(instrument, false, action, interaction,
-			null, null, checkConditions, onEnd, null, null,
+			null, null, checkConditions, onEnd, actionProducer, null, null,
 				widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
 	}
 }
