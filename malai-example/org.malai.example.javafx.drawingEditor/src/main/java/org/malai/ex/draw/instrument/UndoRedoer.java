@@ -39,7 +39,7 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 	@Override
 	protected void configureBindings() throws InstantiationException, IllegalAccessException {
 		// Undo and Redo are actions provided by Malai.
-		buttonBinder(Undo.class).on(undoB).when(i -> UndoCollector.INSTANCE.getLastUndo().isPresent()).bind();
-		buttonBinder(Redo.class).on(redoB).when(i -> UndoCollector.INSTANCE.getLastRedo().isPresent()).bind();
+		buttonBinder(Undo.class).on(undoB).bind();
+		buttonBinder(Redo.class).on(redoB).bind();
 	}
 }
