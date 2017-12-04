@@ -64,7 +64,7 @@ public abstract class ActionImpl implements Action {
 
 	@Override
 	public RegistrationPolicy getRegistrationPolicy() {
-		return RegistrationPolicy.NONE;
+		return hadEffect() ? RegistrationPolicy.LIMITED : RegistrationPolicy.NONE;
 	}
 
 	@Override
