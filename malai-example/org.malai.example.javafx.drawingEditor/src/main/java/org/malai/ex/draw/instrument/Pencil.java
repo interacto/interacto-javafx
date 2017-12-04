@@ -36,27 +36,24 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// A temporary view of the created shape is created and displayed by the canvas. This view is removed
 		// at the end of the interaction.
 		nodeBinder(AddShape.class, new DnD()).on(canvas).
-			first((a, i) -> {
-				final MyRect rect = new MyRect(i.getSrcPoint().getX(), i.getSrcPoint().getY());
-				a.setDrawing(drawing);
-				a.setShape(rect);
-				canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(rect));
-			}).
+			map(i -> new AddShape(drawing, new MyRect(i.getSrcPoint().getX(), i.getSrcPoint().getY()))).
+			first((a, i) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(a.getShape()))).
 			then((a, i) -> {
 				final MyRect sh = (MyRect) a.getShape();
 				sh.setWidth(i.getEndPt().getX() - sh.getX());
 				sh.setHeight(i.getEndPt().getY() - sh.getY());
 			}).
-			end((a, i) ->
-				canvas.setTmpShape(null)).
+			end((a, i) -> canvas.setTmpShape(null)).
 			bind();
 
 		/*
 		 * A DnD on the colour picker produces ChangeCol actions when the target of the DnD is a shape
 		 * (the shape we want to change the colour). The interim feedback changes the cursor during the DnD to show the dragged colour.
+		 * Note that the feedback callback is not optimised here as the colour does not change during the DnD. The cursor
+		 * should be changed in 'first'
 		 */
 		nodeBinder(ChangeColour.class, new DnD()).on(lineCol).
-			first(a -> a.setNewCol(lineCol.getValue())).
+			map(i -> new ChangeColour(lineCol.getValue(), null)).
 			then((a, i) -> i.getEndObjet().map(view -> (MyShape) view.getUserData()).ifPresent(sh -> a.setShape(sh))).
 			when(i -> i.getEndObjet().orElse(null) instanceof Shape).
 			feedback(() -> lineCol.getScene().setCursor(new ColorCursor(lineCol.getValue()))).

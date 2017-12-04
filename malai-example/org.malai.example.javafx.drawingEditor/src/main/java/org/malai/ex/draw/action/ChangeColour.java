@@ -1,14 +1,16 @@
 package org.malai.ex.draw.action;
 
 import javafx.scene.paint.Color;
+import org.malai.ex.draw.model.MyShape;
 import org.malai.undo.Undoable;
 
 public class ChangeColour extends ShapeAction implements Undoable {
 	private Color newCol;
 	private Color mementoCol;
 
-	public ChangeColour() {
-		super();
+	public ChangeColour(final Color col, final MyShape sh) {
+		super(sh);
+		newCol = col;
 	}
 
 	@Override
@@ -30,13 +32,6 @@ public class ChangeColour extends ShapeAction implements Undoable {
 	@Override
 	public boolean canDo() {
 		return super.canDo() && newCol != null;
-	}
-
-	/**
-	 * @param col the colour to use.
-	 */
-	public void setNewCol(final Color col) {
-		this.newCol = col;
 	}
 
 	@Override

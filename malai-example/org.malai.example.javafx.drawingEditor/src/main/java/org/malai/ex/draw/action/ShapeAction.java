@@ -6,6 +6,11 @@ import org.malai.ex.draw.model.MyShape;
 abstract class ShapeAction extends ActionImpl {
 	MyShape shape;
 
+	public ShapeAction(final MyShape shape) {
+		super();
+		this.shape = shape;
+	}
+
 	public MyShape getShape() {
 		return shape;
 	}

@@ -1,6 +1,7 @@
 package org.malai.ex.draw.action;
 
 import org.malai.ex.draw.model.MyDrawing;
+import org.malai.ex.draw.model.MyShape;
 import org.malai.undo.Undoable;
 
 /*
@@ -14,13 +15,14 @@ public class AddShape extends ShapeAction implements Undoable {
 	 * The attributes of the actions are used to execute, undo, and redo them.
 	 * They must be set throw setters, not using a constructor.
 	 */
-	private MyDrawing drawing;
+	private final MyDrawing drawing;
 
 	/*
 	 * A Malai action must have a constructor having NO parameter.
 	 */
-	public AddShape() {
-		super();
+	public AddShape(final MyDrawing drawing, final MyShape shape) {
+		super(shape);
+		this.drawing = drawing;
 	}
 
 	@Override
@@ -66,9 +68,5 @@ public class AddShape extends ShapeAction implements Undoable {
 		 * in the undo and redo widgets.
 		 */
 		return "Shape added";
-	}
-
-	public void setDrawing(final MyDrawing drawing) {
-		this.drawing = drawing;
 	}
 }
