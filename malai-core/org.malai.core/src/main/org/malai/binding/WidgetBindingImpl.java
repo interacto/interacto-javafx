@@ -198,12 +198,6 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 					updateAction();
 				}
 
-				if(action.doIt()) {
-					instrument.onActionExecuted(action);
-					action.done();
-					instrument.onActionDone(action);
-				}
-
 				executeAction(action);
 				action = null;
 				instrument.interimFeedback();
