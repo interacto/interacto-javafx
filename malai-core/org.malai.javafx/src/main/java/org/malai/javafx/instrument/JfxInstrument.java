@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.instrument;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import org.malai.action.ActionImpl;
@@ -36,11 +38,14 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction, ? extends JfxInstrument>> {
+	protected final BooleanProperty activatedProp;
+
 	/**
 	 * Creates the instrument.
 	 */
 	public JfxInstrument() {
 		super();
+		activatedProp = new SimpleBooleanProperty(activated);
 	}
 
 	/**
@@ -53,6 +58,19 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 */
 	public void setActivated(final boolean activ, final boolean hide) {
 		setActivated(activ);
+	}
+
+	@Override
+	public void setActivated(boolean toBeActivated) {
+		super.setActivated(toBeActivated);
+		activatedProp.set(activated);
+	}
+
+	/**
+	 * @return The property corresponding to the activation of the instrument. Cannot be null.
+	 */
+	public BooleanProperty activatedProperty() {
+		return activatedProp;
 	}
 
 	/**
