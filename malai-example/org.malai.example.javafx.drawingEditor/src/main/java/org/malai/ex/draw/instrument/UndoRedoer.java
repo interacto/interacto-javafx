@@ -25,8 +25,8 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 		setActivated(true);
 		UndoCollector.INSTANCE.addHandler(this);
 
-		undoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastUndoProperty().isNull());
-		redoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastRedoProperty().isNull());
+		undoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastUndoProperty().isNull().or(activatedProp.not()));
+		redoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastRedoProperty().isNull().or(activatedProp.not()));
 	}
 
 	@Override
