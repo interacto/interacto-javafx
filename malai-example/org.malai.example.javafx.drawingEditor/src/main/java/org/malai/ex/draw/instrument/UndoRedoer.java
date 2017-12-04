@@ -2,9 +2,11 @@ package org.malai.ex.draw.instrument;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import org.malai.action.library.Redo;
 import org.malai.action.library.Undo;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -27,6 +29,11 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 
 		undoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastUndoProperty().isNull().or(activatedProp.not()));
 		redoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastRedoProperty().isNull().or(activatedProp.not()));
+
+		undoB.tooltipProperty().bind(Bindings.createObjectBinding(() ->
+			UndoCollector.INSTANCE.getLastUndo().map(undo -> new Tooltip(undo.getUndoName())).orElse(null), FXUndoCollector.INSTANCE.lastUndoProperty()));
+		redoB.tooltipProperty().bind(Bindings.createObjectBinding(() ->
+			UndoCollector.INSTANCE.getLastRedo().map(redo -> new Tooltip(redo.getUndoName())).orElse(null), FXUndoCollector.INSTANCE.lastRedoProperty()));
 	}
 
 	@Override
