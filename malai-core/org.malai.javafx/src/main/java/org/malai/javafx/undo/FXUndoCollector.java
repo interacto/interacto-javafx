@@ -43,8 +43,8 @@ public final class FXUndoCollector {
 	}
 
 	private void updateLastUndoRedo() {
-		lastUndo.set(UndoCollector.INSTANCE.getLastUndo());
-		lastRedo.set(UndoCollector.INSTANCE.getLastRedo());
+		lastUndo.set(UndoCollector.INSTANCE.getLastUndo().orElse(null));
+		lastRedo.set(UndoCollector.INSTANCE.getLastRedo().orElse(null));
 	}
 
 	class FXUndoHander implements UndoHandler {

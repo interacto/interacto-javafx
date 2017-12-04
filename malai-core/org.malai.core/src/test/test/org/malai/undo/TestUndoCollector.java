@@ -12,8 +12,8 @@ import org.malai.undo.Undoable;
 import test.org.malai.HelperTest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestUndoCollector {
@@ -118,7 +118,7 @@ public class TestUndoCollector {
 		UndoCollector.INSTANCE.undo();
 		UndoCollector.INSTANCE.redo();
 		assertTrue(ok);
-		assertEquals(undoable, UndoCollector.INSTANCE.getLastUndo());
+		assertEquals(undoable, UndoCollector.INSTANCE.getLastUndo().get());
 		UndoCollector.INSTANCE.undo();
 	}
 
@@ -224,9 +224,9 @@ public class TestUndoCollector {
 	public void testSizeMaxMutatorsUndoableRemoved() {
 		UndoCollector.INSTANCE.setSizeMax(5);
 		UndoCollector.INSTANCE.add(new MockUndoable(), null);
-		assertNotNull(UndoCollector.INSTANCE.getLastUndo());
+		assertTrue(UndoCollector.INSTANCE.getLastUndo().isPresent());
 		UndoCollector.INSTANCE.setSizeMax(0);
-		assertNull(UndoCollector.INSTANCE.getLastUndo());
+		assertFalse(UndoCollector.INSTANCE.getLastUndo().isPresent());
 	}
 
 	@Test
@@ -249,38 +249,38 @@ public class TestUndoCollector {
 	@Test
 	public void testGetLastRedo() {
 		final Undoable undoable = new MockUndoable();
-		assertNull(UndoCollector.INSTANCE.getLastRedo());
+		assertFalse(UndoCollector.INSTANCE.getLastRedo().isPresent());
 		UndoCollector.INSTANCE.add(undoable, null);
-		assertNull(UndoCollector.INSTANCE.getLastRedo());
+		assertFalse(UndoCollector.INSTANCE.getLastRedo().isPresent());
 		UndoCollector.INSTANCE.undo();
-		assertEquals(undoable, UndoCollector.INSTANCE.getLastRedo());
+		assertEquals(undoable, UndoCollector.INSTANCE.getLastRedo().get());
 	}
 
 
 	@Test
 	public void testGetLastUndo() {
 		final Undoable undoable = new MockUndoable();
-		assertNull(UndoCollector.INSTANCE.getLastUndo());
+		assertFalse(UndoCollector.INSTANCE.getLastUndo().isPresent());
 		UndoCollector.INSTANCE.add(undoable, null);
-		assertEquals(undoable, UndoCollector.INSTANCE.getLastUndo());
+		assertEquals(undoable, UndoCollector.INSTANCE.getLastUndo().get());
 	}
 
 
 	@Test
 	public void testGetLastUndoMessage() {
-		assertNull(UndoCollector.INSTANCE.getLastUndoMessage());
+		assertFalse(UndoCollector.INSTANCE.getLastUndoMessage().isPresent());
 		UndoCollector.INSTANCE.add(new MockUndoable("undoredomsg"), null);
-		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastUndoMessage());
+		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastUndoMessage().get());
 	}
 
 
 	@Test
 	public void testGetLastRedoMessage() {
-		assertNull(UndoCollector.INSTANCE.getLastRedoMessage());
+		assertFalse(UndoCollector.INSTANCE.getLastRedoMessage().isPresent());
 		UndoCollector.INSTANCE.add(new MockUndoable("undoredomsg"), null);
-		assertNull(UndoCollector.INSTANCE.getLastRedoMessage());
+		assertFalse(UndoCollector.INSTANCE.getLastRedoMessage().isPresent());
 		UndoCollector.INSTANCE.undo();
-		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastRedoMessage());
+		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastRedoMessage().get());
 	}
 
 
@@ -291,8 +291,8 @@ public class TestUndoCollector {
 		UndoCollector.INSTANCE.undo();
 
 		UndoCollector.INSTANCE.clear();
-		assertNull(UndoCollector.INSTANCE.getLastRedo());
-		assertNull(UndoCollector.INSTANCE.getLastUndo());
+		assertFalse(UndoCollector.INSTANCE.getLastRedo().isPresent());
+		assertFalse(UndoCollector.INSTANCE.getLastUndo().isPresent());
 	}
 
 
@@ -309,8 +309,7 @@ public class TestUndoCollector {
 
 
 	@Test
-	public void testClearLaunchedHandlersCleaned() throws SecurityException, NoSuchFieldException, IllegalArgumentException,
-		IllegalAccessException {
+	public void testClearLaunchedHandlersCleaned() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final UndoHandler handler1 = new EmptyUndoHandler() {
 			@Override
 			public void onUndoableCleared() { ok = true; }

@@ -30,7 +30,7 @@ public class Redo extends ActionImpl {
 
 	@Override
 	public boolean canDo() {
-		return UndoCollector.INSTANCE.getLastRedo() != null;
+		return UndoCollector.INSTANCE.getLastRedo().isPresent();
 	}
 
 
