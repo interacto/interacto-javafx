@@ -20,7 +20,6 @@ import org.malai.action.ActionImpl;
  * so, a enumeration of the properties can be defined and used into the action to specify which
  * property will be modified by the current action instance.
  * @author Arnaud Blouin
- * @since 0.2
  */
 public abstract class ModifyValue extends ActionImpl {
 	/** The new value of the property. */
@@ -28,12 +27,18 @@ public abstract class ModifyValue extends ActionImpl {
 
 	/**
 	 * Initialises the action.
-	 * @since 0.2
 	 */
 	public ModifyValue() {
 		super();
 	}
 
+	/**
+	 * Initialises the action with the value to set.
+	 * @param value The value to set.
+	 */
+	public ModifyValue(final Object value) {
+		this.value = value;
+	}
 
 	@Override
 	public void flush() {
@@ -51,7 +56,6 @@ public abstract class ModifyValue extends ActionImpl {
 	/**
 	 * Sets the new value of the parameter to change.
 	 * @param newValue The new value.
-	 * @since 0.2
 	 */
 	public void setValue(final Object newValue) {
 		value = newValue;
@@ -62,14 +66,12 @@ public abstract class ModifyValue extends ActionImpl {
 	 * This method executes the job of methods undo, redo, and do
 	 * @param obj The value to set. Must not be null.
 	 * @throws NullPointerException If the given value is null.
-	 * @since 0.2
 	 */
 	protected abstract void applyValue(final Object obj);
 
 
 	/**
 	 * @return True: the object to modified supports the selected property.
-	 * @since 0.2
 	 */
 	protected abstract boolean isValueMatchesProperty();
 }
