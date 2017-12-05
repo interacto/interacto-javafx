@@ -10,9 +10,7 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
-import java.util.Objects;
-
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ScrollEvent;
 import javafx.stage.Window;
@@ -27,6 +25,8 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud Blouin
  */
 public class Scrolling extends JfxInteractionImpl {
+	private final EventHandler<ScrollEvent> scroll;
+
 	/** The scrolled node. */
 	protected Object scrolledNode;
 
@@ -46,13 +46,13 @@ public class Scrolling extends JfxInteractionImpl {
 	public Scrolling() {
 		super();
 		initStateMachine();
+		scroll = evt -> onScroll(evt, 0);
 	}
 
 
 	@Override
 	public void reinit() {
 		super.reinit();
-
 		scrolledNode = null;
 		px = 0d;
 		py = 0d;
@@ -63,7 +63,7 @@ public class Scrolling extends JfxInteractionImpl {
 	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState wheeled = new TerminalState("scrolled"); //$NON-NLS-1$
+		final TerminalState wheeled = new TerminalState("scrolled");
 		addState(wheeled);
 		new ScrollingScrollTransition(initState, wheeled);
 	}
@@ -125,34 +125,36 @@ public class Scrolling extends JfxInteractionImpl {
 		increment = incr;
 	}
 
-
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		if(widgets != null) {
-			widgets.stream().filter(Objects::nonNull).forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
-		}
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(ScrollEvent.SCROLL, scroll);
 	}
 
 	@Override
-	public void registerToWindows(final Collection<Window> windows) {
-		super.registerToWindows(windows);
-		if(windows != null) {
-			windows.stream().filter(Objects::nonNull).forEach(w -> w.addEventHandler(ScrollEvent.SCROLL, evt -> onScroll(evt, 0)));
-		}
+	protected void onWindowUnregistered(final Window window) {
+		window.removeEventHandler(ScrollEvent.SCROLL, scroll);
 	}
 
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.addEventHandler(ScrollEvent.SCROLL, scroll);
+	}
+
+	@Override
+	protected void onNewWindowRegistered(final Window window) {
+		window.addEventHandler(ScrollEvent.SCROLL, scroll);
+	}
 
 	/**
 	 * This scroll transition modifies the scrolling interaction.
 	 */
-	public class ScrollingScrollTransition extends ScrollTransition {
+	protected class ScrollingScrollTransition extends ScrollTransition {
 		/**
 		 * Creates the transition.
 		 * @param inputState The input state of the transition.
 		 * @param outputState The output state of the transition.
 		 */
-		public ScrollingScrollTransition(final SourceableState inputState, final TargetableState outputState) {
+		protected ScrollingScrollTransition(final SourceableState inputState, final TargetableState outputState) {
 			super(inputState, outputState);
 		}
 

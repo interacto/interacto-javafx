@@ -18,6 +18,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.collections.ObservableList;
 import org.malai.action.Action;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -63,6 +64,19 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 		widgets.add(widget);
 		return this;
 	}
+
+
+	/**
+	 * Specifies the observable list that will contain the widgets on which the binding must operate.
+	 * When a widget is added to this list, the added widget is binded to this binding.
+	 * When widget is removed from this list, this widget is unbinded from this binding.
+	 * @param widgets The observable list of the widgets involved in the bindings.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public Binder<W, A, I> on(final ObservableList<? super W> widgets) {
+		return this;
+	}
+
 
 	/**
 	 * Specifies how the action is created from the user interaction.

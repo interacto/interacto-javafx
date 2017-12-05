@@ -10,8 +10,8 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import org.malai.interaction.TerminalState;
@@ -22,19 +22,21 @@ import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
  * @author Arnaud BLOUIN
  */
 public class ComboBoxSelected extends NodeInteraction<ComboBox<?>> {
+	private final EventHandler<ActionEvent> event;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ComboBoxSelected() {
 		super();
 		initStateMachine();
+		event = evt -> onJfxComboBoxSelected((ComboBox<?>) evt.getSource());
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed");
 
 		addState(pressed);
 
@@ -48,9 +50,16 @@ public class ComboBoxSelected extends NodeInteraction<ComboBox<?>> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.stream().filter(w -> w instanceof ComboBox<?>).forEach(w -> 
-			w.addEventHandler(ActionEvent.ACTION, evt -> onJfxComboBoxSelected((ComboBox<?>)evt.getSource())));
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof ComboBox<?>) {
+			node.removeEventHandler(ActionEvent.ACTION, event);
+		}
+	}
+
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		if(node instanceof ComboBox<?>) {
+			node.addEventHandler(ActionEvent.ACTION, event);
+		}
 	}
 }

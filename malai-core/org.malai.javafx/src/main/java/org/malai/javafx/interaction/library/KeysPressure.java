@@ -26,11 +26,10 @@ public class KeysPressure extends MultiKeyInteraction {
 		initStateMachine();
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final IntermediaryState pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
-		final TerminalState end = new TerminalState("ended"); //$NON-NLS-1$
+		final IntermediaryState pressed = new IntermediaryState("pressed");
+		final TerminalState end = new TerminalState("ended");
 
 		addState(pressed);
 		addState(end);
@@ -42,6 +41,7 @@ public class KeysPressure extends MultiKeyInteraction {
 				return this.hid == KeysPressure.this.getLastHIDUsed();
 			}
 		};
+
 		// The interaction stops once one of the key pressed is released. The other key pressed
 		// events will be recycled.
 		new MultiKeyReleaseTransition(pressed, end) {

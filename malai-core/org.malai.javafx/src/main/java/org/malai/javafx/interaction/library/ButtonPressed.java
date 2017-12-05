@@ -10,8 +10,8 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.malai.interaction.TerminalState;
@@ -22,19 +22,21 @@ import org.malai.javafx.interaction.JfxButtonPressedTransition;
  * @author Arnaud BLOUIN
  */
 public class ButtonPressed extends NodeInteraction<Button> {
+	private final EventHandler<ActionEvent> event;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ButtonPressed() {
 		super();
 		initStateMachine();
+		event = evt -> onJfxButtonPressed((Button) evt.getSource());
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed");
 
 		addState(pressed);
 
@@ -48,12 +50,16 @@ public class ButtonPressed extends NodeInteraction<Button> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
+	protected void onNewNodeRegistered(final Node node) {
+		if(node instanceof Button) {
+			node.addEventHandler(ActionEvent.ACTION, event);
+		}
+	}
 
-		if(widgets != null) {
-			widgets.stream().filter(w -> w instanceof Button).
-				forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxButtonPressed((Button) evt.getSource())));
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof Button) {
+			node.removeEventHandler(ActionEvent.ACTION, event);
 		}
 	}
 }

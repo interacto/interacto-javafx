@@ -10,8 +10,8 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import org.malai.interaction.TerminalState;
@@ -22,19 +22,21 @@ import org.malai.javafx.interaction.JfxColorPickedTransition;
  * @author Arnaud BLOUIN
  */
 public class ColorPicked extends NodeInteraction<ColorPicker> {
+	private final EventHandler<ActionEvent> event;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ColorPicked() {
 		super();
 		initStateMachine();
+		event = evt -> onJfxColorPicked((ColorPicker) evt.getSource());
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("picked"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("picked");
 
 		addState(pressed);
 
@@ -48,12 +50,16 @@ public class ColorPicked extends NodeInteraction<ColorPicker> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof ColorPicker) {
+			node.removeEventHandler(ActionEvent.ACTION, event);
+		}
+	}
 
-		if (widgets != null) {
-			widgets.stream().filter(w -> w instanceof ColorPicker).forEach(w ->
-					w.addEventHandler(ActionEvent.ACTION, evt -> onJfxColorPicked((ColorPicker) evt.getSource())));
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		if(node instanceof ColorPicker) {
+			node.addEventHandler(ActionEvent.ACTION, event);
 		}
 	}
 }

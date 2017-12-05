@@ -10,8 +10,7 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
-import java.util.Objects;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Window;
@@ -22,15 +21,18 @@ import org.malai.interaction.TerminalState;
  * @author Arnaud BLOUIN
  */
 public class Press extends PointInteraction {
+	private final EventHandler<MouseEvent> pressure;
+	private final EventHandler<MouseEvent> release;
 	/**
 	 * Creates the interaction.
 	 */
 	public Press() {
 		super();
 		initStateMachine();
+		pressure = evt -> onPressure(evt, 0);
+		release = evt -> onRelease(evt, 0);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final TerminalState end = new TerminalState("ended");
@@ -39,24 +41,26 @@ public class Press extends PointInteraction {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		if(widgets != null) {
-			widgets.stream().filter(Objects::nonNull).forEach(widget -> {
-				widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-				widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			});
-		}
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		node.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
 	}
 
 	@Override
-	public void registerToWindows(final Collection<Window> windows) {
-		super.registerToWindows(windows);
-		if(windows != null) {
-			windows.stream().filter(Objects::nonNull).forEach(window -> {
-				window.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-				window.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			});
-		}
+	protected void onWindowUnregistered(final Window window) {
+		window.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		window.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+	}
+
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		node.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+	}
+
+	@Override
+	protected void onNewWindowRegistered(final Window window) {
+		window.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		window.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
 	}
 }

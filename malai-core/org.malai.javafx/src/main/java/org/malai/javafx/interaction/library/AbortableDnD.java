@@ -10,7 +10,7 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Window;
@@ -23,6 +23,9 @@ import org.malai.javafx.interaction.ReleaseTransition;
  * @author Arnaud Blouin
  */
 public class AbortableDnD extends DnD {
+	private final EventHandler<KeyEvent> keyPress;
+	private final EventHandler<KeyEvent> keyRelease;
+
 	/**
 	 * Creates the interaction.
 	 * @param updateSrcOnUpdate If true, the source point and object will take the latest end point and object
@@ -30,21 +33,22 @@ public class AbortableDnD extends DnD {
 	 */
 	public AbortableDnD(final boolean updateSrcOnUpdate) {
 		super(updateSrcOnUpdate);
+		keyPress = evt -> onKeyPressure(evt, 0);
+		keyRelease = evt -> onKeyRelease(evt, 0);
 	}
 
 	/**
 	 * Creates the interaction.
 	 */
 	public AbortableDnD() {
-		super();
+		this(false);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		super.initStateMachine();
 
-		final AbortingState aborted = new AbortingState("aborted"); //$NON-NLS-1$
+		final AbortingState aborted = new AbortingState("aborted");
 		addState(aborted);
 
 		new EscapeKeyPressureTransition(pressed, aborted);
@@ -53,22 +57,31 @@ public class AbortableDnD extends DnD {
 		new Release4DnD(pressed, aborted);
 	}
 
-
 	@Override
-	public void registerToNodes(Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.forEach(widget -> {
-			widget.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			widget.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
-		});
+	public void onNewNodeRegistered(final Node node) {
+		super.onNewNodeRegistered(node);
+		node.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		node.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
 	}
 
 	@Override
-	public void registerToWindows(Collection<Window> windows) {
-		super.registerToWindows(windows);
-		windows.forEach(window -> {
-			window.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			window.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
-		});
+	public void onNewWindowRegistered(final Window window) {
+		super.onNewWindowRegistered(window);
+		window.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		window.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+	}
+
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		super.onNodeUnregistered(node);
+		node.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		node.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+	}
+
+	@Override
+	protected void onWindowUnregistered(final Window window) {
+		super.onWindowUnregistered(window);
+		window.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		window.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
 	}
 }

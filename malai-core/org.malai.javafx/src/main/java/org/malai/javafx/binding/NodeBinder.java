@@ -15,6 +15,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -64,6 +65,12 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	@Override
 	public NodeBinder<A, I> on(final Node widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public NodeBinder<A, I> on(final ObservableList<? super Node> widgets) {
+		super.on(widgets);
 		return this;
 	}
 

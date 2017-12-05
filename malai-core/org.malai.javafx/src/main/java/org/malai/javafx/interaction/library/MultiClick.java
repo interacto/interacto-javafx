@@ -11,8 +11,8 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
@@ -30,11 +30,16 @@ import org.malai.javafx.interaction.ReleaseTransition;
 
 /**
  * This interaction allows to performed several clicks using button 1. If a click
- * occurs with another button, the interaction ends. THe interaction is aborted is key 'escape'
- * is pressed.
+ * occurs with another button, the interaction ends. THe interaction is aborted is key 'escape' is pressed.
  * @author Arnaud Blouin
  */
 public class MultiClick extends JfxInteractionImpl {
+	private final EventHandler<MouseEvent> pressure;
+	private final EventHandler<MouseEvent> release;
+	private final EventHandler<MouseEvent> move;
+	private final EventHandler<KeyEvent> keyPress;
+	private final EventHandler<KeyEvent> keyRelease;
+
 	/** The list of pressed position. */
 	protected final List<Point3D> points;
 
@@ -53,6 +58,11 @@ public class MultiClick extends JfxInteractionImpl {
 		points = new ArrayList<>();
 		minPoints = 2;
 		initStateMachine();
+		pressure = evt -> onPressure(evt, 0);
+		release = evt -> onRelease(evt, 0);
+		move = evt -> onMove(evt, 0);
+		keyPress = evt -> onKeyPressure(evt, 0);
+		keyRelease = evt -> onKeyRelease(evt, 0);
 	}
 
 	@Override
@@ -66,19 +76,17 @@ public class MultiClick extends JfxInteractionImpl {
 	 * @return True if the last srcPoint gathered by the interaction is a srcPoint created by the right
 	 * click that ends the interaction. This method is useful to make the difference between
 	 * points created using left clicks and the last one created using a right click.
-	 * @since 0.2
 	 */
 	public boolean isLastPointFinalPoint() {
 		return currentState instanceof TerminalState;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final IntermediaryState pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
-		final IntermediaryState released = new IntermediaryState("released"); //$NON-NLS-1$
-		final TerminalState ended = new TerminalState("ended"); //$NON-NLS-1$
-		final AbortingState aborted = new AbortingState("aborted"); //$NON-NLS-1$
+		final IntermediaryState pressed = new IntermediaryState("pressed");
+		final IntermediaryState released = new IntermediaryState("released");
+		final TerminalState ended = new TerminalState("ended");
+		final AbortingState aborted = new AbortingState("aborted");
 
 		addState(pressed);
 		addState(released);
@@ -158,32 +166,44 @@ public class MultiClick extends JfxInteractionImpl {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.forEach(widget -> {
-			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onMove(evt, 0));
-			widget.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			widget.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
-		});
+	protected void onNodeUnregistered(final Node node) {
+		node.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		node.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		node.addEventHandler(MouseEvent.MOUSE_MOVED, move);
+		node.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		node.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
 	}
 
 	@Override
-	public void registerToWindows(final Collection<Window> windows) {
-		super.registerToWindows(windows);
-		windows.forEach(window -> {
-			window.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-			window.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			window.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onMove(evt, 0));
-			window.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0));
-			window.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0));
-		});
+	protected void onWindowUnregistered(final Window window) {
+		window.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		window.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		window.addEventHandler(MouseEvent.MOUSE_MOVED, move);
+		window.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		window.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
 	}
+
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		node.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		node.removeEventHandler(MouseEvent.MOUSE_MOVED, move);
+		node.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		node.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+	}
+
+	@Override
+	protected void onNewWindowRegistered(final Window window) {
+		window.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		window.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		window.removeEventHandler(MouseEvent.MOUSE_MOVED, move);
+		window.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+		window.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+	}
+
 
 	/**
 	 * @return The list of pressed position.
-	 * @since 0.2
 	 */
 	public List<Point3D> getPoints() {
 		return points;
@@ -191,7 +211,6 @@ public class MultiClick extends JfxInteractionImpl {
 
 	/**
 	 * @return The current position of the pointing device.
-	 * @since 0.2
 	 */
 	public Point3D getCurrentPosition() {
 		return currentPosition;
@@ -199,7 +218,6 @@ public class MultiClick extends JfxInteractionImpl {
 
 	/**
 	 * @return The minimum number of points that the interaction must gather.
-	 * @since 0.2
 	 */
 	public int getMinPoints() {
 		return minPoints;
@@ -207,7 +225,6 @@ public class MultiClick extends JfxInteractionImpl {
 
 	/**
 	 * @param minPoints The minimum number of points that the interaction must gather. Must be greater than 0.
-	 * @since 0.2
 	 */
 	public void setMinPoints(final int minPoints) {
 		if(minPoints > 0) {

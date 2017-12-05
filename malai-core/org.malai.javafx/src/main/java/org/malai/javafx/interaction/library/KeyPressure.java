@@ -25,11 +25,9 @@ public class KeyPressure extends SingleKeyInteraction {
 		initStateMachine();
 	}
 
-
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed");
 
 		addState(pressed);
 		new SingleKeyInteractionKeyPressedTransition(initState, pressed);

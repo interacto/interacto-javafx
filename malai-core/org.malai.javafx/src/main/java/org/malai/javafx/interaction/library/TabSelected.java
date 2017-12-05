@@ -10,8 +10,9 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxTabSelectedTransition;
@@ -21,19 +22,20 @@ import org.malai.javafx.interaction.JfxTabSelectedTransition;
  * @author Arnaud Blouin
  */
 public class TabSelected extends NodeInteraction<TabPane> {
+	private final ChangeListener<Tab> event;
 	/**
 	 * Creates the interaction.
 	 */
 	public TabSelected() {
 		super();
 		initStateMachine();
+		event = (observable, oldValue, newValue) -> onJfXTabSelected(newValue.getTabPane());
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed");
 
 		addState(pressed);
 
@@ -47,9 +49,16 @@ public class TabSelected extends NodeInteraction<TabPane> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.stream().filter(w -> w instanceof TabPane).forEach(w -> ((TabPane) w).getSelectionModel().selectedItemProperty().
-			addListener(evt -> onJfXTabSelected((TabPane) w)));
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof TabPane) {
+			((TabPane) node).getSelectionModel().selectedItemProperty().removeListener(event);
+		}
+	}
+
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		if(node instanceof TabPane) {
+			((TabPane) node).getSelectionModel().selectedItemProperty().addListener(event);
+		}
 	}
 }

@@ -10,9 +10,9 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import java.util.function.LongSupplier;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import org.malai.interaction.IntermediaryState;
@@ -25,6 +25,8 @@ import org.malai.javafx.interaction.JfxSpinnerValueChangedTransition;
  * @author Arnaud BLOUIN
  */
 public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
+	private final EventHandler<ActionEvent> event;
+
 	/** The time gap between the two spinner events. */
 	private static long timeGap = 300;
 	/** The supplier that provides the time gap. */
@@ -53,10 +55,10 @@ public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
 	public SpinnerValueChanged() {
 		super();
 		initStateMachine();
+		event = evt -> onJfxSpinnerValueChanged((Spinner<?>) evt.getSource());
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final IntermediaryState changed = new IntermediaryState("valueChanged");
@@ -79,9 +81,12 @@ public class SpinnerValueChanged extends NodeInteraction<Spinner<?>> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.stream().filter(w -> w instanceof Spinner<?>).forEach(w ->
-			w.addEventHandler(ActionEvent.ACTION, evt -> onJfxSpinnerValueChanged((Spinner<?>) w)));
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(ActionEvent.ACTION, event);
+	}
+
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.addEventHandler(ActionEvent.ACTION, event);
 	}
 }

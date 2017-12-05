@@ -10,7 +10,6 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
 import org.malai.interaction.TerminalState;
@@ -29,11 +28,9 @@ public class MenuItemPressed extends MenuItemInteraction<MenuItem> {
 		initStateMachine();
 	}
 
-
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed");
 
 		addState(pressed);
 
@@ -47,8 +44,12 @@ public class MenuItemPressed extends MenuItemInteraction<MenuItem> {
 	}
 
 	@Override
-	public void registerToMenuItems(final List<MenuItem> widgets) {
-		super.registerToMenuItems(widgets);
-		widgets.forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem) evt.getSource())));
+	protected void onMenuItemUnregistered(final MenuItem menuItem) {
+		menuItem.removeEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem) evt.getSource()));
+	}
+
+	@Override
+	protected void onMenuItemRegistered(final MenuItem menuItem) {
+		menuItem.addEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem) evt.getSource()));
 	}
 }

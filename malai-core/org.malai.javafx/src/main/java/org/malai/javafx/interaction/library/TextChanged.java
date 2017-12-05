@@ -10,7 +10,6 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import java.util.function.LongSupplier;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,15 +46,17 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 		return timeout;
 	}
 
+	private final EventHandler<ActionEvent> event;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public TextChanged() {
 		super();
 		initStateMachine();
+		event = evt -> onTextChanged((TextInputControl) evt.getSource());
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final IntermediaryState changed = new IntermediaryState("textChanged");
@@ -83,15 +84,15 @@ public class TextChanged extends NodeInteraction<TextInputControl> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
+		node.removeEventHandler(ActionEvent.ACTION, event);
+	}
 
-		if(widgets != null) {
-			widgets.stream().filter(w -> w instanceof TextInputControl).forEach(w -> {
-				w.removeEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
-				w.addEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
-				w.addEventHandler(ActionEvent.ACTION, evt -> onTextChanged((TextInputControl) evt.getSource()));
-			});
-		}
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.removeEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
+		node.addEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
+		node.addEventHandler(ActionEvent.ACTION, event);
 	}
 }
