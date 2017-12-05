@@ -37,12 +37,24 @@ public abstract class ActionImpl implements Action {
 		status = ActionStatus.FLUSHED;
 	}
 
+	/**
+	 * Actions may need to create a memento before their first execution.
+	 * This is the goal of the operation that should be overriden.
+	 * This operator is called a single time before the first execution of the action.
+	 */
+	protected void createMemento() {
+		// To Override.
+	}
 
 	@Override
 	public boolean doIt() {
 		final boolean ok;
 
 		if((status == ActionStatus.CREATED || status == ActionStatus.EXECUTED) && canDo()) {
+			if(status == ActionStatus.CREATED) {
+				createMemento();
+			}
+
 			ok = true;
 			doActionBody();
 			status = ActionStatus.EXECUTED;
