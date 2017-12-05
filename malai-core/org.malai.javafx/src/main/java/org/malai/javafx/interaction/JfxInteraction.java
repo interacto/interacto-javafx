@@ -12,6 +12,7 @@ package org.malai.javafx.interaction;
 
 import java.util.Collection;
 import java.util.Set;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.Window;
 
@@ -21,29 +22,25 @@ import javafx.stage.Window;
  */
 public interface JfxInteraction extends JfxDefaultEventProcessor {
 	/**
-	 * Registers the given registeredWidgets to the interaction.
-	 * This operation has to be overridden by each interaction to register the registeredWidgets.
-	 * @param widgets The registeredWidgets that will produce events used by the interaction. Cannot be null.
-	 * @throws NullPointerException When the given <code>registeredWidgets</code> is null or contains a null object.
+	 * Registers the given registeredNodes to the interaction.
+	 * This operation has to be overridden by each interaction to register the registeredNodes.
+	 * @param widgets The registeredNodes that will produce events used by the interaction. Cannot be null.
 	 */
-	default void registerToNodes(final Collection<Node> widgets) {
-		// Should be overriden.
-	}
+	void registerToNodes(final Collection<Node> widgets);
 
 	/**
 	 * Registers the given windows to the interaction.
 	 * This operation has to be overridden by each interaction to register the windows.
 	 * @param windows The windows that will produce events used by the interaction. Cannot be null.
-	 * @throws NullPointerException When the given <code>windows</code> is null or contains a null object.
 	 */
-	default void registerToWindows(final Collection<Window> windows) {
-		// Should be overriden.
-	}
+	void registerToWindows(final Collection<Window> windows);
+
+	void registerToObservableNodeList(final ObservableList<Node> nodes);
 
 	/**
 	 * @return The JFX nodes registered to the interaction. Cannot be null. Unmodifiable list.
 	 */
-	Set<Node> getRegisteredWidgets();
+	Set<Node> getRegisteredNodes();
 
 	/**
 	 * @return The JFX windows registered to the interaction. Cannot be null. Unmodifiable list.

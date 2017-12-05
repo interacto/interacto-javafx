@@ -15,6 +15,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import org.malai.action.Action;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -86,6 +88,12 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	@Override
 	public UpdateBinder<W, A, I> on(final W widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public UpdateBinder<W, A, I> on(final ObservableList<Node> widgets) {
+		super.on(widgets);
 		return this;
 	}
 

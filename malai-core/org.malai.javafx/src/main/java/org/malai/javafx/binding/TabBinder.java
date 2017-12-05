@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import org.malai.action.ActionImpl;
@@ -35,6 +36,12 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	@Override
 	public TabBinder<A> on(final TabPane widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public TabBinder<A> on(final ObservableList<Node> widgets) {
+		super.on(widgets);
 		return this;
 	}
 
@@ -84,6 +91,6 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkConditions, onEnd, actionProducer, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
 	}
 }

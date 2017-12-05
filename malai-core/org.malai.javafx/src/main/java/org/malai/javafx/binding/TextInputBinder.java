@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import org.malai.action.ActionImpl;
@@ -69,6 +70,12 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	}
 
 	@Override
+	public TextInputBinder<A, W> on(final ObservableList<Node> widgets) {
+		super.on(widgets);
+		return this;
+	}
+
+	@Override
 	public TextInputBinder<A, W> map(final Function<TextChanged, A> actionFunction) {
 		actionProducer = actionFunction;
 		return this;
@@ -114,6 +121,6 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
 			initAction, updateFct, checkConditions, onEnd, actionProducer, abortFct, feedbackFct,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
 	}
 }

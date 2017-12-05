@@ -56,16 +56,20 @@ public class Pencil extends JfxInstrument implements Initializable {
 			bind();
 
 		// A DnD interaction with the right button of the mouse moves the targeted shape.
-		// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 		// To incrementally moves the shape, the DnD interaction has its parameter 'updateSrcOnUpdate' set to true:
 		// At each interaction updates, the source point and object take the latest target point and object.
 		// The DnD interaction can be stopped (aborted) by pressing the key 'ESC'. This cancels the ongoing action (that thus needs to be undoable).
-		nodeBinder(MoveShape.class, new AbortableDnD(true)).on(canvas).
+		nodeBinder(MoveShape.class, new AbortableDnD(true)).
+			// The binding dynamically registers elements of the given observable list.
+			// When nodes are added to this list, these nodes register the binding.
+			// When nodes are removed from this list, their binding is cancelled.
+			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
+			on(canvas.getShapesPane().getChildren()).
 			map(i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
 			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndPt().getX() - i.getSrcPoint().getX()),
 									a.getShape().getY() + (i.getEndPt().getY() - i.getSrcPoint().getY()))).
-			when(i -> i.getButton() == MouseButton.SECONDARY && i.getSrcObject().orElse(null) instanceof Shape &&
-				i.getSrcObject().map(o -> o.getUserData()).orElse(null) instanceof MyShape).
+			when(i -> i.getButton() == MouseButton.SECONDARY).
+			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 			exec(true).
 			bind();
 
