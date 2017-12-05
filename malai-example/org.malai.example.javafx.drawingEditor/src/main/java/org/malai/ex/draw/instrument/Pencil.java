@@ -10,9 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.input.MouseButton;
 import javafx.scene.shape.Shape;
 import org.malai.ex.draw.action.AddShape;
 import org.malai.ex.draw.action.ChangeColour;
+import org.malai.ex.draw.action.MoveShape;
 import org.malai.ex.draw.model.MyDrawing;
 import org.malai.ex.draw.model.MyRect;
 import org.malai.ex.draw.model.MyShape;
@@ -20,6 +22,7 @@ import org.malai.ex.draw.view.shape.MyCanvas;
 import org.malai.ex.draw.view.shape.ViewFactory;
 import org.malai.ex.util.ColorCursor;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.library.AbortableDnD;
 import org.malai.javafx.interaction.library.DnD;
 import org.malai.javafx.interaction.library.Press;
 
@@ -37,7 +40,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 
 	@Override
 	protected void configureBindings() throws InstantiationException, IllegalAccessException {
-		// A DnD interaction will produce an AddShape action while interacting on the canvas.
+		// A DnD interaction with the left button of the mouse will produce an AddShape action while interacting on the canvas.
 		// A temporary view of the created shape is created and displayed by the canvas.
 		// This view is removed at the end of the interaction.
 		nodeBinder(AddShape.class, new DnD()).on(canvas).
@@ -48,7 +51,22 @@ public class Pencil extends JfxInstrument implements Initializable {
 				sh.setWidth(i.getEndPt().getX() - sh.getX());
 				sh.setHeight(i.getEndPt().getY() - sh.getY());
 			}).
+			when(i -> i.getButton() == MouseButton.PRIMARY).
 			end((a, i) -> canvas.setTmpShape(null)).
+			bind();
+
+		// A DnD interaction with the right button of the mouse moves the targeted shape.
+		// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
+		// To incrementally moves the shape, the DnD interaction has its parameter 'updateSrcOnUpdate' set to true:
+		// At each interaction updates, the source point and object take the latest target point and object.
+		// The DnD interaction can be stopped (aborted) by pressing the key 'ESC'. This cancels the ongoing action (that thus needs to be undoable).
+		nodeBinder(MoveShape.class, new AbortableDnD(true)).on(canvas).
+			map(i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
+			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndPt().getX() - i.getSrcPoint().getX()),
+									a.getShape().getY() + (i.getEndPt().getY() - i.getSrcPoint().getY()))).
+			when(i -> i.getButton() == MouseButton.SECONDARY && i.getSrcObject().orElse(null) instanceof Shape &&
+				i.getSrcObject().map(o -> o.getUserData()).orElse(null) instanceof MyShape).
+			exec(true).
 			bind();
 
 		/*
