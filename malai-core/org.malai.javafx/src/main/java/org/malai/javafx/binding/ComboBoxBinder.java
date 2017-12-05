@@ -34,7 +34,7 @@ public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A,
 	}
 
 	@Override
-	public ComboBoxBinder<A> on(final ComboBox<?> widget) {
+	public ComboBoxBinder<A> on(final ComboBox<?>... widget) {
 		super.on(widget);
 		return this;
 	}

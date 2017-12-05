@@ -63,7 +63,7 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
-	public NodeBinder<A, I> on(final Node widget) {
+	public NodeBinder<A, I> on(final Node... widget) {
 		super.on(widget);
 		return this;
 	}

@@ -34,7 +34,7 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 	}
 
 	@Override
-	public CheckBoxBinder<A> on(final CheckBox widget) {
+	public CheckBoxBinder<A> on(final CheckBox... widget) {
 		super.on(widget);
 		return this;
 	}

@@ -44,7 +44,7 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A> 
 	}
 
 	@Override
-	public KeyWindowBinder<A> on(final Window widget) {
+	public KeyWindowBinder<A> on(final Window... widget) {
 		super.on(widget);
 		return this;
 	}
