@@ -63,7 +63,7 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	}
 
 	@Override
-	public TextInputBinder<A, W> on(final W... widget) {
+	public TextInputBinder<A, W> on(final W widget) {
 		super.on(widget);
 		return this;
 	}

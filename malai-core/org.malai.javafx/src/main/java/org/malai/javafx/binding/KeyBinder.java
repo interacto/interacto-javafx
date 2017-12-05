@@ -52,7 +52,7 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 	}
 
 	@Override
-	public KeyBinder<W, A> on(final W... widget) {
+	public KeyBinder<W, A> on(final W widget) {
 		super.on(widget);
 		return this;
 	}

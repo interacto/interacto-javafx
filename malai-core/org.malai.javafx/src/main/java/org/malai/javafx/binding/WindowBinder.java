@@ -61,7 +61,7 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
-	public WindowBinder<A, I> on(final Window... widget) {
+	public WindowBinder<A, I> on(final Window widget) {
 		super.on(widget);
 		return this;
 	}

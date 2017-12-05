@@ -33,7 +33,7 @@ public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButto
 	}
 
 	@Override
-	public ToggleButtonBinder<A> on(final ToggleButton... widget) {
+	public ToggleButtonBinder<A> on(final ToggleButton widget) {
 		super.on(widget);
 		return this;
 	}

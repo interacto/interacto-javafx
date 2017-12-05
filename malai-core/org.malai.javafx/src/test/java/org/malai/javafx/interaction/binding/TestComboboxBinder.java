@@ -32,7 +32,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	@Test
 	public void testActionExecutedOnTwoComboboxes() throws InstantiationException, IllegalAccessException {
 		new ComboBoxBinder<>(StubAction.class, instrument).
-			on(widget1, widget2).
+			on(widget1).on(widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget2, "d");

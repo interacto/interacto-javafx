@@ -63,7 +63,7 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
-	public SpinnerBinder<A> on(final Spinner<?>... widget) {
+	public SpinnerBinder<A> on(final Spinner<?> widget) {
 		super.on(widget);
 		return this;
 	}

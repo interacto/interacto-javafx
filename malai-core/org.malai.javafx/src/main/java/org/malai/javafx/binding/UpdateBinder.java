@@ -84,7 +84,7 @@ public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction
 	}
 
 	@Override
-	public UpdateBinder<W, A, I> on(final W... widget) {
+	public UpdateBinder<W, A, I> on(final W widget) {
 		super.on(widget);
 		return this;
 	}

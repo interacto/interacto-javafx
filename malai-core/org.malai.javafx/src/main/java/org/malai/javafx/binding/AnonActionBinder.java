@@ -21,7 +21,7 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 	}
 
 	@Override
-	public AnonActionBinder<W, I> on(final W... widget) {
+	public AnonActionBinder<W, I> on(final W widget) {
 		super.on(widget);
 		return this;
 	}
