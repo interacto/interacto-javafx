@@ -11,6 +11,9 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Optional;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -25,13 +28,13 @@ import org.malai.stateMachine.TargetableState;
  */
 public abstract class PointInteraction extends JfxInteractionImpl {
 	/** The pressed position. */
-	protected Point3D srcPoint;
+	protected final ObjectProperty<Point3D> srcPoint;
 
 	/** The button used for the pressure. */
 	protected MouseButton button;
 
 	/** The object picked at the pressed position. */
-	protected Optional<Node> srcObject;
+	protected final ObjectProperty<Node> srcObject;
 
 	protected boolean altPressed;
 
@@ -46,13 +49,15 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	 */
 	public PointInteraction() {
 		super();
+		srcPoint = new SimpleObjectProperty<>();
+		srcObject = new SimpleObjectProperty<>();
 	}
 
 	@Override
 	public void reinit() {
 		super.reinit();
-		srcPoint = null;
-		srcObject = Optional.empty();
+		srcPoint.set(null);
+		srcObject.set(null);
 		button = null;
 		altPressed = false;
 		ctrlPressed = false;
@@ -95,7 +100,7 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	 * @return The pressed position.
 	 */
 	public Point3D getSrcPoint() {
-		return srcPoint;
+		return srcPoint.get();
 	}
 
 	/**
@@ -109,6 +114,14 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 	 * @return The object picked at the pressed position.
 	 */
 	public Optional<Node> getSrcObject() {
+		return Optional.ofNullable(srcObject.get());
+	}
+
+	public ReadOnlyObjectProperty<Point3D> srcPointProperty() {
+		return srcPoint;
+	}
+
+	public ReadOnlyObjectProperty<Node> srcObjectProperty() {
 		return srcObject;
 	}
 
@@ -119,9 +132,9 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 
 		@Override
 		public void action() {
-			PointInteraction.this.srcPoint = new Point3D(event.getX(), event.getY(), event.getZ());
+			PointInteraction.this.srcPoint.set(new Point3D(event.getX(), event.getY(), event.getZ()));
 			PointInteraction.this.button = event.getButton();
-			PointInteraction.this.srcObject = Optional.ofNullable(event.getPickResult().getIntersectedNode());
+			PointInteraction.this.srcObject.set(event.getPickResult().getIntersectedNode());
 			PointInteraction.this.altPressed = event.isAltDown();
 			PointInteraction.this.shiftPressed = event.isShiftDown();
 			PointInteraction.this.ctrlPressed = event.isControlDown();

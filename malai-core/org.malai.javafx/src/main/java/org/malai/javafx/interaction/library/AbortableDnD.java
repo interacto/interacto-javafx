@@ -25,6 +25,15 @@ import org.malai.javafx.interaction.ReleaseTransition;
 public class AbortableDnD extends DnD {
 	/**
 	 * Creates the interaction.
+	 * @param updateSrcOnUpdate If true, the source point and object will take the latest end point and object
+	 * at each update, just before these end point and object will be updated.
+	 */
+	public AbortableDnD(final boolean updateSrcOnUpdate) {
+		super(updateSrcOnUpdate);
+	}
+
+	/**
+	 * Creates the interaction.
 	 */
 	public AbortableDnD() {
 		super();
