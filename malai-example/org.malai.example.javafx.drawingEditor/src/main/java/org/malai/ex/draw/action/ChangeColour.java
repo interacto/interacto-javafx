@@ -15,8 +15,17 @@ public class ChangeColour extends ShapeAction implements Undoable {
 
 	@Override
 	protected void doActionBody() {
-		mementoCol = shape.getLineColor();
 		redo();
+	}
+
+	/*
+	 * This action needs a memento to save the previous state of the modified object:
+	 * its colour. This operation is automatically called a single time before the first execution of the
+	 * action to produce the memento (here the former colour of the shape to modify).
+	 */
+	@Override
+	protected void createMemento() {
+		mementoCol = shape.getLineColor();
 	}
 
 	@Override
