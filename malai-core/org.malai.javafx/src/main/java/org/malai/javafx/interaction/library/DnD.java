@@ -12,6 +12,9 @@ package org.malai.javafx.interaction.library;
 
 import java.util.Collection;
 import java.util.Optional;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -29,10 +32,10 @@ import org.malai.stateMachine.TargetableState;
  */
 public class DnD extends PointInteraction {
 	/** The ending srcPoint of the dnd. */
-	protected Point3D endPt;
+	protected final ObjectProperty<Point3D> endPt;
 
 	/** The object picked at the beginning of the dnd. */
-	protected Optional<Node> endObject;
+	protected final ObjectProperty<Node> endObject;
 
 	protected IntermediaryState pressed;
 
@@ -40,13 +43,27 @@ public class DnD extends PointInteraction {
 
 	protected TerminalState released;
 
+	protected final boolean updateSrcOnUpdate;
+
+
+	/**
+	 * Creates the interaction.
+	 * @param updateSrcOnUpdate If true, the source point and object will take the latest end point and object
+	 * at each update, just before these end point and object will be updated.
+	 */
+	public DnD(final boolean updateSrcOnUpdate) {
+		super();
+		initStateMachine();
+		endPt = new SimpleObjectProperty<>();
+		endObject = new SimpleObjectProperty<>();
+		this.updateSrcOnUpdate = updateSrcOnUpdate;
+	}
 
 	/**
 	 * Creates the interaction.
 	 */
 	public DnD() {
-		super();
-		initStateMachine();
+		this(false);
 	}
 
 
@@ -65,8 +82,8 @@ public class DnD extends PointInteraction {
 			public void action() {
 				super.action();
 				setLastHIDUsed(this.hid);
-				DnD.this.endPt = new Point3D(this.event.getX(), this.event.getY(), this.event.getZ());
-				DnD.this.endObject = DnD.this.srcObject;
+				DnD.this.endPt.set(new Point3D(this.event.getX(), this.event.getY(), this.event.getZ()));
+				DnD.this.endObject.set(DnD.this.srcObject.get());
 			}
 		};
 
@@ -80,8 +97,8 @@ public class DnD extends PointInteraction {
 	@Override
 	public void reinit() {
 		super.reinit();
-		endPt = null;
-		endObject = Optional.empty();
+		endPt.setValue(null);
+		endObject.set(null);
 	}
 
 
@@ -110,7 +127,7 @@ public class DnD extends PointInteraction {
 	 * @return The ending srcPoint of the dnd.
 	 */
 	public Point3D getEndPt() {
-		return endPt;
+		return endPt.get();
 	}
 
 
@@ -118,9 +135,20 @@ public class DnD extends PointInteraction {
 	 * @return The object picked at the end of the dnd.
 	 */
 	public Optional<Node> getEndObjet() {
-		return endObject;
+		return Optional.ofNullable(endObject.get());
 	}
 
+	public ReadOnlyObjectProperty<Point3D> endPtProperty() {
+		return endPt;
+	}
+
+	public Optional<Node> getEndObject() {
+		return Optional.ofNullable(endObject.get());
+	}
+
+	public ReadOnlyObjectProperty<Node> endObjectProperty() {
+		return endObject;
+	}
 
 	/**
 	 * A transition dedicated for the DnD interaction. Corresponds to the release event.
@@ -167,8 +195,14 @@ public class DnD extends PointInteraction {
 		@Override
 		public void action() {
 			super.action();
-			DnD.this.endPt = new Point3D(event.getX(), event.getY(), event.getZ());
-			DnD.this.endObject = Optional.ofNullable(this.event.getPickResult().getIntersectedNode());
+
+			if(updateSrcOnUpdate) {
+				DnD.this.srcPoint.set(endPt.get());
+				DnD.this.srcObject.set(DnD.this.endObject.get());
+			}
+
+			DnD.this.endPt.set(new Point3D(event.getX(), event.getY(), event.getZ()));
+			DnD.this.endObject.set(this.event.getPickResult().getIntersectedNode());
 			DnD.this.altPressed = this.event.isAltDown();
 			DnD.this.shiftPressed = this.event.isShiftDown();
 			DnD.this.ctrlPressed = this.event.isControlDown();
