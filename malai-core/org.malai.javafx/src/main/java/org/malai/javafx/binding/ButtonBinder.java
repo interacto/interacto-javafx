@@ -33,7 +33,7 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	}
 
 	@Override
-	public ButtonBinder<A> on(final Button... widget) {
+	public ButtonBinder<A> on(final Button widget) {
 		super.on(widget);
 		return this;
 	}

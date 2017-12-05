@@ -28,7 +28,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 	@Test
 	public void testActionExecutedOnTwoCheckboxes() throws InstantiationException, IllegalAccessException {
 		new CheckBoxBinder<>(StubAction.class, instrument).
-			on(widget1, widget2).
+			on(widget1).on(widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		clickOn(widget2);

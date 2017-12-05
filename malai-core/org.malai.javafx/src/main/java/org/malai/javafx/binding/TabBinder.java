@@ -33,7 +33,7 @@ public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelec
 	}
 
 	@Override
-	public TabBinder<A> on(final TabPane... widget) {
+	public TabBinder<A> on(final TabPane widget) {
 		super.on(widget);
 		return this;
 	}

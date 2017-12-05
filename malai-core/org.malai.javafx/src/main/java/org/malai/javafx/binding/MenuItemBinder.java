@@ -30,7 +30,7 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	}
 
 	@Override
-	public MenuItemBinder<A> on(final MenuItem... widget) {
+	public MenuItemBinder<A> on(final MenuItem widget) {
 		super.on(widget);
 		return this;
 	}

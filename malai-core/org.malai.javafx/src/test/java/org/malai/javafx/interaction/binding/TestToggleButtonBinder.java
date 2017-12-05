@@ -28,7 +28,7 @@ public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
 	@Test
 	public void testActionExecutedOnTwoButtons() throws InstantiationException, IllegalAccessException {
 		new ToggleButtonBinder<>(StubAction.class, instrument).
-			on(widget1, widget2).
+			on(widget1).on(widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		clickOn(widget2);

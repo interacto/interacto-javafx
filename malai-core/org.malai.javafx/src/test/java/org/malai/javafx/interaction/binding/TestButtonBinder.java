@@ -28,7 +28,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	@Test
 	public void testActionExecutedOnTwoButtons() throws InstantiationException, IllegalAccessException {
 		new ButtonBinder<>(StubAction.class, instrument).
-			on(widget1, widget2).
+			on(widget1).on(widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		clickOn(widget2);

@@ -93,7 +93,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	@Test
 	public void testActionExecutedOnTwoCanvas() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).
-			on(widget1, widget2).
+			on(widget1).on(widget2).
 			with(KeyCode.C).
 			bind();
 		grabFocus(widget2);

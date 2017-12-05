@@ -51,7 +51,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	@Test
 	public void testActionExecutedOnTwoMenus() throws InstantiationException, IllegalAccessException {
 		new MenuItemBinder<>(StubAction.class, instrument).
-			on(widget1, widget2).
+			on(widget1).on(widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID2);
