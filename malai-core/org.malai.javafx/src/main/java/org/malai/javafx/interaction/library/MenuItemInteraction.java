@@ -10,9 +10,12 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.scene.control.MenuItem;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 
@@ -23,14 +26,24 @@ import org.malai.javafx.interaction.JfxInteractionImpl;
 public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInteractionImpl {
 	/** The widget used during the interaction. */
 	protected T widget;
-	protected final Set<MenuItem> registeredItems;
+	protected final ObservableSet<MenuItem> registeredItems;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public MenuItemInteraction() {
 		super();
-		registeredItems = new HashSet<>();
+		registeredItems = FXCollections.observableSet();
+
+		// Listener to any changes in the list of registered nodes
+		registeredItems.addListener((SetChangeListener<MenuItem>) change -> {
+			if(change.wasAdded()) {
+				onMenuItemRegistered(change.getElementAdded());
+			}
+			if(change.wasRemoved()) {
+				onMenuItemUnregistered(change.getElementRemoved());
+			}
+		});
 	}
 
 	@Override
@@ -46,10 +59,18 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 		return widget;
 	}
 
-	public void registerToMenuItems(final List<MenuItem> widgets) {
-		// Should be overriden.
+
+	protected void onMenuItemUnregistered(final MenuItem menuItem) {
+		// Should be overriden
+	}
+
+	protected void onMenuItemRegistered(final MenuItem menuItem) {
+		// Should be overriden
+	}
+
+	public final void registerToMenuItems(final List<MenuItem> widgets) {
 		if(widgets != null) {
-			registeredItems.addAll(widgets);
+			registeredItems.addAll(widgets.stream().filter(Objects::nonNull).collect(Collectors.toList()));
 		}
 	}
 }

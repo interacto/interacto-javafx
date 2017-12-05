@@ -10,8 +10,8 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import java.util.function.LongSupplier;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Window;
@@ -34,6 +34,10 @@ public class DoubleClick extends PointInteraction {
 	private static long timeGap = 1000L;
 	/** The supplier that provides the time gap. */
 	private static final LongSupplier SUPPLY_TIME_GAP = () -> getTimeGap();
+
+	private final EventHandler<MouseEvent> press;
+	private final EventHandler<MouseEvent> release;
+	private final EventHandler<MouseEvent> drag;
 
 	/**
 	 * @return The time gap between the two clicks.
@@ -58,10 +62,11 @@ public class DoubleClick extends PointInteraction {
 	public DoubleClick() {
 		super();
 		initStateMachine();
+		press = evt -> onPressure(evt, 0);
+		release = evt -> onRelease(evt, 0);
+		drag = evt -> onDrag(evt, 0);
 	}
 
-
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final IntermediaryState pressed1 = new IntermediaryState("pressed1");
@@ -98,25 +103,35 @@ public class DoubleClick extends PointInteraction {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.forEach(widget -> {
-			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onDrag(evt, 0));
-		});
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(MouseEvent.MOUSE_PRESSED, press);
+		node.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		node.removeEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
+		node.removeEventHandler(MouseEvent.MOUSE_MOVED, drag);
 	}
 
 	@Override
-	public void registerToWindows(final Collection<Window> windows) {
-		super.registerToWindows(windows);
-		windows.forEach(window -> {
-			window.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-			window.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			window.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
-			window.addEventHandler(MouseEvent.MOUSE_MOVED, evt -> onDrag(evt, 0));
-		});
+	protected void onWindowUnregistered(final Window window) {
+		window.removeEventHandler(MouseEvent.MOUSE_PRESSED, press);
+		window.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		window.removeEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
+		window.removeEventHandler(MouseEvent.MOUSE_MOVED, drag);
+	}
+
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.addEventHandler(MouseEvent.MOUSE_PRESSED, press);
+		node.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		node.addEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
+		node.addEventHandler(MouseEvent.MOUSE_MOVED, drag);
+	}
+
+	@Override
+	protected void onNewWindowRegistered(final Window window) {
+		window.addEventHandler(MouseEvent.MOUSE_PRESSED, press);
+		window.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		window.addEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
+		window.addEventHandler(MouseEvent.MOUSE_MOVED, drag);
 	}
 
 

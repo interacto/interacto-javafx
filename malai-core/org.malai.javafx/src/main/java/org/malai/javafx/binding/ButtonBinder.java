@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.malai.action.ActionImpl;
@@ -35,6 +36,12 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	@Override
 	public ButtonBinder<A> on(final Button widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public ButtonBinder<A> on(final ObservableList<? super Button> widgets) {
+		super.on(widgets);
 		return this;
 	}
 

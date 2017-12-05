@@ -10,7 +10,7 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
+import javafx.event.EventHandler;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.malai.interaction.TerminalState;
@@ -22,6 +22,8 @@ import org.malai.javafx.interaction.JfxWindowClosedTransition;
  * @author Arnaud BLOUIN
  */
 public class WindowClosed extends JfxInteractionImpl {
+	private final EventHandler<WindowEvent> winClose = evt -> onWindowClosed(evt);
+
 	protected WindowEvent event;
 
 	/**
@@ -32,10 +34,9 @@ public class WindowClosed extends JfxInteractionImpl {
 		initStateMachine();
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState closed = new TerminalState("closed"); //$NON-NLS-1$
+		final TerminalState closed = new TerminalState("closed");
 
 		addState(closed);
 
@@ -55,10 +56,12 @@ public class WindowClosed extends JfxInteractionImpl {
 	}
 
 	@Override
-	public void registerToWindows(final Collection<Window> windows) {
-		super.registerToWindows(windows);
-		if(windows != null) {
-			windows.forEach(win -> win.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, evt -> onWindowClosed(evt)));
-		}
+	protected void onWindowUnregistered(final Window window) {
+		window.removeEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, winClose);
+	}
+
+	@Override
+	protected void onNewWindowRegistered(final Window window) {
+		window.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, winClose);
 	}
 }

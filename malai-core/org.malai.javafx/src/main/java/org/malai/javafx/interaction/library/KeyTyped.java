@@ -28,11 +28,10 @@ public class KeyTyped extends SingleKeyInteraction {
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState released = new TerminalState("released"); //$NON-NLS-1$
-		final IntermediaryState pressed = new IntermediaryState("pressed"); //$NON-NLS-1$
+		final TerminalState released = new TerminalState("released");
+		final IntermediaryState pressed = new IntermediaryState("pressed");
 
 		addState(pressed);
 		addState(released);

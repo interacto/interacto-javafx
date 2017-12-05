@@ -10,8 +10,8 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import org.malai.interaction.TerminalState;
@@ -22,19 +22,21 @@ import org.malai.javafx.interaction.JfxBoxCheckedTransition;
  * @author Arnaud BLOUIN
  */
 public class BoxChecked extends NodeInteraction<CheckBox> {
+	private final EventHandler<ActionEvent> event;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public BoxChecked() {
 		super();
 		initStateMachine();
+		event = evt -> onJfxBoxChecked((CheckBox) evt.getSource());
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("checked"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("checked");
 
 		addState(pressed);
 
@@ -48,12 +50,16 @@ public class BoxChecked extends NodeInteraction<CheckBox> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
+	public void onNewNodeRegistered(final Node node) {
+		if(node instanceof CheckBox) {
+			node.addEventHandler(ActionEvent.ACTION, event);
+		}
+	}
 
-		if(widgets != null) {
-			widgets.stream().filter(w -> w instanceof CheckBox).
-					forEach(w -> w.addEventHandler(ActionEvent.ACTION, evt -> onJfxBoxChecked((CheckBox) evt.getSource())));
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof CheckBox) {
+			node.removeEventHandler(ActionEvent.ACTION, event);
 		}
 	}
 }

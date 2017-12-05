@@ -13,8 +13,12 @@ package org.malai.javafx.interaction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,29 +31,65 @@ import org.malai.interaction.InteractionImpl;
  * @author Arnaud BLOUIN
  */
 public abstract class JfxInteractionImpl extends InteractionImpl implements JfxInteraction {
-	protected final Set<Node> registeredWidgets;
-	protected final Set<Window> registeredWindows;
+	protected final ObservableSet<Node> registeredWidgets;
+	protected final ObservableSet<Window> registeredWindows;
 
 	/**
 	 * Creates a JavaFX interaction.
 	 */
 	public JfxInteractionImpl() {
 		super();
-		registeredWidgets = new HashSet<>();
-		registeredWindows = new HashSet<>();
+		registeredWidgets = FXCollections.observableSet();
+		registeredWindows = FXCollections.observableSet();
+
+		// Listener to any changes in the list of registered nodes
+		registeredWidgets.addListener((SetChangeListener<Node>) change -> {
+			if(change.wasAdded()) {
+				onNewNodeRegistered(change.getElementAdded());
+			}
+			if(change.wasRemoved()) {
+				onNodeUnregistered(change.getElementRemoved());
+			}
+		});
+
+		// Listener to any changes in the list of registered windows
+		registeredWindows.addListener((SetChangeListener<Window>) change -> {
+			if(change.wasAdded()) {
+				onNewWindowRegistered(change.getElementAdded());
+			}
+			if(change.wasRemoved()) {
+				onWindowUnregistered(change.getElementRemoved());
+			}
+		});
+	}
+
+	protected void onNodeUnregistered(final Node node) {
+		// Should be overriden
+	}
+
+	protected void onWindowUnregistered(final Window window) {
+		// Should be overriden
+	}
+
+	protected void onNewNodeRegistered(final Node node) {
+		// Should be overriden
+	}
+
+	protected void onNewWindowRegistered(final Window window) {
+		// Should be overriden
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
+	public final void registerToNodes(final Collection<Node> widgets) {
 		if(widgets != null) {
-			registeredWidgets.addAll(widgets);
+			registeredWidgets.addAll(widgets.stream().filter(Objects::nonNull).collect(Collectors.toList()));
 		}
 	}
 
 	@Override
-	public void registerToWindows(final Collection<Window> windows) {
+	public final void registerToWindows(final Collection<Window> windows) {
 		if(windows != null) {
-			registeredWindows.addAll(windows);
+			registeredWindows.addAll(windows.stream().filter(Objects::nonNull).collect(Collectors.toList()));
 		}
 	}
 

@@ -53,7 +53,6 @@ public class KeysTyped extends MultiKeyInteraction {
 		initStateMachine();
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final IntermediaryState pressed = new IntermediaryState("pressed");

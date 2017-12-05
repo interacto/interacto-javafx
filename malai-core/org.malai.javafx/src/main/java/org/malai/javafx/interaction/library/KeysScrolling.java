@@ -11,8 +11,8 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -34,11 +34,16 @@ public class KeysScrolling extends Scrolling {
 	/** The id of the hid used for the keyboard events. */
 	protected int keyHIDUsed;
 
+	private final EventHandler<KeyEvent> press;
+	private final EventHandler<KeyEvent> release;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public KeysScrolling() {
 		super();
+		press = evt -> onKeyPressure(evt, 0);
+		release = evt -> onKeyRelease(evt, 0);
 	}
 
 
@@ -50,26 +55,34 @@ public class KeysScrolling extends Scrolling {
 	}
 
 	@Override
-	public void registerToNodes(Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.forEach(w -> w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0)));
-		widgets.forEach(w -> w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0)));
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(KeyEvent.KEY_PRESSED, press);
+		node.removeEventHandler(KeyEvent.KEY_RELEASED, release);
 	}
 
 	@Override
-	public void registerToWindows(Collection<Window> windows) {
-		super.registerToWindows(windows);
-		windows.forEach(w -> w.addEventHandler(KeyEvent.KEY_PRESSED, evt -> onKeyPressure(evt, 0)));
-		windows.forEach(w -> w.addEventHandler(KeyEvent.KEY_RELEASED, evt -> onKeyRelease(evt, 0)));
+	protected void onWindowUnregistered(final Window window) {
+		window.removeEventHandler(KeyEvent.KEY_PRESSED, press);
+		window.removeEventHandler(KeyEvent.KEY_RELEASED, release);
 	}
 
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.addEventHandler(KeyEvent.KEY_PRESSED, press);
+		node.addEventHandler(KeyEvent.KEY_RELEASED, release);
+	}
 
-	@SuppressWarnings("unused")
+	@Override
+	protected void onNewWindowRegistered(final Window window) {
+		window.addEventHandler(KeyEvent.KEY_PRESSED, press);
+		window.addEventHandler(KeyEvent.KEY_RELEASED, release);
+	}
+
 	@Override
 	protected void initStateMachine() {
-		final IntermediaryState keyPressed = new IntermediaryState("keyPressed"); //$NON-NLS-1$
-		final AbortingState keyReleased = new AbortingState("keyReleased"); //$NON-NLS-1$
-		final TerminalState scrolled = new TerminalState("scrolled"); //$NON-NLS-1$
+		final IntermediaryState keyPressed = new IntermediaryState("keyPressed");
+		final AbortingState keyReleased = new AbortingState("keyReleased");
+		final TerminalState scrolled = new TerminalState("scrolled");
 
 		addState(keyPressed);
 		addState(keyReleased);
@@ -122,7 +135,6 @@ public class KeysScrolling extends Scrolling {
 
 	/**
 	 * @return The keys pressed while scrolling.
-	 * @since 0.2
 	 */
 	public List<KeyCode> getKeys() {
 		return keys;
@@ -130,7 +142,6 @@ public class KeysScrolling extends Scrolling {
 
 	/**
 	 * @return the The id of the hid used for the keyboard events.
-	 * @since 0.2
 	 */
 	public int getKeyHIDUsed() {
 		return keyHIDUsed;
@@ -138,7 +149,6 @@ public class KeysScrolling extends Scrolling {
 
 	/**
 	 * @param keyHIDUsed The id of the hid used for the keyboard events.
-	 * @since 0.2
 	 */
 	protected void setKeyHIDUsed(final int keyHIDUsed) {
 		this.keyHIDUsed = keyHIDUsed;

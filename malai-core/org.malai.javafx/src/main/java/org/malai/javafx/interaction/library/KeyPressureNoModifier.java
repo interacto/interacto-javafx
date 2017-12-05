@@ -25,8 +25,6 @@ public class KeyPressureNoModifier extends SingleKeyInteraction {
 		initStateMachine();
 	}
 
-
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
 		final TerminalState pressed = new TerminalState("pressed");

@@ -10,8 +10,8 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 import org.malai.interaction.TerminalState;
@@ -22,19 +22,21 @@ import org.malai.javafx.interaction.JfxToggleButtonPressedTransition;
  * @author Arnaud BLOUIN
  */
 public class ToggleButtonPressed extends NodeInteraction<ToggleButton> {
+	private final EventHandler<ActionEvent> event;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ToggleButtonPressed() {
 		super();
 		initStateMachine();
+		event = evt -> onJfxToggleButtonPressed((ToggleButton) evt.getSource());
 	}
 
 
-	@SuppressWarnings("unused")
 	@Override
 	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed"); //$NON-NLS-1$
+		final TerminalState pressed = new TerminalState("pressed");
 
 		addState(pressed);
 
@@ -48,11 +50,12 @@ public class ToggleButtonPressed extends NodeInteraction<ToggleButton> {
 	}
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		if(widgets != null) {
-			widgets.stream().filter(w -> w instanceof ToggleButton).forEach(w ->
-					w.addEventHandler(ActionEvent.ACTION, evt -> onJfxToggleButtonPressed((ToggleButton) evt.getSource())));
-		}
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(ActionEvent.ACTION, event);
+	}
+
+	@Override
+	protected void onNewNodeRegistered(final Node node) {
+		node.addEventHandler(ActionEvent.ACTION, event);
 	}
 }

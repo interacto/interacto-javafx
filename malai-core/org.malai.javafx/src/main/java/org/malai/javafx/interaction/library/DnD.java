@@ -10,11 +10,11 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Collection;
 import java.util.Optional;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +31,10 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud BLOUIN
  */
 public class DnD extends PointInteraction {
+	private final EventHandler<MouseEvent> pressure;
+	private final EventHandler<MouseEvent> release;
+	private final EventHandler<MouseEvent> drag;
+
 	/** The ending srcPoint of the dnd. */
 	protected final ObjectProperty<Point3D> endPt;
 
@@ -57,6 +61,9 @@ public class DnD extends PointInteraction {
 		endPt = new SimpleObjectProperty<>();
 		endObject = new SimpleObjectProperty<>();
 		this.updateSrcOnUpdate = updateSrcOnUpdate;
+		pressure = evt -> onPressure(evt, 0);
+		release = evt -> onRelease(evt, 0);
+		drag = evt -> onDrag(evt, 0);
 	}
 
 	/**
@@ -103,25 +110,32 @@ public class DnD extends PointInteraction {
 
 
 	@Override
-	public void registerToNodes(final Collection<Node> widgets) {
-		super.registerToNodes(widgets);
-		widgets.forEach(widget -> {
-			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
-		});
+	public void onNewNodeRegistered(final Node node) {
+		node.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		node.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		node.addEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
 	}
 
 	@Override
-	public void registerToWindows(final Collection<Window> windows) {
-		super.registerToWindows(windows);
-		windows.forEach(widget -> {
-			widget.addEventHandler(MouseEvent.MOUSE_PRESSED, evt -> onPressure(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_RELEASED, evt -> onRelease(evt, 0));
-			widget.addEventHandler(MouseEvent.MOUSE_DRAGGED, evt -> onDrag(evt, 0));
-		});
+	public void onNewWindowRegistered(final Window window) {
+		window.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		window.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		window.addEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
 	}
 
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		node.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		node.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		node.removeEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
+	}
+
+	@Override
+	protected void onWindowUnregistered(final Window window) {
+		window.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+		window.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+		window.removeEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
+	}
 
 	/**
 	 * @return The ending srcPoint of the dnd.
