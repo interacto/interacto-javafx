@@ -40,7 +40,7 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	}
 
 	@Override
-	public ButtonBinder<A> on(final ObservableList<? super Button> widgets) {
+	public ButtonBinder<A> on(final ObservableList<Node> widgets) {
 		super.on(widgets);
 		return this;
 	}
@@ -91,6 +91,6 @@ public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, Button
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkConditions, onEnd, actionProducer, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
 	}
 }

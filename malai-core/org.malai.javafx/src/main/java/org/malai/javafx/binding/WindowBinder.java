@@ -15,6 +15,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -63,6 +65,12 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	@Override
 	public WindowBinder<A, I> on(final Window widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public WindowBinder<A, I> on(final ObservableList<Node> widgets) {
+		super.on(widgets);
 		return this;
 	}
 

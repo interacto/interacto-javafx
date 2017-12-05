@@ -11,9 +11,12 @@
 package org.malai.javafx.binding;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
@@ -54,7 +57,8 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
-							  final Runnable abort, final Runnable feedback, final List<Node> widgets, final boolean async)
+							  final Runnable abort, final Runnable feedback, final List<Node> widgets, Set<ObservableList<Node>> additionalWidgets,
+							  final boolean async)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, widgets);
 		execInitAction = initActionFct;
@@ -65,6 +69,10 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
 		onEnd = onEndFct;
+
+		if(additionalWidgets != null) {
+			additionalWidgets.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableNodeList(elt));
+		}
 	}
 
 	/**

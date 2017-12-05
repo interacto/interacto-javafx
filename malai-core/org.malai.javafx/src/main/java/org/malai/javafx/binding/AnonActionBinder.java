@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import org.malai.action.AnonAction;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -23,6 +24,12 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 	@Override
 	public AnonActionBinder<W, I> on(final W widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public AnonActionBinder<W, I> on(final ObservableList<Node> widgets) {
+		super.on(widgets);
 		return this;
 	}
 
@@ -73,6 +80,6 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 		instrument.addBinding(
 			new AnonJfxWidgetBinding<>(instrument, false, action, interaction,
 			null, null, checkConditions, onEnd, actionProducer, null, null,
-				widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), async));
+				widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
 	}
 }

@@ -19,6 +19,8 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -54,6 +56,12 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 	@Override
 	public KeyBinder<W, A> on(final W widget) {
 		super.on(widget);
+		return this;
+	}
+
+	@Override
+	public KeyBinder<W, A> on(final ObservableList<Node> widgets) {
+		super.on(widgets);
 		return this;
 	}
 

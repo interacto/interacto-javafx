@@ -69,7 +69,7 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
-	public NodeBinder<A, I> on(final ObservableList<? super Node> widgets) {
+	public NodeBinder<A, I> on(final ObservableList<Node> widgets) {
 		super.on(widgets);
 		return this;
 	}
@@ -119,6 +119,6 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	@Override
 	public void bind() throws IllegalAccessException, InstantiationException {
 		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions,
-			onEnd, actionProducer, abortFct, feedbackFct, widgets, async));
+			onEnd, actionProducer, abortFct, feedbackFct, widgets, additionalWidgets, async));
 	}
 }

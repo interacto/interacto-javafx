@@ -17,6 +17,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.scene.Node;
@@ -31,19 +33,21 @@ import org.malai.interaction.InteractionImpl;
  * @author Arnaud BLOUIN
  */
 public abstract class JfxInteractionImpl extends InteractionImpl implements JfxInteraction {
-	protected final ObservableSet<Node> registeredWidgets;
+	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
+	protected final ObservableSet<ObservableList<? super Node>> additionalNodes;
 
 	/**
 	 * Creates a JavaFX interaction.
 	 */
 	public JfxInteractionImpl() {
 		super();
-		registeredWidgets = FXCollections.observableSet();
+		registeredNodes = FXCollections.observableSet();
 		registeredWindows = FXCollections.observableSet();
+		additionalNodes = FXCollections.observableSet();
 
 		// Listener to any changes in the list of registered nodes
-		registeredWidgets.addListener((SetChangeListener<Node>) change -> {
+		registeredNodes.addListener((SetChangeListener<Node>) change -> {
 			if(change.wasAdded()) {
 				onNewNodeRegistered(change.getElementAdded());
 			}
@@ -80,9 +84,28 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	}
 
 	@Override
+	public void registerToObservableNodeList(final ObservableList<Node> nodes) {
+		if(nodes != null) {
+			additionalNodes.add(nodes);
+
+			// Listener to any changes in the list of registered windows
+			nodes.addListener((ListChangeListener<Node>) change -> {
+				while(change.next()) {
+					if(change.wasAdded() || change.wasReplaced()) {
+						change.getAddedSubList().forEach(elt -> onNewNodeRegistered(elt));
+					}
+					if(change.wasRemoved() || change.wasReplaced()) {
+						change.getAddedSubList().forEach(elt -> onNodeUnregistered(elt));
+					}
+				}
+			});
+		}
+	}
+
+	@Override
 	public final void registerToNodes(final Collection<Node> widgets) {
 		if(widgets != null) {
-			registeredWidgets.addAll(widgets.stream().filter(Objects::nonNull).collect(Collectors.toList()));
+			registeredNodes.addAll(widgets.stream().filter(Objects::nonNull).collect(Collectors.toList()));
 		}
 	}
 
@@ -94,8 +117,8 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	}
 
 	@Override
-	public Set<Node> getRegisteredWidgets() {
-		return Collections.unmodifiableSet(registeredWidgets);
+	public Set<Node> getRegisteredNodes() {
+		return Collections.unmodifiableSet(registeredNodes);
 	}
 
 	@Override

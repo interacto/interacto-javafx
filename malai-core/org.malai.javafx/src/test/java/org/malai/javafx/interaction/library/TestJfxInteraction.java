@@ -22,7 +22,7 @@ public class TestJfxInteraction {
 	void testInitInteraction(final JfxInteraction interaction) {
 //		assertNull(interaction.getWidget());
 		assertEquals(-1, interaction.getLastHIDUsed());
-		assertTrue(interaction.getRegisteredWidgets().isEmpty());
+		assertTrue(interaction.getRegisteredNodes().isEmpty());
 		assertTrue(interaction.getRegisteredWindows().isEmpty());
 		assertTrue(interaction.getCurrentState() instanceof InitState);
 	}

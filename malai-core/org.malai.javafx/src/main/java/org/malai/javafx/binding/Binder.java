@@ -11,14 +11,17 @@
 package org.malai.javafx.binding;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import org.malai.action.Action;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -40,6 +43,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	protected final JfxInstrument instrument;
 	protected boolean async;
 	protected BiConsumer<A, I> onEnd;
+	protected Set<ObservableList<Node>> additionalWidgets;
 
 	public Binder(final Class<A> action, final I interaction, final JfxInstrument ins) {
 		super();
@@ -52,6 +56,7 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 		initAction = null;
 		onEnd = null;
 		actionProducer = null;
+		additionalWidgets = null;
 	}
 
 	/**
@@ -73,7 +78,11 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 * @param widgets The observable list of the widgets involved in the bindings.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> on(final ObservableList<? super W> widgets) {
+	public Binder<W, A, I> on(final ObservableList<Node> widgets) {
+		if(additionalWidgets == null) {
+			additionalWidgets = new HashSet<>();
+		}
+		additionalWidgets.add(widgets);
 		return this;
 	}
 
