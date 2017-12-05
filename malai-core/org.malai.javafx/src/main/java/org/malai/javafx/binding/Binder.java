@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -60,13 +61,12 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	}
 
 	/**
-	 * Specifies the widget on which the binding must operate.
-	 * Multiple calls to this routine allows to add several widgets.
-	 * @param widget The widget involved in the bindings.
+	 * Specifies the widgets on which the binding must operate.
+	 * @param widget The widgets involve in the bindings.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> on(final W widget) {
-		widgets.add(widget);
+	public Binder<W, A, I> on(final W... widget) {
+		widgets.addAll(Arrays.asList(widget));
 		return this;
 	}
 

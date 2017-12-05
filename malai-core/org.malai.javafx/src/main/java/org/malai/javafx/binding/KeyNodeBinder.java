@@ -45,7 +45,7 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A> {
 	}
 
 	@Override
-	public KeyNodeBinder<A> on(final Node widget) {
+	public KeyNodeBinder<A> on(final Node... widget) {
 		super.on(widget);
 		return this;
 	}

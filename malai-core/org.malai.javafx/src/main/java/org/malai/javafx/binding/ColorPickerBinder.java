@@ -34,7 +34,7 @@ public class ColorPickerBinder<A extends ActionImpl> extends Binder<ColorPicker,
 	}
 
 	@Override
-	public ColorPickerBinder<A> on(final ColorPicker widget) {
+	public ColorPickerBinder<A> on(final ColorPicker... widget) {
 		super.on(widget);
 		return this;
 	}
