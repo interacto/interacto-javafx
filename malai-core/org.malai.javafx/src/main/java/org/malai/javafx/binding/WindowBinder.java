@@ -117,8 +117,10 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
-	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction, widgets, initAction, updateFct,
-			checkConditions, onEnd, actionProducer, abortFct, feedbackFct, async));
+	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction, widgets,
+			initAction, updateFct, checkConditions, onEnd, actionProducer, abortFct, feedbackFct, async);
+		instrument.addBinding(binding);
+		return binding;
 	}
 }

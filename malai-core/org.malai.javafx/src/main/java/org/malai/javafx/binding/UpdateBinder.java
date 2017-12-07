@@ -17,7 +17,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 
@@ -26,7 +26,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public abstract class UpdateBinder<W, A extends Action, I extends JfxInteraction> extends Binder<W, A, I> {
+public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInteraction> extends Binder<W, A, I> {
 	protected BiConsumer<A, I> updateFct;
 	protected Runnable abortFct;
 	protected Runnable feedbackFct;

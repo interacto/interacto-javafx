@@ -76,10 +76,11 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 	}
 
 	@Override
-	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(
-			new AnonJfxWidgetBinding<>(instrument, false, action, interaction,
+	public JfXWidgetBinding<AnonAction, I, ?> bind() throws IllegalAccessException, InstantiationException {
+		final AnonJfxWidgetBinding<I, JfxInstrument> binding = new AnonJfxWidgetBinding<>(instrument, false, action, interaction,
 			null, null, checkConditions, onEnd, actionProducer, null, null,
-				widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
+		instrument.addBinding(binding);
+		return binding;
 	}
 }

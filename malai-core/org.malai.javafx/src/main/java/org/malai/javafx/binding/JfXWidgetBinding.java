@@ -12,6 +12,8 @@ package org.malai.javafx.binding;
 
 import java.util.Arrays;
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
@@ -24,6 +26,8 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends WidgetBindingImpl<A, I, N> {
+	protected final BooleanProperty activation;
+
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -40,6 +44,8 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							final List<Node> widgets) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction);
+		activation = new SimpleBooleanProperty(isActivated());
+		initActivation();
 		interaction.registerToNodes(widgets);
 	}
 
@@ -77,11 +83,32 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final Class<A> clazzAction,
 							final I interaction) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction);
+		activation = new SimpleBooleanProperty(isActivated());
+		initActivation();
 		interaction.registerToWindows(windows);
+	}
+
+	@Override
+	public void setActivated(final boolean activ) {
+		if(activation != null) {
+			activation.set(activ);
+		}
+	}
+
+	private void initActivation() {
+		activation.addListener((observable, oldValue, newValue) -> {
+			if(oldValue != newValue) {
+				interaction.setActivated(newValue);
+			}
+		});
 	}
 
 	@Override
 	public boolean isConditionRespected() {
 		return true;
+	}
+
+	public BooleanProperty activationProperty() {
+		return activation;
 	}
 }

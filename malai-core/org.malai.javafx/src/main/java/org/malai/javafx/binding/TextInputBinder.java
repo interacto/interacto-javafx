@@ -118,9 +118,11 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	}
 
 	@Override
-	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
+	public JfXWidgetBinding<A, TextChanged, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, TextChanged, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
 			initAction, updateFct, checkConditions, onEnd, actionProducer, abortFct, feedbackFct,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
+		instrument.addBinding(binding);
+		return binding;
 	}
 }
