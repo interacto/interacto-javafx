@@ -88,9 +88,11 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 	}
 
 	@Override
-	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
-			initAction, null, checkConditions, onEnd, actionProducer, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
+	public JfXWidgetBinding<A, BoxChecked, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, BoxChecked, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
+			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null,
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
+		instrument.addBinding(binding);
+		return binding;
 	}
 }

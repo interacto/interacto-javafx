@@ -23,7 +23,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import org.malai.action.Action;
+import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 
@@ -34,7 +34,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
+public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> {
 	protected BiConsumer<A, I> initAction;
 	protected Predicate<I> checkConditions;
 	protected Function<I, A> actionProducer;
@@ -173,5 +173,5 @@ public abstract class Binder<W, A extends Action, I extends JfxInteraction> {
 	 * @throws IllegalArgumentException On issues while creating the actions.
 	 * @throws InstantiationException On issues while creating the actions.
 	 */
-	public abstract void bind() throws IllegalAccessException, InstantiationException;
+	public abstract JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException;
 }

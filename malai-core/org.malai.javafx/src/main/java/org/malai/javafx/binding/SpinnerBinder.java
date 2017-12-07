@@ -118,9 +118,11 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
-	public void bind() throws IllegalAccessException, InstantiationException {
-		instrument.addBinding(new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
-			initAction, updateFct, checkConditions, onEnd, actionProducer, abortFct, feedbackFct,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async));
+	public JfXWidgetBinding<A, SpinnerValueChanged, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, SpinnerValueChanged, JfxInstrument> binding = new JFxAnonNodeBinding<>
+			(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions, onEnd, actionProducer, abortFct, feedbackFct,
+				widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
+		instrument.addBinding(binding);
+		return binding;
 	}
 }
