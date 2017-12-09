@@ -32,15 +32,20 @@ public class ActivateInactivateInstruments extends ActionImpl {
 	/** Defines if the widgets of WidgetInstrument instances must be hidden during their deactivation. */
 	protected boolean hideWidgets;
 
+	public ActivateInactivateInstruments(final List<JfxInstrument> insActivate, final List<JfxInstrument> insInactivate,
+										 final boolean activateFirst, final boolean hideWidgets) {
+		this.insActivate = insActivate;
+		this.insInactivate = insInactivate;
+		this.activateFirst = activateFirst;
+		this.hideWidgets = hideWidgets;
+	}
 
 	/**
 	 * Creates and initialises the instrument.
 	 * By default instruments are not hidden and activation is performed map.
 	 */
 	public ActivateInactivateInstruments() {
-		super();
-		activateFirst = true;
-		hideWidgets = false;
+		this(null, null, true, false);
 	}
 
 

@@ -10,19 +10,23 @@
  */
 package org.malai.action.library;
 
+import org.malai.instrument.Instrument;
+
 /**
  * This action activates an instrument.
  * @author Arnaud Blouin
- * @since 0.2
  */
 public class ActivateInstrument extends InstrumentAction {
 	/**
 	 * Creates the action.
 	 */
 	public ActivateInstrument() {
-		super();
+		this(null);
 	}
 
+	public ActivateInstrument(final Instrument<?> instrument) {
+		super(instrument);
+	}
 
 	@Override
 	protected void doActionBody() {

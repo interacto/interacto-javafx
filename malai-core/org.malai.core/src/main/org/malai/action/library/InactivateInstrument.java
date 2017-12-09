@@ -10,19 +10,23 @@
  */
 package org.malai.action.library;
 
+import org.malai.instrument.Instrument;
+
 /**
  * This action inactivates an instrument.
  * @author Arnaud Blouin
- * @since 0.2
  */
 public class InactivateInstrument extends InstrumentAction {
 	/**
 	 * Creates the action.
 	 */
 	public InactivateInstrument() {
-		super();
+		this(null);
 	}
 
+	public InactivateInstrument(final Instrument<?> instrument) {
+		super(instrument);
+	}
 
 	@Override
 	protected void doActionBody() {
