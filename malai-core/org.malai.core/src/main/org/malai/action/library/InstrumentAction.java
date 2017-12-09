@@ -16,20 +16,21 @@ import org.malai.instrument.Instrument;
 /**
  * This action manipulates an instrument.
  * @author Arnaud Blouin
- * @since 0.2
  */
 public abstract class InstrumentAction extends ActionImpl {
 	/** The manipulated instrument. */
-	protected Instrument instrument;
+	protected Instrument<?> instrument;
 
 	/**
 	 * Creates the action.
-	 * @since 0.2
 	 */
 	public InstrumentAction() {
-		super();
+		this(null);
 	}
 
+	public InstrumentAction(final Instrument<?> instrument) {
+		this.instrument = instrument;
+	}
 
 	@Override
 	public void flush() {
@@ -46,9 +47,8 @@ public abstract class InstrumentAction extends ActionImpl {
 
 	/**
 	 * @return The manipulated instrument.
-	 * @since 0.2
 	 */
-	public Instrument getInstrument() {
+	public Instrument<?> getInstrument() {
 		return instrument;
 	}
 
@@ -56,9 +56,8 @@ public abstract class InstrumentAction extends ActionImpl {
 	/**
 	 * Sets the manipulated instrument.
 	 * @param newInstrument The manipulated instrument.
-	 * @since 0.2
 	 */
-	public void setInstrument(final Instrument newInstrument) {
+	public void setInstrument(final Instrument<?> newInstrument) {
 		instrument = newInstrument;
 	}
 }
