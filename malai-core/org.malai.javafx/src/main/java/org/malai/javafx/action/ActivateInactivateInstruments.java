@@ -50,18 +50,6 @@ public class ActivateInactivateInstruments extends ActionImpl {
 
 
 	@Override
-	public void flush() {
-		super.flush();
-		if(insActivate != null) {
-			insActivate.clear();
-		}
-		if(insInactivate != null) {
-			insInactivate.clear();
-		}
-	}
-
-
-	@Override
 	protected void doActionBody() {
 		if(activateFirst) {
 			activate();
