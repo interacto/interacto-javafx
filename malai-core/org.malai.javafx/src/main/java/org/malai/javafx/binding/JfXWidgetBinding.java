@@ -90,7 +90,7 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 
 	@Override
 	public void setActivated(final boolean activ) {
-		if(activation != null) {
+		if(activation != null && !activation.isBound()) {
 			activation.set(activ);
 		}
 	}
