@@ -28,6 +28,6 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
 		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
-		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcPoint());
+		assertEquals(new Point3D(10d, 20d, 0d), interaction.getSrcLocalPoint());
 	}
 }
