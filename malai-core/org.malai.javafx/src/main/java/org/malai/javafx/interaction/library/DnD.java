@@ -35,8 +35,10 @@ public class DnD extends PointInteraction {
 	private final EventHandler<MouseEvent> release;
 	private final EventHandler<MouseEvent> drag;
 
-	/** The ending srcPoint of the dnd. */
-	protected final ObjectProperty<Point3D> endPt;
+	/** The ending local point of the dnd. */
+	protected final ObjectProperty<Point3D> endLocalPt;
+	/** The ending scene point of the dnd. */
+	protected final ObjectProperty<Point3D> endScenePt;
 
 	/** The object picked at the beginning of the dnd. */
 	protected final ObjectProperty<Node> endObject;
@@ -58,7 +60,8 @@ public class DnD extends PointInteraction {
 	public DnD(final boolean updateSrcOnUpdate) {
 		super();
 		initStateMachine();
-		endPt = new SimpleObjectProperty<>();
+		endLocalPt = new SimpleObjectProperty<>();
+		endScenePt = new SimpleObjectProperty<>();
 		endObject = new SimpleObjectProperty<>();
 		this.updateSrcOnUpdate = updateSrcOnUpdate;
 		pressure = evt -> onPressure(evt, 0);
@@ -89,7 +92,8 @@ public class DnD extends PointInteraction {
 			public void action() {
 				super.action();
 				setLastHIDUsed(this.hid);
-				DnD.this.endPt.set(new Point3D(this.event.getX(), this.event.getY(), this.event.getZ()));
+				DnD.this.endLocalPt.set(new Point3D(this.event.getX(), this.event.getY(), this.event.getZ()));
+				DnD.this.endScenePt.set(new Point3D(this.event.getSceneX(), this.event.getSceneY(), this.event.getZ()));
 				DnD.this.endObject.set(DnD.this.srcObject.get());
 			}
 		};
@@ -104,7 +108,8 @@ public class DnD extends PointInteraction {
 	@Override
 	public void reinit() {
 		super.reinit();
-		endPt.setValue(null);
+		endLocalPt.setValue(null);
+		endScenePt.setValue(null);
 		endObject.set(null);
 	}
 
@@ -138,10 +143,17 @@ public class DnD extends PointInteraction {
 	}
 
 	/**
-	 * @return The ending srcPoint of the dnd.
+	 * @return The ending local point of the dnd.
 	 */
-	public Point3D getEndPt() {
-		return endPt.get();
+	public Point3D getEndLocalPt() {
+		return endLocalPt.get();
+	}
+
+	/**
+	 * @return The ending scene point of the dnd.
+	 */
+	public Point3D getEndScenePt() {
+		return endScenePt.get();
 	}
 
 
@@ -152,8 +164,12 @@ public class DnD extends PointInteraction {
 		return Optional.ofNullable(endObject.get());
 	}
 
-	public ReadOnlyObjectProperty<Point3D> endPtProperty() {
-		return endPt;
+	public ReadOnlyObjectProperty<Point3D> endLocalPtProperty() {
+		return endLocalPt;
+	}
+
+	public ReadOnlyObjectProperty<Point3D> endScenePtProperty() {
+		return endScenePt;
 	}
 
 	public Optional<Node> getEndObject() {
@@ -211,11 +227,13 @@ public class DnD extends PointInteraction {
 			super.action();
 
 			if(updateSrcOnUpdate) {
-				DnD.this.srcPoint.set(endPt.get());
+				DnD.this.srcLocalPoint.set(endLocalPt.get());
+				DnD.this.srcScenePoint.set(endScenePt.get());
 				DnD.this.srcObject.set(DnD.this.endObject.get());
 			}
 
-			DnD.this.endPt.set(new Point3D(event.getX(), event.getY(), event.getZ()));
+			DnD.this.endLocalPt.set(new Point3D(event.getX(), event.getY(), event.getZ()));
+			DnD.this.endScenePt.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
 			DnD.this.endObject.set(this.event.getPickResult().getIntersectedNode());
 			DnD.this.altPressed = this.event.isAltDown();
 			DnD.this.shiftPressed = this.event.isShiftDown();
