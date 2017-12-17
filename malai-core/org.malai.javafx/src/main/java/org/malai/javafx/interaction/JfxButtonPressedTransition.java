@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.Button;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the button action event.
  * @author Arnaud BLOUIN
  */
-public class JfxButtonPressedTransition extends WidgetTransition<Button> {
+public class JfxButtonPressedTransition extends JFXWidgetTransition<Button> {
 	public JfxButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

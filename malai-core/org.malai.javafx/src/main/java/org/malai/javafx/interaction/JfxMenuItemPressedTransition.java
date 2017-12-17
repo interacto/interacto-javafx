@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.MenuItem;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of menu items.
  * @author Arnaud BLOUIN
  */
-public class JfxMenuItemPressedTransition extends WidgetTransition<MenuItem> {
+public class JfxMenuItemPressedTransition extends JFXWidgetTransition<MenuItem> {
 	public JfxMenuItemPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

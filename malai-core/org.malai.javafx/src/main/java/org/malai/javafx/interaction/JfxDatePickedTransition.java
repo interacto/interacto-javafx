@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.DatePicker;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of date pickers.
  * @author Arnaud BLOUIN
  */
-public class JfxDatePickedTransition extends WidgetTransition<DatePicker> {
+public class JfxDatePickedTransition extends JFXWidgetTransition<DatePicker> {
 	public JfxDatePickedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

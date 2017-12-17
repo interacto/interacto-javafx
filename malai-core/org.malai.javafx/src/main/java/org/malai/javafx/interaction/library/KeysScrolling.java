@@ -12,11 +12,7 @@ package org.malai.javafx.interaction.library;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Window;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
@@ -34,16 +30,16 @@ public class KeysScrolling extends Scrolling {
 	/** The id of the hid used for the keyboard events. */
 	protected int keyHIDUsed;
 
-	private final EventHandler<KeyEvent> press;
-	private final EventHandler<KeyEvent> release;
+//	private final EventHandler<KeyEvent> press;
+//	private final EventHandler<KeyEvent> release;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public KeysScrolling() {
 		super();
-		press = evt -> onKeyPressure(evt, 0);
-		release = evt -> onKeyRelease(evt, 0);
+//		press = evt -> onKeyPressure(evt, 0);
+//		release = evt -> onKeyRelease(evt, 0);
 	}
 
 
@@ -54,29 +50,29 @@ public class KeysScrolling extends Scrolling {
 		keys.clear();
 	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		node.removeEventHandler(KeyEvent.KEY_PRESSED, press);
-		node.removeEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
-
-	@Override
-	protected void onWindowUnregistered(final Window window) {
-		window.removeEventHandler(KeyEvent.KEY_PRESSED, press);
-		window.removeEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
-
-	@Override
-	protected void onNewNodeRegistered(final Node node) {
-		node.addEventHandler(KeyEvent.KEY_PRESSED, press);
-		node.addEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
-
-	@Override
-	protected void onNewWindowRegistered(final Window window) {
-		window.addEventHandler(KeyEvent.KEY_PRESSED, press);
-		window.addEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
+//	@Override
+//	protected void onNodeUnregistered(final Node node) {
+//		node.removeEventHandler(KeyEvent.KEY_PRESSED, press);
+//		node.removeEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
+//
+//	@Override
+//	protected void onWindowUnregistered(final Window window) {
+//		window.removeEventHandler(KeyEvent.KEY_PRESSED, press);
+//		window.removeEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
+//
+//	@Override
+//	protected void onNewNodeRegistered(final Node node) {
+//		node.addEventHandler(KeyEvent.KEY_PRESSED, press);
+//		node.addEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
+//
+//	@Override
+//	protected void onNewWindowRegistered(final Window window) {
+//		window.addEventHandler(KeyEvent.KEY_PRESSED, press);
+//		window.addEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
 
 	@Override
 	protected void initStateMachine() {

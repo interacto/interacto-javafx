@@ -10,28 +10,24 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventType;
-import javafx.scene.input.MouseEvent;
+import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
 /**
- * This transition corresponds to a drag (move after a pressure) using a pointing device.
- * @author Arnaud BLOUIN
+ * A transition based on a JFX widget.
+ * @param <T> The type of the widget.
+ * @author Arnaud Blouin
  */
-public class DragTransition extends InputEventTransition<MouseEvent> {
-	/**
-	 * Defines a transition.
-	 * @param inputState The source state of the transition.
-	 * @param outputState The srcObject state of the transition.
-	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
-	 */
-	public DragTransition(final SourceableState inputState, final TargetableState outputState) {
+public abstract class JFXWidgetTransition<T> extends WidgetTransition<T> {
+	public JFXWidgetTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
 
 	@Override
-	public EventType<MouseEvent> getEventType() {
-		return MouseEvent.MOUSE_DRAGGED;
+	public EventType<ActionEvent> getEventType() {
+		return ActionEvent.ACTION;
 	}
 }

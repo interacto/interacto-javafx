@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.Hyperlink;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of hyperlinks.
  * @author Arnaud BLOUIN
  */
-public class JfxHyperlinkClickedTransition extends WidgetTransition<Hyperlink> {
+public class JfxHyperlinkClickedTransition extends JFXWidgetTransition<Hyperlink> {
 	public JfxHyperlinkClickedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

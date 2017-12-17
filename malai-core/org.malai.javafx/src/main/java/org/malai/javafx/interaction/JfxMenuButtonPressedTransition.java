@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.MenuButton;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of menu buttons.
  * @author Arnaud BLOUIN
  */
-public class JfxMenuButtonPressedTransition extends WidgetTransition<MenuButton> {
+public class JfxMenuButtonPressedTransition extends JFXWidgetTransition<MenuButton> {
 	public JfxMenuButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
