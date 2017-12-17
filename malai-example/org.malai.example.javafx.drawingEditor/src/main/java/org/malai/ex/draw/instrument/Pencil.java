@@ -44,12 +44,12 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// A temporary view of the created shape is created and displayed by the canvas.
 		// This view is removed at the end of the interaction.
 		nodeBinder(AddShape.class, new DnD()).on(canvas).
-			map(i -> new AddShape(drawing, new MyRect(i.getSrcPoint().getX(), i.getSrcPoint().getY()))).
+			map(i -> new AddShape(drawing, new MyRect(i.getSrcLocalPoint().getX(), i.getSrcLocalPoint().getY()))).
 			first((a, i) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(a.getShape()))).
 			then((a, i) -> {
 				final MyRect sh = (MyRect) a.getShape();
-				sh.setWidth(i.getEndPt().getX() - sh.getX());
-				sh.setHeight(i.getEndPt().getY() - sh.getY());
+				sh.setWidth(i.getEndLocalPt().getX() - sh.getX());
+				sh.setHeight(i.getEndLocalPt().getY() - sh.getY());
 			}).
 			when(i -> i.getButton() == MouseButton.PRIMARY).
 			end((a, i) -> canvas.setTmpShape(null)).
@@ -66,8 +66,8 @@ public class Pencil extends JfxInstrument implements Initializable {
 			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
 			on(canvas.getShapesPane().getChildren()).
 			map(i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
-			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndPt().getX() - i.getSrcPoint().getX()),
-									a.getShape().getY() + (i.getEndPt().getY() - i.getSrcPoint().getY()))).
+			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
+									a.getShape().getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 			exec(true).
