@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.EventType;
 import javafx.stage.WindowEvent;
 import org.malai.interaction.TransitionImpl;
 import org.malai.stateMachine.SourceableState;
@@ -24,6 +25,11 @@ public class JfxWindowClosedTransition extends TransitionImpl {
 
 	public JfxWindowClosedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
+	}
+
+	@Override
+	public EventType<WindowEvent> getEventType() {
+		return WindowEvent.WINDOW_CLOSE_REQUEST;
 	}
 
 	public WindowEvent getEvent() {

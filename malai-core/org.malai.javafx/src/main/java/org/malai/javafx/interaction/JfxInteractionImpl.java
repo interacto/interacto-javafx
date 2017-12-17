@@ -13,6 +13,7 @@ package org.malai.javafx.interaction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,12 +22,19 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.Window;
+import org.malai.interaction.AbortingState;
 import org.malai.interaction.InitState;
 import org.malai.interaction.InteractionImpl;
+import org.malai.interaction.TerminalState;
+import org.malai.stateMachine.State;
 
 /**
  * The core class for defining interactions using the JavaFX library.
@@ -36,6 +44,14 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
 	protected final ObservableSet<ObservableList<? super Node>> additionalNodes;
+
+	private EventHandler<MouseEvent> pressure;
+	private EventHandler<MouseEvent> release;
+	private EventHandler<MouseEvent> drag;
+	private EventHandler<KeyEvent> keyPress;
+	private EventHandler<KeyEvent> keyRelease;
+	private EventHandler<MouseEvent> move;
+	private EventHandler<ScrollEvent> scroll;
 
 	/**
 	 * Creates a JavaFX interaction.
@@ -67,26 +83,225 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 		});
 	}
 
+
+	@Override
+	protected void changeEventsRegistered(final State oldState) {
+		// Do nothing when the interaction has only two nodes: init node and terminal node (this is a single-event interaction).
+		if(oldState == currentState || states.size() == 2 || currentState instanceof InitState) {
+			return;
+		}
+
+		final State nextState;
+		if(currentState instanceof TerminalState || currentState instanceof AbortingState) {
+			nextState = initState;
+		}else {
+			nextState = currentState;
+		}
+
+		final List<EventType<?>> currEvents = getEventTypesOf(nextState);
+		final List<EventType<?>> events = getEventTypesOf(oldState);
+		final List<EventType<?>> eventsToRemove = new ArrayList<>(events);
+		final List<EventType<?>> eventsToAdd = new ArrayList<>(currEvents);
+
+		eventsToRemove.removeAll(currEvents);
+		eventsToAdd.removeAll(events);
+
+		registeredNodes.forEach(n -> {
+			eventsToRemove.forEach(type -> unregisterEventToNode(type, n));
+			eventsToAdd.forEach(type -> registerEventToNode(type, n));
+		});
+		registeredWindows.forEach(w -> {
+			eventsToRemove.forEach(type -> unregisterEventToWindow(type, w));
+			eventsToAdd.forEach(type -> registerEventToWindow(type, w));
+		});
+		additionalNodes.forEach(nodes -> nodes.forEach(n -> {
+			eventsToRemove.forEach(type -> unregisterEventToNode(type, (Node) n));
+			eventsToAdd.forEach(type -> registerEventToNode(type, (Node) n));
+		}));
+	}
+
+	private List<EventType<?>> getEventTypesOf(final State state) {
+		return state.getTransitions().stream().map(t -> (EventType<?>) t.getEventType()).distinct().collect(Collectors.toList());
+	}
+
+	private void unregisterEventToNode(final EventType<?> eventType, final Node node) {
+		if(eventType == MouseEvent.MOUSE_PRESSED) {
+			node.removeEventHandler(MouseEvent.MOUSE_PRESSED, getMousePressedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_RELEASED) {
+			node.removeEventHandler(MouseEvent.MOUSE_RELEASED, getMouseReleasedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_DRAGGED) {
+			node.removeEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseDraggedHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_PRESSED) {
+			node.removeEventHandler(KeyEvent.KEY_PRESSED, getKeyPressedHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_RELEASED) {
+			node.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyReleasedHandler());
+		}
+	}
+
+	private void registerEventToNode(final EventType<?> eventType, final Node node) {
+		if(eventType == MouseEvent.MOUSE_PRESSED) {
+			node.addEventHandler(MouseEvent.MOUSE_PRESSED, getMousePressedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_RELEASED) {
+			node.addEventHandler(MouseEvent.MOUSE_RELEASED, getMouseReleasedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_DRAGGED) {
+			node.addEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseDraggedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_MOVED) {
+			node.addEventHandler(MouseEvent.MOUSE_MOVED, getMouseMovedHandler());
+			return;
+		}
+		if(eventType == ScrollEvent.SCROLL) {
+			node.addEventHandler(ScrollEvent.SCROLL, getMouseScrolledHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_PRESSED) {
+			node.addEventHandler(KeyEvent.KEY_PRESSED, getKeyPressedHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_RELEASED) {
+			node.addEventHandler(KeyEvent.KEY_RELEASED, getKeyReleasedHandler());
+		}
+	}
+
+	private void unregisterEventToWindow(final EventType<?> eventType, final Window window) {
+		if(eventType == MouseEvent.MOUSE_PRESSED) {
+			window.removeEventHandler(MouseEvent.MOUSE_PRESSED, getMousePressedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_RELEASED) {
+			window.removeEventHandler(MouseEvent.MOUSE_RELEASED, getMouseReleasedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_DRAGGED) {
+			window.removeEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseDraggedHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_PRESSED) {
+			window.removeEventHandler(KeyEvent.KEY_PRESSED, getKeyPressedHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_RELEASED) {
+			window.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyReleasedHandler());
+		}
+	}
+
+	private void registerEventToWindow(final EventType<?> eventType, final Window window) {
+		if(eventType == MouseEvent.MOUSE_PRESSED) {
+			window.addEventHandler(MouseEvent.MOUSE_PRESSED, getMousePressedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_RELEASED) {
+			window.addEventHandler(MouseEvent.MOUSE_RELEASED, getMouseReleasedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_DRAGGED) {
+			window.addEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseDraggedHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_MOVED) {
+			window.addEventHandler(MouseEvent.MOUSE_MOVED, getMouseMovedHandler());
+			return;
+		}
+		if(eventType == ScrollEvent.SCROLL) {
+			window.addEventHandler(ScrollEvent.SCROLL, getMouseScrolledHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_PRESSED) {
+			window.addEventHandler(KeyEvent.KEY_PRESSED, getKeyPressedHandler());
+			return;
+		}
+		if(eventType == KeyEvent.KEY_RELEASED) {
+			window.addEventHandler(KeyEvent.KEY_RELEASED, getKeyReleasedHandler());
+		}
+	}
+
+	private EventHandler<MouseEvent> getMousePressedHandler() {
+		if(pressure == null) {
+			pressure = evt -> onPressure(evt, 0);
+		}
+		return pressure;
+	}
+
+	private EventHandler<MouseEvent> getMouseReleasedHandler() {
+		if(release == null) {
+			release = evt -> onRelease(evt, 0);
+		}
+		return release;
+	}
+
+	private EventHandler<MouseEvent> getMouseDraggedHandler() {
+		if(drag == null) {
+			drag = evt -> onDrag(evt, 0);
+		}
+		return drag;
+	}
+
+	private EventHandler<MouseEvent> getMouseMovedHandler() {
+		if(move == null) {
+			move = evt -> onMove(evt, 0);
+		}
+		return move;
+	}
+
+	private EventHandler<ScrollEvent> getMouseScrolledHandler() {
+		if(scroll == null) {
+			scroll = evt -> onScroll(evt, 0);
+		}
+		return scroll;
+	}
+
+	private EventHandler<KeyEvent> getKeyPressedHandler() {
+		if(keyPress == null) {
+			keyPress = evt -> onKeyPressure(evt, 0);
+		}
+		return keyPress;
+	}
+
+	private EventHandler<KeyEvent> getKeyReleasedHandler() {
+		if(keyRelease == null) {
+			keyRelease = evt -> onKeyRelease(evt, 0);
+		}
+		return keyRelease;
+	}
+
 	protected void onNodeUnregistered(final Node node) {
-		// Should be overriden
+		getEventTypesOf(currentState).forEach(type -> unregisterEventToNode(type, node));
 	}
 
 	protected void onWindowUnregistered(final Window window) {
-		// Should be overriden
+		getEventTypesOf(currentState).forEach(type -> unregisterEventToWindow(type, window));
 	}
 
 	protected void onNewNodeRegistered(final Node node) {
-		// Should be overriden
+		getEventTypesOf(currentState).forEach(type -> registerEventToNode(type, node));
 	}
 
 	protected void onNewWindowRegistered(final Window window) {
-		// Should be overriden
+		getEventTypesOf(currentState).forEach(type -> registerEventToWindow(type, window));
 	}
 
 	@Override
 	public void registerToObservableNodeList(final ObservableList<Node> nodes) {
 		if(nodes != null) {
 			additionalNodes.add(nodes);
+
+			if(!nodes.isEmpty()) {
+				final List<EventType<?>> events = getEventTypesOf(currentState);
+				nodes.forEach(node -> registeredNodes.forEach(n -> events.forEach(type -> registerEventToNode(type, node))));
+			}
 
 			// Listener to any changes in the list of registered windows
 			nodes.addListener((ListChangeListener<Node>) change -> {

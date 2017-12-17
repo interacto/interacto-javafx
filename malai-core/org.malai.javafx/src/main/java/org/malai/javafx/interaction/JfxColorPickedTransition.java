@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.ColorPicker;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of colour pickers.
  * @author Arnaud BLOUIN
  */
-public class JfxColorPickedTransition extends WidgetTransition<ColorPicker> {
+public class JfxColorPickedTransition extends JFXWidgetTransition<ColorPicker> {
 	public JfxColorPickedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

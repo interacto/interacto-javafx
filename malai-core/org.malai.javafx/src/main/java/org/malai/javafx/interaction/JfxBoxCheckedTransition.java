@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.CheckBox;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of when boxes.
  * @author Arnaud BLOUIN
  */
-public class JfxBoxCheckedTransition extends WidgetTransition<CheckBox> {
+public class JfxBoxCheckedTransition extends JFXWidgetTransition<CheckBox> {
 	public JfxBoxCheckedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

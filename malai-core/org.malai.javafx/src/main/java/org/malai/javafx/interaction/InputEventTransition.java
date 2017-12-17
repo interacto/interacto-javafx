@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.EventType;
 import javafx.scene.input.InputEvent;
 import org.malai.interaction.TransitionImpl;
 import org.malai.stateMachine.SourceableState;
@@ -48,4 +49,7 @@ public abstract class InputEventTransition<T extends InputEvent> extends Transit
 			event = evt;
 		}
 	}
+
+	@Override
+	public abstract EventType<T> getEventType();
 }

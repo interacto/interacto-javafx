@@ -12,11 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class TestDnD extends BaseJfXInteractionTest<DnD> {
-	/*
-		interaction.onRelease(createMouseReleaseEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		interaction.onMove(createMouseMoveEvent(10d, 23d, MouseButton.PRIMARY), 0);
-		interaction.onPressure(createMousePressEvent(30d, 40d, MouseButton.SECONDARY), 0);
-	 */
 	@Override
 	protected DnD createInteraction() {
 		return new DnD();

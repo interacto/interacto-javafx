@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.TextInputControl;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of text fields.
  * @author Arnaud Blouin
  */
-public class JfxTextChangedTransition extends WidgetTransition<TextInputControl> {
+public class JfxTextChangedTransition extends JFXWidgetTransition<TextInputControl> {
 	public JfxTextChangedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

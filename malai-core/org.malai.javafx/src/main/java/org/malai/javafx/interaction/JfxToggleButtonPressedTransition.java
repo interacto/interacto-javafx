@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.ToggleButton;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of toggle buttons.
  * @author Arnaud BLOUIN
  */
-public class JfxToggleButtonPressedTransition extends WidgetTransition<ToggleButton> {
+public class JfxToggleButtonPressedTransition extends JFXWidgetTransition<ToggleButton> {
 	public JfxToggleButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

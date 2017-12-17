@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.EventType;
 import javafx.scene.input.KeyEvent;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -25,4 +26,7 @@ public abstract class KeyboardTransition extends InputEventTransition<KeyEvent> 
 	public KeyboardTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}
+
+	@Override
+	public abstract EventType<KeyEvent> getEventType();
 }

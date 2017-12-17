@@ -10,10 +10,6 @@
  */
 package org.malai.javafx.interaction.library;
 
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.input.ScrollEvent;
-import javafx.stage.Window;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.ScrollTransition;
@@ -25,7 +21,7 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud Blouin
  */
 public class Scrolling extends JfxInteractionImpl {
-	private final EventHandler<ScrollEvent> scroll;
+//	private final EventHandler<ScrollEvent> scroll;
 
 	/** The scrolled node. */
 	protected Object scrolledNode;
@@ -46,7 +42,7 @@ public class Scrolling extends JfxInteractionImpl {
 	public Scrolling() {
 		super();
 		initStateMachine();
-		scroll = evt -> onScroll(evt, 0);
+//		scroll = evt -> onScroll(evt, 0);
 	}
 
 
@@ -125,25 +121,25 @@ public class Scrolling extends JfxInteractionImpl {
 		increment = incr;
 	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		node.removeEventHandler(ScrollEvent.SCROLL, scroll);
-	}
-
-	@Override
-	protected void onWindowUnregistered(final Window window) {
-		window.removeEventHandler(ScrollEvent.SCROLL, scroll);
-	}
-
-	@Override
-	protected void onNewNodeRegistered(final Node node) {
-		node.addEventHandler(ScrollEvent.SCROLL, scroll);
-	}
-
-	@Override
-	protected void onNewWindowRegistered(final Window window) {
-		window.addEventHandler(ScrollEvent.SCROLL, scroll);
-	}
+//	@Override
+//	protected void onNodeUnregistered(final Node node) {
+//		node.removeEventHandler(ScrollEvent.SCROLL, scroll);
+//	}
+//
+//	@Override
+//	protected void onWindowUnregistered(final Window window) {
+//		window.removeEventHandler(ScrollEvent.SCROLL, scroll);
+//	}
+//
+//	@Override
+//	protected void onNewNodeRegistered(final Node node) {
+//		node.addEventHandler(ScrollEvent.SCROLL, scroll);
+//	}
+//
+//	@Override
+//	protected void onNewWindowRegistered(final Window window) {
+//		window.addEventHandler(ScrollEvent.SCROLL, scroll);
+//	}
 
 	/**
 	 * This scroll transition modifies the scrolling interaction.

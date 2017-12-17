@@ -11,10 +11,6 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Optional;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
-import javafx.stage.Window;
 import org.malai.javafx.interaction.JfxInteractionImpl;
 import org.malai.javafx.interaction.KeyPressureTransition;
 import org.malai.stateMachine.SourceableState;
@@ -27,8 +23,8 @@ import org.malai.stateMachine.TargetableState;
 public abstract class KeyInteraction extends JfxInteractionImpl {
 	/** The object that produced the interaction. */
 	protected Optional<Object> object;
-	private final EventHandler<KeyEvent> press = evt -> onKeyPressure(evt, 0);
-	private final EventHandler<KeyEvent> release = evt -> onKeyRelease(evt, 0);
+//	private final EventHandler<KeyEvent> press = evt -> onKeyPressure(evt, 0);
+//	private final EventHandler<KeyEvent> release = evt -> onKeyRelease(evt, 0);
 
 	/**
 	 * Creates the interaction.
@@ -57,29 +53,29 @@ public abstract class KeyInteraction extends JfxInteractionImpl {
 		this.object = Optional.ofNullable(object);
 	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		node.removeEventHandler(KeyEvent.KEY_PRESSED, press);
-		node.removeEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
-
-	@Override
-	protected void onWindowUnregistered(final Window window) {
-		window.removeEventHandler(KeyEvent.KEY_PRESSED, press);
-		window.removeEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
-
-	@Override
-	protected void onNewNodeRegistered(final Node node) {
-		node.addEventHandler(KeyEvent.KEY_PRESSED, press);
-		node.addEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
-
-	@Override
-	protected void onNewWindowRegistered(final Window window) {
-		window.addEventHandler(KeyEvent.KEY_PRESSED, press);
-		window.addEventHandler(KeyEvent.KEY_RELEASED, release);
-	}
+//	@Override
+//	protected void onNodeUnregistered(final Node node) {
+//		node.removeEventHandler(KeyEvent.KEY_PRESSED, press);
+//		node.removeEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
+//
+//	@Override
+//	protected void onWindowUnregistered(final Window window) {
+//		window.removeEventHandler(KeyEvent.KEY_PRESSED, press);
+//		window.removeEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
+//
+//	@Override
+//	protected void onNewNodeRegistered(final Node node) {
+//		node.addEventHandler(KeyEvent.KEY_PRESSED, press);
+//		node.addEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
+//
+//	@Override
+//	protected void onNewWindowRegistered(final Window window) {
+//		window.addEventHandler(KeyEvent.KEY_PRESSED, press);
+//		window.addEventHandler(KeyEvent.KEY_RELEASED, release);
+//	}
 
 	/**
 	 * Defines a transition modifying the key attribute of the interaction.

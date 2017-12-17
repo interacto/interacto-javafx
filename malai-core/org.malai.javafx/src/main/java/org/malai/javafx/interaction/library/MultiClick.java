@@ -12,13 +12,8 @@ package org.malai.javafx.interaction.library;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
-import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Window;
 import org.malai.interaction.AbortingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
@@ -34,11 +29,11 @@ import org.malai.javafx.interaction.ReleaseTransition;
  * @author Arnaud Blouin
  */
 public class MultiClick extends JfxInteractionImpl {
-	private final EventHandler<MouseEvent> pressure;
-	private final EventHandler<MouseEvent> release;
-	private final EventHandler<MouseEvent> move;
-	private final EventHandler<KeyEvent> keyPress;
-	private final EventHandler<KeyEvent> keyRelease;
+//	private final EventHandler<MouseEvent> pressure;
+//	private final EventHandler<MouseEvent> release;
+//	private final EventHandler<MouseEvent> move;
+//	private final EventHandler<KeyEvent> keyPress;
+//	private final EventHandler<KeyEvent> keyRelease;
 
 	/** The list of pressed position. */
 	protected final List<Point3D> points;
@@ -55,11 +50,11 @@ public class MultiClick extends JfxInteractionImpl {
 		points = new ArrayList<>();
 		minPoints = minPts;
 		initStateMachine();
-		pressure = evt -> onPressure(evt, 0);
-		release = evt -> onRelease(evt, 0);
-		move = evt -> onMove(evt, 0);
-		keyPress = evt -> onKeyPressure(evt, 0);
-		keyRelease = evt -> onKeyRelease(evt, 0);
+//		pressure = evt -> onPressure(evt, 0);
+//		release = evt -> onRelease(evt, 0);
+//		move = evt -> onMove(evt, 0);
+//		keyPress = evt -> onKeyPressure(evt, 0);
+//		keyRelease = evt -> onKeyRelease(evt, 0);
 	}
 
 	/**
@@ -169,42 +164,42 @@ public class MultiClick extends JfxInteractionImpl {
 		};
 	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		node.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
-		node.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
-		node.removeEventHandler(MouseEvent.MOUSE_MOVED, move);
-		node.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-		node.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-	}
-
-	@Override
-	protected void onWindowUnregistered(final Window window) {
-		window.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
-		window.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
-		window.removeEventHandler(MouseEvent.MOUSE_MOVED, move);
-		window.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-		window.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-
-	}
-
-	@Override
-	protected void onNewNodeRegistered(final Node node) {
-		node.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
-		node.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
-		node.addEventHandler(MouseEvent.MOUSE_MOVED, move);
-		node.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-		node.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-	}
-
-	@Override
-	protected void onNewWindowRegistered(final Window window) {
-		window.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
-		window.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
-		window.addEventHandler(MouseEvent.MOUSE_MOVED, move);
-		window.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-		window.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-	}
+//	@Override
+//	protected void onNodeUnregistered(final Node node) {
+//		node.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+//		node.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+//		node.removeEventHandler(MouseEvent.MOUSE_MOVED, move);
+//		node.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+//		node.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+//	}
+//
+//	@Override
+//	protected void onWindowUnregistered(final Window window) {
+//		window.removeEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+//		window.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
+//		window.removeEventHandler(MouseEvent.MOUSE_MOVED, move);
+//		window.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+//		window.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+//
+//	}
+//
+//	@Override
+//	protected void onNewNodeRegistered(final Node node) {
+//		node.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+//		node.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+//		node.addEventHandler(MouseEvent.MOUSE_MOVED, move);
+//		node.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+//		node.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+//	}
+//
+//	@Override
+//	protected void onNewWindowRegistered(final Window window) {
+//		window.addEventHandler(MouseEvent.MOUSE_PRESSED, pressure);
+//		window.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
+//		window.addEventHandler(MouseEvent.MOUSE_MOVED, move);
+//		window.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
+//		window.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
+//	}
 
 
 	/**

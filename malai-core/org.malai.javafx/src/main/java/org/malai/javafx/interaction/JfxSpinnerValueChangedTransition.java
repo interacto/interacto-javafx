@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction;
 
 import javafx.scene.control.Spinner;
-import org.malai.interaction.WidgetTransition;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -19,7 +18,7 @@ import org.malai.stateMachine.TargetableState;
  * A transition based on the onAction event of spinner.
  * @author Arnaud BLOUIN
  */
-public class JfxSpinnerValueChangedTransition extends WidgetTransition<Spinner<?>> {
+public class JfxSpinnerValueChangedTransition extends JFXWidgetTransition<Spinner<?>> {
 	public JfxSpinnerValueChangedTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
 	}

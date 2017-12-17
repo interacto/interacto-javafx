@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.EventType;
 import javafx.scene.input.ScrollEvent;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
@@ -27,5 +28,10 @@ public class ScrollTransition extends InputEventTransition<ScrollEvent> {
 	 */
 	public ScrollTransition(final SourceableState inputState, final TargetableState outputState) {
 		super(inputState, outputState);
+	}
+
+	@Override
+	public EventType<ScrollEvent> getEventType() {
+		return ScrollEvent.SCROLL;
 	}
 }
