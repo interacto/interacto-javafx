@@ -52,7 +52,6 @@ public abstract class TransitionImpl implements Transition {
 		//
 	}
 
-
 	@Override
 	public boolean isGuardRespected() {
 		return true;

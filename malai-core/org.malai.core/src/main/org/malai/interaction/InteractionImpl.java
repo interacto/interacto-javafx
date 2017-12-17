@@ -79,6 +79,14 @@ public abstract class InteractionImpl implements Interaction {
 		lastHIDUsed = -1;
 	}
 
+	private void setCurrentState(final State state) {
+		final State oldState = currentState;
+		currentState = state;
+		changeEventsRegistered(oldState);
+	}
+
+	protected abstract void changeEventsRegistered(final State oldState);
+
 	/**
 	 * Initialises the interaction: creates the states and the transitions.
 	 * @since 0.1
@@ -113,7 +121,7 @@ public abstract class InteractionImpl implements Interaction {
 		}
 
 		currentTimeout = null;
-		currentState = initState;
+		setCurrentState(initState);
 		lastHIDUsed = -1;
 	}
 
@@ -218,7 +226,7 @@ public abstract class InteractionImpl implements Interaction {
 			try {
 				transition.action();
 				transition.getInputState().onOutgoing();
-				currentState = transition.getOutputState();
+				setCurrentState(transition.getOutputState());
 				transition.getOutputState().onIngoing();
 			}catch(final MustAbortStateMachineException ex) {
 				reinit();

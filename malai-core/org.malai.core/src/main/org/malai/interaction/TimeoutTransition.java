@@ -86,4 +86,9 @@ public class TimeoutTransition extends TransitionImpl {
 			timeoutThread = null;
 		}
 	}
+
+	@Override
+	public <T> T getEventType() {
+		return null;
+	}
 }

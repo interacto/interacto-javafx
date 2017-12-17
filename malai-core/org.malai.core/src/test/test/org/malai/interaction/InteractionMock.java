@@ -7,6 +7,11 @@ public class InteractionMock extends InteractionImpl {
 		super();
 	}
 
+	@Override
+	protected void changeEventsRegistered() {
+
+	}
+
 
 	@Override
 	protected void initStateMachine() {
