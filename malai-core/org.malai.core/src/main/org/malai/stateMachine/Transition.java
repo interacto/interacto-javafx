@@ -53,4 +53,6 @@ public interface Transition {
 	 * @since 0.2
 	 */
 	void setHid(int hid);
+
+	<T> T getEventType();
 }
