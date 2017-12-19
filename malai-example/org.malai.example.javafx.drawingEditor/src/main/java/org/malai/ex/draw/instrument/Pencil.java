@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -68,9 +69,14 @@ public class Pencil extends JfxInstrument implements Initializable {
 			// When nodes are removed from this list, their binding is cancelled.
 			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
 			on(canvas.getShapesPane().getChildren()).
-			map(i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
-			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
-									a.getShape().getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
+			// The command is created using two double bindings that are automatically updated on changes.
+			// In the command these binding are @autoUnbind to be unbound on their command termination.
+			map(i -> {
+					final MyShape sh = i.getSrcObject().map(o -> (MyShape) o.getUserData()).get();
+					return new MoveShape(sh,
+						Bindings.createDoubleBinding(() -> sh.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()), i.endScenePtProperty(), i.srcScenePointProperty()),
+						Bindings.createDoubleBinding(() -> sh.getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()), i.endScenePtProperty(), i.srcScenePointProperty()));
+			}).
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 			exec(true).
@@ -81,6 +87,27 @@ public class Pencil extends JfxInstrument implements Initializable {
 			}).
 			end((a, i) -> i.getSrcObject().get().setEffect(null)).
 			bind();
+
+		//
+//		nodeBinder(MoveShape.class, new AbortableDnD(true)).
+//			// The binding dynamically registers elements of the given observable list.
+//			// When nodes are added to this list, these nodes register the binding.
+//			// When nodes are removed from this list, their binding is cancelled.
+//			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
+//			on(canvas.getShapesPane().getChildren()).
+//			map(i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
+//			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
+//									a.getShape().getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
+//			when(i -> i.getButton() == MouseButton.SECONDARY).
+//			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
+//			exec(true).
+//			first((a, i) -> {
+//				// Required to grab the focus to get key events
+//				Platform.runLater(() -> i.getSrcObject().get().requestFocus());
+//				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
+//			}).
+//			end((a, i) -> i.getSrcObject().get().setEffect(null)).
+//			bind();
 
 		/*
 		 * A DnD on the colour picker produces ChangeCol actions when the target of the DnD is a shape
