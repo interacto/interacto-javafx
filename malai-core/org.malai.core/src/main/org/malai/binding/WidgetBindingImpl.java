@@ -10,9 +10,12 @@
  */
 package org.malai.binding;
 
+import java.util.Arrays;
+import javafx.beans.property.Property;
 import org.malai.action.Action;
 import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
+import org.malai.action.AutoUnbind;
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.Instrument;
 import org.malai.interaction.Interaction;
@@ -153,11 +156,39 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		return false;
 	}
 
+	protected void unbindActionAttributes() {
+		if(action != null) {
+			unbindActionAttributesClass(action.getClass());
+		}
+	}
+
+	private void unbindActionAttributesClass(final Class<? extends ActionImpl> clazz) {
+		Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(AutoUnbind.class) &&
+			Property.class.isAssignableFrom(field.getType())).forEach(field -> {
+			try {
+				final boolean access = field.isAccessible();
+				field.setAccessible(true);
+				final Object o = field.get(action);
+				if(o instanceof Property<?>) {
+					((Property<?>) o).unbind();
+				}
+				field.setAccessible(access);
+			}catch(final IllegalAccessException ex) {
+				ex.printStackTrace();
+			}
+		});
+
+		final Class<?> superClass = clazz.getSuperclass();
+		if(superClass != null && superClass != ActionImpl.class && ActionImpl.class.isAssignableFrom(superClass)) {
+			unbindActionAttributesClass((Class<? extends ActionImpl>) superClass);
+		}
+	}
 
 	@Override
 	public void interactionAborts(final Interaction inter) {
 		if(action != null && inter == interaction) {
 			action.abort();
+			unbindActionAttributes();
 
 			// The instrument is notified about the aborting of the action.
 			instrument.onActionAborted(action);
@@ -201,11 +232,13 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 				}
 
 				executeAction(action);
+				unbindActionAttributes();
 				action = null;
 				instrument.interimFeedback();
 			}else {
 				if(action != null) {
 					action.abort();
+					unbindActionAttributes();
 					instrument.onActionAborted(action);
 					action = null;
 					instrument.interimFeedback();
