@@ -4,13 +4,16 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import org.malai.ex.draw.action.AddShape;
 import org.malai.ex.draw.action.ChangeColour;
@@ -71,6 +74,12 @@ public class Pencil extends JfxInstrument implements Initializable {
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 			exec(true).
+			first((a, i) -> {
+				// Required to grab the focus to get key events
+				Platform.runLater(() -> i.getSrcObject().get().requestFocus());
+				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
+			}).
+			end((a, i) -> i.getSrcObject().get().setEffect(null)).
 			bind();
 
 		/*
