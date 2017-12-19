@@ -30,16 +30,11 @@ public class KeysScrolling extends Scrolling {
 	/** The id of the hid used for the keyboard events. */
 	protected int keyHIDUsed;
 
-//	private final EventHandler<KeyEvent> press;
-//	private final EventHandler<KeyEvent> release;
-
 	/**
 	 * Creates the interaction.
 	 */
 	public KeysScrolling() {
 		super();
-//		press = evt -> onKeyPressure(evt, 0);
-//		release = evt -> onKeyRelease(evt, 0);
 	}
 
 
@@ -49,30 +44,6 @@ public class KeysScrolling extends Scrolling {
 		keyHIDUsed = -1;
 		keys.clear();
 	}
-
-//	@Override
-//	protected void onNodeUnregistered(final Node node) {
-//		node.removeEventHandler(KeyEvent.KEY_PRESSED, press);
-//		node.removeEventHandler(KeyEvent.KEY_RELEASED, release);
-//	}
-//
-//	@Override
-//	protected void onWindowUnregistered(final Window window) {
-//		window.removeEventHandler(KeyEvent.KEY_PRESSED, press);
-//		window.removeEventHandler(KeyEvent.KEY_RELEASED, release);
-//	}
-//
-//	@Override
-//	protected void onNewNodeRegistered(final Node node) {
-//		node.addEventHandler(KeyEvent.KEY_PRESSED, press);
-//		node.addEventHandler(KeyEvent.KEY_RELEASED, release);
-//	}
-//
-//	@Override
-//	protected void onNewWindowRegistered(final Window window) {
-//		window.addEventHandler(KeyEvent.KEY_PRESSED, press);
-//		window.addEventHandler(KeyEvent.KEY_RELEASED, release);
-//	}
 
 	@Override
 	protected void initStateMachine() {

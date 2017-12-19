@@ -19,9 +19,6 @@ import org.malai.javafx.interaction.ReleaseTransition;
  * @author Arnaud Blouin
  */
 public class AbortableDnD extends DnD {
-//	private final EventHandler<KeyEvent> keyPress;
-//	private final EventHandler<KeyEvent> keyRelease;
-
 	/**
 	 * Creates the interaction.
 	 * @param updateSrcOnUpdate If true, the source point and object will take the latest end point and object
@@ -29,8 +26,6 @@ public class AbortableDnD extends DnD {
 	 */
 	public AbortableDnD(final boolean updateSrcOnUpdate) {
 		super(updateSrcOnUpdate);
-//		keyPress = evt -> onKeyPressure(evt, 0);
-//		keyRelease = evt -> onKeyRelease(evt, 0);
 	}
 
 	/**
@@ -52,32 +47,4 @@ public class AbortableDnD extends DnD {
 		pressed.getTransitions().stream().filter(t -> t instanceof ReleaseTransition).findFirst().ifPresent(t -> pressed.getTransitions().remove(t));
 		new Release4DnD(pressed, aborted);
 	}
-
-//	@Override
-//	public void onNewNodeRegistered(final Node node) {
-//		super.onNewNodeRegistered(node);
-////		node.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-////		node.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-//	}
-//
-//	@Override
-//	public void onNewWindowRegistered(final Window window) {
-//		super.onNewWindowRegistered(window);
-////		window.addEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-////		window.addEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-//	}
-//
-//	@Override
-//	protected void onNodeUnregistered(final Node node) {
-//		super.onNodeUnregistered(node);
-////		node.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-////		node.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-//	}
-//
-//	@Override
-//	protected void onWindowUnregistered(final Window window) {
-//		super.onWindowUnregistered(window);
-////		window.removeEventHandler(KeyEvent.KEY_PRESSED, keyPress);
-////		window.removeEventHandler(KeyEvent.KEY_RELEASED, keyRelease);
-//	}
 }

@@ -21,8 +21,6 @@ import org.malai.stateMachine.TargetableState;
  * @author Arnaud Blouin
  */
 public class Scrolling extends JfxInteractionImpl {
-//	private final EventHandler<ScrollEvent> scroll;
-
 	/** The scrolled node. */
 	protected Object scrolledNode;
 
@@ -42,7 +40,6 @@ public class Scrolling extends JfxInteractionImpl {
 	public Scrolling() {
 		super();
 		initStateMachine();
-//		scroll = evt -> onScroll(evt, 0);
 	}
 
 
@@ -120,26 +117,6 @@ public class Scrolling extends JfxInteractionImpl {
 	protected void setIncrement(final double incr) {
 		increment = incr;
 	}
-
-//	@Override
-//	protected void onNodeUnregistered(final Node node) {
-//		node.removeEventHandler(ScrollEvent.SCROLL, scroll);
-//	}
-//
-//	@Override
-//	protected void onWindowUnregistered(final Window window) {
-//		window.removeEventHandler(ScrollEvent.SCROLL, scroll);
-//	}
-//
-//	@Override
-//	protected void onNewNodeRegistered(final Node node) {
-//		node.addEventHandler(ScrollEvent.SCROLL, scroll);
-//	}
-//
-//	@Override
-//	protected void onNewWindowRegistered(final Window window) {
-//		window.addEventHandler(ScrollEvent.SCROLL, scroll);
-//	}
 
 	/**
 	 * This scroll transition modifies the scrolling interaction.

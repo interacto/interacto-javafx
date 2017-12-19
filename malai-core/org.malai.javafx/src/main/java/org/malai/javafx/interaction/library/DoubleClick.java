@@ -32,10 +32,6 @@ public class DoubleClick extends PointInteraction {
 	/** The supplier that provides the time gap. */
 	private static final LongSupplier SUPPLY_TIME_GAP = () -> getTimeGap();
 
-//	private final EventHandler<MouseEvent> press;
-//	private final EventHandler<MouseEvent> release;
-//	private final EventHandler<MouseEvent> drag;
-
 	/**
 	 * @return The time gap between the two clicks.
 	 */
@@ -59,9 +55,6 @@ public class DoubleClick extends PointInteraction {
 	public DoubleClick() {
 		super();
 		initStateMachine();
-//		press = evt -> onPressure(evt, 0);
-//		release = evt -> onRelease(evt, 0);
-//		drag = evt -> onDrag(evt, 0);
 	}
 
 	@Override
@@ -98,39 +91,6 @@ public class DoubleClick extends PointInteraction {
 		new MoveTransition(pressed2, aborted);
 		new ReleaseTransition4DoubleClick(pressed2, released2);
 	}
-
-//	@Override
-//	protected void onNodeUnregistered(final Node node) {
-//		node.removeEventHandler(MouseEvent.MOUSE_PRESSED, press);
-//		node.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
-//		node.removeEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
-//		node.removeEventHandler(MouseEvent.MOUSE_MOVED, drag);
-//	}
-//
-//	@Override
-//	protected void onWindowUnregistered(final Window window) {
-//		window.removeEventHandler(MouseEvent.MOUSE_PRESSED, press);
-//		window.removeEventHandler(MouseEvent.MOUSE_RELEASED, release);
-//		window.removeEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
-//		window.removeEventHandler(MouseEvent.MOUSE_MOVED, drag);
-//	}
-//
-//	@Override
-//	protected void onNewNodeRegistered(final Node node) {
-//		node.addEventHandler(MouseEvent.MOUSE_PRESSED, press);
-//		node.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
-//		node.addEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
-//		node.addEventHandler(MouseEvent.MOUSE_MOVED, drag);
-//	}
-//
-//	@Override
-//	protected void onNewWindowRegistered(final Window window) {
-//		window.addEventHandler(MouseEvent.MOUSE_PRESSED, press);
-//		window.addEventHandler(MouseEvent.MOUSE_RELEASED, release);
-//		window.addEventHandler(MouseEvent.MOUSE_DRAGGED, drag);
-//		window.addEventHandler(MouseEvent.MOUSE_MOVED, drag);
-//	}
-
 
 	class ReleaseTransition4DoubleClick extends ReleaseTransition {
 		protected ReleaseTransition4DoubleClick(final SourceableState inputState, final TargetableState outputState) {
