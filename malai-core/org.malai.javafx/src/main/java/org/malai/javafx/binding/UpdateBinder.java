@@ -76,12 +76,10 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 
 	/**
 	 * Defines whether the action must be executed on each interaction updates (if 'when' predicate is ok).
-	 * @param execActionOnChanges True: the action is executed on each interaction updates. The action must be undoable in this case
-	 * (to cancel the action).
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> exec(final boolean execActionOnChanges) {
-		execOnChanges = execActionOnChanges;
+	public UpdateBinder<W, A, I> exec() {
+		execOnChanges = true;
 		return this;
 	}
 
