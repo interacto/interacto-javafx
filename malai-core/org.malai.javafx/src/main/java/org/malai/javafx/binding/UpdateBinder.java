@@ -11,12 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -26,7 +21,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInteraction> extends Binder<W, A, I> {
+public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInteraction, B extends UpdateBinder<W, A, I, B>> extends Binder<W, A, I, B> {
 	protected BiConsumer<A, I> updateFct;
 	protected Runnable abortFct;
 	protected Runnable feedbackFct;
@@ -44,21 +39,9 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	 * This callback takes as arguments the action to update and the ongoing interactions (and its parameters).
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> then(final BiConsumer<A, I> update) {
+	public B then(final BiConsumer<A, I> update) {
 		updateFct = update;
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> map(final Function<I, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> first(final BiConsumer<A, I> initActionFct) {
-		super.first(initActionFct);
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -67,32 +50,20 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	 * This callback takes as arguments the action to update.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> then(final Consumer<A> update) {
+	public B then(final Consumer<A> update) {
 		if(update != null) {
 			updateFct = (a, i) -> update.accept(a);
 		}
-		return this;
+		return (B) this;
 	}
 
 	/**
 	 * Defines whether the action must be executed on each interaction updates (if 'when' predicate is ok).
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> exec() {
+	public B exec() {
 		execOnChanges = true;
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> on(final W... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -100,47 +71,17 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	 * The undoable action is autmatically cancelled so that nothing must be done on the action.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> abort(final Runnable abort) {
+	public B abort(final Runnable abort) {
 		abortFct = abort;
-		return this;
+		return (B) this;
 	}
 
 	/**
 	 * Defines interim feedback provided to users on each interaction updates.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public UpdateBinder<W, A, I> feedback(final Runnable feedback) {
+	public B feedback(final Runnable feedback) {
 		feedbackFct = feedback;
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> when(final Predicate<I> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> end(final BiConsumer<A, I> onEndFct) {
-		super.end(onEndFct);
-		return this;
-	}
-
-	@Override
-	public UpdateBinder<W, A, I> async() {
-		super.async();
-		return this;
+		return (B) this;
 	}
 }

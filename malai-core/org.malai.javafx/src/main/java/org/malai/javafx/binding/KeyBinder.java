@@ -14,13 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -32,7 +26,7 @@ import org.malai.javafx.interaction.library.KeysPressure;
  * @param <W> The type of the widget to bind.
  * @author Arnaud Blouin
  */
-public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, KeysPressure> {
+public abstract class KeyBinder<W, A extends ActionImpl, B extends KeyBinder<W, A, B>> extends Binder<W, A, KeysPressure, B> {
 	final Collection<KeyCode> codes;
 	final Predicate<KeysPressure> checkCode;
 
@@ -48,62 +42,14 @@ public abstract class KeyBinder<W, A extends ActionImpl> extends Binder<W, A, Ke
 		};
 	}
 
-	public KeyBinder<W, A> with(final KeyCode... code) {
-		codes.addAll(Arrays.asList(code));
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> on(final W... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> end(final BiConsumer<A, KeysPressure> onEndFct) {
-		super.end(onEndFct);
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> map(final Function<KeysPressure, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> first(final BiConsumer<A, KeysPressure> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> when(final Predicate<KeysPressure> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public KeyBinder<W, A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
+	/**
+	 * Defines key code the widget binding will check. On a key interaction, the typed keys will be check against
+	 * the given key code. The set of typed codes must matches the given key codes.
+	 * @param codes The key codes to match.
+	 * @return The builder.
+	 */
+	public B with(final KeyCode... codes) {
+		this.codes.addAll(Arrays.asList(codes));
+		return (B) this;
 	}
 }

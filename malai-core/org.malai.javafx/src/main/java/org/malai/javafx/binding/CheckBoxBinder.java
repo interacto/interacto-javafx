@@ -10,13 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import org.malai.action.ActionImpl;
@@ -28,63 +22,9 @@ import org.malai.javafx.interaction.library.BoxChecked;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, BoxChecked> {
+public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, BoxChecked, CheckBoxBinder<A>> {
 	public CheckBoxBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new BoxChecked(), instrument);
-	}
-
-	@Override
-	public CheckBoxBinder<A> on(final CheckBox... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> map(final Function<BoxChecked, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> first(final BiConsumer<A, BoxChecked> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> when(final Predicate<BoxChecked> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public CheckBoxBinder<A> end(final BiConsumer<A, BoxChecked> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override

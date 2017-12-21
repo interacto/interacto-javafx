@@ -10,13 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 import org.malai.action.ActionImpl;
@@ -28,63 +22,9 @@ import org.malai.javafx.interaction.library.ToggleButtonPressed;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButton, A, ToggleButtonPressed> {
+public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButton, A, ToggleButtonPressed, ToggleButtonBinder<A>> {
 	public ToggleButtonBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new ToggleButtonPressed(), instrument);
-	}
-
-	@Override
-	public ToggleButtonBinder<A> on(final ToggleButton... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public ToggleButtonBinder<A> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public ToggleButtonBinder<A> map(final Function<ToggleButtonPressed, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public ToggleButtonBinder<A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public Binder<ToggleButton, A, ToggleButtonPressed> first(final BiConsumer<A, ToggleButtonPressed> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public ToggleButtonBinder<A> when(final Predicate<ToggleButtonPressed> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public ToggleButtonBinder<A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public ToggleButtonBinder<A> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public ToggleButtonBinder<A> end(final BiConsumer<A, ToggleButtonPressed> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override
