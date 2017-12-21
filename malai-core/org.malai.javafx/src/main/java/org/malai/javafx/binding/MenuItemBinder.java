@@ -10,10 +10,6 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -24,51 +20,9 @@ import org.malai.javafx.interaction.library.MenuItemPressed;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, MenuItemPressed> {
+public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, MenuItemPressed, MenuItemBinder<A>> {
 	public MenuItemBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new MenuItemPressed(), instrument);
-	}
-
-	@Override
-	public MenuItemBinder<A> on(final MenuItem... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public MenuItemBinder<A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public MenuItemBinder<A> first(final BiConsumer<A, MenuItemPressed> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public MenuItemBinder<A> when(final Predicate<MenuItemPressed> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public MenuItemBinder<A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public MenuItemBinder<A> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public MenuItemBinder<A> end(final BiConsumer<A, MenuItemPressed> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override

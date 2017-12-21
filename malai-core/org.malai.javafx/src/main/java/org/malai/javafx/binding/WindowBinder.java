@@ -10,13 +10,6 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -27,93 +20,9 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extends UpdateBinder<Window, A, I> {
+public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extends UpdateBinder<Window, A, I, WindowBinder<A, I>> {
 	public WindowBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
-	}
-
-	@Override
-	public WindowBinder<A, I> then(final BiConsumer<A, I> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> then(final Consumer<A> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> abort(final Runnable abort) {
-		super.abort(abort);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> feedback(final Runnable feedback) {
-		super.feedback(feedback);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> exec() {
-		super.exec();
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> on(final Window... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> map(final Function<I, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> first(final BiConsumer<A, I> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> when(final Predicate<I> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public WindowBinder<A, I> end(final BiConsumer<A, I> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override

@@ -10,13 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 import org.malai.action.ActionImpl;
@@ -28,93 +22,9 @@ import org.malai.javafx.interaction.library.TextChanged;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, TextChanged> {
+public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, TextChanged, TextInputBinder<A, W>> {
 	public TextInputBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new TextChanged(), instrument);
-	}
-
-	@Override
-	public TextInputBinder<A, W> then(final BiConsumer<A, TextChanged> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> then(final Consumer<A> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> abort(final Runnable abort) {
-		super.abort(abort);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> feedback(final Runnable feedback) {
-		super.feedback(feedback);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> exec() {
-		super.exec();
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> on(final W... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> map(final Function<TextChanged, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> first(final BiConsumer<A, TextChanged> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> when(final Predicate<TextChanged> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public TextInputBinder<A, W> end(final BiConsumer<A, TextChanged> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override

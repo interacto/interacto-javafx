@@ -10,13 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import org.malai.action.ActionImpl;
@@ -28,93 +22,9 @@ import org.malai.javafx.interaction.library.SpinnerValueChanged;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>, A, SpinnerValueChanged> {
+public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>, A, SpinnerValueChanged, SpinnerBinder<A>> {
 	public SpinnerBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new SpinnerValueChanged(), instrument);
-	}
-
-	@Override
-	public SpinnerBinder<A> then(final BiConsumer<A, SpinnerValueChanged> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> then(final Consumer<A> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> abort(final Runnable abort) {
-		super.abort(abort);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> feedback(final Runnable feedback) {
-		super.feedback(feedback);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> exec() {
-		super.exec();
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> on(final Spinner<?>... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> map(final Function<SpinnerValueChanged, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> first(final BiConsumer<A, SpinnerValueChanged> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> when(final Predicate<SpinnerValueChanged> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public SpinnerBinder<A> end(final BiConsumer<A, SpinnerValueChanged> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override

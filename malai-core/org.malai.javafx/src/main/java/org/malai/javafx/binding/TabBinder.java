@@ -10,13 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import org.malai.action.ActionImpl;
@@ -28,63 +22,9 @@ import org.malai.javafx.interaction.library.TabSelected;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelected> {
+public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelected, TabBinder<A>> {
 	public TabBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new TabSelected(), instrument);
-	}
-
-	@Override
-	public TabBinder<A> on(final TabPane... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public TabBinder<A> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public TabBinder<A> map(final Function<TabSelected, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public TabBinder<A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public Binder<TabPane, A, TabSelected> first(final BiConsumer<A, TabSelected> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public TabBinder<A> when(final Predicate<TabSelected> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public TabBinder<A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public TabBinder<A> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public TabBinder<A> end(final BiConsumer<A, TabSelected> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override

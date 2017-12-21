@@ -10,13 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.malai.action.ActionImpl;
@@ -28,63 +22,9 @@ import org.malai.javafx.interaction.library.ButtonPressed;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, ButtonPressed> {
+public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, ButtonPressed, ButtonBinder<A>> {
 	public ButtonBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new ButtonPressed(), instrument);
-	}
-
-	@Override
-	public ButtonBinder<A> on(final Button... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> map(final Function<ButtonPressed, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> first(final BiConsumer<A, ButtonPressed> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> when(final Predicate<ButtonPressed> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> end(final BiConsumer<A, ButtonPressed> onEndFct) {
-		super.end(onEndFct);
-		return this;
-	}
-
-	@Override
-	public ButtonBinder<A> async() {
-		super.async();
-		return this;
 	}
 
 	@Override

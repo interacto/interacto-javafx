@@ -10,13 +10,7 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import org.malai.action.ActionImpl;
@@ -28,63 +22,9 @@ import org.malai.javafx.interaction.library.ColorPicked;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class ColorPickerBinder<A extends ActionImpl> extends Binder<ColorPicker, A, ColorPicked> {
+public class ColorPickerBinder<A extends ActionImpl> extends Binder<ColorPicker, A, ColorPicked, ColorPickerBinder<A>> {
 	public ColorPickerBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new ColorPicked(), instrument);
-	}
-
-	@Override
-	public ColorPickerBinder<A> on(final ColorPicker... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> map(final Function<ColorPicked, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> first(final BiConsumer<A, ColorPicked> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> when(final Predicate<ColorPicked> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public ColorPickerBinder<A> end(final BiConsumer<A, ColorPicked> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override

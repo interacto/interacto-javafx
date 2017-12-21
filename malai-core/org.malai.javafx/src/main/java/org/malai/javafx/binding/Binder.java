@@ -34,7 +34,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> {
+public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, B extends Binder<W, A, I, B>> {
 	protected BiConsumer<A, I> initAction;
 	protected Predicate<I> checkConditions;
 	protected Function<I, A> actionProducer;
@@ -65,9 +65,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * @param widget The widgets involve in the bindings.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> on(final W... widget) {
+	public B on(final W... widget) {
 		widgets.addAll(Arrays.asList(widget));
-		return this;
+		return (B) this;
 	}
 
 
@@ -78,12 +78,12 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * @param widgets The observable list of the widgets involved in the bindings.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> on(final ObservableList<Node> widgets) {
+	public B on(final ObservableList<Node> widgets) {
 		if(additionalWidgets == null) {
 			additionalWidgets = new HashSet<>();
 		}
 		additionalWidgets.add(widgets);
-		return this;
+		return (B) this;
 	}
 
 
@@ -95,9 +95,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * This callback takes as arguments the current user interaction.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> map(final Function<I, A> actionFunction) {
+	public B map(final Function<I, A> actionFunction) {
 		actionProducer = actionFunction;
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -107,11 +107,11 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * This callback takes as arguments the action to configure.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> first(final Consumer<A> initActionFct) {
+	public B first(final Consumer<A> initActionFct) {
 		if(initActionFct != null) {
 			initAction = (a, i) -> initActionFct.accept(a);
 		}
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -121,9 +121,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * This callback takes as arguments both the action and interaction involved in the binding.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> first(final BiConsumer<A, I> initActionFct) {
+	public B first(final BiConsumer<A, I> initActionFct) {
 		initAction = initActionFct;
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -132,9 +132,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * This predicate takes as arguments the ongoing user interaction involved in the binding.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> when(final Predicate<I> checkAction) {
+	public B when(final Predicate<I> checkAction) {
 		checkConditions = checkAction;
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -142,9 +142,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> when(final BooleanSupplier checkAction) {
+	public B when(final BooleanSupplier checkAction) {
 		checkConditions = i -> checkAction.getAsBoolean();
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -152,9 +152,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * Beware of UI modifications: UI changes must be done in the JFX UI thread.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> async() {
+	public B async() {
 		async = true;
-		return this;
+		return (B) this;
 	}
 
 	/**
@@ -163,9 +163,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction> 
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public Binder<W, A, I> end(final BiConsumer<A, I> onEndFct) {
+	public B end(final BiConsumer<A, I> onEndFct) {
 		onEnd = onEndFct;
-		return this;
+		return (B) this;
 	}
 
 	/**

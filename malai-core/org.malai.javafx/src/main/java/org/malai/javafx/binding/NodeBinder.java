@@ -10,12 +10,6 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.function.BiConsumer;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -27,93 +21,9 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends UpdateBinder<Node, A, I> {
+public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends UpdateBinder<Node, A, I, NodeBinder<A, I>> {
 	public NodeBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
-	}
-
-	@Override
-	public NodeBinder<A, I> then(final BiConsumer<A, I> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> then(final Consumer<A> update) {
-		super.then(update);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> exec() {
-		super.exec();
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> abort(final Runnable abort) {
-		super.abort(abort);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> feedback(final Runnable feedback) {
-		super.feedback(feedback);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> on(final Node... widget) {
-		super.on(widget);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> on(final ObservableList<Node> widgets) {
-		super.on(widgets);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> map(final Function<I, A> actionFunction) {
-		actionProducer = actionFunction;
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> first(final Consumer<A> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> first(final BiConsumer<A, I> initActionFct) {
-		super.first(initActionFct);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> when(final Predicate<I> checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> when(final BooleanSupplier checkAction) {
-		super.when(checkAction);
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> async() {
-		super.async();
-		return this;
-	}
-
-	@Override
-	public NodeBinder<A, I> end(final BiConsumer<A, I> onEndFct) {
-		super.end(onEndFct);
-		return this;
 	}
 
 	@Override
