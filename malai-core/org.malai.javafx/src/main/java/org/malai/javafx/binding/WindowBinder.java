@@ -57,8 +57,8 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	}
 
 	@Override
-	public WindowBinder<A, I> exec(final boolean execActionOnChanges) {
-		super.exec(execActionOnChanges);
+	public WindowBinder<A, I> exec() {
+		super.exec();
 		return this;
 	}
 

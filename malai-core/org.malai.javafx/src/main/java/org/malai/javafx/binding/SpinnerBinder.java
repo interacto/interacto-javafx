@@ -58,8 +58,8 @@ public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>
 	}
 
 	@Override
-	public SpinnerBinder<A> exec(final boolean execActionOnChanges) {
-		super.exec(execActionOnChanges);
+	public SpinnerBinder<A> exec() {
+		super.exec();
 		return this;
 	}
 

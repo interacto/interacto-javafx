@@ -45,8 +45,8 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	}
 
 	@Override
-	public NodeBinder<A, I> exec(final boolean execActionOnChanges) {
-		super.exec(execActionOnChanges);
+	public NodeBinder<A, I> exec() {
+		super.exec();
 		return this;
 	}
 

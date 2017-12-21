@@ -58,8 +58,8 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	}
 
 	@Override
-	public TextInputBinder<A, W> exec(final boolean execActionOnChanges) {
-		super.exec(execActionOnChanges);
+	public TextInputBinder<A, W> exec() {
+		super.exec();
 		return this;
 	}
 

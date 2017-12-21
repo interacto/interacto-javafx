@@ -79,7 +79,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 			}).
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
-			exec(true).
+			exec().
 			first((a, i) -> {
 				// Required to grab the focus to get key events
 				Platform.runLater(() -> i.getSrcObject().get().requestFocus());

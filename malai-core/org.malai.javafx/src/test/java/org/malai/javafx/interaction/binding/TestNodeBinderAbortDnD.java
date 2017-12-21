@@ -42,7 +42,7 @@ public class TestNodeBinderAbortDnD extends TestNodeBinder<Pane> {
 			then((a, i) -> a.setCoord(rec.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
 				rec.getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
 			end((a, i) -> fail("")).
-			exec(true).
+			exec().
 			bind();
 		drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
 		assertEquals(0, instrument.exec.get());
@@ -57,7 +57,7 @@ public class TestNodeBinderAbortDnD extends TestNodeBinder<Pane> {
 			then((a, i) -> a.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
 				((Rectangle) i.getSrcObject().get()).getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
 			end((a, i) -> fail("")).
-			exec(true).
+			exec().
 			bind();
 
 		Rectangle rec2 = new Rectangle(200d, 200d, 70d, 50d);
