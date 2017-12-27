@@ -34,7 +34,8 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final BiConsumer<A, I> execUpdateAction;
 	private final Predicate<I> checkInteraction;
 	private final Function<I, A> actionProducer;
-	private final Runnable abortFct;
+	private final BiConsumer<A, I> cancelFct;
+	private final BiConsumer<A, I> endOrCancelFct;
 	private final Runnable feedbackFct;
 	private final boolean asyncAction;
 	private final BiConsumer<A, I> onEnd;
@@ -57,13 +58,14 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
-							  final Runnable abort, final Runnable feedback, final List<Node> widgets, Set<ObservableList<Node>> additionalWidgets,
-							  final boolean async)
+							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
+							  final Set<ObservableList<Node>> additionalWidgets, final boolean async)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, widgets);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
-		abortFct = abort;
+		cancelFct = cancel;
+		endOrCancelFct = endOrCancel;
 		feedbackFct = feedback;
 		actionProducer = actionFunction;
 		checkInteraction = check == null ? i -> true : check;
@@ -93,12 +95,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
-							  final Runnable abort, final Runnable feedback, final boolean async)
+							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean async)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, interaction);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
-		abortFct = abort;
+		cancelFct = cancel;
+		endOrCancelFct = endOrCancel;
 		feedbackFct = feedback;
 		actionProducer = actionFunction;
 		checkInteraction = check == null ? i -> true : check;
@@ -135,10 +138,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 
 	@Override
 	public void interactionAborts(final Interaction inter) {
-		super.interactionAborts(inter);
-		if(abortFct != null) {
-			abortFct.run();
+		if(endOrCancelFct != null) {
+			endOrCancelFct.accept(action, interaction);
 		}
+		if(cancelFct != null) {
+			cancelFct.accept(action, interaction);
+		}
+		super.interactionAborts(inter);
 	}
 
 	@Override
@@ -150,10 +156,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 
 	@Override
 	public void interactionStops(final Interaction inter) {
-		final A action = getAction();
+		final A currAction = getAction();
 		super.interactionStops(inter);
+		if(endOrCancelFct != null) {
+			endOrCancelFct.accept(currAction, getInteraction());
+		}
 		if(onEnd != null) {
-			onEnd.accept(action, getInteraction());
+			onEnd.accept(currAction, getInteraction());
 		}
 	}
 

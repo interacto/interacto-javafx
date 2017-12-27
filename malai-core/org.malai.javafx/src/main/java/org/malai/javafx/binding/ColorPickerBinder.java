@@ -30,7 +30,7 @@ public class ColorPickerBinder<A extends ActionImpl> extends Binder<ColorPicker,
 	@Override
 	public JfXWidgetBinding<A, ColorPicked, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, ColorPicked, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
-			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null,
+			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
 		instrument.addBinding(binding);
 		return binding;

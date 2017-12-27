@@ -85,7 +85,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 				Platform.runLater(() -> i.getSrcObject().get().requestFocus());
 				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
 			}).
-			end((a, i) -> i.getSrcObject().get().setEffect(null)).
+			endOrCancel((a, i) -> i.getSrcObject().get().setEffect(null)).
 			bind();
 
 		//
