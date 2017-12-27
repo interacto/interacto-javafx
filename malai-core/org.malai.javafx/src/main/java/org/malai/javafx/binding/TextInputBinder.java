@@ -30,7 +30,7 @@ public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> e
 	@Override
 	public JfXWidgetBinding<A, TextChanged, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, TextChanged, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction,
-			initAction, updateFct, checkConditions, onEnd, actionProducer, abortFct, feedbackFct,
+			initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct, endOrCancelFct, feedbackFct,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
 		instrument.addBinding(binding);
 		return binding;

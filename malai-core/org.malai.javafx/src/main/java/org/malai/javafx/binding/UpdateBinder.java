@@ -23,7 +23,8 @@ import org.malai.javafx.interaction.JfxInteraction;
  */
 public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInteraction, B extends UpdateBinder<W, A, I, B>> extends Binder<W, A, I, B> {
 	protected BiConsumer<A, I> updateFct;
-	protected Runnable abortFct;
+	protected BiConsumer<A, I> cancelFct;
+	protected BiConsumer<A, I> endOrCancelFct;
 	protected Runnable feedbackFct;
 	protected boolean execOnChanges;
 
@@ -71,8 +72,18 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	 * The undoable action is autmatically cancelled so that nothing must be done on the action.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B abort(final Runnable abort) {
-		abortFct = abort;
+	public B cancel(final BiConsumer<A, I> cancel) {
+		cancelFct = cancel;
+		return (B) this;
+	}
+
+	/**
+	 * Defines what to do when an action is aborted (because the interaction is abord map).
+	 * The undoable action is autmatically cancelled so that nothing must be done on the action.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public B endOrCancel(final BiConsumer<A, I> endOrCancel) {
+		endOrCancelFct = endOrCancel;
 		return (B) this;
 	}
 

@@ -30,7 +30,7 @@ public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, Bo
 	@Override
 	public JfXWidgetBinding<A, BoxChecked, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, BoxChecked, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
-			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null,
+			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
 		instrument.addBinding(binding);
 		return binding;
