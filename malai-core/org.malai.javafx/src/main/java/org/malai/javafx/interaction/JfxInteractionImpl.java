@@ -30,7 +30,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.stage.Window;
-import org.malai.interaction.AbortingState;
+import org.malai.interaction.CancellingState;
 import org.malai.interaction.InitState;
 import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.TerminalState;
@@ -92,7 +92,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 		}
 
 		final State nextState;
-		if(currentState instanceof TerminalState || currentState instanceof AbortingState) {
+		if(currentState instanceof TerminalState || currentState instanceof CancellingState) {
 			nextState = initState;
 		}else {
 			nextState = currentState;

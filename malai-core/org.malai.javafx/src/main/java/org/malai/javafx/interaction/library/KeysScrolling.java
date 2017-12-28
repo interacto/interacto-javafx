@@ -13,7 +13,7 @@ package org.malai.javafx.interaction.library;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.input.KeyCode;
-import org.malai.interaction.AbortingState;
+import org.malai.interaction.CancellingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.KeyPressureTransition;
@@ -48,7 +48,7 @@ public class KeysScrolling extends Scrolling {
 	@Override
 	protected void initStateMachine() {
 		final IntermediaryState keyPressed = new IntermediaryState("keyPressed");
-		final AbortingState keyReleased = new AbortingState("keyReleased");
+		final CancellingState keyReleased = new CancellingState("keyReleased");
 		final TerminalState scrolled = new TerminalState("scrolled");
 
 		addState(keyPressed);

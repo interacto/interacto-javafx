@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Point3D;
 import javafx.scene.input.MouseButton;
-import org.malai.interaction.AbortingState;
+import org.malai.interaction.CancellingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.javafx.interaction.EscapeKeyPressureTransition;
@@ -74,7 +74,7 @@ public class MultiClick extends JfxInteractionImpl {
 		final IntermediaryState pressed = new IntermediaryState("pressed");
 		final IntermediaryState released = new IntermediaryState("released");
 		final TerminalState ended = new TerminalState("ended");
-		final AbortingState aborted = new AbortingState("aborted");
+		final CancellingState aborted = new CancellingState("cancelled");
 
 		addState(pressed);
 		addState(released);

@@ -78,7 +78,7 @@ public interface Action {
 	/**
 	 * Marks the action has aborted.
 	 */
-	void abort();
+	void cancel();
 
 	/**
 	 * Provides the status of the action.
@@ -118,8 +118,8 @@ public interface Action {
 		CREATED,
 		/** When the action has been created and executed one time. */
 		EXECUTED,
-		/** When the action has been aborted. */
-		ABORTED,
+		/** When the action has been cancelled. */
+		CANCELLED,
 		/** When the action has been marked as done. */
 		DONE,
 		/** The action has been flushed. In this case, the action must not be used anymore. */

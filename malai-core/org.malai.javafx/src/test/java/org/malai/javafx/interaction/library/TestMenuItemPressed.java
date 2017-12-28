@@ -7,9 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.interaction.InitState;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,26 +32,26 @@ public class TestMenuItemPressed extends BaseJfXInteractionTest<MenuItemPressed>
 	}
 
 	@Test
-	public void testMenuItemClickGoodState() throws MustAbortStateMachineException {
+	public void testMenuItemClickGoodState() throws MustCancelStateMachineException {
 		interaction.onJfxMenuItemPressed(menu);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testButtonClickGoodData() throws MustAbortStateMachineException {
+	void testButtonClickGoodData() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				assertEquals(menu, ((MenuItemPressed) interaction).widget);
+			public void interactionStops() throws MustCancelStateMachineException {
+				super.interactionStops();
+				assertEquals(menu, interaction.widget);
 			}
 		});
 		interaction.onJfxMenuItemPressed(menu);
 	}
 
 	@Test
-	void testMenuItemClickReinit() throws MustAbortStateMachineException {
+	void testMenuItemClickReinit() {
 		interaction.onJfxMenuItemPressed(menu);
 		assertNull(interaction.getWidget());
 		assertEquals(-1, interaction.getLastHIDUsed());
@@ -60,41 +59,41 @@ public class TestMenuItemPressed extends BaseJfXInteractionTest<MenuItemPressed>
 	}
 
 	@Test
-	void testRegisterMenuItem() throws MustAbortStateMachineException {
+	void testRegisterMenuItem() throws MustCancelStateMachineException {
 		interaction.registerToMenuItems(Collections.singletonList(menu));
 		menu.fire();
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotRegistered() throws MustCancelStateMachineException {
 		menu.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotMenuItemRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotMenuItemRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
 		menu.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNullRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNullRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(null);
 		menu.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenContainsNullRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenContainsNullRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		menu.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 }

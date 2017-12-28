@@ -12,16 +12,16 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
 @ExtendWith(MockitoExtension.class)
-public class TestAbortableDnD extends TestDnD {
+public class TestCancellableDnD extends TestDnD {
 	@Override
-	protected AbortableDnD createInteraction() {
-		return new AbortableDnD();
+	protected CancellableDnD createInteraction() {
+		return new CancellableDnD();
 	}
 
 	@Nested
@@ -45,20 +45,20 @@ public class TestAbortableDnD extends TestDnD {
 		}
 
 		@Test
-		public void testDnDOK() throws MustAbortStateMachineException {
+		public void testDnDOK() throws MustCancelStateMachineException {
 			drag(pane).dropBy(100, 100).sleep(50L);
-			Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+			Mockito.verify(handler, Mockito.times(1)).interactionStops();
+			Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 		}
 
 		@Test
-		public void testDnDEscapeOK() throws MustAbortStateMachineException {
+		public void testDnDEscapeOK() throws MustCancelStateMachineException {
 			Platform.runLater(() -> pane.requestFocus());
 			WaitForAsyncUtils.waitForFxEvents();
 			drag(pane).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
-			Mockito.verify(handler, Mockito.times(0)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionAborts(interaction);
+			Mockito.verify(handler, Mockito.times(0)).interactionStops();
+			Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+			Mockito.verify(handler, Mockito.times(1)).interactionCancels();
 		}
 	}
 
@@ -86,23 +86,23 @@ public class TestAbortableDnD extends TestDnD {
 		}
 
 		@Test
-		public void testDnDOK() throws MustAbortStateMachineException {
+		public void testDnDOK() throws MustCancelStateMachineException {
 			drag(rec).dropBy(100, 100).sleep(50L);
-			Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+			Mockito.verify(handler, Mockito.times(1)).interactionStops();
+			Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 		}
 
 		@Test
-		public void testDnDEscapeOK() throws MustAbortStateMachineException {
+		public void testDnDEscapeOK() throws MustCancelStateMachineException {
 			Platform.runLater(() -> pane.requestFocus());
 			WaitForAsyncUtils.waitForFxEvents();
 			drag(rec);
 			Platform.runLater(() -> rec.requestFocus());
 			WaitForAsyncUtils.waitForFxEvents();
 			moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
-			Mockito.verify(handler, Mockito.times(0)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionAborts(interaction);
+			Mockito.verify(handler, Mockito.times(0)).interactionStops();
+			Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+			Mockito.verify(handler, Mockito.times(1)).interactionCancels();
 		}
 	}
 }

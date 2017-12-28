@@ -10,7 +10,7 @@
  */
 package org.malai.interaction;
 
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.malai.stateMachine.SourceableState;
 import org.malai.stateMachine.TargetableState;
 
@@ -26,13 +26,13 @@ public class IntermediaryState extends StateImpl implements SourceableState, Tar
 
 
 	@Override
-	public void onIngoing() throws MustAbortStateMachineException {
+	public void onIngoing() throws MustCancelStateMachineException {
 		stateMachine.onUpdating();
 	}
 
 
 	@Override
-	public void onOutgoing() throws MustAbortStateMachineException {
+	public void onOutgoing() throws MustCancelStateMachineException {
 		//
 	}
 }

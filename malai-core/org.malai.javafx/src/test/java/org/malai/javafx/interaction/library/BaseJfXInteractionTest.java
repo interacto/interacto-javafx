@@ -16,10 +16,9 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.junit.jupiter.api.BeforeEach;
-import org.malai.interaction.Interaction;
 import org.malai.interaction.InteractionHandler;
 import org.malai.javafx.interaction.JfxInteraction;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -48,11 +47,11 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction> extends A
 		return scene.getWindow();
 	}
 
-	void checkNoUseOfHandler() throws MustAbortStateMachineException {
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+	void checkNoUseOfHandler() throws MustCancelStateMachineException {
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
+		Mockito.verify(handler, Mockito.never()).interactionUpdates();
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
 	}
 
 	static WindowEvent createWindowEvent(final Window window, final EventType<?> eventType) {
@@ -98,22 +97,22 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction> extends A
 
 	static class InteractionHandlerStub implements InteractionHandler {
 		@Override
-		public void interactionStarts(final Interaction interaction) throws MustAbortStateMachineException {
+		public void interactionStarts() throws MustCancelStateMachineException {
 
 		}
 
 		@Override
-		public void interactionUpdates(final Interaction interaction) throws MustAbortStateMachineException {
+		public void interactionUpdates() {
 
 		}
 
 		@Override
-		public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
+		public void interactionStops() throws MustCancelStateMachineException {
 
 		}
 
 		@Override
-		public void interactionAborts(final Interaction interaction) {
+		public void interactionCancels() {
 
 		}
 	}

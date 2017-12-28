@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestJfxInteraction {
 	static Stream<JfxInteraction> interactionProvider() {
-		return Stream.of(new ButtonPressed(), new DnD(), new AbortableDnD(), new BoxChecked(), new ColorPicked(), new ComboBoxSelected(),
+		return Stream.of(new ButtonPressed(), new DnD(), new CancellableDnD(), new BoxChecked(), new ColorPicked(), new ComboBoxSelected(),
 			new DoubleClick(), new KeyPressure(), new KeyPressureNoModifier(), new KeysPressure(), new KeysScrolling(), new KeysTyped(),
 			new KeyTyped(), new MenuItemPressed(), new MultiClick(), new Press(), new Scrolling(), new SpinnerValueChanged(),
 			new TabSelected(), new TextChanged(), new ToggleButtonPressed(), new WindowClosed());

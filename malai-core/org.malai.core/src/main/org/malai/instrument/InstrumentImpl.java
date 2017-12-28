@@ -177,17 +177,12 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 	}
 
 	@Override
-	public void onActionCancelled(final Action action) {
-		// Should be overridden.
-	}
-
-	@Override
 	public void onActionAdded(final Action action) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionAborted(final Action action) {
+	public void onActionCancelled(final Action action) {
 		// Should be overridden.
 	}
 

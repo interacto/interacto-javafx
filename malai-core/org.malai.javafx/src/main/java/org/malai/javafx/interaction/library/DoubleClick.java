@@ -12,7 +12,7 @@ package org.malai.javafx.interaction.library;
 
 import java.util.function.LongSupplier;
 import javafx.scene.input.MouseEvent;
-import org.malai.interaction.AbortingState;
+import org.malai.interaction.CancellingState;
 import org.malai.interaction.IntermediaryState;
 import org.malai.interaction.TerminalState;
 import org.malai.interaction.TimeoutTransition;
@@ -60,7 +60,7 @@ public class DoubleClick extends PointInteraction {
 	@Override
 	protected void initStateMachine() {
 		final IntermediaryState pressed1 = new IntermediaryState("pressed1");
-		final AbortingState aborted = new AbortingState("aborted");
+		final CancellingState aborted = new CancellingState("cancelled");
 		final IntermediaryState released1 = new IntermediaryState("released1");
 		final IntermediaryState pressed2 = new IntermediaryState("pressed2");
 		final TerminalState released2 = new TerminalState("released2");

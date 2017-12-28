@@ -10,14 +10,14 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.binding.NodeBinder;
-import org.malai.javafx.interaction.library.AbortableDnD;
+import org.malai.javafx.interaction.library.CancellableDnD;
 import org.malai.undo.Undoable;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class TestNodeBinderAbortDnD extends TestNodeBinder<Pane> {
+public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	Rectangle rec;
 
 	@Override
@@ -34,8 +34,8 @@ public class TestNodeBinderAbortDnD extends TestNodeBinder<Pane> {
 	}
 
 	@Test
-	public void testCanAbortDnD() throws InstantiationException, IllegalAccessException {
-		new NodeBinder<>(MoveShape.class, new AbortableDnD(true), instrument).
+	public void testCanCancelDnD() throws InstantiationException, IllegalAccessException {
+		new NodeBinder<>(MoveShape.class, new CancellableDnD(true), instrument).
 			map(i -> new MoveShape(rec)).
 			on(rec).
 			first((a, i) -> rec.requestFocus()).
@@ -49,8 +49,8 @@ public class TestNodeBinderAbortDnD extends TestNodeBinder<Pane> {
 	}
 
 	@Test
-	public void testCanAbortDnDWithObsList() throws InstantiationException, IllegalAccessException {
-		new NodeBinder<>(MoveShape.class, new AbortableDnD(true), instrument).
+	public void testCanCancelDnDWithObsList() throws InstantiationException, IllegalAccessException {
+		new NodeBinder<>(MoveShape.class, new CancellableDnD(true), instrument).
 			map(i -> new MoveShape((Rectangle) i.getSrcObject().get())).
 			on(widget1.getChildren()).
 			first((a, i) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).

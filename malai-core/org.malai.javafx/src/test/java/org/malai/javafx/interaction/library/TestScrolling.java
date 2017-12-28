@@ -9,9 +9,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -26,28 +25,28 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 	}
 
 	@Test
-	void testScrollingGoodState() throws MustAbortStateMachineException {
+	void testScrollingGoodState() throws MustCancelStateMachineException {
 		interaction.onScroll(createScrollEvent(1, 2, 5, 0), 1);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testScrollingClickGoodData() throws MustAbortStateMachineException {
+	void testScrollingClickGoodData() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				assertEquals(5d, ((Scrolling) interaction).getIncrement(), 0.00001);
-				assertEquals(1d, ((Scrolling) interaction).px, 0.00001);
-				assertEquals(2d, ((Scrolling) interaction).py, 0.00001);
+			public void interactionStops() throws MustCancelStateMachineException {
+				super.interactionStops();
+				assertEquals(5d, interaction.getIncrement(), 0.00001);
+				assertEquals(1d, interaction.px, 0.00001);
+				assertEquals(2d, interaction.py, 0.00001);
 			}
 		});
 		interaction.onScroll(createScrollEvent(1, 2, 0, 5), 1);
 	}
 
 	@Test
-	void testScrollingReinit() throws MustAbortStateMachineException {
+	void testScrollingReinit() {
 		interaction.onScroll(createScrollEvent(1, 2, 5, 0), 1);
 		assertNull(interaction.getScrolledNode());
 		assertEquals(0d, interaction.getIncrement(), 0.00001);
@@ -56,52 +55,52 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 	}
 
 	@Test
-	void testRegisterScrolling() throws MustAbortStateMachineException {
+	void testRegisterScrolling() throws MustCancelStateMachineException {
 		ColorPicker dummyWidget = new ColorPicker();
 		interaction.registerToNodes(Collections.singletonList(dummyWidget));
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testRegisterScrollingNoActionWhenNotRegistered() throws MustAbortStateMachineException {
+	void testRegisterScrollingNoActionWhenNotRegistered() throws MustCancelStateMachineException {
 		ColorPicker dummyWidget = new ColorPicker();
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotScrollingRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotScrollingRegistered() throws MustCancelStateMachineException {
 		ColorPicker dummyWidgetNotRegistered = new ColorPicker();
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
 		dummyWidgetNotRegistered.fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testScrollingNoActionWhenNullRegistered() throws MustAbortStateMachineException {
+	void testScrollingNoActionWhenNullRegistered() throws MustCancelStateMachineException {
 		ColorPicker dummyWidget = new ColorPicker();
 		interaction.registerToNodes(null);
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testScrollingNoActionWhenContainsNullRegistered() throws MustAbortStateMachineException {
+	void testScrollingNoActionWhenContainsNullRegistered() throws MustCancelStateMachineException {
 		ColorPicker dummyWidget = new ColorPicker();
 		interaction.registerToNodes(Collections.singletonList(null));
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 
 	}
 
 	@Test
-	void testRegisterWindowScrolling() throws MustAbortStateMachineException {
+	void testRegisterWindowScrolling() throws MustCancelStateMachineException {
 		Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
 			Stage stage = new Stage();
@@ -111,12 +110,12 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 
 		interaction.registerToWindows(Collections.singletonList(dummyScene.getWindow()));
 		dummyScene.getWindow().fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testRegisterWindowScrollingNoActionWhenNotRegistered() throws MustAbortStateMachineException {
+	void testRegisterWindowScrollingNoActionWhenNotRegistered() throws MustCancelStateMachineException {
 		Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
 			Stage stage = new Stage();
@@ -124,12 +123,12 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 		});
 		WaitForAsyncUtils.waitForFxEvents();
 		dummyScene.getWindow().fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotScrollingRegisteredWindow() throws MustAbortStateMachineException {
+	void testNoActionWhenNotScrollingRegisteredWindow() throws MustCancelStateMachineException {
 		Scene dummyScene = new Scene(new Button());
 		Scene dummySceneFire = new Scene(new Button());
 		Platform.runLater(() -> {
@@ -142,12 +141,12 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 
 		interaction.registerToWindows(Collections.singletonList(dummyScene.getWindow()));
 		dummySceneFire.getWindow().fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testScrollingNoActionWhenNullRegisteredWindow() throws MustAbortStateMachineException {
+	void testScrollingNoActionWhenNullRegisteredWindow() throws MustCancelStateMachineException {
 		Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
 			Stage stage = new Stage();
@@ -157,12 +156,12 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 
 		interaction.registerToWindows(null);
 		dummyScene.getWindow().fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testScrollingNoActionWhenContainsNullRegisteredWindow() throws MustAbortStateMachineException {
+	void testScrollingNoActionWhenContainsNullRegisteredWindow() throws MustCancelStateMachineException {
 		Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
 			Stage stage = new Stage();
@@ -172,7 +171,7 @@ public class TestScrolling extends BaseJfXInteractionTest<Scrolling> {
 
 		interaction.registerToWindows(Collections.singletonList(null));
 		dummyScene.getWindow().fireEvent(createScrollEvent(1, 2, 5, 0));
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 }

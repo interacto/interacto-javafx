@@ -76,9 +76,9 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 
 
 	@Override
-	public void interactionStops(final Interaction inter) {
+	public void interactionStops() {
 		final A action = getAction();
-		super.interactionStops(inter);
+		super.interactionStops();
 		if(onEnd != null) {
 			onEnd.accept(action, getInteraction());
 		}

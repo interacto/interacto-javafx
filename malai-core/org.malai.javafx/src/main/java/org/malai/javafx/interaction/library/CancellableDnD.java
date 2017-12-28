@@ -10,28 +10,28 @@
  */
 package org.malai.javafx.interaction.library;
 
-import org.malai.interaction.AbortingState;
+import org.malai.interaction.CancellingState;
 import org.malai.javafx.interaction.EscapeKeyPressureTransition;
 import org.malai.javafx.interaction.ReleaseTransition;
 
 /**
- * An abortable DnD interaction.
+ * A cancellable DnD interaction.
  * @author Arnaud Blouin
  */
-public class AbortableDnD extends DnD {
+public class CancellableDnD extends DnD {
 	/**
 	 * Creates the interaction.
 	 * @param updateSrcOnUpdate If true, the source point and object will take the latest end point and object
 	 * at each update, just before these end point and object will be updated.
 	 */
-	public AbortableDnD(final boolean updateSrcOnUpdate) {
+	public CancellableDnD(final boolean updateSrcOnUpdate) {
 		super(updateSrcOnUpdate);
 	}
 
 	/**
 	 * Creates the interaction.
 	 */
-	public AbortableDnD() {
+	public CancellableDnD() {
 		this(false);
 	}
 
@@ -39,7 +39,7 @@ public class AbortableDnD extends DnD {
 	protected void initStateMachine() {
 		super.initStateMachine();
 
-		final AbortingState aborted = new AbortingState("aborted");
+		final CancellingState aborted = new CancellingState("cancelled");
 		addState(aborted);
 
 		new EscapeKeyPressureTransition(pressed, aborted);

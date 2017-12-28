@@ -13,61 +13,55 @@ package org.malai.stateMachine;
 /**
  * This interface defines the notion of state machine.
  * @author Arnaud BLOUIN
- * @since 0.2
  */
 public interface StateMachine {
 	/**
 	 * Terminates the state machine.
-	 * @throws MustAbortStateMachineException If something happens requiring the interaction to abort.
+	 * @throws MustCancelStateMachineException If something happens requiring the interaction to cancel.
 	 */
-	void onTerminating() throws MustAbortStateMachineException;
+	void onTerminating() throws MustCancelStateMachineException;
 
-	/** Aborts the state machine. */
-	void onAborting();
+	/** Cancels the state machine. */
+	void onCancelling();
 
 	/**
 	 * Starts the state machine.
-	 * @throws MustAbortStateMachineException If something happens requiring the interaction to abort.
+	 * @throws MustCancelStateMachineException If something happens requiring the interaction to cancel.
 	 */
-	void onStarting() throws MustAbortStateMachineException;
+	void onStarting() throws MustCancelStateMachineException;
 
 	/**
 	 * Updates the state machine.
-	 * @throws MustAbortStateMachineException If something happens requiring the interaction to abort.
+	 * @throws MustCancelStateMachineException If something happens requiring the interaction to cancel.
 	 */
-	void onUpdating() throws MustAbortStateMachineException;
+	void onUpdating() throws MustCancelStateMachineException;
 
 	/**
 	 * Adds a state to the state machine.
 	 * @param state The state to add. Must not be null.
-	 * @since 0.2
 	 */
 	void addState(final State state);
 
 	/**
 	 * Reinits the state machine.
-	 * @since 0.2
 	 */
 	void reinit();
 
 	/**
-	 * Defines if the state machine is activated.
-	 * @param activated True: the state machine will be activated.
-	 * @since 0.2
-	 */
-	void setActivated(final boolean activated);
-
-	/**
 	 * @return The current state of the running state machine. Or null when the machine is not running.
-	 * @since 2.0
 	 */
 	State getCurrentState();
 
 	/**
 	 * @return True or false depending on whether the state machine is activated.
-	 * @since 2.0
 	 */
 	boolean isActivated();
+
+	/**
+	 * Defines if the state machine is activated.
+	 * @param activated True: the state machine will be activated.
+	 */
+	void setActivated(final boolean activated);
 
 	/**
 	 * Checks whether the transition can be executed and executes it when possible.
@@ -78,7 +72,6 @@ public interface StateMachine {
 
 	/**
 	 * @return True: the state machine is running.
-	 * @since 0.2
 	 */
 	boolean isRunning();
 }

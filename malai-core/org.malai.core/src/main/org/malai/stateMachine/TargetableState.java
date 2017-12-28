@@ -17,7 +17,7 @@ package org.malai.stateMachine;
  */
 public interface TargetableState extends State {
 	/**
-	 * @throws MustAbortStateMachineException To launch when the state machine must stop.
+	 * @throws MustCancelStateMachineException To launch when the state machine must stop.
 	 */
-	void onIngoing() throws MustAbortStateMachineException;
+	void onIngoing() throws MustCancelStateMachineException;
 }

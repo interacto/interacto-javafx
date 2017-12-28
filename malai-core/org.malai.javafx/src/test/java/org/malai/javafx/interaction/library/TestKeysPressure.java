@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
 
@@ -25,11 +25,11 @@ public class TestKeysPressure extends BaseJfXInteractionTest<KeysPressure> {
 	}
 
 	@Test
-	public void testOneKeyPressure() throws MustAbortStateMachineException {
+	public void testOneKeyPressure() throws MustCancelStateMachineException {
 		interaction.onKeyPressure(createKeyPressEvent("Ctrl", KeyCode.CONTROL), 0);
-		Mockito.verify(handler, Mockito.times(0)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(0)).interactionAborts(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(0)).interactionStops();
+		Mockito.verify(handler, Mockito.times(0)).interactionCancels();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Nested
@@ -51,34 +51,34 @@ public class TestKeysPressure extends BaseJfXInteractionTest<KeysPressure> {
 		}
 
 		@Test
-		public void testTwoKeyPressures() throws MustAbortStateMachineException {
+		public void testTwoKeyPressures() throws MustCancelStateMachineException {
 			clickOn(textField).press(KeyCode.CONTROL, KeyCode.A).sleep(50L);
-			Mockito.verify(handler, Mockito.times(0)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+			Mockito.verify(handler, Mockito.times(0)).interactionStops();
+			Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 			assertEquals(Arrays.asList(KeyCode.CONTROL, KeyCode.A), interaction.getKeyCodes());
 		}
 
 		@Test
-		public void testTwoKeyPressuresAndOneRelease() throws MustAbortStateMachineException {
+		public void testTwoKeyPressuresAndOneRelease() throws MustCancelStateMachineException {
 			clickOn(textField).press(KeyCode.CONTROL, KeyCode.A).release(KeyCode.A).sleep(100L);
-			Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(2)).interactionStarts(interaction);
+			Mockito.verify(handler, Mockito.times(1)).interactionStops();
+			Mockito.verify(handler, Mockito.times(2)).interactionStarts();
 			assertEquals(Collections.singletonList(KeyCode.CONTROL), interaction.getKeyCodes());
 		}
 
 		@Test
-		public void testTwoKeyPressuresAndTwoReleases() throws MustAbortStateMachineException {
+		public void testTwoKeyPressuresAndTwoReleases() throws MustCancelStateMachineException {
 			clickOn(textField).press(KeyCode.CONTROL, KeyCode.A).release(KeyCode.CONTROL, KeyCode.A).sleep(100L);
-			Mockito.verify(handler, Mockito.times(2)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(2)).interactionStarts(interaction);
+			Mockito.verify(handler, Mockito.times(2)).interactionStops();
+			Mockito.verify(handler, Mockito.times(2)).interactionStarts();
 			assertEquals(Collections.emptyList(), interaction.getKeyCodes());
 		}
 
 		@Test
-		public void testThreeKeyPressuresAndTwoReleases() throws MustAbortStateMachineException {
+		public void testThreeKeyPressuresAndTwoReleases() throws MustCancelStateMachineException {
 			clickOn(textField).press(KeyCode.CONTROL, KeyCode.A).release(KeyCode.A).press(KeyCode.A).release(KeyCode.A).sleep(100L);
-			Mockito.verify(handler, Mockito.times(2)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.times(3)).interactionStarts(interaction);
+			Mockito.verify(handler, Mockito.times(2)).interactionStops();
+			Mockito.verify(handler, Mockito.times(3)).interactionStarts();
 			assertEquals(Collections.singletonList(KeyCode.CONTROL), interaction.getKeyCodes());
 		}
 	}

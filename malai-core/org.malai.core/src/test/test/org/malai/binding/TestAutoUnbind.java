@@ -10,7 +10,7 @@ import org.malai.action.AutoUnbind;
 import org.malai.binding.WidgetBindingImpl;
 import org.malai.instrument.Instrument;
 import org.malai.interaction.Interaction;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
@@ -31,7 +31,7 @@ public class TestAutoUnbind {
 	}
 
 	@Test
-	public void testUnbindClassFields() throws MustAbortStateMachineException, IllegalAccessException, InstantiationException {
+	public void testUnbindClassFields() throws MustCancelStateMachineException, IllegalAccessException, InstantiationException {
 		final A act = new A(val.multiply(10d), val.add(11d));
 		WidgetBindingImpl<A, Interaction, Instrument<?>> binding = new WidgetBindingImpl<A, Interaction, Instrument<?>>(ins, false, A.class, inter) {
 			@Override
@@ -48,14 +48,14 @@ public class TestAutoUnbind {
 		};
 
 		binding.setActivated(true);
-		binding.interactionStarts(inter);
-		binding.interactionStops(inter);
+		binding.interactionStarts();
+		binding.interactionStops();
 		assertFalse(act.x.isBound());
 		assertFalse(act.y.isBound());
 	}
 
 	@Test
-	public void testUnbindSuperClassFields() throws MustAbortStateMachineException, IllegalAccessException, InstantiationException {
+	public void testUnbindSuperClassFields() throws MustCancelStateMachineException, IllegalAccessException, InstantiationException {
 		final B act = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
 		WidgetBindingImpl<B, Interaction, Instrument<?>> binding = new WidgetBindingImpl<B, Interaction, Instrument<?>>(ins, false, B.class, inter) {
@@ -73,8 +73,8 @@ public class TestAutoUnbind {
 		};
 
 		binding.setActivated(true);
-		binding.interactionStarts(inter);
-		binding.interactionStops(inter);
+		binding.interactionStarts();
+		binding.interactionStops();
 		assertFalse(act.x.isBound());
 		assertFalse(act.y.isBound());
 		assertFalse(act.z.isBound());

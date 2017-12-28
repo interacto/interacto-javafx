@@ -16,41 +16,29 @@ import org.malai.undo.UndoHandler;
  * This interface allows to create a bridge between an action and an object that want to be aware about events on actions
  * (such as creation or deletion of an action).
  * @author Arnaud Blouin
- * @since 0.1
  */
 public interface ActionHandler extends UndoHandler {
 	/**
-	 * Notifies the handler when the given action is cancelled.
-	 * @param action The cancelled action.
-	 * @since 0.2
-	 */
-	void onActionCancelled(final Action action);
-
-	/**
 	 * Notifies the handler when the given action is added to the registry.
 	 * @param action The added action.
-	 * @since 0.2
 	 */
 	void onActionAdded(final Action action);
 
 	/**
-	 * Notifies the handler when the given action is aborted.
-	 * @param action The aborted action.
-	 * @since 0.2
+	 * Notifies the handler when the given action is cancelled.
+	 * @param action The cancelled action.
 	 */
-	void onActionAborted(final Action action);
+	void onActionCancelled(final Action action);
 
 	/**
 	 * Notifies the handler when the given action is executed.
 	 * @param action The executed action.
-	 * @since 0.2
 	 */
 	void onActionExecuted(final Action action);
 
 	/**
 	 * Notifies the handler when the given action is done.
 	 * @param action The action that ends.
-	 * @since 0.2
 	 */
 	void onActionDone(final Action action);
 }

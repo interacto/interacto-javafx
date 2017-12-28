@@ -6,9 +6,8 @@ import javafx.scene.control.TabPane;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,36 +36,36 @@ public class TestTabSelected extends BaseJfXInteractionTest<TabSelected> {
 	}
 
 	@Test
-	void TestTabSelectedValid() throws MustAbortStateMachineException {
+	void TestTabSelectedValid() throws MustCancelStateMachineException {
 		interaction.onJfXTabSelected(tabPane);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void TestTabSelectedGoodData() throws MustAbortStateMachineException {
+	void TestTabSelectedGoodData() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				assertEquals(tabPane, ((TabSelected) interaction).widget);
+			public void interactionStops() throws MustCancelStateMachineException {
+				super.interactionStops();
+				assertEquals(tabPane, interaction.widget);
 			}
 		});
 		interaction.onJfXTabSelected(tabPane);
 	}
 
 	@Test
-	void TestTabSelectedRegisterToNode() throws MustAbortStateMachineException {
+	void TestTabSelectedRegisterToNode() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(tabPane));
 		tabPane.getSelectionModel().select(1);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotRegistered() throws MustCancelStateMachineException {
 		tabPane.getSelectionModel().select(1);
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 }

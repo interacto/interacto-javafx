@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,20 +34,20 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	}
 
 	@Test
-	void TestDoubleClickValid() throws MustAbortStateMachineException {
+	void TestDoubleClickValid() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates();
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
 	}
 
 	@Test
-	void TestDoubleClickValidWithTimeGap() throws MustAbortStateMachineException {
+	void TestDoubleClickValidWithTimeGap() throws MustCancelStateMachineException {
 		DoubleClick.setTimeGap(2000L);
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
@@ -55,14 +55,14 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates();
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
 	}
 
 	@Test
-	void TestDoubleClickWithMouseMotion() throws MustAbortStateMachineException {
+	void TestDoubleClickWithMouseMotion() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
@@ -71,15 +71,15 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onPressure(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates();
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
 
 	}
 
 	@Test
-	void TestDoubleClickWithLongPressure() throws MustAbortStateMachineException {
+	void TestDoubleClickWithLongPressure() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		sleep(1500);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
@@ -87,15 +87,15 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates();
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
 
 	}
 
 	@Test
-	void TestDoubleClickWithDrag() throws MustAbortStateMachineException {
+	void TestDoubleClickWithDrag() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 
@@ -104,73 +104,73 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.onPressure(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(1000d, 20d, MouseButton.PRIMARY), 0);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates();
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
 
 	}
 
 	@Test
-	void TestDoubleClickTimeOut() throws MustAbortStateMachineException {
+	void TestDoubleClickTimeOut() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		sleep(1500);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionAborts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates();
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionCancels();
 	}
 
 
 	@Test
-	void TestDoubleClickInvalid() throws MustAbortStateMachineException {
+	void TestDoubleClickInvalid() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.SECONDARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.SECONDARY), 0);
 		sleep(1500);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(2)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionAborts(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(2)).interactionUpdates();
+		Mockito.verify(handler, Mockito.times(1)).interactionCancels();
+		Mockito.verify(handler, Mockito.never()).interactionStops();
 
 	}
 
 	@Test
-	void TestDoubleClickRight() throws MustAbortStateMachineException {
+	void TestDoubleClickRight() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.SECONDARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.SECONDARY), 0);
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.SECONDARY), 0);
 		interaction.onRelease(createMousePressEvent(10d, 20d, MouseButton.SECONDARY), 0);
 		sleep(1500);
 
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.times(3)).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.times(3)).interactionUpdates();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
 
 	}
 
 	@Test
-	void TestDoubleClickRegisterToNodes() throws MustAbortStateMachineException {
+	void TestDoubleClickRegisterToNodes() throws MustCancelStateMachineException {
 		Canvas canvas;
 		canvas = new Canvas();
 
 		interaction.registerToNodes(Collections.singletonList(canvas));
 		canvas.fireEvent(createMousePressEvent(1, 2, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 
 	}
 
 	@Test
-	void TestDoubleClickNoActionWhenNotRegistered() throws MustAbortStateMachineException {
+	void TestDoubleClickNoActionWhenNotRegistered() throws MustCancelStateMachineException {
 		Canvas canvas;
 		canvas = new Canvas();
 
 		canvas.fireEvent(createMousePressEvent(1, 2, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 }

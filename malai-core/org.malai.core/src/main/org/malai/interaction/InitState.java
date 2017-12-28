@@ -10,7 +10,7 @@
  */
 package org.malai.interaction;
 
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.malai.stateMachine.SourceableState;
 
 /**
@@ -29,7 +29,7 @@ public class InitState extends StateImpl implements SourceableState {
 
 
 	@Override
-	public void onOutgoing() throws MustAbortStateMachineException {
+	public void onOutgoing() throws MustCancelStateMachineException {
 		stateMachine.onStarting();
 	}
 }

@@ -51,8 +51,8 @@ public class TestAction {
 	}
 
 	@Test
-	public void testActionCannotDoItWhenAborted() {
-		action.abort();
+	public void testActionCannotDoItWhenCancelled() {
+		action.cancel();
 		assertFalse(action.doIt());
 	}
 
@@ -109,13 +109,10 @@ public class TestAction {
 			public void onActionDone(final Action action) {fail();}
 
 			@Override
-			public void onActionCancelled(final Action action) {fail();}
-
-			@Override
 			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action action) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
@@ -169,8 +166,8 @@ public class TestAction {
 	}
 
 	@Test
-	public void testActionHadEffectWhenNotDoneAndAborted() {
-		action.abort();
+	public void testActionHadEffectWhenNotDoneAndCancelled() {
+		action.cancel();
 		assertFalse(action.hadEffect());
 	}
 
@@ -201,10 +198,10 @@ public class TestAction {
 	}
 
 	@Test
-	public void testActionNotDoneWhenAborted() {
-		action.abort();
+	public void testActionNotDoneWhenCancelled() {
+		action.cancel();
 		action.done();
-		assertEquals(Action.ActionStatus.ABORTED, action.getStatus());
+		assertEquals(Action.ActionStatus.CANCELLED, action.getStatus());
 	}
 
 	@Test
@@ -228,13 +225,10 @@ public class TestAction {
 			public void onActionDone(final Action action) {fail();}
 
 			@Override
-			public void onActionCancelled(final Action action) {fail();}
-
-			@Override
 			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action action) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
@@ -266,13 +260,10 @@ public class TestAction {
 			public void onActionDone(final Action action) { visitOnActionDone = true; }
 
 			@Override
-			public void onActionCancelled(final Action action) {fail();}
-
-			@Override
 			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action action) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
@@ -308,13 +299,10 @@ public class TestAction {
 			public void onActionDone(final Action action) { visitOnActionDone = true; }
 
 			@Override
-			public void onActionCancelled(final Action action) {fail();}
-
-			@Override
 			public void onActionAdded(final Action action) {fail();}
 
 			@Override
-			public void onActionAborted(final Action action) {fail();}
+			public void onActionCancelled(final Action action) {fail();}
 
 			@Override
 			public void onUndoableCleared() {
@@ -339,8 +327,8 @@ public class TestAction {
 	}
 
 	@Test
-	public void testIsDoneWhenAborted() {
-		action.abort();
+	public void testIsDoneWhenCancelled() {
+		action.cancel();
 		assertFalse(action.isDone());
 	}
 
@@ -365,9 +353,9 @@ public class TestAction {
 	}
 
 	@Test
-	public void testAbort() {
-		assertNotSame(Action.ActionStatus.ABORTED, action.getStatus());
-		action.abort();
-		assertEquals(Action.ActionStatus.ABORTED, action.getStatus());
+	public void testCancel() {
+		assertNotSame(Action.ActionStatus.CANCELLED, action.getStatus());
+		action.cancel();
+		assertEquals(Action.ActionStatus.CANCELLED, action.getStatus());
 	}
 }
