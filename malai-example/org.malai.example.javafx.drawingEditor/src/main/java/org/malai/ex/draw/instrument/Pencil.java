@@ -91,8 +91,8 @@ public class Pencil extends JfxInstrument implements Initializable {
 			endOrCancel((a, i) -> i.getSrcObject().get().setEffect(null)).
 			bind();
 
-		//
-//		nodeBinder(MoveShape.class, new AbortableDnD(true)).
+
+//		nodeBinder(MoveShape.class, new CancellableDnD(true)).
 //			// The binding dynamically registers elements of the given observable list.
 //			// When nodes are added to this list, these nodes register the binding.
 //			// When nodes are removed from this list, their binding is cancelled.
