@@ -25,12 +25,4 @@ public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends 
 	public NodeBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
 	}
-
-	@Override
-	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
-		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, actionClass, interaction, initAction,
-			updateFct, checkConditions, onEnd, actionProducer, cancelFct, endOrCancelFct, feedbackFct, widgets, additionalWidgets, async);
-		instrument.addBinding(binding);
-		return binding;
-	}
 }

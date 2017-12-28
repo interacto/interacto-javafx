@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.malai.stateMachine.MustAbortStateMachineException;
 import org.malai.stateMachine.State;
 import org.malai.stateMachine.Transition;
@@ -25,6 +27,8 @@ import org.malai.stateMachine.Transition;
  * @since 0.1
  */
 public abstract class InteractionImpl implements Interaction {
+	protected Logger logger;
+
 	/** The states that compose the finite state machine. */
 	protected final Set<State> states;
 	/** The initial state the starts the state machine. */
@@ -79,6 +83,17 @@ public abstract class InteractionImpl implements Interaction {
 		lastHIDUsed = -1;
 	}
 
+	@Override
+	public void log(final boolean log) {
+		if(log) {
+			if(logger == null) {
+				logger = Logger.getLogger(getClass().getName());
+			}
+		}else {
+			logger = null;
+		}
+	}
+
 	private void setCurrentState(final State state) {
 		final State oldState = currentState;
 		currentState = state;
@@ -95,6 +110,10 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void setActivated(final boolean activated) {
+		if(logger != null) {
+			logger.log(Level.INFO, "Interaction activation: " + activated);
+		}
+
 		this.activated = activated;
 
 		if(!activated) {
@@ -116,6 +135,10 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void reinit() {
+		if(logger != null) {
+			logger.log(Level.INFO, "Interaction reinit");
+		}
+
 		if(currentTimeout != null) {
 			currentTimeout.stopTimeout();
 		}
@@ -223,6 +246,10 @@ public abstract class InteractionImpl implements Interaction {
 	 */
 	protected void executeTransition(final Transition transition) {
 		if(activated && transition != null) {
+			if(logger != null) {
+				logger.log(Level.INFO, "Transition exec: " + transition.getInputState().getName() + "->" + transition.getOutputState().getName());
+			}
+
 			try {
 				transition.action();
 				transition.getInputState().onOutgoing();
@@ -241,6 +268,10 @@ public abstract class InteractionImpl implements Interaction {
 	 */
 	protected void stopCurrentTimeout() {
 		if(currentTimeout != null) {
+			if(logger != null) {
+				logger.log(Level.INFO, "Timeout done");
+			}
+
 			currentTimeout.stopTimeout();
 			currentTimeout = null;
 		}
@@ -257,6 +288,10 @@ public abstract class InteractionImpl implements Interaction {
 			ok = true;
 		}else {
 			ok = false;
+		}
+
+		if(logger != null) {
+			logger.log(Level.INFO, "Check transition: " + ok);
 		}
 
 		return ok;
@@ -291,6 +326,11 @@ public abstract class InteractionImpl implements Interaction {
 					event = list.remove(0);
 					// Do not forget to remove the event from its original list.
 					stillProcessingEvents.remove(0);
+
+					if(logger != null) {
+						logger.log(Level.INFO, "Recycling event: " + event);
+					}
+
 					processEvent(event);
 				}
 			}
@@ -310,6 +350,10 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void onTerminating() throws MustAbortStateMachineException {
+		if(logger != null) {
+			logger.log(Level.INFO, "Interaction ends");
+		}
+
 		notifyHandlersOnStop();
 		reinit();
 		processEvents();
@@ -318,6 +362,10 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void onAborting() {
+		if(logger != null) {
+			logger.log(Level.INFO, "Interaction cancels");
+		}
+
 		notifyHandlersOnAborting();
 		reinit();
 		// When an interaction is aborted, the events in progress must not be reused.
@@ -327,6 +375,10 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void onStarting() throws MustAbortStateMachineException {
+		if(logger != null) {
+			logger.log(Level.INFO, "Interaction starts");
+		}
+
 		notifyHandlersOnStart();
 		checkTimeoutTransition();
 	}
@@ -334,6 +386,10 @@ public abstract class InteractionImpl implements Interaction {
 
 	@Override
 	public void onUpdating() throws MustAbortStateMachineException {
+		if(logger != null) {
+			logger.log(Level.INFO, "Interaction updates");
+		}
+
 		notifyHandlersOnUpdate();
 		checkTimeoutTransition();
 	}
@@ -341,7 +397,6 @@ public abstract class InteractionImpl implements Interaction {
 
 	/**
 	 * Checks if the current state has a timeout transition. If it is the case, the timeout transition is launched.
-	 * @since 0.2
 	 */
 	protected void checkTimeoutTransition() {
 		final Optional<TimeoutTransition> timeout = currentState.getTransitions().stream().filter(tr -> tr instanceof TimeoutTransition).findFirst().map(tr -> (TimeoutTransition) tr);

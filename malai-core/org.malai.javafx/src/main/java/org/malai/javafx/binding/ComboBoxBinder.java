@@ -10,8 +10,6 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.stream.Collectors;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -25,14 +23,5 @@ import org.malai.javafx.interaction.library.ComboBoxSelected;
 public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A, ComboBoxSelected, ComboBoxBinder<A>> {
 	public ComboBoxBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new ComboBoxSelected(), instrument);
-	}
-
-	@Override
-	public JfXWidgetBinding<A, ComboBoxSelected, ?> bind() throws IllegalAccessException, InstantiationException {
-		final JFxAnonNodeBinding<A, ComboBoxSelected, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument,
-			false, actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
-		instrument.addBinding(binding);
-		return binding;
 	}
 }

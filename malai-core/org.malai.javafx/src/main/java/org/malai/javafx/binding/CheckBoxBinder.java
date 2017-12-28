@@ -10,8 +10,6 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.stream.Collectors;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -25,14 +23,5 @@ import org.malai.javafx.interaction.library.BoxChecked;
 public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, BoxChecked, CheckBoxBinder<A>> {
 	public CheckBoxBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new BoxChecked(), instrument);
-	}
-
-	@Override
-	public JfXWidgetBinding<A, BoxChecked, ?> bind() throws IllegalAccessException, InstantiationException {
-		final JFxAnonNodeBinding<A, BoxChecked, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
-			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
-		instrument.addBinding(binding);
-		return binding;
 	}
 }

@@ -50,4 +50,6 @@ public interface Interaction extends StateMachine, EventProcessor {
 	 * Stops the interaction and clears all its events waiting for a process.
 	 */
 	void clearEvents();
+
+	void log(final boolean log);
 }

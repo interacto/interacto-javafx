@@ -10,8 +10,6 @@
  */
 package org.malai.javafx.binding;
 
-import java.util.stream.Collectors;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -25,14 +23,5 @@ import org.malai.javafx.interaction.library.ButtonPressed;
 public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, ButtonPressed, ButtonBinder<A>> {
 	public ButtonBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new ButtonPressed(), instrument);
-	}
-
-	@Override
-	public JfXWidgetBinding<A, ButtonPressed, ?> bind() throws IllegalAccessException, InstantiationException {
-		final JFxAnonNodeBinding<A, ButtonPressed, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
-			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async);
-		instrument.addBinding(binding);
-		return binding;
 	}
 }
