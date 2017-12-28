@@ -12,6 +12,8 @@ package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
@@ -94,5 +96,14 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	public B feedback(final Runnable feedback) {
 		feedbackFct = feedback;
 		return (B) this;
+	}
+
+	@Override
+	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
+			(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
+				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, logLevels);
+		instrument.addBinding(binding);
+		return binding;
 	}
 }

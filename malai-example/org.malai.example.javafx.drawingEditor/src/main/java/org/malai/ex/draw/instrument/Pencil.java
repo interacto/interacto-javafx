@@ -29,6 +29,7 @@ import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.AbortableDnD;
 import org.malai.javafx.interaction.library.DnD;
 import org.malai.javafx.interaction.library.Press;
+import org.malai.logging.LogLevel;
 
 public class Pencil extends JfxInstrument implements Initializable {
 	@FXML private MyCanvas canvas;
@@ -57,6 +58,8 @@ public class Pencil extends JfxInstrument implements Initializable {
 			}).
 			when(i -> i.getButton() == MouseButton.PRIMARY).
 			end((a, i) -> canvas.setTmpShape(null)).
+			// The UI command creation process is logged:
+			log(LogLevel.INTERACTION).
 			bind();
 
 		// A DnD interaction with the right button of the mouse moves the targeted shape.

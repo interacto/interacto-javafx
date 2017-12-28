@@ -13,7 +13,6 @@ package org.malai.javafx.binding;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.library.KeysPressure;
 
 /**
  * The binding builder to create bindings between a key interaction (eg shorcuts) on a window and a given action.
@@ -23,13 +22,5 @@ import org.malai.javafx.interaction.library.KeysPressure;
 public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A, KeyWindowBinder<A>> {
 	public KeyWindowBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, instrument);
-	}
-
-	@Override
-	public JfXWidgetBinding<A, KeysPressure, ?> bind() throws IllegalAccessException, InstantiationException {
-		final JFxAnonNodeBinding<A, KeysPressure, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction, widgets,
-			initAction, null, checkCode, onEnd, actionProducer, null, null, null, async);
-		instrument.addBinding(binding);
-		return binding;
 	}
 }

@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.Window;
@@ -23,6 +24,7 @@ import org.malai.action.ActionImpl;
 import org.malai.interaction.Interaction;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.logging.LogLevel;
 
 /**
  * This anonymous widget binding takes a function as a parameter that will be executed to initialise the action.
@@ -59,7 +61,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
-							  final Set<ObservableList<Node>> additionalWidgets, final boolean async)
+							  final Set<ObservableList<Node>> additionalWidgets, final boolean async, final Set<LogLevel> loggers)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, widgets);
 		execInitAction = initActionFct;
@@ -71,9 +73,18 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
 		onEnd = onEndFct;
+		configureLoggers(loggers);
 
 		if(additionalWidgets != null) {
 			additionalWidgets.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableNodeList(elt));
+		}
+	}
+
+	private void configureLoggers(final Set<LogLevel> loggers) {
+		if(loggers != null) {
+			logAction(loggers.contains(LogLevel.ACTION));
+			logBinding(loggers.contains(LogLevel.BINDING));
+			interaction.log(loggers.contains(LogLevel.INTERACTION));
 		}
 	}
 
@@ -95,7 +106,8 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
-							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean async)
+							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean async,
+							  final Set<LogLevel> loggers)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, interaction);
 		execInitAction = initActionFct;
@@ -107,6 +119,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
 		onEnd = onEndFct;
+		configureLoggers(loggers);
 	}
 
 	@Override
@@ -133,7 +146,11 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 
 	@Override
 	public boolean isConditionRespected() {
-		return checkInteraction == null || checkInteraction.test(getInteraction());
+		final boolean ok = checkInteraction == null || checkInteraction.test(getInteraction());
+		if(loggerBinding != null) {
+			loggerBinding.log(Level.INFO, "Checking condition: " + ok);
+		}
+		return ok;
 	}
 
 	@Override
@@ -150,6 +167,9 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	@Override
 	public void interimFeedback() {
 		if(feedbackFct != null) {
+			if(loggerBinding != null) {
+				loggerBinding.log(Level.INFO, "Feedback");
+			}
 			feedbackFct.run();
 		}
 	}

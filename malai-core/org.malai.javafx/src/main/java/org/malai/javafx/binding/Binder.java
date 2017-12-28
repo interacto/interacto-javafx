@@ -21,11 +21,13 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.logging.LogLevel;
 
 /**
  * The base class that defines the concept of binding builder (called binder).
@@ -45,6 +47,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	protected boolean async;
 	protected BiConsumer<A, I> onEnd;
 	protected Set<ObservableList<Node>> additionalWidgets;
+	protected Set<LogLevel> logLevels;
 
 	public Binder(final Class<A> action, final I interaction, final JfxInstrument ins) {
 		super();
@@ -169,9 +172,30 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	/**
+	 * Specifies the loggings to use.
+	 * Several call to 'log' can be done to log different parts:
+	 * log(LogLevel.INTERACTION).log(LogLevel.ACTION)
+	 * @param level The logging level to use.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public B log(final LogLevel level) {
+		if(logLevels == null) {
+			logLevels = new HashSet<>();
+		}
+		logLevels.add(level);
+		return (B) this;
+	}
+
+	/**
 	 * Executes the builder to create and install the binding on the instrument.
 	 * @throws IllegalArgumentException On issues while creating the actions.
 	 * @throws InstantiationException On issues while creating the actions.
 	 */
-	public abstract JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException;
+	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
+			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, logLevels);
+		instrument.addBinding(binding);
+		return binding;
+	}
 }

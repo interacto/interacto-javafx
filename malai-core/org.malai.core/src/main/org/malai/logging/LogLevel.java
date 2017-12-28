@@ -8,19 +8,12 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package org.malai.javafx.binding;
-
-import javafx.scene.Node;
-import org.malai.action.ActionImpl;
-import org.malai.javafx.instrument.JfxInstrument;
+package org.malai.logging;
 
 /**
- * The binding builder to create bindings between a key interaction (eg shortcuts) on a node and a given action.
- * @param <A> The type of the action to produce.
+ * Logging level to log interactions, bindings, and actions.
  * @author Arnaud Blouin
  */
-public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A, KeyNodeBinder<A>> {
-	public KeyNodeBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, instrument);
-	}
+public enum LogLevel {
+	INTERACTION, BINDING, ACTION;
 }
