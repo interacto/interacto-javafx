@@ -10,42 +10,33 @@
  */
 package org.malai.interaction;
 
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 
 /**
  * Defines an interaction for objects that want to by notified when the state of an interaction changed.
  * @author Arnaud BLOUIN
- * @since 0.1
  */
 public interface InteractionHandler {
 	/**
 	 * When the interaction quits its initial state.
-	 * @param interaction The concerned interaction.
-	 * @throws MustAbortStateMachineException If the interaction must be aborted.
-	 * @since 0.1
+	 * @throws MustCancelStateMachineException If the interaction must be cancelled.
 	 */
-	void interactionStarts(final Interaction interaction) throws MustAbortStateMachineException;
+	void interactionStarts() throws MustCancelStateMachineException;
 
 	/**
 	 * When the interaction goes to standard state.
-	 * @param interaction The concerned interaction.
-	 * @throws MustAbortStateMachineException If the interaction must be aborted.
-	 * @since 0.1
+	 * @throws MustCancelStateMachineException If the interaction must be cancelled.
 	 */
-	void interactionUpdates(final Interaction interaction) throws MustAbortStateMachineException;
+	void interactionUpdates() throws MustCancelStateMachineException;
 
 	/**
 	 * When the interaction goes to a terminal state.
-	 * @param interaction The concerned interaction.
-	 * @throws MustAbortStateMachineException If the interaction must be aborted.
-	 * @since 0.1
+	 * @throws MustCancelStateMachineException If the interaction must be cancelled.
 	 */
-	void interactionStops(final Interaction interaction) throws MustAbortStateMachineException;
+	void interactionStops() throws MustCancelStateMachineException;
 
 	/**
-	 * When the interaction goes to an aborting state.
-	 * @param interaction The concerned interaction.
-	 * @since 0.1
+	 * When the interaction goes to a cancelling state.
 	 */
-	void interactionAborts(final Interaction interaction);
+	void interactionCancels();
 }

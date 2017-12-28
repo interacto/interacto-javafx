@@ -6,9 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.interaction.InitState;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,26 +31,26 @@ public class TestBoxChecked extends BaseJfXInteractionTest<BoxChecked> {
 	}
 
 	@Test
-	void testCBClickGoodState() throws MustAbortStateMachineException {
+	void testCBClickGoodState() throws MustCancelStateMachineException {
 		interaction.onJfxBoxChecked(checkbox);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testCBClickGoodData() throws MustAbortStateMachineException {
+	void testCBClickGoodData() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				assertEquals(checkbox, ((BoxChecked) interaction).widget);
+			public void interactionStops() throws MustCancelStateMachineException {
+				super.interactionStops();
+				assertEquals(checkbox, interaction.widget);
 			}
 		});
 		interaction.onJfxBoxChecked(checkbox);
 	}
 
 	@Test
-	void testCBClickReinit() throws MustAbortStateMachineException {
+	void testCBClickReinit() {
 		interaction.onJfxBoxChecked(checkbox);
 		assertNull(interaction.getWidget());
 		assertEquals(-1, interaction.getLastHIDUsed());
@@ -59,41 +58,41 @@ public class TestBoxChecked extends BaseJfXInteractionTest<BoxChecked> {
 	}
 
 	@Test
-	void testRegisterCB() throws MustAbortStateMachineException {
+	void testRegisterCB() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(checkbox));
 		checkbox.fire();
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotRegistered() throws MustCancelStateMachineException {
 		checkbox.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotCBRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotCBRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
 		checkbox.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNullCBRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNullCBRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(null);
 		checkbox.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenContainsNullRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenContainsNullRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		checkbox.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 }

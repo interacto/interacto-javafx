@@ -113,8 +113,8 @@ public abstract class ActionImpl implements Action {
 
 
 	@Override
-	public void abort() {
-		status = ActionStatus.ABORTED;
+	public void cancel() {
+		status = ActionStatus.CANCELLED;
 	}
 
 

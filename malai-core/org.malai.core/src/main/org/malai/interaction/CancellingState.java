@@ -8,20 +8,22 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package org.malai.stateMachine;
+package org.malai.interaction;
+
+import org.malai.stateMachine.TargetableState;
 
 /**
- * This exception can be used when an interaction must be stopped.
+ * This state defines an aborting state that cancels the interaction.
  * @author Arnaud BLOUIN
- * @since 0.1
  */
-public class MustAbortStateMachineException extends Exception {
-	private static final long serialVersionUID = 1L;
+public class CancellingState extends StateImpl implements TargetableState {
+	public CancellingState(final String name) {
+		super(name);
+	}
 
-	/**
-	 * Creates the exception.
-	 */
-	public MustAbortStateMachineException() {
-		super();
+
+	@Override
+	public void onIngoing() {
+		stateMachine.onCancelling();
 	}
 }

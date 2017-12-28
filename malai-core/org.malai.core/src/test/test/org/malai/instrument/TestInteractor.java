@@ -6,7 +6,7 @@ import org.malai.error.ErrorCatcher;
 import org.malai.error.ErrorNotifier;
 import org.malai.binding.WidgetBinding;
 import org.malai.binding.WidgetBindingImpl;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import test.org.malai.action.ActionImplMock;
 import test.org.malai.instrument.TestMockInstrument.MockInstrument;
 import test.org.malai.interaction.InteractionMock;
@@ -94,8 +94,8 @@ public class TestInteractor {
 	}
 
 	@Test
-	public void testIsInteractionMustBeAborted() {
-		assertFalse(interactor.isInteractionMustBeAborted());
+	public void testIsInteractionMustBeCancelled() {
+		assertFalse(interactor.isInteractionMustBeCancelled());
 	}
 
 
@@ -105,76 +105,58 @@ public class TestInteractor {
 	}
 
 	@Test
-	public void testInteractionAbortWhenNotStarted() {
-		interactor.interactionAborts(null);
-		interactor.interactionAborts(interactor.getInteraction());
-		interactor.interactionAborts(new InteractionMock());
+	public void testInteractionCancelsWhenNotStarted() {
+		interactor.interactionCancels();
 	}
 
 
 	@Test
 	public void testInteractionUpdatesWhenNotStarted() {
-		interactor.interactionUpdates(null);
-		interactor.interactionUpdates(interactor.getInteraction());
-		interactor.interactionUpdates(new InteractionMock());
+		interactor.interactionUpdates();
 	}
 
 
 	@Test
 	public void testInteractionStopsWhenNotStarted() {
-		interactor.interactionStops(null);
-		interactor.interactionStops(interactor.getInteraction());
-		interactor.conditionRespected = false;
-		interactor.interactionStops(new InteractionMock());
+		interactor.interactionStops();
 	}
 
 
 	@Test
-	public void testInteractionStartsWhenNoCorrectInteraction() throws MustAbortStateMachineException {
-		interactor.mustAbort = true;
-		interactor.interactionStarts(null);
-		assertNull(interactor.getAction());
-		interactor.interactionStarts(new InteractionMock());
-		assertNull(interactor.getAction());
-
-		interactor.mustAbort = false;
+	public void testInteractionStartsWhenNoCorrectInteraction() throws MustCancelStateMachineException {
+		interactor.mustCancel = false;
 		instrument.setActivated(false);
-		interactor.interactionStarts(interactor.getInteraction());
+		interactor.interactionStarts();
 		assertNull(interactor.getAction());
 
 		instrument.setActivated(true);
 		interactor.conditionRespected = false;
-		interactor.interactionStarts(interactor.getInteraction());
+		interactor.interactionStarts();
 		assertNull(interactor.getAction());
 	}
 
 
-	@Test(expected = MustAbortStateMachineException.class)
-	public void testInteractionStartsThrowMustAbortStateMachineException() throws MustAbortStateMachineException {
-		interactor.mustAbort = true;
-		interactor.interactionStarts(interactor.getInteraction());
+	@Test(expected = MustCancelStateMachineException.class)
+	public void testInteractionStartsThrowMustCancelStateMachineException() throws MustCancelStateMachineException {
+		interactor.mustCancel = true;
+		interactor.interactionStarts();
 	}
 
 
 	@Test
-	public void testInteractionStartsOk() throws MustAbortStateMachineException {
+	public void testInteractionStartsOk() throws MustCancelStateMachineException {
 		instrument.setActivated(true);
 		interactor.conditionRespected = true;
-		interactor.interactionStarts(interactor.getInteraction());
+		interactor.interactionStarts();
 		assertNotNull(interactor.getAction());
 	}
 
 
 	@Test
-	public void testInteractionStartsOkCauseOfTheNonPublicAction() throws MustAbortStateMachineException, InstantiationException,
+	public void testInteractionStartsOkCauseOfTheNonPublicAction() throws MustCancelStateMachineException, InstantiationException,
 		IllegalAccessException {
 		final boolean[] ok = {false};
-		ErrorCatcher.INSTANCE.setNotifier(new ErrorNotifier() {
-			@Override
-			public void onException(final Exception exception) {
-				ok[0] = true;
-			}
-		});
+		ErrorCatcher.INSTANCE.setNotifier(exception -> ok[0] = true);
 		MockInstrument ins = new MockInstrument();
 		WidgetBinding interactor2 = new WidgetBindingImpl<ActionImplMock2, InteractionMock, MockInstrument>(ins, false, ActionImplMock2.class,
 			new InteractionMock()) {
@@ -188,7 +170,7 @@ public class TestInteractor {
 			}
 		};
 		ins.setActivated(true);
-		interactor2.interactionStarts(interactor2.getInteraction());
+		interactor2.interactionStarts();
 		assertTrue(ok[0]);
 		assertNull(interactor.getAction());
 
@@ -206,7 +188,7 @@ public class TestInteractor {
 			}
 		};
 		ins.setActivated(true);
-		interactor2.interactionStarts(interactor2.getInteraction());
+		interactor2.interactionStarts();
 		assertTrue(ok[0]);
 		assertNull(interactor2.getAction());
 	}
@@ -227,13 +209,13 @@ class ActionImplMock3 extends ActionImplMock {
 
 class MockInteractor extends WidgetBindingImpl<ActionImplMock, InteractionMock, MockInstrument> {
 	public boolean conditionRespected;
-	public boolean mustAbort;
+	public boolean mustCancel;
 
 	public MockInteractor(final MockInstrument ins, final boolean exec, final Class<ActionImplMock> clazzAction, final
 	InteractionMock interaction) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction);
 		conditionRespected = false;
-		mustAbort = false;
+		mustCancel = false;
 	}
 
 	@Override
@@ -247,7 +229,7 @@ class MockInteractor extends WidgetBindingImpl<ActionImplMock, InteractionMock, 
 	}
 
 	@Override
-	public boolean isInteractionMustBeAborted() {
-		return mustAbort;
+	public boolean isInteractionMustBeCancelled() {
+		return mustCancel;
 	}
 }

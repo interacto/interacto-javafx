@@ -8,23 +8,17 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package org.malai.interaction;
-
-import org.malai.stateMachine.TargetableState;
+package org.malai.stateMachine;
 
 /**
- * This state defines an aborting state that aborts the interaction.
+ * This exception can be used when an interaction must be stopped.
  * @author Arnaud BLOUIN
- * @since 0.1
  */
-public class AbortingState extends StateImpl implements TargetableState {
-	public AbortingState(final String name) {
-		super(name);
-	}
-
-
-	@Override
-	public void onIngoing() {
-		stateMachine.onAborting();
+public class MustCancelStateMachineException extends Exception {
+	/**
+	 * Creates the exception.
+	 */
+	public MustCancelStateMachineException() {
+		super();
 	}
 }

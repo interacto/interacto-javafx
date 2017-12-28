@@ -78,41 +78,41 @@ public class TestActionRegistry {
 
 
 	@Test
-	public void testAbortActionNull() {
-		ActionsRegistry.INSTANCE.abortAction(null);
+	public void testCancelActionNull() {
+		ActionsRegistry.INSTANCE.cancelAction(null);
 	}
 
 
 	@Test
-	public void testAbortActionFlush() {
+	public void testCancelActionFlush() {
 		final Action action = new ActionImplStub();
-		ActionsRegistry.INSTANCE.abortAction(action);
+		ActionsRegistry.INSTANCE.cancelAction(action);
 		assertEquals(Action.ActionStatus.FLUSHED, action.getStatus());
 	}
 
 
 	@Test
-	public void testAbortActionNotify() {
+	public void testCancelActionNotify() {
 		final Action action = new ActionImplStub();
 		visited = false;
 
 		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerStub() {
 			@Override
-			public void onActionAborted(final Action action) {
+			public void onActionCancelled(final Action action) {
 				visited = true;
 			}
 		});
 
-		ActionsRegistry.INSTANCE.abortAction(action);
+		ActionsRegistry.INSTANCE.cancelAction(action);
 		assertTrue(visited);
 	}
 
 
 	@Test
-	public void testAbortActionRemoved() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+	public void testCancelActionRemoved() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		final Action action = new ActionImplStub();
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
-		ActionsRegistry.INSTANCE.abortAction(action);
+		ActionsRegistry.INSTANCE.cancelAction(action);
 		final List<ActionHandler> handlers = getListHandler();
 		assertTrue(handlers.isEmpty());
 	}
@@ -234,27 +234,6 @@ public class TestActionRegistry {
 		assertNotSame(Action.ActionStatus.FLUSHED, act.getStatus());
 	}
 
-
-	@Test
-	public void testCancelsActionNotNullDoesCancel() {
-		visited = false;
-		final Action act = new ActionImplStub2();
-
-		ActionsRegistry.INSTANCE.addAction(act, new ActionHandlerStub());
-		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerStub() {
-			@Override
-			public void onActionCancelled(final Action action) {
-				visited = true;
-				assertEquals(act, action);
-			}
-		});
-		ActionsRegistry.INSTANCE.unregisterActions(new ActionImplStub());
-		assertTrue(ActionsRegistry.INSTANCE.getActions().isEmpty());
-		assertEquals(Action.ActionStatus.FLUSHED, act.getStatus());
-		assertTrue(visited);
-	}
-
-
 	@Test
 	public void testAddActionCannotAddBecauseNullOrAlreadyAdded() {
 		final Action action = new ActionImplStub();
@@ -270,29 +249,6 @@ public class TestActionRegistry {
 
 		ActionsRegistry.INSTANCE.addAction(action, new ActionHandlerStub());
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
-	}
-
-
-	@Test
-	public void testAddActionCancelsAction() {
-		visited = false;
-		final Action action = new ActionImplStub2();
-		ActionsRegistry.INSTANCE.getActions().add(action);
-
-		ActionsRegistry.INSTANCE.addHandler(new ActionHandlerStub() {
-			@Override
-			public void onActionCancelled(final Action action) {
-				visited = true;
-				assertEquals(action, action);
-			}
-
-			@Override
-			public void onActionAdded(final Action action) {//
-			}
-		});
-		ActionsRegistry.INSTANCE.addAction(new ActionImplStub(), new ActionHandlerStub());
-		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
-		assertTrue(visited);
 	}
 
 
@@ -386,13 +342,10 @@ public class TestActionRegistry {
 		public void onActionDone(final Action action) {fail();}
 
 		@Override
-		public void onActionCancelled(final Action action) {fail();}
-
-		@Override
 		public void onActionAdded(final Action action) {fail();}
 
 		@Override
-		public void onActionAborted(final Action action) {fail();}
+		public void onActionCancelled(final Action action) {fail();}
 
 		@Override
 		public void onUndoableCleared() {

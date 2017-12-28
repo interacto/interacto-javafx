@@ -9,9 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,20 +23,20 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 	}
 
 	@Test
-	void TestPressOK() throws MustAbortStateMachineException {
+	void TestPressOK() throws MustCancelStateMachineException {
 		interaction.onPressure(createMousePressEvent(10d, 20d, MouseButton.PRIMARY), 0);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionUpdates(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+		Mockito.verify(handler, Mockito.never()).interactionUpdates();
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionCancels();
 	}
 
 	@Test
 	void TestPressGoodData() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
-			public void interactionStarts(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStarts(interaction);
+			public void interactionStarts() throws MustCancelStateMachineException {
+				super.interactionStarts();
 				assertEquals(new Point3D(10d, 20d, 0d), ((Press) interaction).getSrcLocalPoint());
 				assertEquals(MouseButton.SECONDARY, ((Press) interaction).getButton());
 			}
@@ -55,31 +54,31 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 		}
 
 		@Test
-		void TestPressOKRegistration() throws MustAbortStateMachineException {
+		void TestPressOKRegistration() throws MustCancelStateMachineException {
 			interaction.registerToNodes(Collections.singletonList(canvas));
 			canvas.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 
-			Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-			Mockito.verify(handler, Mockito.never()).interactionUpdates(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+			Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+			Mockito.verify(handler, Mockito.never()).interactionUpdates();
+			Mockito.verify(handler, Mockito.times(1)).interactionStops();
+			Mockito.verify(handler, Mockito.never()).interactionCancels();
 		}
 
 		@Test
-		void TestPressKONoRegistration() throws MustAbortStateMachineException {
+		void TestPressKONoRegistration() throws MustCancelStateMachineException {
 			canvas.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 			checkNoUseOfHandler();
 		}
 
 		@Test
-		void TestPressKONULLRegistration() throws MustAbortStateMachineException {
+		void TestPressKONULLRegistration() throws MustCancelStateMachineException {
 			interaction.registerToNodes(null);
 			canvas.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 			checkNoUseOfHandler();
 		}
 
 		@Test
-		void TestPressKOListContainsNULLRegistration() throws MustAbortStateMachineException {
+		void TestPressKOListContainsNULLRegistration() throws MustCancelStateMachineException {
 			interaction.registerToNodes(Collections.singletonList(null));
 			canvas.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 			checkNoUseOfHandler();
@@ -96,31 +95,31 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 		}
 
 		@Test
-		void TestPressOKRegistration() throws MustAbortStateMachineException {
+		void TestPressOKRegistration() throws MustCancelStateMachineException {
 			interaction.registerToWindows(Collections.singletonList(window));
 			window.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 
-			Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
-			Mockito.verify(handler, Mockito.never()).interactionUpdates(interaction);
-			Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-			Mockito.verify(handler, Mockito.never()).interactionAborts(interaction);
+			Mockito.verify(handler, Mockito.times(1)).interactionStarts();
+			Mockito.verify(handler, Mockito.never()).interactionUpdates();
+			Mockito.verify(handler, Mockito.times(1)).interactionStops();
+			Mockito.verify(handler, Mockito.never()).interactionCancels();
 		}
 
 		@Test
-		void TestPressKONoRegistration() throws MustAbortStateMachineException {
+		void TestPressKONoRegistration() throws MustCancelStateMachineException {
 			window.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 			checkNoUseOfHandler();
 		}
 
 		@Test
-		void TestPressKONULLRegistration() throws MustAbortStateMachineException {
+		void TestPressKONULLRegistration() throws MustCancelStateMachineException {
 			interaction.registerToWindows(null);
 			window.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 			checkNoUseOfHandler();
 		}
 
 		@Test
-		void TestPressKOListContainsNULLRegistration() throws MustAbortStateMachineException {
+		void TestPressKOListContainsNULLRegistration() throws MustCancelStateMachineException {
 			interaction.registerToWindows(Collections.singletonList(null));
 			window.fireEvent(createMousePressEvent(11d, 23d, MouseButton.MIDDLE));
 			checkNoUseOfHandler();

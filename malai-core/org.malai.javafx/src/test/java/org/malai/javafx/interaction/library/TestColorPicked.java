@@ -8,9 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.interaction.InitState;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,26 +34,26 @@ public class TestColorPicked extends BaseJfXInteractionTest<ColorPicked> {
 
 
 	@Test
-	void testColorPickedGoodState() throws MustAbortStateMachineException {
+	void testColorPickedGoodState() throws MustCancelStateMachineException {
 		interaction.onJfxColorPicked(picker);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testColorPickedClickGoodData() throws MustAbortStateMachineException {
+	void testColorPickedClickGoodData() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				assertEquals(picker, ((ColorPicked) interaction).widget);
+			public void interactionStops() throws MustCancelStateMachineException {
+				super.interactionStops();
+				assertEquals(picker, interaction.widget);
 			}
 		});
 		interaction.onJfxColorPicked(picker);
 	}
 
 	@Test
-	void testColorPickedClickReinit() throws MustAbortStateMachineException {
+	void testColorPickedClickReinit() {
 		interaction.onJfxColorPicked(picker);
 		assertNull(interaction.getWidget());
 		assertEquals(-1, interaction.getLastHIDUsed());
@@ -62,41 +61,41 @@ public class TestColorPicked extends BaseJfXInteractionTest<ColorPicked> {
 	}
 
 	@Test
-	void testRegisterColorPicked() throws MustAbortStateMachineException {
+	void testRegisterColorPicked() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(picker));
 		picker.fireEvent(new ActionEvent());
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testColorPickedNoActionWhenNotRegistered() throws MustAbortStateMachineException {
+	void testColorPickedNoActionWhenNotRegistered() throws MustCancelStateMachineException {
 		picker.fireEvent(new ActionEvent());
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotColorPickedRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotColorPickedRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
 		picker.fireEvent(new ActionEvent());
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testColorPickedNoActionWhenNullRegistered() throws MustAbortStateMachineException {
+	void testColorPickedNoActionWhenNullRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(null);
 		picker.fireEvent(new ActionEvent());
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testColorPickedNoActionWhenContainsNullRegistered() throws MustAbortStateMachineException {
+	void testColorPickedNoActionWhenContainsNullRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		picker.fireEvent(new ActionEvent());
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 }

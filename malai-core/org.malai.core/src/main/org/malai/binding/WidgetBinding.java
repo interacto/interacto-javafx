@@ -65,11 +65,11 @@ public interface WidgetBinding extends InteractionHandler {
 	 * stops while the second is blocked in an intermediary state.
 	 * Two solutions are possible to avoid such a problem:<br>
 	 * - the use of this function that performs some tests. If the test fails, the starting interaction
-	 * is aborted and the resulting action is never created;<br>
+	 * is cancelled and the resulting action is never created;<br>
 	 * - the modification of one of the interactions to avoid the overlapping.
-	 * @return True: if the starting interaction must be aborted so that the action is never created.
+	 * @return True: if the starting interaction must be cancelled so that the action is never created.
 	 */
-	boolean isInteractionMustBeAborted();
+	boolean isInteractionMustBeCancelled();
 
 	/**
 	 * @return True if the action is executed on each evolution of the interaction.

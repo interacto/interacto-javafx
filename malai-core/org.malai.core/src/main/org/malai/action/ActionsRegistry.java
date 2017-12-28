@@ -21,7 +21,6 @@ import org.malai.undo.Undoable;
  * The register has a limited size that can be changed.
  * It can notify handlers about changes in the registry.
  * @author Arnaud Blouin
- * @since 0.1
  */
 public final class ActionsRegistry {
 	/** The singleton. */
@@ -36,7 +35,6 @@ public final class ActionsRegistry {
 
 	/**
 	 * Creates and initialises a register.
-	 * @since 0.1
 	 */
 	private ActionsRegistry() {
 		super();
@@ -49,7 +47,6 @@ public final class ActionsRegistry {
 	/**
 	 * Notifies handlers that an action has been executed.
 	 * @param action The executed action.
-	 * @since 0.2
 	 */
 	public void onActionExecuted(final Action action) {
 		if(action != null) {
@@ -63,7 +60,6 @@ public final class ActionsRegistry {
 	/**
 	 * Notifies handlers that an action ends.
 	 * @param action The ending action.
-	 * @since 0.2
 	 */
 	public void onActionDone(final Action action) {
 		if(action != null) {
@@ -76,7 +72,6 @@ public final class ActionsRegistry {
 
 	/**
 	 * @return The stored actions. Cannot be null. Because of concurrency, you should not modify this list.
-	 * @since 0.1
 	 */
 	public List<Action> getActions() {
 		return actions;
@@ -87,7 +82,6 @@ public final class ActionsRegistry {
 	 * Removes and flushes the actions from the register that use the given action type.
 	 * @see Action::unregisteredBy
 	 * @param action The action that may cancels others.
-	 * @since 0.1
 	 */
 	public void unregisterActions(final Action action) {
 		if(action == null) return;
@@ -97,11 +91,7 @@ public final class ActionsRegistry {
 		synchronized(actions) {
 			while(i < actions.size()) {
 				if(actions.get(i).unregisteredBy(action)) {
-					final Action act = actions.remove(i);
-					synchronized(handlers) {
-						handlers.forEach(handler -> handler.onActionCancelled(act));
-					}
-					act.flush();
+					actions.remove(i).flush();
 				}else {
 					i++;
 				}
@@ -116,7 +106,6 @@ public final class ActionsRegistry {
 	 * added to the undo collector as well.
 	 * @param action The action to add. If null, nothing is done.
 	 * @param actionHandler The handler that produced or is associated to the action. If null, nothing is done.
-	 * @since 0.2
 	 */
 	public void addAction(final Action action, final ActionHandler actionHandler) {
 		synchronized(actions) {
@@ -150,7 +139,6 @@ public final class ActionsRegistry {
 	/**
 	 * Removes the action from the register. The action is then flushed.
 	 * @param action The action to remove.
-	 * @since 0.1
 	 */
 	public void removeAction(final Action action) {
 		if(action != null) {
@@ -165,7 +153,6 @@ public final class ActionsRegistry {
 	/**
 	 * Adds an action handler.
 	 * @param handler The handler to add.
-	 * @since 0.1
 	 */
 	public void addHandler(final ActionHandler handler) {
 		if(handler != null) {
@@ -179,7 +166,6 @@ public final class ActionsRegistry {
 	/**
 	 * Removes the given handler.
 	 * @param handler The handler to remove.
-	 * @since 0.2
 	 */
 	public void removeHandler(final ActionHandler handler) {
 		if(handler != null) {
@@ -192,7 +178,6 @@ public final class ActionsRegistry {
 
 	/**
 	 * Removes all the action handlers.
-	 * @since 0.2
 	 */
 	public void removeAllHandlers() {
 		synchronized(handlers) {
@@ -203,7 +188,6 @@ public final class ActionsRegistry {
 
 	/**
 	 * Flushes and removes all the stored actions.
-	 * @since 0.2
 	 */
 	public void clear() {
 		synchronized(actions) {
@@ -214,19 +198,18 @@ public final class ActionsRegistry {
 
 
 	/**
-	 * Aborts the given action, i.e. the action is aborted and removed from the register.
+	 * Aborts the given action, i.e. the action is cancelled and removed from the register.
 	 * Handlers are then notified. The action is finally flushed.
-	 * @param action The action to abort.
-	 * @since 0.1
+	 * @param action The action to cancel.
 	 */
-	public void abortAction(final Action action) {
+	public void cancelAction(final Action action) {
 		if(action != null) {
-			action.abort();
+			action.cancel();
 			synchronized(actions) {
 				actions.remove(action);
 			}
 			synchronized(handlers) {
-				handlers.forEach(handler -> handler.onActionAborted(action));
+				handlers.forEach(handler -> handler.onActionCancelled(action));
 			}
 			action.flush();
 		}
@@ -235,7 +218,6 @@ public final class ActionsRegistry {
 
 	/**
 	 * @return The maximal number of actions that the register can contain.
-	 * @since 0.2
 	 */
 	public int getSizeMax() {
 		return sizeMax;
@@ -248,7 +230,6 @@ public final class ActionsRegistry {
 	 * the necessary number of the oldest and cleanable actions (cf. Action::getRegistrationPolicy)
 	 * are flushed and removed from the register.
 	 * @param newSizeMax The max number of actions that can contain the register. Must be equal or greater than 0.
-	 * @since 0.2
 	 */
 	public void setSizeMax(final int newSizeMax) {
 		if(newSizeMax >= 0) {

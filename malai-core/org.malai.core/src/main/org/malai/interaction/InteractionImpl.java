@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.malai.stateMachine.State;
 import org.malai.stateMachine.Transition;
 
@@ -166,62 +166,58 @@ public abstract class InteractionImpl implements Interaction {
 
 	/**
 	 * Notifies handlers that the interaction starts.
-	 * @since 0.1
 	 */
-	protected void notifyHandlersOnStart() throws MustAbortStateMachineException {
+	protected void notifyHandlersOnStart() throws MustCancelStateMachineException {
 		try {
 			if(handlers != null) {
 				for(final InteractionHandler handler : handlers) {
-					handler.interactionStarts(this);
+					handler.interactionStarts();
 				}
 			}
-		}catch(final MustAbortStateMachineException ex) {
-			notifyHandlersOnAborting();
+		}catch(final MustCancelStateMachineException ex) {
+			notifyHandlersOnCancel();
 			throw ex;
 		}
 	}
 
 	/**
 	 * Notifies handlers that the interaction updates.
-	 * @since 0.1
 	 */
-	protected void notifyHandlersOnUpdate() throws MustAbortStateMachineException {
+	protected void notifyHandlersOnUpdate() throws MustCancelStateMachineException {
 		try {
 			if(handlers != null) {
 				for(final InteractionHandler handler : handlers) {
-					handler.interactionUpdates(this);
+					handler.interactionUpdates();
 				}
 			}
-		}catch(final MustAbortStateMachineException ex) {
-			notifyHandlersOnAborting();
+		}catch(final MustCancelStateMachineException ex) {
+			notifyHandlersOnCancel();
 			throw ex;
 		}
 	}
 
 	/**
 	 * Notifies handlers that the interaction stops.
-	 * @since 0.1
 	 */
-	protected void notifyHandlersOnStop() throws MustAbortStateMachineException {
+	protected void notifyHandlersOnStop() throws MustCancelStateMachineException {
 		try {
 			if(handlers != null) {
 				for(final InteractionHandler handler : handlers) {
-					handler.interactionStops(this);
+					handler.interactionStops();
 				}
 			}
-		}catch(final MustAbortStateMachineException ex) {
-			notifyHandlersOnAborting();
+		}catch(final MustCancelStateMachineException ex) {
+			notifyHandlersOnCancel();
 			throw ex;
 		}
 	}
 
 	/**
-	 * Notifies handlers that the interaction stops.
-	 * @since 0.1
+	 * Notifies handlers that the interaction is cancelled.
 	 */
-	protected void notifyHandlersOnAborting() {
+	protected void notifyHandlersOnCancel() {
 		if(handlers != null) {
-			handlers.forEach(handler -> handler.interactionAborts(this));
+			handlers.forEach(handler -> handler.interactionCancels());
 		}
 	}
 
@@ -255,7 +251,7 @@ public abstract class InteractionImpl implements Interaction {
 				transition.getInputState().onOutgoing();
 				setCurrentState(transition.getOutputState());
 				transition.getOutputState().onIngoing();
-			}catch(final MustAbortStateMachineException ex) {
+			}catch(final MustCancelStateMachineException ex) {
 				reinit();
 			}
 		}
@@ -349,7 +345,7 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
-	public void onTerminating() throws MustAbortStateMachineException {
+	public void onTerminating() throws MustCancelStateMachineException {
 		if(logger != null) {
 			logger.log(Level.INFO, "Interaction ends");
 		}
@@ -361,12 +357,12 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
-	public void onAborting() {
+	public void onCancelling() {
 		if(logger != null) {
 			logger.log(Level.INFO, "Interaction cancels");
 		}
 
-		notifyHandlersOnAborting();
+		notifyHandlersOnCancel();
 		reinit();
 		// When an interaction is aborted, the events in progress must not be reused.
 		clearEventsStillInProcess();
@@ -374,7 +370,7 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
-	public void onStarting() throws MustAbortStateMachineException {
+	public void onStarting() throws MustCancelStateMachineException {
 		if(logger != null) {
 			logger.log(Level.INFO, "Interaction starts");
 		}
@@ -385,7 +381,7 @@ public abstract class InteractionImpl implements Interaction {
 
 
 	@Override
-	public void onUpdating() throws MustAbortStateMachineException {
+	public void onUpdating() throws MustCancelStateMachineException {
 		if(logger != null) {
 			logger.log(Level.INFO, "Interaction updates");
 		}

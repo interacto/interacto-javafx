@@ -10,7 +10,7 @@
  */
 package org.malai.interaction;
 
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.malai.stateMachine.TargetableState;
 
 /**
@@ -25,7 +25,7 @@ public class TerminalState extends StateImpl implements TargetableState {
 
 
 	@Override
-	public void onIngoing() throws MustAbortStateMachineException {
+	public void onIngoing() throws MustCancelStateMachineException {
 		stateMachine.onTerminating();
 	}
 }

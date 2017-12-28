@@ -21,7 +21,7 @@ import org.malai.action.AutoUnbind;
 import org.malai.error.ErrorCatcher;
 import org.malai.instrument.Instrument;
 import org.malai.interaction.Interaction;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.malai.undo.Undoable;
 
 /**
@@ -182,7 +182,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public boolean isInteractionMustBeAborted() {
+	public boolean isInteractionMustBeCancelled() {
 		return false;
 	}
 
@@ -218,20 +218,20 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	}
 
 	@Override
-	public void interactionAborts(final Interaction inter) {
-		if(action != null && inter == interaction) {
+	public void interactionCancels() {
+		if(action != null) {
 			if(loggerBinding != null) {
 				loggerBinding.log(Level.INFO, "Binding cancelled");
 			}
 
-			action.abort();
+			action.cancel();
 			if(loggerAction != null) {
 				loggerAction.log(Level.INFO, "Action cancelled");
 			}
 			unbindActionAttributes();
 
-			// The instrument is notified about the aborting of the action.
-			instrument.onActionAborted(action);
+			// The instrument is notified about the cancel of the action.
+			instrument.onActionCancelled(action);
 
 			if(isExecute()) {
 				if(action instanceof Undoable) {
@@ -251,15 +251,15 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public void interactionStarts(final Interaction inter) throws MustAbortStateMachineException {
-		if(inter == interaction && isInteractionMustBeAborted()) {
+	public void interactionStarts() throws MustCancelStateMachineException {
+		if(isInteractionMustBeCancelled()) {
 			if(loggerBinding != null) {
-				loggerBinding.log(Level.INFO, "Cancelling starting interaction: " + inter);
+				loggerBinding.log(Level.INFO, "Cancelling starting interaction: " + interaction);
 			}
-			throw new MustAbortStateMachineException();
+			throw new MustCancelStateMachineException();
 		}
 
-		final boolean ok = action == null && inter == interaction && isActivated() && isConditionRespected();
+		final boolean ok = action == null && isActivated() && isConditionRespected();
 
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Starting binding: " + ok);
@@ -277,43 +277,41 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public void interactionStops(final Interaction inter) {
-		if(interaction == inter) {
-			final boolean ok = isConditionRespected();
-			if(loggerBinding != null) {
-				loggerBinding.log(Level.INFO, "Binding stops with condition: " + ok);
+	public void interactionStops() {
+		final boolean ok = isConditionRespected();
+		if(loggerBinding != null) {
+			loggerBinding.log(Level.INFO, "Binding stops with condition: " + ok);
+		}
+		if(ok) {
+			if(action == null) {
+				action = createAction();
+				initAction();
+				if(loggerAction != null) {
+					loggerAction.log(Level.INFO, "Action created and init: " + action);
+				}
 			}
-			if(ok) {
-				if(action == null) {
-					action = createAction();
-					initAction();
-					if(loggerAction != null) {
-						loggerAction.log(Level.INFO, "Action created and init: " + action);
-					}
-				}
 
-				if(!execute) {
-					updateAction();
-					if(loggerAction != null) {
-						loggerAction.log(Level.INFO, "Action updated: " + action);
-					}
+			if(!execute) {
+				updateAction();
+				if(loggerAction != null) {
+					loggerAction.log(Level.INFO, "Action updated: " + action);
 				}
+			}
 
-				executeAction(action);
+			executeAction(action);
+			unbindActionAttributes();
+			action = null;
+			instrument.interimFeedback();
+		}else {
+			if(action != null) {
+				if(loggerAction != null) {
+					loggerAction.log(Level.INFO, "Cancelling the action: " + action);
+				}
+				action.cancel();
 				unbindActionAttributes();
+				instrument.onActionCancelled(action);
 				action = null;
 				instrument.interimFeedback();
-			}else {
-				if(action != null) {
-					if(loggerAction != null) {
-						loggerAction.log(Level.INFO, "Cancelling the action: " + action);
-					}
-					action.abort();
-					unbindActionAttributes();
-					instrument.onActionAborted(action);
-					action = null;
-					instrument.interimFeedback();
-				}
 			}
 		}
 	}
@@ -342,7 +340,6 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 				instrument.onActionAdded(act);
 			}else {
 				ActionsRegistry.INSTANCE.unregisterActions(act);
-				instrument.onActionCancelled(act);
 			}
 			act.followingActions().forEach(this::executeAction);
 		}
@@ -350,8 +347,8 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public void interactionUpdates(final Interaction inter) {
-		final boolean ok = inter == interaction && isConditionRespected();
+	public void interactionUpdates() {
+		final boolean ok = isConditionRespected();
 
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Binding updates with condition: " + ok);

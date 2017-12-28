@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,9 +34,9 @@ public class TestWindowClosed extends BaseJfXInteractionTest<WindowClosed> {
 	}
 
 	@Test
-	void testWindowClosedGoodState() throws MustAbortStateMachineException {
+	void testWindowClosedGoodState() throws MustCancelStateMachineException {
 		interaction.onWindowClosed(createWindowEvent(window, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST));
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 }

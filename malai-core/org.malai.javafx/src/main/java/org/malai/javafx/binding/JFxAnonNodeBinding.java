@@ -21,7 +21,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.logging.LogLevel;
@@ -154,14 +153,14 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	@Override
-	public void interactionAborts(final Interaction inter) {
+	public void interactionCancels() {
 		if(endOrCancelFct != null) {
 			endOrCancelFct.accept(action, interaction);
 		}
 		if(cancelFct != null) {
 			cancelFct.accept(action, interaction);
 		}
-		super.interactionAborts(inter);
+		super.interactionCancels();
 	}
 
 	@Override
@@ -175,9 +174,9 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	@Override
-	public void interactionStops(final Interaction inter) {
+	public void interactionStops() {
 		final A currAction = getAction();
-		super.interactionStops(inter);
+		super.interactionStops();
 		if(endOrCancelFct != null) {
 			endOrCancelFct.accept(currAction, getInteraction());
 		}

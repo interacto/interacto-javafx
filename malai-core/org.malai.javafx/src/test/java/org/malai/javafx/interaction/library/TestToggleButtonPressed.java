@@ -7,9 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.interaction.InitState;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.MockitoExtension;
-import org.malai.stateMachine.MustAbortStateMachineException;
+import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,19 +32,19 @@ public class TestToggleButtonPressed extends BaseJfXInteractionTest<ToggleButton
 	}
 
 	@Test
-	void testToggleButtonClickGoodState() throws MustAbortStateMachineException {
+	void testToggleButtonClickGoodState() throws MustCancelStateMachineException {
 		interaction.onJfxToggleButtonPressed(button);
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testToggleButtonClickGoodData() throws MustAbortStateMachineException {
+	void testToggleButtonClickGoodData() {
 		interaction.addHandler(new InteractionHandlerStub() {
 			@Override
-			public void interactionStops(final Interaction interaction) throws MustAbortStateMachineException {
-				super.interactionStops(interaction);
-				assertEquals(button, ((ToggleButtonPressed) interaction).widget);
+			public void interactionStops() throws MustCancelStateMachineException {
+				super.interactionStops();
+				assertEquals(button, interaction.widget);
 			}
 		});
 
@@ -53,7 +52,7 @@ public class TestToggleButtonPressed extends BaseJfXInteractionTest<ToggleButton
 	}
 
 	@Test
-	void testToggleButtonClickReinit() throws MustAbortStateMachineException {
+	void testToggleButtonClickReinit() {
 		interaction.onJfxToggleButtonPressed(button);
 		assertNull(interaction.getWidget());
 		assertEquals(-1, interaction.getLastHIDUsed());
@@ -61,41 +60,41 @@ public class TestToggleButtonPressed extends BaseJfXInteractionTest<ToggleButton
 	}
 
 	@Test
-	void testRegisterToggleButtons() throws MustAbortStateMachineException {
+	void testRegisterToggleButtons() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(button));
 		button.fire();
-		Mockito.verify(handler, Mockito.times(1)).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.times(1)).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.times(1)).interactionStops();
+		Mockito.verify(handler, Mockito.times(1)).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotRegisteredToggleButton() throws MustAbortStateMachineException {
+	void testNoActionWhenNotRegisteredToggleButton() throws MustCancelStateMachineException {
 		button.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotToggleButtonRegistered() throws MustAbortStateMachineException {
+	void testNoActionWhenNotToggleButtonRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
 		button.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testToggleButtonNoActionWhenNullRegistered() throws MustAbortStateMachineException {
+	void testToggleButtonNoActionWhenNullRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(null);
 		button.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 
 	@Test
-	void testToggleButtonNoActionWhenContainsNullRegistered() throws MustAbortStateMachineException {
+	void testToggleButtonNoActionWhenContainsNullRegistered() throws MustCancelStateMachineException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		button.fire();
-		Mockito.verify(handler, Mockito.never()).interactionStops(interaction);
-		Mockito.verify(handler, Mockito.never()).interactionStarts(interaction);
+		Mockito.verify(handler, Mockito.never()).interactionStops();
+		Mockito.verify(handler, Mockito.never()).interactionStarts();
 	}
 }
