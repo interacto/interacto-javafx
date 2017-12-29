@@ -182,7 +182,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public boolean isInteractionMustBeCancelled() {
+	public boolean isStrictStart() {
 		return false;
 	}
 
@@ -252,13 +252,6 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 	@Override
 	public void interactionStarts() throws MustCancelStateMachineException {
-		if(isInteractionMustBeCancelled()) {
-			if(loggerBinding != null) {
-				loggerBinding.log(Level.INFO, "Cancelling starting interaction: " + interaction);
-			}
-			throw new MustCancelStateMachineException();
-		}
-
 		final boolean ok = action == null && isActivated() && isConditionRespected();
 
 		if(loggerBinding != null) {
@@ -272,6 +265,13 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 				loggerAction.log(Level.INFO, "Action created and init: " + action);
 			}
 			interimFeedback();
+		}else {
+			if(isStrictStart()) {
+				if(loggerBinding != null) {
+					loggerBinding.log(Level.INFO, "Cancelling starting interaction: " + interaction);
+				}
+				throw new MustCancelStateMachineException();
+			}
 		}
 	}
 

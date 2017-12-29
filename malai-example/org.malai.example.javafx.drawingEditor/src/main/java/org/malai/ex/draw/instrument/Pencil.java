@@ -60,6 +60,9 @@ public class Pencil extends JfxInstrument implements Initializable {
 			end((a, i) -> canvas.setTmpShape(null)).
 			// The UI command creation process is logged:
 			log(LogLevel.INTERACTION).
+			// strict start stops the interaction if the condition ('when') is not fulfilled at an interaction start.
+			// Otherwise the interaction will run until the condition is fulfilled.
+			strictStart().
 			bind();
 
 		// A DnD interaction with the right button of the mouse moves the targeted shape.
@@ -89,6 +92,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
 			}).
 			endOrCancel((a, i) -> i.getSrcObject().get().setEffect(null)).
+			strictStart().
 			bind();
 
 

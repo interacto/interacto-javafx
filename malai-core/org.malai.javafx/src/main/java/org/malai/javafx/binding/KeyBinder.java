@@ -59,7 +59,7 @@ public abstract class KeyBinder<W, A extends ActionImpl, B extends KeyBinder<W, 
 	public JfXWidgetBinding<A, KeysPressure, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, KeysPressure, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkCode, onEnd, actionProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, logLevels);
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels);
 		instrument.addBinding(binding);
 		return binding;
 	}

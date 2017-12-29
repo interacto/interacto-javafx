@@ -61,15 +61,9 @@ public interface WidgetBinding extends InteractionHandler {
 	boolean isRunning();
 
 	/**
-	 * Sometimes the interaction of two different widget bindings can overlap. In this case, the first interaction can
-	 * stops while the second is blocked in an intermediary state.
-	 * Two solutions are possible to avoid such a problem:<br>
-	 * - the use of this function that performs some tests. If the test fails, the starting interaction
-	 * is cancelled and the resulting action is never created;<br>
-	 * - the modification of one of the interactions to avoid the overlapping.
-	 * @return True: if the starting interaction must be cancelled so that the action is never created.
+	 * States whether the interaction must continue to run while the condition of the binding is not fulfilled at the interaction start.
 	 */
-	boolean isInteractionMustBeCancelled();
+	boolean isStrictStart();
 
 	/**
 	 * @return True if the action is executed on each evolution of the interaction.
