@@ -95,7 +95,7 @@ public class TestInteractor {
 
 	@Test
 	public void testIsInteractionMustBeCancelled() {
-		assertFalse(interactor.isInteractionMustBeCancelled());
+		assertFalse(interactor.isStrictStart());
 	}
 
 
@@ -229,7 +229,7 @@ class MockInteractor extends WidgetBindingImpl<ActionImplMock, InteractionMock, 
 	}
 
 	@Override
-	public boolean isInteractionMustBeCancelled() {
+	public boolean isStrictStart() {
 		return mustCancel;
 	}
 }

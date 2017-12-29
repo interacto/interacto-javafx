@@ -29,6 +29,7 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	protected BiConsumer<A, I> endOrCancelFct;
 	protected Runnable feedbackFct;
 	protected boolean execOnChanges;
+	protected boolean strictStart;
 
 	public UpdateBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
@@ -98,11 +99,20 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 		return (B) this;
 	}
 
+	/**
+	 * The interaction does not start if the condition of the binding ('when') is not fulfilled.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public B strictStart() {
+		strictStart = true;
+		return (B) this;
+	}
+
 	@Override
 	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
 			(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
-				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, logLevels);
+				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, strictStart, logLevels);
 		instrument.addBinding(binding);
 		return binding;
 	}

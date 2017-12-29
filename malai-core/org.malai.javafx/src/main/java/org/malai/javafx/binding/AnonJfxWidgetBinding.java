@@ -21,20 +21,22 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction, N extends JfxInstrum
 								final BiConsumer<AnonAction, I> initActionFct, final BiConsumer<AnonAction, I> updateActionFct,
 								final Predicate<I> check, final BiConsumer<AnonAction, I> onEndFct, final Function<I, AnonAction> actionFunction,
 								final BiConsumer<AnonAction, I> cancel, final BiConsumer<AnonAction, I> endOrCancel, final Runnable feedback,
-								final List<Node> widgets, final Set<ObservableList<Node>> additionalWidgets, final boolean async, final Set<LogLevel> loggers)
+								final List<Node> widgets, final Set<ObservableList<Node>> additionalWidgets, final boolean async,
+								final boolean strict, final Set<LogLevel> loggers)
 								throws InstantiationException, IllegalAccessException {
 		super(ins, exec, AnonAction.class, interaction, initActionFct, updateActionFct, check, onEndFct, actionFunction, cancel, endOrCancel, feedback,
-			widgets, additionalWidgets, async, loggers);
+			widgets, additionalWidgets, async, strict, loggers);
 		anonAction = Objects.requireNonNull(action);
 	}
 
 	public AnonJfxWidgetBinding(final N ins, final boolean exec, final Runnable action, final I interaction, final List<Window> widgets,
 								final BiConsumer<AnonAction, I> initActionFct, final BiConsumer<AnonAction, I> updateActionFct, final Predicate<I> check,
 								final BiConsumer<AnonAction, I> onEndFct, final Function<I, AnonAction> actionFunction, final BiConsumer<AnonAction, I> cancel,
-								final BiConsumer<AnonAction, I> endOrCancel, final Runnable feedback, final boolean async, final Set<LogLevel> loggers)
+								final BiConsumer<AnonAction, I> endOrCancel, final Runnable feedback, final boolean async,
+								final boolean strict, final Set<LogLevel> loggers)
 								throws InstantiationException, IllegalAccessException {
 		super(ins, exec, AnonAction.class, interaction, widgets, initActionFct, updateActionFct, check, onEndFct, actionFunction, cancel, endOrCancel,
-			feedback, async, loggers);
+			feedback, async, strict, loggers);
 		anonAction = Objects.requireNonNull(action);
 	}
 

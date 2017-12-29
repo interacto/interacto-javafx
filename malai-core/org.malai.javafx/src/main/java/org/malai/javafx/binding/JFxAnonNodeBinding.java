@@ -40,6 +40,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final Runnable feedbackFct;
 	private final boolean asyncAction;
 	private final BiConsumer<A, I> onEnd;
+	private final boolean strictStart;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -60,7 +61,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
-							  final Set<ObservableList<Node>> additionalWidgets, final boolean async, final Set<LogLevel> loggers)
+							  final Set<ObservableList<Node>> additionalWidgets, final boolean async, final boolean strict, final Set<LogLevel> loggers)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, widgets);
 		execInitAction = initActionFct;
@@ -72,18 +73,11 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
 		onEnd = onEndFct;
+		strictStart = strict;
 		configureLoggers(loggers);
 
 		if(additionalWidgets != null) {
 			additionalWidgets.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableNodeList(elt));
-		}
-	}
-
-	private void configureLoggers(final Set<LogLevel> loggers) {
-		if(loggers != null) {
-			logAction(loggers.contains(LogLevel.ACTION));
-			logBinding(loggers.contains(LogLevel.BINDING));
-			interaction.log(loggers.contains(LogLevel.INTERACTION));
 		}
 	}
 
@@ -106,7 +100,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean async,
-							  final Set<LogLevel> loggers)
+							  final boolean strict, final Set<LogLevel> loggers)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, interaction);
 		execInitAction = initActionFct;
@@ -118,7 +112,21 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		checkInteraction = check == null ? i -> true : check;
 		asyncAction = async;
 		onEnd = onEndFct;
+		strictStart = strict;
 		configureLoggers(loggers);
+	}
+
+	private void configureLoggers(final Set<LogLevel> loggers) {
+		if(loggers != null) {
+			logAction(loggers.contains(LogLevel.ACTION));
+			logBinding(loggers.contains(LogLevel.BINDING));
+			interaction.log(loggers.contains(LogLevel.INTERACTION));
+		}
+	}
+
+	@Override
+	public boolean isStrictStart() {
+		return strictStart;
 	}
 
 	@Override
