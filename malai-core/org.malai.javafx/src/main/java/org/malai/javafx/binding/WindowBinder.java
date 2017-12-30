@@ -24,4 +24,13 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	public WindowBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
 	}
+
+	@Override
+	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
+			(instrument, execOnChanges, actionClass, interaction, widgets, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
+				endOrCancelFct, feedbackFct, async, strictStart, logLevels);
+		instrument.addBinding(binding);
+		return binding;
+	}
 }
