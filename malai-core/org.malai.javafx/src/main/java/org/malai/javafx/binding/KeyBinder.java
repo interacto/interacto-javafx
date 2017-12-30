@@ -15,8 +15,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -53,14 +51,5 @@ public abstract class KeyBinder<W, A extends ActionImpl, B extends KeyBinder<W, 
 	public B with(final KeyCode... codes) {
 		this.codes.addAll(Arrays.asList(codes));
 		return (B) this;
-	}
-
-	@Override
-	public JfXWidgetBinding<A, KeysPressure, ?> bind() throws IllegalAccessException, InstantiationException {
-		final JFxAnonNodeBinding<A, KeysPressure, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
-			initAction, null, checkCode, onEnd, actionProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels);
-		instrument.addBinding(binding);
-		return binding;
 	}
 }

@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.library.KeysPressure;
 
 /**
  * The binding builder to create bindings between a key interaction (eg shortcuts) on a node and a given action.
@@ -22,5 +23,14 @@ import org.malai.javafx.instrument.JfxInstrument;
 public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A, KeyNodeBinder<A>> {
 	public KeyNodeBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, instrument);
+	}
+
+	@Override
+	public JfXWidgetBinding<A, KeysPressure, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, KeysPressure, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
+			initAction, null, checkCode, onEnd, actionProducer, null, null, null,
+			widgets, additionalWidgets, async, false, logLevels);
+		instrument.addBinding(binding);
+		return binding;
 	}
 }
