@@ -4,9 +4,12 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.animation.Animation;
+import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -14,11 +17,15 @@ import javafx.scene.Group;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import org.malai.ex.draw.action.AddShape;
 import org.malai.ex.draw.action.ChangeColour;
 import org.malai.ex.draw.action.MoveShape;
+import org.malai.ex.draw.learning.AddRectHelpAnimation;
+import org.malai.ex.draw.learning.MoveRectHelpAnimation;
 import org.malai.ex.draw.model.MyDrawing;
 import org.malai.ex.draw.model.MyRect;
 import org.malai.ex.draw.model.MyShape;
@@ -38,9 +45,13 @@ public class Pencil extends JfxInstrument implements Initializable {
 	/** The model of the app. */
 	private final MyDrawing drawing;
 
+	/** The pane used to explain how the user interactions work. */
+	private final Pane learningPane;
+
 	public Pencil() {
 		super();
 		drawing = new MyDrawing();
+		learningPane = new Pane();
 	}
 
 	@Override
@@ -63,6 +74,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 			// strict start stops the interaction if the condition ('when') is not fulfilled at an interaction start.
 			// Otherwise the interaction will run until the condition is fulfilled.
 			strictStart().
+			help(new AddRectHelpAnimation(learningPane)).
 			bind();
 
 		// A DnD interaction with the right button of the mouse moves the targeted shape.
@@ -93,6 +105,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 			}).
 			endOrCancel((a, i) -> i.getSrcObject().get().setEffect(null)).
 			strictStart().
+			help(new MoveRectHelpAnimation(learningPane)).
 			bind();
 
 
@@ -114,6 +127,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 //				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
 //			}).
 //			end((a, i) -> i.getSrcObject().get().setEffect(null)).
+//		    strictStart().
 //			bind();
 
 		/*
@@ -136,6 +150,37 @@ public class Pencil extends JfxInstrument implements Initializable {
 		anonActionBinder(() -> System.out.println("An example of the anonymous action."), new Press()).on(canvas).bind();
 	}
 
+
+	private void installDnDTransition() {
+		canvas.getChildren().add(learningPane);
+
+		SequentialTransition transition = new SequentialTransition(
+			new AddRectHelpAnimation(learningPane).install(),
+			new MoveRectHelpAnimation(learningPane).install()
+		);
+
+		transition.setCycleCount(-1);
+		transition.play();
+
+		final EventHandler<MouseEvent> handlerEnter = evt -> transition.stop();
+
+		transition.statusProperty().addListener((observable, oldValue, newValue) -> {
+			if(newValue == Animation.Status.STOPPED) {
+				canvas.getChildren().remove(learningPane);
+				canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, handlerEnter);
+			}
+		});
+
+		canvas.addEventHandler(MouseEvent.MOUSE_MOVED, handlerEnter);
+	}
+
+//	@Override
+//	public void setActivated(final boolean toBeActivated) {
+//		super.setActivated(toBeActivated);
+//		if(toBeActivated) {
+//			installDnDTransition();
+//		}
+//	}
 
 	/**
 	 * Binds the model to the view. MVP layout: this presenter binds the model to the view. These two last do not know each others.

@@ -11,7 +11,9 @@
 package org.malai.javafx.interaction;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
+import javafx.animation.Animation;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.Window;
@@ -35,7 +37,7 @@ public interface JfxInteraction extends JfxDefaultEventProcessor {
 	 */
 	void registerToWindows(final Collection<Window> windows);
 
-	void registerToObservableNodeList(final ObservableList<Node> nodes);
+	void registerToObservableNodeList(final ObservableList<? extends Node> nodes);
 
 	/**
 	 * @return The JFX nodes registered to the interaction. Cannot be null. Unmodifiable list.
@@ -46,4 +48,6 @@ public interface JfxInteraction extends JfxDefaultEventProcessor {
 	 * @return The JFX windows registered to the interaction. Cannot be null. Unmodifiable list.
 	 */
 	Set<Window> getRegisteredWindows();
+
+	Optional<Animation> getHelpAnimation();
 }

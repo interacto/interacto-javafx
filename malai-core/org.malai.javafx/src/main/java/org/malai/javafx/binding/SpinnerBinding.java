@@ -14,6 +14,7 @@ import java.util.List;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.SpinnerValueChanged;
 
 /**
@@ -35,7 +36,7 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 */
 	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException,
 		IllegalAccessException {
-		super(ins, exec, clazzAction, new SpinnerValueChanged(), widgets);
+		this(ins, exec, clazzAction, widgets, false, null);
 	}
 
 	/**
@@ -48,8 +49,9 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final Node... widgets) throws InstantiationException,
+	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets,
+						  final boolean help, final HelpAnimation animation) throws InstantiationException,
 		IllegalAccessException {
-		super(ins, exec, clazzAction, new SpinnerValueChanged(), widgets);
+		super(ins, exec, clazzAction, new SpinnerValueChanged(), widgets, help, animation);
 	}
 }

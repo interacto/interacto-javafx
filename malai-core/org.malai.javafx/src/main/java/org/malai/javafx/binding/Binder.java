@@ -24,9 +24,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
 
 /**
@@ -46,8 +48,10 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	protected final JfxInstrument instrument;
 	protected boolean async;
 	protected BiConsumer<A, I> onEnd;
-	protected Set<ObservableList<Node>> additionalWidgets;
+	protected List<ObservableList<? extends Node>> additionalWidgets;
 	protected Set<LogLevel> logLevels;
+	protected HelpAnimation helpAnimation;
+	protected boolean withHelp;
 
 	public Binder(final Class<A> action, final I interaction, final JfxInstrument ins) {
 		super();
@@ -61,6 +65,8 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 		onEnd = null;
 		actionProducer = null;
 		additionalWidgets = null;
+		helpAnimation = null;
+		withHelp = false;
 	}
 
 	/**
@@ -81,9 +87,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	 * @param widgets The observable list of the widgets involved in the bindings.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B on(final ObservableList<Node> widgets) {
+	public B on(final ObservableList<? extends Node> widgets) {
 		if(additionalWidgets == null) {
-			additionalWidgets = new HashSet<>();
+			additionalWidgets = new ArrayList<>();
 		}
 		additionalWidgets.add(widgets);
 		return (B) this;
@@ -187,6 +193,27 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	/**
+	 * Uses the given animation to explain how the binding works.
+	 * @param animation The animation to play. If null, the default animation of the user interaction is used (if defined).
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public B help(final HelpAnimation animation) {
+		helpAnimation = animation;
+		withHelp = animation != null;
+		return (B) this;
+	}
+
+	/**
+	 * Uses the default help animation of the user interaction to explain how the binding works.
+	 * @param helpPane The pane where the animation will be played.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public B help(final Pane helpPane) {
+		withHelp = true;
+		return (B) this;
+	}
+
+	/**
 	 * Executes the builder to create and install the binding on the instrument.
 	 * @throws IllegalArgumentException On issues while creating the actions.
 	 * @throws InstantiationException On issues while creating the actions.
@@ -194,7 +221,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
 			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels);
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
 		instrument.addBinding(binding);
 		return binding;
 	}

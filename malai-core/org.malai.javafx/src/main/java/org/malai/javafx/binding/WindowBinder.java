@@ -29,7 +29,7 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
 			(instrument, execOnChanges, actionClass, interaction, widgets, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
-				endOrCancelFct, feedbackFct, async, strictStart, logLevels);
+				endOrCancelFct, feedbackFct, async, strictStart, logLevels, withHelp, helpAnimation);
 		instrument.addBinding(binding);
 		return binding;
 	}

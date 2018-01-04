@@ -29,7 +29,7 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A, KeyN
 	public JfXWidgetBinding<A, KeysPressure, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, KeysPressure, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkCode, onEnd, actionProducer, null, null, null,
-			widgets, additionalWidgets, async, false, logLevels);
+			widgets, additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
 		instrument.addBinding(binding);
 		return binding;
 	}
