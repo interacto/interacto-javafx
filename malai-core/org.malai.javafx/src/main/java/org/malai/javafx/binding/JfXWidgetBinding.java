@@ -20,6 +20,7 @@ import org.malai.action.ActionImpl;
 import org.malai.binding.WidgetBindingImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.help.HelpAnimation;
 
 /**
  * Base of a widget binding for JavaFX applications.
@@ -27,6 +28,8 @@ import org.malai.javafx.interaction.JfxInteraction;
  */
 public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends WidgetBindingImpl<A, I, N> {
 	protected final BooleanProperty activation;
+	protected boolean withHelp;
+	protected HelpAnimation customAnimation;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -42,10 +45,12 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
-							final List<Node> widgets) throws InstantiationException, IllegalAccessException {
+							final List<Node> widgets, final boolean help, final HelpAnimation animation) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
 		initActivation();
+		withHelp = help;
+		customAnimation = animation;
 		interaction.registerToNodes(widgets);
 	}
 
@@ -62,9 +67,9 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
-							final Node... widgets) throws InstantiationException, IllegalAccessException {
-		this(ins, exec, clazzAction, interaction, Arrays.asList(widgets));
+	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction, final boolean help,
+							final HelpAnimation animation, final Node... widgets) throws InstantiationException, IllegalAccessException {
+		this(ins, exec, clazzAction, interaction, Arrays.asList(widgets), help, animation);
 	}
 
 	/**
@@ -81,9 +86,11 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final Class<A> clazzAction,
-							final I interaction) throws InstantiationException, IllegalAccessException {
+							final I interaction, final HelpAnimation animation, final boolean help) throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
+		withHelp = help;
+		customAnimation = animation;
 		initActivation();
 		interaction.registerToWindows(windows);
 	}
@@ -92,6 +99,13 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	public void setActivated(final boolean activ) {
 		if(activation != null && !activation.isBound()) {
 			activation.set(activ);
+		}
+		if(activation != null && withHelp) {
+			if(activation.get()) {//TODO heuristics
+
+			}else {
+				//TODO
+			}
 		}
 	}
 

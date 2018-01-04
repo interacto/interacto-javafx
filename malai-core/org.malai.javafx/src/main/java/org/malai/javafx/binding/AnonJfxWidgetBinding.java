@@ -12,6 +12,7 @@ import javafx.stage.Window;
 import org.malai.action.AnonAction;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
 
 public class AnonJfxWidgetBinding<I extends JfxInteraction, N extends JfxInstrument> extends JFxAnonNodeBinding<AnonAction, I, N> {
@@ -21,11 +22,11 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction, N extends JfxInstrum
 								final BiConsumer<AnonAction, I> initActionFct, final BiConsumer<AnonAction, I> updateActionFct,
 								final Predicate<I> check, final BiConsumer<AnonAction, I> onEndFct, final Function<I, AnonAction> actionFunction,
 								final BiConsumer<AnonAction, I> cancel, final BiConsumer<AnonAction, I> endOrCancel, final Runnable feedback,
-								final List<Node> widgets, final Set<ObservableList<Node>> additionalWidgets, final boolean async,
-								final boolean strict, final Set<LogLevel> loggers)
+								final List<Node> widgets, final List<ObservableList<? extends Node>> additionalWidgets, final boolean async,
+								final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation)
 								throws InstantiationException, IllegalAccessException {
 		super(ins, exec, AnonAction.class, interaction, initActionFct, updateActionFct, check, onEndFct, actionFunction, cancel, endOrCancel, feedback,
-			widgets, additionalWidgets, async, strict, loggers);
+			widgets, additionalWidgets, async, strict, loggers, help, animation);
 		anonAction = Objects.requireNonNull(action);
 	}
 
@@ -33,10 +34,10 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction, N extends JfxInstrum
 								final BiConsumer<AnonAction, I> initActionFct, final BiConsumer<AnonAction, I> updateActionFct, final Predicate<I> check,
 								final BiConsumer<AnonAction, I> onEndFct, final Function<I, AnonAction> actionFunction, final BiConsumer<AnonAction, I> cancel,
 								final BiConsumer<AnonAction, I> endOrCancel, final Runnable feedback, final boolean async,
-								final boolean strict, final Set<LogLevel> loggers)
+								final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation)
 								throws InstantiationException, IllegalAccessException {
 		super(ins, exec, AnonAction.class, interaction, widgets, initActionFct, updateActionFct, check, onEndFct, actionFunction, cancel, endOrCancel,
-			feedback, async, strict, loggers);
+			feedback, async, strict, loggers, help, animation);
 		anonAction = Objects.requireNonNull(action);
 	}
 

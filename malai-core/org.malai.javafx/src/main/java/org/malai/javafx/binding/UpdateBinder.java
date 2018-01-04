@@ -112,7 +112,8 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
 			(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
-				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, strictStart, logLevels);
+				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
+				strictStart, logLevels, withHelp, helpAnimation);
 		instrument.addBinding(binding);
 		return binding;
 	}

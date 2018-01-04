@@ -14,6 +14,7 @@ import java.util.List;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.ButtonPressed;
 
 /**
@@ -33,8 +34,8 @@ public abstract class ButtonBinding<A extends ActionImpl, I extends JfxInstrumen
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ButtonBinding(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, new ButtonPressed(), widgets);
+	public ButtonBinding(final I ins, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException, IllegalAccessException {
+		this(ins, clazzAction, widgets, false, null);
 	}
 
 	/**
@@ -47,7 +48,8 @@ public abstract class ButtonBinding<A extends ActionImpl, I extends JfxInstrumen
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ButtonBinding(I ins, Class<A> clazzAction, Node... widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, new ButtonPressed(), widgets);
+	public ButtonBinding(final I ins, final Class<A> clazzAction, final List<Node> widgets,
+						 final boolean help, final HelpAnimation animation) throws InstantiationException, IllegalAccessException {
+		super(ins, false, clazzAction, new ButtonPressed(), widgets, help, animation);
 	}
 }

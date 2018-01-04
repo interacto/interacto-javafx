@@ -23,6 +23,7 @@ import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
 
 /**
@@ -61,9 +62,10 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
-							  final Set<ObservableList<Node>> additionalWidgets, final boolean async, final boolean strict, final Set<LogLevel> loggers)
+							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean async, final boolean strict, final Set<LogLevel> loggers,
+							  final boolean help, final HelpAnimation animation)
 				throws InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, interaction, widgets);
+		super(ins, exec, clazzAction, interaction, widgets, help, animation);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
 		cancelFct = cancel;
@@ -100,9 +102,9 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean async,
-							  final boolean strict, final Set<LogLevel> loggers)
+							  final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation)
 		throws InstantiationException, IllegalAccessException {
-		super(ins, exec, widgets, clazzAction, interaction);
+		super(ins, exec, widgets, clazzAction, interaction, animation, help);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
 		cancelFct = cancel;

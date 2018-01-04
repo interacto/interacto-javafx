@@ -37,7 +37,7 @@ public abstract class JfxMenuItemBinding<A extends ActionImpl, I extends MenuIte
 	 */
 	public JfxMenuItemBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction, final List<MenuItem> menuItems)
 		throws InstantiationException, IllegalAccessException {
-		super(ins, exec, clazzAction, interaction);
+		super(ins, exec, clazzAction, interaction, false, null);
 
 		if(menuItems != null) {
 			interaction.registerToMenuItems(menuItems);

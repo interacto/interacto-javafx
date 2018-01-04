@@ -15,8 +15,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -43,7 +45,8 @@ import org.malai.stateMachine.State;
 public abstract class JfxInteractionImpl extends InteractionImpl implements JfxInteraction {
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
-	protected final ObservableSet<ObservableList<? super Node>> additionalNodes;
+	protected final List<ObservableList<? extends Node>> additionalNodes;
+	protected Animation helpAnimation;
 
 	private EventHandler<MouseEvent> pressure;
 	private EventHandler<MouseEvent> release;
@@ -60,7 +63,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 		super();
 		registeredNodes = FXCollections.observableSet();
 		registeredWindows = FXCollections.observableSet();
-		additionalNodes = FXCollections.observableSet();
+		additionalNodes = new ArrayList<>();
 
 		// Listener to any changes in the list of registered nodes
 		registeredNodes.addListener((SetChangeListener<Node>) change -> {
@@ -83,6 +86,10 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 		});
 	}
 
+	@Override
+	public Optional<Animation> getHelpAnimation() {
+		return Optional.empty();
+	}
 
 	@Override
 	protected void changeEventsRegistered(final State oldState) {
@@ -294,23 +301,23 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	}
 
 	@Override
-	public void registerToObservableNodeList(final ObservableList<Node> nodes) {
+	public void registerToObservableNodeList(final ObservableList<? extends Node> nodes) {
 		if(nodes != null) {
 			additionalNodes.add(nodes);
 
 			if(!nodes.isEmpty()) {
 				final List<EventType<?>> events = getEventTypesOf(currentState);
-				nodes.forEach(node -> registeredNodes.forEach(n -> events.forEach(type -> registerEventToNode(type, node))));
+				nodes.forEach(node -> events.forEach(type -> registerEventToNode(type, node)));
 			}
 
 			// Listener to any changes in the list of registered windows
 			nodes.addListener((ListChangeListener<Node>) change -> {
 				while(change.next()) {
-					if(change.wasAdded() || change.wasReplaced()) {
+					if(change.wasAdded()) {
 						change.getAddedSubList().forEach(elt -> onNewNodeRegistered(elt));
 					}
-					if(change.wasRemoved() || change.wasReplaced()) {
-						change.getAddedSubList().forEach(elt -> onNodeUnregistered(elt));
+					if(change.wasRemoved()) {
+						change.getRemoved().forEach(elt -> onNodeUnregistered(elt));
 					}
 				}
 			});

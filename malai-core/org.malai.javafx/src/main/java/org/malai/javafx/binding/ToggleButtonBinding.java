@@ -14,6 +14,7 @@ import java.util.List;
 import javafx.scene.Node;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.ToggleButtonPressed;
 
 /**
@@ -33,7 +34,22 @@ public abstract class ToggleButtonBinding<A extends ActionImpl, I extends JfxIns
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
+	public ToggleButtonBinding(final I ins, final Class<A> clazzAction, final List<Node> widgets,
+							   final boolean help, final HelpAnimation animation) throws InstantiationException, IllegalAccessException {
+		super(ins, false, clazzAction, new ToggleButtonPressed(), widgets, help, animation);
+	}
+
+	/**
+	 * Creates a toggle button binding.
+	 * @param ins The instrument that contains the binding.
+	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * The class must be public and must have a constructor with no parameter.
+	 * @param widgets The widgets used by the binding. Cannot be null.
+	 * @throws IllegalAccessException If no free-parameter constructor is available.
+	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
+	 * @throws IllegalArgumentException If the given interaction or instrument is null.
+	 */
 	public ToggleButtonBinding(final I ins, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException, IllegalAccessException {
-		super(ins, false, clazzAction, new ToggleButtonPressed(), widgets);
+		this(ins, clazzAction, widgets, false, null);
 	}
 }
