@@ -7,16 +7,16 @@ import javafx.scene.shape.Rectangle;
 import org.malai.javafx.interaction.help.CancelDnDHelpAnimation;
 
 public class MoveRectHelpAnimation extends CancelDnDHelpAnimation {
-	public MoveRectHelpAnimation(final Pane learningPane) {
-		super(learningPane, 150, 500, 150, 350, "Press (right button) on a rectangle to move it",
+	public MoveRectHelpAnimation(final Pane learningPane, final Pane widget) {
+		super(learningPane, widget, 150, 500, 150, 350, "Press (right button) on a rectangle to move it",
 			"Drag or press 'ESC' to cancel", "Release to stop moving the rectangle");
 	}
 
 	@Override
-	public Transition install() {
-		final Transition transition = super.install();
+	public Transition createTransition() {
+		final Transition transition = super.createTransition();
 		final Rectangle rec = new Rectangle(110d, 70d);
-		pane.getChildren().add(rec);
+		helpPane.getChildren().add(rec);
 		rec.toBack();
 		rec.setFocusTraversable(false);
 		rec.setMouseTransparent(true);

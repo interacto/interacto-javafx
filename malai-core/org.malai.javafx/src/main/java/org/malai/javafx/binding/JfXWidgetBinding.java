@@ -21,6 +21,7 @@ import org.malai.binding.WidgetBindingImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
+import org.malai.javafx.interaction.help.HelpAnimationPlayer;
 
 /**
  * Base of a widget binding for JavaFX applications.
@@ -101,10 +102,13 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 			activation.set(activ);
 		}
 		if(activation != null && withHelp) {
-			if(activation.get()) {//TODO heuristics
-
-			}else {
-				//TODO
+			final HelpAnimation anim = customAnimation == null ? interaction.getHelpAnimation().orElse(null) : customAnimation;
+			if(anim != null) {
+				if(activation.get()) {//TODO heuristics
+					HelpAnimationPlayer.INSTANCE.add(anim);
+				}else {
+					HelpAnimationPlayer.INSTANCE.stop(anim);
+				}
 			}
 		}
 	}

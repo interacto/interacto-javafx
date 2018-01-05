@@ -11,7 +11,11 @@
 package org.malai.javafx.interaction.help;
 
 import javafx.animation.Transition;
+import javafx.scene.layout.Pane;
 
 public interface HelpAnimation {
-	Transition install();
+	Transition getAnimation();
+	boolean isInstalled();
+	Pane getZonePane();
+	Pane getHelpPane();
 }

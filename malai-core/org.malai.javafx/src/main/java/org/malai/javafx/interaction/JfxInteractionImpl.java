@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javafx.animation.Animation;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -36,6 +35,7 @@ import org.malai.interaction.CancellingState;
 import org.malai.interaction.InitState;
 import org.malai.interaction.InteractionImpl;
 import org.malai.interaction.TerminalState;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.stateMachine.State;
 
 /**
@@ -46,7 +46,7 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
 	protected final List<ObservableList<? extends Node>> additionalNodes;
-	protected Animation helpAnimation;
+	protected HelpAnimation helpAnimation;
 
 	private EventHandler<MouseEvent> pressure;
 	private EventHandler<MouseEvent> release;
@@ -87,8 +87,8 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 	}
 
 	@Override
-	public Optional<Animation> getHelpAnimation() {
-		return Optional.empty();
+	public Optional<HelpAnimation> getHelpAnimation() {
+		return Optional.ofNullable(helpAnimation);
 	}
 
 	@Override

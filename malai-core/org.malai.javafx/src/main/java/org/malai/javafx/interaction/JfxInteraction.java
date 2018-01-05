@@ -13,10 +13,10 @@ package org.malai.javafx.interaction;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
-import javafx.animation.Animation;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.Window;
+import org.malai.javafx.interaction.help.HelpAnimation;
 
 /**
  * The core interface for defining interactions using the JavaFX library.
@@ -49,5 +49,5 @@ public interface JfxInteraction extends JfxDefaultEventProcessor {
 	 */
 	Set<Window> getRegisteredWindows();
 
-	Optional<Animation> getHelpAnimation();
+	Optional<HelpAnimation> getHelpAnimation();
 }
