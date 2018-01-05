@@ -16,7 +16,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
-import org.malai.interaction.Interaction;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
 

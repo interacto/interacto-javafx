@@ -7,16 +7,16 @@ import javafx.scene.shape.Rectangle;
 import org.malai.javafx.interaction.help.DnDHelpAnimation;
 
 public class AddRectHelpAnimation extends DnDHelpAnimation {
-	public AddRectHelpAnimation(final Pane learningPane) {
-		super(learningPane, 150, 500, 150, 350, "Press (left button) to start drawing a rectangle",
+	public AddRectHelpAnimation(final Pane learningPane, final Pane widget) {
+		super(learningPane, widget, 150, 500, 150, 350, "Press (left button) to start drawing a rectangle",
 			"Drag", "Release");
 	}
 
 	@Override
-	public Transition install() {
-		final Transition transition = super.install();
+	public Transition createTransition() {
+		final Transition transition = super.createTransition();
 		final Rectangle rec = new Rectangle(150, 150, 1d, 1d);
-		pane.getChildren().add(rec);
+		helpPane.getChildren().add(rec);
 		rec.toBack();
 		rec.setFocusTraversable(false);
 		rec.setMouseTransparent(true);

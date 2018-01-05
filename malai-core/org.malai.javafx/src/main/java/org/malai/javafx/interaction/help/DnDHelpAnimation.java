@@ -24,29 +24,26 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-public class DnDHelpAnimation implements HelpAnimation {
+public class DnDHelpAnimation extends HelpAnimationImpl {
 	protected final Duration duration = Duration.millis(2500);
 	protected final double size = 15;
 	protected Ellipse ell;
 	protected Text text;
-	protected Transition transition;
-	protected double x1;
-	protected double x2;
-	protected double y1;
-	protected double y2;
-	protected String textPress;
-	protected String textDrag;
-	protected String textRelease;
-	protected Pane pane;
+	protected final double x1;
+	protected final double x2;
+	protected final double y1;
+	protected final double y2;
+	protected final String textPress;
+	protected final String textDrag;
+	protected final String textRelease;
 
-
-	public DnDHelpAnimation(final Pane learningPane) {
-		this(learningPane, 150, 500, 150, 350, "Press", "Drag", "Release");
+	public DnDHelpAnimation(final Pane learningPane, final Pane widget) {
+		this(learningPane, widget, 150, 500, 150, 350, "Press", "Drag", "Release");
 	}
 
-	public DnDHelpAnimation(final Pane learningPane, final double x1, final double x2, final double y1, final double y2, final String textPress,
-							final String textDrag, final String textRelease) {
-		super();
+	public DnDHelpAnimation(final Pane learningPane, final Pane widget, final double x1, final double x2, final double y1, final double y2,
+							final String textPress, final String textDrag, final String textRelease) {
+		super(learningPane, widget);
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
@@ -54,15 +51,10 @@ public class DnDHelpAnimation implements HelpAnimation {
 		this.textPress = textPress;
 		this.textDrag = textDrag;
 		this.textRelease = textRelease;
-		pane = learningPane;
-	}
-
-	public Transition getTransition() {
-		return transition;
 	}
 
 	@Override
-	public Transition install() {
+	public Transition createTransition() {
 		ell = new Ellipse(x1, y1, size, size);
 		text = new Text(textPress);
 
@@ -71,8 +63,8 @@ public class DnDHelpAnimation implements HelpAnimation {
 		ell.setFill(Color.LIGHTGRAY);
 		ell.setEffect(new DropShadow(20d, Color.BLACK));
 
-		pane.getChildren().add(ell);
-		pane.getChildren().add(text);
+		helpPane.getChildren().add(ell);
+		helpPane.getChildren().add(text);
 		ell.setVisible(false);
 		text.setVisible(false);
 		ell.setFocusTraversable(false);
@@ -80,7 +72,7 @@ public class DnDHelpAnimation implements HelpAnimation {
 		text.setFocusTraversable(false);
 		text.setMouseTransparent(true);
 
-		SequentialTransition mainTrans = new SequentialTransition();
+		final SequentialTransition mainTrans = new SequentialTransition();
 		final ParallelTransition parallelTransition = new ParallelTransition(
 			new Timeline(new KeyFrame(duration, new KeyValue(ell.centerXProperty(), x2))),
 			new Timeline(new KeyFrame(duration, new KeyValue(ell.centerYProperty(), y2)))

@@ -113,7 +113,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	}
 
 	@Test
-	@DisplayName("Registering same widget two times does not produce events twice")
+	@DisplayName("Registering same zonePane two times does not produce events twice")
 	public void testDoubleRegistration() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.A, KeyCode.CONTROL).bind();
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.U, KeyCode.CONTROL).bind();
