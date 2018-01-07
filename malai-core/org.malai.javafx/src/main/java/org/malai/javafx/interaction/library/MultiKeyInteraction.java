@@ -40,6 +40,7 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 		super.reinit();
 		keys.clear();
 		keyCodes.clear();
+		stillProcessingEvents.clear();
 	}
 
 	/**

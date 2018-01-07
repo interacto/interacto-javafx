@@ -42,9 +42,6 @@ public class KeysTyped extends MultiKeyInteraction {
 		}
 	}
 
-	/** The timeout transition. Used to set the timeout value. */
-	protected TimeoutTransition timeoutTransition;
-
 	/**
 	 * Creates the interaction.
 	 */
@@ -62,21 +59,12 @@ public class KeysTyped extends MultiKeyInteraction {
 		addState(ended);
 
 		new MultiKeyInteractionKeyPressedTransition(initState, pressed);
-
 		new MultiKeyInteractionKeyPressedTransition(pressed, pressed) {
 			@Override
 			public boolean isGuardRespected() {
 				return this.hid == KeysTyped.this.getLastHIDUsed();
 			}
 		};
-
-		new MultiKeyReleaseTransition(pressed, pressed) {
-			@Override
-			public boolean isGuardRespected() {
-				return this.hid == KeysTyped.this.getLastHIDUsed();
-			}
-		};
-
-		timeoutTransition = new TimeoutTransition(pressed, ended, SUPPLY_TIME_GAP);
+		new TimeoutTransition(pressed, ended, SUPPLY_TIME_GAP);
 	}
 }
