@@ -1,4 +1,4 @@
-package org.malai.ex.draw.view.shape;
+package org.malai.ex.draw.view;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
