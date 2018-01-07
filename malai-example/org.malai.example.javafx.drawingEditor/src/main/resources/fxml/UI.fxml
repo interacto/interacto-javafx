@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import org.malai.ex.draw.view.shape.MyCanvas?>
+<?import org.malai.ex.draw.view.MyCanvas?>
 <?import javafx.scene.layout.Pane?>
 <BorderPane prefHeight="800.0" prefWidth="1200.0"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.malai.ex.draw.instrument.Pencil">
