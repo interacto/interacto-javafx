@@ -10,10 +10,13 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.scene.control.MenuItem;
@@ -27,6 +30,7 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 	/** The widget used during the interaction. */
 	protected T widget;
 	protected final ObservableSet<MenuItem> registeredItems;
+	protected List<ObservableList<? extends MenuItem>> additionalMenus;
 
 	/**
 	 * Creates the interaction.
@@ -34,6 +38,7 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 	public MenuItemInteraction() {
 		super();
 		registeredItems = FXCollections.observableSet();
+		additionalMenus = null;
 
 		// Listener to any changes in the list of registered nodes
 		registeredItems.addListener((SetChangeListener<MenuItem>) change -> {
@@ -44,6 +49,29 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 				onMenuItemUnregistered(change.getElementRemoved());
 			}
 		});
+	}
+
+	public void registerToObservableMenuList(final ObservableList<? extends MenuItem> menuItems) {
+		if(menuItems != null) {
+			if(additionalMenus == null) {
+				additionalMenus = new ArrayList<>();
+			}
+			additionalMenus.add(menuItems);
+
+			menuItems.forEach(menuitem -> onMenuItemRegistered(menuitem));
+
+			// Listener to any changes in the list
+			menuItems.addListener((ListChangeListener<MenuItem>) change -> {
+				while(change.next()) {
+					if(change.wasAdded()) {
+						change.getAddedSubList().forEach(elt -> onMenuItemRegistered(elt));
+					}
+					if(change.wasRemoved()) {
+						change.getRemoved().forEach(elt -> onMenuItemUnregistered(elt));
+					}
+				}
+			});
+		}
 	}
 
 	@Override

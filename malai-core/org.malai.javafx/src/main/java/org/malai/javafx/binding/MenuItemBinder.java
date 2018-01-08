@@ -10,6 +10,9 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.ObservableList;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -21,14 +24,31 @@ import org.malai.javafx.interaction.library.MenuItemPressed;
  * @author Arnaud Blouin
  */
 public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, MenuItemPressed, MenuItemBinder<A>> {
+	protected List<ObservableList<? extends MenuItem>> additionalMenus;
+
 	public MenuItemBinder(final Class<A> action, final JfxInstrument instrument) {
 		super(action, new MenuItemPressed(), instrument);
+	}
+
+	/**
+	 * Specifies the observable list that will contain the menu items on which the binding must operate.
+	 * When a menu item is added to this list, the added menu item is binded to this binding.
+	 * When a menu item is removed from this list, this menu item is unbinded from this binding.
+	 * @param menuItems The observable list of the menu items involved in the bindings.
+	 * @return The builder to chain the buiding configuration.
+	 */
+	public MenuItemBinder<A> onMenu(final ObservableList<? extends MenuItem> menuItems) {
+		if(additionalMenus == null) {
+			additionalMenus = new ArrayList<>();
+		}
+		additionalMenus.add(menuItems);
+		return this;
 	}
 
 	@Override
 	public JfXWidgetBinding<A, MenuItemPressed, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonMenuBinding<A, MenuItemPressed, JfxInstrument> binding = new JFxAnonMenuBinding<>(instrument, false, actionClass, interaction,
-			initAction, checkConditions, onEnd, actionProducer, widgets);
+			initAction, checkConditions, onEnd, actionProducer, widgets, additionalMenus);
 		instrument.addBinding(binding);
 		return binding;
 	}

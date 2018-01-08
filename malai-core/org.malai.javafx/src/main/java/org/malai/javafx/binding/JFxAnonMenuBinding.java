@@ -11,9 +11,11 @@
 package org.malai.javafx.binding;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.collections.ObservableList;
 import javafx.scene.control.MenuItem;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -47,12 +49,17 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	 */
 	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final BiConsumer<A, I> onEndFct,
-							  final Function<I, A> actionFct, final List<MenuItem> menus) throws InstantiationException, IllegalAccessException {
+							  final Function<I, A> actionFct, final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus)
+								throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, menus);
 		execInitAction = initActionFct == null ? (a, i) -> {} : initActionFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
 		actionProducer = actionFct;
+
+		if(additionalMenus != null) {
+			additionalMenus.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableMenuList(elt));
+		}
 	}
 
 	@Override
