@@ -37,18 +37,20 @@ public class MenuItem2ShowLazyStage extends JfxMenuItemBinding<ShowStage, MenuIt
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2ShowLazyStage(final JfxInstrument ins, final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow)
-		throws InstantiationException, IllegalAccessException {
+	public MenuItem2ShowLazyStage(final JfxInstrument ins, final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow) throws
+		InstantiationException, IllegalAccessException {
 		super(ins, false, ShowStage.class, new MenuItemPressed(), Collections.singletonList(menuItem));
 
-		if(stageLazy == null) throw new IllegalArgumentException();
+		if(stageLazy == null) {
+			throw new IllegalArgumentException();
+		}
 
 		stageToShowLazy = stageLazy;
 		show = toshow;
 	}
 
 	@Override
-	public void initAction() {
+	public void first() {
 		action.setWidget(stageToShowLazy.get());
 		action.setVisible(show);
 	}

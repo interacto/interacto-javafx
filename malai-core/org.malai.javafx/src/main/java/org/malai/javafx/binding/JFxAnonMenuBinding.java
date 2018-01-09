@@ -63,19 +63,19 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	}
 
 	@Override
-	public void initAction() {
+	public void first() {
 		execInitAction.accept(getAction(), getInteraction());
 	}
 
 	@Override
-	public boolean isConditionRespected() {
+	public boolean when() {
 		return checkInteraction == null || checkInteraction.test(getInteraction());
 	}
 
 	@Override
-	protected A createAction() {
+	protected A map() {
 		if(actionProducer == null) {
-			return super.createAction();
+			return super.map();
 		}
 		return actionProducer.apply(getInteraction());
 	}

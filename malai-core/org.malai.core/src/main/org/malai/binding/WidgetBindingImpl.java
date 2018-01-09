@@ -134,7 +134,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	 * creates the action of the widget binding. If the attribute 'action' is not null, nothing will be done.
 	 * @return The created action or null if problems occured.
 	 */
-	protected A createAction() {
+	protected A map() {
 		try {
 			return clazzAction.newInstance();
 		}catch(final IllegalAccessException | InstantiationException ex) {
@@ -145,17 +145,17 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public abstract void initAction();
+	public abstract void first();
 
 
 	@Override
-	public void updateAction() {
+	public void then() {
 		// to override.
 	}
 
 
 	@Override
-	public abstract boolean isConditionRespected();
+	public abstract boolean when();
 
 
 	@Override
@@ -252,19 +252,19 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 	@Override
 	public void interactionStarts() throws MustCancelStateMachineException {
-		final boolean ok = action == null && isActivated() && isConditionRespected();
+		final boolean ok = action == null && isActivated() && when();
 
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Starting binding: " + ok);
 		}
 
 		if(ok) {
-			action = createAction();
-			initAction();
+			action = map();
+			first();
 			if(loggerAction != null) {
 				loggerAction.log(Level.INFO, "Action created and init: " + action);
 			}
-			interimFeedback();
+			feedback();
 		}else {
 			if(isStrictStart()) {
 				if(loggerBinding != null) {
@@ -278,21 +278,21 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 	@Override
 	public void interactionStops() {
-		final boolean ok = isConditionRespected();
+		final boolean ok = when();
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Binding stops with condition: " + ok);
 		}
 		if(ok) {
 			if(action == null) {
-				action = createAction();
-				initAction();
+				action = map();
+				first();
 				if(loggerAction != null) {
 					loggerAction.log(Level.INFO, "Action created and init: " + action);
 				}
 			}
 
 			if(!execute) {
-				updateAction();
+				then();
 				if(loggerAction != null) {
 					loggerAction.log(Level.INFO, "Action updated: " + action);
 				}
@@ -348,7 +348,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 	@Override
 	public void interactionUpdates() {
-		final boolean ok = isConditionRespected();
+		final boolean ok = when();
 
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Binding updates with condition: " + ok);
@@ -359,15 +359,15 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 				if(loggerAction != null) {
 					loggerAction.log(Level.INFO, "Action creation");
 				}
-				action = createAction();
-				initAction();
+				action = map();
+				first();
 			}
 
 			if(loggerAction != null) {
 				loggerAction.log(Level.INFO, "Action update");
 			}
 
-			updateAction();
+			then();
 
 			if(execute && action.canDo()) {
 				if(loggerAction != null) {
@@ -377,7 +377,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 				instrument.onActionExecuted(action);
 			}
 
-			interimFeedback();
+			feedback();
 		}
 	}
 
@@ -389,7 +389,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public void interimFeedback() {
+	public void feedback() {
 		//
 	}
 
