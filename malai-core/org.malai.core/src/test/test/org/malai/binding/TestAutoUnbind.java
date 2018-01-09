@@ -14,7 +14,6 @@ import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Mockito.when;
 
 public class TestAutoUnbind {
 	DoubleProperty val;
@@ -26,8 +25,8 @@ public class TestAutoUnbind {
 		val = new SimpleDoubleProperty(2d);
 		ins = Mockito.mock(Instrument.class);
 		inter = Mockito.mock(Interaction.class);
-		when(ins.isActivated()).thenReturn(true);
-		when(inter.isActivated()).thenReturn(true);
+		Mockito.when(ins.isActivated()).thenReturn(true);
+		Mockito.when(inter.isActivated()).thenReturn(true);
 	}
 
 	@Test
@@ -35,14 +34,14 @@ public class TestAutoUnbind {
 		final A act = new A(val.multiply(10d), val.add(11d));
 		WidgetBindingImpl<A, Interaction, Instrument<?>> binding = new WidgetBindingImpl<A, Interaction, Instrument<?>>(ins, false, A.class, inter) {
 			@Override
-			public void initAction() {
+			public void first() {
 			}
 			@Override
-			protected A createAction() {
+			protected A map() {
 				return act;
 			}
 			@Override
-			public boolean isConditionRespected() {
+			public boolean when() {
 				return true;
 			}
 		};
@@ -60,14 +59,14 @@ public class TestAutoUnbind {
 
 		WidgetBindingImpl<B, Interaction, Instrument<?>> binding = new WidgetBindingImpl<B, Interaction, Instrument<?>>(ins, false, B.class, inter) {
 			@Override
-			public void initAction() {
+			public void first() {
 			}
 			@Override
-			protected B createAction() {
+			protected B map() {
 				return act;
 			}
 			@Override
-			public boolean isConditionRespected() {
+			public boolean when() {
 				return true;
 			}
 		};

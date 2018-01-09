@@ -35,18 +35,18 @@ public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, Men
 	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2OpenWebPage(final JfxInstrument ins, final MenuItem menuItem, final URI uri) throws InstantiationException,
-		IllegalAccessException {
+	public MenuItem2OpenWebPage(final JfxInstrument ins, final MenuItem menuItem, final URI uri) throws InstantiationException, IllegalAccessException {
 		super(ins, false, OpenWebPageJFX.class, new MenuItemPressed(), Collections.singletonList(menuItem));
 
-		if(uri == null) throw new IllegalArgumentException();
+		if(uri == null) {
+			throw new IllegalArgumentException();
+		}
 
 		this.uri = uri;
 	}
 
-
 	@Override
-	public void initAction() {
+	public void first() {
 		action.setUri(uri);
 	}
 }

@@ -122,7 +122,7 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	}
 
 	@Override
-	public boolean isConditionRespected() {
+	public boolean when() {
 		return true;
 	}
 

@@ -26,19 +26,19 @@ public interface WidgetBinding extends InteractionHandler {
 	void clearEvents();
 
 	/**
-	 * After being created by method createAction, the action must be initialised by this method.
+	 * After being created by method map, the action must be initialised by this method.
 	 */
-	void initAction();
+	void first();
 
 	/**
 	 * Updates the current action. To override.
 	 */
-	void updateAction();
+	void then();
 
 	/**
 	 * @return True if the condition of the widget binding is respected.
 	 */
-	boolean isConditionRespected();
+	boolean when();
 
 	/**
 	 * @return The interaction.
@@ -74,7 +74,7 @@ public interface WidgetBinding extends InteractionHandler {
 	 * Defines the interim feedback of the widget binding. If overridden, the interim
 	 * feedback of its instrument should be define too.
 	 */
-	void interimFeedback();
+	void feedback();
 
 	/**
 	 * Activates the widget binding.

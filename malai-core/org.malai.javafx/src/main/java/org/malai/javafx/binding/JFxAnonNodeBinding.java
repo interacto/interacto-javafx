@@ -132,29 +132,29 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	@Override
-	protected A createAction() {
+	protected A map() {
 		if(actionProducer == null) {
-			return super.createAction();
+			return super.map();
 		}
 		return actionProducer.apply(getInteraction());
 	}
 
 	@Override
-	public void initAction() {
+	public void first() {
 		if(execInitAction != null) {
 			execInitAction.accept(getAction(), getInteraction());
 		}
 	}
 
 	@Override
-	public void updateAction() {
+	public void then() {
 		if(execUpdateAction != null) {
 			execUpdateAction.accept(getAction(), getInteraction());
 		}
 	}
 
 	@Override
-	public boolean isConditionRespected() {
+	public boolean when() {
 		final boolean ok = checkInteraction == null || checkInteraction.test(getInteraction());
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Checking condition: " + ok);
@@ -174,7 +174,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	@Override
-	public void interimFeedback() {
+	public void feedback() {
 		if(feedbackFct != null) {
 			if(loggerBinding != null) {
 				loggerBinding.log(Level.INFO, "Feedback");

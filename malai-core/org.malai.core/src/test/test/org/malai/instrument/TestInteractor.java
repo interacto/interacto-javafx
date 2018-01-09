@@ -161,11 +161,11 @@ public class TestInteractor {
 		WidgetBinding interactor2 = new WidgetBindingImpl<ActionImplMock2, InteractionMock, MockInstrument>(ins, false, ActionImplMock2.class,
 			new InteractionMock()) {
 			@Override
-			public void initAction() {//
+			public void first() {//
 			}
 
 			@Override
-			public boolean isConditionRespected() {
+			public boolean when() {
 				return true;
 			}
 		};
@@ -179,11 +179,11 @@ public class TestInteractor {
 		interactor2 = new WidgetBindingImpl<ActionImplMock3, InteractionMock, MockInstrument>(ins, false, ActionImplMock3.class,
 			new InteractionMock()) {
 			@Override
-			public void initAction() {//
+			public void first() {//
 			}
 
 			@Override
-			public boolean isConditionRespected() {
+			public boolean when() {
 				return true;
 			}
 		};
@@ -219,12 +219,12 @@ class MockInteractor extends WidgetBindingImpl<ActionImplMock, InteractionMock, 
 	}
 
 	@Override
-	public void initAction() {
+	public void first() {
 		//
 	}
 
 	@Override
-	public boolean isConditionRespected() {
+	public boolean when() {
 		return conditionRespected;
 	}
 
