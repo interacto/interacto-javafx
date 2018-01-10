@@ -298,7 +298,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 				}
 			}
 
-			executeAction(action);
+			executeAction(action, async);
 			unbindActionAttributes();
 			action = null;
 			instrument.interimFeedback();
@@ -317,8 +317,17 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	}
 
 
-	private void executeAction(final Action act) {
-		boolean ok = act.doIt();
+	private void executeAction(final Action act, final boolean async) {
+		if(async) {
+			executeActionAsync(act);
+		}else {
+			afterActionExecuted(act, act.doIt());
+		}
+	}
+
+	protected abstract void executeActionAsync(final Action act);
+
+	protected void afterActionExecuted(final Action act, final boolean ok) {
 		if(loggerAction != null) {
 			loggerAction.log(Level.INFO, "Action execution did it: " + ok);
 		}
@@ -329,19 +338,19 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 			instrument.onActionDone(act);
 		}
 
-		ok = act.hadEffect();
+		final boolean hadEffect = act.hadEffect();
 
 		if(loggerAction != null) {
-			loggerAction.log(Level.INFO, "Action execution had effect: " + ok);
+			loggerAction.log(Level.INFO, "Action execution had effect: " + hadEffect);
 		}
-		if(ok) {
+		if(hadEffect) {
 			if(act.getRegistrationPolicy() != Action.RegistrationPolicy.NONE) {
 				ActionsRegistry.INSTANCE.addAction(act, instrument);
 				instrument.onActionAdded(act);
 			}else {
 				ActionsRegistry.INSTANCE.unregisterActions(act);
 			}
-			act.followingActions().forEach(this::executeAction);
+			act.followingActions().forEach(actFollow -> executeAction(actFollow, false));
 		}
 	}
 

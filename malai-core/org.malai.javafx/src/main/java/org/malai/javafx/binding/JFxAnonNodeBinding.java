@@ -39,7 +39,6 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final BiConsumer<A, I> cancelFct;
 	private final BiConsumer<A, I> endOrCancelFct;
 	private final Runnable feedbackFct;
-	private final boolean asyncAction;
 	private final BiConsumer<A, I> onEnd;
 	private final boolean strictStart;
 
@@ -62,7 +61,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
-							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean async, final boolean strict, final Set<LogLevel> loggers,
+							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean asyncExec, final boolean strict, final Set<LogLevel> loggers,
 							  final boolean help, final HelpAnimation animation)
 				throws InstantiationException, IllegalAccessException {
 		super(ins, exec, clazzAction, interaction, widgets, help, animation);
@@ -73,7 +72,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		feedbackFct = feedback;
 		actionProducer = actionFunction;
 		checkInteraction = check == null ? i -> true : check;
-		asyncAction = async;
+		async = asyncExec;
 		onEnd = onEndFct;
 		strictStart = strict;
 		configureLoggers(loggers);
@@ -101,7 +100,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
-							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean async,
+							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean asyncExec,
 							  final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation)
 		throws InstantiationException, IllegalAccessException {
 		super(ins, exec, widgets, clazzAction, interaction, animation, help);
@@ -112,7 +111,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		feedbackFct = feedback;
 		actionProducer = actionFunction;
 		checkInteraction = check == null ? i -> true : check;
-		asyncAction = async;
+		async = asyncExec;
 		onEnd = onEndFct;
 		strictStart = strict;
 		configureLoggers(loggers);

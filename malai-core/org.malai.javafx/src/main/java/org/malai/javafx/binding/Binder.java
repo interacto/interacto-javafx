@@ -22,8 +22,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -52,6 +55,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	protected Set<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
 	protected boolean withHelp;
+	protected DoubleProperty progressProp;
+	protected StringProperty msgProp;
+	protected Button cancel;
 
 	public Binder(final Class<A> action, final I interaction, final JfxInstrument ins) {
 		super();
@@ -161,8 +167,11 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 	 * Beware of UI modifications: UI changes must be done in the JFX UI thread.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B async() {
+	public B async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp) {
 		async = true;
+		this.progressProp = progressProp;
+		this.msgProp = msgProp;
+		this.cancel = cancel;
 		return (B) this;
 	}
 
@@ -222,6 +231,9 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, 
 		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
 			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
+		binding.setProgressBarProp(progressProp);
+		binding.setProgressMsgProp(msgProp);
+		binding.setCancelActionButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}
