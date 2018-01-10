@@ -42,6 +42,14 @@ public class KeysTyped extends MultiKeyInteraction {
 		}
 	}
 
+	@Override
+	public void reinit() {
+		super.reinit();
+		if(stillProcessingEvents != null) {
+			stillProcessingEvents.clear();
+		}
+	}
+
 	/**
 	 * Creates the interaction.
 	 */
