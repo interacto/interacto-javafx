@@ -11,7 +11,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
@@ -20,6 +23,7 @@ import javafx.scene.shape.Shape;
 import org.malai.ex.draw.action.AddShape;
 import org.malai.ex.draw.action.ChangeColour;
 import org.malai.ex.draw.action.MoveShape;
+import org.malai.ex.draw.action.Save;
 import org.malai.ex.draw.learning.AddRectHelpAnimation;
 import org.malai.ex.draw.learning.MoveRectHelpAnimation;
 import org.malai.ex.draw.model.MyDrawing;
@@ -37,6 +41,10 @@ import org.malai.logging.LogLevel;
 public class Pencil extends JfxInstrument implements Initializable {
 	@FXML private MyCanvas canvas;
 	@FXML private ColorPicker lineCol;
+	@FXML private Button save;
+	@FXML private Label textProgress;
+	@FXML private Button cancel;
+	@FXML private ProgressBar progressbar;
 	/** The pane used to explain how the user interactions work. */
 	@FXML private Pane learningPane;
 
@@ -143,39 +151,17 @@ public class Pencil extends JfxInstrument implements Initializable {
 		 * A mouse pressure creates an anonymous action that simply shows a message in the console.
 		 */
 		anonActionBinder(() -> System.out.println("An example of the anonymous action."), new Press()).on(canvas).bind();
+
+		/*
+		 * A widget binding that execute an action asynchronously.
+		 * Widgets and properties are provided to the binding to:
+		 * show/hide the cancel button, provide widgets with information regarding the progress of the action execution.
+		 */
+		buttonBinder(Save.class).on(save).
+			async(cancel, progressbar.progressProperty(), textProgress.textProperty()).
+			bind();
 	}
 
-
-//	private void installDnDTransition() {
-//		canvas.getChildren().add(learningPane);
-//
-//		SequentialTransition transition = new SequentialTransition(
-//			new AddRectHelpAnimation(learningPane).install(),
-//			new MoveRectHelpAnimation(learningPane).install()
-//		);
-//
-//		transition.setCycleCount(-1);
-//		transition.play();
-//
-//		final EventHandler<MouseEvent> handlerEnter = evt -> transition.stop();
-//
-//		transition.statusProperty().addListener((observable, oldValue, newValue) -> {
-//			if(newValue == Animation.Status.STOPPED) {
-//				canvas.getChildren().remove(learningPane);
-//				canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, handlerEnter);
-//			}
-//		});
-//
-//		canvas.addEventHandler(MouseEvent.MOUSE_MOVED, handlerEnter);
-//	}
-
-//	@Override
-//	public void setActivated(final boolean toBeActivated) {
-//		super.setActivated(toBeActivated);
-//		if(toBeActivated) {
-//			installDnDTransition();
-//		}
-//	}
 
 	/**
 	 * Binds the model to the view. MVP layout: this presenter binds the model to the view. These two last do not know each others.
@@ -201,6 +187,9 @@ public class Pencil extends JfxInstrument implements Initializable {
 	@Override
 	public void initialize(final URL url, final ResourceBundle res) {
 		bindModel();
+		textProgress.visibleProperty().bind(cancel.visibleProperty());
+		progressbar.visibleProperty().bind(cancel.visibleProperty());
+		cancel.setVisible(false);
 		setActivated(true);
 	}
 }

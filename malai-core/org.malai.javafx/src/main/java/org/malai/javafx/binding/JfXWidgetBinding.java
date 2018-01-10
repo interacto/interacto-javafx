@@ -12,12 +12,24 @@ package org.malai.javafx.binding;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.stage.Window;
+import org.malai.action.Action;
 import org.malai.action.ActionImpl;
 import org.malai.binding.WidgetBindingImpl;
+import org.malai.error.ErrorCatcher;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
@@ -28,9 +40,25 @@ import org.malai.javafx.interaction.help.HelpAnimationPlayer;
  * @author Arnaud BLOUIN
  */
 public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends WidgetBindingImpl<A, I, N> {
+	/** The executor service used to execute action async. Do not access directly (lazy instantiation). Use its private getter instead. */
+	private static ExecutorService executorService = null;
+
+	private static ExecutorService getActionExecutor() {
+		if(executorService == null) {
+			executorService = Executors.newSingleThreadExecutor();
+		}
+		return executorService;
+	}
+
 	protected final BooleanProperty activation;
 	protected boolean withHelp;
 	protected HelpAnimation customAnimation;
+	/** The property used to displayed a message while executing an action async. */
+	protected StringProperty progressMsgProp;
+	/** The property used to make a progress bar progressing while executing an action async. */
+	protected DoubleProperty progressBarProp;
+	/** The button used to stop the action executed async. May be null. */
+	protected Button cancelActionButton;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -96,6 +124,30 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 		interaction.registerToWindows(windows);
 	}
 
+	/**
+	 * The property used to displayed a message while executing an action async.
+	 * @param progressMsgProp The string property to be bound. Nothing done if null or already bound.
+	 */
+	public void setProgressMsgProp(final StringProperty progressMsgProp) {
+		this.progressMsgProp = progressMsgProp;
+	}
+
+	/**
+	 * The property used to make a progress bar progressing while executing an action async.
+	 * @param progressBarProp The double property to be bound. Nothing done if null or already bound.
+	 */
+	public void setProgressBarProp(final DoubleProperty progressBarProp) {
+		this.progressBarProp = progressBarProp;
+	}
+
+	/**
+	 * The button used to stop the action executed async.
+	 * @param cancelActionButton The cancel button. May be null.
+	 */
+	public void setCancelActionButton(final Button cancelActionButton) {
+		this.cancelActionButton = cancelActionButton;
+	}
+
 	@Override
 	public void setActivated(final boolean activ) {
 		if(activation != null && !activation.isBound()) {
@@ -111,6 +163,61 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 				}
 			}
 		}
+	}
+
+
+	@Override
+	protected void executeActionAsync(final Action act) {
+		final BindingTask task = new BindingTask(act);
+		final boolean progressBound = progressBarProp != null && !progressBarProp.isBound();
+		final boolean msgBound = progressMsgProp != null && !progressMsgProp.isBound();
+		final EventHandler<ActionEvent> cancelEvent = evt -> task.cancel();
+
+		if(progressBound) {
+			progressBarProp.bind(task.progressProperty());
+		}
+
+		if(msgBound) {
+			progressMsgProp.bind(task.messageProperty());
+		}
+
+		if(cancelActionButton != null) {
+			cancelActionButton.addEventHandler(ActionEvent.ACTION, cancelEvent);
+			cancelActionButton.setVisible(true);
+		}
+
+		getActionExecutor().submit(task);
+
+		new Thread(() -> {
+			boolean ok;
+
+			try {
+				ok = task.get();
+			}catch(final CancellationException | InterruptedException ex1) {
+				if(loggerAction != null) {
+					loggerAction.log(Level.INFO, "Action execution cancelled: " + act);
+				}
+				ok = false;
+			}catch(final ExecutionException ex2) {
+				ErrorCatcher.INSTANCE.reportError(ex2);
+				ok = false;
+			}
+
+			if(cancelActionButton != null) {
+				cancelActionButton.removeEventHandler(ActionEvent.ACTION, cancelEvent);
+				cancelActionButton.setVisible(false);
+			}
+
+			if(progressBound) {
+				progressBarProp.unbind();
+			}
+
+			if(msgBound) {
+				progressMsgProp.unbind();
+			}
+
+			afterActionExecuted(act, ok);
+		}).start();
 	}
 
 	private void initActivation() {
