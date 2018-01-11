@@ -2,6 +2,7 @@ package test.org.malai.instrument;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.malai.action.Action;
 import org.malai.error.ErrorCatcher;
 import org.malai.error.ErrorNotifier;
 import org.malai.binding.WidgetBinding;
@@ -168,6 +169,11 @@ public class TestInteractor {
 			public boolean when() {
 				return true;
 			}
+
+			@Override
+			protected void executeActionAsync(final Action act) {
+
+			}
 		};
 		ins.setActivated(true);
 		interactor2.interactionStarts();
@@ -185,6 +191,11 @@ public class TestInteractor {
 			@Override
 			public boolean when() {
 				return true;
+			}
+
+			@Override
+			protected void executeActionAsync(final Action act) {
+
 			}
 		};
 		ins.setActivated(true);
@@ -231,5 +242,10 @@ class MockInteractor extends WidgetBindingImpl<ActionImplMock, InteractionMock, 
 	@Override
 	public boolean isStrictStart() {
 		return mustCancel;
+	}
+
+	@Override
+	protected void executeActionAsync(final Action act) {
+
 	}
 }

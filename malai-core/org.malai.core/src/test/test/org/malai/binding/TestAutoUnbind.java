@@ -5,6 +5,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import org.junit.Before;
 import org.junit.Test;
+import org.malai.action.Action;
 import org.malai.action.ActionImpl;
 import org.malai.action.AutoUnbind;
 import org.malai.binding.WidgetBindingImpl;
@@ -44,6 +45,11 @@ public class TestAutoUnbind {
 			public boolean when() {
 				return true;
 			}
+
+			@Override
+			protected void executeActionAsync(final Action act) {
+
+			}
 		};
 
 		binding.setActivated(true);
@@ -68,6 +74,11 @@ public class TestAutoUnbind {
 			@Override
 			public boolean when() {
 				return true;
+			}
+
+			@Override
+			protected void executeActionAsync(final Action act) {
+
 			}
 		};
 
