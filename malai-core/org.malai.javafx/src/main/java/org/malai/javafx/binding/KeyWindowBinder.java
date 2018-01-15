@@ -29,6 +29,9 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A, 
 	public JfXWidgetBinding<A, KeysPressure, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonNodeBinding<A, KeysPressure, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction, widgets,
 			initAction, null, checkCode, onEnd, actionProducer, null, null, null, async, false, logLevels, withHelp, helpAnimation);
+		binding.setProgressBarProp(progressProp);
+		binding.setProgressMsgProp(msgProp);
+		binding.setCancelActionButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}

@@ -114,6 +114,9 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 			(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
 				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
 				strictStart, logLevels, withHelp, helpAnimation);
+		binding.setProgressBarProp(progressProp);
+		binding.setProgressMsgProp(msgProp);
+		binding.setCancelActionButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}

@@ -20,6 +20,9 @@ public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, Ano
 		final AnonJfxWidgetBinding<I, JfxInstrument> binding = new AnonJfxWidgetBinding<>(instrument, false, action, interaction,
 			null, null, checkConditions, onEnd, actionProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
+		binding.setProgressBarProp(progressProp);
+		binding.setProgressMsgProp(msgProp);
+		binding.setCancelActionButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}
