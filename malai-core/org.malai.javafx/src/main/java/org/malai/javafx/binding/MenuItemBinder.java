@@ -49,6 +49,9 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	public JfXWidgetBinding<A, MenuItemPressed, ?> bind() throws IllegalAccessException, InstantiationException {
 		final JFxAnonMenuBinding<A, MenuItemPressed, JfxInstrument> binding = new JFxAnonMenuBinding<>(instrument, false, actionClass, interaction,
 			initAction, checkConditions, onEnd, actionProducer, widgets, additionalMenus);
+		binding.setProgressBarProp(progressProp);
+		binding.setProgressMsgProp(msgProp);
+		binding.setCancelActionButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}

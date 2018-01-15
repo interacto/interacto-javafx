@@ -30,6 +30,9 @@ public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extend
 		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
 			(instrument, execOnChanges, actionClass, interaction, widgets, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
 				endOrCancelFct, feedbackFct, async, strictStart, logLevels, withHelp, helpAnimation);
+		binding.setProgressBarProp(progressProp);
+		binding.setProgressMsgProp(msgProp);
+		binding.setCancelActionButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}
