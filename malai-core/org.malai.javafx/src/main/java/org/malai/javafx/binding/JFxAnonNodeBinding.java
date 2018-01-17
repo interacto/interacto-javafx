@@ -41,6 +41,10 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	private final Runnable feedbackFct;
 	private final BiConsumer<A, I> onEnd;
 	private final boolean strictStart;
+	/** Used rather than 'action' to catch the action during its creation.
+	 * Sometimes (eg onInteractionStops) can create the action, execute it, and forget it.
+	 */
+	protected A currentAction;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -75,6 +79,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		async = asyncExec;
 		onEnd = onEndFct;
 		strictStart = strict;
+		currentAction = null;
 		configureLoggers(loggers);
 
 		if(additionalWidgets != null) {
@@ -114,6 +119,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 		async = asyncExec;
 		onEnd = onEndFct;
 		strictStart = strict;
+		currentAction = null;
 		configureLoggers(loggers);
 	}
 
@@ -133,14 +139,16 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	@Override
 	protected A map() {
 		if(actionProducer == null) {
-			return super.map();
+			currentAction = super.map();
+		}else {
+			currentAction = actionProducer.apply(getInteraction());
 		}
-		return actionProducer.apply(getInteraction());
+		return currentAction;
 	}
 
 	@Override
 	public void first() {
-		if(execInitAction != null) {
+		if(execInitAction != null && currentAction != null) {
 			execInitAction.accept(getAction(), getInteraction());
 		}
 	}
@@ -163,13 +171,14 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 
 	@Override
 	public void interactionCancels() {
-		if(endOrCancelFct != null) {
+		if(endOrCancelFct != null && currentAction != null) {
 			endOrCancelFct.accept(action, interaction);
 		}
-		if(cancelFct != null) {
+		if(cancelFct != null && currentAction != null) {
 			cancelFct.accept(action, interaction);
 		}
 		super.interactionCancels();
+		currentAction = null;
 	}
 
 	@Override
@@ -184,14 +193,14 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 
 	@Override
 	public void interactionStops() {
-		final A currAction = getAction();
 		super.interactionStops();
-		if(endOrCancelFct != null) {
-			endOrCancelFct.accept(currAction, getInteraction());
+		if(endOrCancelFct != null && currentAction != null) {
+			endOrCancelFct.accept(currentAction, getInteraction());
 		}
-		if(onEnd != null) {
-			onEnd.accept(currAction, getInteraction());
+		if(onEnd != null && currentAction != null) {
+			onEnd.accept(currentAction, getInteraction());
 		}
+		currentAction = null;
 	}
 
 	@Override
