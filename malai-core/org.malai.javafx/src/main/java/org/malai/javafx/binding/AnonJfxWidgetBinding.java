@@ -43,6 +43,7 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction, N extends JfxInstrum
 
 	@Override
 	protected AnonAction map() {
-		return new AnonAction(anonAction);
+		currentAction = new AnonAction(anonAction);
+		return  currentAction;
 	}
 }

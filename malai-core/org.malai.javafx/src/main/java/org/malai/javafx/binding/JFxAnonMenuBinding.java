@@ -31,6 +31,10 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	private final Predicate<I> checkInteraction;
 	private final BiConsumer<A, I> onEnd;
 	private final Function<I, A> actionProducer;
+	/** Used rather than 'action' to catch the action during its creation.
+	 * Sometimes (eg onInteractionStops) can create the action, execute it, and forget it.
+	 */
+	protected A currentAction;
 
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -56,6 +60,7 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
 		actionProducer = actionFct;
+		currentAction = null;
 
 		if(additionalMenus != null) {
 			additionalMenus.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableMenuList(elt));
@@ -75,19 +80,27 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	@Override
 	protected A map() {
 		if(actionProducer == null) {
-			return super.map();
+			currentAction = super.map();
+		}else {
+			currentAction = actionProducer.apply(getInteraction());
 		}
-		return actionProducer.apply(getInteraction());
+		return currentAction;
 	}
 
 
 	@Override
 	public void interactionStops() {
-		final A action = getAction();
 		super.interactionStops();
 		if(onEnd != null) {
-			onEnd.accept(action, getInteraction());
+			onEnd.accept(currentAction, getInteraction());
 		}
+		currentAction = null;
+	}
+
+	@Override
+	public void interactionCancels() {
+		super.interactionCancels();
+		currentAction = null;
 	}
 
 	@Override
