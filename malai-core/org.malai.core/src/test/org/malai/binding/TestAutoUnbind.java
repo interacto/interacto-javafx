@@ -1,27 +1,26 @@
-package test.org.malai.binding;
+package org.malai.binding;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.malai.action.Action;
 import org.malai.action.ActionImpl;
 import org.malai.action.AutoUnbind;
-import org.malai.binding.WidgetBindingImpl;
 import org.malai.instrument.Instrument;
 import org.malai.interaction.Interaction;
 import org.malai.stateMachine.MustCancelStateMachineException;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestAutoUnbind {
 	DoubleProperty val;
 	Instrument<?> ins;
 	Interaction inter;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		val = new SimpleDoubleProperty(2d);
 		ins = Mockito.mock(Instrument.class);

@@ -40,7 +40,7 @@ public abstract class InteractionImpl implements Interaction {
 	 * change on events.
 	 */
 	protected boolean activated;
-	/** The handlers that want to be notified when the state machine of the interaction changed. */
+	/** The handler that want to be notified when the state machine of the interaction changed. */
 	protected List<InteractionHandler> handlers;
 	/** The events still in process. For example when the user press key ctrl and scroll one time using the wheel of the mouse, the interaction scrolling is
 	 * finished but the event keyPressed 'ctrl' is still in process. At the end of the interaction, these events are re-introduced into the
@@ -165,7 +165,7 @@ public abstract class InteractionImpl implements Interaction {
 	}
 
 	/**
-	 * Notifies handlers that the interaction starts.
+	 * Notifies handler that the interaction starts.
 	 */
 	protected void notifyHandlersOnStart() throws MustCancelStateMachineException {
 		try {
@@ -181,7 +181,7 @@ public abstract class InteractionImpl implements Interaction {
 	}
 
 	/**
-	 * Notifies handlers that the interaction updates.
+	 * Notifies handler that the interaction updates.
 	 */
 	protected void notifyHandlersOnUpdate() throws MustCancelStateMachineException {
 		try {
@@ -197,7 +197,7 @@ public abstract class InteractionImpl implements Interaction {
 	}
 
 	/**
-	 * Notifies handlers that the interaction stops.
+	 * Notifies handler that the interaction stops.
 	 */
 	protected void notifyHandlersOnStop() throws MustCancelStateMachineException {
 		try {
@@ -213,7 +213,7 @@ public abstract class InteractionImpl implements Interaction {
 	}
 
 	/**
-	 * Notifies handlers that the interaction is cancelled.
+	 * Notifies handler that the interaction is cancelled.
 	 */
 	protected void notifyHandlersOnCancel() {
 		if(handlers != null) {

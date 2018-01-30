@@ -11,6 +11,7 @@
 package org.malai.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.malai.undo.UndoCollector;
 import org.malai.undo.Undoable;
@@ -19,7 +20,7 @@ import org.malai.undo.Undoable;
  * A register of actions.
  * This is a singleton. It automatically collects the executed actions when the action is executed by an instrument.
  * The register has a limited size that can be changed.
- * It can notify handlers about changes in the registry.
+ * It can notify handler about changes in the registry.
  * @author Arnaud Blouin
  */
 public final class ActionsRegistry {
@@ -27,7 +28,7 @@ public final class ActionsRegistry {
 	public static final ActionsRegistry INSTANCE = new ActionsRegistry();
 	/** The saved actions. */
 	private final List<Action> actions;
-	/** The actions handlers. */
+	/** The actions handler. */
 	private final List<ActionHandler> handlers;
 	/** The max number of cleanable actions (cf. Action::getRegistrationPolicy) that can contain the register. */
 	private int sizeMax;
@@ -43,9 +44,12 @@ public final class ActionsRegistry {
 		sizeMax = 50;
 	}
 
+	public List<ActionHandler> getHandlers() {
+		return Collections.unmodifiableList(handlers);
+	}
 
 	/**
-	 * Notifies handlers that an action has been executed.
+	 * Notifies handler that an action has been executed.
 	 * @param action The executed action.
 	 */
 	public void onActionExecuted(final Action action) {
@@ -58,7 +62,7 @@ public final class ActionsRegistry {
 
 
 	/**
-	 * Notifies handlers that an action ends.
+	 * Notifies handler that an action ends.
 	 * @param action The ending action.
 	 */
 	public void onActionDone(final Action action) {
@@ -177,7 +181,7 @@ public final class ActionsRegistry {
 
 
 	/**
-	 * Removes all the action handlers.
+	 * Removes all the action handler.
 	 */
 	public void removeAllHandlers() {
 		synchronized(handlers) {

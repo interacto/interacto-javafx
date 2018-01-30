@@ -19,7 +19,7 @@ import org.malai.stateMachine.StateMachine;
  */
 public interface Interaction extends StateMachine, EventProcessor {
 	/**
-	 * @return The handlers that listens to the interaction.
+	 * @return The handler that listens to the interaction.
 	 */
 	List<InteractionHandler> getHandlers();
 
