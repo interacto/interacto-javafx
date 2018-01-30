@@ -1,6 +1,5 @@
-package test.org.malai.interaction;
+package org.malai.interaction;
 
-import org.malai.interaction.InteractionImpl;
 import org.malai.stateMachine.State;
 
 public class InteractionMock extends InteractionImpl {

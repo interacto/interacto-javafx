@@ -1,23 +1,19 @@
-package test.org.malai.action;
+package org.malai.action;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.malai.action.ActionImpl;
-import org.malai.instrument.InstrumentImpl;
-import org.malai.binding.WidgetBinding;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public abstract class TestAbstractAction<T extends ActionImpl> {
 	protected T action;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		action = createAction();
 	}
 
 	protected abstract T createAction();
-
-	@Test
-	public abstract void testConstructor() throws Exception;
 
 	@Test
 	public abstract void testFlush() throws Exception;
@@ -34,15 +30,8 @@ public abstract class TestAbstractAction<T extends ActionImpl> {
 	@Test
 	public abstract void testHadEffect() throws Exception;
 
-
-	public class InstrumentMock extends InstrumentImpl<WidgetBinding> {
-		public InstrumentMock() {
-			super();
-		}
-
-		@Override
-		protected void configureBindings() {
-			//
-		}
+	@Test
+	public void testCanDoKOByDefault() {
+		assertFalse(action.canDo());
 	}
 }

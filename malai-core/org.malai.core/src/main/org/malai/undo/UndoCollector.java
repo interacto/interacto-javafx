@@ -12,6 +12,7 @@ package org.malai.undo;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
@@ -32,9 +33,9 @@ public final class UndoCollector {
 	public static final String EMPTY_UNDO = "undo";
 	/** The Null object for UndoHandler. To avoid the use of null in the stacks. */
 	private static final UndoHandler STUB_UNDO_HANDLER = new EmptyUndoHandler();
-	/** Contains the handlers of each undoable of the undo stack */
+	/** Contains the handler of each undoable of the undo stack */
 	private final Deque<UndoHandler> undoHandlers;
-	/** Contains the handlers of each undoable of the redo stack */
+	/** Contains the handler of each undoable of the redo stack */
 	private final Deque<UndoHandler> redoHandlers;
 	/** Contains the undoable objects. */
 	private final Deque<Undoable> undo;
@@ -42,7 +43,7 @@ public final class UndoCollector {
 	private final Deque<Undoable> redo;
 	/** The maximal number of undo. */
 	private int sizeMax;
-	/** The handlers that handles the collector. */
+	/** The handler that handles the collector. */
 	private final List<UndoHandler> handlers;
 
 
@@ -82,6 +83,13 @@ public final class UndoCollector {
 		}
 	}
 
+	public List<UndoHandler> getHandlers() {
+		return Collections.unmodifiableList(handlers);
+	}
+
+	public void clearHandlers() {
+		handlers.clear();
+	}
 
 	/**
 	 * Removes all the undoable objects of the collector.
