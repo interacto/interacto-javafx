@@ -24,11 +24,15 @@ public abstract class Transition<E> {
 		if(accept(event) && isGuardOK(event)) {
 			src.getFSM().stopCurrentTimeout();
 			src.exit();
+			action(event);
 			tgt.enter();
 			return Optional.of(tgt);
 		}
 
 		return Optional.empty();
+	}
+
+	protected void action(final E event) {
 	}
 
 	protected abstract boolean accept(final E event);
