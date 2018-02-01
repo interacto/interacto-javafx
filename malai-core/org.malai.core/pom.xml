@@ -41,13 +41,6 @@
     </pluginRepositories>
 
     <build>
-        <sourceDirectory>src/main</sourceDirectory>
-        <testSourceDirectory>src/test/</testSourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/resources/</directory>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
