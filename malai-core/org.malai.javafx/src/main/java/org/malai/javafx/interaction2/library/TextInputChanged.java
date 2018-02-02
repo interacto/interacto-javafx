@@ -10,8 +10,12 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.malai.javafx.interaction2.JfxInteraction;
 
 /**
@@ -19,6 +23,13 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class TextInputChanged extends JfxInteraction<TextInputChangedFSM, TextInputControl> {
+	private static final EventHandler<? super KeyEvent> HANDLER_KEY_ACTION = evt -> {
+		final KeyCode code = evt.getCode();
+		if(!code.isFunctionKey() && !code.isMediaKey() && !code.isModifierKey() && !code.isArrowKey() && !code.isNavigationKey() && evt.getSource() instanceof Node) {
+			((Node) evt.getSource()).fireEvent(new ActionEvent(evt.getSource(), null));
+		}
+	};
+
 	/**
 	 * Creates the interaction.
 	 */
@@ -38,6 +49,8 @@ public class TextInputChanged extends JfxInteraction<TextInputChangedFSM, TextIn
 	protected void onNewNodeRegistered(final Node node) {
 		if(node instanceof TextInputControl) {
 			registerActionHandler(node);
+			node.removeEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
+			node.addEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
 		}
 	}
 
@@ -45,6 +58,7 @@ public class TextInputChanged extends JfxInteraction<TextInputChangedFSM, TextIn
 	protected void onNodeUnregistered(final Node node) {
 		if(node instanceof TextInputControl) {
 			unregisterActionHandler(node);
+			node.removeEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
 		}
 	}
 }

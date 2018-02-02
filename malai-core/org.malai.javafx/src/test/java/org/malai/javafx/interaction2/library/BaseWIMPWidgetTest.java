@@ -9,6 +9,7 @@ import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.InitState;
 import org.malai.javafx.interaction2.JfxInteraction;
 import org.mockito.Mockito;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<?, W>> extends BaseJfXInteractionTest<I> {
 	W wimpWidget;
+	long sleep;
 
 	abstract void triggerWidget();
 
@@ -26,11 +28,20 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void setUp() {
 		super.setUp();
 		wimpWidget = createWidget();
+		sleep = 0L;
+	}
+
+	protected void sleep() {
+		if(sleep > 0L) {
+			sleep(sleep);
+			WaitForAsyncUtils.waitForFxEvents();
+		}
 	}
 
 	@Test
 	void testProcessEventGoodState() throws CancelFSMException {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
+		sleep();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -38,6 +49,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	@Test
 	void testProcessEventGoodStateNULL() throws CancelFSMException {
 		interaction.processEvent(null);
+		sleep();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -51,11 +63,13 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 			}
 		});
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
+		sleep();
 	}
 
 	@Test
 	void testProcessEventReinit() {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
+		sleep();
 		assertNull(interaction.getWidget());
 		assertTrue(interaction.getFsm().getCurrentState() instanceof InitState);
 	}
@@ -64,6 +78,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testRegister() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
+		sleep();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -71,6 +86,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	@Test
 	void testNoActionWhenNotRegistered() throws CancelFSMException {
 		triggerWidget();
+		sleep();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -79,6 +95,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testNoActionWhenWrongRegistered() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(createWidget()));
 		triggerWidget();
+		sleep();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -87,6 +104,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testNoActionWhenNullRegistered() throws CancelFSMException {
 		interaction.registerToNodes(null);
 		triggerWidget();
+		sleep();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -95,6 +113,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testNoActionWhenContainsNullRegistered() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		triggerWidget();
+		sleep();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -104,6 +123,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		interaction.unregisterFromNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
+		sleep();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
