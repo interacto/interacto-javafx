@@ -14,7 +14,7 @@ public class TimeoutTransition<E> extends Transition<E> {
 
 	private boolean timeouted;
 
-	protected TimeoutTransition(final OutputState<E> srcState, final InputState<E> tgtState, final LongSupplier timeout) {
+	public TimeoutTransition(final OutputState<E> srcState, final InputState<E> tgtState, final LongSupplier timeout) {
 		super(srcState, tgtState);
 
 		if(timeout == null) {
@@ -75,6 +75,7 @@ public class TimeoutTransition<E> extends Transition<E> {
 		try {
 			if(accept(event) && isGuardOK(event)) {
 				src.exit();
+				action(event);
 				tgt.enter();
 				timeouted = false;
 				return Optional.of(tgt);
