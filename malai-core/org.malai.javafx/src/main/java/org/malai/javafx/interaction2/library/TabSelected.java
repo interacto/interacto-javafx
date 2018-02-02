@@ -10,7 +10,9 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.malai.javafx.interaction2.JfxInteraction;
 
@@ -19,32 +21,35 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class TabSelected extends JfxInteraction<TabSelectedFSM, TabPane> {
+	private final ChangeListener<Tab> event;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public TabSelected() {
 		super(new TabSelectedFSM());
 		fsm.buildFSM(this);
+		event = (observable, oldValue, newValue) -> processEvent(new TabEvent(widget, null));
 	}
 
 	@Override
-	public void processTabData(final Object togglebutton) {
-		if(togglebutton instanceof TabPane) {
-			widget = (TabPane) togglebutton;
+	public void processTabData(final Object tab) {
+		if(tab instanceof TabPane) {
+			widget = (TabPane) tab;
 		}
 	}
 
 	@Override
 	protected void onNewNodeRegistered(final Node node) {
 		if(node instanceof TabPane) {
-			registerActionHandler(node);
+			((TabPane) node).getSelectionModel().selectedItemProperty().addListener(event);
 		}
 	}
 
 	@Override
 	protected void onNodeUnregistered(final Node node) {
 		if(node instanceof TabPane) {
-			unregisterActionHandler(node);
+			((TabPane) node).getSelectionModel().selectedItemProperty().removeListener(event);
 		}
 	}
 }
