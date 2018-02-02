@@ -10,14 +10,29 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import java.util.function.LongSupplier;
 import javafx.event.Event;
 import javafx.scene.control.TextInputControl;
+import org.malai.fsm.StdState;
 import org.malai.fsm.TerminalState;
+import org.malai.fsm.TimeoutTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxInteraction;
 import org.malai.javafx.interaction2.JfxTextInputChangedTransition;
 
 public class TextInputChangedFSM extends JfxFSM<TextInputControl> {
+	/** The time gap between the two spinner events. */
+	private static long timeout = 1000L;
+	/** The supplier that provides the time gap. */
+	private static final LongSupplier SUPPLY_TIMEOUT = () -> getTimeout();
+
+	/**
+	 * @return The time gap between the two spinner events.
+	 */
+	public static long getTimeout() {
+		return timeout;
+	}
+
 	public TextInputChangedFSM() {
 		super();
 	}
@@ -25,8 +40,12 @@ public class TextInputChangedFSM extends JfxFSM<TextInputControl> {
 	@Override
 	protected void buildFSM(final JfxInteraction<?, TextInputControl> interaction) {
 		super.buildFSM(interaction);
-		final TerminalState<Event> changed = new TerminalState<>(this, "changed");
+		final StdState<Event> changed = new StdState<>(this, "changed");
+		final TerminalState<Event> ended = new TerminalState<>(this, "ended");
 		addState(changed);
+		addState(ended);
 		new JfxTextInputChangedTransition(interaction, initState, changed);
+		new JfxTextInputChangedTransition(interaction, changed, changed);
+		new TimeoutTransition<>(changed, ended, SUPPLY_TIMEOUT);
 	}
 }
