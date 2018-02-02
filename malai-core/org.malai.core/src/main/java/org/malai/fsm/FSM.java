@@ -203,7 +203,7 @@ public class FSM<E> {
 			}
 
 			try {
-				currentTimeout.execute(null).ifPresent(state -> {
+				currentTimeout.execute(null).filter(state -> state instanceof OutputState<?>).ifPresent(state -> {
 					currentState = (OutputState<E>) state;
 					checkTimeoutTransition();
 				});

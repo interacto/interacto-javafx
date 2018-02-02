@@ -16,7 +16,7 @@ public interface OutputState<E> extends State<E> {
 					return;
 				}
 			}catch(final CancelFSMException ignored) {
-				// Alteady processed
+				// Already processed
 			}
 		}
 	}
