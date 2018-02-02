@@ -72,4 +72,43 @@ public abstract class Interaction<E, F extends FSM<E>> {
 
 	public void processCheckBoxData(final Object checkbox) {
 	}
+
+	public void processButtonData(final Object button) {
+	}
+
+	public void processToggleButtonData(final Object button) {
+	}
+
+	public void processColorPickerData(final Object picker) {
+	}
+
+	public void processComboBoxData(final Object box) {
+	}
+
+	public void processChoiceBoxData(final Object box) {
+	}
+
+	public void processDatePickerData(final Object picker) {
+	}
+
+	public void processHyperlinkData(final Object hlink) {
+	}
+
+	public void processMenuButtonData(final Object menu) {
+	}
+
+	public void processMenuItemData(final Object menu) {
+	}
+
+	public void processSpinnerData(final Object spinner) {
+	}
+
+	public void processTabData(final Object tab) {
+	}
+
+	public void processTextInputData(final Object textInputWidget) {
+	}
+
+	public void processWindowData(final Object window) {
+	}
 }
