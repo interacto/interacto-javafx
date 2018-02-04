@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.MenuButton;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class MenuButtonPressed extends JfxInteraction<MenuButtonPressedFSM, MenuButton> {
+	private final MenuButtonPressedFSM.MenuButtonPressedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public MenuButtonPressed() {
 		super(new MenuButtonPressedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processMenuButtonData(final Object menubutton) {
-		if(menubutton instanceof MenuButton) {
-			widget = (MenuButton) menubutton;
-		}
+		handler = new MenuButtonPressedFSM.MenuButtonPressedFSMHandler() {
+			@Override
+			public void initToPressedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof MenuButton) {
+					widget = (MenuButton) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				MenuButtonPressed.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

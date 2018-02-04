@@ -10,23 +10,35 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.MenuItem;
 import org.malai.fsm.TerminalState;
+import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
-import org.malai.javafx.interaction2.JfxInteraction;
 import org.malai.javafx.interaction2.JfxMenuItemPressedTransition;
 
-public class MenuItemPressedFSM extends JfxFSM<MenuItem> {
+public class MenuItemPressedFSM extends JfxFSM<MenuItem, MenuItemPressedFSM.MenuItemPressedFSMHandler> {
 	public MenuItemPressedFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final JfxInteraction<?, MenuItem> interaction) {
-		super.buildFSM(interaction);
+	protected void buildFSM(final MenuItemPressedFSMHandler handler) {
+		super.buildFSM(handler);
 		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
 		addState(pressed);
-		new JfxMenuItemPressedTransition(interaction, initState, pressed);
+		new JfxMenuItemPressedTransition(initState, pressed) {
+			@Override
+			public void action(final Event event) {
+				if(event instanceof ActionEvent) {
+					handler.initToPressedHandler((ActionEvent) event);
+				}
+			}
+		};
+	}
+
+	interface MenuItemPressedFSMHandler extends FSMHandler {
+		void initToPressedHandler(ActionEvent event);
 	}
 }

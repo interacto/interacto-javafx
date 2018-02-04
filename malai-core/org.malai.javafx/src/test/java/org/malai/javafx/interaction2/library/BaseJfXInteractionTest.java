@@ -79,6 +79,13 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
+	static MouseEvent createMouseClickEvent(final double x, final double y, final MouseButton button) {
+		return new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, 0d, 0d, button, 1, false,
+			false, false, false, false, false, false,
+			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
+			0d, 0, new Point2D(0d, 0d)));
+	}
+
 	static ScrollEvent createScrollEvent(final double x, final double y, final double dx, final double dy) {
 		return new ScrollEvent(ScrollEvent.SCROLL, x, y, x, y, false, false, false, false, false, false, dx, dy, dx, dy,
 				null, 0d, null, 0d, 0, new PickResult(null, new Point3D(x, y, 0d),

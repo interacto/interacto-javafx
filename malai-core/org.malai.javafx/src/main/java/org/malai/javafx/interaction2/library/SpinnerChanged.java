@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class SpinnerChanged extends JfxInteraction<SpinnerChangedFSM, Spinner<?>> {
+	final SpinnerChangedFSM.SpinnerChangedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public SpinnerChanged() {
 		super(new SpinnerChangedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processSpinnerData(final Object spinner) {
-		if(spinner instanceof Spinner<?>) {
-			widget = (Spinner<?>) spinner;
-		}
+		handler = new SpinnerChangedFSM.SpinnerChangedFSMHandler() {
+			@Override
+			public void initToChangedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof Spinner<?>) {
+					widget = (Spinner<?>) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				SpinnerChanged.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

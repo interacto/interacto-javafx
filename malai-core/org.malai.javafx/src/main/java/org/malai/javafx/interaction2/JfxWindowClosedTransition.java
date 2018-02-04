@@ -23,15 +23,8 @@ import org.malai.fsm.OutputState;
  * @author Arnaud BLOUIN
  */
 public class JfxWindowClosedTransition extends JfxWidgetTransition<Window> {
-	public JfxWindowClosedTransition(final JfxInteraction<?, Window> interaction, final OutputState<Event> srcState, final InputState<Event> tgtState) {
-		super(interaction, srcState, tgtState);
-	}
-
-	@Override
-	protected void action(final Event event) {
-		if(event instanceof WindowEvent) {
-			interaction.processWindowData(event.getSource());
-		}
+	public JfxWindowClosedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override

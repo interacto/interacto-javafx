@@ -10,23 +10,35 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.ToggleButton;
 import org.malai.fsm.TerminalState;
+import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
-import org.malai.javafx.interaction2.JfxInteraction;
 import org.malai.javafx.interaction2.JfxToggleButtonPressedTransition;
 
-public class ToggleButtonPressedFSM extends JfxFSM<ToggleButton> {
+public class ToggleButtonPressedFSM extends JfxFSM<ToggleButton, ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler> {
 	public ToggleButtonPressedFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final JfxInteraction<?, ToggleButton> interaction) {
-		super.buildFSM(interaction);
+	protected void buildFSM(final ToggleButtonPressedFSMHandler handler) {
+		super.buildFSM(handler);
 		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
 		addState(pressed);
-		new JfxToggleButtonPressedTransition(interaction, initState, pressed);
+		new JfxToggleButtonPressedTransition(initState, pressed) {
+			@Override
+			public void action(final Event event) {
+				if(event instanceof ActionEvent) {
+					handler.initToPressedHandler((ActionEvent) event);
+				}
+			}
+		};
+	}
+
+	interface ToggleButtonPressedFSMHandler extends FSMHandler {
+		void initToPressedHandler(ActionEvent event);
 	}
 }

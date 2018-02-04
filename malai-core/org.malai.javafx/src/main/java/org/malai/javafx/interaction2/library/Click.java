@@ -8,19 +8,29 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package org.malai.javafx.interaction2;
+package org.malai.javafx.interaction2.library;
 
-import javafx.event.Event;
-import javafx.scene.control.Button;
-import org.malai.fsm.InputState;
-import org.malai.fsm.OutputState;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 
-/**
- * An FSM transition for buttons.
- * @author Arnaud BLOUIN
- */
-public class JfxButtonPressedTransition extends JfxWidgetTransition<Button> {
-	public JfxButtonPressedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
-		super(srcState, tgtState);
+public class Click extends PointInteraction<ClickFSM, Node> {
+	private final ClickFSM.ClickFSMHandler handler;
+
+	public Click() {
+		super(new ClickFSM());
+
+		handler = new ClickFSM.ClickFSMHandler() {
+			@Override
+			public void initToClicked(final MouseEvent event) {
+				setPointData(event);
+			}
+
+			@Override
+			public void reinitData() {
+				Click.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 }

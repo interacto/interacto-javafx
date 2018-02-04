@@ -10,17 +10,37 @@
  */
 package org.malai.javafx.interaction2;
 
+import java.util.Collections;
+import java.util.Set;
 import javafx.event.Event;
-import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import org.malai.fsm.InputState;
 import org.malai.fsm.OutputState;
 
 /**
- * An FSM transition for buttons.
+ * This transition corresponds to a pressure of a button of a pointing device.
  * @author Arnaud BLOUIN
  */
-public class JfxButtonPressedTransition extends JfxWidgetTransition<Button> {
-	public JfxButtonPressedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+public class ClickTransition extends InputEventTransition<MouseEvent> {
+	/**
+	 * Creates the transition.
+	 */
+	public ClickTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 		super(srcState, tgtState);
+	}
+
+	@Override
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == MouseEvent.MOUSE_CLICKED;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(MouseEvent.MOUSE_CLICKED);
 	}
 }

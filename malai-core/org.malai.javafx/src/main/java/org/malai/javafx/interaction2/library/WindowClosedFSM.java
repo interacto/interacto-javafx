@@ -12,21 +12,33 @@ package org.malai.javafx.interaction2.library;
 
 import javafx.event.Event;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 import org.malai.fsm.TerminalState;
+import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
-import org.malai.javafx.interaction2.JfxInteraction;
 import org.malai.javafx.interaction2.JfxWindowClosedTransition;
 
-public class WindowClosedFSM extends JfxFSM<Window> {
+public class WindowClosedFSM extends JfxFSM<Window, WindowClosedFSM.WindowClosedHandler> {
 	public WindowClosedFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final JfxInteraction<?, Window> interaction) {
-		super.buildFSM(interaction);
+	protected void buildFSM(final WindowClosedHandler handler) {
+		super.buildFSM(handler);
 		final TerminalState<Event> closed = new TerminalState<>(this, "closed");
 		addState(closed);
-		new JfxWindowClosedTransition(interaction, initState, closed);
+		new JfxWindowClosedTransition(initState, closed) {
+			@Override
+			public void action(final Event event) {
+				if(event instanceof WindowEvent) {
+					handler.initToClosedHandler((WindowEvent) event);
+				}
+			}
+		};
+	}
+
+	interface WindowClosedHandler extends FSMHandler {
+		void initToClosedHandler(WindowEvent event);
 	}
 }

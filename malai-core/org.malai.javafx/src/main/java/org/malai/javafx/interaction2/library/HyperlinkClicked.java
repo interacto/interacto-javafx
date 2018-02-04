@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class HyperlinkClicked extends JfxInteraction<HyperlinkClickedFSM, Hyperlink> {
+	private final HyperlinkClickedFSM.HyperlinkClickedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public HyperlinkClicked() {
 		super(new HyperlinkClickedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processHyperlinkData(final Object hyperlink) {
-		if(hyperlink instanceof Hyperlink) {
-			widget = (Hyperlink) hyperlink;
-		}
+		handler = new HyperlinkClickedFSM.HyperlinkClickedFSMHandler() {
+			@Override
+			public void initToClickedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof Hyperlink) {
+					widget = (Hyperlink) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				HyperlinkClicked.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

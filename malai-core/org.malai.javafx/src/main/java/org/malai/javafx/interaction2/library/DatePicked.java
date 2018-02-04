@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class DatePicked extends JfxInteraction<DatePickedFSM, DatePicker> {
+	private final DatePickedFSM.DatePickedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public DatePicked() {
 		super(new DatePickedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processDatePickerData(final Object datepicker) {
-		if(datepicker instanceof DatePicker) {
-			widget = (DatePicker) datepicker;
-		}
+		handler = new DatePickedFSM.DatePickedFSMHandler() {
+			@Override
+			public void initToPickedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof DatePicker) {
+					widget = (DatePicker) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				DatePicked.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

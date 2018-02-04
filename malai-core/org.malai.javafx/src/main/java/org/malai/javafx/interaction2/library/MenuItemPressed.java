@@ -18,19 +18,29 @@ import javafx.scene.control.MenuItem;
  * @author Arnaud BLOUIN
  */
 public class MenuItemPressed extends MenuItemInteraction<MenuItemPressedFSM, MenuItem> {
+	private final MenuItemPressedFSM.MenuItemPressedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public MenuItemPressed() {
 		super(new MenuItemPressedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processMenuItemData(final Object menubutton) {
-		if(menubutton instanceof MenuItem) {
-			widget = (MenuItem) menubutton;
-		}
+		handler = new MenuItemPressedFSM.MenuItemPressedFSMHandler() {
+			@Override
+			public void initToPressedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof MenuItem) {
+					widget = (MenuItem) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				MenuItemPressed.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

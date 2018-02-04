@@ -22,21 +22,30 @@ import org.malai.javafx.interaction2.JfxInteraction;
  */
 public class TabSelected extends JfxInteraction<TabSelectedFSM, TabPane> {
 	private final ChangeListener<Tab> event;
+	private final TabSelectedFSM.TabSelectedFSMHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public TabSelected() {
 		super(new TabSelectedFSM());
-		fsm.buildFSM(this);
-		event = (observable, oldValue, newValue) -> processEvent(new TabEvent(widget, null));
-	}
 
-	@Override
-	public void processTabData(final Object tab) {
-		if(tab instanceof TabPane) {
-			widget = (TabPane) tab;
-		}
+		handler = new TabSelectedFSM.TabSelectedFSMHandler() {
+			@Override
+			public void initToSelectedHandler(final TabEvent event) {
+				if(event.getSource() instanceof TabPane) {
+					widget = (TabPane) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				TabSelected.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
+		event = (observable, oldValue, newValue) -> processEvent(new TabEvent(widget, null));
 	}
 
 	@Override

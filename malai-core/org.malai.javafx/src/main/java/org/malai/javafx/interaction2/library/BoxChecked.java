@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class BoxChecked extends JfxInteraction<BoxCheckedFSM, CheckBox> {
+	private final BoxCheckedFSM.BoxCheckedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public BoxChecked() {
 		super(new BoxCheckedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processCheckBoxData(final Object checkbox) {
-		if(checkbox instanceof CheckBox) {
-			widget = (CheckBox) checkbox;
-		}
+		handler = new BoxCheckedFSM.BoxCheckedFSMHandler() {
+			@Override
+			public void initToCheckedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof CheckBox) {
+					widget = (CheckBox) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				BoxChecked.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override
