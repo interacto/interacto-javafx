@@ -10,35 +10,35 @@
  */
 package org.malai.javafx.interaction2.library;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.scene.control.ColorPicker;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import org.malai.fsm.TerminalState;
+import org.malai.javafx.interaction2.ClickTransition;
 import org.malai.javafx.interaction2.FSMHandler;
-import org.malai.javafx.interaction2.JfxColorPickedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class ColorPickedFSM extends JfxFSM<ColorPicker, ColorPickedFSM.ColorPickedFSMFSMHandler> {
-	public ColorPickedFSM() {
+public class ClickFSM extends JfxFSM<Node, ClickFSM.ClickFSMHandler> {
+	public ClickFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final ColorPickedFSM.ColorPickedFSMFSMHandler handler) {
+	protected void buildFSM(final ClickFSM.ClickFSMHandler handler) {
 		super.buildFSM(handler);
-		final TerminalState<Event> picked = new TerminalState<>(this, "picked");
-		addState(picked);
-		new JfxColorPickedTransition(initState, picked) {
+		final TerminalState<Event> clicked = new TerminalState<>(this, "clicked");
+		addState(clicked);
+		new ClickTransition(initState, clicked) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
-					handler.initToPickedHandler((ActionEvent) event);
+				if(event instanceof MouseEvent) {
+					handler.initToClicked((MouseEvent) event);
 				}
 			}
 		};
 	}
 
-	interface ColorPickedFSMFSMHandler extends FSMHandler {
-		void initToPickedHandler(ActionEvent event);
+	interface ClickFSMHandler extends FSMHandler {
+		void initToClicked(final MouseEvent event);
 	}
 }

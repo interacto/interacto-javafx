@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class ChoiceBoxSelected extends JfxInteraction<ChoiceBoxSelectedFSM, ChoiceBox<?>> {
+	private final ChoiceBoxSelectedFSM.ChoiceBoxSelectedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ChoiceBoxSelected() {
 		super(new ChoiceBoxSelectedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processChoiceBoxData(final Object choicebox) {
-		if(choicebox instanceof ChoiceBox) {
-			widget = (ChoiceBox<?>) choicebox;
-		}
+		handler = new ChoiceBoxSelectedFSM.ChoiceBoxSelectedFSMHandler() {
+			@Override
+			public void initToSelectedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof ChoiceBox) {
+					widget = (ChoiceBox<?>) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ChoiceBoxSelected.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class ToggleButtonPressed extends JfxInteraction<ToggleButtonPressedFSM, ToggleButton> {
+	private final ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ToggleButtonPressed() {
 		super(new ToggleButtonPressedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processToggleButtonData(final Object togglebutton) {
-		if(togglebutton instanceof ToggleButton) {
-			widget = (ToggleButton) togglebutton;
-		}
+		handler = new ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler() {
+			@Override
+			public void initToPressedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof ToggleButton) {
+					widget = (ToggleButton) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ToggleButtonPressed.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

@@ -27,7 +27,7 @@ import org.malai.fsm.OutputState;
 import org.malai.interaction2.Interaction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 
-public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interaction<Event, F> {
+public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interaction<Event, F> implements FSMHandler {
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
 	protected final List<ObservableList<? extends Node>> additionalNodes;
@@ -79,7 +79,7 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 	}
 
 	@Override
-	protected void reinitData() {
+	public void reinitData() {
 		widget = null;
 	}
 

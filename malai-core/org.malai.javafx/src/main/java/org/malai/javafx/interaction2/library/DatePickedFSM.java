@@ -10,23 +10,35 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.DatePicker;
 import org.malai.fsm.TerminalState;
+import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxDatePickedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
-import org.malai.javafx.interaction2.JfxInteraction;
 
-public class DatePickedFSM extends JfxFSM<DatePicker> {
+public class DatePickedFSM extends JfxFSM<DatePicker, DatePickedFSM.DatePickedFSMHandler> {
 	public DatePickedFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final JfxInteraction<?, DatePicker> interaction) {
-		super.buildFSM(interaction);
+	protected void buildFSM(final DatePickedFSMHandler handler) {
+		super.buildFSM(handler);
 		final TerminalState<Event> picked = new TerminalState<>(this, "picked");
 		addState(picked);
-		new JfxDatePickedTransition(interaction, initState, picked);
+		new JfxDatePickedTransition(initState, picked) {
+			@Override
+			public void action(final Event event) {
+				if(event instanceof ActionEvent) {
+					handler.initToPickedHandler((ActionEvent) event);
+				}
+			}
+		};
+	}
+
+	interface DatePickedFSMHandler extends FSMHandler {
+		void initToPickedHandler(ActionEvent event);
 	}
 }

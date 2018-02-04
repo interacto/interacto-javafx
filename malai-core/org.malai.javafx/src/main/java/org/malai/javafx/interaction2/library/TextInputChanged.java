@@ -25,24 +25,35 @@ import org.malai.javafx.interaction2.JfxInteraction;
 public class TextInputChanged extends JfxInteraction<TextInputChangedFSM, TextInputControl> {
 	private static final EventHandler<? super KeyEvent> HANDLER_KEY_ACTION = evt -> {
 		final KeyCode code = evt.getCode();
-		if(!code.isFunctionKey() && !code.isMediaKey() && !code.isModifierKey() && !code.isArrowKey() && !code.isNavigationKey() && evt.getSource() instanceof Node) {
+		if(!code.isFunctionKey() && !code.isMediaKey() && !code.isModifierKey() && !code.isArrowKey() && !code.isNavigationKey() && evt.getSource() instanceof
+			Node) {
 			((Node) evt.getSource()).fireEvent(new ActionEvent(evt.getSource(), null));
 		}
 	};
+
+	private final TextInputChangedFSM.TextInputChangedFSMHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public TextInputChanged() {
 		super(new TextInputChangedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processTextInputData(final Object textInputCtrl) {
-		if(textInputCtrl instanceof TextInputControl) {
-			widget = (TextInputControl) textInputCtrl;
-		}
+		handler = new TextInputChangedFSM.TextInputChangedFSMHandler() {
+			@Override
+			public void initToChangedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof TextInputControl) {
+					widget = (TextInputControl) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				TextInputChanged.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

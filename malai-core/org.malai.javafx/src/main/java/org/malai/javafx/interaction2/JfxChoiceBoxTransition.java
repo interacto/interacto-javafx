@@ -10,7 +10,6 @@
  */
 package org.malai.javafx.interaction2;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.ChoiceBox;
 import org.malai.fsm.InputState;
@@ -21,14 +20,7 @@ import org.malai.fsm.OutputState;
  * @author Arnaud BLOUIN
  */
 public class JfxChoiceBoxTransition extends JfxWidgetTransition<ChoiceBox<?>> {
-	public JfxChoiceBoxTransition(final JfxInteraction<?, ChoiceBox<?>> interaction, final OutputState<Event> srcState, final InputState<Event> tgtState) {
-		super(interaction, srcState, tgtState);
-	}
-
-	@Override
-	protected void action(final Event event) {
-		if(event instanceof ActionEvent) {
-			interaction.processChoiceBoxData(event.getSource());
-		}
+	public JfxChoiceBoxTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 }

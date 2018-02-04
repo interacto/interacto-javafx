@@ -10,23 +10,35 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.ChoiceBox;
 import org.malai.fsm.TerminalState;
+import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxChoiceBoxTransition;
 import org.malai.javafx.interaction2.JfxFSM;
-import org.malai.javafx.interaction2.JfxInteraction;
 
-public class ChoiceBoxSelectedFSM extends JfxFSM<ChoiceBox<?>> {
+public class ChoiceBoxSelectedFSM extends JfxFSM<ChoiceBox<?>, ChoiceBoxSelectedFSM.ChoiceBoxSelectedFSMHandler> {
 	public ChoiceBoxSelectedFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final JfxInteraction<?, ChoiceBox<?>> interaction) {
+	protected void buildFSM(final ChoiceBoxSelectedFSMHandler interaction) {
 		super.buildFSM(interaction);
 		final TerminalState<Event> selected = new TerminalState<>(this, "selected");
 		addState(selected);
-		new JfxChoiceBoxTransition(interaction, initState, selected);
+		new JfxChoiceBoxTransition(initState, selected) {
+			@Override
+			public void action(final Event event) {
+				if(event instanceof ActionEvent) {
+					handler.initToSelectedHandler((ActionEvent) event);
+				}
+			}
+		};
+	}
+
+	interface ChoiceBoxSelectedFSMHandler extends FSMHandler {
+		void initToSelectedHandler(ActionEvent event);
 	}
 }

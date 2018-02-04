@@ -20,21 +20,31 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class WindowClosed extends JfxInteraction<WindowClosedFSM, Window> {
-	private final EventHandler<WindowEvent> winClose = evt -> processEvent(evt);
+	private final EventHandler<WindowEvent> winClose;
+	private final WindowClosedFSM.WindowClosedHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public WindowClosed() {
 		super(new WindowClosedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processWindowData(final Object window) {
-		if(window instanceof Window) {
-			widget = (Window) window;
-		}
+		handler = new WindowClosedFSM.WindowClosedHandler() {
+			@Override
+			public void initToClosedHandler(final WindowEvent event) {
+				if(event.getSource() instanceof Window) {
+					widget = (Window) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				WindowClosed.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
+		winClose = evt -> processEvent(evt);
 	}
 
 	@Override

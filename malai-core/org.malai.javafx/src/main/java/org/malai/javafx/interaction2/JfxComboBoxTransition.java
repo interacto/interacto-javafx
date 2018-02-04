@@ -10,7 +10,6 @@
  */
 package org.malai.javafx.interaction2;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.ComboBox;
 import org.malai.fsm.InputState;
@@ -21,14 +20,7 @@ import org.malai.fsm.OutputState;
  * @author Arnaud BLOUIN
  */
 public class JfxComboBoxTransition extends JfxWidgetTransition<ComboBox<?>> {
-	public JfxComboBoxTransition(final JfxInteraction<?, ComboBox<?>> interaction, final OutputState<Event> srcState, final InputState<Event> tgtState) {
-		super(interaction, srcState, tgtState);
-	}
-
-	@Override
-	protected void action(final Event event) {
-		if(event instanceof ActionEvent) {
-			interaction.processCheckBoxData(event.getSource());
-		}
+	public JfxComboBoxTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 }

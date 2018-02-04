@@ -13,27 +13,37 @@ package org.malai.javafx.interaction2;
 import java.util.Collections;
 import java.util.Set;
 import javafx.event.Event;
-import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 import org.malai.fsm.InputState;
 import org.malai.fsm.OutputState;
-import org.malai.javafx.interaction2.library.TabEvent;
 
 /**
- * An FSM transition for tabs.
+ * This transition corresponds to a release of a button of a pointing device.
  * @author Arnaud BLOUIN
  */
-public class JfxTabSelectedTransition extends JfxWidgetTransition<TabPane> {
-	public JfxTabSelectedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+public class ReleaseTransition extends InputEventTransition<MouseEvent> {
+	/**
+	 * Defines a transition.
+	 * @param srcState The source state of the transition.
+	 * @param tgtState The srcObject state of the transition.
+	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
+	 */
+	public ReleaseTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 		super(srcState, tgtState);
 	}
 
 	@Override
-	public boolean accept(final Event e) {
-		return e != null && e.getEventType() == TabEvent.SELECTED;
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == MouseEvent.MOUSE_RELEASED;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
 	}
 
 	@Override
 	public Set<Object> getAcceptedEvents() {
-		return Collections.singleton(TabEvent.SELECTED);
+		return Collections.singleton(MouseEvent.MOUSE_RELEASED);
 	}
 }

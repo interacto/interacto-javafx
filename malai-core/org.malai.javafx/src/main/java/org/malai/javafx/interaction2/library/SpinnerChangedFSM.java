@@ -11,16 +11,19 @@
 package org.malai.javafx.interaction2.library;
 
 import java.util.function.LongSupplier;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.Spinner;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 import org.malai.fsm.StdState;
 import org.malai.fsm.TerminalState;
 import org.malai.fsm.TimeoutTransition;
+import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
-import org.malai.javafx.interaction2.JfxInteraction;
 import org.malai.javafx.interaction2.JfxSpinnerChangedTransition;
 
-public class SpinnerChangedFSM extends JfxFSM<Spinner<?>> {
+public class SpinnerChangedFSM extends JfxFSM<Spinner<?>, SpinnerChangedFSM.SpinnerChangedFSMHandler> {
 	/** The time gap between the two spinner events. */
 	private static long timeGap = 300;
 	/** The supplier that provides the time gap. */
@@ -48,14 +51,31 @@ public class SpinnerChangedFSM extends JfxFSM<Spinner<?>> {
 	}
 
 	@Override
-	protected void buildFSM(final JfxInteraction<?, Spinner<?>> interaction) {
-		super.buildFSM(interaction);
+	protected void buildFSM(final SpinnerChangedFSMHandler handler) {
+		super.buildFSM(handler);
 		final StdState<Event> changed = new StdState<>(this, "valueChanged");
 		final TerminalState<Event> ended = new TerminalState<>(this, "ended");
 		addState(changed);
 		addState(ended);
-		new JfxSpinnerChangedTransition(interaction, initState, changed);
-		new JfxSpinnerChangedTransition(interaction, changed, changed);
+		new SpinnerChangedJfxSpinnerChangedTransition(initState, changed);
+		new SpinnerChangedJfxSpinnerChangedTransition(changed, changed);
 		new TimeoutTransition<>(changed, ended, SUPPLY_TIME_GAP);
+	}
+
+	private class SpinnerChangedJfxSpinnerChangedTransition extends JfxSpinnerChangedTransition {
+		public SpinnerChangedJfxSpinnerChangedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+			super(srcState, tgtState);
+		}
+
+		@Override
+		public void action(final Event event) {
+			if(handler != null && event instanceof ActionEvent) {
+				handler.initToChangedHandler((ActionEvent) event);
+			}
+		}
+	}
+
+	interface SpinnerChangedFSMHandler extends FSMHandler {
+		void initToChangedHandler(ActionEvent event);
 	}
 }

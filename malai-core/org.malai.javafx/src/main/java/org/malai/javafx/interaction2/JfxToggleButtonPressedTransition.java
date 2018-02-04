@@ -10,7 +10,6 @@
  */
 package org.malai.javafx.interaction2;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.control.ToggleButton;
 import org.malai.fsm.InputState;
@@ -21,14 +20,7 @@ import org.malai.fsm.OutputState;
  * @author Arnaud BLOUIN
  */
 public class JfxToggleButtonPressedTransition extends JfxWidgetTransition<ToggleButton> {
-	public JfxToggleButtonPressedTransition(final JfxInteraction<?, ToggleButton> interaction, final OutputState<Event> srcState, final InputState<Event> tgtState) {
-		super(interaction, srcState, tgtState);
-	}
-
-	@Override
-	protected void action(final Event event) {
-		if(event instanceof ActionEvent) {
-			interaction.processToggleButtonData(event.getSource());
-		}
+	public JfxToggleButtonPressedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 }

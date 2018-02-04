@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class ComboBoxSelected extends JfxInteraction<ComboBoxSelectedFSM, ComboBox<?>> {
+	private final ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ComboBoxSelected() {
 		super(new ComboBoxSelectedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processCheckBoxData(final Object combobox) {
-		if(combobox instanceof ComboBox<?>) {
-			widget = (ComboBox<?>) combobox;
-		}
+		handler = new ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler() {
+			@Override
+			public void initToSelectedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof ComboBox<?>) {
+					widget = (ComboBox<?>) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ComboBoxSelected.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

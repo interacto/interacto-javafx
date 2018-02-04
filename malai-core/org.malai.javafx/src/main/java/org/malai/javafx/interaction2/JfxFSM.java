@@ -3,18 +3,18 @@ package org.malai.javafx.interaction2;
 import javafx.event.Event;
 import org.malai.fsm.FSM;
 
-public abstract class JfxFSM<W> extends FSM<Event> {
-	protected JfxInteraction<?, W> interaction;
+public abstract class JfxFSM<W, H extends FSMHandler> extends FSM<Event> {
+	protected H handler;
 
-	protected void buildFSM(final JfxInteraction<?, W> interaction) {
-		this.interaction = interaction;
+	protected void buildFSM(final H handler) {
+		this.handler = handler;
 	}
 
 	@Override
 	public void reinit() {
 		super.reinit();
-		if(interaction != null) {
-			interaction.reinitData();
+		if(handler != null) {
+			handler.reinitData();
 		}
 	}
 }

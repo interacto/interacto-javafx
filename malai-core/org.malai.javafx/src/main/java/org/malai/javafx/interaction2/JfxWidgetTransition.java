@@ -24,11 +24,8 @@ import org.malai.fsm.WidgetTransition;
  * @author Arnaud Blouin
  */
 public abstract class JfxWidgetTransition<T> extends WidgetTransition<Event, T> {
-	protected final JfxInteraction<?, T> interaction;
-
-	public JfxWidgetTransition(final JfxInteraction<?, T> interaction, final OutputState<Event> srcState, final InputState<Event> tgtState) {
+	public JfxWidgetTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 		super(srcState, tgtState);
-		this.interaction = interaction;
 	}
 
 	@Override

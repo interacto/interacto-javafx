@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class ColorPicked extends JfxInteraction<ColorPickedFSM, ColorPicker> {
+	private final ColorPickedFSM.ColorPickedFSMFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ColorPicked() {
 		super(new ColorPickedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processColorPickerData(final Object colorpicker) {
-		if(colorpicker instanceof ColorPicker) {
-			widget = (ColorPicker) colorpicker;
-		}
+		handler = new ColorPickedFSM.ColorPickedFSMFSMHandler() {
+			@Override
+			public void initToPickedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof ColorPicker) {
+					widget = (ColorPicker) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ColorPicked.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override

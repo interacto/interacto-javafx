@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction2.library;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.malai.javafx.interaction2.JfxInteraction;
@@ -19,19 +20,29 @@ import org.malai.javafx.interaction2.JfxInteraction;
  * @author Arnaud BLOUIN
  */
 public class ButtonPressed extends JfxInteraction<ButtonPressedFSM, Button> {
+	private final ButtonPressedFSM.ButtonPressedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public ButtonPressed() {
 		super(new ButtonPressedFSM());
-		fsm.buildFSM(this);
-	}
 
-	@Override
-	public void processButtonData(final Object button) {
-		if(button instanceof Button) {
-			widget = (Button) button;
-		}
+		handler = new ButtonPressedFSM.ButtonPressedFSMHandler() {
+			@Override
+			public void initToPressedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof Button) {
+					widget = (Button) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ButtonPressed.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override
