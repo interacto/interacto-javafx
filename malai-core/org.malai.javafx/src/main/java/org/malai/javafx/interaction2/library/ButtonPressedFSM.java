@@ -31,7 +31,7 @@ public class ButtonPressedFSM extends JfxFSM<Button, ButtonPressedFSM.ButtonPres
 		new JfxButtonPressedTransition(initState, pressed) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
+				if(handler != null && event instanceof ActionEvent) {
 					handler.initToPressedHandler((ActionEvent) event);
 				}
 			}

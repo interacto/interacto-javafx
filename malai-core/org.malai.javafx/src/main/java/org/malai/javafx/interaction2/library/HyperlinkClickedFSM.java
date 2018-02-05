@@ -31,7 +31,7 @@ public class HyperlinkClickedFSM extends JfxFSM<Hyperlink, HyperlinkClickedFSM.H
 		new JfxHyperlinkClickedTransition(initState, clicked) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
+				if(handler != null && event instanceof ActionEvent) {
 					handler.initToClickedHandler((ActionEvent) event);
 				}
 			}

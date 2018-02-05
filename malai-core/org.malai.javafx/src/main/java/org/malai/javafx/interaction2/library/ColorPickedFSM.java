@@ -31,7 +31,7 @@ public class ColorPickedFSM extends JfxFSM<ColorPicker, ColorPickedFSM.ColorPick
 		new JfxColorPickedTransition(initState, picked) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
+				if(handler != null && event instanceof ActionEvent) {
 					handler.initToPickedHandler((ActionEvent) event);
 				}
 			}

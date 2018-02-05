@@ -16,8 +16,8 @@ import javafx.scene.input.MouseEvent;
 public class Click extends PointInteraction<ClickFSM, Node> {
 	private final ClickFSM.ClickFSMHandler handler;
 
-	public Click() {
-		super(new ClickFSM());
+	protected Click(final ClickFSM fsm) {
+		super(fsm);
 
 		handler = new ClickFSM.ClickFSMHandler() {
 			@Override
@@ -32,5 +32,9 @@ public class Click extends PointInteraction<ClickFSM, Node> {
 		};
 
 		fsm.buildFSM(handler);
+	}
+
+	public Click() {
+		this(new ClickFSM());
 	}
 }

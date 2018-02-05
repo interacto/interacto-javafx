@@ -31,7 +31,7 @@ public class DatePickedFSM extends JfxFSM<DatePicker, DatePickedFSM.DatePickedFS
 		new JfxDatePickedTransition(initState, picked) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
+				if(handler != null && event instanceof ActionEvent) {
 					handler.initToPickedHandler((ActionEvent) event);
 				}
 			}

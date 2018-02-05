@@ -31,7 +31,7 @@ public class MenuItemPressedFSM extends JfxFSM<MenuItem, MenuItemPressedFSM.Menu
 		new JfxMenuItemPressedTransition(initState, pressed) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
+				if(handler != null && event instanceof ActionEvent) {
 					handler.initToPressedHandler((ActionEvent) event);
 				}
 			}

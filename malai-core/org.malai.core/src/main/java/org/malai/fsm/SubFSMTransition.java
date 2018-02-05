@@ -30,6 +30,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 
 			@Override
 			public void fsmStops() throws CancelFSMException {
+				action(null);
 				subFSM.setHandler(null);
 				src.getFSM().currentSubFSM = null;
 				if(tgt instanceof TerminalState) {
