@@ -12,7 +12,6 @@ package org.malai.javafx.interaction2.library;
 
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.scene.control.MenuButton;
 import org.malai.fsm.TerminalState;
 import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;

@@ -11,7 +11,6 @@
 package org.malai.javafx.interaction2.library;
 
 import javafx.event.Event;
-import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.malai.fsm.TerminalState;
 import org.malai.javafx.interaction2.FSMHandler;
