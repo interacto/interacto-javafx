@@ -3,6 +3,7 @@ package org.malai.fsm;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,25 +16,27 @@ class TestSubFSMTransition {
 	FSM<StubEvent> mainfsm;
 	StdState<StubEvent> s1;
 	StdState<StubEvent> s2;
-	StdState<StubEvent> subS;
+	TerminalState<StubEvent> subS;
 
 	@BeforeEach
 	void setUp() {
 		fsm = new FSM<>();
 		mainfsm = new FSM<>();
-		s1 = new StdState<>(mainfsm, "s1");
-		s2 = new StdState<>(mainfsm, "s2");
+		s1 = Mockito.mock(StdState.class);
+		s2 = Mockito.mock(StdState.class);
+		Mockito.when(s1.getFSM()).thenReturn(mainfsm);
+		Mockito.when(s2.getFSM()).thenReturn(mainfsm);
 		mainfsm.addState(s1);
 		mainfsm.addState(s2);
 		tr = new SubFSMTransition<>(s1, s2, fsm);
 
-		subS = new StdState<>(fsm, "sub1");
+		subS = new TerminalState<>(fsm, "sub1");
 		new SubStubTransition1(fsm.initState, subS, true);
 		fsm.addState(subS);
 	}
 
 	@Test
-	void testAREConstructor() {
+	void testIAEConstructor() {
 		assertThrows(IllegalArgumentException.class, () -> new SubFSMTransition<>(s1, s2, null));
 	}
 
@@ -74,5 +77,17 @@ class TestSubFSMTransition {
 	void testExecuteFirstEventKO() throws CancelFSMException {
 		final Optional<InputState<StubEvent>> state = tr.execute(new StubSubEvent2());
 		assertFalse(state.isPresent());
+	}
+
+	@Test
+	void testExecuteExitSrcState() throws CancelFSMException {
+		tr.execute(new StubSubEvent1());
+		Mockito.verify(s1, Mockito.times(1)).exit();
+	}
+
+	@Test
+	void testExecuteEnterTgtState() throws CancelFSMException {
+		tr.execute(new StubSubEvent1());
+		Mockito.verify(s2, Mockito.times(1)).enter();
 	}
 }
