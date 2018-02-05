@@ -31,7 +31,7 @@ public class WindowClosedFSM extends JfxFSM<Window, WindowClosedFSM.WindowClosed
 		new JfxWindowClosedTransition(initState, closed) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof WindowEvent) {
+				if(handler != null && event instanceof WindowEvent) {
 					handler.initToClosedHandler((WindowEvent) event);
 				}
 			}

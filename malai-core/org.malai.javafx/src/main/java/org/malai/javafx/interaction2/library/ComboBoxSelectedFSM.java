@@ -31,7 +31,7 @@ public class ComboBoxSelectedFSM extends JfxFSM<ComboBox<?>, ComboBoxSelectedFSM
 		new JfxComboBoxTransition(initState, selected) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
+				if(handler != null && event instanceof ActionEvent) {
 					handler.initToSelectedHandler((ActionEvent) event);
 				}
 			}

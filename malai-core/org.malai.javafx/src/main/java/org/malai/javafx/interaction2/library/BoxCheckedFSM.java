@@ -31,7 +31,7 @@ public class BoxCheckedFSM extends JfxFSM<CheckBox, BoxCheckedFSM.BoxCheckedFSMH
 		new JfxBoxCheckedTransition(initState, checked) {
 			@Override
 			public void action(final Event event) {
-				if(event instanceof ActionEvent) {
+				if(handler != null && event instanceof ActionEvent) {
 					handler.initToCheckedHandler((ActionEvent) event);
 				}
 			}
