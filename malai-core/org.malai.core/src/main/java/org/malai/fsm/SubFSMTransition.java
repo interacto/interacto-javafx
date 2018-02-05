@@ -33,7 +33,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 				subFSM.setHandler(null);
 				src.getFSM().currentSubFSM = null;
 				if(tgt instanceof TerminalState) {
-					src.getFSM().onTerminating();
+					tgt.enter();
 					return;
 				}
 				if(tgt instanceof CancellingState) {
@@ -42,6 +42,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 				}
 				if(tgt instanceof OutputState) {
 					src.getFSM().currentState = (OutputState<E>) tgt;
+					tgt.enter();
 				}
 			}
 
