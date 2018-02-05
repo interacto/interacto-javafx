@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxChoiceBoxTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class ChoiceBoxSelectedFSM extends JfxFSM<ChoiceBox<?>, ChoiceBoxSelectedFSM.ChoiceBoxSelectedFSMHandler> {
+public class ChoiceBoxSelectedFSM extends JfxFSM<ChoiceBoxSelectedFSM.ChoiceBoxSelectedFSMHandler> {
 	public ChoiceBoxSelectedFSM() {
 		super();
 	}

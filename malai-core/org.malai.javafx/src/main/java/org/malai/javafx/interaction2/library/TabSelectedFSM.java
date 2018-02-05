@@ -17,7 +17,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxTabSelectedTransition;
 
-public class TabSelectedFSM extends JfxFSM<TabPane, TabSelectedFSM.TabSelectedFSMHandler> {
+public class TabSelectedFSM extends JfxFSM<TabSelectedFSM.TabSelectedFSMHandler> {
 	public TabSelectedFSM() {
 		super();
 	}

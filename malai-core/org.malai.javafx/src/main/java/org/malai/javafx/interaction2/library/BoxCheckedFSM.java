@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxBoxCheckedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class BoxCheckedFSM extends JfxFSM<CheckBox, BoxCheckedFSM.BoxCheckedFSMHandler> {
+public class BoxCheckedFSM extends JfxFSM<BoxCheckedFSM.BoxCheckedFSMHandler> {
 	public BoxCheckedFSM() {
 		super();
 	}

@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxWindowClosedTransition;
 
-public class WindowClosedFSM extends JfxFSM<Window, WindowClosedFSM.WindowClosedHandler> {
+public class WindowClosedFSM extends JfxFSM<WindowClosedFSM.WindowClosedHandler> {
 	public WindowClosedFSM() {
 		super();
 	}

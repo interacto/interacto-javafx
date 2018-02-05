@@ -14,7 +14,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.MoveTransition;
 
-public class DoubleClickFSM extends JfxFSM<Node, FSMHandler> {
+public class DoubleClickFSM extends JfxFSM<FSMHandler> {
 	/** The time gap between the two spinner events. */
 	private static long timeGap = 300;
 	/** The supplier that provides the time gap. */

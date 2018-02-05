@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxMenuItemPressedTransition;
 
-public class MenuItemPressedFSM extends JfxFSM<MenuItem, MenuItemPressedFSM.MenuItemPressedFSMHandler> {
+public class MenuItemPressedFSM extends JfxFSM<MenuItemPressedFSM.MenuItemPressedFSMHandler> {
 	public MenuItemPressedFSM() {
 		super();
 	}

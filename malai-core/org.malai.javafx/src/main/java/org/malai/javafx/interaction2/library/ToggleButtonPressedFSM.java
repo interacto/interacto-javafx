@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxToggleButtonPressedTransition;
 
-public class ToggleButtonPressedFSM extends JfxFSM<ToggleButton, ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler> {
+public class ToggleButtonPressedFSM extends JfxFSM<ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler> {
 	public ToggleButtonPressedFSM() {
 		super();
 	}

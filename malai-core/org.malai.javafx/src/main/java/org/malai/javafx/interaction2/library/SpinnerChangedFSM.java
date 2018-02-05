@@ -23,7 +23,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxSpinnerChangedTransition;
 
-public class SpinnerChangedFSM extends JfxFSM<Spinner<?>, SpinnerChangedFSM.SpinnerChangedFSMHandler> {
+public class SpinnerChangedFSM extends JfxFSM<SpinnerChangedFSM.SpinnerChangedFSMHandler> {
 	/** The time gap between the two spinner events. */
 	private static long timeGap = 300;
 	/** The supplier that provides the time gap. */
