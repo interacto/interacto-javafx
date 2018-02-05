@@ -3,7 +3,7 @@ package org.malai.javafx.interaction2;
 import javafx.event.Event;
 import org.malai.fsm.FSM;
 
-public abstract class JfxFSM<W, H extends FSMHandler> extends FSM<Event> {
+public abstract class JfxFSM<H extends FSMHandler> extends FSM<Event> {
 	protected H handler;
 
 	protected void buildFSM(final H handler) {

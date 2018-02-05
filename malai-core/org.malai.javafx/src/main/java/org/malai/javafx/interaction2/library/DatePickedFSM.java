@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxDatePickedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class DatePickedFSM extends JfxFSM<DatePicker, DatePickedFSM.DatePickedFSMHandler> {
+public class DatePickedFSM extends JfxFSM<DatePickedFSM.DatePickedFSMHandler> {
 	public DatePickedFSM() {
 		super();
 	}

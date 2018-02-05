@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxComboBoxTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class ComboBoxSelectedFSM extends JfxFSM<ComboBox<?>, ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler> {
+public class ComboBoxSelectedFSM extends JfxFSM<ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler> {
 	public ComboBoxSelectedFSM() {
 		super();
 	}

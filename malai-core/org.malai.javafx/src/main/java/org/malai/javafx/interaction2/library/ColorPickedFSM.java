@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxColorPickedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class ColorPickedFSM extends JfxFSM<ColorPicker, ColorPickedFSM.ColorPickedFSMFSMHandler> {
+public class ColorPickedFSM extends JfxFSM<ColorPickedFSM.ColorPickedFSMFSMHandler> {
 	public ColorPickedFSM() {
 		super();
 	}

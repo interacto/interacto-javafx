@@ -23,7 +23,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxTextInputChangedTransition;
 
-public class TextInputChangedFSM extends JfxFSM<TextInputControl, TextInputChangedFSM.TextInputChangedFSMHandler> {
+public class TextInputChangedFSM extends JfxFSM<TextInputChangedFSM.TextInputChangedFSMHandler> {
 	/** The time gap between the two spinner events. */
 	private static long timeout = 1000L;
 	/** The supplier that provides the time gap. */

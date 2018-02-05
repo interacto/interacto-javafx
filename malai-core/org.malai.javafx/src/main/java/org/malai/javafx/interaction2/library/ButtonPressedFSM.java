@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxButtonPressedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class ButtonPressedFSM extends JfxFSM<Button, ButtonPressedFSM.ButtonPressedFSMHandler> {
+public class ButtonPressedFSM extends JfxFSM<ButtonPressedFSM.ButtonPressedFSMHandler> {
 	public ButtonPressedFSM() {
 		super();
 	}

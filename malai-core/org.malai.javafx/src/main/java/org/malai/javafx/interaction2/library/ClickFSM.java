@@ -19,7 +19,7 @@ import org.malai.javafx.interaction2.ClickTransition;
 import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 
-public class ClickFSM extends JfxFSM<Node, ClickFSM.ClickFSMHandler> {
+public class ClickFSM extends JfxFSM<ClickFSM.ClickFSMHandler> {
 	protected MouseButton checkButton;
 
 	public ClickFSM() {

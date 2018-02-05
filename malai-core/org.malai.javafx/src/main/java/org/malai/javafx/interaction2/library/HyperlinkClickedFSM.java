@@ -18,7 +18,7 @@ import org.malai.javafx.interaction2.FSMHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxHyperlinkClickedTransition;
 
-public class HyperlinkClickedFSM extends JfxFSM<Hyperlink, HyperlinkClickedFSM.HyperlinkClickedFSMHandler> {
+public class HyperlinkClickedFSM extends JfxFSM<HyperlinkClickedFSM.HyperlinkClickedFSMHandler> {
 	public HyperlinkClickedFSM() {
 		super();
 	}
