@@ -10,6 +10,11 @@ public class SubFSMTransition<E> extends Transition<E> {
 
 	public SubFSMTransition(final OutputState<E> srcState, final InputState<E> tgtState, final FSM<E> fsm) {
 		super(srcState, tgtState);
+
+		if(fsm == null) {
+			throw new IllegalArgumentException("sub fsm cannot be null");
+		}
+
 		subFSM = fsm;
 		subFSM.setInner(true);
 		subFSMHandler = new FSMHandler() {

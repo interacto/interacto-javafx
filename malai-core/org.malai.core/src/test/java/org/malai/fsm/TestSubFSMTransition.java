@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TestSubFSMTransition {
@@ -29,6 +30,11 @@ class TestSubFSMTransition {
 		subS = new StdState<>(fsm, "sub1");
 		new SubStubTransition1(fsm.initState, subS, true);
 		fsm.addState(subS);
+	}
+
+	@Test
+	void testAREConstructor() {
+		assertThrows(IllegalArgumentException.class, () -> new SubFSMTransition<>(s1, s2, null));
 	}
 
 	@Test
