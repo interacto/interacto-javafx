@@ -8,7 +8,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 	private final FSM<E> subFSM;
 	private final FSMHandler subFSMHandler;
 
-	protected SubFSMTransition(final OutputState<E> srcState, final InputState<E> tgtState, final FSM<E> fsm) {
+	public SubFSMTransition(final OutputState<E> srcState, final InputState<E> tgtState, final FSM<E> fsm) {
 		super(srcState, tgtState);
 		subFSM = fsm;
 		subFSM.setInner(true);
