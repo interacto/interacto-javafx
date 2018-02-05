@@ -13,7 +13,6 @@ package org.malai.javafx.interaction2.library;
 import java.util.function.LongSupplier;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.scene.control.TextInputControl;
 import org.malai.fsm.InputState;
 import org.malai.fsm.OutputState;
 import org.malai.fsm.StdState;

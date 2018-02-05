@@ -2,7 +2,6 @@ package org.malai.javafx.interaction2.library;
 
 import java.util.function.LongSupplier;
 import javafx.event.Event;
-import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import org.malai.fsm.CancellingState;
