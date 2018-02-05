@@ -22,7 +22,7 @@ import javafx.scene.input.MouseEvent;
 import org.malai.fsm.FSM;
 import org.malai.javafx.interaction2.JfxInteraction;
 
-public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInteraction<F, T> {
+public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInteraction<F, T> implements PointInteractionData {
 	/** The pressed local position. */
 	protected final ObjectProperty<Point3D> srcLocalPoint;
 	/** The pressed scene position. */
@@ -62,73 +62,57 @@ public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInter
 		metaPressed = false;
 	}
 
-	/**
-	 * @return True: the alt key is pressed.
-	 */
+	@Override
 	public boolean isAltPressed() {
 		return altPressed;
 	}
 
-	/**
-	 * @return True: the control key is pressed.
-	 */
-
+	@Override
 	public boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
 
-	/**
-	 * @return True: the shift key is pressed.
-	 */
-
+	@Override
 	public boolean isShiftPressed() {
 		return shiftPressed;
 	}
 
-	/**
-	 * @return True: the meta key is pressed.
-	 */
-
+	@Override
 	public boolean isMetaPressed() {
 		return metaPressed;
 	}
 
-	/**
-	 * @return The pressed local position.
-	 */
+	@Override
 	public Point3D getSrcLocalPoint() {
 		return srcLocalPoint.get();
 	}
 
-	/**
-	 * @return The pressed scene position.
-	 */
+	@Override
 	public Point3D getSrcScenePoint() {
 		return srcScenePoint.get();
 	}
 
-	/**
-	 * @return The button used for the pressure.
-	 */
+	@Override
 	public MouseButton getButton() {
 		return button;
 	}
 
-	/**
-	 * @return The object picked at the pressed position.
-	 */
+	@Override
 	public Optional<Node> getSrcObject() {
 		return Optional.ofNullable(srcObject.get());
 	}
 
+	@Override
 	public ReadOnlyObjectProperty<Point3D> srcLocalPointProperty() {
 		return srcLocalPoint;
 	}
 
+	@Override
 	public ReadOnlyObjectProperty<Point3D> srcScenePointProperty() {
 		return srcScenePoint;
 	}
 
+	@Override
 	public ReadOnlyObjectProperty<Node> srcObjectProperty() {
 		return srcObject;
 	}
