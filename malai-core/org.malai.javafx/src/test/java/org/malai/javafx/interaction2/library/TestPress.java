@@ -16,14 +16,14 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 	}
 
 	@Test
-	void testClickExecution() throws CancelFSMException {
+	void testPressExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.MIDDLE));
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
 
 	@Test
-	void testClickData() {
+	void testPressData() {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
@@ -36,7 +36,16 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 	}
 
 	@Test
-	void testClickOnWidget() {
+	void testPressOnRegWidget() throws CancelFSMException {
+		Pane pane = new Pane();
+		interaction.registerToNodes(Collections.singletonList(pane));
+		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.MIDDLE));
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
+	}
+
+	@Test
+	void testPressOnRegWidgetData() {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
@@ -51,7 +60,7 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 	}
 
 	@Test
-	void testClickOnUnregWidget() throws CancelFSMException {
+	void testPressOnUnregWidget() throws CancelFSMException {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
