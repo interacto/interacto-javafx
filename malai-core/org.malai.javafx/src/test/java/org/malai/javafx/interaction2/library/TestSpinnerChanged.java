@@ -95,7 +95,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 
 	@Test
 	void testProcessEventGoodData() {
-		interaction.getFsm().setHandler(new InteractionHandlerStub() {
+		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
 				assertEquals(widget, interaction.getWidget());

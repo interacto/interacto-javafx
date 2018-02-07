@@ -37,7 +37,7 @@ public class TestMenuItemPressed extends BaseJfXInteractionTest<MenuItemPressed>
 
 	@Test
 	void testProcessEventGoodData() {
-		interaction.getFsm().setHandler(new InteractionHandlerStub() {
+		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
 				assertEquals(menuitem, interaction.getWidget());

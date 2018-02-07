@@ -16,7 +16,7 @@ public class FSM<E> {
 	/** The states that compose the finite state machine. */
 	protected final Set<State<E>> states;
 	/** The handler that want to be notified when the state machine of the interaction changed. */
-	protected FSMHandler handler;
+	protected final Set<FSMHandler> handlers;
 	/**
 	 * The events still in process. For example when the user press key ctrl and scroll one time using the wheel of the mouse, the interaction scrolling is
 	 * finished but the event keyPressed 'ctrl' is still in process. At the end of the interaction, these events are re-introduced into the
@@ -36,6 +36,7 @@ public class FSM<E> {
 		startingState = initState;
 		currentState = initState;
 		inner = false;
+		handlers = new HashSet<>(2);
 	}
 
 	public OutputState<E> getCurrentState() {
@@ -242,8 +243,16 @@ public class FSM<E> {
 		});
 	}
 
-	public void setHandler(final FSMHandler handler) {
-		this.handler = handler;
+	public void addHandler(final FSMHandler handler) {
+		if(handler != null) {
+			handlers.add(handler);
+		}
+	}
+
+	public void removeHandler(final FSMHandler handler) {
+		if(handler != null) {
+			handlers.remove(handler);
+		}
 	}
 
 	/**
@@ -251,7 +260,7 @@ public class FSM<E> {
 	 */
 	protected void notifyHandlerOnStart() throws CancelFSMException {
 		try {
-			if(handler != null) {
+			for(final FSMHandler handler : handlers) {
 				handler.fsmStarts();
 			}
 		}catch(final CancelFSMException ex) {
@@ -265,7 +274,7 @@ public class FSM<E> {
 	 */
 	protected void notifyHandlerOnUpdate() throws CancelFSMException {
 		try {
-			if(handler != null) {
+			for(final FSMHandler handler : handlers) {
 				handler.fsmUpdates();
 			}
 		}catch(final CancelFSMException ex) {
@@ -279,7 +288,7 @@ public class FSM<E> {
 	 */
 	protected void notifyHandlerOnStop() throws CancelFSMException {
 		try {
-			if(handler != null) {
+			for(final FSMHandler handler : handlers) {
 				handler.fsmStops();
 			}
 		}catch(final CancelFSMException ex) {
@@ -292,8 +301,6 @@ public class FSM<E> {
 	 * Notifies handler that the interaction is cancelled.
 	 */
 	protected void notifyHandlerOnCancel() {
-		if(handler != null) {
-			handler.fsmCancels();
-		}
+		handlers.forEach(handler -> handler.fsmCancels());
 	}
 }

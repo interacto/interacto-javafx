@@ -13,7 +13,7 @@ package org.malai.javafx.interaction2.library;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import org.malai.fsm.TerminalState;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxHyperlinkClickedTransition;
 
@@ -23,21 +23,22 @@ public class HyperlinkClickedFSM extends JfxFSM<HyperlinkClickedFSM.HyperlinkCli
 	}
 
 	@Override
-	protected void buildFSM(final HyperlinkClickedFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final HyperlinkClickedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> clicked = new TerminalState<>(this, "clicked");
 		addState(clicked);
 		new JfxHyperlinkClickedTransition(initState, clicked) {
 			@Override
 			public void action(final Event event) {
-				if(handler != null && event instanceof ActionEvent) {
-					handler.initToClickedHandler((ActionEvent) event);
+				if(dataHandler != null && event instanceof ActionEvent) {
+					dataHandler.initToClickedHandler((ActionEvent) event);
 				}
 			}
 		};
 	}
 
-	interface HyperlinkClickedFSMHandler extends FSMHandler {
+	interface HyperlinkClickedFSMHandler extends FSMDataHandler {
 		void initToClickedHandler(ActionEvent event);
 	}
 }

@@ -13,7 +13,7 @@ package org.malai.javafx.interaction2.library;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import org.malai.fsm.TerminalState;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxBoxCheckedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
@@ -23,21 +23,22 @@ public class BoxCheckedFSM extends JfxFSM<BoxCheckedFSM.BoxCheckedFSMHandler> {
 	}
 
 	@Override
-	protected void buildFSM(final BoxCheckedFSMHandler interaction) {
-		super.buildFSM(interaction);
+	protected void buildFSM(final BoxCheckedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> checked = new TerminalState<>(this, "checked");
 		addState(checked);
 		new JfxBoxCheckedTransition(initState, checked) {
 			@Override
 			public void action(final Event event) {
-				if(handler != null && event instanceof ActionEvent) {
-					handler.initToCheckedHandler((ActionEvent) event);
+				if(BoxCheckedFSM.this.dataHandler != null && event instanceof ActionEvent) {
+					BoxCheckedFSM.this.dataHandler.initToCheckedHandler((ActionEvent) event);
 				}
 			}
 		};
 	}
 
-	interface BoxCheckedFSMHandler extends FSMHandler {
+	interface BoxCheckedFSMHandler extends FSMDataHandler {
 		void initToCheckedHandler(ActionEvent event);
 	}
 }

@@ -13,7 +13,7 @@ package org.malai.javafx.interaction2.library;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import org.malai.fsm.TerminalState;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxComboBoxTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
@@ -23,21 +23,22 @@ public class ComboBoxSelectedFSM extends JfxFSM<ComboBoxSelectedFSM.ComboBoxSele
 	}
 
 	@Override
-	protected void buildFSM(final ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> selected = new TerminalState<>(this, "selected");
 		addState(selected);
 		new JfxComboBoxTransition(initState, selected) {
 			@Override
 			public void action(final Event event) {
-				if(handler != null && event instanceof ActionEvent) {
-					handler.initToSelectedHandler((ActionEvent) event);
+				if(dataHandler != null && event instanceof ActionEvent) {
+					dataHandler.initToSelectedHandler((ActionEvent) event);
 				}
 			}
 		};
 	}
 
-	interface ComboBoxSelectedFSMHandler extends FSMHandler {
+	interface ComboBoxSelectedFSMHandler extends FSMDataHandler {
 		void initToSelectedHandler(ActionEvent event);
 	}
 }

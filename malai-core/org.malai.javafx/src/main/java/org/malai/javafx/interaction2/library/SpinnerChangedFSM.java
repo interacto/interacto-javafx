@@ -18,7 +18,7 @@ import org.malai.fsm.OutputState;
 import org.malai.fsm.StdState;
 import org.malai.fsm.TerminalState;
 import org.malai.fsm.TimeoutTransition;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxSpinnerChangedTransition;
 
@@ -50,8 +50,9 @@ public class SpinnerChangedFSM extends JfxFSM<SpinnerChangedFSM.SpinnerChangedFS
 	}
 
 	@Override
-	protected void buildFSM(final SpinnerChangedFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final SpinnerChangedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final StdState<Event> changed = new StdState<>(this, "valueChanged");
 		final TerminalState<Event> ended = new TerminalState<>(this, "ended");
 		addState(changed);
@@ -68,13 +69,13 @@ public class SpinnerChangedFSM extends JfxFSM<SpinnerChangedFSM.SpinnerChangedFS
 
 		@Override
 		public void action(final Event event) {
-			if(handler != null && event instanceof ActionEvent) {
-				handler.initToChangedHandler((ActionEvent) event);
+			if(dataHandler != null && event instanceof ActionEvent) {
+				dataHandler.initToChangedHandler((ActionEvent) event);
 			}
 		}
 	}
 
-	interface SpinnerChangedFSMHandler extends FSMHandler {
+	interface SpinnerChangedFSMHandler extends FSMDataHandler {
 		void initToChangedHandler(ActionEvent event);
 	}
 }

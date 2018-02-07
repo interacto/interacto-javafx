@@ -73,7 +73,7 @@ public class TestFSM {
 		@BeforeEach
 		void setUp() {
 			handler = Mockito.mock(FSMHandler.class);
-			fsm.setHandler(handler);
+			fsm.addHandler(handler);
 			fsm.log(true);
 			std = new StdState<>(fsm, "s1");
 			terminal = new TerminalState<>(fsm, "t1");
@@ -235,7 +235,7 @@ public class TestFSM {
 		@BeforeEach
 		void setUp() {
 			handler = Mockito.mock(FSMHandler.class);
-			fsm.setHandler(handler);
+			fsm.addHandler(handler);
 			fsm.log(true);
 			std = new StdState<>(fsm, "s1");
 			terminal = new TerminalState<>(fsm, "t1");
@@ -303,7 +303,7 @@ public class TestFSM {
 		@BeforeEach
 		void setUp() {
 			handler = Mockito.mock(FSMHandler.class);
-			fsm.setHandler(handler);
+			fsm.addHandler(handler);
 			fsm.log(true);
 			std = new StdState<>(fsm, "s1");
 			std2 = new StdState<>(fsm, "s2");
@@ -363,7 +363,7 @@ public class TestFSM {
 			s1 = new StdState<>(mainfsm, "s1");
 			mainfsm.addState(s1);
 			tr = new SubFSMTransition<>(mainfsm.initState, s1, fsm);
-			mainfsm.setHandler(handler);
+			mainfsm.addHandler(handler);
 			subS1 = new StdState<>(fsm, "sub1");
 			subS2 = new StdState<>(fsm, "sub2");
 			subT = new TerminalState<>(fsm, "t1");

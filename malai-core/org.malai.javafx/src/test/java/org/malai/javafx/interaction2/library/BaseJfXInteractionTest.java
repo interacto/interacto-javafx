@@ -32,7 +32,7 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 	void setUp() {
 		handler = Mockito.mock(FSMHandler.class);
 		interaction = createInteraction();
-		interaction.getFsm().setHandler(handler);
+		interaction.getFsm().addHandler(handler);
 	}
 
 	abstract T createInteraction();

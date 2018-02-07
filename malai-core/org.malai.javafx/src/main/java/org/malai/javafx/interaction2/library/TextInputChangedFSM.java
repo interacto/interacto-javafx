@@ -18,7 +18,7 @@ import org.malai.fsm.OutputState;
 import org.malai.fsm.StdState;
 import org.malai.fsm.TerminalState;
 import org.malai.fsm.TimeoutTransition;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxTextInputChangedTransition;
 
@@ -40,8 +40,9 @@ public class TextInputChangedFSM extends JfxFSM<TextInputChangedFSM.TextInputCha
 	}
 
 	@Override
-	protected void buildFSM(final TextInputChangedFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final TextInputChangedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final StdState<Event> changed = new StdState<>(this, "changed");
 		final TerminalState<Event> ended = new TerminalState<>(this, "ended");
 		addState(changed);
@@ -58,13 +59,13 @@ public class TextInputChangedFSM extends JfxFSM<TextInputChangedFSM.TextInputCha
 
 		@Override
 		public void action(final Event event) {
-			if(handler != null && event instanceof ActionEvent) {
-				handler.initToChangedHandler((ActionEvent) event);
+			if(dataHandler != null && event instanceof ActionEvent) {
+				dataHandler.initToChangedHandler((ActionEvent) event);
 			}
 		}
 	}
 
-	interface TextInputChangedFSMHandler extends FSMHandler {
+	interface TextInputChangedFSMHandler extends FSMDataHandler {
 		void initToChangedHandler(ActionEvent event);
 	}
 }
