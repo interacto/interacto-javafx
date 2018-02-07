@@ -10,27 +10,21 @@
  */
 package org.malai.javafx.interaction2.library;
 
-import javafx.event.Event;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 
-public class KeyPressure extends KeyInteraction<KeyPressureFSM, Event> {
-	private final KeyPressureFSM.KeyPressureFSMHandler handler;
+public interface KeyInteractionData {
+	/**
+	 * @return The object that produced the interaction.
+	 */
+	Object getObject();
 
-	public KeyPressure() {
-		super(new KeyPressureFSM());
+	/**
+	 * @return The key used by the interaction.
+	 */
+	String getKey();
 
-		handler = new KeyPressureFSM.KeyPressureFSMHandler() {
-			@Override
-			public void onKeyPressure(final KeyEvent event) {
-				setKeyData(event);
-			}
-
-			@Override
-			public void reinitData() {
-				KeyPressure.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
-	}
+	/**
+	 * @return The key code used by the interaction.
+	 */
+	KeyCode getKeyCode();
 }
