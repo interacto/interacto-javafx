@@ -40,7 +40,6 @@ public class MultiClick extends JfxInteractionImpl {
 
 	public MultiClick(final int minPts) {
 		super();
-		this.minPoints = minPts;
 		points = new ArrayList<>();
 		minPoints = minPts;
 		initStateMachine();
@@ -61,7 +60,7 @@ public class MultiClick extends JfxInteractionImpl {
 	}
 
 	/**
-	 * @return True if the last srcPoint gathered by the interaction is a srcPoint created by the right
+	 * @return True if the last point gathered by the interaction is a point created by the right
 	 * click that ends the interaction. This method is useful to make the difference between
 	 * points created using left clicks and the last one created using a right click.
 	 */
