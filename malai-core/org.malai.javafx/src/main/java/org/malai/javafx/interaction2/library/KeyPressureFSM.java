@@ -10,27 +10,5 @@
  */
 package org.malai.javafx.interaction2.library;
 
-import javafx.event.Event;
-import javafx.scene.input.MouseEvent;
-
-public class Press extends PointInteraction<PressFSM, Event> {
-	private final PressFSM.PressFSMHandler handler;
-
-	public Press() {
-		super(new PressFSM());
-
-		handler = new PressFSM.PressFSMHandler() {
-			@Override
-			public void initToPress(final MouseEvent event) {
-				setPointData(event);
-			}
-
-			@Override
-			public void reinitData() {
-				Press.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
-	}
+public class KeyPressureFSM {
 }
