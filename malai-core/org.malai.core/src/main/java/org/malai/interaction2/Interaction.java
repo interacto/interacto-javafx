@@ -69,7 +69,7 @@ public abstract class Interaction<E, F extends FSM<E>> {
 		}
 	}
 
-	public FSM<E> getFsm() {
+	public F getFsm() {
 		return fsm;
 	}
 
