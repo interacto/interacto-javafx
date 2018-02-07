@@ -36,7 +36,16 @@ public class TestClick extends BaseJfXInteractionTest<Click> {
 	}
 
 	@Test
-	void testClickOnWidget() {
+	void testClickOnRegWidget() throws CancelFSMException {
+		Pane pane = new Pane();
+		interaction.registerToNodes(Collections.singletonList(pane));
+		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE));
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
+	}
+
+	@Test
+	void testClickOnWidgetData() {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
