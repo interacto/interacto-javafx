@@ -97,8 +97,8 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			false, false, false);
 	}
 
-	static KeyEvent createKeyReleaseEvent(final String str, final KeyCode code) {
-		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_RELEASED, str, str, code, false,
+	static KeyEvent createKeyTypedEvent(final String str, final KeyCode code) {
+		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_TYPED, str, str, code, false,
 			false, false, false);
 	}
 

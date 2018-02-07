@@ -38,7 +38,7 @@ public abstract class KeyInteraction<F extends FSM<Event>, T> extends JfxInterac
 
 	protected void setKeyData(final KeyEvent event) {
 		object = event.getSource();
-		key = event.getText();
+		key = KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter();
 		keyCode = event.getCode();
 	}
 
