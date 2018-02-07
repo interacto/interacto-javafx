@@ -10,5 +10,37 @@
  */
 package org.malai.javafx.interaction2.library;
 
-public class KeyPressureFSM {
+import javafx.event.Event;
+import javafx.scene.input.KeyEvent;
+import org.malai.fsm.TerminalState;
+import org.malai.javafx.interaction2.FSMDataHandler;
+import org.malai.javafx.interaction2.JfxFSM;
+import org.malai.javafx.interaction2.KeyPressureTransition;
+
+public class KeyPressureFSM extends JfxFSM<KeyPressureFSM.KeyPressureFSMHandler> {
+	public KeyPressureFSM() {
+		super();
+	}
+
+	@Override
+	protected void buildFSM(final KeyPressureFSMHandler dataHandler) {
+		if(states.size() > 1) {
+			return;
+		}
+		super.buildFSM(dataHandler);
+		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
+		addState(pressed);
+		new KeyPressureTransition(initState, pressed) {
+			@Override
+			protected void action(final Event event) {
+				if(dataHandler != null && event instanceof KeyEvent) {
+					dataHandler.onKeyPressure((KeyEvent) event);
+				}
+			}
+		};
+	}
+
+	interface KeyPressureFSMHandler extends FSMDataHandler {
+		void onKeyPressure(final KeyEvent event);
+	}
 }
