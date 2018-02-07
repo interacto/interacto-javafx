@@ -165,6 +165,9 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			node.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
 		}
+		if(eventType == KeyEvent.KEY_TYPED) {
+			node.removeEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
+		}
 	}
 
 	private void registerEventToNode(final EventType<?> eventType, final Node node) {
@@ -199,6 +202,9 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			node.addEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
 		}
+		if(eventType == KeyEvent.KEY_TYPED) {
+			node.addEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
+		}
 	}
 
 	private void unregisterEventToWindow(final EventType<?> eventType, final Window window) {
@@ -228,6 +234,9 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 		}
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			window.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
+		}
+		if(eventType == KeyEvent.KEY_TYPED) {
+			window.removeEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
 		}
 	}
 
@@ -262,6 +271,9 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 		}
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			window.addEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
+		}
+		if(eventType == KeyEvent.KEY_TYPED) {
+			window.addEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
 		}
 	}
 
