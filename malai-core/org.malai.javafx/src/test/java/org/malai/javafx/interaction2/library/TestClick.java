@@ -24,7 +24,7 @@ public class TestClick extends BaseJfXInteractionTest<Click> {
 
 	@Test
 	void testClickData() {
-		interaction.getFsm().setHandler(new InteractionHandlerStub() {
+		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
 				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
@@ -39,7 +39,7 @@ public class TestClick extends BaseJfXInteractionTest<Click> {
 	void testClickOnWidget() {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
-		interaction.getFsm().setHandler(new InteractionHandlerStub() {
+		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
 				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);

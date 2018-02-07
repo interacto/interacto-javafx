@@ -19,11 +19,11 @@ import org.malai.fsm.StdState;
 import org.malai.fsm.SubFSMTransition;
 import org.malai.fsm.TerminalState;
 import org.malai.fsm.TimeoutTransition;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.MoveTransition;
 
-public class DoubleClickFSM extends JfxFSM<FSMHandler> {
+public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 	/** The time gap between the two spinner events. */
 	private static long timeGap = 300;
 	/** The supplier that provides the time gap. */
@@ -47,18 +47,20 @@ public class DoubleClickFSM extends JfxFSM<FSMHandler> {
 	}
 
 	protected final ClickFSM firstClickFSM;
-	protected MouseButton checkButton;
+	private final ClickFSM sndClick;
+	private MouseButton checkButton;
 
 	public DoubleClickFSM() {
 		super();
 		firstClickFSM = new ClickFSM();
+		sndClick = new ClickFSM();
 	}
 
 	@Override
-	protected void buildFSM(final FSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final FSMDataHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		firstClickFSM.buildFSM(null);
-		final ClickFSM sndClick = new ClickFSM();
 		sndClick.buildFSM(null);
 		final TerminalState<Event> dbleclicked = new TerminalState<>(this, "dbleclicked");
 		final CancellingState<Event> cancelled = new CancellingState<>(this, "cancelled");
@@ -71,8 +73,7 @@ public class DoubleClickFSM extends JfxFSM<FSMHandler> {
 		new SubFSMTransition<Event>(initState, clicked, firstClickFSM) {
 			@Override
 			protected void action(final Event event) {
-				checkButton = firstClickFSM.checkButton;
-				sndClick.checkButton = checkButton;
+				setCheckButton(firstClickFSM.getCheckButton());
 			}
 		};
 		new MoveTransition(clicked, cancelled) {
@@ -83,6 +84,17 @@ public class DoubleClickFSM extends JfxFSM<FSMHandler> {
 		};
 		new TimeoutTransition<>(clicked, cancelled, SUPPLY_TIME_GAP);
 		new SubFSMTransition<>(clicked, dbleclicked, sndClick);
+	}
+
+	protected void setCheckButton(final MouseButton buttonToCheck) {
+		if(checkButton == null) {
+			checkButton = buttonToCheck;
+		}
+		sndClick.setCheckButton(buttonToCheck);
+	}
+
+	protected MouseButton getCheckButton() {
+		return checkButton;
 	}
 
 	@Override

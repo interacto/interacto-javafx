@@ -6,9 +6,11 @@ import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.malai.fsm.CancelFSMException;
+import org.malai.javafx.interaction2.JfxFSM;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
@@ -32,7 +34,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 
 	@Test
 	void testDbleClickData() {
-		interaction.getFsm().setHandler(new InteractionHandlerStub() {
+		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
 				assertEquals(11, interaction.getClickData().getSrcLocalPoint().getX(), 0.0001d);
@@ -45,10 +47,20 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	}
 
 	@Test
+	void testDataHandlerNotNull() {
+		assertNotNull(((JfxFSM<?>) interaction.getFsm()).getDataHandler());
+	}
+
+	@Test
+	void testSubDataHandlerNotNull() {
+		assertNotNull(((JfxFSM<?>)((Click) interaction.getClickData()).getFsm()).getDataHandler());
+	}
+
+	@Test
 	void testDbleClickOnWidget() {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
-		interaction.getFsm().setHandler(new InteractionHandlerStub() {
+		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
 				assertEquals(11, interaction.getClickData().getSrcLocalPoint().getX(), 0.0001d);

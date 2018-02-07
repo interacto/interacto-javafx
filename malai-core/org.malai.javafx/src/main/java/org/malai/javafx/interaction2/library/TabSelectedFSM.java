@@ -12,7 +12,7 @@ package org.malai.javafx.interaction2.library;
 
 import javafx.event.Event;
 import org.malai.fsm.TerminalState;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.JfxTabSelectedTransition;
 
@@ -22,21 +22,22 @@ public class TabSelectedFSM extends JfxFSM<TabSelectedFSM.TabSelectedFSMHandler>
 	}
 
 	@Override
-	protected void buildFSM(final TabSelectedFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final TabSelectedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> selected = new TerminalState<>(this, "selected");
 		addState(selected);
 		new JfxTabSelectedTransition(initState, selected) {
 			@Override
 			public void action(final Event event) {
-				if(handler != null && event instanceof TabEvent) {
-					handler.initToSelectedHandler((TabEvent) event);
+				if(dataHandler != null && event instanceof TabEvent) {
+					dataHandler.initToSelectedHandler((TabEvent) event);
 				}
 			}
 		};
 	}
 
-	interface TabSelectedFSMHandler extends FSMHandler {
+	interface TabSelectedFSMHandler extends FSMDataHandler {
 		void initToSelectedHandler(TabEvent event);
 	}
 }

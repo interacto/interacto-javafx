@@ -1,5 +1,5 @@
 package org.malai.javafx.interaction2;
 
-public interface FSMHandler {
+public interface FSMDataHandler {
 	void reinitData();
 }

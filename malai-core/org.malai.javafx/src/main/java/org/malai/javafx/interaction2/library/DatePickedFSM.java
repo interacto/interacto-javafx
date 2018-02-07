@@ -13,7 +13,7 @@ package org.malai.javafx.interaction2.library;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import org.malai.fsm.TerminalState;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxDatePickedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
@@ -23,21 +23,22 @@ public class DatePickedFSM extends JfxFSM<DatePickedFSM.DatePickedFSMHandler> {
 	}
 
 	@Override
-	protected void buildFSM(final DatePickedFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final DatePickedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> picked = new TerminalState<>(this, "picked");
 		addState(picked);
 		new JfxDatePickedTransition(initState, picked) {
 			@Override
 			public void action(final Event event) {
-				if(handler != null && event instanceof ActionEvent) {
-					handler.initToPickedHandler((ActionEvent) event);
+				if(dataHandler != null && event instanceof ActionEvent) {
+					dataHandler.initToPickedHandler((ActionEvent) event);
 				}
 			}
 		};
 	}
 
-	interface DatePickedFSMHandler extends FSMHandler {
+	interface DatePickedFSMHandler extends FSMDataHandler {
 		void initToPickedHandler(ActionEvent event);
 	}
 }

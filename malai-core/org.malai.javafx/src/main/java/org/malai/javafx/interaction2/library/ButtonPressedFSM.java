@@ -13,7 +13,7 @@ package org.malai.javafx.interaction2.library;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import org.malai.fsm.TerminalState;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxButtonPressedTransition;
 import org.malai.javafx.interaction2.JfxFSM;
 
@@ -23,21 +23,22 @@ public class ButtonPressedFSM extends JfxFSM<ButtonPressedFSM.ButtonPressedFSMHa
 	}
 
 	@Override
-	protected void buildFSM(final ButtonPressedFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final ButtonPressedFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
 		addState(pressed);
 		new JfxButtonPressedTransition(initState, pressed) {
 			@Override
 			public void action(final Event event) {
-				if(handler != null && event instanceof ActionEvent) {
-					handler.initToPressedHandler((ActionEvent) event);
+				if(dataHandler != null && event instanceof ActionEvent) {
+					dataHandler.initToPressedHandler((ActionEvent) event);
 				}
 			}
 		};
 	}
 
-	interface ButtonPressedFSMHandler extends FSMHandler {
+	interface ButtonPressedFSMHandler extends FSMDataHandler {
 		void initToPressedHandler(ActionEvent event);
 	}
 }

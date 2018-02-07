@@ -13,7 +13,7 @@ package org.malai.javafx.interaction2.library;
 import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
 import org.malai.fsm.TerminalState;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.PressureTransition;
 
@@ -23,21 +23,22 @@ public class PressFSM extends JfxFSM<PressFSM.PressFSMHandler> {
 	}
 
 	@Override
-	protected void buildFSM(final PressFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final PressFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
 		addState(pressed);
 		new PressureTransition(initState, pressed) {
 			@Override
 			protected void action(final Event event) {
-				if(handler != null && event instanceof MouseEvent) {
-					handler.initToPress((MouseEvent) event);
+				if(dataHandler != null && event instanceof MouseEvent) {
+					dataHandler.initToPress((MouseEvent) event);
 				}
 			}
 		};
 	}
 
-	interface PressFSMHandler extends FSMHandler {
+	interface PressFSMHandler extends FSMDataHandler {
 		void initToPress(final MouseEvent event);
 	}
 }

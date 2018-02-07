@@ -11,34 +11,34 @@
 package org.malai.javafx.interaction2.library;
 
 import javafx.event.Event;
-import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import org.malai.fsm.TerminalState;
 import org.malai.javafx.interaction2.ClickTransition;
-import org.malai.javafx.interaction2.FSMHandler;
+import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 
 public class ClickFSM extends JfxFSM<ClickFSM.ClickFSMHandler> {
-	protected MouseButton checkButton;
+	private MouseButton checkButton;
 
 	public ClickFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final ClickFSM.ClickFSMHandler handler) {
-		super.buildFSM(handler);
+	protected void buildFSM(final ClickFSM.ClickFSMHandler dataHandler) {
+		if(states.size() > 1) return;
+		super.buildFSM(dataHandler);
 		final TerminalState<Event> clicked = new TerminalState<>(this, "clicked");
 		addState(clicked);
 		new ClickTransition(initState, clicked) {
 			@Override
 			public void action(final Event event) {
 				if(event instanceof MouseEvent) {
-					checkButton = ((MouseEvent) event).getButton();
+					setCheckButton(((MouseEvent) event).getButton());
 
-					if(handler != null) {
-						handler.initToClicked((MouseEvent) event);
+					if(dataHandler != null) {
+						dataHandler.initToClicked((MouseEvent) event);
 					}
 				}
 			}
@@ -50,13 +50,23 @@ public class ClickFSM extends JfxFSM<ClickFSM.ClickFSMHandler> {
 		};
 	}
 
+	protected MouseButton getCheckButton() {
+		return checkButton;
+	}
+
+	protected void setCheckButton(final MouseButton buttonToCheck) {
+		if(checkButton == null) {
+			checkButton = buttonToCheck;
+		}
+	}
+
 	@Override
 	public void reinit() {
 		super.reinit();
 		checkButton = null;
 	}
 
-	interface ClickFSMHandler extends FSMHandler {
+	interface ClickFSMHandler extends FSMDataHandler {
 		void initToClicked(final MouseEvent event);
 	}
 }

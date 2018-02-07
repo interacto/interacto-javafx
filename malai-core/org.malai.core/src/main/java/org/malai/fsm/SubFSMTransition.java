@@ -31,7 +31,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 			@Override
 			public void fsmStops() throws CancelFSMException {
 				action(null);
-				subFSM.setHandler(null);
+				subFSM.removeHandler(subFSMHandler);
 				src.getFSM().currentSubFSM = null;
 				if(tgt instanceof TerminalState) {
 					tgt.enter();
@@ -49,7 +49,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 
 			@Override
 			public void fsmCancels() {
-				subFSM.setHandler(null);
+				subFSM.removeHandler(subFSMHandler);
 				src.getFSM().currentSubFSM = null;
 				src.getFSM().onCancelling();
 			}
@@ -62,7 +62,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 			src.getFSM().stopCurrentTimeout();
 			final Optional<Transition<E>> transition = findTransition(event);
 			src.exit();
-			subFSM.setHandler(subFSMHandler);
+			subFSM.addHandler(subFSMHandler);
 			src.getFSM().currentSubFSM = subFSM;
 			subFSM.process(event);
 			return Optional.of(transition.get().tgt);
