@@ -122,8 +122,8 @@ public abstract class JfxInteractionImpl extends InteractionImpl implements JfxI
 			eventsToAdd.forEach(type -> registerEventToWindow(type, w));
 		});
 		additionalNodes.forEach(nodes -> nodes.forEach(n -> {
-			eventsToRemove.forEach(type -> unregisterEventToNode(type, (Node) n));
-			eventsToAdd.forEach(type -> registerEventToNode(type, (Node) n));
+			eventsToRemove.forEach(type -> unregisterEventToNode(type, n));
+			eventsToAdd.forEach(type -> registerEventToNode(type, n));
 		}));
 	}
 

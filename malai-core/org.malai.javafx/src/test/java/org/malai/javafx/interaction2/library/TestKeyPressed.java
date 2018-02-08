@@ -9,10 +9,10 @@ import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestKeyPressure extends BaseJfXInteractionTest<KeyPressure> {
+public class TestKeyPressed extends BaseJfXInteractionTest<KeyPressed> {
 	@Override
-	KeyPressure createInteraction() {
-		return new KeyPressure();
+	KeyPressed createInteraction() {
+		return new KeyPressed();
 	}
 
 	@Test

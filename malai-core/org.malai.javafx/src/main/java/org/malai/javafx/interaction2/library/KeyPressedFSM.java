@@ -17,13 +17,13 @@ import org.malai.javafx.interaction2.FSMDataHandler;
 import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.KeyPressureTransition;
 
-public class KeyPressureFSM extends JfxFSM<KeyPressureFSM.KeyPressureFSMHandler> {
-	public KeyPressureFSM() {
+public class KeyPressedFSM extends JfxFSM<KeyPressedFSM.KeyPressedFSMHandler> {
+	public KeyPressedFSM() {
 		super();
 	}
 
 	@Override
-	protected void buildFSM(final KeyPressureFSMHandler dataHandler) {
+	protected void buildFSM(final KeyPressedFSMHandler dataHandler) {
 		if(states.size() > 1) {
 			return;
 		}
@@ -40,7 +40,7 @@ public class KeyPressureFSM extends JfxFSM<KeyPressureFSM.KeyPressureFSMHandler>
 		};
 	}
 
-	interface KeyPressureFSMHandler extends FSMDataHandler {
+	interface KeyPressedFSMHandler extends FSMDataHandler {
 		void onKeyPressure(final KeyEvent event);
 	}
 }

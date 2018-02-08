@@ -57,15 +57,14 @@ public class FSM<E> {
 		this.inner = inner;
 	}
 
-	public void process(final E event) {
+	public boolean process(final E event) {
 		if(event == null) {
-			return;
+			return false;
 		}
 		if(currentSubFSM != null) {
-			currentSubFSM.process(event);
-		}else {
-			currentState.process(event);
+			return currentSubFSM.process(event);
 		}
+		return currentState.process(event);
 	}
 
 	protected void enterStdState(final StdState<E> state) throws CancelFSMException {

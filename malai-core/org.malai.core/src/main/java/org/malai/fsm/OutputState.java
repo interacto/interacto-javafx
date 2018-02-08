@@ -19,16 +19,17 @@ public interface OutputState<E> extends State<E> {
 	 * Asks to the state to process of the given event.
 	 * @param event The event to process. Can be null.
 	 */
-	default void process(final E event) {
+	default boolean process(final E event) {
 		for(final Transition<E> tr : getTransitions()) {
 			try {
 				if(tr.execute(event).isPresent()) {
-					return;
+					return true;
 				}
 			}catch(final CancelFSMException ignored) {
 				// Already processed
 			}
 		}
+		return false;
 	}
 
 	List<Transition<E>> getTransitions();
