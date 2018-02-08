@@ -14,7 +14,7 @@ import javafx.event.Event;
 import javafx.scene.input.ScrollEvent;
 import org.malai.javafx.interaction2.JfxInteraction;
 
-public class Scroll extends JfxInteraction<ScrollFSM, Event> {
+public class Scroll extends JfxInteraction<ScrollFSM, Event> implements ScrollData {
 	private final ScrollFSM.ScrollFSMHandler handler;
 
 	/** The scrolled node. */
@@ -30,7 +30,11 @@ public class Scroll extends JfxInteraction<ScrollFSM, Event> {
 	protected double increment;
 
 	public Scroll() {
-		super(new ScrollFSM());
+		this(new ScrollFSM());
+	}
+
+	protected Scroll(final ScrollFSM fsm) {
+		super(fsm);
 
 		handler = new ScrollFSM.ScrollFSMHandler() {
 			@Override
@@ -50,30 +54,22 @@ public class Scroll extends JfxInteraction<ScrollFSM, Event> {
 		fsm.buildFSM(handler);
 	}
 
-	/**
-	 * @return The object on which the scroll is performed.
-	 */
+	@Override
 	public Object getScrolledNode() {
 		return scrolledNode;
 	}
 
-	/**
-	 * @return The X-coordinate of the scroll position.
-	 */
+	@Override
 	public double getPx() {
 		return px;
 	}
 
-	/**
-	 * @return The Y-coordinate of the scroll position.
-	 */
+	@Override
 	public double getPy() {
 		return py;
 	}
 
-	/**
-	 * @return The total increment of the scrolling.
-	 */
+	@Override
 	public double getIncrement() {
 		return increment;
 	}

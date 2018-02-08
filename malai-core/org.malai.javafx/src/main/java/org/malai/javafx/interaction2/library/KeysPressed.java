@@ -21,7 +21,7 @@ public class KeysPressed extends MultiKeyInteraction<KeysPressedFSM> {
 		handler = new KeysPressedFSM.KeysPressedFSMHandler() {
 			@Override
 			public void onKeyPressed(final KeyEvent event) {
-				setKeysData(event);
+				addKeysData(event);
 			}
 
 			@Override

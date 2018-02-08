@@ -12,24 +12,41 @@ package org.malai.javafx.interaction2.library;
 
 import javafx.scene.input.KeyEvent;
 
-public class KeysTyped extends MultiKeyInteraction<KeysTypedFSM> {
-	private final KeysTypedFSM.KeysTypedFSMHandler handler;
+public class KeysScroll extends MultiKeyInteraction<KeysScrollFSM> {
+	private final Scroll scroll;
+	private final KeysScrollFSM.KeysScrollFSMHandler handler;
 
-	public KeysTyped() {
-		super(new KeysTypedFSM());
+	public KeysScroll() {
+		super(new KeysScrollFSM());
+		scroll = new Scroll(fsm.scrollFSM);
 
-		handler = new KeysTypedFSM.KeysTypedFSMHandler() {
+		handler = new KeysScrollFSM.KeysScrollFSMHandler() {
 			@Override
-			public void onKeyTyped(final KeyEvent event) {
+			public void reinitData() {
+				KeysScroll.this.reinitData();
+			}
+
+			@Override
+			public void onKeyPressed(final KeyEvent event) {
 				addKeysData(event);
 			}
 
 			@Override
-			public void reinitData() {
-				KeysTyped.this.reinitData();
+			public void onKeyReleased(final KeyEvent event) {
+				removeKeysData(event);
 			}
 		};
 
 		fsm.buildFSM(handler);
+	}
+
+	@Override
+	public void reinitData() {
+		super.reinitData();
+		scroll.reinitData();
+	}
+
+	public ScrollData getScrollData() {
+		return scroll;
 	}
 }

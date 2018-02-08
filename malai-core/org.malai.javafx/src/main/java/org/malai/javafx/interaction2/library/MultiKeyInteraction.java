@@ -51,8 +51,13 @@ public abstract class MultiKeyInteraction<F extends FSM<Event>> extends JfxInter
 		return keys;
 	}
 
-	protected void setKeysData(final KeyEvent event) {
+	protected void addKeysData(final KeyEvent event) {
 		keys.add(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
 		keyCodes.add(event.getCode());
+	}
+
+	protected void removeKeysData(final KeyEvent event) {
+		keys.remove(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
+		keyCodes.remove(event.getCode());
 	}
 }
