@@ -54,14 +54,6 @@ public class KeysTypedFSM extends JfxFSM<KeysTypedFSM.KeysTypedFSMHandler> {
 		new TimeoutTransition<>(pressed, ended, SUPPLY_TIME_GAP);
 	}
 
-	@Override
-	public void reinit() {
-		super.reinit();
-		if(eventsToProcess != null) {
-			eventsToProcess.clear();
-		}
-	}
-
 	class KeysTypedKeyTypedTransition extends KeyTypedTransition {
 		KeysTypedKeyTypedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 			super(srcState, tgtState);
