@@ -10,26 +10,24 @@
  */
 package org.malai.javafx.interaction2.library;
 
-import javafx.scene.input.KeyEvent;
+public interface ScrollData {
+	/**
+	 * @return The object on which the scroll is performed.
+	 */
+	Object getScrolledNode();
 
-public class KeysTyped extends MultiKeyInteraction<KeysTypedFSM> {
-	private final KeysTypedFSM.KeysTypedFSMHandler handler;
+	/**
+	 * @return The X-coordinate of the scroll position.
+	 */
+	double getPx();
 
-	public KeysTyped() {
-		super(new KeysTypedFSM());
+	/**
+	 * @return The Y-coordinate of the scroll position.
+	 */
+	double getPy();
 
-		handler = new KeysTypedFSM.KeysTypedFSMHandler() {
-			@Override
-			public void onKeyTyped(final KeyEvent event) {
-				addKeysData(event);
-			}
-
-			@Override
-			public void reinitData() {
-				KeysTyped.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
-	}
+	/**
+	 * @return The total increment of the scrolling.
+	 */
+	double getIncrement();
 }
