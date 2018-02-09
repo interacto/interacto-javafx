@@ -40,6 +40,14 @@ public class KeyPressedFSM extends JfxFSM<KeyPressedFSM.KeyPressedFSMHandler> {
 		};
 	}
 
+	@Override
+	public void reinit() {
+		super.reinit();
+		if(eventsToProcess != null) {
+			eventsToProcess.clear();
+		}
+	}
+
 	interface KeyPressedFSMHandler extends FSMDataHandler {
 		void onKeyPressure(final KeyEvent event);
 	}
