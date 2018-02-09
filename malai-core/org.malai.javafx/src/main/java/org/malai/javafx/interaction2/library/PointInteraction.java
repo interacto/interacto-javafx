@@ -117,14 +117,18 @@ public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInter
 		return srcObject;
 	}
 
+	protected void setModifiersData(final MouseEvent event) {
+		altPressed = event.isAltDown();
+		shiftPressed = event.isShiftDown();
+		ctrlPressed = event.isControlDown();
+		metaPressed = event.isMetaDown();
+	}
+
 	protected void setPointData(final MouseEvent event) {
 		srcLocalPoint.set(new Point3D(event.getX(), event.getY(), event.getZ()));
 		srcScenePoint.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
 		button = event.getButton();
 		srcObject.set(event.getPickResult().getIntersectedNode());
-		altPressed = event.isAltDown();
-		shiftPressed = event.isShiftDown();
-		ctrlPressed = event.isControlDown();
-		metaPressed = event.isMetaDown();
+		setModifiersData(event);
 	}
 }
