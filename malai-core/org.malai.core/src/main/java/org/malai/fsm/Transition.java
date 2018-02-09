@@ -33,8 +33,8 @@ public abstract class Transition<E> {
 	public Optional<InputState<E>> execute(final E event) throws CancelFSMException {
 		if(accept(event) && isGuardOK(event)) {
 			src.getFSM().stopCurrentTimeout();
-			src.exit();
 			action(event);
+			src.exit();
 			tgt.enter();
 			return Optional.of(tgt);
 		}
