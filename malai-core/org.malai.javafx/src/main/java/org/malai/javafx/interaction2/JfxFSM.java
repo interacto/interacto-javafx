@@ -37,7 +37,7 @@ public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 	@Override
 	public boolean process(final Event event) {
 		// Removing the possible corresponding and pending key pressed event
-		if(event.getEventType() == KeyEvent.KEY_RELEASED && event instanceof KeyEvent) {
+		if(event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_RELEASED) {
 			removeKeyEvent(((KeyEvent) event).getCode());
 		}
 
@@ -45,7 +45,7 @@ public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 		final boolean processed = super.process(event);
 
 		// Recycling events
-		if(processed && event.getEventType() == KeyEvent.KEY_PRESSED && !(currentState instanceof InitState) && event instanceof KeyEvent &&
+		if(processed && event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_PRESSED && !(currentState instanceof InitState) &&
 			(eventsToProcess == null || eventsToProcess.stream().noneMatch(evt -> ((KeyEvent) evt).getCode() == ((KeyEvent) event).getCode()))) {
 			addRemaningEventsToProcess(event);
 		}
