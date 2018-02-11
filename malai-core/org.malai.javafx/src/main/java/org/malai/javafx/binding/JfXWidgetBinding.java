@@ -31,15 +31,15 @@ import org.malai.action.ActionImpl;
 import org.malai.binding.WidgetBindingImpl;
 import org.malai.error.ErrorCatcher;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.help.HelpAnimationPlayer;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
  * Base of a widget binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends WidgetBindingImpl<A, I, N> {
+public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends WidgetBindingImpl<A, I, N> {
 	/** The executor service used to execute action async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;
 

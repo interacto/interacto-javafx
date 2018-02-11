@@ -37,7 +37,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * Base of an instrument for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction, ? extends JfxInstrument>> {
+public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction<?, ?>, ? extends JfxInstrument>> {
 	protected final BooleanProperty activatedProp;
 
 	/**
@@ -82,7 +82,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <W extends Node, I extends JfxInteraction> AnonActionBinder<W, I> anonActionBinder(final Runnable action, final I interaction) {
+	protected <W extends Node, I extends JfxInteraction<?, ?>> AnonActionBinder<W, I> anonActionBinder(final Runnable action, final I interaction) {
 		return new AnonActionBinder<>(action, interaction, this);
 	}
 
@@ -229,7 +229,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl, I extends JfxInteraction> WindowBinder<A, I> windowBinder(final Class<A> action, final I interaction) {
+	protected <A extends ActionImpl, I extends JfxInteraction<?, ?>> WindowBinder<A, I> windowBinder(final Class<A> action, final I interaction) {
 		return new WindowBinder<>(action, interaction, this);
 	}
 
@@ -244,7 +244,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl, I extends JfxInteraction> NodeBinder<A, I> nodeBinder(final Class<A> action, final I interaction) {
+	protected <A extends ActionImpl, I extends JfxInteraction<?, ?>> NodeBinder<A, I> nodeBinder(final Class<A> action, final I interaction) {
 		return new NodeBinder<>(action, interaction, this);
 	}
 }

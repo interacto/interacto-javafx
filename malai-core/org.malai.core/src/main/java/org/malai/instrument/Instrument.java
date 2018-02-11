@@ -13,8 +13,8 @@ package org.malai.instrument;
 import java.util.List;
 import org.malai.action.ActionHandler;
 import org.malai.binding.WidgetBinding;
-import org.malai.properties.Preferenciable;
 import org.malai.properties.Modifiable;
+import org.malai.properties.Preferenciable;
 import org.malai.properties.Reinitialisable;
 
 /**

@@ -19,9 +19,9 @@ import org.malai.action.ActionImpl;
 import org.malai.action.ActionsRegistry;
 import org.malai.action.AutoUnbind;
 import org.malai.error.ErrorCatcher;
+import org.malai.fsm.CancelFSMException;
 import org.malai.instrument.Instrument;
-import org.malai.interaction.Interaction;
-import org.malai.stateMachine.MustCancelStateMachineException;
+import org.malai.interaction2.Interaction;
 import org.malai.undo.Undoable;
 
 /**
@@ -31,7 +31,7 @@ import org.malai.undo.Undoable;
  * @param <N> The type of the instrument that will contain this widget binding.
  * @author Arnaud BLOUIN
  */
-public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interaction, N extends Instrument<?>> implements WidgetBinding {
+public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interaction<?, ?>, N extends Instrument<?>> implements WidgetBinding {
 	protected Logger loggerBinding;
 
 	protected Logger loggerAction;
@@ -63,11 +63,9 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	 * @param actionClass The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> actionClass, final I interaction) throws InstantiationException, IllegalAccessException {
+	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> actionClass, final I interaction) {
 		super();
 
 		if(ins == null || actionClass == null || interaction == null) {
@@ -79,7 +77,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		action = null;
 		instrument = ins;
 		execute = exec;
-		this.interaction.addHandler(this);
+		this.interaction.getFsm().addHandler(this);
 		setActivated(ins.isActivated());
 		async = false;
 	}
@@ -126,7 +124,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 	@Override
 	public void clearEvents() {
-		interaction.clearEvents();
+		interaction.fullReinit();
 	}
 
 
@@ -218,7 +216,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	}
 
 	@Override
-	public void interactionCancels() {
+	public void fsmCancels() {
 		if(action != null) {
 			if(loggerBinding != null) {
 				loggerBinding.log(Level.INFO, "Binding cancelled");
@@ -233,7 +231,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 			// The instrument is notified about the cancel of the action.
 			instrument.onActionCancelled(action);
 
-			if(isExecute()) {
+			if(isExecute() && action.hadEffect()) {
 				if(action instanceof Undoable) {
 					((Undoable) action).undo();
 					if(loggerAction != null) {
@@ -251,7 +249,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public void interactionStarts() throws MustCancelStateMachineException {
+	public void fsmStarts() throws CancelFSMException {
 		final boolean ok = action == null && isActivated() && when();
 
 		if(loggerBinding != null) {
@@ -270,14 +268,14 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 				if(loggerBinding != null) {
 					loggerBinding.log(Level.INFO, "Cancelling starting interaction: " + interaction);
 				}
-				throw new MustCancelStateMachineException();
+				throw new CancelFSMException();
 			}
 		}
 	}
 
 
 	@Override
-	public void interactionStops() {
+	public void fsmStops() {
 		final boolean ok = when();
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Binding stops with condition: " + ok);
@@ -356,7 +354,7 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public void interactionUpdates() {
+	public void fsmUpdates() {
 		final boolean ok = when();
 
 		if(loggerBinding != null) {

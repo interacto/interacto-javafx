@@ -13,7 +13,7 @@ package org.malai.javafx.binding;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.library.KeysPressure;
+import org.malai.javafx.interaction.library.KeysPressed;
 
 /**
  * The binding builder to create bindings between a key interaction (eg shorcuts) on a window and a given action.
@@ -26,8 +26,8 @@ public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A, 
 	}
 
 	@Override
-	public JfXWidgetBinding<A, KeysPressure, ?> bind() throws IllegalAccessException, InstantiationException {
-		final JFxAnonNodeBinding<A, KeysPressure, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction, widgets,
+	public JfXWidgetBinding<A, KeysPressed, ?> bind() throws IllegalAccessException, InstantiationException {
+		final JFxAnonNodeBinding<A, KeysPressed, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction, widgets,
 			initAction, null, checkCode, onEnd, actionProducer, null, null, null, async, false, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);

@@ -11,15 +11,15 @@
 package org.malai.binding;
 
 import org.malai.action.Action;
+import org.malai.fsm.FSMHandler;
 import org.malai.instrument.Instrument;
-import org.malai.interaction.Interaction;
-import org.malai.interaction.InteractionHandler;
+import org.malai.interaction2.Interaction;
 
 /**
  * The concept of widget binding and its related services.
  * @author Arnaud BLOUIN
  */
-public interface WidgetBinding extends InteractionHandler {
+public interface WidgetBinding extends FSMHandler {
 	/**
 	 * Stops the interaction and clears all its events waiting for a process.
 	 */
@@ -43,7 +43,7 @@ public interface WidgetBinding extends InteractionHandler {
 	/**
 	 * @return The interaction.
 	 */
-	Interaction getInteraction();
+	Interaction<?, ?> getInteraction();
 
 	/**
 	 * @return The action in progress or null.
@@ -54,6 +54,12 @@ public interface WidgetBinding extends InteractionHandler {
 	 * @return True if the widget binding is activated.
 	 */
 	boolean isActivated();
+
+	/**
+	 * Activates the widget binding.
+	 * @param activ True: the widget binding is activated. Otherwise, it is desactivated.
+	 */
+	void setActivated(final boolean activ);
 
 	/**
 	 * @return True: if the widget binding is currently used.
@@ -75,12 +81,6 @@ public interface WidgetBinding extends InteractionHandler {
 	 * feedback of its instrument should be define too.
 	 */
 	void feedback();
-
-	/**
-	 * Activates the widget binding.
-	 * @param activ True: the widget binding is activated. Otherwise, it is desactivated.
-	 */
-	void setActivated(final boolean activ);
 
 	/**
 	 * @return The instrument that contains the widget binding.

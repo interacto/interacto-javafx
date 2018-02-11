@@ -10,28 +10,34 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
 import javafx.scene.input.ScrollEvent;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
  * A scroll event transition.
  * @author Arnaud Blouin
  */
 public class ScrollTransition extends InputEventTransition<ScrollEvent> {
-	/**
-	 * Creates the transition.
-	 * @param inputState The source state of the transition.
-	 * @param outputState The srcObject state of the transition.
-	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
-	 */
-	public ScrollTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public ScrollTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public EventType<ScrollEvent> getEventType() {
-		return ScrollEvent.SCROLL;
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == ScrollEvent.SCROLL;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(ScrollEvent.SCROLL);
 	}
 }

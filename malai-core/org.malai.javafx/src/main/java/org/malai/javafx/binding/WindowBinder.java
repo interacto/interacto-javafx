@@ -20,7 +20,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class WindowBinder<A extends ActionImpl, I extends JfxInteraction> extends UpdateBinder<Window, A, I, WindowBinder<A, I>> {
+public class WindowBinder<A extends ActionImpl, I extends JfxInteraction<?, ?>> extends UpdateBinder<Window, A, I, WindowBinder<A, I>> {
 	public WindowBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
 	}

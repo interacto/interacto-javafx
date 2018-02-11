@@ -10,16 +10,17 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.Event;
 import javafx.scene.control.MenuItem;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
- * A transition based on the onAction event of menu items.
+ * An FSM transition for menu items.
  * @author Arnaud BLOUIN
  */
-public class JfxMenuItemPressedTransition extends JFXWidgetTransition<MenuItem> {
-	public JfxMenuItemPressedTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+public class JfxMenuItemPressedTransition extends JfxWidgetTransition<MenuItem> {
+	public JfxMenuItemPressedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 }

@@ -22,8 +22,8 @@ import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
+import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.logging.LogLevel;
 
 /**
@@ -31,7 +31,7 @@ import org.malai.logging.LogLevel;
  * The goal is to avoid the creation of a specific class when the binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
+public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
 	private final BiConsumer<A, I> execInitAction;
 	private final BiConsumer<A, I> execUpdateAction;
 	private final Predicate<I> checkInteraction;
@@ -170,14 +170,14 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	@Override
-	public void interactionCancels() {
+	public void fsmCancels() {
 		if(endOrCancelFct != null && currentAction != null) {
 			endOrCancelFct.accept(action, interaction);
 		}
 		if(cancelFct != null && currentAction != null) {
 			cancelFct.accept(action, interaction);
 		}
-		super.interactionCancels();
+		super.fsmCancels();
 		currentAction = null;
 	}
 
@@ -192,8 +192,8 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction, 
 	}
 
 	@Override
-	public void interactionStops() {
-		super.interactionStops();
+	public void fsmStops() {
+		super.fsmStops();
 		if(endOrCancelFct != null && currentAction != null) {
 			endOrCancelFct.accept(currentAction, getInteraction());
 		}

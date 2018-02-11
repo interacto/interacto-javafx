@@ -11,55 +11,51 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxComboBoxUsedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * A ButtonPressed interaction occurs when a combo box is used.
+ * A user interaction for combo boxes.
  * @author Arnaud BLOUIN
  */
-public class ComboBoxSelected extends NodeInteraction<ComboBox<?>> {
-	private final EventHandler<ActionEvent> event;
+public class ComboBoxSelected extends JfxInteraction<ComboBoxSelectedFSM, ComboBox<?>> {
+	private final ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public ComboBoxSelected() {
-		super();
-		initStateMachine();
-		event = evt -> onJfxComboBoxSelected((ComboBox<?>) evt.getSource());
-	}
+		super(new ComboBoxSelectedFSM());
 
-
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed");
-
-		addState(pressed);
-
-		new JfxComboBoxUsedTransition(initState, pressed) {
+		handler = new ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler() {
 			@Override
-			public void action() {
-				super.action();
-				ComboBoxSelected.this.widget = this.widget;
+			public void initToSelectedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof ComboBox<?>) {
+					widget = (ComboBox<?>) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ComboBoxSelected.this.reinitData();
 			}
 		};
-	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		if(node instanceof ComboBox<?>) {
-			node.removeEventHandler(ActionEvent.ACTION, event);
-		}
+		fsm.buildFSM(handler);
 	}
 
 	@Override
 	protected void onNewNodeRegistered(final Node node) {
 		if(node instanceof ComboBox<?>) {
-			node.addEventHandler(ActionEvent.ACTION, event);
+			registerActionHandler(node);
+		}
+	}
+
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof ComboBox<?>) {
+			unregisterActionHandler(node);
 		}
 	}
 }

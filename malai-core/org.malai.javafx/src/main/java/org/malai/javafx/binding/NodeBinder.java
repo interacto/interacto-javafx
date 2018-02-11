@@ -21,7 +21,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public class NodeBinder<A extends ActionImpl, I extends JfxInteraction> extends UpdateBinder<Node, A, I, NodeBinder<A, I>> {
+public class NodeBinder<A extends ActionImpl, I extends JfxInteraction<?, ?>> extends UpdateBinder<Node, A, I, NodeBinder<A, I>> {
 	public NodeBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
 		super(action, interaction, instrument);
 	}

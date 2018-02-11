@@ -23,7 +23,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInteraction, B extends UpdateBinder<W, A, I, B>> extends Binder<W, A, I, B> {
+public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInteraction<?, ?>, B extends UpdateBinder<W, A, I, B>> extends Binder<W, A, I, B> {
 	protected BiConsumer<A, I> updateFct;
 	protected BiConsumer<A, I> cancelFct;
 	protected BiConsumer<A, I> endOrCancelFct;

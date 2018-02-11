@@ -10,28 +10,37 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
- * This transition corresponds to a move of a button of a pointing device.
+ * This transition corresponds to a pressure of a button of a pointing device.
  * @author Arnaud BLOUIN
  */
 public class MoveTransition extends InputEventTransition<MouseEvent> {
 	/**
-	 * Defines a transition.
-	 * @param inputState The source state of the transition.
-	 * @param outputState The srcObject state of the transition.
-	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
+	 * Creates the transition.
 	 */
-	public MoveTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public MoveTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public EventType<MouseEvent> getEventType() {
-		return MouseEvent.MOUSE_MOVED;
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == MouseEvent.MOUSE_MOVED;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(MouseEvent.MOUSE_MOVED);
 	}
 }

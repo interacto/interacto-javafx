@@ -10,16 +10,17 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.Event;
 import javafx.scene.control.ToggleButton;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
- * A transition based on the onAction event of toggle buttons.
+ * An FSM transition for toggle buttons.
  * @author Arnaud BLOUIN
  */
-public class JfxToggleButtonPressedTransition extends JFXWidgetTransition<ToggleButton> {
-	public JfxToggleButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+public class JfxToggleButtonPressedTransition extends JfxWidgetTransition<ToggleButton> {
+	public JfxToggleButtonPressedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 }

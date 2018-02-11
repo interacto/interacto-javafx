@@ -10,26 +10,23 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.Event;
 import javafx.scene.input.KeyCode;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import javafx.scene.input.KeyEvent;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
  * This transition should be used to cancel an interaction using key ESCAPE.
  * @author Arnaud BLOUIN
  */
 public class EscapeKeyPressureTransition extends KeyPressureTransition {
-	/**
-	 * Creates the transition.
-	 * @param inputState The source state.
-	 * @param outputState The srcObject state.
-	 */
-	public EscapeKeyPressureTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public EscapeKeyPressureTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public boolean isGuardRespected() {
-		return event.getCode() == KeyCode.ESCAPE;
+	public boolean isGuardOK(final Event event) {
+		return event instanceof KeyEvent && ((KeyEvent) event).getCode() == KeyCode.ESCAPE;
 	}
 }

@@ -10,33 +10,30 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
+import javafx.stage.Window;
 import javafx.stage.WindowEvent;
-import org.malai.interaction.TransitionImpl;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
- * A transition dedicated to events related to closing windows.
+ * An FSM transition for windows to be closed.
  * @author Arnaud BLOUIN
  */
-public class JfxWindowClosedTransition extends TransitionImpl {
-	protected WindowEvent event;
-
-	public JfxWindowClosedTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+public class JfxWindowClosedTransition extends JfxWidgetTransition<Window> {
+	public JfxWindowClosedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public EventType<WindowEvent> getEventType() {
-		return WindowEvent.WINDOW_CLOSE_REQUEST;
+	protected boolean accept(final Event e) {
+		return e != null && e.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST;
 	}
 
-	public WindowEvent getEvent() {
-		return event;
-	}
-
-	public void setEvent(final WindowEvent evt) {
-		event = evt;
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(WindowEvent.WINDOW_CLOSE_REQUEST);
 	}
 }

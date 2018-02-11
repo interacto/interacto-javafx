@@ -10,26 +10,38 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
 import javafx.scene.input.KeyEvent;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 
 /**
  * A transition for a pressure of a key of a keyboard.
  * @author Arnaud BLOUIN
  */
-public class KeyPressureTransition extends KeyboardTransition {
+public class KeyPressureTransition extends InputEventTransition<KeyEvent> {
 	/**
 	 * Creates the transition.
 	 */
-	public KeyPressureTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public KeyPressureTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public EventType<KeyEvent> getEventType() {
-		return KeyEvent.KEY_PRESSED;
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == KeyEvent.KEY_PRESSED;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(KeyEvent.KEY_PRESSED);
 	}
 }

@@ -14,19 +14,15 @@ import java.util.Optional;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.Event;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
-import org.malai.javafx.interaction.JfxInteractionImpl;
-import org.malai.javafx.interaction.PressureTransition;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import javafx.scene.input.MouseEvent;
+import org.malai.fsm.FSM;
+import org.malai.javafx.interaction.JfxInteraction;
 
-/**
- * This abstract interaction defines an interaction used by pointing devices.
- * @author Arnaud BLOUIN
- */
-public abstract class PointInteraction extends JfxInteractionImpl {
+public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInteraction<F, T> implements PointInteractionData {
 	/** The pressed local position. */
 	protected final ObjectProperty<Point3D> srcLocalPoint;
 	/** The pressed scene position. */
@@ -46,19 +42,16 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 
 	protected boolean metaPressed;
 
-	/**
-	 * Creates the interaction.
-	 */
-	public PointInteraction() {
-		super();
+	public PointInteraction(final F fsm) {
+		super(fsm);
 		srcLocalPoint = new SimpleObjectProperty<>();
 		srcScenePoint = new SimpleObjectProperty<>();
 		srcObject = new SimpleObjectProperty<>();
 	}
 
 	@Override
-	public void reinit() {
-		super.reinit();
+	public void reinitData() {
+		super.reinitData();
 		srcLocalPoint.set(null);
 		srcScenePoint.set(null);
 		srcObject.set(null);
@@ -69,93 +62,73 @@ public abstract class PointInteraction extends JfxInteractionImpl {
 		metaPressed = false;
 	}
 
-	/**
-	 * @return True: the alt key is pressed.
-	 */
+	@Override
 	public boolean isAltPressed() {
 		return altPressed;
 	}
 
-	/**
-	 * @return True: the control key is pressed.
-	 */
-
+	@Override
 	public boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
 
-	/**
-	 * @return True: the shift key is pressed.
-	 */
-
+	@Override
 	public boolean isShiftPressed() {
 		return shiftPressed;
 	}
 
-	/**
-	 * @return True: the meta key is pressed.
-	 */
-
+	@Override
 	public boolean isMetaPressed() {
 		return metaPressed;
 	}
 
-	/**
-	 * @return The pressed local position.
-	 */
+	@Override
 	public Point3D getSrcLocalPoint() {
 		return srcLocalPoint.get();
 	}
 
-	/**
-	 * @return The pressed scene position.
-	 */
+	@Override
 	public Point3D getSrcScenePoint() {
 		return srcScenePoint.get();
 	}
 
-	/**
-	 * @return The button used for the pressure.
-	 */
+	@Override
 	public MouseButton getButton() {
 		return button;
 	}
 
-	/**
-	 * @return The object picked at the pressed position.
-	 */
+	@Override
 	public Optional<Node> getSrcObject() {
 		return Optional.ofNullable(srcObject.get());
 	}
 
+	@Override
 	public ReadOnlyObjectProperty<Point3D> srcLocalPointProperty() {
 		return srcLocalPoint;
 	}
 
+	@Override
 	public ReadOnlyObjectProperty<Point3D> srcScenePointProperty() {
 		return srcScenePoint;
 	}
 
+	@Override
 	public ReadOnlyObjectProperty<Node> srcObjectProperty() {
 		return srcObject;
 	}
 
-	class PointPressureTransition extends PressureTransition {
-		PointPressureTransition(final SourceableState inputState, final TargetableState outputState) {
-			super(inputState, outputState);
-		}
+	protected void setModifiersData(final MouseEvent event) {
+		altPressed = event.isAltDown();
+		shiftPressed = event.isShiftDown();
+		ctrlPressed = event.isControlDown();
+		metaPressed = event.isMetaDown();
+	}
 
-		@Override
-		public void action() {
-			PointInteraction.this.srcLocalPoint.set(new Point3D(event.getX(), event.getY(), event.getZ()));
-			PointInteraction.this.srcScenePoint.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
-			PointInteraction.this.button = event.getButton();
-			PointInteraction.this.srcObject.set(event.getPickResult().getIntersectedNode());
-			PointInteraction.this.altPressed = event.isAltDown();
-			PointInteraction.this.shiftPressed = event.isShiftDown();
-			PointInteraction.this.ctrlPressed = event.isControlDown();
-			PointInteraction.this.metaPressed = event.isMetaDown();
-			PointInteraction.this.setLastHIDUsed(hid);
-		}
+	protected void setPointData(final MouseEvent event) {
+		srcLocalPoint.set(new Point3D(event.getX(), event.getY(), event.getZ()));
+		srcScenePoint.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
+		button = event.getButton();
+		srcObject.set(event.getPickResult().getIntersectedNode());
+		setModifiersData(event);
 	}
 }

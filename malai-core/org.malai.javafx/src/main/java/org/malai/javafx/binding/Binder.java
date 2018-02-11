@@ -30,8 +30,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
+import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.logging.LogLevel;
 
 /**
@@ -41,7 +41,7 @@ import org.malai.logging.LogLevel;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction, B extends Binder<W, A, I, B>> {
+public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?, ?>, B extends Binder<W, A, I, B>> {
 	protected BiConsumer<A, I> initAction;
 	protected Predicate<I> checkConditions;
 	protected Function<I, A> actionProducer;
