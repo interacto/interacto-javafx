@@ -18,8 +18,11 @@ import org.malai.javafx.interaction2.JfxFSM;
 import org.malai.javafx.interaction2.KeyPressureTransition;
 
 public class KeyPressedFSM extends JfxFSM<KeyPressedFSM.KeyPressedFSMHandler> {
-	public KeyPressedFSM() {
+	private final boolean modifiersAccepted;
+
+	public KeyPressedFSM(final boolean modifiersAccepted) {
 		super();
+		this.modifiersAccepted = modifiersAccepted;
 	}
 
 	@Override
@@ -36,6 +39,12 @@ public class KeyPressedFSM extends JfxFSM<KeyPressedFSM.KeyPressedFSMHandler> {
 				if(dataHandler != null && event instanceof KeyEvent) {
 					dataHandler.onKeyPressure((KeyEvent) event);
 				}
+			}
+
+			@Override
+			protected boolean isGuardOK(final Event event) {
+				return modifiersAccepted || (event instanceof KeyEvent && !((KeyEvent) event).getCode().isModifierKey() &&
+					!((KeyEvent) event).getCode().isFunctionKey() && !((KeyEvent) event).getCode().isMediaKey());
 			}
 		};
 	}
