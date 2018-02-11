@@ -13,28 +13,13 @@ package org.malai.binding;
 /**
  * This exception must be launched when an action which is not undoable want to be undone or redone.
  * @author Arnaud BLOUIN
- * @since 0.1
  */
 public class MustBeUndoableActionException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
-
-	/** The class of the action that want to be undone/redone. */
-	protected final Class<?> clazz;
-
-
 	/**
 	 * The default constructor of the exception.
-	 * @param theClass The class of the action that want to be undone/redone.
-	 * @since 0.1
+	 * @param clazz The class of the action that want to be undone/redone.
 	 */
-	public MustBeUndoableActionException(final Class<?> theClass) {
-		super();
-		clazz = theClass;
-	}
-
-
-	@Override
-	public String toString() {
-		return super.toString() + (clazz == null ? "" : " " + clazz.getSimpleName()); //$NON-NLS-1$ //$NON-NLS-2$
+	public MustBeUndoableActionException(final Class<?> clazz) {
+		super("The following action must be undoable: " + (clazz == null ? "" : " " + clazz.getName()));
 	}
 }
