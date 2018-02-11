@@ -1,6 +1,9 @@
 package org.malai.javafx.interaction2.library;
 
+import java.util.HashSet;
+import java.util.Set;
 import javafx.event.Event;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.malai.fsm.InputState;
 import org.malai.fsm.OutputState;
@@ -16,8 +19,11 @@ import org.malai.javafx.interaction2.KeyReleaseTransition;
  * @author Arnaud BLOUIN
  */
 public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler> {
+	private final Set<KeyCode> currentCodes;
+
 	public KeysPressedFSM() {
 		super();
+		currentCodes = new HashSet<>();
 	}
 
 	@Override
@@ -32,7 +38,18 @@ public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler>
 		addState(ended);
 		new KeysPressedKeyPressureTransition(initState, pressed);
 		new KeysPressedKeyPressureTransition(pressed, pressed);
-		new KeyReleaseTransition(pressed, ended);
+		new KeyReleaseTransition(pressed, ended) {
+			@Override
+			protected boolean isGuardOK(final Event event) {
+				return event instanceof KeyEvent && currentCodes.contains(((KeyEvent) event).getCode());
+			}
+		};
+	}
+
+	@Override
+	public void reinit() {
+		currentCodes.clear();
+		super.reinit();
 	}
 
 	class KeysPressedKeyPressureTransition extends KeyPressureTransition {
@@ -42,8 +59,11 @@ public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler>
 
 		@Override
 		protected void action(final Event event) {
-			if(dataHandler != null && event instanceof KeyEvent) {
-				dataHandler.onKeyPressed((KeyEvent) event);
+			if(event instanceof KeyEvent) {
+				currentCodes.add(((KeyEvent) event).getCode());
+				if(dataHandler != null) {
+					dataHandler.onKeyPressed((KeyEvent) event);
+				}
 			}
 		}
 	}
