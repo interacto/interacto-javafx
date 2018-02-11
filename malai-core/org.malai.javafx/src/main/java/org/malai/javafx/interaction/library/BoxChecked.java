@@ -11,55 +11,51 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxBoxCheckedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * This interaction occurs when a when box is selected.
+ * A user interaction for checkboxes.
  * @author Arnaud BLOUIN
  */
-public class BoxChecked extends NodeInteraction<CheckBox> {
-	private final EventHandler<ActionEvent> event;
+public class BoxChecked extends JfxInteraction<BoxCheckedFSM, CheckBox> {
+	private final BoxCheckedFSM.BoxCheckedFSMHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public BoxChecked() {
-		super();
-		initStateMachine();
-		event = evt -> onJfxBoxChecked((CheckBox) evt.getSource());
-	}
+		super(new BoxCheckedFSM());
 
-
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("checked");
-
-		addState(pressed);
-
-		new JfxBoxCheckedTransition(initState, pressed) {
+		handler = new BoxCheckedFSM.BoxCheckedFSMHandler() {
 			@Override
-			public void action() {
-				super.action();
-				BoxChecked.this.widget = this.widget;
+			public void initToCheckedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof CheckBox) {
+					widget = (CheckBox) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				BoxChecked.this.reinitData();
 			}
 		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override
-	public void onNewNodeRegistered(final Node node) {
+	protected void onNewNodeRegistered(final Node node) {
 		if(node instanceof CheckBox) {
-			node.addEventHandler(ActionEvent.ACTION, event);
+			registerActionHandler(node);
 		}
 	}
 
 	@Override
 	protected void onNodeUnregistered(final Node node) {
 		if(node instanceof CheckBox) {
-			node.removeEventHandler(ActionEvent.ACTION, event);
+			unregisterActionHandler(node);
 		}
 	}
 }

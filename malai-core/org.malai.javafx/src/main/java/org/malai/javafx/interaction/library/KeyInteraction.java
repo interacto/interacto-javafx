@@ -10,65 +10,50 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Optional;
-import org.malai.javafx.interaction.JfxInteractionImpl;
-import org.malai.javafx.interaction.KeyPressureTransition;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import javafx.event.Event;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import org.malai.fsm.FSM;
+import org.malai.javafx.interaction.JfxInteraction;
 
-/**
- * An abstract interaction for defining JavaFX interactions based on key events.
- * @author Arnaud BLOUIN
- */
-public abstract class KeyInteraction extends JfxInteractionImpl {
+public abstract class KeyInteraction<F extends FSM<Event>, T> extends JfxInteraction<F, T> implements KeyInteractionData {
+	/** The key pressed. */
+	protected String key;
+	/** The code of the key. */
+	protected KeyCode keyCode;
 	/** The object that produced the interaction. */
-	protected Optional<Object> object;
+	protected Object object;
 
-	/**
-	 * Creates the interaction.
-	 */
-	public KeyInteraction() {
-		super();
+	protected KeyInteraction(final F fsm) {
+		super(fsm);
 	}
 
 	@Override
-	public void reinit() {
-		super.reinit();
-		object = Optional.empty();
+	public void reinitData() {
+		super.reinitData();
+		object = null;
+		key = null;
+		keyCode = null;
 	}
 
-	/**
-	 * @return The object that produced the interaction.
-	 */
-	public Optional<Object> getObject() {
+	protected void setKeyData(final KeyEvent event) {
+		object = event.getSource();
+		key = KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter();
+		keyCode = event.getCode();
+	}
+
+	@Override
+	public Object getObject() {
 		return object;
 	}
 
-	/**
-	 * @param object The object that produced the interaction.
-	 */
-	protected void setObject(final Object object) {
-		this.object = Optional.ofNullable(object);
+	@Override
+	public String getKey() {
+		return key;
 	}
 
-
-	/**
-	 * Defines a transition modifying the key attribute of the interaction.
-	 */
-	public class KeyInteractionKeyPressedTransition extends KeyPressureTransition {
-		/**
-		 * Creates the transition.
-		 * @param inputState The source state of the transition.
-		 * @param outputState The srcObject state of the transition.
-		 */
-		public KeyInteractionKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
-			super(inputState, outputState);
-		}
-
-		@Override
-		public void action() {
-			KeyInteraction.this.setObject(event.getSource());
-			KeyInteraction.this.setLastHIDUsed(this.hid);
-		}
+	@Override
+	public KeyCode getKeyCode() {
+		return keyCode;
 	}
 }

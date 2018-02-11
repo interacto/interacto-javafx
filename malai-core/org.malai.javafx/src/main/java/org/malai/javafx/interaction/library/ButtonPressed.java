@@ -11,55 +11,51 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxButtonPressedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * This interaction occurs when a button is pressed.
+ * A user interaction for buttons.
  * @author Arnaud BLOUIN
  */
-public class ButtonPressed extends NodeInteraction<Button> {
-	private final EventHandler<ActionEvent> event;
+public class ButtonPressed extends JfxInteraction<ButtonPressedFSM, Button> {
+	private final ButtonPressedFSM.ButtonPressedFSMHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public ButtonPressed() {
-		super();
-		initStateMachine();
-		event = evt -> onJfxButtonPressed((Button) evt.getSource());
-	}
+		super(new ButtonPressedFSM());
 
-
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed");
-
-		addState(pressed);
-
-		new JfxButtonPressedTransition(initState, pressed) {
+		handler = new ButtonPressedFSM.ButtonPressedFSMHandler() {
 			@Override
-			public void action() {
-				super.action();
-				ButtonPressed.this.widget = this.widget;
+			public void initToPressedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof Button) {
+					widget = (Button) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ButtonPressed.this.reinitData();
 			}
 		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override
 	protected void onNewNodeRegistered(final Node node) {
 		if(node instanceof Button) {
-			node.addEventHandler(ActionEvent.ACTION, event);
+			registerActionHandler(node);
 		}
 	}
 
 	@Override
 	protected void onNodeUnregistered(final Node node) {
 		if(node instanceof Button) {
-			node.removeEventHandler(ActionEvent.ACTION, event);
+			unregisterActionHandler(node);
 		}
 	}
 }

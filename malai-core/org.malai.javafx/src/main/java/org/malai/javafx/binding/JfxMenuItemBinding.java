@@ -20,7 +20,7 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  * Base of a menu item binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxMenuItemBinding<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
+public abstract class JfxMenuItemBinding<A extends ActionImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
 
 	/**
 	 * Creates a widget binding for menu items. This constructor must initialise the interaction. The binding is (de-)activated if the given

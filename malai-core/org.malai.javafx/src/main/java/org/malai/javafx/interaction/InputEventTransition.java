@@ -10,27 +10,27 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import javafx.event.Event;
 import javafx.scene.input.InputEvent;
-import org.malai.interaction.TransitionImpl;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
+import org.malai.fsm.Transition;
 
 /**
  * This abstract transition defines a model for transitions based on input events.
  * @author Arnaud Blouin
  */
-public abstract class InputEventTransition<T extends InputEvent> extends TransitionImpl {
+public abstract class InputEventTransition<T extends InputEvent> extends Transition<Event> {
 	protected T event;
 
 	/**
 	 * Creates a transition.
-	 * @param inputState The source state of the transition.
-	 * @param outputState The srcObject state of the transition.
+	 * @param srcState The source state of the transition.
+	 * @param tgtState The srcObject state of the transition.
 	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
 	 */
-	public InputEventTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public InputEventTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	/**
@@ -49,7 +49,4 @@ public abstract class InputEventTransition<T extends InputEvent> extends Transit
 			event = evt;
 		}
 	}
-
-	@Override
-	public abstract EventType<T> getEventType();
 }

@@ -1,25 +1,19 @@
 package org.malai.interaction;
 
-import org.malai.stateMachine.State;
+import org.malai.fsm.FSM;
+import org.malai.fsm.OutputState;
+import org.malai.interaction2.Interaction;
 
-public class InteractionMock extends InteractionImpl {
+public class InteractionMock extends Interaction<Object, FSM<Object>> {
 	public InteractionMock() {
-		super();
+		super(new FSM<>());
 	}
 
 	@Override
-	protected void changeEventsRegistered(final State oldState) {
-
+	protected void updateEventsRegistered(final OutputState<Object> newState, final OutputState<Object> oldState) {
 	}
 
 	@Override
-	protected void initStateMachine() {
-		//
-	}
-
-
-	@Override
-	protected void processEvent(final Event event) {
-		//
+	protected void reinitData() {
 	}
 }

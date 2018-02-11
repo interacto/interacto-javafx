@@ -10,10 +10,12 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
  * This transition corresponds to a release of a button of a pointing device.
@@ -22,17 +24,26 @@ import org.malai.stateMachine.TargetableState;
 public class ReleaseTransition extends InputEventTransition<MouseEvent> {
 	/**
 	 * Defines a transition.
-	 * @param inputState The source state of the transition.
-	 * @param outputState The srcObject state of the transition.
+	 * @param srcState The source state of the transition.
+	 * @param tgtState The srcObject state of the transition.
 	 * @throws IllegalArgumentException If one of the given parameters is null or not valid.
-	 * @since 0.1
 	 */
-	public ReleaseTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public ReleaseTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public EventType<MouseEvent> getEventType() {
-		return MouseEvent.MOUSE_RELEASED;
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == MouseEvent.MOUSE_RELEASED;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(MouseEvent.MOUSE_RELEASED);
 	}
 }

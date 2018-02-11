@@ -10,16 +10,17 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.Event;
 import javafx.scene.control.Button;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
- * A transition based on the button action event.
+ * An FSM transition for buttons.
  * @author Arnaud BLOUIN
  */
-public class JfxButtonPressedTransition extends JFXWidgetTransition<Button> {
-	public JfxButtonPressedTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+public class JfxButtonPressedTransition extends JfxWidgetTransition<Button> {
+	public JfxButtonPressedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 }

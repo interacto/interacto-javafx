@@ -26,7 +26,7 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  * The goal is to avoid the creation of a specific class when the widget binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteraction<MenuItem>, N extends JfxInstrument> extends JfxMenuItemBinding<A, I, N> {
+public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfxMenuItemBinding<A, I, N> {
 	private final BiConsumer<A, I> execInitAction;
 	private final Predicate<I> checkInteraction;
 	private final BiConsumer<A, I> onEnd;
@@ -89,8 +89,8 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 
 
 	@Override
-	public void interactionStops() {
-		super.interactionStops();
+	public void fsmStops() {
+		super.fsmStops();
 		if(onEnd != null) {
 			onEnd.accept(currentAction, getInteraction());
 		}
@@ -98,8 +98,8 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	}
 
 	@Override
-	public void interactionCancels() {
-		super.interactionCancels();
+	public void fsmCancels() {
+		super.fsmCancels();
 		currentAction = null;
 	}
 

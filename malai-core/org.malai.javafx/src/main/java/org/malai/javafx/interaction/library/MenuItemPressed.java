@@ -12,44 +12,44 @@ package org.malai.javafx.interaction.library;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxMenuItemPressedTransition;
 
 /**
- * This interaction occurs when a menu item is triggered.
+ * A user interaction for menu items.
  * @author Arnaud BLOUIN
  */
-public class MenuItemPressed extends MenuItemInteraction<MenuItem> {
+public class MenuItemPressed extends MenuItemInteraction<MenuItemPressedFSM, MenuItem> {
+	private final MenuItemPressedFSM.MenuItemPressedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public MenuItemPressed() {
-		super();
-		initStateMachine();
-	}
+		super(new MenuItemPressedFSM());
 
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed");
-
-		addState(pressed);
-
-		new JfxMenuItemPressedTransition(initState, pressed) {
+		handler = new MenuItemPressedFSM.MenuItemPressedFSMHandler() {
 			@Override
-			public void action() {
-				super.action();
-				MenuItemPressed.this.widget = this.widget;
+			public void initToPressedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof MenuItem) {
+					widget = (MenuItem) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				MenuItemPressed.this.reinitData();
 			}
 		};
+
+		fsm.buildFSM(handler);
 	}
 
 	@Override
 	protected void onMenuItemUnregistered(final MenuItem menuItem) {
-		menuItem.removeEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem) evt.getSource()));
+		menuItem.removeEventHandler(ActionEvent.ACTION, getActionHandler());
 	}
 
 	@Override
 	protected void onMenuItemRegistered(final MenuItem menuItem) {
-		menuItem.addEventHandler(ActionEvent.ACTION, evt -> onJfxMenuItemPressed((MenuItem) evt.getSource()));
+		menuItem.addEventHandler(ActionEvent.ACTION, getActionHandler());
 	}
 }

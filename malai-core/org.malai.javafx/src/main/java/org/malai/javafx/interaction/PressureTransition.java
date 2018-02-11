@@ -10,10 +10,12 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
  * This transition corresponds to a pressure of a button of a pointing device.
@@ -23,12 +25,22 @@ public class PressureTransition extends InputEventTransition<MouseEvent> {
 	/**
 	 * Creates the transition.
 	 */
-	public PressureTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public PressureTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public EventType<MouseEvent> getEventType() {
-		return MouseEvent.MOUSE_PRESSED;
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == MouseEvent.MOUSE_PRESSED;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(MouseEvent.MOUSE_PRESSED);
 	}
 }

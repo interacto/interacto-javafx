@@ -13,8 +13,8 @@ package org.malai.javafx.instrument;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import org.malai.action.library.Zoom;
-import org.malai.javafx.interaction.library.KeyPressureNoModifier;
-import org.malai.javafx.interaction.library.KeysScrolling;
+import org.malai.javafx.interaction.library.KeyPressed;
+import org.malai.javafx.interaction.library.KeysScroll;
 import org.malai.properties.Zoomable;
 
 /**
@@ -55,8 +55,9 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 	@Override
 	protected void configureBindings() throws IllegalAccessException, InstantiationException {
 		if(withKeys) {
-			nodeBinder(Zoom.class, new KeyPressureNoModifier()).on(zoomable).
-				first((a, i) -> i.getKey().ifPresent(key -> {
+			nodeBinder(Zoom.class, new KeyPressed(false)).on(zoomable).
+				first((a, i) -> {
+					final String key = i.getKey();
 					a.setZoomable(getZoomable());
 					if("+".equals(key)) {
 						a.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
@@ -65,17 +66,17 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 					}
 					a.setPx(-1d);
 					a.setPy(-1d);
-				})).
-				when(i -> i.getKey().map(code -> "+".equals(code) || "-".equals(code)).orElse(false)).bind();
+				}).
+				when(i -> "+".equals(i.getKey()) || "-".equals(i.getKey())).bind();
 		}
 
-		nodeBinder(Zoom.class, new KeysScrolling()).on(zoomable).
+		nodeBinder(Zoom.class, new KeysScroll()).on(zoomable).
 			first(a -> a.setZoomable(zoomable)).
 			then((a, i) -> {
-				a.setZoomLevel(zoomable.getZoom() + (i.getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
-				a.setPx(i.getPx());
-				a.setPy(i.getPy());
+				a.setZoomLevel(zoomable.getZoom() + (i.getScrollData().getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
+				a.setPx(i.getScrollData().getPx());
+				a.setPy(i.getScrollData().getPy());
 			}).
-			when(i -> i.getKeys().size() == 1 && i.getKeys().get(0) == KeyCode.CONTROL).bind();
+			when(i -> i.getKeys().size() == 1 && i.getKeyCodes().get(0) == KeyCode.CONTROL).bind();
 	}
 }

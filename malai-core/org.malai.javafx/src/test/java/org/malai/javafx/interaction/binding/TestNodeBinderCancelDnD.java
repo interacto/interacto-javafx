@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.binding.NodeBinder;
-import org.malai.javafx.interaction.library.CancellableDnD;
+import org.malai.javafx.interaction.library.DnD;
 import org.malai.undo.Undoable;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -35,7 +35,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnD() throws InstantiationException, IllegalAccessException {
-		new NodeBinder<>(MoveShape.class, new CancellableDnD(true), instrument).
+		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
 			map(i -> new MoveShape(rec)).
 			on(rec).
 			first((a, i) -> rec.requestFocus()).
@@ -50,7 +50,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnDWithObsList() throws InstantiationException, IllegalAccessException {
-		new NodeBinder<>(MoveShape.class, new CancellableDnD(true), instrument).
+		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
 			map(i -> new MoveShape((Rectangle) i.getSrcObject().get())).
 			on(widget1.getChildren()).
 			first((a, i) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).

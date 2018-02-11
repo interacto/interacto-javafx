@@ -14,51 +14,51 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxTabSelectedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * A JFX interaction for clicking on tabs.
- * @author Arnaud Blouin
+ * A user interaction for tabs.
+ * @author Arnaud BLOUIN
  */
-public class TabSelected extends NodeInteraction<TabPane> {
+public class TabSelected extends JfxInteraction<TabSelectedFSM, TabPane> {
 	private final ChangeListener<Tab> event;
+	private final TabSelectedFSM.TabSelectedFSMHandler handler;
+
 	/**
 	 * Creates the interaction.
 	 */
 	public TabSelected() {
-		super();
-		initStateMachine();
-		event = (observable, oldValue, newValue) -> onJfXTabSelected(newValue.getTabPane());
-	}
+		super(new TabSelectedFSM());
 
-
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed");
-
-		addState(pressed);
-
-		new JfxTabSelectedTransition(initState, pressed) {
+		handler = new TabSelectedFSM.TabSelectedFSMHandler() {
 			@Override
-			public void action() {
-				super.action();
-				TabSelected.this.widget = this.widget;
+			public void initToSelectedHandler(final TabEvent event) {
+				if(event.getSource() instanceof TabPane) {
+					widget = (TabPane) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				TabSelected.this.reinitData();
 			}
 		};
-	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		if(node instanceof TabPane) {
-			((TabPane) node).getSelectionModel().selectedItemProperty().removeListener(event);
-		}
+		fsm.buildFSM(handler);
+		event = (observable, oldValue, newValue) -> processEvent(new TabEvent(widget, null));
 	}
 
 	@Override
 	protected void onNewNodeRegistered(final Node node) {
 		if(node instanceof TabPane) {
 			((TabPane) node).getSelectionModel().selectedItemProperty().addListener(event);
+		}
+	}
+
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof TabPane) {
+			((TabPane) node).getSelectionModel().selectedItemProperty().removeListener(event);
 		}
 	}
 }

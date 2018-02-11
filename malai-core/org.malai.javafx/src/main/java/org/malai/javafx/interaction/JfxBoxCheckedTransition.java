@@ -10,16 +10,17 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.event.Event;
 import javafx.scene.control.CheckBox;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
- * A transition based on the onAction event of when boxes.
+ * An FSM transition for check boxes.
  * @author Arnaud BLOUIN
  */
-public class JfxBoxCheckedTransition extends JFXWidgetTransition<CheckBox> {
-	public JfxBoxCheckedTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+public class JfxBoxCheckedTransition extends JfxWidgetTransition<CheckBox> {
+	public JfxBoxCheckedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 }

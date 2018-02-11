@@ -137,18 +137,15 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 		// Should be overridden.
 	}
 
-
-	@Override
-	public void setModified(final boolean isModified) {
-		modified = isModified;
-	}
-
-
 	@Override
 	public boolean isModified() {
 		return modified;
 	}
 
+	@Override
+	public void setModified(final boolean isModified) {
+		modified = isModified;
+	}
 
 	@Override
 	public void reinit() {

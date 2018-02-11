@@ -10,38 +10,27 @@
  */
 package org.malai.javafx.interaction.library;
 
-import org.malai.interaction.IntermediaryState;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.KeyReleaseTransition;
+import javafx.event.Event;
+import javafx.scene.input.KeyEvent;
 
-/**
- * A KeyTyped interaction occurs when a key of a keyboard is pressed and then released.
- * @author Arnaud BLOUIN
- */
-public class KeyTyped extends SingleKeyInteraction {
-	/**
-	 * Creates the interaction.
-	 */
+public class KeyTyped extends KeyInteraction<KeyTypedFSM, Event> {
+	private final KeyTypedFSM.KeyTypedFSMHandler handler;
+
 	public KeyTyped() {
-		super();
-		initStateMachine();
-	}
+		super(new KeyTypedFSM());
 
-
-	@Override
-	protected void initStateMachine() {
-		final TerminalState released = new TerminalState("released");
-		final IntermediaryState pressed = new IntermediaryState("pressed");
-
-		addState(pressed);
-		addState(released);
-
-		new SingleKeyInteractionKeyPressedTransition(initState, pressed);
-		new KeyReleaseTransition(pressed, released) {
+		handler = new KeyTypedFSM.KeyTypedFSMHandler() {
 			@Override
-			public boolean isGuardRespected() {
-				return KeyTyped.this.keyCode.orElse(null) == this.event.getCode() && KeyTyped.this.getLastHIDUsed() == this.hid;
+			public void onKeyTyped(final KeyEvent event) {
+				setKeyData(event);
+			}
+
+			@Override
+			public void reinitData() {
+				KeyTyped.this.reinitData();
 			}
 		};
+
+		fsm.buildFSM(handler);
 	}
 }

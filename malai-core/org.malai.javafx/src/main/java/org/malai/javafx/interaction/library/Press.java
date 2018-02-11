@@ -10,25 +10,27 @@
  */
 package org.malai.javafx.interaction.library;
 
-import org.malai.interaction.TerminalState;
+import javafx.event.Event;
+import javafx.scene.input.MouseEvent;
 
-/**
- * This interaction permits to mouse press with key pressures (eg modifiers).
- * @author Arnaud BLOUIN
- */
-public class Press extends PointInteraction {
-	/**
-	 * Creates the interaction.
-	 */
+public class Press extends PointInteraction<PressFSM, Event> {
+	private final PressFSM.PressFSMHandler handler;
+
 	public Press() {
-		super();
-		initStateMachine();
-	}
+		super(new PressFSM());
 
-	@Override
-	protected void initStateMachine() {
-		final TerminalState end = new TerminalState("ended");
-		addState(end);
-		new PointPressureTransition(initState, end);
+		handler = new PressFSM.PressFSMHandler() {
+			@Override
+			public void initToPress(final MouseEvent event) {
+				setPointData(event);
+			}
+
+			@Override
+			public void reinitData() {
+				Press.this.reinitData();
+			}
+		};
+
+		fsm.buildFSM(handler);
 	}
 }

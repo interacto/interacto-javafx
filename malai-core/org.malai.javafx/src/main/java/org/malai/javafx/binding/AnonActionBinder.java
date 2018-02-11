@@ -17,7 +17,7 @@ import org.malai.action.AnonAction;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 
-public class AnonActionBinder<W, I extends JfxInteraction> extends Binder<W, AnonAction, I, AnonActionBinder<W, I>> {
+public class AnonActionBinder<W, I extends JfxInteraction<?, ?>> extends Binder<W, AnonAction, I, AnonActionBinder<W, I>> {
 	private final Runnable action;
 
 	public AnonActionBinder(final Runnable anonAction, final I interaction, final JfxInstrument ins) {

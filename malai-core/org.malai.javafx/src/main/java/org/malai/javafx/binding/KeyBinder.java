@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 import javafx.scene.input.KeyCode;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.library.KeysPressure;
+import org.malai.javafx.interaction.library.KeysPressed;
 
 /**
  * The base binding builder to create bindings between a keys pressure interaction and a given action.
@@ -26,12 +26,12 @@ import org.malai.javafx.interaction.library.KeysPressure;
  * @param <W> The type of the widget to bind.
  * @author Arnaud Blouin
  */
-public abstract class KeyBinder<W, A extends ActionImpl, B extends KeyBinder<W, A, B>> extends Binder<W, A, KeysPressure, B> {
+public abstract class KeyBinder<W, A extends ActionImpl, B extends KeyBinder<W, A, B>> extends Binder<W, A, KeysPressed, B> {
 	final Collection<KeyCode> codes;
-	final Predicate<KeysPressure> checkCode;
+	final Predicate<KeysPressed> checkCode;
 
 	public KeyBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new KeysPressure(), instrument);
+		super(action, new KeysPressed(), instrument);
 		codes = new ArrayList<>();
 
 		checkCode = interaction -> {

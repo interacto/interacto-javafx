@@ -12,32 +12,27 @@ package org.malai.javafx.interaction.library;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.Event;
 import javafx.scene.input.KeyCode;
-import org.malai.javafx.interaction.KeyReleaseTransition;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import javafx.scene.input.KeyEvent;
+import org.malai.fsm.FSM;
+import org.malai.javafx.interaction.JfxInteraction;
 
-/**
- * This abstract interaction should be used to define JavaFX interactions based on keyboards.
- * @author Arnaud BLOUIN
- */
-public abstract class MultiKeyInteraction extends KeyInteraction {
+public abstract class MultiKeyInteraction<F extends FSM<Event>> extends JfxInteraction<F, Event> {
 	/** The key pressed. */
-	protected final List<String> keys = new ArrayList<>();
-
+	protected final List<String> keys;
 	/** The code of the key. */
-	protected final List<KeyCode> keyCodes = new ArrayList<>();
+	protected final List<KeyCode> keyCodes;
 
-	/**
-	 * Creates the interaction.
-	 */
-	public MultiKeyInteraction() {
-		super();
+	protected MultiKeyInteraction(final F fsm) {
+		super(fsm);
+		keys = new ArrayList<>();
+		keyCodes = new ArrayList<>();
 	}
 
 	@Override
-	public void reinit() {
-		super.reinit();
+	public void reinitData() {
+		super.reinitData();
 		keys.clear();
 		keyCodes.clear();
 	}
@@ -56,57 +51,13 @@ public abstract class MultiKeyInteraction extends KeyInteraction {
 		return keys;
 	}
 
-	/**
-	 * @param key The key pressed to add.
-	 */
-	protected void addKey(final String key) {
-		keys.add(key);
+	protected void addKeysData(final KeyEvent event) {
+		keys.add(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
+		keyCodes.add(event.getCode());
 	}
 
-	/**
-	 * @param keycode The key pressed to add.
-	 */
-	protected void addKeyCode(final KeyCode keycode) {
-		keyCodes.add(keycode);
-	}
-
-	/**
-	 * Defines a key pressure transition modifying the key attribute of the interaction.
-	 */
-	public class MultiKeyInteractionKeyPressedTransition extends KeyInteractionKeyPressedTransition {
-		/**
-		 * Creates the transition.
-		 * @param inputState The source state of the transition.
-		 * @param outputState The srcObject state of the transition.
-		 */
-		public MultiKeyInteractionKeyPressedTransition(final SourceableState inputState, final TargetableState outputState) {
-			super(inputState, outputState);
-		}
-
-		@Override
-		public void action() {
-			super.action();
-			MultiKeyInteraction.this.addKey(event.getText());
-			MultiKeyInteraction.this.addKeyCode(event.getCode());
-		}
-	}
-
-	/**
-	 * Defines a key release transition modifying the key attribute of the interaction.
-	 */
-	public class MultiKeyReleaseTransition extends KeyReleaseTransition {
-		/**
-		 * Creates the transition.
-		 * @param inputState The source state of the transition.
-		 * @param outputState The srcObject state of the transition.
-		 */
-		public MultiKeyReleaseTransition(SourceableState inputState, TargetableState outputState) {
-			super(inputState, outputState);
-		}
-
-		@Override
-		public void action() {
-			MultiKeyInteraction.this.keys.remove(this.event.getText());
-		}
+	protected void removeKeysData(final KeyEvent event) {
+		keys.remove(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
+		keyCodes.remove(event.getCode());
 	}
 }

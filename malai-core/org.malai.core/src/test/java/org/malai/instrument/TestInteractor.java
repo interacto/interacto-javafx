@@ -7,8 +7,8 @@ import org.malai.action.ActionImplStub;
 import org.malai.binding.WidgetBinding;
 import org.malai.binding.WidgetBindingImpl;
 import org.malai.error.ErrorCatcher;
+import org.malai.fsm.CancelFSMException;
 import org.malai.interaction.InteractionMock;
-import org.malai.stateMachine.MustCancelStateMachineException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -26,7 +26,7 @@ public class TestInteractor {
 	public void setUp() {
 		instrument = new StubInstrument() {
 			@Override
-			protected void configureBindings() throws InstantiationException, IllegalAccessException {
+			protected void configureBindings() {
 				TestInteractor.this.interactor = new StubInteractor(instrument, false, ActionImplStub.class, new InteractionMock());
 				addBinding(interactor);
 			}
@@ -80,7 +80,7 @@ public class TestInteractor {
 	}
 
 	@Test
-	void testExecuteOK() throws IllegalAccessException, InstantiationException {
+	void testExecuteOK() {
 		interactor = new StubInteractor(instrument, true, ActionImplStub.class, new InteractionMock());
 		assertTrue(interactor.isExecute());
 	}
@@ -102,52 +102,52 @@ public class TestInteractor {
 
 	@Test
 	void testInteractionCancelsWhenNotStarted() {
-		interactor.interactionCancels();
+		interactor.fsmCancels();
 	}
 
 	@Test
 	void testInteractionUpdatesWhenNotStarted() {
-		interactor.interactionUpdates();
+		interactor.fsmUpdates();
 	}
 
 	@Test
 	void testInteractionStopsWhenNotStarted() {
-		interactor.interactionStops();
+		interactor.fsmStops();
 	}
 
 	@Test
-	void testInteractionStartsWhenNoCorrectInteractionNotActivated() throws MustCancelStateMachineException {
+	void testInteractionStartsWhenNoCorrectInteractionNotActivated() throws CancelFSMException {
 		interactor.mustCancel = false;
 		instrument.setActivated(false);
-		interactor.interactionStarts();
+		interactor.fsmStarts();
 		assertNull(interactor.getAction());
 	}
 
 	@Test
-	void testInteractionStartsWhenNoCorrectInteractionActivated() throws MustCancelStateMachineException {
+	void testInteractionStartsWhenNoCorrectInteractionActivated() throws CancelFSMException {
 		interactor.mustCancel = false;
 		instrument.setActivated(true);
 		interactor.conditionRespected = false;
-		interactor.interactionStarts();
+		interactor.fsmStarts();
 		assertNull(interactor.getAction());
 	}
 
 	@Test
 	void testInteractionStartsThrowMustCancelStateMachineException() {
 		interactor.mustCancel = true;
-		assertThrows(MustCancelStateMachineException.class, () -> interactor.interactionStarts());
+		assertThrows(CancelFSMException.class, () -> interactor.fsmStarts());
 	}
 
 	@Test
-	void testInteractionStartsOk() throws MustCancelStateMachineException {
+	void testInteractionStartsOk() throws CancelFSMException {
 		instrument.setActivated(true);
 		interactor.conditionRespected = true;
-		interactor.interactionStarts();
+		interactor.fsmStarts();
 		assertNotNull(interactor.getAction());
 	}
 
 	@Test
-	void testInteractionStartsOkCauseOfTheNonPublicAction() throws MustCancelStateMachineException, InstantiationException, IllegalAccessException {
+	void testInteractionStartsOkCauseOfTheNonPublicAction() throws CancelFSMException {
 		final boolean[] ok = {false};
 		ErrorCatcher.INSTANCE.setNotifier(exception -> ok[0] = true);
 		StubInstrument ins = new StubInstrument();
@@ -167,13 +167,13 @@ public class TestInteractor {
 			}
 		};
 		ins.setActivated(true);
-		interactor2.interactionStarts();
+		interactor2.fsmStarts();
 		assertTrue(ok[0]);
 		assertNull(interactor.getAction());
 	}
 
 	@Test
-	void testInteractionStartsOkCauseOfTheNonPublicAction2() throws MustCancelStateMachineException, InstantiationException, IllegalAccessException {
+	void testInteractionStartsOkCauseOfTheNonPublicAction2() throws CancelFSMException {
 		final boolean[] ok = {false};
 		ErrorCatcher.INSTANCE.setNotifier(exception -> ok[0] = true);
 		StubInstrument ins = new StubInstrument();
@@ -193,7 +193,7 @@ public class TestInteractor {
 			}
 		};
 		ins.setActivated(true);
-		interactor2.interactionStarts();
+		interactor2.fsmStarts();
 		assertTrue(ok[0]);
 		assertNull(interactor2.getAction());
 	}
@@ -208,8 +208,7 @@ public class TestInteractor {
 		public boolean conditionRespected;
 		public boolean mustCancel;
 
-		public StubInteractor(final StubInstrument ins, final boolean exec, final Class<ActionImplStub> clazzAction, final InteractionMock interaction) 
-			throws InstantiationException, IllegalAccessException {
+		public StubInteractor(final StubInstrument ins, final boolean exec, final Class<ActionImplStub> clazzAction, final InteractionMock interaction) {
 			super(ins, exec, clazzAction, interaction);
 			conditionRespected = false;
 			mustCancel = false;

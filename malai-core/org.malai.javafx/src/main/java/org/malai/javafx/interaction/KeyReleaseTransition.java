@@ -10,25 +10,37 @@
  */
 package org.malai.javafx.interaction;
 
-import javafx.event.EventType;
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
 import javafx.scene.input.KeyEvent;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
 
 /**
  * This transition corresponds to a release of a key of a keyboard.
  * @author Arnaud BLOUIN
  */
-public class KeyReleaseTransition extends KeyboardTransition {
+public class KeyReleaseTransition extends InputEventTransition<KeyEvent> {
 	/**
 	 * Creates the transition.
 	 */
-	public KeyReleaseTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+	public KeyReleaseTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
 	}
 
 	@Override
-	public EventType<KeyEvent> getEventType() {
-		return KeyEvent.KEY_RELEASED;
+	protected boolean accept(final Event event) {
+		return event != null && event.getEventType() == KeyEvent.KEY_RELEASED;
+	}
+
+	@Override
+	protected boolean isGuardOK(final Event event) {
+		return true;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(KeyEvent.KEY_RELEASED);
 	}
 }

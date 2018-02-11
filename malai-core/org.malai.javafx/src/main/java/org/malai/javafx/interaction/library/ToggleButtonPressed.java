@@ -11,51 +11,51 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxToggleButtonPressedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * This interaction occurs when a button is pressed.
+ * A user interaction for toggle buttons.
  * @author Arnaud BLOUIN
  */
-public class ToggleButtonPressed extends NodeInteraction<ToggleButton> {
-	private final EventHandler<ActionEvent> event;
+public class ToggleButtonPressed extends JfxInteraction<ToggleButtonPressedFSM, ToggleButton> {
+	private final ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public ToggleButtonPressed() {
-		super();
-		initStateMachine();
-		event = evt -> onJfxToggleButtonPressed((ToggleButton) evt.getSource());
-	}
+		super(new ToggleButtonPressedFSM());
 
-
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("pressed");
-
-		addState(pressed);
-
-		new JfxToggleButtonPressedTransition(initState, pressed) {
+		handler = new ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler() {
 			@Override
-			public void action() {
-				super.action();
-				ToggleButtonPressed.this.widget = this.widget;
+			public void initToPressedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof ToggleButton) {
+					widget = (ToggleButton) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ToggleButtonPressed.this.reinitData();
 			}
 		};
-	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		node.removeEventHandler(ActionEvent.ACTION, event);
+		fsm.buildFSM(handler);
 	}
 
 	@Override
 	protected void onNewNodeRegistered(final Node node) {
-		node.addEventHandler(ActionEvent.ACTION, event);
+		if(node instanceof ToggleButton) {
+			registerActionHandler(node);
+		}
+	}
+
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof ToggleButton) {
+			unregisterActionHandler(node);
+		}
 	}
 }

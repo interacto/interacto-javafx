@@ -21,11 +21,11 @@ import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.action.AnonAction;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
+import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.logging.LogLevel;
 
-public class AnonJfxWidgetBinding<I extends JfxInteraction, N extends JfxInstrument> extends JFxAnonNodeBinding<AnonAction, I, N> {
+public class AnonJfxWidgetBinding<I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends JFxAnonNodeBinding<AnonAction, I, N> {
 	private final Runnable anonAction;
 
 	public AnonJfxWidgetBinding(final N ins, final boolean exec, final Runnable action, final I interaction,

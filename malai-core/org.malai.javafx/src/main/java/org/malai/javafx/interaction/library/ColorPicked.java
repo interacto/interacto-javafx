@@ -11,55 +11,51 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxColorPickedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * An interaction dedicated to the use of colour pickers.
+ * A user interaction for colour pickers.
  * @author Arnaud BLOUIN
  */
-public class ColorPicked extends NodeInteraction<ColorPicker> {
-	private final EventHandler<ActionEvent> event;
+public class ColorPicked extends JfxInteraction<ColorPickedFSM, ColorPicker> {
+	private final ColorPickedFSM.ColorPickedFSMFSMHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public ColorPicked() {
-		super();
-		initStateMachine();
-		event = evt -> onJfxColorPicked((ColorPicker) evt.getSource());
-	}
+		super(new ColorPickedFSM());
 
-
-	@Override
-	protected void initStateMachine() {
-		final TerminalState pressed = new TerminalState("picked");
-
-		addState(pressed);
-
-		new JfxColorPickedTransition(initState, pressed) {
+		handler = new ColorPickedFSM.ColorPickedFSMFSMHandler() {
 			@Override
-			public void action() {
-				super.action();
-				ColorPicked.this.widget = this.widget;
+			public void initToPickedHandler(final ActionEvent event) {
+				if(event.getSource() instanceof ColorPicker) {
+					widget = (ColorPicker) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				ColorPicked.this.reinitData();
 			}
 		};
-	}
 
-	@Override
-	protected void onNodeUnregistered(final Node node) {
-		if(node instanceof ColorPicker) {
-			node.removeEventHandler(ActionEvent.ACTION, event);
-		}
+		fsm.buildFSM(handler);
 	}
 
 	@Override
 	protected void onNewNodeRegistered(final Node node) {
 		if(node instanceof ColorPicker) {
-			node.addEventHandler(ActionEvent.ACTION, event);
+			registerActionHandler(node);
+		}
+	}
+
+	@Override
+	protected void onNodeUnregistered(final Node node) {
+		if(node instanceof ColorPicker) {
+			unregisterActionHandler(node);
 		}
 	}
 }

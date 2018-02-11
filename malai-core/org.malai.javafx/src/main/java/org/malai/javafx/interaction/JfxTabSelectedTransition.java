@@ -10,16 +10,30 @@
  */
 package org.malai.javafx.interaction;
 
+import java.util.Collections;
+import java.util.Set;
+import javafx.event.Event;
 import javafx.scene.control.TabPane;
-import org.malai.stateMachine.SourceableState;
-import org.malai.stateMachine.TargetableState;
+import org.malai.fsm.InputState;
+import org.malai.fsm.OutputState;
+import org.malai.javafx.interaction.library.TabEvent;
 
 /**
- * A JFX interaction transition based on the selection of a tab.
- * @author Arnaud Blouin
+ * An FSM transition for tabs.
+ * @author Arnaud BLOUIN
  */
-public class JfxTabSelectedTransition extends JFXWidgetTransition<TabPane> {
-	public JfxTabSelectedTransition(final SourceableState inputState, final TargetableState outputState) {
-		super(inputState, outputState);
+public class JfxTabSelectedTransition extends JfxWidgetTransition<TabPane> {
+	public JfxTabSelectedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		super(srcState, tgtState);
+	}
+
+	@Override
+	public boolean accept(final Event e) {
+		return e != null && e.getEventType() == TabEvent.SELECTED;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Collections.singleton(TabEvent.SELECTED);
 	}
 }

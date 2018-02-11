@@ -19,24 +19,24 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
+import javafx.event.Event;
 import javafx.scene.control.MenuItem;
-import org.malai.javafx.interaction.JfxInteractionImpl;
+import org.malai.fsm.FSM;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
  * A JavaFX interaction that uses a single menu item.
  * @author Arnaud BLOUIN
  */
-public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInteractionImpl {
-	/** The widget used during the interaction. */
-	protected T widget;
+public abstract class MenuItemInteraction<F extends FSM<Event>, T extends MenuItem> extends JfxInteraction<F, T> {
 	protected final ObservableSet<MenuItem> registeredItems;
 	protected List<ObservableList<? extends MenuItem>> additionalMenus;
 
 	/**
 	 * Creates the interaction.
 	 */
-	public MenuItemInteraction() {
-		super();
+	public MenuItemInteraction(final F fsm) {
+		super(fsm);
 		registeredItems = FXCollections.observableSet();
 		additionalMenus = null;
 
@@ -74,20 +74,6 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 		}
 	}
 
-	@Override
-	public void reinit() {
-		super.reinit();
-		widget = null;
-	}
-
-	/**
-	 * @return The widget used during the interaction.
-	 */
-	public T getWidget() {
-		return widget;
-	}
-
-
 	protected void onMenuItemUnregistered(final MenuItem menuItem) {
 		// Should be overriden
 	}
@@ -99,6 +85,12 @@ public abstract class MenuItemInteraction<T extends MenuItem> extends JfxInterac
 	public final void registerToMenuItems(final List<MenuItem> widgets) {
 		if(widgets != null) {
 			registeredItems.addAll(widgets.stream().filter(Objects::nonNull).collect(Collectors.toList()));
+		}
+	}
+
+	public final void unregisterFromMenuItems(final List<MenuItem> widgets) {
+		if(widgets != null) {
+			registeredItems.removeAll(widgets.stream().filter(Objects::nonNull).collect(Collectors.toList()));
 		}
 	}
 }

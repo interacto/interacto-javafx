@@ -13,55 +13,51 @@ package org.malai.javafx.interaction.library;
 import javafx.event.EventHandler;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
-import org.malai.interaction.TerminalState;
-import org.malai.javafx.interaction.JfxInteractionImpl;
-import org.malai.javafx.interaction.JfxWindowClosedTransition;
+import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * A JavaFX interaction that uses a single menu item.
+ * A user interaction for windows to be closed.
  * @author Arnaud BLOUIN
  */
-public class WindowClosed extends JfxInteractionImpl {
-	private final EventHandler<WindowEvent> winClose = evt -> onWindowClosed(evt);
-
-	protected WindowEvent event;
+public class WindowClosed extends JfxInteraction<WindowClosedFSM, Window> {
+	private final EventHandler<WindowEvent> winClose;
+	private final WindowClosedFSM.WindowClosedHandler handler;
 
 	/**
 	 * Creates the interaction.
 	 */
 	public WindowClosed() {
-		super();
-		initStateMachine();
-	}
+		super(new WindowClosedFSM());
 
-	@Override
-	protected void initStateMachine() {
-		final TerminalState closed = new TerminalState("closed");
-
-		addState(closed);
-
-		new JfxWindowClosedTransition(initState, closed) {
+		handler = new WindowClosedFSM.WindowClosedHandler() {
 			@Override
-			public void action() {
-				super.action();
-				WindowClosed.this.event = this.event;
+			public void initToClosedHandler(final WindowEvent event) {
+				if(event.getSource() instanceof Window) {
+					widget = (Window) event.getSource();
+				}
+			}
+
+			@Override
+			public void reinitData() {
+				WindowClosed.this.reinitData();
 			}
 		};
-	}
 
-	@Override
-	public void reinit() {
-		super.reinit();
-		event = null;
-	}
-
-	@Override
-	protected void onWindowUnregistered(final Window window) {
-		window.removeEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, winClose);
+		fsm.buildFSM(handler);
+		winClose = evt -> processEvent(evt);
 	}
 
 	@Override
 	protected void onNewWindowRegistered(final Window window) {
-		window.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, winClose);
+		if(window != null) {
+			window.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, winClose);
+		}
+	}
+
+	@Override
+	protected void onWindowUnregistered(final Window window) {
+		if(window != null) {
+			window.removeEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, winClose);
+		}
 	}
 }

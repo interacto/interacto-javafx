@@ -13,15 +13,15 @@ package org.malai.javafx.binding;
 import javafx.scene.control.TextInputControl;
 import org.malai.action.ActionImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.library.TextChanged;
+import org.malai.javafx.interaction.library.TextInputChanged;
 
 /**
  * The binding builder to create bindings between a text input interaction and a given action.
  * @param <A> The type of the action to produce.
  * @author Arnaud Blouin
  */
-public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, TextChanged, TextInputBinder<A, W>> {
+public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, TextInputChanged, TextInputBinder<A, W>> {
 	public TextInputBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new TextChanged(), instrument);
+		super(action, new TextInputChanged(), instrument);
 	}
 }
