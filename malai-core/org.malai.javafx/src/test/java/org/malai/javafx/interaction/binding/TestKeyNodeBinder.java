@@ -32,6 +32,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testNoActionExecutedOnNoKey() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).bind();
 		type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
 		assertEquals(1, ((StubAction) instrument.lastCreatedAction).exec.get());
 	}
@@ -40,6 +41,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testActionExecutedOnKey() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.C).bind();
 		type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
 		assertEquals(1, ((StubAction) instrument.lastCreatedAction).exec.get());
 	}
@@ -48,6 +50,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testActionExecutedOnTwoKeys() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
 		press(KeyCode.CONTROL).type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
 		assertEquals(1, ((StubAction) instrument.lastCreatedAction).exec.get());
 	}
@@ -56,6 +59,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testActionExecutedOnThreeKeys() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
 		press(KeyCode.CONTROL).type(KeyCode.C).type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(2, instrument.exec.get());
 	}
 
@@ -63,6 +67,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testNoActionExecutedOnTwoKeysReleased() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
 		type(KeyCode.CONTROL).type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, instrument.exec.get());
 	}
 
@@ -70,6 +75,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testNoActionExecutedOnBadKey() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.C).bind();
 		type(KeyCode.A);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, instrument.exec.get());
 		assertNull(instrument.lastCreatedAction);
 	}
@@ -79,11 +85,13 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1, widget2).with(KeyCode.C).bind();
 		grabFocus(widget2);
 		type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
 		Action a = instrument.lastCreatedAction;
 		assertEquals(1, ((StubAction) instrument.lastCreatedAction).exec.get());
 		grabFocus(widget1);
 		type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(2, instrument.exec.get());
 		assertEquals(1, ((StubAction) instrument.lastCreatedAction).exec.get());
 		assertNotSame(a, instrument.lastCreatedAction);
@@ -93,6 +101,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testInit1Executed() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).first(a -> a.exec.setValue(10)).bind();
 		type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
 		assertEquals(11, ((StubAction) instrument.lastCreatedAction).exec.get());
 	}
@@ -101,6 +110,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testInit2Executed() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).first((a, i) -> a.exec.setValue(20)).bind();
 		type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
 		assertEquals(21, ((StubAction) instrument.lastCreatedAction).exec.get());
 	}
@@ -109,15 +119,17 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).when(i -> false).bind();
 		type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, instrument.exec.get());
 	}
 
 	@Test
-	@DisplayName("Registering same zonePane two times does not produce events twice")
+	@DisplayName("Registering same pane two times does not produce events twice")
 	public void testDoubleRegistration() throws InstantiationException, IllegalAccessException {
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.A, KeyCode.CONTROL).bind();
 		new KeyNodeBinder<>(StubAction.class, instrument).on(widget1).with(KeyCode.U, KeyCode.CONTROL).bind();
 		press(KeyCode.CONTROL, KeyCode.A).release(KeyCode.A).sleep(10L);
+		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
 	}
 }
