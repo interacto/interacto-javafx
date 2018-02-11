@@ -16,8 +16,8 @@ import javafx.scene.input.KeyEvent;
 public class KeyPressed extends KeyInteraction<KeyPressedFSM, Event> {
 	private final KeyPressedFSM.KeyPressedFSMHandler handler;
 
-	public KeyPressed() {
-		super(new KeyPressedFSM());
+	public KeyPressed(final boolean modifiersAccepted) {
+		super(new KeyPressedFSM(modifiersAccepted));
 
 		handler = new KeyPressedFSM.KeyPressedFSMHandler() {
 			@Override
@@ -32,5 +32,9 @@ public class KeyPressed extends KeyInteraction<KeyPressedFSM, Event> {
 		};
 
 		fsm.buildFSM(handler);
+	}
+
+	public KeyPressed() {
+		this(true);
 	}
 }
