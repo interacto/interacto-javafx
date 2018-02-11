@@ -65,7 +65,7 @@ public class MultiClickFSM extends JfxFSM<MultiClickFSM.MultiClickFSMHandler> {
 		new ClickTransition(clicked, ended) {
 			@Override
 			protected boolean isGuardOK(final Event event) {
-				return super.isGuardOK(event) && counterPts >= minPoints && event instanceof MouseEvent && ((MouseEvent) event).getButton() != MouseButton.PRIMARY;
+				return (counterPts + 1) >= minPoints && event instanceof MouseEvent && ((MouseEvent) event).getButton() != MouseButton.PRIMARY;
 			}
 
 			@Override
