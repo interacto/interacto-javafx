@@ -46,7 +46,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.never()).fsmStops();
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
 
 	@Test
@@ -54,10 +54,13 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(1, interaction.getPoints().size());
+				assertEquals(2, interaction.getPoints().size());
 				assertEquals(11, interaction.getPoints().get(0).getX(), 0.0001d);
 				assertEquals(23, interaction.getPoints().get(0).getY(), 0.0001d);
 				assertEquals(0, interaction.getPoints().get(0).getZ(), 0.0001d);
+				assertEquals(121, interaction.getPoints().get(1).getX(), 0.0001d);
+				assertEquals(213, interaction.getPoints().get(1).getY(), 0.0001d);
+				assertEquals(0, interaction.getPoints().get(1).getZ(), 0.0001d);
 			}
 		});
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
