@@ -29,7 +29,8 @@ public class SubFSMTransition<E> extends Transition<E> {
 		subFSM.setInner(true);
 		subFSMHandler = new FSMHandler() {
 			@Override
-			public void fsmStarts() {
+			public void fsmStarts() throws CancelFSMException {
+				src.exit();
 			}
 
 			@Override
@@ -71,11 +72,12 @@ public class SubFSMTransition<E> extends Transition<E> {
 		if(isGuardOK(event)) {
 			src.getFSM().stopCurrentTimeout();
 			final Optional<Transition<E>> transition = findTransition(event);
-			src.exit();
-			subFSM.addHandler(subFSMHandler);
-			src.getFSM().currentSubFSM = subFSM;
-			subFSM.process(event);
-			return Optional.of(transition.get().tgt);
+			if(transition.isPresent()) {
+				subFSM.addHandler(subFSMHandler);
+				src.getFSM().currentSubFSM = subFSM;
+				subFSM.process(event);
+				return Optional.of(transition.get().tgt);
+			}
 		}
 
 		return Optional.empty();
