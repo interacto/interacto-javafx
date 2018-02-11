@@ -38,7 +38,7 @@ public class TestFSM {
 
 	@Test
 	void testCurrentStateAtStart() {
-		assertEquals(fsm.initState, fsm.currentState);
+		assertEquals(fsm.initState, fsm.getCurrentState());
 	}
 
 	@Test
@@ -88,19 +88,19 @@ public class TestFSM {
 		@Test
 		void testFireEventKO() {
 			fsm.process(null);
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 		}
 
 		@Test
 		void testFireEventChangeState() {
 			fsm.process(new StubEvent());
-			assertEquals(std, fsm.currentState);
+			assertEquals(std, fsm.getCurrentState());
 		}
 
 		@Test
 		void testGetterCurrentState() {
 			fsm.process(new StubEvent());
-			assertEquals(fsm.currentState, fsm.getCurrentState());
+			assertEquals(fsm.getCurrentState(), fsm.getCurrentState());
 		}
 
 		@Test
@@ -116,7 +116,7 @@ public class TestFSM {
 		void testFire2EventsToEnd() {
 			fsm.process(new StubEvent());
 			fsm.process(new StubEvent());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 		}
 
 		@Test
@@ -143,7 +143,7 @@ public class TestFSM {
 			new StubTransitionOK(std, cancelling);
 			fsm.process(new StubEvent());
 			fsm.process(new StubEvent());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 			Mockito.verify(handler, Mockito.never()).fsmStops();
 		}
@@ -153,7 +153,7 @@ public class TestFSM {
 			fsm.process(new StubEvent());
 			fsm.addRemaningEventsToProcess(new StubEvent());
 			fsm.process(new StubEvent());
-			assertEquals(std, fsm.currentState);
+			assertEquals(std, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(2)).fsmStarts();
 			assertTrue(fsm.eventsToProcess.isEmpty());
 		}
@@ -165,7 +165,7 @@ public class TestFSM {
 			fsm.process(new StubEvent());
 			fsm.addRemaningEventsToProcess(new StubEvent());
 			fsm.process(new StubEvent());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 			assertTrue(fsm.eventsToProcess.isEmpty());
@@ -175,7 +175,7 @@ public class TestFSM {
 		void testReinit() {
 			fsm.process(new StubEvent());
 			fsm.reinit();
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 		}
 
 		@Test
@@ -184,14 +184,14 @@ public class TestFSM {
 			fsm.addRemaningEventsToProcess(new StubEvent());
 			fsm.fullReinit();
 			assertTrue(fsm.eventsToProcess.isEmpty());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 		}
 
 		@Test
 		void testCancelOnStart() throws CancelFSMException {
 			Mockito.doThrow(new CancelFSMException()).when(handler).fsmStarts();
 			fsm.process(new StubEvent());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 			Mockito.verify(handler, Mockito.never()).fsmUpdates();
@@ -202,7 +202,7 @@ public class TestFSM {
 		void testCancelOnUpdate() throws CancelFSMException {
 			Mockito.doThrow(new CancelFSMException()).when(handler).fsmUpdates();
 			fsm.process(new StubEvent());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 			Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
@@ -214,7 +214,7 @@ public class TestFSM {
 			Mockito.doThrow(new CancelFSMException()).when(handler).fsmStops();
 			fsm.process(new StubEvent());
 			fsm.process(new StubEvent());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 			Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
@@ -252,7 +252,7 @@ public class TestFSM {
 		void testNotTriggeredIfGuardKO() throws CancelFSMException {
 			iToS.guard = false;
 			fsm.process(new StubEvent());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.never()).fsmStarts();
 		}
 
@@ -260,7 +260,7 @@ public class TestFSM {
 		void testNotTriggeredIfNotGoodEvent() throws CancelFSMException {
 			fsm.process(new StubEvent());
 			fsm.process(new StubEvent());
-			assertEquals(std, fsm.currentState);
+			assertEquals(std, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.never()).fsmCancels();
 			Mockito.verify(handler, Mockito.never()).fsmStops();
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -271,7 +271,7 @@ public class TestFSM {
 		void testTriggerGoodChoice() throws CancelFSMException {
 			fsm.process(new StubEvent());
 			fsm.process(new StubSubEvent2());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 			Mockito.verify(handler, Mockito.never()).fsmStops();
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -282,7 +282,7 @@ public class TestFSM {
 		void testTriggerGoodChoice2() throws CancelFSMException {
 			fsm.process(new StubEvent());
 			fsm.process(new StubSubEvent1());
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmStops();
 			Mockito.verify(handler, Mockito.never()).fsmCancels();
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -321,7 +321,7 @@ public class TestFSM {
 		void testTimeoutChangeState() throws InterruptedException {
 			fsm.process(new StubEvent());
 			Thread.sleep(200);
-			assertEquals(std2, fsm.currentState);
+			assertEquals(std2, fsm.getCurrentState());
 		}
 
 		@Test
@@ -330,7 +330,7 @@ public class TestFSM {
 			Thread.sleep(10);
 			fsm.process(new StubEvent());
 			Thread.sleep(100);
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 		}
 
 		@Test
@@ -338,7 +338,7 @@ public class TestFSM {
 			fsm.process(new StubEvent());
 			Mockito.doThrow(new CancelFSMException()).when(handler).fsmUpdates();
 			Thread.sleep(200);
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 		}
 	}
@@ -381,8 +381,8 @@ public class TestFSM {
 		@Test
 		void testEntersSubGoodCurrState() throws CancelFSMException {
 			mainfsm.process(new StubSubEvent1());
-			assertEquals(subS1, mainfsm.currentState);
-			assertEquals(subS1, fsm.currentState);
+			assertEquals(subS1, mainfsm.getCurrentState());
+			assertEquals(subS1, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		}
 
@@ -390,8 +390,8 @@ public class TestFSM {
 		void testNextSubStarteChangesMainCurrState() throws CancelFSMException {
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
-			assertEquals(subS2, mainfsm.currentState);
-			assertEquals(subS2, fsm.currentState);
+			assertEquals(subS2, mainfsm.getCurrentState());
+			assertEquals(subS2, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
 		}
 
@@ -400,8 +400,8 @@ public class TestFSM {
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
 			mainfsm.process(new StubSubEvent1());
-			assertEquals(s1, mainfsm.currentState);
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(s1, mainfsm.getCurrentState());
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.never()).fsmStops();
 			Mockito.verify(handler, Mockito.never()).fsmCancels();
 		}
@@ -411,8 +411,8 @@ public class TestFSM {
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
 			mainfsm.process(new StubSubEvent2());
-			assertEquals(mainfsm.initState, mainfsm.currentState);
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(mainfsm.initState, mainfsm.getCurrentState());
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.never()).fsmStops();
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 		}
@@ -422,7 +422,7 @@ public class TestFSM {
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
 			mainfsm.fullReinit();
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(fsm.initState, fsm.getCurrentState());
 		}
 
 		@Test
@@ -434,8 +434,8 @@ public class TestFSM {
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
 			mainfsm.process(new StubSubEvent1());
-			assertEquals(mainfsm.initState, mainfsm.currentState);
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(mainfsm.initState, mainfsm.getCurrentState());
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 		}
 
@@ -448,8 +448,8 @@ public class TestFSM {
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
 			mainfsm.process(new StubSubEvent1());
-			assertEquals(mainfsm.initState, mainfsm.currentState);
-			assertEquals(fsm.initState, fsm.currentState);
+			assertEquals(mainfsm.initState, mainfsm.getCurrentState());
+			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		}
 	}

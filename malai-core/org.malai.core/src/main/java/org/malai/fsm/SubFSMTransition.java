@@ -34,7 +34,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 
 			@Override
 			public void fsmUpdates() throws CancelFSMException {
-				src.getFSM().currentState = subFSM.currentState;
+				src.getFSM().setCurrentState(subFSM.getCurrentState());
 				src.getFSM().onUpdating();
 			}
 
@@ -52,7 +52,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 					return;
 				}
 				if(tgt instanceof OutputState) {
-					src.getFSM().currentState = (OutputState<E>) tgt;
+					src.getFSM().setCurrentState((OutputState<E>) tgt);
 					tgt.enter();
 				}
 			}

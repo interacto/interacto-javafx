@@ -11,18 +11,20 @@
 package org.malai.fsm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.malai.utils.ObsValue;
 
 public class FSM<E> {
 	protected Logger logger;
 	protected boolean inner;
 	protected State<E> startingState;
 	protected final InitState<E> initState;
-	protected OutputState<E> currentState;
+	protected final ObsValue<OutputState<E>> currentState;
 	/** The states that compose the finite state machine. */
 	protected final Set<State<E>> states;
 	/** The handler that want to be notified when the state machine of the interaction changed. */
@@ -44,13 +46,13 @@ public class FSM<E> {
 		states = new HashSet<>();
 		states.add(initState);
 		startingState = initState;
-		currentState = initState;
+		currentState = new ObsValue<>(initState);
 		inner = false;
 		handlers = new HashSet<>(2);
 	}
 
 	public OutputState<E> getCurrentState() {
-		return currentState;
+		return currentState.get();
 	}
 
 	public void setInner(final boolean inner) {
@@ -64,13 +66,17 @@ public class FSM<E> {
 		if(currentSubFSM != null) {
 			return currentSubFSM.process(event);
 		}
-		return currentState.process(event);
+		return currentState.get().process(event);
 	}
 
 	protected void enterStdState(final StdState<E> state) throws CancelFSMException {
-		currentState = state;
+		setCurrentState(state);
 		checkTimeoutTransition();
 		onUpdating();
+	}
+
+	protected void setCurrentState(final OutputState<E> state) {
+		currentState.set(state);
 	}
 
 	/**
@@ -185,7 +191,7 @@ public class FSM<E> {
 			currentTimeout.stopTimeout();
 		}
 
-		currentState = initState;
+		currentState.set(initState);
 		currentTimeout = null;
 
 		if(currentSubFSM != null) {
@@ -214,7 +220,7 @@ public class FSM<E> {
 
 			try {
 				currentTimeout.execute(null).filter(state -> state instanceof OutputState<?>).ifPresent(state -> {
-					currentState = (OutputState<E>) state;
+					currentState.set((OutputState<E>) state);
 					checkTimeoutTransition();
 				});
 			}catch(final CancelFSMException ignored) {
@@ -242,7 +248,7 @@ public class FSM<E> {
 	 * If it is the case, the timeout transition is launched.
 	 */
 	protected void checkTimeoutTransition() {
-		currentState.getTransitions().stream().filter(tr -> tr instanceof TimeoutTransition).findFirst().map(tr -> (TimeoutTransition<E>) tr).ifPresent(tr -> {
+		currentState.get().getTransitions().stream().filter(tr -> tr instanceof TimeoutTransition).findFirst().map(tr -> (TimeoutTransition<E>) tr).ifPresent(tr -> {
 			if(logger != null) {
 				logger.log(Level.INFO, "Timeout starting");
 			}
@@ -311,5 +317,13 @@ public class FSM<E> {
 	 */
 	protected void notifyHandlerOnCancel() {
 		handlers.forEach(handler -> handler.fsmCancels());
+	}
+
+	public Set<State<E>> getStates() {
+		return Collections.unmodifiableSet(states);
+	}
+
+	public ObsValue<OutputState<E>> currentStateProp() {
+		return currentState;
 	}
 }

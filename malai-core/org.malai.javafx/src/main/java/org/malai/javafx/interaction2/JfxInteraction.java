@@ -89,6 +89,35 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 		widget = null;
 	}
 
+	@Override
+	protected void updateEventsRegistered(final OutputState<Event> newState, final OutputState<Event> oldState) {
+		// Do nothing when the interaction has only two nodes: init node and terminal node (this is a single-event interaction).
+		if(newState == oldState || fsm.getStates().size() == 2) {
+			return;
+		}
+
+		final List<EventType<?>> currEvents = getEventTypesOf(newState);
+		final List<EventType<?>> events = getEventTypesOf(oldState);
+		final List<EventType<?>> eventsToRemove = new ArrayList<>(events);
+		final List<EventType<?>> eventsToAdd = new ArrayList<>(currEvents);
+
+		eventsToRemove.removeAll(currEvents);
+		eventsToAdd.removeAll(events);
+
+		registeredNodes.forEach(n -> {
+			eventsToRemove.forEach(type -> unregisterEventToNode(type, n));
+			eventsToAdd.forEach(type -> registerEventToNode(type, n));
+		});
+		registeredWindows.forEach(w -> {
+			eventsToRemove.forEach(type -> unregisterEventToWindow(type, w));
+			eventsToAdd.forEach(type -> registerEventToWindow(type, w));
+		});
+		additionalNodes.forEach(nodes -> nodes.forEach(n -> {
+			eventsToRemove.forEach(type -> unregisterEventToNode(type, n));
+			eventsToAdd.forEach(type -> registerEventToNode(type, n));
+		}));
+	}
+
 	private List<EventType<?>> getEventTypesOf(final OutputState<Event> state) {
 		return state.getTransitions().stream().map(t -> t.getAcceptedEvents()).flatMap(s -> s.stream()).distinct().map(o -> (EventType<?>) o).
 			collect(Collectors.toList());
