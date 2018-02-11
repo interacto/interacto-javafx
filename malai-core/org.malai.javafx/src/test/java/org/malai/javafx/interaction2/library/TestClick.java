@@ -17,7 +17,7 @@ public class TestClick extends BaseJfXInteractionTest<Click> {
 
 	@Test
 	void testClickExecution() throws CancelFSMException {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -32,14 +32,14 @@ public class TestClick extends BaseJfXInteractionTest<Click> {
 				assertEquals(MouseButton.MIDDLE, interaction.getButton());
 			}
 		});
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 	}
 
 	@Test
 	void testClickOnRegWidget() throws CancelFSMException {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
-		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE));
+		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, pane));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
@@ -56,7 +56,7 @@ public class TestClick extends BaseJfXInteractionTest<Click> {
 				assertEquals(MouseButton.MIDDLE, interaction.getButton());
 			}
 		});
-		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE));
+		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, pane));
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class TestClick extends BaseJfXInteractionTest<Click> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
-		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE));
+		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, pane));
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 }
