@@ -14,7 +14,7 @@ import javafx.event.Event;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.malai.fsm.FSM;
-import org.malai.interaction.InitState;
+import org.malai.fsm.InitState;
 
 public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 	protected H dataHandler;
@@ -45,9 +45,9 @@ public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 		final boolean processed = super.process(event);
 
 		// Recycling events
-		if(processed && event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_PRESSED && !(currentState instanceof InitState) &&
+		if(processed && event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_PRESSED && !(getCurrentState() instanceof InitState) &&
 			(eventsToProcess == null || eventsToProcess.stream().noneMatch(evt -> ((KeyEvent) evt).getCode() == ((KeyEvent) event).getCode()))) {
-			addRemaningEventsToProcess(event);
+			addRemaningEventsToProcess((Event) event.clone());
 		}
 
 		return processed;

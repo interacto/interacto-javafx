@@ -13,6 +13,8 @@ package org.malai.interaction2;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.malai.fsm.FSM;
+import org.malai.fsm.InitState;
+import org.malai.fsm.OutputState;
 
 public abstract class Interaction<E, F extends FSM<E>> {
 	protected Logger logger;
@@ -32,7 +34,18 @@ public abstract class Interaction<E, F extends FSM<E>> {
 		}
 
 		this.fsm = fsm;
+		fsm.currentStateProp().obs((oldValue, newValue) -> updateEventsRegistered(newValue, oldValue));
 		activated = true;
+	}
+
+	protected abstract void updateEventsRegistered(final OutputState<E> newState, final OutputState<E> oldState);
+
+	public boolean isRunning() {
+		return activated && !(fsm.getCurrentState() instanceof InitState<?>);
+	}
+
+	public void fullReinit() {
+		fsm.fullReinit();
 	}
 
 	public void processEvent(final E event) {
@@ -79,46 +92,4 @@ public abstract class Interaction<E, F extends FSM<E>> {
 	}
 
 	protected abstract void reinitData();
-
-	public void processCheckBoxData(final Object checkbox) {
-	}
-
-	public void processButtonData(final Object button) {
-	}
-
-	public void processToggleButtonData(final Object button) {
-	}
-
-	public void processColorPickerData(final Object picker) {
-	}
-
-	public void processComboBoxData(final Object box) {
-	}
-
-	public void processChoiceBoxData(final Object box) {
-	}
-
-	public void processDatePickerData(final Object picker) {
-	}
-
-	public void processHyperlinkData(final Object hlink) {
-	}
-
-	public void processMenuButtonData(final Object menu) {
-	}
-
-	public void processMenuItemData(final Object menu) {
-	}
-
-	public void processSpinnerData(final Object spinner) {
-	}
-
-	public void processTabData(final Object tab) {
-	}
-
-	public void processTextInputData(final Object textInputWidget) {
-	}
-
-	public void processWindowData(final Object window) {
-	}
 }

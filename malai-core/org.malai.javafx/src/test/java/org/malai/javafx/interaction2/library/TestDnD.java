@@ -205,6 +205,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 	}
 
 	@Test
@@ -214,5 +215,35 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
+	}
+
+	@Test
+	void testNewKindEventRegistered() throws CancelFSMException {
+		Pane pane = new Pane();
+		interaction.registerToNodes(Collections.singletonList(pane));
+		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
+		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
+	}
+
+	@Test
+	void testNewKindEvent2Registered() throws CancelFSMException {
+		Pane pane = new Pane();
+		interaction.registerToNodes(Collections.singletonList(pane));
+		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseReleaseEvent(12, 25, MouseButton.PRIMARY));
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
+	}
+
+	@Test
+	void testNewKindEventOnTerminalRegistered() throws CancelFSMException {
+		Pane pane = new Pane();
+		interaction.registerToNodes(Collections.singletonList(pane));
+		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseReleaseEvent(12, 25, MouseButton.PRIMARY));
+		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
 	}
 }
