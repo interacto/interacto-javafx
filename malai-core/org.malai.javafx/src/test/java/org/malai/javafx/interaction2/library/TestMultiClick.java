@@ -23,7 +23,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 	@Test
 	void testClickStarts() throws CancelFSMException {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
 
@@ -38,13 +38,13 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 				assertEquals(0, interaction.getPoints().get(0).getZ(), 0.0001d);
 			}
 		});
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 	}
 
 	@Test
 	void testClickThenLeftClickDoNotEnds() throws CancelFSMException {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
@@ -63,15 +63,15 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 				assertEquals(0, interaction.getPoints().get(1).getZ(), 0.0001d);
 			}
 		});
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(121, 213, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(121, 213, MouseButton.SECONDARY, null));
 	}
 
 	@Test
 	void testTwoClicksThenLeftClickEnds() throws CancelFSMException {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
@@ -90,34 +90,34 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 				assertEquals(233, interaction.getPoints().get(2).getY(), 0.0001d);
 			}
 		});
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(111, 231, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(112, 233, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(111, 231, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(112, 233, MouseButton.SECONDARY, null));
 	}
 
 	@Test
 	void testReinitData() {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(111, 231, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(112, 233, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(111, 231, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(112, 233, MouseButton.SECONDARY, null));
 		assertTrue(interaction.getPoints().isEmpty());
 		assertNull(interaction.getCurrentPosition());
 	}
 
 	@Test
 	void testThreeClicksThenLeftClickEnds() throws CancelFSMException {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
 
 	@Test
 	void testClicksThenMoves() {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(111, 213, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(111, 213, MouseButton.PRIMARY, null));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
@@ -131,10 +131,10 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 	@Test
 	void testClicksThenMovesThenClickThenMove() {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(111, 213, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(111, 213, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseMoveEvent(112, 233, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
@@ -148,7 +148,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 	@Test
 	void testClickESCCancels() throws CancelFSMException {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 		interaction.processEvent(createKeyPressEvent("ESC", KeyCode.ESCAPE));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
@@ -157,8 +157,8 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 	@Test
 	void testTwoClicksESCCancels() throws CancelFSMException {
-		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(21, 33, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseClickEvent(21, 33, MouseButton.PRIMARY, null));
 		interaction.processEvent(createKeyPressEvent("ESC", KeyCode.ESCAPE));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
@@ -175,7 +175,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 	void testMultiClickOnRegWidget() throws CancelFSMException {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
-		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
 
@@ -184,7 +184,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
-		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 
@@ -199,8 +199,8 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 		@Test
 		void testTwoClicksThenLeftClickDoesNotEnd() throws CancelFSMException {
-			interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY));
-			interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY));
+			interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+			interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY, null));
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.never()).fsmStops();
 			Mockito.verify(handler, Mockito.never()).fsmCancels();
@@ -208,9 +208,9 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 		@Test
 		void testThreeClicksThenLeftClickDoesNotEnd() throws CancelFSMException {
-			interaction.processEvent(createMouseClickEvent(111, 2223, MouseButton.PRIMARY));
-			interaction.processEvent(createMouseClickEvent(121, 243, MouseButton.PRIMARY));
-			interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY));
+			interaction.processEvent(createMouseClickEvent(111, 2223, MouseButton.PRIMARY, null));
+			interaction.processEvent(createMouseClickEvent(121, 243, MouseButton.PRIMARY, null));
+			interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.SECONDARY, null));
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(1)).fsmStops();
 			Mockito.verify(handler, Mockito.never()).fsmCancels();
