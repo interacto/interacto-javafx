@@ -33,7 +33,6 @@ import org.malai.ex.draw.view.MyCanvas;
 import org.malai.ex.draw.view.ViewFactory;
 import org.malai.ex.util.ColorCursor;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.library.CancellableDnD;
 import org.malai.javafx.interaction.library.DnD;
 import org.malai.javafx.interaction.library.Press;
 import org.malai.logging.LogLevel;
@@ -84,7 +83,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// To incrementally moves the shape, the DnD interaction has its parameter 'updateSrcOnUpdate' set to true:
 		// At each interaction updates, the source point and object take the latest target point and object.
 		// The DnD interaction can be stopped (aborted) by pressing the key 'ESC'. This cancels the ongoing action (that thus needs to be undoable).
-		nodeBinder(MoveShape.class, new CancellableDnD(true)).
+		nodeBinder(MoveShape.class, new DnD(true, true)).
 			// The binding dynamically registers elements of the given observable list.
 			// When nodes are added to this list, these nodes register the binding.
 			// When nodes are removed from this list, their binding is cancelled.
