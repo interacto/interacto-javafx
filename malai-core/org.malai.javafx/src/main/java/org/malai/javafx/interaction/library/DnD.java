@@ -63,7 +63,7 @@ public class DnD extends PointInteraction<DnDFSM, Node> {
 	protected void setDropData(final MouseEvent event) {
 		endLocalPt.set(new Point3D(event.getX(), event.getY(), event.getZ()));
 		endScenePt.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
-		endObject.set(srcObject.get());
+		endObject.set(event.getPickResult().getIntersectedNode());
 		setModifiersData(event);
 	}
 

@@ -62,3 +62,19 @@ class SubStubTransition2 extends StubTransitionOK {
 		return Sets.newSet(StubSubEvent2.class);
 	}
 }
+
+class SubStubTransition3 extends StubTransitionOK {
+	protected SubStubTransition3(final OutputState<StubEvent> srcState, final InputState<StubEvent> tgtState, final boolean guard) {
+		super(srcState, tgtState, guard);
+	}
+
+	@Override
+	public boolean accept(final StubEvent event) {
+		return event instanceof StubSubEvent3;
+	}
+
+	@Override
+	public Set<Object> getAcceptedEvents() {
+		return Sets.newSet(StubSubEvent3.class);
+	}
+}

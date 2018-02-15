@@ -17,6 +17,6 @@ public class InitState<E> extends OutputStateImpl<E> {
 
 	@Override
 	public void exit() throws CancelFSMException {
-		fsm.onStarting();
+		checkStartingState();
 	}
 }

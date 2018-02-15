@@ -110,7 +110,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	void testDbleClickNotSameButtonExecution() throws CancelFSMException {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
@@ -120,9 +120,9 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		sleep(500L);
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
-		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
 
 	@Test
@@ -131,9 +131,21 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		sleep(250L);
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
-		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
+	}
+
+	@Test
+	void testDbleClickKOWithCustomDelayButRecycled() throws CancelFSMException {
+		DoubleClickFSM.setTimeGap(50L);
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		sleep(250L);
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(12, 24, MouseButton.MIDDLE, null));
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
 
 	@Test
@@ -141,9 +153,19 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseMoveEvent(20, 40, MouseButton.MIDDLE));
 		interaction.processEvent(createMouseClickEvent(20, 40, MouseButton.MIDDLE, null));
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
-		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
+	}
+
+	@Test
+	void testDbleClickKOWithMoveButRecycled() throws CancelFSMException {
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseMoveEvent(20, 40, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseClickEvent(20, 40, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(22, 42, MouseButton.MIDDLE, null));
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
 
 	@Test

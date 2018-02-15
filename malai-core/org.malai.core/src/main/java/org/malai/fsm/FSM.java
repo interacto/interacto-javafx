@@ -22,7 +22,17 @@ import org.malai.utils.ObsValue;
 public class FSM<E> {
 	protected Logger logger;
 	protected boolean inner;
+	/**
+	 * By default an FSM triggers its 'start' event when it leaves its initial state.
+	 * In some cases, this is not the case. For example, a double-click interaction is an FSM that must trigger
+	 * its start event when the FSM reaches... its terminal state. Similarly, a DnD must trigger its start event
+	 * on the first move, not on the first press.
+	 * The goal of this attribute is to identify the state of the FSM that must trigger the start event.
+	 * By default, this attribute is set with the initial state of the FSM.
+	 */
 	protected State<E> startingState;
+	/** Goes with 'startingState'. It permits to know whether the FSM has started, ie whether the 'starting state' has been reached. */
+	protected boolean started;
 	protected final InitState<E> initState;
 	protected final ObsValue<OutputState<E>> currentState;
 	/** The states that compose the finite state machine. */
@@ -42,6 +52,7 @@ public class FSM<E> {
 
 	public FSM() {
 		super();
+		started = false;
 		initState = new InitState<>(this, "init");
 		states = new HashSet<>();
 		states.add(initState);
@@ -72,7 +83,13 @@ public class FSM<E> {
 	protected void enterStdState(final StdState<E> state) throws CancelFSMException {
 		setCurrentState(state);
 		checkTimeoutTransition();
-		onUpdating();
+		if(started) {
+			onUpdating();
+		}
+	}
+
+	public boolean isStarted() {
+		return started;
 	}
 
 	protected void setCurrentState(final OutputState<E> state) {
@@ -124,7 +141,9 @@ public class FSM<E> {
 			logger.log(Level.INFO, "FSM ended");
 		}
 
-		notifyHandlerOnStop();
+		if(started) {
+			notifyHandlerOnStop();
+		}
 		reinit();
 		processRemainingEvents();
 	}
@@ -135,7 +154,9 @@ public class FSM<E> {
 			logger.log(Level.INFO, "FSM cancelled");
 		}
 
-		notifyHandlerOnCancel();
+		if(started) {
+			notifyHandlerOnCancel();
+		}
 		// When an interaction is aborted, the events in progress must not be reused.
 		fullReinit();
 	}
@@ -148,6 +169,7 @@ public class FSM<E> {
 			logger.log(Level.INFO, "FSM started");
 		}
 
+		started = true;
 		notifyHandlerOnStart();
 	}
 
@@ -155,11 +177,13 @@ public class FSM<E> {
 	 * Updates the state machine.
 	 */
 	public void onUpdating() throws CancelFSMException {
-		if(logger != null) {
-			logger.log(Level.INFO, "FSM updated");
-		}
+		if(started) {
+			if(logger != null) {
+				logger.log(Level.INFO, "FSM updated");
+			}
 
-		notifyHandlerOnUpdate();
+			notifyHandlerOnUpdate();
+		}
 	}
 
 	/**
@@ -191,6 +215,7 @@ public class FSM<E> {
 			currentTimeout.stopTimeout();
 		}
 
+		started = false;
 		currentState.set(initState);
 		currentTimeout = null;
 

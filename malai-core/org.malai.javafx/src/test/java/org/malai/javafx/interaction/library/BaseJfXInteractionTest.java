@@ -80,11 +80,13 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
-	static MouseEvent createMouseDragEvent(final double x, final double y, final MouseButton button) {
+	static MouseEvent createMouseDragEvent(final double x, final double y, final MouseButton button, final Node srcObj) {
+		final PickResult res = Mockito.mock(PickResult.class);
+		Mockito.when(res.getIntersectedNode()).thenReturn(srcObj);
+		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0d));
 		return new MouseEvent(MouseEvent.MOUSE_DRAGGED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
-			0d, 0, new Point2D(0d, 0d)));
+			true,false, false, res);
 	}
 
 	static MouseEvent createMouseClickEvent(final double x, final double y, final MouseButton button, final Node srcObj) {

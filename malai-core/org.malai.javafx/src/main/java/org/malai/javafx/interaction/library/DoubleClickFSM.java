@@ -69,6 +69,7 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 		addState(clicked);
 		addState(dbleclicked);
 		addState(cancelled);
+		startingState = dbleclicked;
 
 		new SubFSMTransition<Event>(initState, clicked, firstClickFSM) {
 			@Override

@@ -1,7 +1,10 @@
 package org.malai.fsm;
 
 
+import java.util.Arrays;
+import java.util.HashSet;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -83,6 +86,16 @@ public class TestFSM {
 			fsm.addState(std);
 			fsm.addState(terminal);
 			fsm.addState(cancelling);
+		}
+
+		@Test
+		void testGetStates() {
+			assertEquals(new HashSet<>(Arrays.asList(fsm.initState, std, terminal, cancelling)), fsm.getStates());
+		}
+
+		@Test
+		void testcurrentStateProp() {
+			assertNotNull(fsm.currentStateProp());
 		}
 
 		@Test
@@ -220,6 +233,20 @@ public class TestFSM {
 			Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 			Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		}
+
+		@Test
+		void testHasStartedReinit() {
+			fsm.process(new StubEvent());
+			fsm.process(new StubEvent());
+			assertFalse(fsm.started);
+		}
+
+		@Test
+		void testHasStarted() {
+			fsm.process(new StubEvent());
+			assertTrue(fsm.started);
+			assertTrue(fsm.isStarted());
+		}
 	}
 
 	@Nested
@@ -230,6 +257,7 @@ public class TestFSM {
 		StubTransitionOK iToS;
 		Transition<StubEvent> sToT;
 		Transition<StubEvent> sToC;
+		Transition<StubEvent> recur;
 		FSMHandler handler;
 
 		@BeforeEach
@@ -243,6 +271,7 @@ public class TestFSM {
 			iToS = new StubTransitionOK(fsm.initState, std);
 			sToT = new SubStubTransition1(std, terminal, true);
 			sToC = new SubStubTransition2(std, cancel, true);
+			recur = new SubStubTransition3(std, std, true);
 			fsm.addState(std);
 			fsm.addState(terminal);
 			fsm.addState(cancel);
@@ -279,6 +308,13 @@ public class TestFSM {
 		}
 
 		@Test
+		void testHasStartedReinitOnCancel() {
+			fsm.process(new StubEvent());
+			fsm.process(new StubSubEvent2());
+			assertFalse(fsm.started);
+		}
+
+		@Test
 		void testTriggerGoodChoice2() throws CancelFSMException {
 			fsm.process(new StubEvent());
 			fsm.process(new StubSubEvent1());
@@ -287,6 +323,47 @@ public class TestFSM {
 			Mockito.verify(handler, Mockito.never()).fsmCancels();
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
+		}
+
+
+		@Test
+		@DisplayName("Check onstart not called when starting state diff")
+		void testStartingStateNotTriggered() throws CancelFSMException {
+			fsm.startingState = terminal;
+			fsm.process(new StubEvent());
+			Mockito.verify(handler, Mockito.never()).fsmStarts();
+		}
+
+		@Test
+		void testStartingStateNotTriggeredSoNoUpdate() throws CancelFSMException {
+			fsm.startingState = terminal;
+			fsm.process(new StubEvent());
+			Mockito.verify(handler, Mockito.never()).fsmUpdates();
+		}
+
+		@Test
+		void testStartingStateNotTriggeredSoNoCancel() {
+			fsm.startingState = terminal;
+			fsm.process(new StubEvent());
+			fsm.process(new StubSubEvent2());
+			Mockito.verify(handler, Mockito.never()).fsmCancels();
+		}
+
+		@Test
+		void testStartingStateTriggeredOnTerminal() throws CancelFSMException {
+			fsm.startingState = terminal;
+			fsm.process(new StubEvent());
+			fsm.process(new StubSubEvent1());
+			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+			Mockito.verify(handler, Mockito.times(1)).fsmStops();
+		}
+
+		@Test
+		void testStartingStateOnRecursion() throws CancelFSMException {
+			fsm.startingState = std;
+			fsm.process(new StubEvent());
+			fsm.process(new StubSubEvent3());
+			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		}
 	}
 

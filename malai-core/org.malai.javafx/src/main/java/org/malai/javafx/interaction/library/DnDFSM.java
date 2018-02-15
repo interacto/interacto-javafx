@@ -42,6 +42,8 @@ public class DnDFSM extends JfxFSM<DnDFSM.DnDFSMHandler> {
 		addState(released);
 		addState(cancelled);
 
+		startingState = dragged;
+
 		new PressureTransition(initState, pressed) {
 			@Override
 			protected void action(final Event event) {
