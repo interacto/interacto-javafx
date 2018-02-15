@@ -143,7 +143,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 			then((a, i) -> i.getEndObjet().map(view -> (MyShape) view.getUserData()).ifPresent(sh -> a.setShape(sh))).
 			when(i -> i.getEndObjet().orElse(null) instanceof Shape).
 			feedback(() -> lineCol.getScene().setCursor(new ColorCursor(lineCol.getValue()))).
-			end((a, i) -> lineCol.getScene().setCursor(Cursor.DEFAULT)).
+			endOrCancel((a, i) -> lineCol.getScene().setCursor(Cursor.DEFAULT)).
 			bind();
 
 		/*

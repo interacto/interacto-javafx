@@ -82,7 +82,7 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseMoveEvent(30, 40, MouseButton.MIDDLE));
-		Mockito.verify(handler, Mockito.times(3)).fsmUpdates();
+		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
 	}
 
 	@Test

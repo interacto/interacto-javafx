@@ -1,6 +1,7 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Collections;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 	@Test
 	void testPressExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
@@ -42,8 +43,8 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 	void testPressReleaseExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		interaction.processEvent(createMouseReleaseEvent(11, 23, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 	}
 
@@ -51,23 +52,24 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 	void testPressReleaseKOExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		interaction.processEvent(createMouseReleaseEvent(11, 23, MouseButton.SECONDARY));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
 
 	@Test
-	void testPressMoveExecution() throws CancelFSMException {
+	void testPressDragExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
 
 	@Test
-	void testPressMoveData() {
+	void testPressDragData() {
+		final Button button = new Button();
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.SECONDARY));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
@@ -77,15 +79,17 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 				assertEquals(12, interaction.getEndLocalPt().getX(), 0.0001d);
 				assertEquals(24, interaction.getEndLocalPt().getY(), 0.0001d);
 				assertEquals(MouseButton.SECONDARY, interaction.getButton());
+				assertEquals(button, interaction.getEndObject().get());
 			}
 		});
-		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY, button));
 	}
 
 	@Test
-	void testPressMoveKOExecution() throws CancelFSMException {
+	void testPressDragKOExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.SECONDARY, null));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -93,10 +97,21 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 	}
 
 	@Test
-	void testPressMoveMoveKOExecution() throws CancelFSMException {
+	void testPressDragDragKOExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(14, 24, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseDragEvent(14, 24, MouseButton.SECONDARY, null));
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
+		Mockito.verify(handler, Mockito.never()).fsmStops();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
+	}
+
+	@Test
+	void testPressDragDragExecution() throws CancelFSMException {
+		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseDragEvent(14, 24, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -104,20 +119,9 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 	}
 
 	@Test
-	void testPressMoveMoveExecution() throws CancelFSMException {
-		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(14, 24, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(3)).fsmUpdates();
-		Mockito.verify(handler, Mockito.never()).fsmStops();
-		Mockito.verify(handler, Mockito.never()).fsmCancels();
-	}
-
-	@Test
-	void testPressMoveMoveData() {
+	void testPressDragDragData() {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.MIDDLE));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.MIDDLE, null));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
@@ -128,22 +132,22 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 				assertEquals(MouseButton.MIDDLE, interaction.getButton());
 			}
 		});
-		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.MIDDLE, null));
 	}
 
 	@Test
-	void testPressMoveReleaseExecution() throws CancelFSMException {
+	void testPressDragReleaseExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseReleaseEvent(12, 22, MouseButton.PRIMARY));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
 
 	@Test
-	void testPressMoveReleaseData() {
+	void testPressDragReleaseData() {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
@@ -155,35 +159,35 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 			}
 		});
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseReleaseEvent(15, 25, MouseButton.PRIMARY));
 	}
 
 	@Test
-	void testPressMoveReleaseKOExecution() throws CancelFSMException {
+	void testPressDragReleaseKOExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseReleaseEvent(12, 22, MouseButton.SECONDARY));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 	}
 
 	@Test
-	void testPressMoveMoveReleaseExecution() throws CancelFSMException {
+	void testPressDragDragReleaseExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(14, 24, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(14, 24, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseReleaseEvent(12, 22, MouseButton.PRIMARY));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(3)).fsmUpdates();
+		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
 
 	@Test
-	void testPressMoveMoveReleaseData() {
+	void testPressDragDragReleaseData() {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
@@ -195,7 +199,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 			}
 		});
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(12, 22, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseReleaseEvent(15, 25, MouseButton.PRIMARY));
 	}
 
@@ -204,6 +208,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 	}
@@ -222,8 +227,8 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 	}
 
 	@Test
@@ -231,7 +236,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
 		pane.fireEvent(createMouseReleaseEvent(12, 25, MouseButton.PRIMARY));
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
@@ -241,9 +246,10 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
 		pane.fireEvent(createMouseReleaseEvent(12, 25, MouseButton.PRIMARY));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
 	}
 }

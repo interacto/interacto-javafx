@@ -16,7 +16,7 @@ public class TestDnDUpdateOnSrc extends BaseJfXInteractionTest<DnD> {
 	@Test
 	void testPressExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
@@ -37,17 +37,17 @@ public class TestDnDUpdateOnSrc extends BaseJfXInteractionTest<DnD> {
 	}
 
 	@Test
-	void testPressMoveExecution() throws CancelFSMException {
+	void testPressDragExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
 
 	@Test
-	void testPressMoveData() {
+	void testPressDragData() {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.SECONDARY));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
@@ -59,13 +59,13 @@ public class TestDnDUpdateOnSrc extends BaseJfXInteractionTest<DnD> {
 				assertEquals(MouseButton.SECONDARY, interaction.getButton());
 			}
 		});
-		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY, null));
 	}
 
 	@Test
-	void testPressMoveMoveData() {
+	void testPressDragDragData() {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.SECONDARY));
-		interaction.processEvent(createMouseDragEvent(10, 22, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseDragEvent(10, 22, MouseButton.SECONDARY, null));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
@@ -76,6 +76,6 @@ public class TestDnDUpdateOnSrc extends BaseJfXInteractionTest<DnD> {
 				assertEquals(MouseButton.SECONDARY, interaction.getButton());
 			}
 		});
-		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY, null));
 	}
 }

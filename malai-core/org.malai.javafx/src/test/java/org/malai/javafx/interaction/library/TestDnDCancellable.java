@@ -17,7 +17,7 @@ public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 	@Test
 	void testPressExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
@@ -26,15 +26,15 @@ public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 	void testPressESCExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		interaction.processEvent(createKeyPressEvent("ESC", KeyCode.ESCAPE));
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 	}
 
 	@Test
-	void testPressMoveESCExecution() throws CancelFSMException {
+	void testPressDragESCExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
 		interaction.processEvent(createKeyPressEvent("ESC", KeyCode.ESCAPE));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
@@ -42,10 +42,10 @@ public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 	}
 
 	@Test
-	void testPressMoveMoveESCExecution() throws CancelFSMException {
+	void testPressDragDragESCExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.PRIMARY));
+		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
+		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
 		interaction.processEvent(createKeyPressEvent("ESC", KeyCode.ESCAPE));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
@@ -57,7 +57,7 @@ public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
 		interaction.processEvent(createKeyPressEvent("ESC", KeyCode.ESCAPE));
 		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 	}
@@ -67,9 +67,10 @@ public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 		Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
 		interaction.processEvent(createKeyPressEvent("ESC", KeyCode.ESCAPE));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
 	}
 }

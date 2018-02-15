@@ -17,6 +17,7 @@ public class TerminalState<E> extends StateImpl<E> implements InputState<E> {
 
 	@Override
 	public void enter() throws CancelFSMException {
+		checkStartingState();
 		fsm.onTerminating();
 	}
 }

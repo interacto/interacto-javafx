@@ -17,11 +17,11 @@ public class StdState<E> extends OutputStateImpl<E> implements InputState<E> {
 
 	@Override
 	public void enter() throws CancelFSMException {
+		checkStartingState();
 		fsm.enterStdState(this);
 	}
 
 	@Override
 	public void exit() {
-
 	}
 }

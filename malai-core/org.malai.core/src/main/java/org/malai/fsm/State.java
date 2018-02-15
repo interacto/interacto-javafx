@@ -12,5 +12,18 @@ package org.malai.fsm;
 
 public interface State<E> {
 	String getName();
+
 	FSM<E> getFSM();
+
+	/**
+	 * Checks whether the starting state of the fsm is this state.
+	 * In this case, the fsm is notified about the starting of the FSM.
+	 * @throws CancelFSMException
+	 */
+	default void checkStartingState() throws CancelFSMException {
+		// Triggers the start event only if the starting state is this initial state
+		if(!getFSM().isStarted() && getFSM().startingState == this) {
+			getFSM().onStarting();
+		}
+	}
 }
