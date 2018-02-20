@@ -55,7 +55,19 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testProcessEventGoodData() {
+	void testProcessEventGoodDataOnStart() {
+		interaction.getFsm().addHandler(new InteractionHandlerStub() {
+			@Override
+			public void fsmStarts() {
+				assertEquals(wimpWidget, interaction.getWidget());
+			}
+		});
+		interaction.processEvent(new ActionEvent(wimpWidget, null));
+		sleep();
+	}
+
+	@Test
+	void testProcessEventGoodDataOnStop() {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {

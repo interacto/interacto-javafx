@@ -45,7 +45,7 @@ public class TabSelected extends JfxInteraction<TabSelectedFSM, TabPane> {
 		};
 
 		fsm.buildFSM(handler);
-		event = (observable, oldValue, newValue) -> processEvent(new TabEvent(widget, null));
+		event = (observable, oldValue, newValue) -> processEvent(new TabEvent(newValue.getTabPane(), null));
 	}
 
 	@Override
