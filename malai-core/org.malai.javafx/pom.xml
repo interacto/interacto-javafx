@@ -12,7 +12,7 @@
         <argLine>-Dheadless.geometry=1920x1080-32 -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k
         </argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.0.3</junit.version>
+        <junit.version>5.1.0</junit.version>
     </properties>
 
     <build>
