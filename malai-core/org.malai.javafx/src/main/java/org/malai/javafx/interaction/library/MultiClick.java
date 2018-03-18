@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.event.Event;
 import javafx.geometry.Point3D;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import org.malai.fsm.TerminalState;
 import org.malai.javafx.interaction.JfxInteraction;
 
 public class MultiClick extends JfxInteraction<MultiClickFSM, Event> {
@@ -24,6 +24,7 @@ public class MultiClick extends JfxInteraction<MultiClickFSM, Event> {
 	protected final List<Point3D> points;
 	/** The current position of the pointing device. */
 	protected Point3D currentPosition;
+	protected MouseButton currentButton;
 
 	public MultiClick(final int minPts) {
 		super(new MultiClickFSM(minPts));
@@ -34,6 +35,7 @@ public class MultiClick extends JfxInteraction<MultiClickFSM, Event> {
 			public void onClick(final MouseEvent event) {
 				MultiClick.this.points.add(new Point3D(event.getX(), event.getY(), event.getZ()));
 				currentPosition = new Point3D(event.getX(), event.getY(), event.getZ());
+				currentButton = event.getButton();
 			}
 
 			@Override
@@ -73,19 +75,14 @@ public class MultiClick extends JfxInteraction<MultiClickFSM, Event> {
 		return currentPosition;
 	}
 
+	public MouseButton getCurrentButton() {
+		return currentButton;
+	}
+
 	@Override
 	public void reinitData() {
 		super.reinitData();
 		points.clear();
 		currentPosition = null;
-	}
-
-	/**
-	 * @return True if the last point gathered by the interaction is a point created by the right
-	 * click that ends the interaction. This method is useful to make the difference between
-	 * points created using left clicks and the last one created using a right click.
-	 */
-	public boolean isLastPointFinalPoint() {
-		return getFsm().getCurrentState() instanceof TerminalState<?>;
 	}
 }
