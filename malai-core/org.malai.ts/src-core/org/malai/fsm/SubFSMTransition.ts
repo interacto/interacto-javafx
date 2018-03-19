@@ -1,7 +1,7 @@
 /* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
 
-/// <reference path="../../../util/Optional.ts" />
-/// <reference path="../../../util/ArrayUtils.ts" />
+/// <reference path="../../../../src/util/Optional.ts" />
+/// <reference path="../../../../src/util/ArrayUtils.ts" />
 
 namespace org.malai.fsm {
     import Optional = util.Optional;

@@ -1,6 +1,6 @@
 /* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
 
-/// <reference path="../../../util/Optional.ts" />
+/// <reference path="../../../../src/util/Optional.ts" />
 
 namespace org.malai.undo {
     /**
