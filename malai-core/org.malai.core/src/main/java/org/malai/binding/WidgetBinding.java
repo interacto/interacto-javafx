@@ -13,7 +13,7 @@ package org.malai.binding;
 import org.malai.action.Action;
 import org.malai.fsm.FSMHandler;
 import org.malai.instrument.Instrument;
-import org.malai.interaction2.Interaction;
+import org.malai.interaction.InteractionImpl;
 
 /**
  * The concept of widget binding and its related services.
@@ -43,7 +43,7 @@ public interface WidgetBinding extends FSMHandler {
 	/**
 	 * @return The interaction.
 	 */
-	Interaction<?, ?> getInteraction();
+	InteractionImpl<?, ?> getInteraction();
 
 	/**
 	 * @return The action in progress or null.

@@ -7,12 +7,12 @@ namespace org.malai.binding {
      * @param {boolean} exec Specifies if the action must be execute or update on each evolution of the interaction.
      * @param {*} actionClass The type of the action that will be created. Used to instantiate the action by reflexivity.
      * The class must be public and must have a constructor with no parameter.
-     * @param {org.malai.interaction2.Interaction} interaction The user interaction of the binding.
+     * @param {org.malai.interaction.InteractionImpl} interaction The user interaction of the binding.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      * @class
      * @author Arnaud BLOUIN
      */
-    export abstract class WidgetBindingImpl<A extends org.malai.action.ActionImpl, I extends org.malai.interaction2.Interaction<any, any>, N extends org.malai.instrument.Instrument<any>> implements org.malai.binding.WidgetBinding {
+    export abstract class WidgetBindingImpl<A extends org.malai.action.ActionImpl, I extends org.malai.interaction.InteractionImpl<any, any>, N extends org.malai.instrument.Instrument<any>> implements org.malai.binding.WidgetBinding {
         // loggerBinding : java.util.logging.Logger;
 
         // loggerAction : java.util.logging.Logger;

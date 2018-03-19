@@ -21,7 +21,7 @@ import org.malai.action.AutoUnbind;
 import org.malai.error.ErrorCatcher;
 import org.malai.fsm.CancelFSMException;
 import org.malai.instrument.Instrument;
-import org.malai.interaction2.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.undo.Undoable;
 
 /**
@@ -31,7 +31,7 @@ import org.malai.undo.Undoable;
  * @param <N> The type of the instrument that will contain this widget binding.
  * @author Arnaud BLOUIN
  */
-public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interaction<?, ?>, N extends Instrument<?>> implements WidgetBinding {
+public abstract class WidgetBindingImpl<A extends ActionImpl, I extends InteractionImpl<?, ?>, N extends Instrument<?>> implements WidgetBinding {
 	protected Logger loggerBinding;
 
 	protected Logger loggerAction;

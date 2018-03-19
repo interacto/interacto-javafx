@@ -2,9 +2,8 @@ package org.malai.interaction;
 
 import org.malai.fsm.FSM;
 import org.malai.fsm.OutputState;
-import org.malai.interaction2.Interaction;
 
-public class InteractionMock extends Interaction<Object, FSM<Object>> {
+public class InteractionMock extends InteractionImpl<Object, FSM<Object>> {
 	public InteractionMock() {
 		super(new FSM<>());
 	}
