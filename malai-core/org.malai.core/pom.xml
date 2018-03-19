@@ -127,9 +127,9 @@
                 <version>2.0.1</version>
                 <configuration>
                     <tsOut>target/ts</tsOut>
-                    <targetVersion>ES3</targetVersion>
+                    <targetVersion>ES6</targetVersion>
                     <tsOnly>true</tsOnly>
-                    <verbose>true</verbose>
+                    <verbose>false</verbose>
                 </configuration>
                 <executions>
                     <execution>
