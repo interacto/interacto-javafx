@@ -414,7 +414,7 @@ public class TestFSM {
 		void testTimeoutChangeStateThenCancel() throws InterruptedException, CancelFSMException {
 			fsm.process(new StubEvent());
 			Mockito.doThrow(new CancelFSMException()).when(handler).fsmUpdates();
-			Thread.sleep(200);
+			Thread.sleep(300);
 			assertEquals(fsm.initState, fsm.getCurrentState());
 			Mockito.verify(handler, Mockito.times(1)).fsmCancels();
 		}

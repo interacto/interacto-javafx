@@ -34,10 +34,10 @@ import javafx.scene.input.ScrollEvent;
 import javafx.stage.Window;
 import org.malai.fsm.FSM;
 import org.malai.fsm.OutputState;
-import org.malai.interaction2.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.malai.javafx.interaction.help.HelpAnimation;
 
-public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interaction<Event, F> implements FSMDataHandler {
+public abstract class JfxInteraction<F extends FSM<Event>, T> extends InteractionImpl<Event, F> implements FSMDataHandler {
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
 	protected final List<ObservableList<? extends Node>> additionalNodes;

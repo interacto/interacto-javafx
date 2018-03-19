@@ -11,7 +11,7 @@ import org.malai.action.AutoUnbind;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.FSM;
 import org.malai.instrument.Instrument;
-import org.malai.interaction2.Interaction;
+import org.malai.interaction.InteractionImpl;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,14 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class TestAutoUnbind {
 	DoubleProperty val;
 	Instrument<?> ins;
-	Interaction<Object, FSM<Object>> inter;
+	InteractionImpl<Object, FSM<Object>> inter;
 	FSM<Object> fsm;
 
 	@BeforeEach
 	public void setUp() {
 		val = new SimpleDoubleProperty(2d);
 		ins = Mockito.mock(Instrument.class);
-		inter = Mockito.mock(Interaction.class);
+		inter = Mockito.mock(InteractionImpl.class);
 		fsm = Mockito.mock(FSM.class);
 		Mockito.when(ins.isActivated()).thenReturn(true);
 		Mockito.when(inter.isActivated()).thenReturn(true);
@@ -36,7 +36,7 @@ public class TestAutoUnbind {
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
 		final A act = new A(val.multiply(10d), val.add(11d));
-		WidgetBindingImpl<A, Interaction<?,?>, Instrument<?>> binding = new WidgetBindingImpl<A, Interaction<?,?>, Instrument<?>>(ins, false, A.class, inter) {
+		WidgetBindingImpl<A, InteractionImpl<?,?>, Instrument<?>> binding = new WidgetBindingImpl<A, InteractionImpl<?,?>, Instrument<?>>(ins, false, A.class, inter) {
 			@Override
 			public void first() {
 			}
@@ -66,7 +66,7 @@ public class TestAutoUnbind {
 	public void testUnbindSuperClassFields() throws CancelFSMException {
 		final B act = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
-		WidgetBindingImpl<B, Interaction<?,?>, Instrument<?>> binding = new WidgetBindingImpl<B, Interaction<?,?>, Instrument<?>>(ins, false, B.class, inter) {
+		WidgetBindingImpl<B, InteractionImpl<?,?>, Instrument<?>> binding = new WidgetBindingImpl<B, InteractionImpl<?,?>, Instrument<?>>(ins, false, B.class, inter) {
 			@Override
 			public void first() {
 			}

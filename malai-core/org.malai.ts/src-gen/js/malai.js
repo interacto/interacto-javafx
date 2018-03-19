@@ -1729,315 +1729,51 @@ var org;
         var interaction;
         (function (interaction) {
             class InteractionImpl {
-                constructor(initState) {
-                    if (((initState != null && initState instanceof org.malai.interaction.InitState) || initState === null)) {
-                        let __args = Array.prototype.slice.call(arguments);
-                        if (this.states === undefined)
-                            this.states = null;
-                        if (this.initState === undefined)
-                            this.initState = null;
-                        if (this.currentState === undefined)
-                            this.currentState = null;
-                        if (this.activated === undefined)
-                            this.activated = false;
-                        if (this.handlers === undefined)
-                            this.handlers = null;
-                        if (this.stillProcessingEvents === undefined)
-                            this.stillProcessingEvents = null;
-                        if (this.currentTimeout === undefined)
-                            this.currentTimeout = null;
-                        if (this.lastHIDUsed === undefined)
-                            this.lastHIDUsed = 0;
-                        if (this.states === undefined)
-                            this.states = null;
-                        if (this.initState === undefined)
-                            this.initState = null;
-                        if (this.currentState === undefined)
-                            this.currentState = null;
-                        if (this.activated === undefined)
-                            this.activated = false;
-                        if (this.handlers === undefined)
-                            this.handlers = null;
-                        if (this.stillProcessingEvents === undefined)
-                            this.stillProcessingEvents = null;
-                        if (this.currentTimeout === undefined)
-                            this.currentTimeout = null;
-                        if (this.lastHIDUsed === undefined)
-                            this.lastHIDUsed = 0;
-                        (() => {
-                            if (initState == null) {
-                                throw Object.defineProperty(new Error(), '__classes', { configurable: true, value: ['java.lang.Throwable', 'java.lang.Object', 'java.lang.RuntimeException', 'java.lang.IllegalArgumentException', 'java.lang.Exception'] });
-                            }
-                            this.currentTimeout = null;
-                            this.activated = true;
-                            this.states = ([]);
-                            initState.stateMachine = this;
-                            this.initState = initState;
-                            this.addState(initState);
-                            this.currentState = initState;
-                            this.lastHIDUsed = -1;
-                        })();
+                constructor(fsm) {
+                    if (this.fsm === undefined)
+                        this.fsm = null;
+                    if (this.activated === undefined)
+                        this.activated = false;
+                    if (fsm == null) {
+                        throw Object.defineProperty(new Error("null fsm"), '__classes', { configurable: true, value: ['java.lang.Throwable', 'java.lang.Object', 'java.lang.RuntimeException', 'java.lang.IllegalArgumentException', 'java.lang.Exception'] });
                     }
-                    else if (initState === undefined) {
-                        let __args = Array.prototype.slice.call(arguments);
-                        {
-                            let __args = Array.prototype.slice.call(arguments);
-                            let initState = new org.malai.interaction.InitState();
-                            if (this.states === undefined)
-                                this.states = null;
-                            if (this.initState === undefined)
-                                this.initState = null;
-                            if (this.currentState === undefined)
-                                this.currentState = null;
-                            if (this.activated === undefined)
-                                this.activated = false;
-                            if (this.handlers === undefined)
-                                this.handlers = null;
-                            if (this.stillProcessingEvents === undefined)
-                                this.stillProcessingEvents = null;
-                            if (this.currentTimeout === undefined)
-                                this.currentTimeout = null;
-                            if (this.lastHIDUsed === undefined)
-                                this.lastHIDUsed = 0;
-                            if (this.states === undefined)
-                                this.states = null;
-                            if (this.initState === undefined)
-                                this.initState = null;
-                            if (this.currentState === undefined)
-                                this.currentState = null;
-                            if (this.activated === undefined)
-                                this.activated = false;
-                            if (this.handlers === undefined)
-                                this.handlers = null;
-                            if (this.stillProcessingEvents === undefined)
-                                this.stillProcessingEvents = null;
-                            if (this.currentTimeout === undefined)
-                                this.currentTimeout = null;
-                            if (this.lastHIDUsed === undefined)
-                                this.lastHIDUsed = 0;
-                            (() => {
-                                if (initState == null) {
-                                    throw Object.defineProperty(new Error(), '__classes', { configurable: true, value: ['java.lang.Throwable', 'java.lang.Object', 'java.lang.RuntimeException', 'java.lang.IllegalArgumentException', 'java.lang.Exception'] });
-                                }
-                                this.currentTimeout = null;
-                                this.activated = true;
-                                this.states = ([]);
-                                initState.stateMachine = this;
-                                this.initState = initState;
-                                this.addState(initState);
-                                this.currentState = initState;
-                                this.lastHIDUsed = -1;
-                            })();
-                        }
+                    this.fsm = fsm;
+                    fsm.currentStateProp().obs({ onChange: (oldValue, newValue) => this.updateEventsRegistered(newValue, oldValue) });
+                    this.activated = true;
+                }
+                isRunning() {
+                    return this.activated && !(this.fsm.getCurrentState() != null && this.fsm.getCurrentState() instanceof org.malai.fsm.InitState);
+                }
+                fullReinit() {
+                    this.fsm.fullReinit();
+                }
+                processEvent(event) {
+                    if (this.isActivated()) {
+                        this.fsm.process(event);
                     }
-                    else
-                        throw new Error('invalid overload');
                 }
                 log(log) {
-                }
-                setCurrentState(state) {
-                    let oldState = this.currentState;
-                    this.currentState = state;
-                    this.changeEventsRegistered(oldState);
-                }
-                setActivated(activated) {
-                    this.activated = activated;
-                    if (!activated) {
-                        this.reinit();
-                        this.clearEventsStillInProcess();
-                    }
+                    this.fsm.log(log);
                 }
                 isActivated() {
                     return this.activated;
                 }
-                getCurrentState() {
-                    return this.currentState;
+                setActivated(activated) {
+                    this.activated = activated;
+                    if (!activated) {
+                        this.fsm.fullReinit();
+                    }
+                }
+                getFsm() {
+                    return this.fsm;
                 }
                 reinit() {
-                    if (this.currentTimeout != null) {
-                        this.currentTimeout.stopTimeout();
-                    }
-                    this.currentTimeout = null;
-                    this.setCurrentState(this.initState);
-                    this.lastHIDUsed = -1;
-                }
-                getHandlers() {
-                    return this.handlers;
-                }
-                addHandler(handler) {
-                    if (handler != null) {
-                        if (this.handlers == null) {
-                            this.handlers = ([]);
-                        }
-                        (this.handlers.push(handler) > 0);
-                    }
-                }
-                notifyHandlersOnStart() {
-                    try {
-                        if (this.handlers != null) {
-                            for (let index131 = 0; index131 < this.handlers.length; index131++) {
-                                let handler = this.handlers[index131];
-                                {
-                                    handler.interactionStarts();
-                                }
-                            }
-                        }
-                    }
-                    catch (ex) {
-                        this.notifyHandlersOnCancel();
-                        throw ex;
-                    }
-                    ;
-                }
-                notifyHandlersOnUpdate() {
-                    try {
-                        if (this.handlers != null) {
-                            for (let index132 = 0; index132 < this.handlers.length; index132++) {
-                                let handler = this.handlers[index132];
-                                {
-                                    handler.interactionUpdates();
-                                }
-                            }
-                        }
-                    }
-                    catch (ex) {
-                        this.notifyHandlersOnCancel();
-                        throw ex;
-                    }
-                    ;
-                }
-                notifyHandlersOnStop() {
-                    try {
-                        if (this.handlers != null) {
-                            for (let index133 = 0; index133 < this.handlers.length; index133++) {
-                                let handler = this.handlers[index133];
-                                {
-                                    handler.interactionStops();
-                                }
-                            }
-                        }
-                    }
-                    catch (ex) {
-                        this.notifyHandlersOnCancel();
-                        throw ex;
-                    }
-                    ;
-                }
-                notifyHandlersOnCancel() {
-                    if (this.handlers != null) {
-                        this.handlers.forEach((handler) => handler.interactionCancels());
-                    }
-                }
-                addState(state) {
-                    if (state != null) {
-                        ((s, e) => { if (s.indexOf(e) == -1) {
-                            s.push(e);
-                            return true;
-                        }
-                        else {
-                            return false;
-                        } })(this.states, state);
-                        state.setStateMachine(this);
-                    }
-                }
-                isRunning() {
-                    return this.activated && this.currentState !== this.initState;
-                }
-                executeTransition(transition) {
-                    if (this.activated && transition != null) {
-                        try {
-                            transition.action();
-                            transition.getInputState().onOutgoing();
-                            this.setCurrentState(transition.getOutputState());
-                            transition.getOutputState().onIngoing();
-                        }
-                        catch (ex) {
-                            this.reinit();
-                        }
-                        ;
-                    }
-                }
-                stopCurrentTimeout() {
-                    if (this.currentTimeout != null) {
-                        this.currentTimeout.stopTimeout();
-                        this.currentTimeout = null;
-                    }
-                }
-                checkTransition(transition) {
-                    let ok;
-                    if (transition != null && (this.states.indexOf((transition.getInputState())) >= 0) && transition.isGuardRespected()) {
-                        this.stopCurrentTimeout();
-                        this.executeTransition(transition);
-                        ok = true;
-                    }
-                    else {
-                        ok = false;
-                    }
-                    return ok;
-                }
-                onTimeout(timeoutTransition) {
-                    if (this.activated && timeoutTransition != null) {
-                        this.executeTransition(timeoutTransition);
-                    }
-                }
-                processEvents() {
-                }
-                onTerminating() {
-                    this.notifyHandlersOnStop();
-                    this.reinit();
-                    this.processEvents();
-                }
-                onCancelling() {
-                    this.notifyHandlersOnCancel();
-                    this.reinit();
-                    this.clearEventsStillInProcess();
-                }
-                onStarting() {
-                    this.notifyHandlersOnStart();
-                    this.checkTimeoutTransition();
-                }
-                onUpdating() {
-                    this.notifyHandlersOnUpdate();
-                    this.checkTimeoutTransition();
-                }
-                checkTimeoutTransition() {
-                }
-                getLastHIDUsed() {
-                    return this.lastHIDUsed;
-                }
-                setLastHIDUsed(hid) {
-                    this.lastHIDUsed = hid;
-                }
-                clearEventsStillInProcess() {
-                    if (this.stillProcessingEvents != null) {
-                        {
-                            (this.stillProcessingEvents.length = 0);
-                        }
-                        ;
-                    }
-                }
-                clearEvents() {
-                    this.reinit();
-                    this.clearEventsStillInProcess();
+                    this.fsm.reinit();
+                    this.reinitData();
                 }
             }
             interaction.InteractionImpl = InteractionImpl;
             InteractionImpl["__class"] = "org.malai.interaction.InteractionImpl";
-            InteractionImpl["__interfaces"] = ["org.malai.interaction.Interaction", "org.malai.stateMachine.StateMachine", "org.malai.interaction.EventProcessor"];
-            (function (InteractionImpl) {
-                class Event {
-                    constructor(idHID) {
-                        if (this.idHID === undefined)
-                            this.idHID = 0;
-                        this.idHID = idHID;
-                    }
-                    getIdHID() {
-                        return this.idHID;
-                    }
-                }
-                InteractionImpl.Event = Event;
-                Event["__class"] = "org.malai.interaction.InteractionImpl.Event";
-            })(InteractionImpl = interaction.InteractionImpl || (interaction.InteractionImpl = {}));
         })(interaction = malai.interaction || (malai.interaction = {}));
     })(malai = org.malai || (org.malai = {}));
 })(org || (org = {}));
@@ -2185,61 +1921,6 @@ var org;
             WidgetTransition["__class"] = "org.malai.interaction.WidgetTransition";
             WidgetTransition["__interfaces"] = ["org.malai.stateMachine.Transition"];
         })(interaction = malai.interaction || (malai.interaction = {}));
-    })(malai = org.malai || (org.malai = {}));
-})(org || (org = {}));
-var org;
-(function (org) {
-    var malai;
-    (function (malai) {
-        var interaction2;
-        (function (interaction2) {
-            class Interaction {
-                constructor(fsm) {
-                    if (this.fsm === undefined)
-                        this.fsm = null;
-                    if (this.activated === undefined)
-                        this.activated = false;
-                    if (fsm == null) {
-                        throw Object.defineProperty(new Error("null fsm"), '__classes', { configurable: true, value: ['java.lang.Throwable', 'java.lang.Object', 'java.lang.RuntimeException', 'java.lang.IllegalArgumentException', 'java.lang.Exception'] });
-                    }
-                    this.fsm = fsm;
-                    fsm.currentStateProp().obs({ onChange: (oldValue, newValue) => this.updateEventsRegistered(newValue, oldValue) });
-                    this.activated = true;
-                }
-                isRunning() {
-                    return this.activated && !(this.fsm.getCurrentState() != null && this.fsm.getCurrentState() instanceof org.malai.fsm.InitState);
-                }
-                fullReinit() {
-                    this.fsm.fullReinit();
-                }
-                processEvent(event) {
-                    if (this.isActivated()) {
-                        this.fsm.process(event);
-                    }
-                }
-                log(log) {
-                    this.fsm.log(log);
-                }
-                isActivated() {
-                    return this.activated;
-                }
-                setActivated(activated) {
-                    this.activated = activated;
-                    if (!activated) {
-                        this.fsm.fullReinit();
-                    }
-                }
-                getFsm() {
-                    return this.fsm;
-                }
-                reinit() {
-                    this.fsm.reinit();
-                    this.reinitData();
-                }
-            }
-            interaction2.Interaction = Interaction;
-            Interaction["__class"] = "org.malai.interaction2.Interaction";
-        })(interaction2 = malai.interaction2 || (malai.interaction2 = {}));
     })(malai = org.malai || (org.malai = {}));
 })(org || (org = {}));
 var org;

@@ -27,9 +27,9 @@ namespace org.malai.binding {
         when() : boolean;
 
         /**
-         * @return {org.malai.interaction2.Interaction} The interaction.
+         * @return {org.malai.interaction.InteractionImpl} The interaction.
          */
-        getInteraction() : org.malai.interaction2.Interaction<any, any>;
+        getInteraction() : org.malai.interaction.InteractionImpl<any, any>;
 
         /**
          * @return {*} The action in progress or null.
