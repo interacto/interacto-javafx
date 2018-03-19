@@ -7,12 +7,12 @@ module.exports = function(grunt) {
 		options: {
             tsconfig: "./tsconfig.json"
 		},
-		your_target: {
+		js_gen: {
 		  // ALWAYS use files, instead of src/dest 
 		  // Note that for EACH dest, will be created a separated TSC project json file, keep that in mind 
 		  files: {
 		    // its a folder == outDir 
-		    'src-gen/js': ['src/**/*.ts'],
+		    'src-gen/js': ['src-core/**/*.ts', 'src/**/*.ts'],
 		    // its a file == outFile 
 		//    'dest/has/extension.js': ['srcs/**/*.ts']
 		  }
