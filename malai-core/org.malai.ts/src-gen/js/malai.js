@@ -1,18 +1,64 @@
+Object.defineProperty(Array.prototype, 'flatMap', {
+    value: function (f) {
+        return this.reduce((ys, x) => {
+            return ys.concat(f.call(this, x));
+        }, []);
+    },
+    enumerable: false,
+});
+var util;
+(function (util) {
+    class Optional {
+        constructor(obj) {
+            this.value = obj;
+        }
+        static empty() {
+            return Optional.EMPTY;
+        }
+        static of(var0) {
+            return new Optional(var0);
+        }
+        static ofNullable(var0) {
+            return var0 === undefined ? Optional.empty() : Optional.of(var0);
+        }
+        get() {
+            if (this.value === undefined) {
+                throw new TypeError("No value present");
+            }
+            else {
+                return this.value;
+            }
+        }
+        isPresent() {
+            return this.value !== undefined;
+        }
+        filter(predicate) {
+            if (!this.isPresent()) {
+                return this;
+            }
+            else {
+                return predicate(this.value) ? this : Optional.empty();
+            }
+        }
+    }
+    Optional.EMPTY = new Optional();
+    util.Optional = Optional;
+})(util || (util = {}));
 var org;
 (function (org) {
     var malai;
     (function (malai) {
         var action;
         (function (action_1) {
-            var Action;
+            let Action;
             (function (Action) {
-                var RegistrationPolicy;
+                let RegistrationPolicy;
                 (function (RegistrationPolicy) {
                     RegistrationPolicy[RegistrationPolicy["NONE"] = 0] = "NONE";
                     RegistrationPolicy[RegistrationPolicy["UNLIMITED"] = 1] = "UNLIMITED";
                     RegistrationPolicy[RegistrationPolicy["LIMITED"] = 2] = "LIMITED";
                 })(RegistrationPolicy = Action.RegistrationPolicy || (Action.RegistrationPolicy = {}));
-                var ActionStatus;
+                let ActionStatus;
                 (function (ActionStatus) {
                     ActionStatus[ActionStatus["CREATED"] = 0] = "CREATED";
                     ActionStatus[ActionStatus["EXECUTED"] = 1] = "EXECUTED";
@@ -1292,52 +1338,6 @@ var org;
         })(fsm = malai.fsm || (malai.fsm = {}));
     })(malai = org.malai || (org.malai = {}));
 })(org || (org = {}));
-var util;
-(function (util) {
-    class Optional {
-        constructor(obj) {
-            this.value = obj;
-        }
-        static empty() {
-            return Optional.EMPTY;
-        }
-        static of(var0) {
-            return new Optional(var0);
-        }
-        static ofNullable(var0) {
-            return var0 === undefined ? Optional.empty() : Optional.of(var0);
-        }
-        get() {
-            if (this.value === undefined) {
-                throw new TypeError("No value present");
-            }
-            else {
-                return this.value;
-            }
-        }
-        isPresent() {
-            return this.value !== undefined;
-        }
-        filter(predicate) {
-            if (!this.isPresent()) {
-                return this;
-            }
-            else {
-                return predicate(this.value) ? this : Optional.empty();
-            }
-        }
-    }
-    Optional.EMPTY = new Optional();
-    util.Optional = Optional;
-})(util || (util = {}));
-Object.defineProperty(Array.prototype, 'flatMap', {
-    value: function (f) {
-        return this.reduce((ys, x) => {
-            return ys.concat(f.call(this, x));
-        }, []);
-    },
-    enumerable: false,
-});
 var org;
 (function (org) {
     var malai;
@@ -1929,7 +1929,7 @@ var org;
     (function (malai) {
         var logging;
         (function (logging) {
-            var LogLevel;
+            let LogLevel;
             (function (LogLevel) {
                 LogLevel[LogLevel["INTERACTION"] = 0] = "INTERACTION";
                 LogLevel[LogLevel["BINDING"] = 1] = "BINDING";
