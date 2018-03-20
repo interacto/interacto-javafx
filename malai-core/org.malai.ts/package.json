@@ -7,9 +7,8 @@
   "license": "GPL2",
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-typescript-project": "^1.0.0"
-  },
-  "dependencies": {
-    "grunt-contrib-clean": "^1.1.0"
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-ts": "^6.0.0-beta.19",
+    "typescript": "^2.7.2"
   }
 }
