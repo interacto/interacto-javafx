@@ -5,16 +5,28 @@ module.exports = function (grunt) {
             default : {
                 tsconfig: './tsconfig.json',
                 src : ['src-core/**/*.ts', 'src/**/*.ts'],
-                out: 'src-gen/js/malai.js',
                 passThrough: true
             }
         },
         clean: {
-            folder: ['src-gen/js']
+            src: [
+                "src-gen/js"
+            ],
+            // test : [
+            //     "target/test"
+            // ]
+        },
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
+                },
+                src: ['test/**/*.test.js', 'test/*/*.test.js']
+            }
         }
     });
 
     grunt.loadNpmTasks("grunt-ts");
     grunt.registerTask("default", ["ts"]);
-    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks("grunt-contrib-clean");
 };

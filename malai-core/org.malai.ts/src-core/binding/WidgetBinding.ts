@@ -69,10 +69,10 @@ namespace malai {
          */
         feedback();
 
-        /**
-         * @return {*} The instrument that contains the widget binding.
-         */
-        getInstrument() : Instrument<any>;
+        // /**
+        //  * @return {*} The instrument that contains the widget binding.
+        //  */
+        // getInstrument() : Instrument<any>;
     }
 }
 
