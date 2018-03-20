@@ -1,5 +1,5 @@
 
-namespace util {
+namespace malai {
     export class Optional<T> {
         private static readonly EMPTY: Optional<any> = new Optional<any>();
         private readonly value: T;
