@@ -17,8 +17,12 @@ module.exports = function(grunt) {
 		//    'dest/has/extension.js': ['srcs/**/*.ts']
 		  }
 		}
-	  }
+	  },
+      clean: {
+          folder: ['src-gen/js']
+      }
   });
 
   grunt.loadNpmTasks('grunt-typescript-project');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 };
