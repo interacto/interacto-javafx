@@ -57,8 +57,6 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
 	 * @param updateActionFct The function that updates the action. Can be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
@@ -66,8 +64,7 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
 							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean asyncExec, final boolean strict, final Set<LogLevel> loggers,
-							  final boolean help, final HelpAnimation animation)
-				throws InstantiationException, IllegalAccessException {
+							  final boolean help, final HelpAnimation animation) {
 		super(ins, exec, clazzAction, interaction, widgets, help, animation);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;
@@ -98,16 +95,13 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?
 	 * @param widgets The windows used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
 	 * @param updateActionFct The function that updates the action. Can be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
 							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
 							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean asyncExec,
-							  final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation)
-		throws InstantiationException, IllegalAccessException {
+							  final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, widgets, clazzAction, interaction, animation, help);
 		execInitAction = initActionFct;
 		execUpdateAction = updateActionFct;

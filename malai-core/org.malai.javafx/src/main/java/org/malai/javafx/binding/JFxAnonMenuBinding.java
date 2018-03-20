@@ -47,14 +47,11 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param menus The menus used by the binding. Cannot be null.
 	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
 							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final BiConsumer<A, I> onEndFct,
-							  final Function<I, A> actionFct, final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus)
-								throws InstantiationException, IllegalAccessException {
+							  final Function<I, A> actionFct, final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus) {
 		super(ins, exec, clazzAction, interaction, menus);
 		execInitAction = initActionFct == null ? (a, i) -> {} : initActionFct;
 		checkInteraction = check == null ? i -> true : check;
