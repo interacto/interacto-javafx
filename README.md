@@ -99,7 +99,7 @@ And adds the dependencies:
 ```
 
 
-# Who use Malai?
+# Who uses Malai?
 
 
 [Latexdraw](https://github.com/arnobl/latexdraw) is a vector drawing editors for LaTeX. It is developed on the top of Malai JavaFX.
