@@ -69,12 +69,10 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
-							final List<Node> widgets, final boolean help, final HelpAnimation animation) throws InstantiationException, IllegalAccessException {
+							final List<Node> widgets, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, clazzAction, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
 		initActivation();
@@ -92,12 +90,10 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction, final boolean help,
-							final HelpAnimation animation, final Node... widgets) throws InstantiationException, IllegalAccessException {
+							final HelpAnimation animation, final Node... widgets) {
 		this(ins, exec, clazzAction, interaction, Arrays.asList(widgets), help, animation);
 	}
 
@@ -110,12 +106,10 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param windows The windows concerned by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final Class<A> clazzAction,
-							final I interaction, final HelpAnimation animation, final boolean help) throws InstantiationException, IllegalAccessException {
+							final I interaction, final HelpAnimation animation, final boolean help) {
 		super(ins, exec, clazzAction, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
 		withHelp = help;
