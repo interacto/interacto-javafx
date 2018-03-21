@@ -76,7 +76,7 @@ export class SubFSMTransition<E> extends Transition<E> {
     public execute(event: E): Optional<InputState<E>> {
         if (this.isGuardOK(event)) {
             this.src.getFSM().stopCurrentTimeout();
-            let transition: Optional<Transition<E>> = this.findTransition(event);
+            const transition: Optional<Transition<E>> = this.findTransition(event);
             if (transition.isPresent()) {
                 this.subFSM.addHandler(this.subFSMHandler);
                 this.src.getFSM().setCurrentSubFSM(this.subFSM);
@@ -92,7 +92,7 @@ export class SubFSMTransition<E> extends Transition<E> {
      * @param {*} event
      * @return {boolean}
      */
-    accept(event: E): boolean {
+    public accept(event: E): boolean {
         return this.findTransition(event).isPresent();
     }
 
@@ -101,12 +101,12 @@ export class SubFSMTransition<E> extends Transition<E> {
      * @param {*} event
      * @return {boolean}
      */
-    isGuardOK(event: E): boolean {
-        return this.findTransition(event).filter((tr) => tr.isGuardOK(event)).isPresent();
+    public isGuardOK(event: E): boolean {
+        return this.findTransition(event).filter(tr => tr.isGuardOK(event)).isPresent();
     }
 
     private findTransition(event: E): Optional<Transition<E>> {
-        return Optional.ofNullable(this.subFSM.initState.getTransitions().find((tr) => tr.accept(event)));
+        return Optional.ofNullable(this.subFSM.initState.getTransitions().find(tr => tr.accept(event)));
     }
 
     /**

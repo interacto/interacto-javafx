@@ -23,7 +23,7 @@ export class EpsilonTransition<E> extends Transition<E> {
      * @param {*} event
      * @return {boolean}
      */
-    accept(event: E): boolean {
+    public accept(event: E): boolean {
         return true;
     }
 
@@ -32,7 +32,7 @@ export class EpsilonTransition<E> extends Transition<E> {
      * @param {*} event
      * @return {boolean}
      */
-    isGuardOK(event: E): boolean {
+    public isGuardOK(event: E): boolean {
         return true;
     }
 

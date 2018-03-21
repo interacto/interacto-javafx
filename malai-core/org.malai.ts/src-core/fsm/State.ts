@@ -21,6 +21,6 @@ export interface State<E> {
      * In this case, the fsm is notified about the starting of the FSM.
      * @throws CancelFSMException
      */
-    checkStartingState(): void
+    checkStartingState(): void;
 }
 

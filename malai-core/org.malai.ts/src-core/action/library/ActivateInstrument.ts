@@ -11,6 +11,7 @@
 
 import {InstrumentAction} from "./InstrumentAction";
 import {Instrument} from "../../instrument/Instrument";
+import {WidgetBinding} from "../../binding/WidgetBinding";
 
 /**
  * This action activates an instrument.
@@ -20,7 +21,7 @@ import {Instrument} from "../../instrument/Instrument";
  * @extends InstrumentAction
  */
 export class ActivateInstrument extends InstrumentAction {
-    public constructor(instrument?: Instrument<any>) {
+    public constructor(instrument?: Instrument<WidgetBinding>) {
         super(instrument);
     }
 

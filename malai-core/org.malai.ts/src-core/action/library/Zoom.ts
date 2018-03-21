@@ -55,7 +55,7 @@ export class Zoom extends PositionAction {
      *
      */
     protected doActionBody(): void {
-        if(this.zoomable) {
+        if (this.zoomable) {
             this.zoomable.setZoom(this.px, this.py, this.zoomLevel);
         }
     }

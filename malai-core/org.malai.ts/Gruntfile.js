@@ -16,17 +16,26 @@ module.exports = function (grunt) {
             //     "target/test"
             // ]
         },
-        mochaTest: {
-            test: {
-                options: {
-                    reporter: 'spec',
-                },
-                src: ['test/**/*.test.js', 'test/*/*.test.js']
-            }
+        tslint: {
+            options: {
+                configuration: "tslint.json",
+                force: false,
+                fix: false
+            },
+            files: {
+                src: [
+                    "src/**/*.ts",
+                    "src-core/**/*.ts",
+                ]
+            },
+            your_target: {
+                // Target-specific file lists and/or options go here.
+            },
         }
     });
 
     grunt.loadNpmTasks("grunt-ts");
-    grunt.registerTask("default", ["ts"]);
+    grunt.registerTask("default", ["clean", "ts", "tslint"]);
     grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-tslint");
 };

@@ -71,7 +71,7 @@ export abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
      * @throws InstantiationException When a widget binding cannot instantiate its interaction.
      * @throws IllegalAccessException When a widget binding cannot instantiate its interaction.
      */
-    abstract configureBindings(): void;
+    public abstract configureBindings(): void;
 
     /**
      * Adds the given widget binding to the list of bindings of the instrument.

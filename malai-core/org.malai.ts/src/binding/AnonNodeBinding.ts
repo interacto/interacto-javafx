@@ -13,8 +13,9 @@ import {TSWidgetBinding} from "./TSWidgetBinding";
 import {TSInteraction} from "../interaction/TSInteraction";
 import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {LogLevel} from "../../src-core/logging/LogLevel";
+import {FSM} from "../../src-core/fsm/FSM";
 
-export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<any, any>> extends TSWidgetBinding<A, I> {
+export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<UIEvent>, {}>> extends TSWidgetBinding<A, I> {
     private readonly execInitAction: (a: A | undefined, i: I) => void;
     private readonly execUpdateAction: (a: A | undefined, i: I) => void;
     private readonly checkInteraction: (i: I) => boolean;
@@ -42,8 +43,9 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<any, 
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
     public constructor(exec: boolean, clazzAction: () => A, interaction: I, initActionFct: (a: A, i: I) => void,
-                       updateActionFct: (a: A, i: I) => void, check: (i: I) => boolean, onEndFct: (a: A | undefined, i: I) => void, actionFunction: (i: I) => A,
-                       cancel: (a: A | undefined, i: I) => void, endOrCancel: (a: A | undefined, i: I) => void, feedback: () => void, widgets: Array<EventTarget>,
+                       updateActionFct: (a: A, i: I) => void, check: (i: I) => boolean, onEndFct: (a: A | undefined, i: I) => void,
+                       actionFunction: (i: I) => A, cancel: (a: A | undefined, i: I) => void,
+                       endOrCancel: (a: A | undefined, i: I) => void, feedback: () => void, widgets: Array<EventTarget>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
         super(exec, clazzAction, interaction, widgets);
@@ -77,11 +79,8 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<any, 
     }
 
     protected map(): A {
-        if (this.actionProducer === undefined) {
-            this.currentAction = super.map();
-        } else {
+        this.currentAction = this.actionProducer === undefined ? this.currentAction = super.map() :
             this.currentAction = this.actionProducer(this.getInteraction());
-        }
         return this.currentAction;
     }
 

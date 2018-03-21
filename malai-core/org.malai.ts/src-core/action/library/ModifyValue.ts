@@ -22,9 +22,9 @@ export abstract class ModifyValue extends ActionImpl {
     /**
      * The new value of the property.
      */
-    protected value: any;
+    protected value: Object | undefined;
 
-    public constructor(value?: any) {
+    public constructor(value?: Object) {
         super();
         this.value = value;
     }
@@ -49,7 +49,7 @@ export abstract class ModifyValue extends ActionImpl {
      * Sets the new value of the parameter to change.
      * @param {*} newValue The new value.
      */
-    public setValue(newValue: any): void {
+    public setValue(newValue: Object): void {
         this.value = newValue;
     }
 
@@ -58,10 +58,10 @@ export abstract class ModifyValue extends ActionImpl {
      * @param {*} obj The value to set. Must not be null.
      * @throws NullPointerException If the given value is null.
      */
-    abstract applyValue(obj: any): void;
+    public abstract applyValue(obj: Object): void;
 
     /**
      * @return {boolean} True: the object to modified supports the selected property.
      */
-    abstract isValueMatchesProperty(): boolean;
+    public abstract isValueMatchesProperty(): boolean;
 }

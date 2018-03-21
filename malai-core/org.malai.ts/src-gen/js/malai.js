@@ -190,8 +190,8 @@ System.register("src-core/undo/UndoCollector", ["src/util/Optional", "src-core/u
                     }
                 }
                 undo() {
-                    let undoable = this.undos.pop();
-                    let undoHandler = this.undoHandlers.pop();
+                    const undoable = this.undos.pop();
+                    const undoHandler = this.undoHandlers.pop();
                     if (undoable !== undefined && undoHandler !== undefined) {
                         undoable.undo();
                         this.redos.push(undoable);
@@ -201,8 +201,8 @@ System.register("src-core/undo/UndoCollector", ["src/util/Optional", "src-core/u
                     }
                 }
                 redo() {
-                    let undoable = this.redos.pop();
-                    let redoHandler = this.redoHandlers.pop();
+                    const undoable = this.redos.pop();
+                    const redoHandler = this.redoHandlers.pop();
                     if (undoable !== undefined && redoHandler !== undefined) {
                         undoable.redo();
                         this.undos.push(undoable);
@@ -278,12 +278,12 @@ System.register("src-core/action/ActionsRegistry", ["src-core/action/Action", "s
                 }
                 onActionExecuted(action) {
                     if (action !== undefined) {
-                        this.handlers.forEach((handler) => handler.onActionExecuted(action));
+                        this.handlers.forEach(handler => handler.onActionExecuted(action));
                     }
                 }
                 onActionDone(action) {
                     if (action !== undefined) {
-                        this.handlers.forEach((handler) => handler.onActionDone(action));
+                        this.handlers.forEach(handler => handler.onActionDone(action));
                     }
                 }
                 getActions() {
@@ -311,7 +311,7 @@ System.register("src-core/action/ActionsRegistry", ["src-core/action/Action", "s
                         (this.sizeMax > 0 || action.getRegistrationPolicy() === Action_1.RegistrationPolicy.UNLIMITED)) {
                         this.unregisterActions(action);
                         if (this.actions.length >= this.sizeMax) {
-                            const act = this.actions.find(act => act.getRegistrationPolicy() !== Action_1.RegistrationPolicy.UNLIMITED);
+                            const act = this.actions.find(a => a.getRegistrationPolicy() !== Action_1.RegistrationPolicy.UNLIMITED);
                             if (act) {
                                 this.actions.remove(act);
                                 act.flush();
@@ -599,17 +599,16 @@ System.register("src-core/fsm/OutputStateImpl", ["src-core/fsm/StateImpl"], func
                     this.transitions = [];
                 }
                 process(event) {
-                    const trs = this.getTransitions();
-                    for (let i = 0; i < trs.length; i++) {
+                    return this.getTransitions().find(tr => {
                         try {
-                            if (trs[i].execute(event).isPresent()) {
+                            if (tr.execute(event).isPresent()) {
                                 return true;
                             }
                         }
                         catch (ignored) {
                         }
-                    }
-                    return false;
+                        return false;
+                    }) !== undefined;
                 }
                 checkStartingState() {
                     if (!this.getFSM().isStarted() && this.getFSM().getStartingState() === this) {
@@ -669,13 +668,13 @@ System.register("src-core/utils/ObsValue", [], function (exports_19, context_19)
                 }
                 set(value) {
                     if (value !== undefined) {
-                        let oldValue = this.value;
+                        const oldValue = this.value;
                         this.value = value;
                         this.notifyChange(oldValue, value);
                     }
                 }
                 notifyChange(oldValue, newValue) {
-                    this.handlers.forEach((handler) => handler(oldValue, newValue));
+                    this.handlers.forEach(handler => handler(oldValue, newValue));
                 }
                 obs(handler) {
                     if (handler !== undefined) {
@@ -715,7 +714,7 @@ System.register("src-core/fsm/TimeoutTransition", ["src-core/fsm/Transition", "s
                 }
                 startTimeout() {
                     if (this.timeoutThread === undefined) {
-                        let time = this.timeoutDuration();
+                        const time = this.timeoutDuration();
                         if (time > 0) {
                             this.timeouted = true;
                             this.src.getFSM().onTimeout();
@@ -978,7 +977,7 @@ System.register("src-core/fsm/FSM", ["src-core/fsm/InitState", "src-core/utils/O
                     }
                 }
                 checkTimeoutTransition() {
-                    const tr = this.currentState.get().getTransitions().find(tr => tr instanceof TimeoutTransition_1.TimeoutTransition);
+                    const tr = this.currentState.get().getTransitions().find(t => t instanceof TimeoutTransition_1.TimeoutTransition);
                     if (tr) {
                         if (this.logger !== undefined) {
                             this.logger.info("Timeout starting");
@@ -1587,7 +1586,7 @@ System.register("src-core/binding/WidgetBindingImpl", ["src-core/fsm/CancelFSMEx
                     }
                 }
                 fsmStarts() {
-                    let ok = this.action === undefined && this.isActivated() && this.when();
+                    const ok = this.action === undefined && this.isActivated() && this.when();
                     if (this.loggerBinding !== undefined) {
                         this.loggerBinding.info("Starting binding: " + ok);
                     }
@@ -1609,7 +1608,7 @@ System.register("src-core/binding/WidgetBindingImpl", ["src-core/fsm/CancelFSMEx
                     }
                 }
                 fsmStops() {
-                    let ok = this.when();
+                    const ok = this.when();
                     if (this.loggerBinding !== undefined) {
                         this.loggerBinding.info("Binding stops with condition: " + ok);
                     }
@@ -1657,7 +1656,7 @@ System.register("src-core/binding/WidgetBindingImpl", ["src-core/fsm/CancelFSMEx
                     if (ok) {
                         act.done();
                     }
-                    let hadEffect = act.hadEffect();
+                    const hadEffect = act.hadEffect();
                     if (this.loggerAction !== undefined) {
                         this.loggerAction.info("Action execution had effect: " + hadEffect);
                     }
@@ -1668,11 +1667,11 @@ System.register("src-core/binding/WidgetBindingImpl", ["src-core/fsm/CancelFSMEx
                         else {
                             ActionsRegistry_2.ActionsRegistry.INSTANCE.unregisterActions(act);
                         }
-                        act.followingActions().forEach((actFollow) => this.executeAction(actFollow, false));
+                        act.followingActions().forEach(actFollow => this.executeAction(actFollow, false));
                     }
                 }
                 fsmUpdates() {
-                    let ok = this.when();
+                    const ok = this.when();
                     if (this.loggerBinding !== undefined) {
                         this.loggerBinding.info("Binding updates with condition: " + ok);
                     }
@@ -1901,7 +1900,7 @@ System.register("src-core/fsm/SubFSMTransition", ["src-core/fsm/Transition", "sr
                 execute(event) {
                     if (this.isGuardOK(event)) {
                         this.src.getFSM().stopCurrentTimeout();
-                        let transition = this.findTransition(event);
+                        const transition = this.findTransition(event);
                         if (transition.isPresent()) {
                             this.subFSM.addHandler(this.subFSMHandler);
                             this.src.getFSM().setCurrentSubFSM(this.subFSM);
@@ -1915,10 +1914,10 @@ System.register("src-core/fsm/SubFSMTransition", ["src-core/fsm/Transition", "sr
                     return this.findTransition(event).isPresent();
                 }
                 isGuardOK(event) {
-                    return this.findTransition(event).filter((tr) => tr.isGuardOK(event)).isPresent();
+                    return this.findTransition(event).filter(tr => tr.isGuardOK(event)).isPresent();
                 }
                 findTransition(event) {
-                    return Optional_4.Optional.ofNullable(this.subFSM.initState.getTransitions().find((tr) => tr.accept(event)));
+                    return Optional_4.Optional.ofNullable(this.subFSM.initState.getTransitions().find(tr => tr.accept(event)));
                 }
                 getAcceptedEvents() {
                     return this.subFSM.initState.getTransitions().map(tr => tr.getAcceptedEvents()).reduce((a, b) => new Set([...a, ...b]));
@@ -2113,13 +2112,13 @@ System.register("src/interaction/TSInteraction", ["src-core/interaction/Interact
                     return this._widget;
                 }
                 updateEventsRegistered(newState, oldState) {
-                    if (newState == oldState || this.fsm.getStates().length == 2) {
+                    if (newState === oldState || this.fsm.getStates().length === 2) {
                         return;
                     }
-                    let currEvents = [...this.getEventTypesOf(newState)];
-                    let events = [...this.getEventTypesOf(oldState)];
-                    let eventsToRemove = events.filter(e => currEvents.indexOf(e) >= 0);
-                    let eventsToAdd = currEvents.filter(e => events.indexOf(e) >= 0);
+                    const currEvents = [...this.getEventTypesOf(newState)];
+                    const events = [...this.getEventTypesOf(oldState)];
+                    const eventsToRemove = events.filter(e => currEvents.indexOf(e) >= 0);
+                    const eventsToAdd = currEvents.filter(e => events.indexOf(e) >= 0);
                     this.registeredNodes.forEach(n => {
                         eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
                         eventsToAdd.forEach(type => this.registerEventToNode(type, n));
@@ -2234,12 +2233,8 @@ System.register("src/binding/AnonNodeBinding", ["src/binding/TSWidgetBinding", "
                     return this.strictStart;
                 }
                 map() {
-                    if (this.actionProducer === undefined) {
-                        this.currentAction = super.map();
-                    }
-                    else {
+                    this.currentAction = this.actionProducer === undefined ? this.currentAction = super.map() :
                         this.currentAction = this.actionProducer(this.getInteraction());
-                    }
                     return this.currentAction;
                 }
                 first() {
@@ -2380,7 +2375,7 @@ System.register("src/interaction/TSFSM", ["src-core/fsm/FSM", "src-core/fsm/Init
                     if (event instanceof Events_3.KeyPressEvent) {
                         this.removeKeyEvent(event.keyCode);
                     }
-                    let processed = super.process(event);
+                    const processed = super.process(event);
                     if (processed && event instanceof Events_3.KeyPressEvent && !(this.getCurrentState() instanceof InitState_3.InitState) &&
                         (this.eventsToProcess === undefined ||
                             this.eventsToProcess.find(evt => evt.keyCode === (event).keyCode) === undefined)) {
@@ -2433,8 +2428,9 @@ System.register("src/interaction/library/ButtonPressed", ["src/interaction/TSFSM
                     super();
                 }
                 buildFSM(dataHandler) {
-                    if (this.states.length > 1)
+                    if (this.states.length > 1) {
                         return;
+                    }
                     super.buildFSM(dataHandler);
                     const pressed = new TerminalState_2.TerminalState(this, "pressed");
                     this.addState(pressed);
@@ -2487,10 +2483,10 @@ Array.prototype.clear = function () {
     this.length = 0;
 };
 Array.prototype.peek = function () {
-    return this.length == 0 ? undefined : this[this.length - 1];
+    return this.length === 0 ? undefined : this[this.length - 1];
 };
 Array.prototype.isEmpty = function () {
-    return this.length == 0;
+    return this.length === 0;
 };
 Array.prototype.remove = function (elt) {
     const index = this.indexOf(elt);
