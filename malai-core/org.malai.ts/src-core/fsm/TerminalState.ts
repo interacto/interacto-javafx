@@ -14,12 +14,12 @@ import {InputState} from "./InputState";
 import {FSM} from "./FSM";
 
 export class TerminalState<E> extends StateImpl<E> implements InputState<E> {
-    public constructor(stateMachine : FSM<E>, stateName : string) {
+    public constructor(stateMachine: FSM<E>, stateName: string) {
         super(stateMachine, stateName);
     }
 
-    checkStartingState(): void {
-        if(!this.getFSM().isStarted() && this.getFSM().getStartingState() === this) {
+    public checkStartingState(): void {
+        if (!this.getFSM().isStarted() && this.getFSM().getStartingState() === this) {
             this.getFSM().onStarting();
         }
     }

@@ -14,9 +14,9 @@ import {InputState} from "./InputState";
 import {Optional} from "../../src/util/Optional";
 
 export abstract class Transition<E> {
-    readonly src: OutputState<E>;
+    public readonly src: OutputState<E>;
 
-    readonly tgt: InputState<E>;
+    public readonly tgt: InputState<E>;
 
     constructor(srcState: OutputState<E>, tgtState: InputState<E>) {
         this.src = srcState;
@@ -38,9 +38,9 @@ export abstract class Transition<E> {
     protected action(event: E | undefined): void {
     }
 
-    abstract accept(event: E): boolean;
+    public abstract accept(event: E): boolean;
 
-    abstract isGuardOK(event: E): boolean;
+    public abstract isGuardOK(event: E): boolean;
 
     public abstract getAcceptedEvents(): Set<String>;
 }

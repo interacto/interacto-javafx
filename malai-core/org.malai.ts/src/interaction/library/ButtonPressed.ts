@@ -9,10 +9,10 @@
  * General Public License for more details.
  */
 
-import {FSMDataHandler} from "../FSMDataHandler"
-import {TSFSM} from "../TSFSM"
-import {ButtonPressedTransition} from "../ButtonPressedTransition"
-import {TerminalState} from "../../../src-core/fsm/TerminalState"
+import {FSMDataHandler} from "../FSMDataHandler";
+import {TSFSM} from "../TSFSM";
+import {ButtonPressedTransition} from "../ButtonPressedTransition";
+import {TerminalState} from "../../../src-core/fsm/TerminalState";
 import {ButtonPressEvent} from "../Events";
 
 export class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
@@ -21,7 +21,9 @@ export class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
     }
 
     protected buildFSM(dataHandler: ButtonPressedFSMHandler): void {
-        if (this.states.length > 1) return;
+        if (this.states.length > 1) {
+            return;
+        }
         super.buildFSM(dataHandler);
         const pressed: TerminalState<UIEvent> = new TerminalState<UIEvent>(this, "pressed");
         this.addState(pressed);

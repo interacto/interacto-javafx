@@ -19,7 +19,7 @@ export abstract class ButtonPressedTransition extends TSTransition {
         super(srcState, tgtState);
     }
 
-    accept(e: UIEvent): boolean {
+    public accept(e: UIEvent): boolean {
         return e instanceof ButtonPressEvent;
     }
 
@@ -27,7 +27,7 @@ export abstract class ButtonPressedTransition extends TSTransition {
         return new Set([ButtonPressEvent.name]);
     }
 
-    isGuardOK(event: UIEvent): boolean {
+    public isGuardOK(event: UIEvent): boolean {
         return true;
     }
 }

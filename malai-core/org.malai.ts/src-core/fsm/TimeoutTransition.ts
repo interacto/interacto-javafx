@@ -23,7 +23,7 @@ export class TimeoutTransition<E> extends Transition<E> {
     /**
      * The current thread in progress.
      */
-    private timeoutThread: any; //java.lang.Thread;
+    private timeoutThread: Object | undefined; //java.lang.Thread;
 
     private timeouted: boolean;
 
@@ -40,7 +40,7 @@ export class TimeoutTransition<E> extends Transition<E> {
     public startTimeout(): void {
         if (this.timeoutThread === undefined) {
             //     this.timeoutThread = new java.lang.Thread(() => {
-            let time = this.timeoutDuration();
+            const time = this.timeoutDuration();
             if (time > 0) {
                 //             try {
                 //                 java.lang.Thread.sleep(time);
@@ -68,7 +68,7 @@ export class TimeoutTransition<E> extends Transition<E> {
      * @param {*} event
      * @return {boolean}
      */
-    accept(event: E | undefined): boolean {
+    public accept(event: E | undefined): boolean {
         return this.timeouted;
     }
 
@@ -77,7 +77,7 @@ export class TimeoutTransition<E> extends Transition<E> {
      * @param {*} event
      * @return {boolean}
      */
-    isGuardOK(event: E | undefined): boolean {
+    public isGuardOK(event: E | undefined): boolean {
         return this.timeouted;
     }
 

@@ -12,6 +12,7 @@
 
 import {InstrumentAction} from "./InstrumentAction";
 import {Instrument} from "../../instrument/Instrument";
+import {WidgetBinding} from "../../binding/WidgetBinding";
 
 /**
  * This action inactivates an instrument.
@@ -20,12 +21,12 @@ import {Instrument} from "../../instrument/Instrument";
  * @class
  */
 export class InactivateInstrument extends InstrumentAction {
-    public constructor(instrument?: Instrument<any>) {
+    public constructor(instrument?: Instrument<WidgetBinding>) {
         super(instrument);
     }
 
     protected doActionBody(): void {
-        if(this.instrument) {
+        if (this.instrument) {
             this.instrument.setActivated(false);
         }
     }

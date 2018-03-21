@@ -36,11 +36,12 @@ export class FSM<E> {
     protected startingState: State<E>;
 
     /**
-     * Goes with 'startingState'. It permits to know whether the FSM has started, ie whether the 'starting state' has been reached.
+     * Goes with 'startingState'. It permits to know whether the FSM has started, ie whether the 'starting state'
+     * has been reached.
      */
     protected started: boolean;
 
-    readonly initState: InitState<E>;
+    public readonly initState: InitState<E>;
 
     protected readonly currentState: ObsValue<OutputState<E>>;
 
@@ -55,8 +56,10 @@ export class FSM<E> {
     protected readonly handlers: Array<FSMHandler>;
 
     /**
-     * The events still in process. For example when the user press key ctrl and scroll one time using the wheel of the mouse, the interaction scrolling is
-     * finished but the event keyPressed 'ctrl' is still in process. At the end of the interaction, these events are re-introduced into the
+     * The events still in process. For example when the user press key ctrl and scroll one time using
+     * the wheel of the mouse, the interaction scrolling is
+     * finished but the event keyPressed 'ctrl' is still in process. At the end of the interaction, these events
+     * are re-introduced into the
      * state machine of the interaction for processing.
      */
     protected readonly eventsToProcess: Array<E>;
@@ -102,7 +105,7 @@ export class FSM<E> {
         return this.currentState.get().process(event);
     }
 
-    enterStdState(state: StdState<E>): void {
+    public enterStdState(state: StdState<E>): void {
         this.setCurrentState(state);
         this.checkTimeoutTransition();
         if (this.started) {
@@ -114,7 +117,7 @@ export class FSM<E> {
         return this.started;
     }
 
-    setCurrentState(state: OutputState<E>): void {
+    public setCurrentState(state: OutputState<E>): void {
         this.currentState.set(state);
     }
 
@@ -239,7 +242,7 @@ export class FSM<E> {
         }
     }
 
-    onTimeout() {
+    public onTimeout() {
         if (this.currentTimeout !== undefined) {
             if (this.logger !== undefined) {
                 this.logger.info("Timeout");
@@ -254,7 +257,7 @@ export class FSM<E> {
     /**
      * Stops the current timeout transition.
      */
-    stopCurrentTimeout(): void {
+    public stopCurrentTimeout(): void {
         if (this.currentTimeout !== undefined) {
             if (this.logger !== undefined) {
                 this.logger.info("Timeout stopped");
@@ -269,7 +272,7 @@ export class FSM<E> {
      * If it is the case, the timeout transition is launched.
      */
     protected checkTimeoutTransition(): void {
-        const tr = this.currentState.get().getTransitions().find(tr => tr instanceof TimeoutTransition) as TimeoutTransition<E> | undefined;
+        const tr = this.currentState.get().getTransitions().find(t => t instanceof TimeoutTransition) as TimeoutTransition<E> | undefined;
 
         if (tr) {
             if (this.logger !== undefined) {
@@ -319,7 +322,7 @@ export class FSM<E> {
     /**
      * Notifies handler that the interaction stops.
      */
-    notifyHandlerOnStop() {
+    public notifyHandlerOnStop() {
         try {
             this.handlers.forEach(handler => handler.fsmStops());
         } catch (ex) {

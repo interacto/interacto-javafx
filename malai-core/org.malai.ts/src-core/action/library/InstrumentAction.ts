@@ -11,6 +11,7 @@
 
 import {ActionImpl} from "../ActionImpl";
 import {Instrument} from "../../instrument/Instrument";
+import {WidgetBinding} from "../../binding/WidgetBinding";
 
 /**
  * This action manipulates an instrument.
@@ -23,9 +24,9 @@ export abstract class InstrumentAction extends ActionImpl {
     /**
      * The manipulated instrument.
      */
-    protected instrument: Instrument<any> | undefined;
+    protected instrument: Instrument<WidgetBinding> | undefined;
 
-    public constructor(instrument?: any) {
+    public constructor(instrument?: Instrument<WidgetBinding>) {
         super();
         this.instrument = instrument;
     }
@@ -49,7 +50,7 @@ export abstract class InstrumentAction extends ActionImpl {
     /**
      * @return {*} The manipulated instrument.
      */
-    public getInstrument(): Instrument<any> | undefined {
+    public getInstrument(): Instrument<WidgetBinding> | undefined {
         return this.instrument;
     }
 
@@ -57,7 +58,7 @@ export abstract class InstrumentAction extends ActionImpl {
      * Sets the manipulated instrument.
      * @param {*} newInstrument The manipulated instrument.
      */
-    public setInstrument(newInstrument: Instrument<any>): void {
+    public setInstrument(newInstrument: Instrument<WidgetBinding>): void {
         this.instrument = newInstrument;
     }
 }

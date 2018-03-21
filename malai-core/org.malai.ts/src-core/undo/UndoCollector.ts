@@ -151,8 +151,8 @@ export class UndoCollector {
      * Undoes the last undoable object.
      */
     public undo(): void {
-        let undoable = this.undos.pop();
-        let undoHandler = this.undoHandlers.pop();
+        const undoable = this.undos.pop();
+        const undoHandler = this.undoHandlers.pop();
 
         if (undoable !== undefined && undoHandler !== undefined) {
             undoable.undo();
@@ -167,8 +167,8 @@ export class UndoCollector {
      * Redoes the last undoable object.
      */
     public redo(): void {
-        let undoable = this.redos.pop();
-        let redoHandler = this.redoHandlers.pop();
+        const undoable = this.redos.pop();
+        const redoHandler = this.redoHandlers.pop();
 
         if (undoable !== undefined && redoHandler !== undefined) {
             undoable.redo();

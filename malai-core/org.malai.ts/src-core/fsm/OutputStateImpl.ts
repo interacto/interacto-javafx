@@ -22,21 +22,20 @@ export abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputS
         this.transitions = [];
     }
 
-    process(event: E): boolean {
-        const trs = this.getTransitions();
-        for(let i = 0; i < trs.length; i++) {
+    public process(event: E): boolean {
+        return this.getTransitions().find(tr => {
             try {
-                if (trs[i].execute(event).isPresent()) {
+                if (tr.execute(event).isPresent()) {
                     return true;
                 }
             } catch (ignored) {
                 // Already processed
             }
-        }
-        return false;
+            return false;
+        }) !== undefined;
     }
 
-    checkStartingState(): void {
+    public checkStartingState(): void {
         if (!this.getFSM().isStarted() && this.getFSM().getStartingState() === this) {
             this.getFSM().onStarting();
         }

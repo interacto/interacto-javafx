@@ -9,10 +9,10 @@
  * General Public License for more details.
  */
 
-import {FSM} from "../../src-core/fsm/FSM"
-import {InitState} from "../../src-core/fsm/InitState"
-import {FSMDataHandler} from "./FSMDataHandler"
-import {KeyPressEvent} from "./Events"
+import {FSM} from "../../src-core/fsm/FSM";
+import {InitState} from "../../src-core/fsm/InitState";
+import {FSMDataHandler} from "./FSMDataHandler";
+import {KeyPressEvent} from "./Events";
 
 export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
     protected dataHandler: H;
@@ -38,7 +38,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
         }
 
         // Processing the event
-        let processed: boolean = super.process(event);
+        const processed: boolean = super.process(event);
 
         // Recycling events
         if (processed && event instanceof KeyPressEvent && !(this.getCurrentState() instanceof InitState) &&

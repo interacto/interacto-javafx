@@ -59,7 +59,7 @@ export class ActionsRegistry {
      */
     public onActionExecuted(action: Action): void {
         if (action !== undefined) {
-            this.handlers.forEach((handler) => handler.onActionExecuted(action));
+            this.handlers.forEach(handler => handler.onActionExecuted(action));
         }
     }
 
@@ -69,7 +69,7 @@ export class ActionsRegistry {
      */
     public onActionDone(action: Action): void {
         if (action !== undefined) {
-            this.handlers.forEach((handler) => handler.onActionDone(action));
+            this.handlers.forEach(handler => handler.onActionDone(action));
         }
     }
 
@@ -117,7 +117,7 @@ export class ActionsRegistry {
 
             // If there is too many actions in the register, the oldest removable action is removed and flushed.
             if (this.actions.length >= this.sizeMax) {
-                const act = this.actions.find(act => act.getRegistrationPolicy() !== RegistrationPolicy.UNLIMITED);
+                const act = this.actions.find(a => a.getRegistrationPolicy() !== RegistrationPolicy.UNLIMITED);
 
                 if (act) {
                     this.actions.remove(act);

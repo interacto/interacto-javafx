@@ -19,6 +19,7 @@ import {isUndoableType} from "../undo/Undoable";
 import {factory} from "../logging/ConfigLog";
 import {Logger} from "typescript-logging";
 import {MustBeUndoableActionException} from "./MustBeUndoableActionException";
+import {FSM} from "../fsm/FSM";
 
 /**
  * Creates a widget binding. This constructor must initialise the interaction. The widget binding is (de-)activated if the given
@@ -32,7 +33,8 @@ import {MustBeUndoableActionException} from "./MustBeUndoableActionException";
  * @class
  * @author Arnaud BLOUIN
  */
-export abstract class WidgetBindingImpl<A extends ActionImpl, I extends InteractionImpl<any, any>> implements WidgetBinding { //, N extends Instrument<any>
+export abstract class WidgetBindingImpl<A extends ActionImpl, I extends InteractionImpl<{}, FSM<{}>>> implements WidgetBinding {
+    //, N extends Instrument<any>
     protected loggerBinding: Logger | undefined;
 
     protected loggerAction: Logger | undefined;
@@ -76,7 +78,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
         // this.instrument = ins;
         this.execute = exec;
         this.interaction.getFsm().addHandler(this);
-        this.setActivated(true);//ins.isActivated());
+        this.setActivated(true); //ins.isActivated());
     }
 
     public logBinding(log: boolean): void {
@@ -179,20 +181,22 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
     protected unbindActionAttributes(): void {
         if (this.action !== undefined) {
-            this.unbindActionAttributesClass((<any>this.action.constructor));
+            this.unbindActionAttributesClass(this.action.constructor);
             if (this.loggerAction !== undefined) {
                 this.loggerAction.info("Action unbound: " + this.action);
             }
         }
     }
 
-    private unbindActionAttributesClass(clazz: any): void {
+    private unbindActionAttributesClass(clazz: Object): void {
         //FIXME
-        // java.util.Arrays.stream<any>(clazz.getDeclaredFields()).filter((field) => field.isAnnotationPresent("AutoUnbind") && "javafx.beans.property.Property".isAssignableFrom(field.getType())).forEach((field) => {
+        // java.util.Arrays.stream<any>(clazz.getDeclaredFields()).filter((field) =>
+        // field.isAnnotationPresent("AutoUnbind") && "javafx.beans.property.Property".isAssignableFrom(field.getType())).
+        // forEach((field) => {
         //     try {
         //         let access : boolean = field.isAccessible();
         //         let o : any = /* get */this.action[field.name];
-        //         if(o !== undefined && (o["__interfaces"] !== undefined && o["__interfaces"].indexOf("javafx.beans.property.Property") >= 0 || o.constructor !== undefined && o.constructor["__interfaces"] !== undefined && o.constructor["__interfaces"].indexOf("javafx.beans.property.Property") >= 0)) {
+        //         if(o instanceof Property) {
         //             (<javafx.beans.property.Property<any>><any>o).unbind();
         //         }
         //     } catch(ex) {
@@ -221,7 +225,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
             // this.instrument.onActionCancelled(this.action);
             if (this.isExecute() && this.action.hadEffect()) {
                 if (isUndoableType(this.action)) {
-                    (<any>this.action).undo();
+                    this.action.undo();
                     if (this.loggerAction !== undefined) {
                         this.loggerAction.info("Action undone");
                     }
@@ -238,7 +242,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
      *
      */
     public fsmStarts(): void {
-        let ok: boolean = this.action === undefined && this.isActivated() && this.when();
+        const ok: boolean = this.action === undefined && this.isActivated() && this.when();
         if (this.loggerBinding !== undefined) {
             this.loggerBinding.info("Starting binding: " + ok);
         }
@@ -263,7 +267,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
      *
      */
     public fsmStops(): void {
-        let ok: boolean = this.when();
+        const ok: boolean = this.when();
         if (this.loggerBinding !== undefined) {
             this.loggerBinding.info("Binding stops with condition: " + ok);
         }
@@ -318,23 +322,23 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
             act.done();
             // this.instrument.onActionDone(act);
         }
-        let hadEffect: boolean = act.hadEffect();
+        const hadEffect: boolean = act.hadEffect();
         if (this.loggerAction !== undefined) {
             this.loggerAction.info("Action execution had effect: " + hadEffect);
         }
         if (hadEffect) {
             if (act.getRegistrationPolicy() !== RegistrationPolicy.NONE) {
-                ActionsRegistry.INSTANCE.addAction(act);//, this.instrument
+                ActionsRegistry.INSTANCE.addAction(act); //, this.instrument
                 // this.instrument.onActionAdded(act);
             } else {
                 ActionsRegistry.INSTANCE.unregisterActions(act);
             }
-            act.followingActions().forEach((actFollow) => this.executeAction(actFollow, false));
+            act.followingActions().forEach(actFollow => this.executeAction(actFollow, false));
         }
     }
 
     public fsmUpdates(): void {
-        let ok: boolean = this.when();
+        const ok: boolean = this.when();
         if (this.loggerBinding !== undefined) {
             this.loggerBinding.info("Binding updates with condition: " + ok);
         }

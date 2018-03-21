@@ -18,7 +18,7 @@ export class CancellingState<E> extends StateImpl<E> implements InputState<E> {
         super(stateMachine, stateName);
     }
 
-    checkStartingState(): void {
+    public checkStartingState(): void {
         if (!this.getFSM().isStarted() && this.getFSM().getStartingState() === this) {
             this.getFSM().onStarting();
         }

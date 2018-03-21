@@ -32,15 +32,15 @@ export class ObsValue<T> {
     }
 
     public set(value: T): void {
-        if(value !== undefined) {
-            let oldValue: T = this.value;
+        if (value !== undefined) {
+            const oldValue: T = this.value;
             this.value = value;
             this.notifyChange(oldValue, value);
         }
     }
 
     private notifyChange(oldValue: T, newValue: T): void {
-        this.handlers.forEach((handler) => handler(oldValue, newValue));
+        this.handlers.forEach(handler => handler(oldValue, newValue));
     }
 
     public obs(handler: (oldValue: T, newValue: T) => void): void {

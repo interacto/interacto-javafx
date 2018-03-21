@@ -34,14 +34,14 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
 
     protected updateEventsRegistered(newState: OutputState<UIEvent>, oldState: OutputState<UIEvent>): void {
         // Do nothing when the interaction has only two nodes: init node and terminal node (this is a single-event interaction).
-        if (newState == oldState || this.fsm.getStates().length == 2) {
+        if (newState === oldState || this.fsm.getStates().length === 2) {
             return;
         }
 
-        let currEvents: Array<String> = [...this.getEventTypesOf(newState)];
-        let events: Array<String> = [...this.getEventTypesOf(oldState)];
-        let eventsToRemove: Array<String> = events.filter(e => currEvents.indexOf(e) >= 0);
-        let eventsToAdd: Array<String> = currEvents.filter(e => events.indexOf(e) >= 0);
+        const currEvents: Array<String> = [...this.getEventTypesOf(newState)];
+        const events: Array<String> = [...this.getEventTypesOf(oldState)];
+        const eventsToRemove: Array<String> = events.filter(e => currEvents.indexOf(e) >= 0);
+        const eventsToAdd: Array<String> = currEvents.filter(e => events.indexOf(e) >= 0);
 
         this.registeredNodes.forEach(n => {
             eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));

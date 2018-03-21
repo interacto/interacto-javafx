@@ -19,7 +19,7 @@ export abstract class PressureTransition extends TSTransition {
         super(srcState, tgtState);
     }
 
-    accept(e: UIEvent): boolean {
+    public accept(e: UIEvent): boolean {
         return e instanceof MousePressEvent;
     }
 
@@ -27,7 +27,7 @@ export abstract class PressureTransition extends TSTransition {
         return new Set([MousePressEvent.name]);
     }
 
-    isGuardOK(event: UIEvent): boolean {
+    public isGuardOK(event: UIEvent): boolean {
         return true;
     }
 }

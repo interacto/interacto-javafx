@@ -12,6 +12,7 @@
 import {FSMHandler} from "../fsm/FSMHandler";
 import {InteractionImpl} from "../interaction/InteractionImpl";
 import {Action} from "../action/Action";
+import {FSM} from "../fsm/FSM";
 
 /**
  * The concept of widget binding and its related services.
@@ -41,7 +42,7 @@ export interface WidgetBinding extends FSMHandler {
     /**
      * @return {InteractionImpl} The interaction.
      */
-    getInteraction(): InteractionImpl<any, any>;
+    getInteraction(): InteractionImpl<{}, FSM<{}>>;
 
     /**
      * @return {*} The action in progress or null.
