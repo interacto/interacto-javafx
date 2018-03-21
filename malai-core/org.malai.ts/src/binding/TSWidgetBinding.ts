@@ -9,34 +9,32 @@
  * General Public License for more details.
  */
 
-/// <reference path="../../src-core/binding/WidgetBindingImpl.ts" />
-/// <reference path="../../src-core/action/ActionImpl.ts" />
-/// <reference path="../../src-core/action/Action.ts" />
-/// <reference path="../interaction/TSInteraction.ts" />
+import {Action} from "../../src-core/action/Action";
+import {ActionImpl} from "../../src-core/action/ActionImpl";
+import {TSInteraction} from "../interaction/TSInteraction";
+import {WidgetBindingImpl} from "../../src-core/binding/WidgetBindingImpl";
 
-namespace malai {
-    export abstract class TSWidgetBinding<A extends ActionImpl, I extends TSInteraction<any, any>> extends WidgetBindingImpl<A, I> {
-        /**
-         * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
-         * instrument is (de-)activated.
-         * @param exec Specifies whether the action must be execute or update on each evolution of the interaction.
-         * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
-         * The class must be public and must have a constructor with no parameter.
-         * @param interaction The user interaction of the binding.
-         * @param widgets The widgets concerned by the binding. Cannot be null.
-         * @throws IllegalArgumentException If the given interaction or instrument is null.
-         */
-        public constructor(exec: boolean, clazzAction: () => A, interaction: I, widgets: Array<EventTarget>) {
-            super(exec, clazzAction, interaction);
-            interaction.registerToNodes(widgets);
-        }
+export abstract class TSWidgetBinding<A extends ActionImpl, I extends TSInteraction<any, any>> extends WidgetBindingImpl<A, I> {
+    /**
+     * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
+     * instrument is (de-)activated.
+     * @param exec Specifies whether the action must be execute or update on each evolution of the interaction.
+     * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+     * The class must be public and must have a constructor with no parameter.
+     * @param interaction The user interaction of the binding.
+     * @param widgets The widgets concerned by the binding. Cannot be null.
+     * @throws IllegalArgumentException If the given interaction or instrument is null.
+     */
+    public constructor(exec: boolean, clazzAction: () => A, interaction: I, widgets: Array<EventTarget>) {
+        super(exec, clazzAction, interaction);
+        interaction.registerToNodes(widgets);
+    }
 
-        public when(): boolean {
-            return true;
-        }
+    public when(): boolean {
+        return true;
+    }
 
-        protected executeActionAsync(act: Action): any {
-            //TODO
-        }
+    protected executeActionAsync(act: Action): void {
+        //TODO
     }
 }

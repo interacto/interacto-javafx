@@ -1,44 +1,35 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
-    /**
-     * Creates an undo handler that does nothing.
-     * @class
-     * @author Arnaud BLOUIN
-     */
-    export class EmptyUndoHandler implements UndoHandler {
-        public constructor() {
-        }
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-        /**
-         * 
-         */
-        public onUndoableCleared() {
-        }
+/**
+ * Creates an undo handler that does nothing.
+ * @class
+ * @author Arnaud BLOUIN
+ */
+import {Undoable} from "./Undoable";
+import {UndoHandler} from "./UndoHandler";
 
-        /**
-         * 
-         * @param {*} undoable
-         */
-        public onUndoableAdded(undoable : Undoable) {
-        }
-
-        /**
-         * 
-         * @param {*} undoable
-         */
-        public onUndoableUndo(undoable : Undoable) {
-        }
-
-        /**
-         * 
-         * @param {*} undoable
-         */
-        public onUndoableRedo(undoable : Undoable) {
-        }
+export class EmptyUndoHandler implements UndoHandler {
+    public constructor() {
     }
-    EmptyUndoHandler["__class"] = "malai.EmptyUndoHandler";
-    EmptyUndoHandler["__interfaces"] = ["malai.UndoHandler"];
 
+    public onUndoableCleared(): void {
+    }
 
+    public onUndoableAdded(undoable: Undoable): void {
+    }
+
+    public onUndoableUndo(undoable: Undoable): void {
+    }
+
+    public onUndoableRedo(undoable: Undoable): void {
+    }
 }
-

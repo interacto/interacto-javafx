@@ -9,16 +9,10 @@
  * General Public License for more details.
  */
 
-/**
- * Defines an interface for object that can be reinitialised.
- * @author Arnaud BLOUIN
- * @since 0.2
- * @class
- */
-export interface Reinitialisable {
-    /**
-     * Reinitialises the object.
-     * @since 0.2
-     */
-    reinit(): void;
-}
+import {LoggerFactoryOptions, LFService, LogGroupRule, LogLevel} from "typescript-logging";
+
+const options = new LoggerFactoryOptions()
+    .addLogGroupRule(new LogGroupRule(new RegExp("model.+"), LogLevel.Debug))
+    .addLogGroupRule(new LogGroupRule(new RegExp(".+"), LogLevel.Info));
+
+export const factory = LFService.createNamedLoggerFactory("LoggerFactory", options);

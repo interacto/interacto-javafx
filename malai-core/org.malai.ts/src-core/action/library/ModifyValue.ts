@@ -1,74 +1,67 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
+
+import {ActionImpl} from "../ActionImpl";
+
+/**
+ * Initialises the action with the value to set.
+ * @param {*} value The value to set.
+ * @class
+ * @extends ActionImpl
+ * @author Arnaud Blouin
+ */
+export abstract class ModifyValue extends ActionImpl {
     /**
-     * Initialises the action with the value to set.
-     * @param {*} value The value to set.
-     * @class
-     * @extends ActionImpl
-     * @author Arnaud Blouin
+     * The new value of the property.
      */
-    export abstract class ModifyValue extends ActionImpl {
-        /**
-         * The new value of the property.
-         */
-        value : any;
+    protected value: any;
 
-        public constructor(value? : any) {
-            if(((value != null) || value === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                super();
-                if(this.value===undefined) this.value = null;
-                if(this.value===undefined) this.value = null;
-                (() => {
-                    this.value = value;
-                })();
-            } else if(value === undefined) {
-                let __args = Array.prototype.slice.call(arguments);
-                super();
-                if(this.value===undefined) this.value = null;
-                if(this.value===undefined) this.value = null;
-            } else throw new Error('invalid overload');
-        }
-
-        /**
-         * 
-         */
-        public flush() {
-            super.flush();
-            this.value = null;
-        }
-
-        /**
-         * 
-         * @return {boolean}
-         */
-        public canDo() : boolean {
-            return this.value != null && this.isValueMatchesProperty();
-        }
-
-        /**
-         * Sets the new value of the parameter to change.
-         * @param {*} newValue The new value.
-         */
-        public setValue(newValue : any) {
-            this.value = newValue;
-        }
-
-        /**
-         * This method executes the job of methods undo, redo, and do
-         * @param {*} obj The value to set. Must not be null.
-         * @throws NullPointerException If the given value is null.
-         */
-        abstract applyValue(obj : any);
-
-        /**
-         * @return {boolean} True: the object to modified supports the selected property.
-         */
-        abstract isValueMatchesProperty() : boolean;
+    public constructor(value?: any) {
+        super();
+        this.value = value;
     }
-    ModifyValue["__class"] = "malai.ModifyValue";
-    ModifyValue["__interfaces"] = ["malai.Action"];
 
+    /**
+     *
+     */
+    public flush(): void {
+        super.flush();
+        this.value = undefined;
+    }
 
+    /**
+     *
+     * @return {boolean}
+     */
+    public canDo(): boolean {
+        return this.value !== undefined && this.isValueMatchesProperty();
+    }
+
+    /**
+     * Sets the new value of the parameter to change.
+     * @param {*} newValue The new value.
+     */
+    public setValue(newValue: any): void {
+        this.value = newValue;
+    }
+
+    /**
+     * This method executes the job of methods undo, redo, and do
+     * @param {*} obj The value to set. Must not be null.
+     * @throws NullPointerException If the given value is null.
+     */
+    abstract applyValue(obj: any): void;
+
+    /**
+     * @return {boolean} True: the object to modified supports the selected property.
+     */
+    abstract isValueMatchesProperty(): boolean;
 }
-

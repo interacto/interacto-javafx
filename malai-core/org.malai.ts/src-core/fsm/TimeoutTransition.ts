@@ -1,108 +1,107 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
-    export class TimeoutTransition<E> extends Transition<E> {
-        /**
-         * The timeoutDuration in ms.
-         */
-        /*private*/ timeoutDuration : any;
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-        /**
-         * The current thread in progress.
-         */
-        // /*private*/ timeoutThread : java.lang.Thread;
+import {Transition} from "./Transition";
+import {OutputState} from "./OutputState";
+import {InputState} from "./InputState";
+import {Optional} from "../../src/util/Optional";
 
-        /*private*/ timeouted : boolean;
+export class TimeoutTransition<E> extends Transition<E> {
+    /**
+     * The timeoutDuration in ms.
+     */
+    private timeoutDuration: () => number;
 
-        public constructor(srcState : OutputState<E>, tgtState : InputState<E>, timeout : any) {
-            super(srcState, tgtState);
-            if(this.timeoutDuration===undefined) this.timeoutDuration = null;
-            // if(this.timeoutThread===undefined) this.timeoutThread = null;
-            if(this.timeouted===undefined) this.timeouted = false;
-            if(timeout == null) {
-                throw Object.defineProperty(new Error(), '__classes', { configurable: true, value: ['java.lang.Throwable','java.lang.Object','java.lang.RuntimeException','java.lang.IllegalArgumentException','java.lang.Exception'] });
-            }
-            this.timeoutDuration = <any>(timeout);
-            this.timeouted = false;
-        }
+    /**
+     * The current thread in progress.
+     */
+    private timeoutThread: any; //java.lang.Thread;
 
-        /**
-         * Launches the timer.
-         */
-        public startTimeout() {
-            // if(this.timeoutThread == null) {
+    private timeouted: boolean;
+
+    public constructor(srcState: OutputState<E>, tgtState: InputState<E>, timeout: () => number) {
+        super(srcState, tgtState);
+        this.timeouted = false;
+        this.timeoutDuration = timeout;
+        this.timeouted = false;
+    }
+
+    /**
+     * Launches the timer.
+     */
+    public startTimeout(): void {
+        if (this.timeoutThread === undefined) {
             //     this.timeoutThread = new java.lang.Thread(() => {
-            //         let time : number = (target => (typeof target === 'function')?target():(<any>target).getAsLong())(this.timeoutDuration);
-            //         if(time > 0) {
-            //             try {
-            //                 java.lang.Thread.sleep(time);
-            //                 this.timeouted = true;
-            //                 this.src.getFSM().onTimeout();
-            //             } catch(ex) {
-            //             };
-            //         }
-            //     });
-            //     this.timeoutThread.start();
-            // }
-        }
-
-        /**
-         * Stops the timer.
-         */
-        public stopTimeout() {
-            // if(this.timeoutThread != null) {
-            //     this.timeoutThread.interrupt();
-            //     this.timeoutThread = null;
-            // }
-        }
-
-        /**
-         * 
-         * @param {*} event
-         * @return {boolean}
-         */
-        accept(event : E) : boolean {
-            return this.timeouted;
-        }
-
-        /**
-         * 
-         * @param {*} event
-         * @return {boolean}
-         */
-        isGuardOK(event : E) : boolean {
-            return this.timeouted;
-        }
-
-        /**
-         * 
-         * @param {*} event
-         * @return {util.Optional}
-         */
-        public execute(event : E) : Optional<InputState<E>> {
-            try {
-                if(this.accept(event) && this.isGuardOK(event)) {
-                    this.src.exit();
-                    this.action(event);
-                    this.tgt.enter();
-                    this.timeouted = false;
-                    return Optional.of<any>(this.tgt);
-                }
-                return Optional.empty<any>();
-            } catch(ex) {
-                this.timeouted = false;
-                throw ex;
+            let time = this.timeoutDuration();
+            if (time > 0) {
+                //             try {
+                //                 java.lang.Thread.sleep(time);
+                this.timeouted = true;
+                this.src.getFSM().onTimeout();
+                //             } catch(ex) {
+                //             };
             }
-        }
-
-        /**
-         * 
-         * @return {*[]}
-         */
-        public getAcceptedEvents() : Set<String> {
-            return new Set();
+            //     this.timeoutThread.start();
         }
     }
-    TimeoutTransition["__class"] = "malai.TimeoutTransition";
 
+    /**
+     * Stops the timer.
+     */
+    public stopTimeout(): void {
+        if (this.timeoutThread !== undefined) {
+            //     this.timeoutThread.interrupt();
+            this.timeoutThread = undefined;
+        }
+    }
+
+    /**
+     *
+     * @param {*} event
+     * @return {boolean}
+     */
+    accept(event: E | undefined): boolean {
+        return this.timeouted;
+    }
+
+    /**
+     *
+     * @param {*} event
+     * @return {boolean}
+     */
+    isGuardOK(event: E | undefined): boolean {
+        return this.timeouted;
+    }
+
+    public execute(event?: E): Optional<InputState<E>> {
+        try {
+            if (this.accept(event) && this.isGuardOK(event)) {
+                this.src.exit();
+                this.action(event);
+                this.tgt.enter();
+                this.timeouted = false;
+                return Optional.of(this.tgt);
+            }
+            return Optional.empty<InputState<E>>();
+        } catch (ex) {
+            this.timeouted = false;
+            throw ex;
+        }
+    }
+
+    /**
+     *
+     * @return {*[]}
+     */
+    public getAcceptedEvents(): Set<String> {
+        return new Set();
+    }
 }
-

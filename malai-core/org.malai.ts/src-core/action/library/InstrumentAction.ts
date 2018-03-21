@@ -1,76 +1,63 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
+
+import {ActionImpl} from "../ActionImpl";
+import {Instrument} from "../../instrument/Instrument";
+
+/**
+ * This action manipulates an instrument.
+ * @author Arnaud Blouin
+ * @param {*} instrument
+ * @class
+ * @extends ActionImpl
+ */
+export abstract class InstrumentAction extends ActionImpl {
     /**
-     * This action manipulates an instrument.
-     * @author Arnaud Blouin
-     * @param {*} instrument
-     * @class
-     * @extends ActionImpl
+     * The manipulated instrument.
      */
-    export abstract class InstrumentAction extends ActionImpl {
-        /**
-         * The manipulated instrument.
-         */
-        instrument : Instrument<any>;
+    protected instrument: Instrument<any> | undefined;
 
-        public constructor(instrument? : any) {
-            if(((instrument != null && (instrument["__interfaces"] != null && instrument["__interfaces"].indexOf("Instrument") >= 0 || instrument.constructor != null && instrument.constructor["__interfaces"] != null && instrument.constructor["__interfaces"].indexOf("Instrument") >= 0)) || instrument === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                super();
-                if(this.instrument===undefined) this.instrument = null;
-                if(this.instrument===undefined) this.instrument = null;
-                (() => {
-                    this.instrument = instrument;
-                })();
-            } else if(instrument === undefined) {
-                let __args = Array.prototype.slice.call(arguments);
-                {
-                    let __args = Array.prototype.slice.call(arguments);
-                    let instrument : any = null;
-                    super();
-                    if(this.instrument===undefined) this.instrument = null;
-                    if(this.instrument===undefined) this.instrument = null;
-                    (() => {
-                        this.instrument = instrument;
-                    })();
-                }
-            } else throw new Error('invalid overload');
-        }
-
-        /**
-         * 
-         */
-        public flush() {
-            super.flush();
-            this.instrument = null;
-        }
-
-        /**
-         * 
-         * @return {boolean}
-         */
-        public canDo() : boolean {
-            return this.instrument != null;
-        }
-
-        /**
-         * @return {*} The manipulated instrument.
-         */
-        public getInstrument() : Instrument<any> {
-            return this.instrument;
-        }
-
-        /**
-         * Sets the manipulated instrument.
-         * @param {*} newInstrument The manipulated instrument.
-         */
-        public setInstrument(newInstrument : Instrument<any>) {
-            this.instrument = newInstrument;
-        }
+    public constructor(instrument?: any) {
+        super();
+        this.instrument = instrument;
     }
-    InstrumentAction["__class"] = "malai.InstrumentAction";
-    InstrumentAction["__interfaces"] = ["malai.Action"];
 
+    /**
+     *
+     */
+    public flush(): void {
+        super.flush();
+        this.instrument = undefined;
+    }
 
+    /**
+     *
+     * @return {boolean}
+     */
+    public canDo(): boolean {
+        return this.instrument !== undefined;
+    }
+
+    /**
+     * @return {*} The manipulated instrument.
+     */
+    public getInstrument(): Instrument<any> | undefined {
+        return this.instrument;
+    }
+
+    /**
+     * Sets the manipulated instrument.
+     * @param {*} newInstrument The manipulated instrument.
+     */
+    public setInstrument(newInstrument: Instrument<any>): void {
+        this.instrument = newInstrument;
+    }
 }
-

@@ -8,24 +8,26 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-/// <reference path="TSTransition.ts" />
 
-namespace malai {
-    export abstract class ButtonPressedTransition extends TSTransition {
-        public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
-            super(srcState, tgtState);
-        }
+import {TSTransition} from "./TSTransition";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../../src-core/fsm/InputState";
+import {ButtonPressEvent} from "./Events";
 
-        accept(e: UIEvent): boolean {
-            return e instanceof ButtonPressEvent;
-        }
+export abstract class ButtonPressedTransition extends TSTransition {
+    public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
+        super(srcState, tgtState);
+    }
 
-        public getAcceptedEvents(): Set<String> {
-            return new Set([ButtonPressEvent.name]);
-        }
+    accept(e: UIEvent): boolean {
+        return e instanceof ButtonPressEvent;
+    }
 
-        isGuardOK(event: UIEvent): boolean {
-            return true;
-        }
+    public getAcceptedEvents(): Set<String> {
+        return new Set([ButtonPressEvent.name]);
+    }
+
+    isGuardOK(event: UIEvent): boolean {
+        return true;
     }
 }

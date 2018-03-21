@@ -17,5 +17,8 @@
     "mocha-typescript": "^1.1.12",
     "ts-node": "^5.0.1",
     "typescript": "^2.7.2"
+  },
+  "dependencies": {
+    "typescript-logging": "^0.5.0"
   }
 }

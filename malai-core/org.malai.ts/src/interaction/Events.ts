@@ -9,19 +9,23 @@
  * General Public License for more details.
  */
 
-namespace malai {
-    export enum EventRegistrationToken {
-        MouseDown = "mousedown",
-        MouseUp = "mouseup",
-        MouseMove = "mousemove",
-        KeyDown = "keydown",
-        KeyPress = "keypress",
-        KeyUp = "keyup",
-    }
+export enum EventRegistrationToken {
+    MouseDown = "mousedown",
+    MouseUp = "mouseup",
+    MouseMove = "mousemove",
+    KeyDown = "keydown",
+    KeyPress = "keypress",
+    KeyUp = "keyup",
+}
 
-    export class MousePressEvent extends MouseEvent {
-    }
+export class MousePressEvent extends MouseEvent {
+}
 
-    export class ButtonPressEvent extends UIEvent {
-    }
+export class ButtonPressEvent extends UIEvent {
+}
+
+export class KeyPressEvent extends KeyboardEvent {
+}
+
+export class KeyReleaseEvent extends KeyboardEvent {
 }

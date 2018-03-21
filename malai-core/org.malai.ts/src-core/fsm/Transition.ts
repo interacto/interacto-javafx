@@ -1,42 +1,46 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
-    export abstract class Transition<E> {
-        src : OutputState<E>;
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-        tgt : InputState<E>;
+import {OutputState} from "./OutputState";
+import {InputState} from "./InputState";
+import {Optional} from "../../src/util/Optional";
 
-        constructor(srcState : OutputState<E>, tgtState : InputState<E>) {
-            if(this.src===undefined) this.src = null;
-            if(this.tgt===undefined) this.tgt = null;
-            if(srcState == null || tgtState == null) {
-                throw Object.defineProperty(new Error("States cannot be null"), '__classes', { configurable: true, value: ['java.lang.Throwable','java.lang.Object','java.lang.RuntimeException','java.lang.IllegalArgumentException','java.lang.Exception'] });
-            }
-            this.src = srcState;
-            this.tgt = tgtState;
-            this.src.addTransition(this);
-        }
+export abstract class Transition<E> {
+    readonly src: OutputState<E>;
 
-        public execute(event : E) : Optional<InputState<E>> {
-            if(this.accept(event) && this.isGuardOK(event)) {
-                this.src.getFSM().stopCurrentTimeout();
-                this.action(event);
-                this.src.exit();
-                this.tgt.enter();
-                return Optional.of<any>(this.tgt);
-            }
-            return Optional.empty<any>();
-        }
+    readonly tgt: InputState<E>;
 
-        action(event : E) {
-        }
-
-        abstract accept(event : E) : boolean;
-
-        abstract isGuardOK(event : E) : boolean;
-
-        public abstract getAcceptedEvents() : Set<String>;
+    constructor(srcState: OutputState<E>, tgtState: InputState<E>) {
+        this.src = srcState;
+        this.tgt = tgtState;
+        this.src.addTransition(this);
     }
-    Transition["__class"] = "malai.Transition";
 
+    public execute(event: E): Optional<InputState<E>> {
+        if (this.accept(event) && this.isGuardOK(event)) {
+            this.src.getFSM().stopCurrentTimeout();
+            this.action(event);
+            this.src.exit();
+            this.tgt.enter();
+            return Optional.of<InputState<E>>(this.tgt);
+        }
+        return Optional.empty<InputState<E>>();
+    }
+
+    protected action(event: E | undefined): void {
+    }
+
+    abstract accept(event: E): boolean;
+
+    abstract isGuardOK(event: E): boolean;
+
+    public abstract getAcceptedEvents(): Set<String>;
 }
-

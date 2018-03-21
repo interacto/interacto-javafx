@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2015",
+    "moduleResolution": "node",
     "module": "system",
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "noImplicitThis": false,
-    "noUnusedLocals": false,
+    "pretty": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
     "removeComments": true,
-    "noUnusedParameters": false,
     "noImplicitReturns": true,
     "outFile": "./src-gen/js/malai.js"
   }

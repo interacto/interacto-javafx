@@ -1,23 +1,23 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-/// <reference path="OutputStateImpl.ts" />
+import {OutputStateImpl} from "./OutputStateImpl";
+import {FSM} from "./FSM";
 
-namespace malai {
-    export class InitState<E> extends OutputStateImpl<E> {
-        constructor(stateMachine : FSM<E>, stateName : string) {
-            super(stateMachine, stateName);
-        }
-
-        /**
-         * 
-         */
-        public exit() {
-            this.checkStartingState();
-        }
+export class InitState<E> extends OutputStateImpl<E> {
+    constructor(stateMachine: FSM<E>, stateName: string) {
+        super(stateMachine, stateName);
     }
-    InitState["__class"] = "malai.InitState";
-    InitState["__interfaces"] = ["malai.State","malai.OutputState"];
 
-
+    public exit(): void {
+        this.checkStartingState();
+    }
 }
-

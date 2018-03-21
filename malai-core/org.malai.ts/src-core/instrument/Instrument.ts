@@ -1,47 +1,59 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
+
+import {WidgetBinding} from "../binding/WidgetBinding";
+import {Modifiable} from "../properties/Modifiable";
+import {Reinitialisable} from "../properties/Reinitialisable";
+import {ActionHandler} from "../action/ActionHandler";
+
+/**
+ * The concept of instrument and its related services.
+ * @author Arnaud BLOUIN
+ * @class
+ */
+export interface Instrument<T extends WidgetBinding> extends Modifiable, Reinitialisable, ActionHandler {
     /**
-     * The concept of instrument and its related services.
-     * @author Arnaud BLOUIN
-     * @class
+     * @return {number} The number of widget bindings that compose the instrument.
      */
-    export interface Instrument<T extends WidgetBinding> extends Modifiable, Reinitialisable, ActionHandler {
-        /**
-         * @return {number} The number of widget bindings that compose the instrument.
-         */
-        getNbWidgetBindings() : number;
+    getNbWidgetBindings(): number;
 
-        /**
-         * @return {boolean} True: the instrument has at least one widget binding. False otherwise.
-         */
-        hasWidgetBindings() : boolean;
+    /**
+     * @return {boolean} True: the instrument has at least one widget binding. False otherwise.
+     */
+    hasWidgetBindings(): boolean;
 
-        /**
-         * @return {*[]} The widget bindings that compose the instrument. Cannot be null.
-         */
-        getWidgetBindings() : Array<T>;
+    /**
+     * @return {*[]} The widget bindings that compose the instrument. Cannot be null.
+     */
+    getWidgetBindings(): Array<T>;
 
-        /**
-         * Stops the interactions of the instrument and clears all its events waiting for a process.
-         */
-        clearEvents();
+    /**
+     * Stops the interactions of the instrument and clears all its events waiting for a process.
+     */
+    clearEvents(): void;
 
-        /**
-         * @return {boolean} True if the instrument is activated.
-         */
-        isActivated() : boolean;
+    /**
+     * @return {boolean} True if the instrument is activated.
+     */
+    isActivated(): boolean;
 
-        /**
-         * Activates or deactivates the instrument.
-         * @param {boolean} activated True = activation.
-         */
-        setActivated(activated : boolean);
+    /**
+     * Activates or deactivates the instrument.
+     * @param {boolean} activated True = activation.
+     */
+    setActivated(activated: boolean): void;
 
-        /**
-         * Reinitialises the interim feedback of the instrument.
-         * Must be overridden.
-         */
-        interimFeedback();
-    }
+    /**
+     * Reinitialises the interim feedback of the instrument.
+     * Must be overridden.
+     */
+    interimFeedback(): void;
 }
-

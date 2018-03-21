@@ -9,92 +9,92 @@
  * General Public License for more details.
  */
 
-/// <reference path="../../src-core/interaction/InteractionImpl.ts" />
-/// <reference path="Events.ts" />
+import {FSM} from "../../src-core/fsm/FSM";
+import {InteractionImpl} from "../../src-core/interaction/InteractionImpl";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {EventRegistrationToken, MousePressEvent} from "./Events";
 
-namespace malai {
-    export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends InteractionImpl<UIEvent, F> {
-        protected registeredNodes: Set<EventTarget>;
-        /** The widget used during the interaction. */
-        protected _widget ?: T;
-        private mouseHandler ?: (MouseEvent) => any;
+export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends InteractionImpl<UIEvent, F> {
+    protected registeredNodes: Set<EventTarget>;
+    /** The widget used during the interaction. */
+    protected _widget ?: T;
+    private mouseHandler ?: (e: MouseEvent) => void;
 
-        protected constructor(fsm: F) {
-            super(fsm);
-            this.registeredNodes = new Set();
+    protected constructor(fsm: F) {
+        super(fsm);
+        this.registeredNodes = new Set();
+    }
+
+    /**
+     * @return The widget used during the interaction.
+     */
+    public get widget(): T | undefined {
+        return this._widget;
+    }
+
+    protected updateEventsRegistered(newState: OutputState<UIEvent>, oldState: OutputState<UIEvent>): void {
+        // Do nothing when the interaction has only two nodes: init node and terminal node (this is a single-event interaction).
+        if (newState == oldState || this.fsm.getStates().length == 2) {
+            return;
         }
 
-        /**
-         * @return The widget used during the interaction.
-         */
-        public get widget(): T | undefined {
-            return this._widget;
+        let currEvents: Array<String> = [...this.getEventTypesOf(newState)];
+        let events: Array<String> = [...this.getEventTypesOf(oldState)];
+        let eventsToRemove: Array<String> = events.filter(e => currEvents.indexOf(e) >= 0);
+        let eventsToAdd: Array<String> = currEvents.filter(e => events.indexOf(e) >= 0);
+
+        this.registeredNodes.forEach(n => {
+            eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
+            eventsToAdd.forEach(type => this.registerEventToNode(type, n));
+        });
+        // additionalNodes.forEach(nodes -> nodes.forEach(n -> {
+        //     eventsToRemove.forEach(type -> unregisterEventToNode(type, n));
+        //     eventsToAdd.forEach(type -> registerEventToNode(type, n));
+        // }));
+    }
+
+    private getEventTypesOf(state: OutputState<Event>): Set<String> {
+        return state.getTransitions().map(t => t.getAcceptedEvents()).reduce((a, b) => new Set([...a, ...b]));
+    }
+
+    public registerToNodes(widgets: Array<EventTarget>): void {
+        if (widgets !== undefined) {
+            widgets.filter(w => w !== undefined).forEach(w => this.registeredNodes.add(w));
         }
+    }
 
-        protected updateEventsRegistered(newState: OutputState<UIEvent>, oldState: OutputState<UIEvent>): any {
-            // Do nothing when the interaction has only two nodes: init node and terminal node (this is a single-event interaction).
-            if (newState == oldState || this.fsm.getStates().length == 2) {
-                return;
-            }
-
-            let currEvents: Array<String> = [...this.getEventTypesOf(newState)];
-            let events: Array<String> = [...this.getEventTypesOf(oldState)];
-            let eventsToRemove: Array<String> = events.filter(e => currEvents.indexOf(e) >= 0);
-            let eventsToAdd: Array<String> = currEvents.filter(e => events.indexOf(e) >= 0);
-
-            this.registeredNodes.forEach(n => {
-                eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
-                eventsToAdd.forEach(type => this.registerEventToNode(type, n));
-            });
-            // additionalNodes.forEach(nodes -> nodes.forEach(n -> {
-            //     eventsToRemove.forEach(type -> unregisterEventToNode(type, n));
-            //     eventsToAdd.forEach(type -> registerEventToNode(type, n));
-            // }));
+    public unregisterFromNodes(widgets: Array<EventTarget>): void {
+        if (widgets !== undefined) {
+            widgets.filter(w => w !== undefined).forEach(w => this.registeredNodes.delete(w));
         }
+    }
 
-        private getEventTypesOf(state: OutputState<Event>): Set<String> {
-            return state.getTransitions().map(t => t.getAcceptedEvents()).reduce((a, b) => new Set([...a, ...b]));
-        }
+    protected onNodeUnregistered(node: EventTarget): void {
+        this.getEventTypesOf(this.fsm.getCurrentState()).forEach(type => this.unregisterEventToNode(type, node));
+    }
 
-        public registerToNodes(widgets : Array<EventTarget>) : any {
-            if(widgets !== undefined) {
-                widgets.filter(w => w !== undefined).forEach(w => this.registeredNodes.add(w));
-            }
-        }
+    protected onNewNodeRegistered(node: EventTarget): void {
+        this.getEventTypesOf(this.fsm.getCurrentState()).forEach(type => this.registerEventToNode(type, node));
+    }
 
-        public unregisterFromNodes(widgets : Array<EventTarget>) : any {
-            if(widgets !== undefined) {
-                widgets.filter(w => w !== undefined).forEach(w => this.registeredNodes.delete(w));
-            }
+    private registerEventToNode(eventType: String, node: EventTarget): void {
+        if (MousePressEvent.name === eventType) {
+            node.removeEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
+            return;
         }
+    }
 
-        protected onNodeUnregistered(node: EventTarget): any {
-            this.getEventTypesOf(this.fsm.getCurrentState()).forEach(type => this.unregisterEventToNode(type, node));
+    private unregisterEventToNode(eventType: String, node: EventTarget): void {
+        if (MousePressEvent.name === eventType) {
+            node.addEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
+            return;
         }
+    }
 
-        protected onNewNodeRegistered(node: EventTarget): any {
-            this.getEventTypesOf(this.fsm.getCurrentState()).forEach(type => this.registerEventToNode(type, node));
+    protected getMouseHandler(): (e: MouseEvent) => void {
+        if (this.mouseHandler === undefined) {
+            this.mouseHandler = evt => this.processEvent(evt);
         }
-
-        private registerEventToNode(eventType: String, node: EventTarget): any {
-            if (MousePressEvent.name === eventType) {
-                node.removeEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
-                return;
-            }
-        }
-
-        private unregisterEventToNode(eventType: String, node: EventTarget): any {
-            if (MousePressEvent.name === eventType) {
-                node.addEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
-                return;
-            }
-        }
-
-        protected getMouseHandler(): (MouseEvent) => any {
-            if (this.mouseHandler === undefined) {
-                this.mouseHandler = evt => this.processEvent(evt);
-            }
-            return this.mouseHandler;
-        }
+        return this.mouseHandler;
     }
 }

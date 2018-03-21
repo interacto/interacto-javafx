@@ -9,24 +9,25 @@
  * General Public License for more details.
  */
 
-/// <reference path="TSTransition.ts" />
+import {TSTransition} from "./TSTransition";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../../src-core/fsm/InputState";
+import {MousePressEvent} from "./Events";
 
-namespace malai {
-    export abstract class PressureTransition extends TSTransition {
-        public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
-            super(srcState, tgtState);
-        }
+export abstract class PressureTransition extends TSTransition {
+    public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
+        super(srcState, tgtState);
+    }
 
-        accept(e: UIEvent): boolean {
-            return e instanceof MousePressEvent;
-        }
+    accept(e: UIEvent): boolean {
+        return e instanceof MousePressEvent;
+    }
 
-        public getAcceptedEvents(): Set<String> {
-            return new Set([MousePressEvent.name]);
-        }
+    public getAcceptedEvents(): Set<String> {
+        return new Set([MousePressEvent.name]);
+    }
 
-        isGuardOK(event: UIEvent): boolean {
-            return true;
-        }
+    isGuardOK(event: UIEvent): boolean {
+        return true;
     }
 }

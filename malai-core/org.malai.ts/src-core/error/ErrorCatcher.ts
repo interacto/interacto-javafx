@@ -1,58 +1,61 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
+
+import {ErrorNotifier} from "./ErrorNotifier";
+
+/**
+ * The singleton ErrorCatcher collects errors.
+ * The ErrorCatcher sends the gathered exception to an ErrorNotifier (if one is defined).
+ * @author Arnaud BLOUIN
+ * @since 0.2
+ */
+export class ErrorCatcher {
     /**
-     * The singleton ErrorCatcher collects errors.
-     * The ErrorCatcher sends the gathered exception to an ErrorNotifier (if one is defined).
-     * @author Arnaud BLOUIN
-     * @since 0.2
-     * @class
+     * The singleton.
      */
-    export class ErrorCatcher {
-        /**
-         * The singleton.
-         */
-        public static INSTANCE : ErrorCatcher; public static INSTANCE_$LI$() : ErrorCatcher { if(ErrorCatcher.INSTANCE == null) ErrorCatcher.INSTANCE = new ErrorCatcher(); return ErrorCatcher.INSTANCE; };
+    public static INSTANCE: ErrorCatcher = new ErrorCatcher();
 
-        /**
-         * The notifier object.
-         */
-        /*private*/ notifier : ErrorNotifier;
+    /**
+     * The notifier object.
+     */
+    private notifier: ErrorNotifier;
 
-        constructor() {
-            if(this.notifier===undefined) this.notifier = null;
-        }
+    private constructor() {
+    }
 
-        /**
-         * Sets the notifier that will be notified about the collected exceptions.
-         * @param {*} newNotifier The notifier that will be notified the collected exceptions. Can be null.
-         * @since 0.2
-         */
-        public setNotifier(newNotifier : ErrorNotifier) {
-            this.notifier = newNotifier;
-        }
+    /**
+     * Sets the notifier that will be notified about the collected exceptions.
+     * @param {*} newNotifier The notifier that will be notified the collected exceptions. Can be null.
+     * @since 0.2
+     */
+    public setNotifier(newNotifier: ErrorNotifier): void {
+        this.notifier = newNotifier;
+    }
 
-        /**
-         * @return {*} The notifier that is notified about the collected exceptions.
-         * @since 0.2
-         */
-        public getErrorNotifier() : ErrorNotifier {
-            return this.notifier;
-        }
+    /**
+     * @return {*} The notifier that is notified about the collected exceptions.
+     * @since 0.2
+     */
+    public getErrorNotifier(): ErrorNotifier {
+        return this.notifier;
+    }
 
-        /**
-         * Gathers exceptions. The notifier is then notified of the exceptions (if defined).
-         * @param {Error} exception The errors to gather.
-         * @since 0.1
-         */
-        public reportError(exception : Error) {
-            if(exception != null && this.notifier != null) {
-                this.notifier.onException(exception);
-            }
+    /**
+     * Gathers exceptions. The notifier is then notified of the exceptions (if defined).
+     * @param {Error} exception The errors to gather.
+     * @since 0.1
+     */
+    public reportError(exception: Error): void {
+        if (exception !== undefined && this.notifier !== undefined) {
+            this.notifier.onException(exception);
         }
     }
-    ErrorCatcher["__class"] = "malai.ErrorCatcher";
-
 }
-
-
-malai.ErrorCatcher.INSTANCE_$LI$();
