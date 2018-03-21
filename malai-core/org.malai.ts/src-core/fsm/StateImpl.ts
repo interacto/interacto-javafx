@@ -1,41 +1,46 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
-    export abstract class StateImpl<E> implements State<E> {
-        checkStartingState() {
-            if(!this.getFSM().isStarted() && this.getFSM().startingState === this) {
-                this.getFSM().onStarting();
-            }
-        }
-        fsm : FSM<E>;
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-        name : string;
+import {State} from "./State";
+import {FSM} from "./FSM";
 
-        constructor(stateMachine : FSM<E>, stateName : string) {
-            if(this.fsm===undefined) this.fsm = null;
-            if(this.name===undefined) this.name = null;
-            this.fsm = stateMachine;
-            this.name = stateName;
-        }
+export abstract class StateImpl<E> implements State<E> {
+    protected readonly fsm: FSM<E>;
 
-        /**
-         * 
-         * @return {string}
-         */
-        public getName() : string {
-            return this.name;
-        }
+    protected readonly name: string;
 
-        /**
-         * 
-         * @return {FSM}
-         */
-        public getFSM() : FSM<E> {
-            return this.fsm;
+    constructor(stateMachine: FSM<E>, stateName: string) {
+        this.fsm = stateMachine;
+        this.name = stateName;
+    }
+
+    checkStartingState() {
+        if (!this.fsm.isStarted() && this.fsm.getStartingState() === this) {
+            this.fsm.onStarting();
         }
     }
-    StateImpl["__class"] = "malai.StateImpl";
-    StateImpl["__interfaces"] = ["malai.State"];
 
+    /**
+     *
+     * @return {string}
+     */
+    public getName(): string {
+        return this.name;
+    }
 
+    /**
+     *
+     * @return {FSM}
+     */
+    public getFSM(): FSM<E> {
+        return this.fsm;
+    }
 }
-

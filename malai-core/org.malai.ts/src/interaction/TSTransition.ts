@@ -9,12 +9,12 @@
  * General Public License for more details.
  */
 
-/// <reference path="../../src-core/fsm/Transition.ts" />
+import {Transition} from "../../src-core/fsm/Transition";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../../src-core/fsm/InputState";
 
-namespace malai {
-    export abstract class TSTransition extends Transition<UIEvent> {
-        public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
-            super(srcState, tgtState);
-        }
+export abstract class TSTransition extends Transition<UIEvent> {
+    public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
+        super(srcState, tgtState);
     }
 }

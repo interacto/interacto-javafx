@@ -1,58 +1,60 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
-    export abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputState<E> {
-        process(event : any) : boolean {
-            {
-                let array129 = this.getTransitions();
-                for(let index128=0; index128 < array129.length; index128++) {
-                    let tr = array129[index128];
-                    {
-                        try {
-                            if(tr.execute(event).isPresent()) {
-                                return true;
-                            }
-                        } catch(ignored) {
-                        }
-                    }
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
+
+import {StateImpl} from "./StateImpl";
+import {OutputState} from "./OutputState";
+import {Transition} from "./Transition";
+import {FSM} from "./FSM";
+
+export abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputState<E> {
+    protected readonly transitions: Array<Transition<E>>;
+
+    protected constructor(stateMachine: FSM<E>, stateName: string) {
+        super(stateMachine, stateName);
+        this.transitions = [];
+    }
+
+    process(event: E): boolean {
+        const trs = this.getTransitions();
+        for(let i = 0; i < trs.length; i++) {
+            try {
+                if (trs[i].execute(event).isPresent()) {
+                    return true;
                 }
-            }
-            return false;
-        }
-        checkStartingState() {
-            if(!this.getFSM().isStarted() && this.getFSM().startingState === this) {
-                this.getFSM().onStarting();
+            } catch (ignored) {
+                // Already processed
             }
         }
-        transitions : Array<Transition<E>>;
+        return false;
+    }
 
-        constructor(stateMachine : FSM<E>, stateName : string) {
-            super(stateMachine, stateName);
-            if(this.transitions===undefined) this.transitions = null;
-            this.transitions = <any>([]);
+    checkStartingState(): void {
+        if (!this.getFSM().isStarted() && this.getFSM().getStartingState() === this) {
+            this.getFSM().onStarting();
         }
+    }
 
-        /**
-         * 
-         * @return {Transition[]}
-         */
-        public getTransitions() : Array<Transition<E>> {
-            return /* unmodifiableList */this.transitions.slice(0);
+    public getTransitions(): Array<Transition<E>> {
+        return [...this.transitions];
+    }
+
+    /**
+     *
+     * @param {Transition} tr
+     */
+    public addTransition(tr: Transition<E>): void {
+        if (tr !== undefined) {
+            this.transitions.push(tr);
         }
+    }
 
-        /**
-         * 
-         * @param {Transition} tr
-         */
-        public addTransition(tr : Transition<E>) {
-            if(tr != null) {
-                /* add */(this.transitions.push(tr)>0);
-            }
-        }
-
-        public abstract exit(): any;    }
-    OutputStateImpl["__class"] = "malai.OutputStateImpl";
-    OutputStateImpl["__interfaces"] = ["malai.State","malai.OutputState"];
-
-
+    public abstract exit(): void;
 }
-

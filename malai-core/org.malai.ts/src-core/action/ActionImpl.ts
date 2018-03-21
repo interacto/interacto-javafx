@@ -1,142 +1,128 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
+
+import {Action, ActionStatus, RegistrationPolicy} from "./Action";
+import {ActionsRegistry} from "./ActionsRegistry";
+
+/**
+ * The default constructor.
+ * Initialises the current status to created.
+ * @class
+ * @author Arnaud BLOUIN
+ */
+export abstract class ActionImpl implements Action {
     /**
-     * The default constructor.
-     * Initialises the current status to created.
-     * @class
-     * @author Arnaud BLOUIN
+     * The state of the action.
      */
-    export abstract class ActionImpl implements Action {
-        /**
-         * The state of the action.
-         */
-        status : ActionStatus;
+    protected status: ActionStatus;
 
-        public constructor() {
-            if(this.status===undefined) this.status = null;
-            this.status = ActionStatus.CREATED;
-        }
+    public constructor() {
+        this.status = ActionStatus.CREATED;
+    }
 
-        /**
-         * 
-         */
-        public flush() {
-            this.status = ActionStatus.FLUSHED;
-        }
+    /**
+     *
+     */
+    public flush(): void {
+        this.status = ActionStatus.FLUSHED;
+    }
 
-        /**
-         * Actions may need to create a memento before their first execution.
-         * This is the goal of the operation that should be overriden.
-         * This operator is called a single time before the first execution of the action.
-         */
-        createMemento() {
-        }
+    /**
+     * Actions may need to create a memento before their first execution.
+     * This is the goal of the operation that should be overriden.
+     * This operator is called a single time before the first execution of the action.
+     */
+    protected createMemento(): void {
+    }
 
-        /**
-         * 
-         * @return {boolean}
-         */
-        public doIt() : boolean {
-            let ok : boolean;
-            if((this.status === ActionStatus.CREATED || this.status === ActionStatus.EXECUTED) && this.canDo()) {
-                if(this.status === ActionStatus.CREATED) {
-                    this.createMemento();
-                }
-                ok = true;
-                this.doActionBody();
-                this.status = ActionStatus.EXECUTED;
-                ActionsRegistry.INSTANCE_$LI$().onActionExecuted(this);
-            } else {
-                ok = false;
+    /**
+     *
+     * @return {boolean}
+     */
+    public doIt(): boolean {
+        let ok: boolean;
+        if ((this.status === ActionStatus.CREATED || this.status === ActionStatus.EXECUTED) && this.canDo()) {
+            if (this.status === ActionStatus.CREATED) {
+                this.createMemento();
             }
-            return ok;
+            ok = true;
+            this.doActionBody();
+            this.status = ActionStatus.EXECUTED;
+            ActionsRegistry.INSTANCE.onActionExecuted(this);
+        } else {
+            ok = false;
         }
+        return ok;
+    }
 
-        /**
-         * This method contains the statements to execute the action.
-         * This method is automatically called by DoIt and must not be called explicitly.
-         * @since 0.1
-         */
-        abstract doActionBody();
+    /**
+     * This method contains the statements to execute the action.
+     * This method is automatically called by DoIt and must not be called explicitly.
+     * @since 0.1
+     */
+    protected abstract doActionBody(): void;
 
-        /**
-         * 
-         * @return {Action.RegistrationPolicy}
-         */
-        public getRegistrationPolicy() : RegistrationPolicy {
-            return this.hadEffect()?RegistrationPolicy.LIMITED:RegistrationPolicy.NONE;
+    public getRegistrationPolicy(): RegistrationPolicy {
+        return this.hadEffect() ? RegistrationPolicy.LIMITED : RegistrationPolicy.NONE;
+    }
+
+    /**
+     *
+     * @return {boolean}
+     */
+    public hadEffect(): boolean {
+        return this.isDone();
+    }
+
+    /**
+     *
+     * @param {*} action
+     * @return {boolean}
+     */
+    public unregisteredBy(action: Action): boolean {
+        return false;
+    }
+
+    /**
+     *
+     */
+    public done(): void {
+        if (this.status === ActionStatus.CREATED || this.status === ActionStatus.EXECUTED) {
+            this.status = ActionStatus.DONE;
+            ActionsRegistry.INSTANCE.onActionDone(this);
         }
+    }
 
-        /**
-         * 
-         * @return {boolean}
-         */
-        public hadEffect() : boolean {
-            return this.isDone();
-        }
+    /**
+     *
+     * @return {boolean}
+     */
+    public isDone(): boolean {
+        return this.status === ActionStatus.DONE;
+    }
 
-        /**
-         * 
-         * @param {*} action
-         * @return {boolean}
-         */
-        public unregisteredBy(action : Action) : boolean {
-            return false;
-        }
+    /**
+     *
+     */
+    public cancel(): void {
+        this.status = ActionStatus.CANCELLED;
+    }
 
-        /**
-         * 
-         */
-        public done() {
-            if(this.status === ActionStatus.CREATED || this.status === ActionStatus.EXECUTED) {
-                this.status = ActionStatus.DONE;
-                ActionsRegistry.INSTANCE_$LI$().onActionDone(this);
-            }
-        }
+    public getStatus(): ActionStatus {
+        return this.status;
+    }
 
-        /**
-         * 
-         * @return {boolean}
-         */
-        public isDone() : boolean {
-            return this.status === ActionStatus.DONE;
-        }
+    public followingActions(): Array<Action> {
+        return [];
+    }
 
-        /**
-         * 
-         * @return {string}
-         */
-        public toString() : string {
-            return /* getSimpleName */(c => c["__class"]?c["__class"].substring(c["__class"].lastIndexOf('.')+1):c["name"].substring(c["name"].lastIndexOf('.')+1))((<any>this.constructor));
-        }
-
-        /**
-         * 
-         */
-        public cancel() {
-            this.status = ActionStatus.CANCELLED;
-        }
-
-        /**
-         * 
-         * @return {Action.ActionStatus}
-         */
-        public getStatus() : ActionStatus {
-            return this.status;
-        }
-
-        /**
-         * 
-         * @return {*[]}
-         */
-        public followingActions() : Array<Action> {
-            return /* emptyList */[];
-        }
-
-        public abstract canDo(): any;    }
-    ActionImpl["__class"] = "malai.ActionImpl";
-    ActionImpl["__interfaces"] = ["malai.Action"];
-
-
+    public abstract canDo(): boolean;
 }
-

@@ -1,261 +1,245 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-/// <reference path="../../src/util/Optional.ts" />
 
-namespace malai {
+/**
+ * A collector of undone/redone objects.
+ * @author Arnaud BLOUIN
+ * @since 0.1
+ * @class
+ */
+import {UndoHandler} from "./UndoHandler";
+import {Undoable} from "./Undoable";
+import {Optional} from "../../src/util/Optional";
+import {EmptyUndoHandler} from "./EmptyUndoHandler";
+
+export class UndoCollector {
     /**
-     * A collector of undone/redone objects.
-     * @author Arnaud BLOUIN
-     * @since 0.1
-     * @class
+     * The default undo/redo collector.
      */
-    export class UndoCollector {
-        /**
-         * The default undo/redo collector.
-         */
-        public static INSTANCE : UndoCollector; public static INSTANCE_$LI$() : UndoCollector { if(UndoCollector.INSTANCE == null) UndoCollector.INSTANCE = new UndoCollector(); return UndoCollector.INSTANCE; };
+    public static readonly INSTANCE: UndoCollector = new UndoCollector();
 
-        /**
-         * The standard text for redo.
-         */
-        public static EMPTY_REDO : string = "redo";
+    /**
+     * The standard text for redo.
+     */
+    public static readonly EMPTY_REDO: string = "redo";
 
-        /**
-         * The standard text for undo.
-         */
-        public static EMPTY_UNDO : string = "undo";
+    /**
+     * The standard text for undo.
+     */
+    public static readonly EMPTY_UNDO: string = "undo";
 
-        /**
-         * The Null object for UndoHandler. To avoid the use of null in the stacks.
-         */
-        static STUB_UNDO_HANDLER : UndoHandler; public static STUB_UNDO_HANDLER_$LI$() : UndoHandler { if(UndoCollector.STUB_UNDO_HANDLER == null) UndoCollector.STUB_UNDO_HANDLER = new EmptyUndoHandler(); return UndoCollector.STUB_UNDO_HANDLER; };
+    /**
+     * The Null object for UndoHandler. To avoid the use of null in the stacks.
+     */
+    private static readonly STUB_UNDO_HANDLER: UndoHandler = new EmptyUndoHandler();
 
-        /**
-         * Contains the handler of each undoable of the undo stack
-         */
-        /*private*/ undoHandlers : Array<UndoHandler>;
+    /**
+     * Contains the handler of each undoable of the undo stack
+     */
+    private readonly undoHandlers: Array<UndoHandler>;
 
-        /**
-         * Contains the handler of each undoable of the redo stack
-         */
-        /*private*/ redoHandlers : Array<UndoHandler>;
+    /**
+     * Contains the handler of each undoable of the redo stack
+     */
+    private readonly redoHandlers: Array<UndoHandler>;
 
-        /**
-         * Contains the undoable objects.
-         */
-        /*private*/ __undo : Array<Undoable>;
+    /**
+     * Contains the undoable objects.
+     */
+    private readonly undos: Array<Undoable>;
 
-        /**
-         * Contains the redoable objects.
-         */
-        /*private*/ __redo : Array<Undoable>;
+    /**
+     * Contains the redoable objects.
+     */
+    private readonly redos: Array<Undoable>;
 
-        /**
-         * The maximal number of undo.
-         */
-        /*private*/ sizeMax : number;
+    /**
+     * The maximal number of undo.
+     */
+    private sizeMax: number;
 
-        /**
-         * The handler that handles the collector.
-         */
-        /*private*/ handlers : Array<UndoHandler>;
+    /**
+     * The handler that handles the collector.
+     */
+    private readonly handlers: Array<UndoHandler>;
 
-        constructor() {
-            if(this.undoHandlers===undefined) this.undoHandlers = null;
-            if(this.redoHandlers===undefined) this.redoHandlers = null;
-            if(this.__undo===undefined) this.__undo = null;
-            if(this.__redo===undefined) this.__redo = null;
-            if(this.sizeMax===undefined) this.sizeMax = 0;
-            if(this.handlers===undefined) this.handlers = null;
-            this.handlers = <any>([]);
-            this.__undo = [];
-            this.__redo = [];
-            this.undoHandlers = [];
-            this.redoHandlers = [];
-            this.sizeMax = 30;
-        }
+    constructor() {
+        this.sizeMax = 0;
+        this.handlers = [];
+        this.undos = [];
+        this.redos = [];
+        this.undoHandlers = [];
+        this.redoHandlers = [];
+        this.sizeMax = 30;
+    }
 
-        /**
-         * Adds a handler to the collector.
-         * @param {*} handler The handler to add. Must not be null.
-         */
-        public addHandler(handler : UndoHandler) {
-            if(handler != null) {
-                /* add */(this.handlers.push(handler)>0);
-            }
-        }
-
-        /**
-         * Removes the given handler from the collector.
-         * @param {*} handler The handler to remove. Must not be null.
-         */
-        public removeHandler(handler : UndoHandler) {
-            if(handler != null) {
-                /* remove */(a => { let index = a.indexOf(handler); if(index>=0) { a.splice(index, 1); return true; } else { return false; }})(this.handlers);
-            }
-        }
-
-        public getHandlers() : Array<UndoHandler> {
-            return /* unmodifiableList */this.handlers.slice(0);
-        }
-
-        public clearHandlers() {
-            /* clear */(this.handlers.length = 0);
-        }
-
-        /**
-         * Removes all the undoable objects of the collector.
-         */
-        public clear() {
-            /* clear */(this.__undo.length = 0);
-            /* clear */(this.__redo.length = 0);
-            /* clear */(this.undoHandlers.length = 0);
-            /* clear */(this.redoHandlers.length = 0);
-            for(let index121=0; index121 < this.handlers.length; index121++) {
-                let h = this.handlers[index121];
-                {
-                    h.onUndoableCleared();
-                }
-            }
-        }
-
-        /**
-         * Adds an undoable object to the collector.
-         * @param {*} undoable The undoable object to add.
-         * @param {*} undoHandler The handler that produced or is associated to the undoable object.
-         */
-        public add(undoable : Undoable, undoHandler : UndoHandler) {
-            // if(undoable != null && this.sizeMax > 0) {
-            //     if(/* size */(<number>this.__undo.length) === this.sizeMax) {
-            //         this.__undo.removeLast();
-            //         this.undoHandlers.removeLast();
-            //     }
-            //     /* push */(this.__undo.push(undoable)>0);
-            //     if(undoHandler == null) {
-            //         /* push */(this.undoHandlers.push(UndoCollector.STUB_UNDO_HANDLER_$LI$())>0);
-            //     } else {
-            //         /* push */(this.undoHandlers.push(undoHandler)>0);
-            //     }
-            //     /* clear */(this.__redo.length = 0);
-            //     /* clear */(this.redoHandlers.length = 0);
-            //     for(let index122=0; index122 < this.handlers.length; index122++) {
-            //         let handler = this.handlers[index122];
-            //         {
-            //             handler.onUndoableAdded(undoable);
-            //         }
-            //     }
-            // }
-        }
-
-        /**
-         * Undoes the last undoable object.
-         */
-        public undo() {
-            if(!/* isEmpty */(this.__undo.length == 0)) {
-                let undoable : Undoable = /* pop */this.__undo.pop();
-                let undoHandler : UndoHandler = /* pop */this.undoHandlers.pop();
-                undoable.undo();
-                /* push */(this.__redo.push(undoable)>0);
-                /* push */(this.redoHandlers.push(undoHandler)>0);
-                undoHandler.onUndoableUndo(undoable);
-                for(let index123=0; index123 < this.handlers.length; index123++) {
-                    let handler = this.handlers[index123];
-                    {
-                        handler.onUndoableUndo(undoable);
-                    }
-                }
-            }
-        }
-
-        /**
-         * Redoes the last undoable object.
-         */
-        public redo() {
-            if(!/* isEmpty */(this.__redo.length == 0)) {
-                let undoable : Undoable = /* pop */this.__redo.pop();
-                let redoHandler : UndoHandler = /* pop */this.redoHandlers.pop();
-                undoable.redo();
-                /* push */(this.__undo.push(undoable)>0);
-                /* push */(this.undoHandlers.push(redoHandler)>0);
-                redoHandler.onUndoableRedo(undoable);
-                for(let index124=0; index124 < this.handlers.length; index124++) {
-                    let handler = this.handlers[index124];
-                    {
-                        handler.onUndoableRedo(undoable);
-                    }
-                }
-            }
-        }
-
-        /**
-         * @return {Optional} The last undoable object name or null if there is no last object.
-         */
-        public getLastUndoMessage() : Optional<string> {
-            return /* isEmpty */(this.__undo.length == 0)?Optional.empty<any>():Optional.ofNullable<any>(/* peek */((s) => { return s[s.length-1]; })(this.__undo).getUndoName());
-        }
-
-        /**
-         * @return {Optional} The last redoable object name or null if there is no last object.
-         */
-        public getLastRedoMessage() : Optional<string> {
-            return /* isEmpty */(this.__redo.length == 0)?Optional.empty<any>():Optional.ofNullable<any>(/* peek */((s) => { return s[s.length-1]; })(this.__redo).getUndoName());
-        }
-
-        /**
-         * @return {Optional} The last undoable object or null if there is no last object.
-         */
-        public getLastUndo() : Optional<Undoable> {
-            return /* isEmpty */(this.__undo.length == 0)?Optional.empty<any>():Optional.ofNullable<any>(/* peek */((s) => { return s[s.length-1]; })(this.__undo));
-        }
-
-        /**
-         * @return {Optional} The last redoable object or null if there is no last object.
-         */
-        public getLastRedo() : Optional<Undoable> {
-            return /* isEmpty */(this.__redo.length == 0)?Optional.empty<any>():Optional.ofNullable<any>(/* peek */((s) => { return s[s.length-1]; })(this.__redo));
-        }
-
-        /**
-         * @return {number} The max number of saved undoable objects.
-         */
-        public getSizeMax() : number {
-            return this.sizeMax;
-        }
-
-        /**
-         * @param {number} max The max number of saved undoable objects. Must be great than 0.
-         */
-        public setSizeMax(max : number) {
-            // if(max >= 0) {
-            //     for(let i : number = 0, nb : number = /* size */(<number>this.__undo.length) - max; i < nb; i++) {
-            //         this.__undo.removeLast();
-            //         this.undoHandlers.removeLast();
-            //     };
-            //     this.sizeMax = max;
-            // }
-        }
-
-        /**
-         * @return {*[]} The stack of saved undoable objects.
-         * @since 0.1
-         */
-        public getUndo() : Array<Undoable> {
-            return this.__undo;
-        }
-
-        /**
-         * @return {*[]} The stack of saved redoable objects
-         * @since 0.1
-         */
-        public getRedo() : Array<Undoable> {
-            return this.__redo;
+    /**
+     * Adds a handler to the collector.
+     * @param {*} handler The handler to add. Must not be null.
+     */
+    public addHandler(handler: UndoHandler): void {
+        if (handler !== undefined) {
+            this.handlers.push(handler);
         }
     }
-    UndoCollector["__class"] = "malai.UndoCollector";
 
+    /**
+     * Removes the given handler from the collector.
+     * @param {*} handler The handler to remove. Must not be null.
+     */
+    public removeHandler(handler: UndoHandler): void {
+        if (handler !== undefined) {
+            this.handlers.remove(handler);
+        }
+    }
+
+    public getHandlers(): Array<UndoHandler> {
+        return [...this.handlers];
+    }
+
+    public clearHandlers(): void {
+        this.handlers.clear();
+    }
+
+    /**
+     * Removes all the undoable objects of the collector.
+     */
+    public clear(): void {
+        this.undos.clear();
+        this.redos.clear();
+        this.undoHandlers.clear();
+        this.redoHandlers.clear();
+        this.handlers.forEach(handler => handler.onUndoableCleared());
+    }
+
+    /**
+     * Adds an undoable object to the collector.
+     * @param {*} undoable The undoable object to add.
+     * @param {*} undoHandler The handler that produced or is associated to the undoable object.
+     */
+    public add(undoable: Undoable, undoHandler?: UndoHandler): void {
+        if (undoable !== undefined && this.sizeMax > 0) {
+            if (this.undos.length === this.sizeMax) {
+                this.undos.pop();
+                this.undoHandlers.pop();
+            }
+
+            this.undos.push(undoable);
+            // When undo handler is null, a fake object is added instead of using null.
+            if (undoHandler === undefined) {
+                this.undoHandlers.push(UndoCollector.STUB_UNDO_HANDLER);
+            } else {
+                this.undoHandlers.push(undoHandler);
+            }
+            this.redos.length = 0;
+            this.redoHandlers.length = 0;
+
+            this.handlers.forEach(handler => handler.onUndoableAdded(undoable));
+        }
+    }
+
+    /**
+     * Undoes the last undoable object.
+     */
+    public undo(): void {
+        let undoable = this.undos.pop();
+        let undoHandler = this.undoHandlers.pop();
+
+        if (undoable !== undefined && undoHandler !== undefined) {
+            undoable.undo();
+            this.redos.push(undoable);
+            this.redoHandlers.push(undoHandler);
+            undoHandler.onUndoableUndo(undoable);
+            this.handlers.forEach(handler => handler.onUndoableUndo(undoable as Undoable));
+        }
+    }
+
+    /**
+     * Redoes the last undoable object.
+     */
+    public redo(): void {
+        let undoable = this.redos.pop();
+        let redoHandler = this.redoHandlers.pop();
+
+        if (undoable !== undefined && redoHandler !== undefined) {
+            undoable.redo();
+            this.undos.push(undoable);
+            this.undoHandlers.push(redoHandler);
+            redoHandler.onUndoableRedo(undoable);
+            this.handlers.forEach(handler => handler.onUndoableRedo(undoable as Undoable));
+        }
+    }
+
+    /**
+     * @return {Optional} The last undoable object name or null if there is no last object.
+     */
+    public getLastUndoMessage(): Optional<string> {
+        return this.undos.isEmpty() ? Optional.empty<string>() : Optional.ofNullable<Undoable>(this.undos.peek()).map(o => o.getUndoName());
+    }
+
+    /**
+     * @return {Optional} The last redoable object name or null if there is no last object.
+     */
+    public getLastRedoMessage(): Optional<string> {
+        return this.redos.isEmpty() ? Optional.empty<string>() : Optional.ofNullable<Undoable>(this.redos.peek()).map(o => o.getUndoName());
+    }
+
+    /**
+     * @return {Optional} The last undoable object or null if there is no last object.
+     */
+    public getLastUndo(): Optional<Undoable> {
+        return this.undos.isEmpty() ? Optional.empty<Undoable>() : Optional.ofNullable<Undoable>(this.undos.peek());
+    }
+
+    /**
+     * @return {Optional} The last redoable object or null if there is no last object.
+     */
+    public getLastRedo(): Optional<Undoable> {
+        return this.redos.isEmpty() ? Optional.empty<Undoable>() : Optional.ofNullable<Undoable>(this.redos.peek());
+    }
+
+    /**
+     * @return {number} The max number of saved undoable objects.
+     */
+    public getSizeMax(): number {
+        return this.sizeMax;
+    }
+
+    /**
+     * @param {number} max The max number of saved undoable objects. Must be great than 0.
+     */
+    public setSizeMax(max: number): void {
+        if (max >= 0) {
+            for (let i = 0, nb = this.undos.length - max; i < nb; i++) {
+                this.undos.pop();
+                this.undoHandlers.pop();
+            }
+            this.sizeMax = max;
+        }
+    }
+
+    /**
+     * @return {*[]} The stack of saved undoable objects.
+     * @since 0.1
+     */
+    public getUndo(): Array<Undoable> {
+        return this.undos;
+    }
+
+    /**
+     * @return {*[]} The stack of saved redoable objects
+     * @since 0.1
+     */
+    public getRedo(): Array<Undoable> {
+        return this.redos;
+    }
 }
-
-
-malai.UndoCollector.STUB_UNDO_HANDLER_$LI$();
-
-malai.UndoCollector.INSTANCE_$LI$();

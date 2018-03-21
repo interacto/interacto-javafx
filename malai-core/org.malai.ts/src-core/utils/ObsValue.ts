@@ -1,77 +1,58 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
-    /**
-     * A simple value property. We do not use the JFX one (SimpleObjectProperty) since
-     * this library is transpiled to other languages where SimpleObjectProperty may not be supported.
-     * This also avoids a dependency to JFX.
-     * @param <T> The type of the contained object.
-     * @param {*} value
-     * @class
-     */
-    export class ObsValue<T> {
-        /*private*/ value : T;
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-        /*private*/ handlers : Array<Change<T>>;
+/**
+ * A simple value property. We do not use the JFX one (SimpleObjectProperty) since
+ * this library is transpiled to other languages where SimpleObjectProperty may not be supported.
+ * This also avoids a dependency to JFX.
+ * @param <T> The type of the contained object.
+ * @param {*} value
+ * @class
+ */
+export class ObsValue<T> {
+    private value: T;
 
-        public constructor(value? : any) {
-            if(((value != null) || value === null)) {
-                let __args = Array.prototype.slice.call(arguments);
-                if(this.value===undefined) this.value = null;
-                if(this.handlers===undefined) this.handlers = null;
-                if(this.value===undefined) this.value = null;
-                if(this.handlers===undefined) this.handlers = null;
-                (() => {
-                    this.value = value;
-                    this.handlers = <any>([]);
-                })();
-            } else if(value === undefined) {
-                let __args = Array.prototype.slice.call(arguments);
-                {
-                    let __args = Array.prototype.slice.call(arguments);
-                    let value : any = null;
-                    if(this.value===undefined) this.value = null;
-                    if(this.handlers===undefined) this.handlers = null;
-                    if(this.value===undefined) this.value = null;
-                    if(this.handlers===undefined) this.handlers = null;
-                    (() => {
-                        this.value = value;
-                        this.handlers = <any>([]);
-                    })();
-                }
-            } else throw new Error('invalid overload');
-        }
+    private readonly handlers: Array<(oldValue: T, newValue: T) => void>;
 
-        public get() : T {
-            return this.value;
-        }
+    public constructor(value: T) {
+        this.value = value;
+        this.handlers = [];
+    }
 
-        public set(value : T) {
-            let oldValue : T = this.value;
+    public get(): T {
+        return this.value;
+    }
+
+    public set(value: T): void {
+        if(value !== undefined) {
+            let oldValue: T = this.value;
             this.value = value;
             this.notifyChange(oldValue, value);
         }
+    }
 
-        notifyChange(oldValue : T, newValue : T) {
-            this.handlers.forEach((handler) => handler.onChange(oldValue, newValue));
-        }
+    private notifyChange(oldValue: T, newValue: T): void {
+        this.handlers.forEach((handler) => handler(oldValue, newValue));
+    }
 
-        public obs(handler : Change<T>) {
-            if(handler != null) {
-                /* add */((s, e) => { if(s.indexOf(e)==-1) { s.push(e); return true; } else { return false; } })(this.handlers, handler);
-            }
-        }
-
-        public unobs(handler : Change<T>) {
-            if(handler != null) {
-                /* remove */(a => { let index = a.indexOf(handler); if(index>=0) { a.splice(index, 1); return true; } else { return false; }})(this.handlers);
-            }
+    public obs(handler: (oldValue: T, newValue: T) => void): void {
+        if (handler !== undefined) {
+            this.handlers.push(handler);
         }
     }
-    ObsValue["__class"] = "org.malai.utils.ObsValue";
 
-
-    export interface Change<T> {
-        onChange(oldValue : T, newValue : T);
+    public unobs(handler: (oldValue: T, newValue: T) => void): void {
+        if (handler !== undefined) {
+            this.handlers.remove(handler);
+        }
     }
 }
 

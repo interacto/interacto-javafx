@@ -1,73 +1,78 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
+
+import {PositionAction} from "./PositionAction";
+import {Zoomable} from "../../properties/Zoomable";
+
+/**
+ * Initialises a Zoom action.
+ * @since 0.2
+ * @class
+ * @extends PositionAction
+ * @author Arnaud BLOUIN
+ */
+export class Zoom extends PositionAction {
     /**
-     * Initialises a Zoom action.
-     * @since 0.2
-     * @class
-     * @extends PositionAction
-     * @author Arnaud BLOUIN
+     * The object to zoom.
      */
-    export class Zoom extends PositionAction {
-        /**
-         * The object to zoom.
-         */
-        zoomable : Zoomable;
+    protected zoomable: Zoomable | undefined;
 
-        /**
-         * The zooming level.
-         */
-        zoomLevel : number;
+    /**
+     * The zooming level.
+     */
+    protected zoomLevel: number;
 
-        public constructor() {
-            super();
-            if(this.zoomable===undefined) this.zoomable = null;
-            if(this.zoomLevel===undefined) this.zoomLevel = 0;
-            this.zoomLevel = NaN;
-            this.zoomable = null;
-        }
+    public constructor() {
+        super();
+        this.zoomLevel = NaN;
+    }
 
-        /**
-         * 
-         */
-        public flush() {
-            super.flush();
-            this.zoomable = null;
-        }
+    /**
+     *
+     */
+    public flush(): void {
+        super.flush();
+        this.zoomable = undefined;
+    }
 
-        /**
-         * 
-         * @return {boolean}
-         */
-        public canDo() : boolean {
-            return this.zoomable != null && this.zoomLevel >= this.zoomable.getMinZoom() && this.zoomLevel <= this.zoomable.getMaxZoom();
-        }
+    /**
+     *
+     * @return {boolean}
+     */
+    public canDo(): boolean {
+        return this.zoomable !== undefined && this.zoomLevel >= this.zoomable.getMinZoom() && this.zoomLevel <= this.zoomable.getMaxZoom();
+    }
 
-        /**
-         * 
-         */
-        doActionBody() {
+    /**
+     *
+     */
+    protected doActionBody(): void {
+        if(this.zoomable) {
             this.zoomable.setZoom(this.px, this.py, this.zoomLevel);
         }
-
-        /**
-         * @param {*} newZoomable the zoomable to set.
-         * @since 0.2
-         */
-        public setZoomable(newZoomable : Zoomable) {
-            this.zoomable = newZoomable;
-        }
-
-        /**
-         * @param {number} newZoomLevel the zoomLevel to set.
-         * @since 0.2
-         */
-        public setZoomLevel(newZoomLevel : number) {
-            this.zoomLevel = newZoomLevel;
-        }
     }
-    Zoom["__class"] = "malai.Zoom";
-    Zoom["__interfaces"] = ["malai.Action"];
 
+    /**
+     * @param {*} newZoomable the zoomable to set.
+     * @since 0.2
+     */
+    public setZoomable(newZoomable: Zoomable): void {
+        this.zoomable = newZoomable;
+    }
 
+    /**
+     * @param {number} newZoomLevel the zoomLevel to set.
+     * @since 0.2
+     */
+    public setZoomLevel(newZoomLevel: number): void {
+        this.zoomLevel = newZoomLevel;
+    }
 }
-

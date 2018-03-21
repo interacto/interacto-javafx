@@ -1,36 +1,39 @@
-/* Generated from Java with JSweet 2.0.1 - http://www.jsweet.org */
-namespace malai {
-    /**
-     * Initialises a Redo action.
-     * @since 0.2
-     * @class
-     * @extends ActionImpl
-     * @author Arnaud BLOUIN
-     */
-    export class Redo extends ActionImpl {
-        public constructor() {
-            super();
-        }
+/*
+ * This file is part of Malai.
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Malai is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later version.
+ * Malai is distributed without any warranty; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ */
 
-        /**
-         * 
-         * @return {boolean}
-         */
-        public canDo() : boolean {
-            return UndoCollector.INSTANCE_$LI$().getLastRedo().isPresent();
-        }
+import {ActionImpl} from "../ActionImpl";
+import {UndoCollector} from "../../undo/UndoCollector";
 
-        /**
-         * 
-         */
-        doActionBody() {
-            UndoCollector.INSTANCE_$LI$().redo();
-            this.done();
-        }
+/**
+ * Initialises a Redo action.
+ * @since 0.2
+ * @class
+ * @extends ActionImpl
+ * @author Arnaud BLOUIN
+ */
+export class Redo extends ActionImpl {
+    public constructor() {
+        super();
     }
-    Redo["__class"] = "malai.Redo";
-    Redo["__interfaces"] = ["malai.Action"];
 
+    /**
+     *
+     * @return {boolean}
+     */
+    public canDo(): boolean {
+        return UndoCollector.INSTANCE.getLastRedo().isPresent();
+    }
 
+    protected doActionBody(): void {
+        UndoCollector.INSTANCE.redo();
+        this.done();
+    }
 }
-
