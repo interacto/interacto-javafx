@@ -113,7 +113,7 @@ public final class ActionsRegistry {
 	 */
 	public void addAction(final Action action, final ActionHandler actionHandler) {
 		synchronized(actions) {
-			if(action != null && actionHandler != null && !actions.contains(action) &&
+			if(action != null && !actions.contains(action) &&
 				(sizeMax > 0 || action.getRegistrationPolicy() == Action.RegistrationPolicy.UNLIMITED)) {
 				unregisterActions(action);
 

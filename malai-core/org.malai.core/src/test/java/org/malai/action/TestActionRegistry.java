@@ -204,7 +204,6 @@ public class TestActionRegistry {
 	public void testAddActionCannotAddBecauseExist() {
 		final Action action = new org.malai.action.ActionImplStub();
 		ActionsRegistry.INSTANCE.getActions().add(action);
-		ActionsRegistry.INSTANCE.addAction(new ActionImplStub2(), null);
 		ActionsRegistry.INSTANCE.addAction(action, Mockito.mock(ActionHandler.class));
 		assertEquals(1, ActionsRegistry.INSTANCE.getActions().size());
 	}
