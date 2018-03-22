@@ -113,7 +113,7 @@ export class SubFSMTransition<E> extends Transition<E> {
      *
      * @return {*[]}
      */
-    public getAcceptedEvents(): Set<String> {
+    public getAcceptedEvents(): Set<string> {
         return this.subFSM.initState.getTransitions().map(tr => tr.getAcceptedEvents()).reduce((a, b) => new Set([...a, ...b]));
     }
 }

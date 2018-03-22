@@ -23,7 +23,7 @@ export abstract class ButtonPressedTransition extends TSTransition {
         return e instanceof ButtonPressEvent;
     }
 
-    public getAcceptedEvents(): Set<String> {
+    public getAcceptedEvents(): Set<string> {
         return new Set([ButtonPressEvent.name]);
     }
 

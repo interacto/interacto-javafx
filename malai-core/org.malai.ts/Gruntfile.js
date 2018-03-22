@@ -10,11 +10,8 @@ module.exports = function (grunt) {
         },
         clean: {
             src: [
-                "src-gen/js"
+                "target/*"
             ],
-            // test : [
-            //     "target/test"
-            // ]
         },
         tslint: {
             options: {
@@ -25,7 +22,7 @@ module.exports = function (grunt) {
             files: {
                 src: [
                     "src/**/*.ts",
-                    "src-core/**/*.ts",
+                    "src-core/**/*.ts"
                 ]
             },
             your_target: {
