@@ -42,5 +42,5 @@ export abstract class Transition<E> {
 
     public abstract isGuardOK(event: E): boolean;
 
-    public abstract getAcceptedEvents(): Set<String>;
+    public abstract getAcceptedEvents(): Set<string>;
 }

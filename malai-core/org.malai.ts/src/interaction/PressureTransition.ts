@@ -23,7 +23,7 @@ export abstract class PressureTransition extends TSTransition {
         return e instanceof MousePressEvent;
     }
 
-    public getAcceptedEvents(): Set<String> {
+    public getAcceptedEvents(): Set<string> {
         return new Set([MousePressEvent.name]);
     }
 

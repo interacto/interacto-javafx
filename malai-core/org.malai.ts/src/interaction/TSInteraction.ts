@@ -38,10 +38,10 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
             return;
         }
 
-        const currEvents: Array<String> = [...this.getEventTypesOf(newState)];
-        const events: Array<String> = [...this.getEventTypesOf(oldState)];
-        const eventsToRemove: Array<String> = events.filter(e => currEvents.indexOf(e) >= 0);
-        const eventsToAdd: Array<String> = currEvents.filter(e => events.indexOf(e) >= 0);
+        const currEvents: Array<string> = [...this.getEventTypesOf(newState)];
+        const events: Array<string> = [...this.getEventTypesOf(oldState)];
+        const eventsToRemove: Array<string> = events.filter(e => currEvents.indexOf(e) >= 0);
+        const eventsToAdd: Array<string> = currEvents.filter(e => events.indexOf(e) >= 0);
 
         this.registeredNodes.forEach(n => {
             eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
@@ -53,7 +53,7 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
         // }));
     }
 
-    private getEventTypesOf(state: OutputState<Event>): Set<String> {
+    private getEventTypesOf(state: OutputState<Event>): Set<string> {
         return state.getTransitions().map(t => t.getAcceptedEvents()).reduce((a, b) => new Set([...a, ...b]));
     }
 
@@ -77,14 +77,14 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
         this.getEventTypesOf(this.fsm.getCurrentState()).forEach(type => this.registerEventToNode(type, node));
     }
 
-    private registerEventToNode(eventType: String, node: EventTarget): void {
+    private registerEventToNode(eventType: string, node: EventTarget): void {
         if (MousePressEvent.name === eventType) {
             node.removeEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
             return;
         }
     }
 
-    private unregisterEventToNode(eventType: String, node: EventTarget): void {
+    private unregisterEventToNode(eventType: string, node: EventTarget): void {
         if (MousePressEvent.name === eventType) {
             node.addEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
             return;

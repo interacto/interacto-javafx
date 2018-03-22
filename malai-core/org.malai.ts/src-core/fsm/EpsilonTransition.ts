@@ -40,7 +40,7 @@ export class EpsilonTransition<E> extends Transition<E> {
      *
      * @return {*[]}
      */
-    public getAcceptedEvents(): Set<String> {
+    public getAcceptedEvents(): Set<string> {
         return new Set([]);
     }
 }
