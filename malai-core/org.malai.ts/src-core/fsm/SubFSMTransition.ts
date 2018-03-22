@@ -27,7 +27,7 @@ export class SubFSMTransition<E> extends Transition<E> {
     public constructor(srcState: OutputState<E>, tgtState: InputState<E>, fsm: FSM<E>) {
         super(srcState, tgtState);
         this.subFSM = fsm;
-        this.subFSM.setInner(true);
+        this.subFSM.inner = true;
         this.subFSMHandler = new class implements FSMHandler {
             protected _parent: SubFSMTransition<E>;
 
@@ -40,7 +40,7 @@ export class SubFSMTransition<E> extends Transition<E> {
             }
 
             public fsmUpdates(): void {
-                this._parent.src.getFSM().setCurrentState(this._parent.subFSM.getCurrentState());
+                this._parent.src.getFSM().currentState = this._parent.subFSM.currentState;
                 this._parent.src.getFSM().onUpdating();
             }
 
@@ -57,7 +57,7 @@ export class SubFSMTransition<E> extends Transition<E> {
                     return;
                 }
                 if (this._parent.tgt instanceof OutputStateImpl) {
-                    this._parent.src.getFSM().setCurrentState(this._parent.tgt);
+                    this._parent.src.getFSM().currentState = this._parent.tgt;
                     this._parent.tgt.enter();
                 }
             }

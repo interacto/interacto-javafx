@@ -18,7 +18,7 @@ export class StdState<E> extends OutputStateImpl<E> implements InputState<E> {
     }
 
     public checkStartingState(): void {
-        if (!this.getFSM().isStarted() && this.getFSM().getStartingState() === this) {
+        if (!this.getFSM().isStarted() && this.getFSM().startingState === this) {
             this.getFSM().onStarting();
         }
     }

@@ -6,19 +6,17 @@
   "repository": "https://github.com/arnobl/Malai.git",
   "license": "GPL2",
   "devDependencies": {
-    "@types/chai": "^4.1.2",
-    "@types/mocha": "^2.2.48",
-    "chai": "^4.1.2",
     "jest": "^22.4.3",
     "ts-node": "^5.0.1",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "@types/jest": "^22.2.1"
   },
   "scripts": {
     "compile": "tsc",
     "all": "npm run clean && npm run compile && npm test && npm run lint",
     "clean": "rm -r target/*",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "tslint -p tslint.json"
   },
   "dependencies": {

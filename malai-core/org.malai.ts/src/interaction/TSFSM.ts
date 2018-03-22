@@ -26,7 +26,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
 
     public reinit(): void {
         super.reinit();
-        if (this.dataHandler !== undefined && !this.inner) {
+        if (this.dataHandler !== undefined && !this._inner) {
             this.dataHandler.reinitData();
         }
     }
@@ -41,7 +41,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
         const processed: boolean = super.process(event);
 
         // Recycling events
-        if (processed && event instanceof KeyPressEvent && !(this.getCurrentState() instanceof InitState) &&
+        if (processed && event instanceof KeyPressEvent && !(this.currentState instanceof InitState) &&
             (this.eventsToProcess === undefined ||
                 this.eventsToProcess.find(evt => (evt as KeyPressEvent).keyCode === ((event as KeyPressEvent)).keyCode) === undefined)) {
             // this.addRemaningEventsToProcess((Event) event.clone()); //TODO

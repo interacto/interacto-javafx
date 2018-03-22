@@ -70,11 +70,11 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
     }
 
     protected onNodeUnregistered(node: EventTarget): void {
-        this.getEventTypesOf(this.fsm.getCurrentState()).forEach(type => this.unregisterEventToNode(type, node));
+        this.getEventTypesOf(this.fsm.currentState).forEach(type => this.unregisterEventToNode(type, node));
     }
 
     protected onNewNodeRegistered(node: EventTarget): void {
-        this.getEventTypesOf(this.fsm.getCurrentState()).forEach(type => this.registerEventToNode(type, node));
+        this.getEventTypesOf(this.fsm.currentState).forEach(type => this.registerEventToNode(type, node));
     }
 
     private registerEventToNode(eventType: string, node: EventTarget): void {
