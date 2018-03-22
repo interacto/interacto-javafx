@@ -23,7 +23,7 @@ export abstract class StateImpl<E> implements State<E> {
     }
 
     public checkStartingState() {
-        if (!this.fsm.isStarted() && this.fsm.getStartingState() === this) {
+        if (!this.fsm.isStarted() && this.fsm.startingState === this) {
             this.fsm.onStarting();
         }
     }

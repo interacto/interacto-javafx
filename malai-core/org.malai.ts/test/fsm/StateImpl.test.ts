@@ -12,8 +12,8 @@
 import {FSM} from "../../src-core/fsm/FSM";
 import {StateImpl} from "../../src-core/fsm/StateImpl";
 import {StdState} from "../../src-core/fsm/StdState";
-import {expect} from "chai";
 import {StubEvent} from "./StubEvent";
+import "jest";
 
 let state: StateImpl<StubEvent>;
 let fsm: FSM<StubEvent>;
@@ -24,9 +24,9 @@ beforeEach(() => {
 });
 
 test("testFSM", () => {
-    expect(state.getFSM()).to.equals(fsm);
+    expect(state.getFSM()).toEqual(fsm);
 });
 
 test("testName", () => {
-    expect(state.getName()).to.equals("s1");
+    expect(state.getName()).toEqual("s1");
 });

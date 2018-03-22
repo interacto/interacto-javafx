@@ -11,6 +11,9 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "removeComments": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "types": [
+      "jest"
+    ]
   }
 }

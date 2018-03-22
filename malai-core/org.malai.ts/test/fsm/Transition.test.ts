@@ -14,7 +14,7 @@ import {Transition} from "../../src-core/fsm/Transition";
 import {FSM} from "../../src-core/fsm/FSM";
 import {StubEvent} from "./StubEvent";
 import {StubTransitionOK} from "./StubTransitionOK";
-import {expect} from "chai";
+import "jest";
 
 let tr: Transition<StubEvent>;
 let state1: StdState<StubEvent>;
@@ -29,14 +29,14 @@ beforeEach(() => {
 });
 
 test("testGoodSrc", () => {
-    expect(tr.src).to.equals(state1);
+    expect(tr.src).toEqual(state1);
 });
 
 test("testGoodTgt", () => {
-    expect(tr.tgt).to.equals(state2);
+    expect(tr.tgt).toEqual(state2);
 });
 
 test("testSrcStateTransitionAdded", () => {
-    expect(state1.getTransitions().length).to.equals(1);
-    expect(state1.getTransitions()[0]).to.equals(tr);
+    expect(state1.getTransitions().length).toBe(1);
+    expect(state1.getTransitions()[0]).toEqual(tr);
 });

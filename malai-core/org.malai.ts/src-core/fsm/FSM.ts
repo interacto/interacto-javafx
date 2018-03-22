@@ -23,7 +23,7 @@ import {factory} from "../logging/ConfigLog";
 export class FSM<E> {
     protected logger: Logger | undefined;
 
-    protected inner: boolean;
+    protected _inner: boolean;
 
     /**
      * By default an FSM triggers its 'start' event when it leaves its initial state.
@@ -33,7 +33,7 @@ export class FSM<E> {
      * The goal of this attribute is to identify the state of the FSM that must trigger the start event.
      * By default, this attribute is set with the initial state of the FSM.
      */
-    protected startingState: State<E>;
+    protected _startingState: State<E>;
 
     /**
      * Goes with 'startingState'. It permits to know whether the FSM has started, ie whether the 'starting state'
@@ -43,7 +43,7 @@ export class FSM<E> {
 
     public readonly initState: InitState<E>;
 
-    protected readonly currentState: ObsValue<OutputState<E>>;
+    protected readonly _currentState: ObsValue<OutputState<E>>;
 
     /**
      * The states that compose the finite state machine.
@@ -72,13 +72,13 @@ export class FSM<E> {
     protected currentSubFSM: FSM<E> | undefined;
 
     public constructor() {
-        this.inner = false;
+        this._inner = false;
         this.started = false;
         this.started = false;
         this.initState = new InitState<E>(this, "init");
         this.states = [this.initState];
-        this.startingState = this.initState;
-        this.currentState = new ObsValue<OutputState<E>>(this.initState);
+        this._startingState = this.initState;
+        this._currentState = new ObsValue<OutputState<E>>(this.initState);
         this.handlers = [];
         this.eventsToProcess = [];
     }
@@ -87,12 +87,16 @@ export class FSM<E> {
         this.currentSubFSM = subFSM;
     }
 
-    public getCurrentState(): OutputState<E> {
-        return this.currentState.get();
+    public get currentState(): OutputState<E> {
+        return this._currentState.get();
     }
 
-    public setInner(inner: boolean): void {
-        this.inner = inner;
+    public set inner(inner: boolean) {
+        this._inner = inner;
+    }
+
+    public get inner(): boolean {
+        return this._inner;
     }
 
     public process(event: E): boolean {
@@ -102,11 +106,11 @@ export class FSM<E> {
         if (this.currentSubFSM !== undefined) {
             return this.currentSubFSM.process(event);
         }
-        return this.currentState.get().process(event);
+        return this._currentState.get().process(event);
     }
 
     public enterStdState(state: StdState<E>): void {
-        this.setCurrentState(state);
+        this.currentState = state;
         this.checkTimeoutTransition();
         if (this.started) {
             this.onUpdating();
@@ -117,8 +121,8 @@ export class FSM<E> {
         return this.started;
     }
 
-    public setCurrentState(state: OutputState<E>): void {
-        this.currentState.set(state);
+    public set currentState(state: OutputState<E>) {
+        this._currentState.set(state);
     }
 
     /**
@@ -201,7 +205,7 @@ export class FSM<E> {
      * Adds a state to the state machine.
      * @param {*} state The state to add. Must not be null.
      */
-    protected addState(state: InputState<E>): void {
+    public addState(state: InputState<E>): void {
         if (state !== undefined) {
             this.states.push(state);
         }
@@ -225,7 +229,7 @@ export class FSM<E> {
             this.currentTimeout.stopTimeout();
         }
         this.started = false;
-        this.currentState.set(this.initState);
+        this._currentState.set(this.initState);
         this.currentTimeout = undefined;
         if (this.currentSubFSM !== undefined) {
             this.currentSubFSM.reinit();
@@ -272,7 +276,7 @@ export class FSM<E> {
      * If it is the case, the timeout transition is launched.
      */
     protected checkTimeoutTransition(): void {
-        const tr = this.currentState.get().getTransitions().find(t => t instanceof TimeoutTransition) as TimeoutTransition<E> | undefined;
+        const tr = this._currentState.get().getTransitions().find(t => t instanceof TimeoutTransition) as TimeoutTransition<E> | undefined;
 
         if (tr) {
             if (this.logger !== undefined) {
@@ -343,10 +347,10 @@ export class FSM<E> {
     }
 
     public currentStateProp(): ObsValue<OutputState<E>> {
-        return this.currentState;
+        return this._currentState;
     }
 
-    public getStartingState(): State<E> {
-        return this.startingState;
+    public get startingState(): State<E> {
+        return this._startingState;
     }
 }

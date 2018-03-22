@@ -36,7 +36,7 @@ export abstract class InteractionImpl<E, F extends FSM<E>> {
     protected abstract updateEventsRegistered(newState: OutputState<E>, oldState: OutputState<E>): void;
 
     public isRunning(): boolean {
-        return this.activated && !(this.fsm.getCurrentState() instanceof InitState);
+        return this.activated && !(this.fsm.currentState instanceof InitState);
     }
 
     public fullReinit(): void {

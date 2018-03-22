@@ -3,3 +3,4 @@ node_modules/
 /org.malai.ts.iml
 /.tscache
 /target
+/coverage
