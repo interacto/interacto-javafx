@@ -20,6 +20,7 @@ import {UndoHandler} from "./UndoHandler";
 import {Undoable} from "./Undoable";
 import {Optional} from "../../src/util/Optional";
 import {EmptyUndoHandler} from "./EmptyUndoHandler";
+import {MArray} from "../../src/util/ArrayUtil";
 
 export class UndoCollector {
     /**
@@ -45,22 +46,22 @@ export class UndoCollector {
     /**
      * Contains the handler of each undoable of the undo stack
      */
-    private readonly undoHandlers: Array<UndoHandler>;
+    private readonly undoHandlers: MArray<UndoHandler>;
 
     /**
      * Contains the handler of each undoable of the redo stack
      */
-    private readonly redoHandlers: Array<UndoHandler>;
+    private readonly redoHandlers: MArray<UndoHandler>;
 
     /**
      * Contains the undoable objects.
      */
-    private readonly undos: Array<Undoable>;
+    private readonly undos: MArray<Undoable>;
 
     /**
      * Contains the redoable objects.
      */
-    private readonly redos: Array<Undoable>;
+    private readonly redos: MArray<Undoable>;
 
     /**
      * The maximal number of undo.
@@ -70,15 +71,15 @@ export class UndoCollector {
     /**
      * The handler that handles the collector.
      */
-    private readonly handlers: Array<UndoHandler>;
+    private readonly handlers: MArray<UndoHandler>;
 
     constructor() {
         this.sizeMax = 0;
-        this.handlers = [];
-        this.undos = [];
-        this.redos = [];
-        this.undoHandlers = [];
-        this.redoHandlers = [];
+        this.handlers = new MArray();
+        this.undos = new MArray();
+        this.redos = new MArray();
+        this.undoHandlers = new MArray();
+        this.redoHandlers = new MArray();
         this.sizeMax = 30;
     }
 

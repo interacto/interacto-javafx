@@ -13,6 +13,7 @@ import {WidgetBinding} from "../binding/WidgetBinding";
 import {Modifiable} from "../properties/Modifiable";
 import {Reinitialisable} from "../properties/Reinitialisable";
 import {ActionHandler} from "../action/ActionHandler";
+import {MArray} from "../../src/util/ArrayUtil";
 
 /**
  * The concept of instrument and its related services.
@@ -33,7 +34,7 @@ export interface Instrument<T extends WidgetBinding> extends Modifiable, Reiniti
     /**
      * @return {*[]} The widget bindings that compose the instrument. Cannot be null.
      */
-    getWidgetBindings(): Array<T>;
+    getWidgetBindings(): MArray<T>;
 
     /**
      * Stops the interactions of the instrument and clears all its events waiting for a process.

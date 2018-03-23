@@ -19,6 +19,7 @@ import {StdState} from "./StdState";
 import {InputState} from "./InputState";
 import {Logger} from "typescript-logging";
 import {factory} from "../logging/ConfigLog";
+import {MArray} from "../../src/util/ArrayUtil";
 
 export class FSM<E> {
     protected logger: Logger | undefined;
@@ -48,12 +49,12 @@ export class FSM<E> {
     /**
      * The states that compose the finite state machine.
      */
-    protected readonly states: Array<State<E>>;
+    protected readonly states: MArray<State<E>>;
 
     /**
      * The handler that want to be notified when the state machine of the interaction changed.
      */
-    protected readonly handlers: Array<FSMHandler>;
+    protected readonly handlers: MArray<FSMHandler>;
 
     /**
      * The events still in process. For example when the user press key ctrl and scroll one time using
@@ -62,7 +63,7 @@ export class FSM<E> {
      * are re-introduced into the
      * state machine of the interaction for processing.
      */
-    protected readonly eventsToProcess: Array<E>;
+    protected readonly eventsToProcess: MArray<E>;
 
     /**
      * The current timeout in progress.
@@ -76,11 +77,11 @@ export class FSM<E> {
         this.started = false;
         this.started = false;
         this.initState = new InitState<E>(this, "init");
-        this.states = [this.initState];
+        this.states = new MArray<State<E>>(this.initState);
         this._startingState = this.initState;
         this._currentState = new ObsValue<OutputState<E>>(this.initState);
-        this.handlers = [];
-        this.eventsToProcess = [];
+        this.handlers = new MArray();
+        this.eventsToProcess = new MArray();
     }
 
     public setCurrentSubFSM(subFSM?: FSM<E>): void {
@@ -130,7 +131,7 @@ export class FSM<E> {
      */
     protected processRemainingEvents(): void {
         if (this.eventsToProcess !== undefined) {
-            const list: Array<E> = [...this.eventsToProcess];
+            const list: MArray<E> = new MArray(...this.eventsToProcess);
             while (list.length > 0) {
                 const event = list.removeAt(0);
 
@@ -145,7 +146,7 @@ export class FSM<E> {
         }
     }
 
-    protected addRemaningEventsToProcess(event: E): void {
+    public addRemaningEventsToProcess(event: E): void {
         if (event !== undefined) {
             this.eventsToProcess.push(event);
         }
@@ -352,5 +353,9 @@ export class FSM<E> {
 
     public get startingState(): State<E> {
         return this._startingState;
+    }
+
+    public getEventsToProcess(): MArray<E> {
+        return new MArray(...this.eventsToProcess);
     }
 }

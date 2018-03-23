@@ -14,6 +14,7 @@ import {Instrument} from "./Instrument";
 import {ErrorCatcher} from "../error/ErrorCatcher";
 import {Undoable} from "../undo/Undoable";
 import {Action} from "../action/Action";
+import {MArray} from "../../src/util/ArrayUtil";
 
 /**
  * Creates and initialises the instrument.
@@ -29,7 +30,7 @@ export abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
     /**
      * The widget bindings of the instrument.
      */
-    protected readonly bindings: Array<T>;
+    protected readonly bindings: MArray<T>;
 
     /**
      * Defined whether the instrument has been modified.
@@ -39,7 +40,7 @@ export abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
     public constructor() {
         this.activated = false;
         this.modified = false;
-        this.bindings = [];
+        this.bindings = new MArray();
     }
 
     /**
@@ -62,7 +63,7 @@ export abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
      *
      * @return {*[]}
      */
-    public getWidgetBindings(): Array<T> {
+    public getWidgetBindings(): MArray<T> {
         return this.bindings;
     }
 
