@@ -13,13 +13,16 @@ import {StateImpl} from "./StateImpl";
 import {OutputState} from "./OutputState";
 import {Transition} from "./Transition";
 import {FSM} from "./FSM";
+import {MArray} from "../../src/util/ArrayUtil";
+
+/// <reference path="../../src/util/ArrayUtil.ts"/>
 
 export abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputState<E> {
-    protected readonly transitions: Array<Transition<E>>;
+    protected readonly transitions: MArray<Transition<E>>;
 
     protected constructor(stateMachine: FSM<E>, stateName: string) {
         super(stateMachine, stateName);
-        this.transitions = [];
+        this.transitions = new MArray<Transition<E>>();
     }
 
     public process(event: E): boolean {
@@ -39,6 +42,10 @@ export abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputS
         if (!this.getFSM().isStarted() && this.getFSM().startingState === this) {
             this.getFSM().onStarting();
         }
+    }
+
+    public clearTransitions(): void {
+        this.transitions.clear();
     }
 
     public getTransitions(): Array<Transition<E>> {

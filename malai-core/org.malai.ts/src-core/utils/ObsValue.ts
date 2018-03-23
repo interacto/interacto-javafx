@@ -9,6 +9,8 @@
  * General Public License for more details.
  */
 
+import {MArray} from "../../src/util/ArrayUtil";
+
 /**
  * A simple value property. We do not use the JFX one (SimpleObjectProperty) since
  * this library is transpiled to other languages where SimpleObjectProperty may not be supported.
@@ -20,11 +22,11 @@
 export class ObsValue<T> {
     private value: T;
 
-    private readonly handlers: Array<(oldValue: T, newValue: T) => void>;
+    private readonly handlers: MArray<(oldValue: T, newValue: T) => void>;
 
     public constructor(value: T) {
         this.value = value;
-        this.handlers = [];
+        this.handlers = new MArray();
     }
 
     public get(): T {

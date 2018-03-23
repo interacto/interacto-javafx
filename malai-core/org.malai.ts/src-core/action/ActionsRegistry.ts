@@ -13,6 +13,7 @@ import {ActionHandler} from "./ActionHandler";
 import {Action, RegistrationPolicy} from "./Action";
 import {isUndoableType} from "../undo/Undoable";
 import {UndoCollector} from "../undo/UndoCollector";
+import {MArray} from "../../src/util/ArrayUtil";
 
 /**
  * A register of actions.
@@ -31,12 +32,12 @@ export class ActionsRegistry {
     /**
      * The saved actions.
      */
-    private readonly actions: Array<Action>;
+    private readonly actions: MArray<Action>;
 
     /**
      * The actions handler.
      */
-    private readonly handlers: Array<ActionHandler>;
+    private readonly handlers: MArray<ActionHandler>;
 
     /**
      * The max number of cleanable actions (cf. Action::getRegistrationPolicy) that can contain the register.
@@ -44,8 +45,8 @@ export class ActionsRegistry {
     private sizeMax: number;
 
     constructor() {
-        this.actions = [];
-        this.handlers = [];
+        this.actions = new MArray();
+        this.handlers = new MArray();
         this.sizeMax = 50;
     }
 
