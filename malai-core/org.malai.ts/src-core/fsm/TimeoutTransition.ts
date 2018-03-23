@@ -23,7 +23,7 @@ export class TimeoutTransition<E> extends Transition<E> {
     /**
      * The current thread in progress.
      */
-    private timeoutThread: Object | undefined; //java.lang.Thread;
+    private timeoutThread: number | undefined;
 
     private timeouted: boolean;
 
@@ -39,17 +39,13 @@ export class TimeoutTransition<E> extends Transition<E> {
      */
     public startTimeout(): void {
         if (this.timeoutThread === undefined) {
-            //     this.timeoutThread = new java.lang.Thread(() => {
             const time = this.timeoutDuration();
             if (time > 0) {
-                //             try {
-                //                 java.lang.Thread.sleep(time);
-                this.timeouted = true;
-                this.src.getFSM().onTimeout();
-                //             } catch(ex) {
-                //             };
+                this.timeoutThread = setTimeout(() => {
+                    this.timeouted = true;
+                    this.src.getFSM().onTimeout();
+                }, time);
             }
-            //     this.timeoutThread.start();
         }
     }
 
@@ -58,7 +54,7 @@ export class TimeoutTransition<E> extends Transition<E> {
      */
     public stopTimeout(): void {
         if (this.timeoutThread !== undefined) {
-            //     this.timeoutThread.interrupt();
+            clearTimeout(this.timeoutThread);
             this.timeoutThread = undefined;
         }
     }
@@ -97,10 +93,6 @@ export class TimeoutTransition<E> extends Transition<E> {
         }
     }
 
-    /**
-     *
-     * @return {*[]}
-     */
     public getAcceptedEvents(): Set<string> {
         return new Set();
     }

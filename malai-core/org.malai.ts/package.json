@@ -18,7 +18,7 @@
     "clean": "rm -r target/*",
     "test": "jest",
     "lint": "tslint -p tslint.json",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage --collectCoverageFrom=target/src*/**/*.js"
   },
   "dependencies": {
     "typescript-logging": "^0.5.0"
