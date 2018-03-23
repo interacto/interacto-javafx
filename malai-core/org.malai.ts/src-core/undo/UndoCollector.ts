@@ -160,7 +160,7 @@ export class UndoCollector {
             this.redos.push(undoable);
             this.redoHandlers.push(undoHandler);
             undoHandler.onUndoableUndo(undoable);
-            this.handlers.forEach(handler => handler.onUndoableUndo(undoable as Undoable));
+            this.handlers.forEach(handler => handler.onUndoableUndo(undoable));
         }
     }
 
@@ -176,7 +176,7 @@ export class UndoCollector {
             this.undos.push(undoable);
             this.undoHandlers.push(redoHandler);
             redoHandler.onUndoableRedo(undoable);
-            this.handlers.forEach(handler => handler.onUndoableRedo(undoable as Undoable));
+            this.handlers.forEach(handler => handler.onUndoableRedo(undoable));
         }
     }
 

@@ -34,7 +34,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
     public process(event: UIEvent): boolean {
         // Removing the possible corresponding and pending key pressed event
         if (event instanceof KeyPressEvent) {
-            this.removeKeyEvent((event as KeyPressEvent).keyCode);
+            this.removeKeyEvent(event.keyCode);
         }
 
         // Processing the event
@@ -43,7 +43,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
         // Recycling events
         if (processed && event instanceof KeyPressEvent && !(this.currentState instanceof InitState) &&
             (this.eventsToProcess === undefined ||
-                this.eventsToProcess.find(evt => (evt as KeyPressEvent).keyCode === ((event as KeyPressEvent)).keyCode) === undefined)) {
+                this.eventsToProcess.find(evt => (evt as KeyPressEvent).keyCode === event.keyCode) === undefined)) {
             // this.addRemaningEventsToProcess((Event) event.clone()); //TODO
         }
 
@@ -64,7 +64,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
         for (let i = 0, size = this.eventsToProcess.length; i < size && !removed; i++) {
             const event = this.eventsToProcess[i];
 
-            if (event instanceof KeyboardEvent && ((event as KeyboardEvent)).keyCode === key) {
+            if (event instanceof KeyboardEvent && event.keyCode === key) {
                 removed = true;
                 this.eventsToProcess.removeAt(i);
             }

@@ -26,7 +26,7 @@ export class Optional<T> {
     }
 
     public static ofNullable<T>(obj: T | undefined): Optional<T> {
-        return obj === undefined ? Optional.empty() as Optional<T> : Optional.of(obj);
+        return obj === undefined ? Optional.empty() : Optional.of(obj);
     }
 
     public get(): T | undefined {
@@ -47,7 +47,7 @@ export class Optional<T> {
         if (!this.isPresent()) {
             return this;
         } else {
-            return predicate(this.value as T) ? this : Optional.empty() as Optional<T>;
+            return predicate(this.value as T) ? this : Optional.empty();
         }
     }
 
