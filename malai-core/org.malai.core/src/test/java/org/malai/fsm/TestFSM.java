@@ -69,8 +69,6 @@ public class TestFSM {
 		StdState<StubEvent> std;
 		TerminalState<StubEvent> terminal;
 		CancellingState<StubEvent> cancelling;
-		Transition<StubEvent> iToS;
-		Transition<StubEvent> sToT;
 		FSMHandler handler;
 
 		@BeforeEach
@@ -81,8 +79,8 @@ public class TestFSM {
 			std = new StdState<>(fsm, "s1");
 			terminal = new TerminalState<>(fsm, "t1");
 			cancelling = new CancellingState<>(fsm, "c1");
-			iToS = new StubTransitionOK(fsm.initState, std);
-			sToT = new StubTransitionOK(std, terminal);
+			new StubTransitionOK(fsm.initState, std);
+			new StubTransitionOK(std, terminal);
 			fsm.addState(std);
 			fsm.addState(terminal);
 			fsm.addState(cancelling);
@@ -113,7 +111,7 @@ public class TestFSM {
 		@Test
 		void testGetterCurrentState() {
 			fsm.process(new StubEvent());
-			assertEquals(fsm.getCurrentState(), fsm.getCurrentState());
+			assertEquals(fsm.currentState.get(), fsm.getCurrentState());
 		}
 
 		@Test
