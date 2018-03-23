@@ -20,6 +20,7 @@ import {InputState} from "./InputState";
 import {Logger} from "typescript-logging";
 import {factory} from "../logging/ConfigLog";
 import {MArray} from "../../src/util/ArrayUtil";
+import {OutputStateImpl} from "./OutputStateImpl";
 
 export class FSM<E> {
     protected logger: Logger | undefined;
@@ -252,10 +253,11 @@ export class FSM<E> {
             if (this.logger !== undefined) {
                 this.logger.info("Timeout");
             }
-            // this.currentTimeout.execute().filter(state => state instanceof OutputStateImpl).ifPresent(state => {
-            //     this.currentState.set(state as OutputState<E>);
-            //     this.checkTimeoutTransition();
-            // });
+            const state = this.currentTimeout.execute().get();
+            if (state instanceof OutputStateImpl) {
+                this._currentState.set(state);
+                this.checkTimeoutTransition();
+            }
         }
     }
 
@@ -353,6 +355,12 @@ export class FSM<E> {
 
     public get startingState(): State<E> {
         return this._startingState;
+    }
+
+    public set startingState(state: State<E>) {
+        if (state !== undefined) {
+            this._startingState = state;
+        }
     }
 
     public getEventsToProcess(): MArray<E> {
