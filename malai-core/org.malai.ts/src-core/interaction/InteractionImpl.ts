@@ -66,7 +66,7 @@ export abstract class InteractionImpl<E, F extends FSM<E>> {
 
     public setActivated(activated: boolean): void {
         if (this.logger !== undefined) {
-            this.logger.info("Interaction activation: " + activated);
+            this.logger.info("Interaction activation: " + String(activated));
         }
         this.activated = activated;
         if (!activated) {

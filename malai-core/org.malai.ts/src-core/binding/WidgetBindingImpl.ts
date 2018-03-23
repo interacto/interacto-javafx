@@ -183,7 +183,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
         if (this.action !== undefined) {
             this.unbindActionAttributesClass(this.action.constructor);
             if (this.loggerAction !== undefined) {
-                this.loggerAction.info("Action unbound: " + this.action);
+                this.loggerAction.info("Action unbound: " + String(this.action));
             }
         }
     }
@@ -244,19 +244,19 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     public fsmStarts(): void {
         const ok: boolean = this.action === undefined && this.isActivated() && this.when();
         if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Starting binding: " + ok);
+            this.loggerBinding.info("Starting binding: " + String(ok));
         }
         if (ok) {
             this.action = this.map();
             this.first();
             if (this.loggerAction !== undefined) {
-                this.loggerAction.info("Action created and init: " + this.action);
+                this.loggerAction.info("Action created and init: " + String(this.action));
             }
             this.feedback();
         } else {
             if (this.isStrictStart()) {
                 if (this.loggerBinding !== undefined) {
-                    this.loggerBinding.info("Cancelling starting interaction: " + this.interaction);
+                    this.loggerBinding.info("Cancelling starting interaction: " + String(this.interaction));
                 }
                 throw new CancelFSMException();
             }
@@ -269,20 +269,20 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     public fsmStops(): void {
         const ok: boolean = this.when();
         if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Binding stops with condition: " + ok);
+            this.loggerBinding.info("Binding stops with condition: " + String(ok));
         }
         if (ok) {
             if (this.action === undefined) {
                 this.action = this.map();
                 this.first();
                 if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Action created and init: " + this.action);
+                    this.loggerAction.info("Action created and init: " + String(this.action));
                 }
             }
             if (!this.execute) {
                 this.then();
                 if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Action updated: " + this.action);
+                    this.loggerAction.info("Action updated: " + String(this.action));
                 }
             }
             this.executeAction(this.action, this.async);
@@ -292,7 +292,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
         } else {
             if (this.action !== undefined) {
                 if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Cancelling the action: " + this.action);
+                    this.loggerAction.info("Cancelling the action: " + String(this.action));
                 }
                 this.action.cancel();
                 this.unbindActionAttributes();
@@ -315,7 +315,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
     protected afterActionExecuted(act: Action, ok: boolean): void {
         if (this.loggerAction !== undefined) {
-            this.loggerAction.info("Action execution did it: " + ok);
+            this.loggerAction.info("Action execution did it: " + String(ok));
         }
         if (ok) {
             // this.instrument.onActionExecuted(act);
@@ -324,7 +324,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
         }
         const hadEffect: boolean = act.hadEffect();
         if (this.loggerAction !== undefined) {
-            this.loggerAction.info("Action execution had effect: " + hadEffect);
+            this.loggerAction.info("Action execution had effect: " + String(hadEffect));
         }
         if (hadEffect) {
             if (act.getRegistrationPolicy() !== RegistrationPolicy.NONE) {
@@ -340,7 +340,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     public fsmUpdates(): void {
         const ok: boolean = this.when();
         if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Binding updates with condition: " + ok);
+            this.loggerBinding.info("Binding updates with condition: " + String(ok));
         }
         if (ok) {
             if (this.action === undefined) {
@@ -385,7 +385,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
      */
     public setActivated(activ: boolean): void {
         if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Binding Activated: " + activ);
+            this.loggerBinding.info("Binding Activated: " + String(activ));
         }
         this.interaction.setActivated(activ);
     }
