@@ -17,7 +17,7 @@
  */
 export class MustBeUndoableActionException extends Error {
     public constructor(actionProducer: Object) {
-        super("The following action must be undoable: " + actionProducer);
+        super("The following action must be undoable: " + String(actionProducer));
     }
 }
 

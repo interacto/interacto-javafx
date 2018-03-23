@@ -139,7 +139,7 @@ export class FSM<E> {
                 if (event) {
                     this.eventsToProcess.removeAt(0);
                     if (this.logger !== undefined) {
-                        this.logger.info("Recycling event: " + event);
+                        this.logger.info("Recycling event: " + String(event));
                     }
                     this.process(event);
                 }
