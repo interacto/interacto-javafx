@@ -27,7 +27,7 @@ export class AnonymousAction extends ActionImpl {
     }
 
     protected doActionBody(): void {
-        if (this.actionBody) {
+        if (this.actionBody !== undefined) {
             this.actionBody();
         }
     }

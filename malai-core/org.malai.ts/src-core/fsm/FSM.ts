@@ -136,7 +136,7 @@ export class FSM<E> {
             while (list.length > 0) {
                 const event = list.removeAt(0);
 
-                if (event) {
+                if (event !== undefined) {
                     this.eventsToProcess.removeAt(0);
                     if (this.logger !== undefined) {
                         this.logger.info("Recycling event: " + String(event));
@@ -281,7 +281,7 @@ export class FSM<E> {
     protected checkTimeoutTransition(): void {
         const tr = this._currentState.get().getTransitions().find(t => t instanceof TimeoutTransition) as TimeoutTransition<E> | undefined;
 
-        if (tr) {
+        if (tr !== undefined) {
             if (this.logger !== undefined) {
                 this.logger.info("Timeout starting");
             }

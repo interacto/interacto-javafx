@@ -26,7 +26,7 @@ export class InactivateInstrument extends InstrumentAction {
     }
 
     protected doActionBody(): void {
-        if (this.instrument) {
+        if (this.instrument !== undefined) {
             this.instrument.setActivated(false);
         }
     }
