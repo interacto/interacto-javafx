@@ -119,7 +119,9 @@ export abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
             try {
                 this.configureBindings();
             } catch (ex) {
-                ErrorCatcher.INSTANCE.reportError(ex);
+                if (ex instanceof Error) {
+                    ErrorCatcher.INSTANCE.reportError(ex);
+                }
             }
         } else {
             this.bindings.forEach(binding => binding.setActivated(toBeActivated));
