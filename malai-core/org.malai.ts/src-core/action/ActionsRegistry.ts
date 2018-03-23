@@ -120,7 +120,7 @@ export class ActionsRegistry {
             if (this.actions.length >= this.sizeMax) {
                 const act = this.actions.find(a => a.getRegistrationPolicy() !== RegistrationPolicy.UNLIMITED);
 
-                if (act) {
+                if (act !== undefined) {
                     this.actions.remove(act);
                     act.flush();
                 }
@@ -219,7 +219,7 @@ export class ActionsRegistry {
             while (nb < toRemove && i < this.actions.length) {
                 if (this.actions[i].getRegistrationPolicy() !== RegistrationPolicy.UNLIMITED) {
                     const removed = this.actions.removeAt(i);
-                    if (removed) {
+                    if (removed !== undefined) {
                         removed.flush();
                     }
                     nb++;
