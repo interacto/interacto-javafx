@@ -20,7 +20,7 @@ import {ActionImpl} from "./ActionImpl";
  * @extends ActionImpl
  */
 export class AnonAction extends ActionImpl {
-    private exec: () => void;
+    private readonly exec: () => void;
 
     public constructor(fct: () => void) {
         super();
