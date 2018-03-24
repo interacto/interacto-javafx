@@ -420,7 +420,6 @@ public class TestFSM {
 
 	@Nested
 	class TestWithSubFSM {
-		SubFSMTransition<StubEvent> tr;
 		FSM<StubEvent> fsm;
 		FSM<StubEvent> mainfsm;
 		StdState<StubEvent> s1;
@@ -437,7 +436,7 @@ public class TestFSM {
 			mainfsm = new FSM<>();
 			s1 = new StdState<>(mainfsm, "s1");
 			mainfsm.addState(s1);
-			tr = new SubFSMTransition<>(mainfsm.initState, s1, fsm);
+			new SubFSMTransition<>(mainfsm.initState, s1, fsm);
 			mainfsm.addHandler(handler);
 			subS1 = new StdState<>(fsm, "sub1");
 			subS2 = new StdState<>(fsm, "sub2");
@@ -505,7 +504,7 @@ public class TestFSM {
 			CancellingState<StubEvent> cancel = new CancellingState<>(mainfsm, "cancel1");
 			mainfsm.addState(cancel);
 			mainfsm.initState.transitions.clear();
-			tr = new SubFSMTransition<>(mainfsm.initState, cancel, fsm);
+			new SubFSMTransition<>(mainfsm.initState, cancel, fsm);
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
 			mainfsm.process(new StubSubEvent1());
@@ -519,7 +518,7 @@ public class TestFSM {
 			TerminalState<StubEvent> terminal = new TerminalState<>(mainfsm, "terminal1");
 			mainfsm.addState(terminal);
 			mainfsm.initState.transitions.clear();
-			tr = new SubFSMTransition<>(mainfsm.initState, terminal, fsm);
+			new SubFSMTransition<>(mainfsm.initState, terminal, fsm);
 			mainfsm.process(new StubSubEvent1());
 			mainfsm.process(new StubSubEvent2());
 			mainfsm.process(new StubSubEvent1());
