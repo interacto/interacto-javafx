@@ -29,6 +29,8 @@
     "restrict-plus-operands": true,
     "strict-boolean-expressions": true,
     "strict-type-predicates": false,
+    "use-default-type-parameter": true,
+    "prefer-readonly": true,
     "no-invalid-template-strings": true,
     "no-sparse-arrays": true,
     "promise-function-async": true,

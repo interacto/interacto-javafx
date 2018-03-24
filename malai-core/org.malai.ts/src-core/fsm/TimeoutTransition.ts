@@ -18,7 +18,7 @@ export class TimeoutTransition<E> extends Transition<E> {
     /**
      * The timeoutDuration in ms.
      */
-    private timeoutDuration: () => number;
+    private readonly timeoutDuration: () => number;
 
     /**
      * The current thread in progress.
