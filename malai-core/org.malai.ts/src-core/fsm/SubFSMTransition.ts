@@ -12,12 +12,11 @@
 import {Transition} from "./Transition";
 import {FSM} from "./FSM";
 import {FSMHandler} from "./FSMHandler";
-import {OutputState} from "./OutputState";
+import {isOutputStateType, OutputState} from "./OutputState";
 import {InputState} from "./InputState";
 import {Optional} from "../../src/util/Optional";
 import {TerminalState} from "./TerminalState";
 import {CancellingState} from "./CancellingState";
-import {OutputStateImpl} from "./OutputStateImpl";
 
 export class SubFSMTransition<E> extends Transition<E> {
     private readonly subFSM: FSM<E>;
@@ -56,7 +55,7 @@ export class SubFSMTransition<E> extends Transition<E> {
                     this.fsmCancels();
                     return;
                 }
-                if (this._parent.tgt instanceof OutputStateImpl) {
+                if (isOutputStateType<E>(this._parent.tgt)) {
                     this._parent.src.getFSM().currentState = this._parent.tgt;
                     this._parent.tgt.enter();
                 }
@@ -78,6 +77,7 @@ export class SubFSMTransition<E> extends Transition<E> {
             this.src.getFSM().stopCurrentTimeout();
             const transition: Optional<Transition<E>> = this.findTransition(event);
             if (transition.isPresent()) {
+                console.log(this.subFSMHandler);
                 this.subFSM.addHandler(this.subFSMHandler);
                 this.src.getFSM().setCurrentSubFSM(this.subFSM);
                 this.subFSM.process(event);
