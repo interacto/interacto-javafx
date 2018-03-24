@@ -59,9 +59,7 @@ export class ActionsRegistry {
      * @param {*} action The executed action.
      */
     public onActionExecuted(action: Action): void {
-        if (action !== undefined) {
-            this.handlers.forEach(handler => handler.onActionExecuted(action));
-        }
+        this.handlers.forEach(handler => handler.onActionExecuted(action));
     }
 
     /**
@@ -69,9 +67,7 @@ export class ActionsRegistry {
      * @param {*} action The ending action.
      */
     public onActionDone(action: Action): void {
-        if (action !== undefined) {
-            this.handlers.forEach(handler => handler.onActionDone(action));
-        }
+        this.handlers.forEach(handler => handler.onActionDone(action));
     }
 
     /**
@@ -87,10 +83,6 @@ export class ActionsRegistry {
      * @param {*} action The action that may cancels others.
      */
     public unregisterActions(action: Action): void {
-        if (action === undefined) {
-            return;
-        }
-
         let i: number = 0;
         while ((i < this.actions.length)) {
             if (this.actions[i].unregisteredBy(action)) {
@@ -112,7 +104,7 @@ export class ActionsRegistry {
      * @param {*} actionHandler The handler that produced or is associated to the action. If null, nothing is done.
      */
     public addAction(action: Action, actionHandler?: ActionHandler): void {
-        if (action !== undefined && this.actions.indexOf(action) < 0 &&
+        if (this.actions.indexOf(action) < 0 &&
             (this.sizeMax > 0 || action.getRegistrationPolicy() === RegistrationPolicy.UNLIMITED)) {
             this.unregisterActions(action);
 
@@ -141,10 +133,8 @@ export class ActionsRegistry {
      * @param {*} action The action to remove.
      */
     public removeAction(action: Action): void {
-        if (action !== undefined) {
-            this.actions.remove(action);
-            action.flush();
-        }
+        this.actions.remove(action);
+        action.flush();
     }
 
     /**
@@ -152,9 +142,7 @@ export class ActionsRegistry {
      * @param {*} handler The handler to add.
      */
     public addHandler(handler: ActionHandler): void {
-        if (handler !== undefined) {
-            this.handlers.push(handler);
-        }
+        this.handlers.push(handler);
     }
 
     /**
@@ -162,9 +150,7 @@ export class ActionsRegistry {
      * @param {*} handler The handler to remove.
      */
     public removeHandler(handler: ActionHandler): void {
-        if (handler !== undefined) {
-            this.handlers.push(handler);
-        }
+        this.handlers.push(handler);
     }
 
     /**
@@ -188,12 +174,10 @@ export class ActionsRegistry {
      * @param {*} action The action to cancel.
      */
     public cancelAction(action: Action): void {
-        if (action !== undefined) {
-            action.cancel();
-            this.actions.remove(action);
-            this.handlers.forEach(handler => handler.onActionCancelled(action));
-            action.flush();
-        }
+        action.cancel();
+        this.actions.remove(action);
+        this.handlers.forEach(handler => handler.onActionCancelled(action));
+        action.flush();
     }
 
     /**

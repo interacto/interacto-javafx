@@ -67,12 +67,12 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     /**
      * The action class to instantiate.
      */
-    protected readonly clazzAction: () => A;
+    private readonly actionProducer: (i: I) => A;
 
-    public constructor(/* ins : N,  */ exec: boolean, actionClass: () => A, interaction: I) {
+    public constructor(/* ins : N,  */ exec: boolean, actionClass: (i: I) => A, interaction: I) {
         this.execute = false;
         this.async = false;
-        this.clazzAction = actionClass;
+        this.actionProducer = actionClass;
         this.interaction = interaction;
         this.action = undefined;
         // this.instrument = ins;
@@ -133,7 +133,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
      * @return {ActionImpl} The created action.
      */
     protected map(): A {
-        return this.clazzAction();
+        return this.actionProducer(this.interaction);
     }
 
     public abstract first(): void;
@@ -230,7 +230,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
                         this.loggerAction.info("Action undone");
                     }
                 } else {
-                    throw new MustBeUndoableActionException(this.clazzAction);
+                    throw new MustBeUndoableActionException(this.action);
                 }
             }
             this.action = undefined;

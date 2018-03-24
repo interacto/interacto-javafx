@@ -32,7 +32,7 @@ export class AnonAction extends ActionImpl {
      * @return {boolean}
      */
     public canDo(): boolean {
-        return this.exec !== undefined;
+        return true;
     }
 
     protected doActionBody(): void {

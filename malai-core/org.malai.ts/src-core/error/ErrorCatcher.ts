@@ -26,7 +26,7 @@ export class ErrorCatcher {
     /**
      * The notifier object.
      */
-    private notifier: ErrorNotifier;
+    private notifier: ErrorNotifier | undefined;
 
     private constructor() {
     }
@@ -44,7 +44,7 @@ export class ErrorCatcher {
      * @return {*} The notifier that is notified about the collected exceptions.
      * @since 0.2
      */
-    public getErrorNotifier(): ErrorNotifier {
+    public getErrorNotifier(): ErrorNotifier | undefined {
         return this.notifier;
     }
 
@@ -54,7 +54,7 @@ export class ErrorCatcher {
      * @since 0.1
      */
     public reportError(exception: Error): void {
-        if (exception !== undefined && this.notifier !== undefined) {
+        if (this.notifier !== undefined) {
             this.notifier.onException(exception);
         }
     }

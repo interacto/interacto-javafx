@@ -20,7 +20,7 @@ export class AnonymousAction extends ActionImpl {
     /**
      * The runnable executed when the action is executed.
      */
-    protected actionBody: () => void | undefined;
+    protected actionBody: (() => void) | undefined;
 
     public constructor() {
         super();
@@ -51,7 +51,7 @@ export class AnonymousAction extends ActionImpl {
     /**
      * @return {() => void} The runnable of the action.
      */
-    public getActionBody(): () => void | undefined {
+    public getActionBody(): (() => void) | undefined {
         return this.actionBody;
     }
 }

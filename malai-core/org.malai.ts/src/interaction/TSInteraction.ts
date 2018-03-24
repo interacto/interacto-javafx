@@ -58,15 +58,11 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
     }
 
     public registerToNodes(widgets: Array<EventTarget>): void {
-        if (widgets !== undefined) {
-            widgets.filter(w => w !== undefined).forEach(w => this.registeredNodes.add(w));
-        }
+        widgets.forEach(w => this.registeredNodes.add(w));
     }
 
     public unregisterFromNodes(widgets: Array<EventTarget>): void {
-        if (widgets !== undefined) {
-            widgets.filter(w => w !== undefined).forEach(w => this.registeredNodes.delete(w));
-        }
+        widgets.forEach(w => this.registeredNodes.delete(w));
     }
 
     protected onNodeUnregistered(node: EventTarget): void {

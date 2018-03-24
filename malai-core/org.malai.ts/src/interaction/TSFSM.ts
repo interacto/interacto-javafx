@@ -42,8 +42,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
 
         // Recycling events
         if (processed && event instanceof KeyPressEvent && !(this.currentState instanceof InitState) &&
-            (this.eventsToProcess === undefined ||
-                this.eventsToProcess.find(evt => (evt as KeyPressEvent).keyCode === event.keyCode) === undefined)) {
+            this.eventsToProcess.find(evt => (evt as KeyPressEvent).keyCode === event.keyCode) === undefined) {
             // this.addRemaningEventsToProcess((Event) event.clone()); //TODO
         }
 
@@ -55,10 +54,6 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
      * @param key The key code of the event to remove.
      */
     private removeKeyEvent(key: number): void {
-        if (this.eventsToProcess === undefined) {
-            return;
-        }
-
         let removed = false;
 
         for (let i = 0, size = this.eventsToProcess.length; i < size && !removed; i++) {

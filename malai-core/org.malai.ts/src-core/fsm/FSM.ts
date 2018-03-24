@@ -131,18 +131,16 @@ export class FSM<E> {
      * At the end of the FSM execution, the events still (eg keyPress) in process must be recycled to be reused in the FSM.
      */
     protected processRemainingEvents(): void {
-        if (this.eventsToProcess !== undefined) {
-            const list: MArray<E> = new MArray(...this.eventsToProcess);
-            while (list.length > 0) {
-                const event = list.removeAt(0);
+        const list: MArray<E> = new MArray(...this.eventsToProcess);
+        while (list.length > 0) {
+            const event = list.removeAt(0);
 
-                if (event !== undefined) {
-                    this.eventsToProcess.removeAt(0);
-                    if (this.logger !== undefined) {
-                        this.logger.info("Recycling event: " + String(event));
-                    }
-                    this.process(event);
+            if (event !== undefined) {
+                this.eventsToProcess.removeAt(0);
+                if (this.logger !== undefined) {
+                    this.logger.info("Recycling event: " + String(event));
                 }
+                this.process(event);
             }
         }
     }
@@ -208,9 +206,7 @@ export class FSM<E> {
      * @param {*} state The state to add. Must not be null.
      */
     public addState(state: InputState<E>): void {
-        if (state !== undefined) {
-            this.states.push(state);
-        }
+        this.states.push(state);
     }
 
     public log(log: boolean): void {
@@ -239,9 +235,7 @@ export class FSM<E> {
     }
 
     public fullReinit(): void {
-        if (this.eventsToProcess !== undefined) {
-            this.eventsToProcess.clear();
-        }
+        this.eventsToProcess.clear();
         this.reinit();
         if (this.currentSubFSM !== undefined) {
             this.currentSubFSM.fullReinit();
@@ -291,15 +285,11 @@ export class FSM<E> {
     }
 
     public addHandler(handler: FSMHandler): void {
-        if (handler !== undefined) {
-            this.handlers.push(handler);
-        }
+        this.handlers.push(handler);
     }
 
     public removeHandler(handler: FSMHandler): void {
-        if (handler !== undefined) {
-            this.handlers.remove(handler);
-        }
+        this.handlers.remove(handler);
     }
 
     /**
@@ -358,9 +348,7 @@ export class FSM<E> {
     }
 
     public set startingState(state: State<E>) {
-        if (state !== undefined) {
-            this._startingState = state;
-        }
+        this._startingState = state;
     }
 
     public getEventsToProcess(): MArray<E> {

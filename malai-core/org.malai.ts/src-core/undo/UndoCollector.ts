@@ -88,9 +88,7 @@ export class UndoCollector {
      * @param {*} handler The handler to add. Must not be null.
      */
     public addHandler(handler: UndoHandler): void {
-        if (handler !== undefined) {
-            this.handlers.push(handler);
-        }
+        this.handlers.push(handler);
     }
 
     /**
@@ -98,9 +96,7 @@ export class UndoCollector {
      * @param {*} handler The handler to remove. Must not be null.
      */
     public removeHandler(handler: UndoHandler): void {
-        if (handler !== undefined) {
-            this.handlers.remove(handler);
-        }
+        this.handlers.remove(handler);
     }
 
     public getHandlers(): Array<UndoHandler> {
@@ -128,7 +124,7 @@ export class UndoCollector {
      * @param {*} undoHandler The handler that produced or is associated to the undoable object.
      */
     public add(undoable: Undoable, undoHandler?: UndoHandler): void {
-        if (undoable !== undefined && this.sizeMax > 0) {
+        if (this.sizeMax > 0) {
             if (this.undos.length === this.sizeMax) {
                 this.undos.pop();
                 this.undoHandlers.pop();

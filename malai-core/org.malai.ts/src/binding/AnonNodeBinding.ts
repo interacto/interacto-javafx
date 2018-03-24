@@ -19,7 +19,6 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<U
     private readonly execInitAction: (a: A | undefined, i: I) => void;
     private readonly execUpdateAction: (a: A | undefined, i: I) => void;
     private readonly checkInteraction: (i: I) => boolean;
-    private readonly actionProducer: (i: I) => A;
     private readonly cancelFct: (a: A | undefined, i: I) => void;
     private readonly endOrCancelFct: (a: A | undefined, i: I) => void;
     private readonly feedbackFct: () => void;
@@ -44,7 +43,7 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<U
      */
     public constructor(exec: boolean, clazzAction: () => A, interaction: I, initActionFct: (a: A, i: I) => void,
                        updateActionFct: (a: A, i: I) => void, check: (i: I) => boolean, onEndFct: (a: A | undefined, i: I) => void,
-                       actionFunction: (i: I) => A, cancel: (a: A | undefined, i: I) => void,
+                       cancel: (a: A | undefined, i: I) => void,
                        endOrCancel: (a: A | undefined, i: I) => void, feedback: () => void, widgets: Array<EventTarget>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
@@ -54,8 +53,7 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<U
         this.cancelFct = cancel;
         this.endOrCancelFct = endOrCancel;
         this.feedbackFct = feedback;
-        this.actionProducer = actionFunction;
-        this.checkInteraction = check === undefined ? () => true : check;
+        this.checkInteraction = check;
         this.async = asyncExec;
         this.onEnd = onEndFct;
         this.strictStart = strict;
@@ -67,47 +65,37 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<U
     }
 
     private configureLoggers(loggers: Array<LogLevel>): void {
-        if (loggers !== undefined) {
-            this.logAction(loggers.indexOf(LogLevel.ACTION) >= 0);
-            this.logBinding(loggers.indexOf(LogLevel.BINDING) >= 0);
-            this.interaction.log(loggers.indexOf(LogLevel.INTERACTION) >= 0);
-        }
+        this.logAction(loggers.indexOf(LogLevel.ACTION) >= 0);
+        this.logBinding(loggers.indexOf(LogLevel.BINDING) >= 0);
+        this.interaction.log(loggers.indexOf(LogLevel.INTERACTION) >= 0);
     }
 
     public isStrictStart(): boolean {
         return this.strictStart;
     }
 
-    protected map(): A {
-        this.currentAction = this.actionProducer === undefined ? this.currentAction = super.map() :
-            this.currentAction = this.actionProducer(this.getInteraction());
-        return this.currentAction;
-    }
-
     public first(): void {
-        if (this.execInitAction !== undefined && this.currentAction !== undefined) {
+        if (this.currentAction !== undefined) {
             this.execInitAction(this.getAction(), this.getInteraction());
         }
     }
 
     public then(): void {
-        if (this.execUpdateAction !== undefined) {
-            this.execUpdateAction(this.getAction(), this.getInteraction());
-        }
+        this.execUpdateAction(this.getAction(), this.getInteraction());
     }
 
     public when(): boolean {
         // if(loggerBinding !== undefined) {
         //     loggerBinding.log(Level.INFO, "Checking condition: " + ok);
         // }
-        return this.checkInteraction === undefined || this.checkInteraction(this.getInteraction());
+        return this.checkInteraction(this.getInteraction());
     }
 
     public fsmCancels(): void {
-        if (this.endOrCancelFct !== undefined && this.currentAction !== undefined) {
+        if (this.currentAction !== undefined) {
             this.endOrCancelFct(this.action, this.interaction);
         }
-        if (this.cancelFct !== undefined && this.currentAction !== undefined) {
+        if (this.currentAction !== undefined) {
             this.cancelFct(this.action, this.interaction);
         }
         super.fsmCancels();
@@ -115,20 +103,18 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<U
     }
 
     public feedback(): void {
-        if (this.feedbackFct !== undefined) {
-            // if(loggerBinding !== undefined) {
-            //     loggerBinding.log(Level.INFO, "Feedback");
-            // }
-            this.feedbackFct();
-        }
+        // if(loggerBinding !== undefined) {
+        //     loggerBinding.log(Level.INFO, "Feedback");
+        // }
+        this.feedbackFct();
     }
 
     public fsmStops(): void {
         super.fsmStops();
-        if (this.endOrCancelFct !== undefined && this.currentAction !== undefined) {
+        if (this.currentAction !== undefined) {
             this.endOrCancelFct(this.currentAction, this.getInteraction());
         }
-        if (this.onEnd !== undefined && this.currentAction !== undefined) {
+        if (this.currentAction !== undefined) {
             this.onEnd(this.currentAction, this.getInteraction());
         }
         this.currentAction = undefined;
