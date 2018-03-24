@@ -20,27 +20,15 @@ import {StubFSMHandler} from "./StubFSMHandler";
 import {CancelFSMException} from "../../src-core/fsm/CancelFSMException";
 
 jest.mock("./StubFSMHandler");
-jest.useFakeTimers();
-
-// function timerGame(duration: number, callback: () => void) {
-//     console.log('Ready....go!');
-//     setTimeout(() => {
-//         console.log('Times up -- stop!');
-//         callback && callback();
-//     }, duration);
-// }
-
 
 let fsm: FSM<StubEvent>;
 let handler: FSMHandler;
 let std: StdState<StubEvent>;
 let std2: StdState<StubEvent>;
 let terminal: TerminalState<StubEvent>;
-// let iToS: Transition<StubEvent>;
-// let sToT: Transition<StubEvent>;
-// let timeout: TimeoutTransition<StubEvent>;
 
 beforeEach(() => {
+    jest.useFakeTimers();
     fsm = new FSM();
     handler = new StubFSMHandler();
     fsm.addHandler(handler);
@@ -51,9 +39,6 @@ beforeEach(() => {
     new StubTransitionOK(fsm.initState, std);
     new StubTransitionOK(std, terminal);
     new TimeoutTransition(std, std2, () => 500);
-    // iToS = new StubTransitionOK(fsm.initState, std);
-    // sToT = new StubTransitionOK(std, terminal);
-    // timeout = new TimeoutTransition(std, std2, () => 100);
     new StubTransitionOK(std2, std);
     fsm.addState(std);
     fsm.addState(std2);
@@ -71,10 +56,9 @@ test("testTimeoutChangeState", () => {
 test("testTimeoutStoppedOnOtherTransition", () => {
     fsm.process(new StubEvent());
     fsm.process(new StubEvent());
-    jest.runOnlyPendingTimers();
-    expect(setTimeout).toHaveBeenCalledTimes(2);
+    expect(setTimeout).toHaveBeenCalledTimes(1);
     expect(clearTimeout).toHaveBeenCalledTimes(1);
-    expect(fsm.currentState).toEqual(fsm.currentState);
+    expect(fsm.currentState).toEqual(fsm.initState);
 });
 
 test("testTimeoutChangeStateThenCancel", () => {
@@ -86,4 +70,3 @@ test("testTimeoutChangeStateThenCancel", () => {
     expect(fsm.currentState).toEqual(fsm.initState);
     expect(handler.fsmCancels).toHaveBeenCalledTimes(1);
 });
-
