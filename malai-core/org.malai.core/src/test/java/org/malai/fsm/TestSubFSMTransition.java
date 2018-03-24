@@ -67,20 +67,20 @@ class TestSubFSMTransition {
 	}
 
 	@Test
-	void testExecuteFirstEventReturnsSubState() throws CancelFSMException {
+	void testExecuteFirstEventReturnsSubState() {
 		final Optional<InputState<StubEvent>> state = tr.execute(new StubSubEvent1());
 		assertTrue(state.isPresent());
 		assertEquals(subS, state.get());
 	}
 
 	@Test
-	void testExecuteFirstEventKO() throws CancelFSMException {
+	void testExecuteFirstEventKO() {
 		final Optional<InputState<StubEvent>> state = tr.execute(new StubSubEvent2());
 		assertFalse(state.isPresent());
 	}
 
 	@Test
-	void testExecuteExitSrcState() throws CancelFSMException {
+	void testExecuteExitSrcState() {
 		tr.execute(new StubSubEvent1());
 		Mockito.verify(s1, Mockito.times(1)).exit();
 	}

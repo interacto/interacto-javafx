@@ -68,7 +68,7 @@ public class SubFSMTransition<E> extends Transition<E> {
 	}
 
 	@Override
-	public Optional<InputState<E>> execute(final E event) throws CancelFSMException {
+	public Optional<InputState<E>> execute(final E event) {
 		if(isGuardOK(event)) {
 			src.getFSM().stopCurrentTimeout();
 			final Optional<Transition<E>> transition = findTransition(event);
