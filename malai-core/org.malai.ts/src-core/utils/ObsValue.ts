@@ -46,15 +46,11 @@ export class ObsValue<T> {
     }
 
     public obs(handler: (oldValue: T, newValue: T) => void): void {
-        if (handler !== undefined) {
-            this.handlers.push(handler);
-        }
+        this.handlers.push(handler);
     }
 
     public unobs(handler: (oldValue: T, newValue: T) => void): void {
-        if (handler !== undefined) {
-            this.handlers.remove(handler);
-        }
+        this.handlers.remove(handler);
     }
 }
 

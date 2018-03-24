@@ -28,6 +28,7 @@
     "no-var-keyword": true,
     "restrict-plus-operands": true,
     "strict-boolean-expressions": true,
+    "strict-type-predicates": false,
     "no-invalid-template-strings": true,
     "no-sparse-arrays": true,
     "promise-function-async": true,

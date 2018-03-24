@@ -30,7 +30,7 @@ export class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
 
         new class extends ButtonPressedTransition {
             public action(event: UIEvent): void {
-                if (dataHandler !== undefined && event instanceof ButtonPressEvent) {
+                if (event instanceof ButtonPressEvent) {
                     dataHandler.initToPressedHandler(event);
                 }
             }

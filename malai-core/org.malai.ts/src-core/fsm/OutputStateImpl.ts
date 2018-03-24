@@ -52,14 +52,8 @@ export abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputS
         return [...this.transitions];
     }
 
-    /**
-     *
-     * @param {Transition} tr
-     */
     public addTransition(tr: Transition<E>): void {
-        if (tr !== undefined) {
-            this.transitions.push(tr);
-        }
+        this.transitions.push(tr);
     }
 
     public abstract exit(): void;
