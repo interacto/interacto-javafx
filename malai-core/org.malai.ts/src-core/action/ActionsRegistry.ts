@@ -83,7 +83,7 @@ export class ActionsRegistry {
      * @param {*} action The action that may cancels others.
      */
     public unregisterActions(action: Action): void {
-        let i: number = 0;
+        let i = 0;
         while ((i < this.actions.length)) {
             if (this.actions[i].unregisteredBy(action)) {
                 const delAction = this.actions.removeAt(i);
@@ -196,8 +196,8 @@ export class ActionsRegistry {
      */
     public setSizeMax(newSizeMax: number): void {
         if (newSizeMax >= 0) {
-            let i: number = 0;
-            let nb: number = 0;
+            let i = 0;
+            let nb = 0;
             const toRemove: number = this.actions.length - newSizeMax;
 
             while (nb < toRemove && i < this.actions.length) {
