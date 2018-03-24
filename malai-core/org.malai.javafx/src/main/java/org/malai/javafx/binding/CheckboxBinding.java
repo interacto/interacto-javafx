@@ -30,11 +30,9 @@ public abstract class CheckboxBinding<A extends ActionImpl, I extends JfxInstrum
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public CheckboxBinding(I ins, Class<A> clazzAction, List<Node> widgets) throws InstantiationException, IllegalAccessException {
+	public CheckboxBinding(I ins, Class<A> clazzAction, List<Node> widgets) {
 		this(ins, clazzAction, widgets, false, null);
 	}
 
@@ -44,12 +42,10 @@ public abstract class CheckboxBinding<A extends ActionImpl, I extends JfxInstrum
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public CheckboxBinding(I ins, Class<A> clazzAction, List<Node> widgets,
-						   final boolean help, final HelpAnimation animation) throws InstantiationException, IllegalAccessException {
+						   final boolean help, final HelpAnimation animation) {
 		super(ins, false, clazzAction, new BoxChecked(), widgets, help, animation);
 	}
 }
