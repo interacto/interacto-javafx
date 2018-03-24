@@ -44,7 +44,7 @@ beforeEach(() => {
     fsm = new FSM();
     handler = new StubFSMHandler();
     fsm.addHandler(handler);
-    fsm.log(false);
+    fsm.log(true);
     std = new StdState(fsm, "s1");
     std2 = new StdState(fsm, "s2");
     terminal = new TerminalState(fsm, "t1");
