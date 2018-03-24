@@ -30,12 +30,9 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets) throws InstantiationException,
-		IllegalAccessException {
+	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets) {
 		this(ins, exec, clazzAction, widgets, false, null);
 	}
 
@@ -45,12 +42,10 @@ public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrume
 	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets, final boolean help,
-						  final HelpAnimation animation) throws InstantiationException, IllegalAccessException {
+						  final HelpAnimation animation) {
 		super(ins, exec, clazzAction, new SpinnerChanged(), widgets, help, animation);
 	}
 }
