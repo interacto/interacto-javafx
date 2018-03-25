@@ -28,6 +28,7 @@ let cancelling: CancellingState<StubEvent>;
 let handler: FSMHandler;
 
 beforeEach(() => {
+    jest.clearAllMocks();
     fsm = new FSM<StubEvent>();
     handler = new StubFSMHandler();
     fsm.addHandler(handler);

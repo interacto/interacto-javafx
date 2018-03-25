@@ -33,6 +33,7 @@ let subT: TerminalState<StubEvent>;
 let subC: CancellingState<StubEvent>;
 
 beforeEach(() => {
+    jest.clearAllMocks();
     handler = new StubFSMHandler();
     fsm = new FSM();
     mainfsm = new FSM();

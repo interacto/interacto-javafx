@@ -41,7 +41,7 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<U
      * @param updateActionFct The function that updates the action. Can be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    public constructor(exec: boolean, clazzAction: () => A, interaction: I, initActionFct: (a: A, i: I) => void,
+    public constructor(exec: boolean, clazzAction: () => A, interaction: I, initActionFct: (a: A | undefined, i: I) => void,
                        updateActionFct: (a: A, i: I) => void, check: (i: I) => boolean, onEndFct: (a: A | undefined, i: I) => void,
                        cancel: (a: A | undefined, i: I) => void,
                        endOrCancel: (a: A | undefined, i: I) => void, feedback: () => void, widgets: Array<EventTarget>,
