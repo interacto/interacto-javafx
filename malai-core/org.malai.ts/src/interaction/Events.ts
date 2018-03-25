@@ -16,16 +16,20 @@ export enum EventRegistrationToken {
     KeyDown = "keydown",
     KeyPress = "keypress",
     KeyUp = "keyup",
+    Click = "click"
+}
+
+export enum EventTypeName {
+    ButtonPressed = "buttonPressedEvent",
+    MousePressed = "MousePressedEvent"
 }
 
 export class MousePressEvent extends MouseEvent {
 }
 
-export class ButtonPressEvent extends UIEvent {
-}
-
 export class KeyPressEvent extends KeyboardEvent {
 }
 
-export class KeyReleaseEvent extends KeyboardEvent {
+export function isButton(target: EventTarget): boolean {
+    return (<Element>target).tagName === "BUTTON";
 }

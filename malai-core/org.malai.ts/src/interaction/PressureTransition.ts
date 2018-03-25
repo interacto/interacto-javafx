@@ -12,7 +12,7 @@
 import {TSTransition} from "./TSTransition";
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
-import {MousePressEvent} from "./Events";
+import {EventTypeName, MousePressEvent} from "./Events";
 
 export abstract class PressureTransition extends TSTransition {
     public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
@@ -24,7 +24,7 @@ export abstract class PressureTransition extends TSTransition {
     }
 
     public getAcceptedEvents(): Set<string> {
-        return new Set([MousePressEvent.name]);
+        return new Set([EventTypeName.MousePressed]);
     }
 
     public isGuardOK(event: UIEvent): boolean {
