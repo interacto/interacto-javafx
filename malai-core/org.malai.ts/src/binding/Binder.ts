@@ -24,7 +24,7 @@ import {FSM} from "../../src-core/fsm/FSM";
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<UIEvent>, {}>, B extends Binder<A, I, B>> {
+export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>, B extends Binder<A, I, B>> {
     protected initAction: (a: A | undefined, i: I) => void;
     protected checkConditions: (i: I) => boolean;
     protected readonly widgets: MArray<EventTarget>;

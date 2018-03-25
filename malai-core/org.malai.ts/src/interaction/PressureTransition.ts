@@ -12,22 +12,22 @@
 import {TSTransition} from "./TSTransition";
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
-import {EventTypeName, MousePressEvent} from "./Events";
+import {EventTypeName} from "./Events";
 
 export abstract class PressureTransition extends TSTransition {
-    public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
+    public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 
-    public accept(e: UIEvent): boolean {
-        return e instanceof MousePressEvent;
+    public accept(e: Event): boolean {
+        return e.type === "press" ;
     }
 
     public getAcceptedEvents(): Set<string> {
         return new Set([EventTypeName.MousePressed]);
     }
 
-    public isGuardOK(event: UIEvent): boolean {
+    public isGuardOK(event: Event): boolean {
         return true;
     }
 }

@@ -15,7 +15,7 @@ import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {LogLevel} from "../../src-core/logging/LogLevel";
 import {FSM} from "../../src-core/fsm/FSM";
 
-export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<UIEvent>, {}>> extends TSWidgetBinding<A, I> {
+export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>> extends TSWidgetBinding<A, I> {
     private readonly execInitAction: (a: A | undefined, i: I) => void;
     private readonly execUpdateAction: (a: A | undefined, i: I) => void;
     private readonly checkInteraction: (i: I) => boolean;

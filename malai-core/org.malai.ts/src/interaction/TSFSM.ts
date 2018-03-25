@@ -12,12 +12,12 @@
 import {FSM} from "../../src-core/fsm/FSM";
 import {InitState} from "../../src-core/fsm/InitState";
 import {FSMDataHandler} from "./FSMDataHandler";
-import {KeyPressEvent} from "./Events";
+import {isKeyPressEvent} from "./Events";
 
-export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
-    protected dataHandler: H;
+export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
+    protected dataHandler: H | undefined;
 
-    protected buildFSM(dataHandler: H): void {
+    protected buildFSM(dataHandler?: H): void {
         if (this.states.length > 1) {
             return;
         }
@@ -31,9 +31,9 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
         }
     }
 
-    public process(event: UIEvent): boolean {
+    public process(event: Event): boolean {
         // Removing the possible corresponding and pending key pressed event
-        if (event instanceof KeyPressEvent) {
+        if (isKeyPressEvent(event)) {
             this.removeKeyEvent(event.keyCode);
         }
 
@@ -41,8 +41,8 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
         const processed: boolean = super.process(event);
 
         // Recycling events
-        if (processed && event instanceof KeyPressEvent && !(this.currentState instanceof InitState) &&
-            this.eventsToProcess.find(evt => (evt as KeyPressEvent).keyCode === event.keyCode) === undefined) {
+        if (processed && isKeyPressEvent(event) && !(this.currentState instanceof InitState) &&
+            this.eventsToProcess.find(evt => isKeyPressEvent(evt) && evt.keyCode === event.keyCode) === undefined) {
             // this.addRemaningEventsToProcess((Event) event.clone()); //TODO
         }
 
@@ -66,7 +66,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<UIEvent> {
         }
     }
 
-    public getDataHandler(): H {
+    public getDataHandler(): H | undefined {
         return this.dataHandler;
     }
 }
