@@ -28,6 +28,7 @@ let s2: StdState<StubEvent>;
 let subS: TerminalState<StubEvent>;
 
 beforeEach(() => {
+    jest.clearAllMocks();
     fsm = new FSM();
     mainfsm = new FSM();
     s1 = new StdState<StubEvent>(mainfsm, "s1");

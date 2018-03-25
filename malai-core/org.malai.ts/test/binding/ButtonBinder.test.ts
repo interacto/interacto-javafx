@@ -9,31 +9,43 @@
  * General Public License for more details.
  */
 
-import {ButtonPressed} from "../../src/interaction/library/ButtonPressed";
-import {FSMHandler} from "../../src-core/fsm/FSMHandler";
+import {ButtonBinder} from "../../src/binding/ButtonBinder";
+import {StubAction} from "../action/StubAction";
 import {StubFSMHandler} from "../fsm/StubFSMHandler";
 
 jest.mock("../fsm/StubFSMHandler");
+jest.mock("../action/StubAction");
 
-let interaction: ButtonPressed;
 let button: HTMLElement;
-let handler: FSMHandler;
+let binder: ButtonBinder<StubAction>;
 
 beforeEach(() => {
     jest.clearAllMocks();
-    handler = new StubFSMHandler();
-    interaction = new ButtonPressed();
-    interaction.getFsm().addHandler(handler);
+    binder = new ButtonBinder<StubAction>(() => new StubAction());
     document.documentElement.innerHTML = "<html><div><button id='b1'>A Button</button></div></html>";
     const elt = document.getElementById("b1");
     if (elt !== null) {
         button = elt;
+        binder.on(button);
     }
 });
 
-test("Click on button starts and stops the interaction", () => {
-    interaction.onNewNodeRegistered(button);
+test("Button binder produces a binding", () => {
+    const binding = binder.bind();
+    expect(binding).not.toBeNull();
+});
+
+test("Click on button triggers the interaction", () => {
+    const handler = new StubFSMHandler();
+    const binding = binder.bind();
+    binding.getInteraction().getFsm().addHandler(handler);
     button.click();
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+});
+
+test("Click on button produces an action", () => {
+    binder.bind();
+    button.click();
+    expect(StubAction.prototype.doIt).toHaveBeenCalledTimes(1);
 });

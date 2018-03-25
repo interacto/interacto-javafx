@@ -28,6 +28,7 @@ let std2: StdState<StubEvent>;
 let terminal: TerminalState<StubEvent>;
 
 beforeEach(() => {
+    jest.clearAllMocks();
     jest.useFakeTimers();
     fsm = new FSM();
     handler = new StubFSMHandler();

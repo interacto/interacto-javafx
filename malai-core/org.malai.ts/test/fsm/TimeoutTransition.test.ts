@@ -25,6 +25,7 @@ let tgt: InputState<StubEvent>;
 let fsm: FSM<StubEvent>;
 
 beforeEach(() => {
+    jest.clearAllMocks();
     jest.useFakeTimers();
     fsm = new FSM<StubEvent>();
     src = new StdState<StubEvent>(fsm, "src");
