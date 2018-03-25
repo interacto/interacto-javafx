@@ -49,7 +49,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
     /**
      * Specifies the widgets on which the binding must operate.
      * @param widget The widgets involve in the bindings.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public on(widget: EventTarget): B {
         this.widgets.push(widget);
@@ -62,7 +62,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
 //  * When a widget is added to this list, the added widget is binded to this binding.
 //  * When widget is removed from this list, this widget is unbinded from this binding.
 //  * @param widgets The observable list of the widgets involved in the bindings.
-//  * @return The builder to chain the buiding configuration.
+//  * @return The builder to chain the building configuration.
 //  */
 // public on(final ObservableList<? extends Node> widgets): B {
 //     if(additionalWidgets == null) {
@@ -79,7 +79,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
 //  * Each time the interaction starts, an instance of the action is created and configured by the given callback.
 //  * @param actionFunction The function that creates and initialises the action.
 //  * This callback takes as arguments the current user interaction.
-//  * @return The builder to chain the buiding configuration.
+//  * @return The builder to chain the building configuration.
 //  */
 // public map(final Function<I, A> actionFunction): B {
 //     actionProducer = actionFunction;
@@ -92,7 +92,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
      * Each time the interaction starts, an instance of the action is created and configured by the given callback.
      * @param initActionFct The callback method that initialises the action.
      * This callback takes as arguments both the action and interaction involved in the binding.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public first(initActionFct: (a: A, i: I) => void): B {
         this.initAction = initActionFct;
@@ -103,7 +103,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
      * Specifies the conditions to fulfill to initialise, update, or execute the action while the interaction is running.
      * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
      * This predicate takes as arguments the ongoing user interaction involved in the binding.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public when(checkAction: (i: I) => boolean): B {
         this.checkConditions = checkAction;
@@ -114,7 +114,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
     /**
      * Specifies that the action will be executed in a separated threads.
      * Beware of UI modifications: UI changes must be done in the JFX UI thread.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public async(): B {
         this._async = true;
@@ -125,7 +125,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
      * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
      * the interaction is reinitialised and the action finally executed and discarded / saved).
      * @param onEndFct The callback method to specify what to do when an interaction ends.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public end(onEndFct: (a: A, i: I) => void): B {
         this.onEnd = onEndFct;
@@ -137,7 +137,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<U
      * Several call to 'log' can be done to log different parts:
      * log(LogLevel.INTERACTION).log(LogLevel.ACTION)
      * @param level The logging level to use.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public log(level: LogLevel): B {
         this.logLevels.add(level);
