@@ -12,9 +12,9 @@
 import {FSM} from "../../src-core/fsm/FSM";
 import {InteractionImpl} from "../../src-core/interaction/InteractionImpl";
 import {OutputState} from "../../src-core/fsm/OutputState";
-import {EventRegistrationToken, MousePressEvent} from "./Events";
+import {EventRegistrationToken, EventTypeName} from "./Events";
 
-export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends InteractionImpl<Event, F> {
+export abstract class TSInteraction<F extends FSM<Event>, T> extends InteractionImpl<Event, F> {
     protected readonly _registeredNodes: Set<EventTarget>;
     /** The widget used during the interaction. */
     protected _widget ?: T | undefined;
@@ -33,7 +33,7 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
         return this._widget;
     }
 
-    protected updateEventsRegistered(newState: OutputState<UIEvent>, oldState: OutputState<UIEvent>): void {
+    protected updateEventsRegistered(newState: OutputState<Event>, oldState: OutputState<Event>): void {
         // Do nothing when the interaction has only two nodes: init node and terminal node (this is a single-event interaction).
         if (newState === oldState || this.fsm.getStates().length === 2) {
             return;
@@ -72,17 +72,21 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
         });
     }
 
-    protected onNodeUnregistered(node: EventTarget): void {
+    public onNodeUnregistered(node: EventTarget): void {
         this.getEventTypesOf(this.fsm.currentState).forEach(type => this.unregisterEventToNode(type, node));
     }
 
-    protected onNewNodeRegistered(node: EventTarget): void {
+    public onNewNodeRegistered(node: EventTarget): void {
         this.getEventTypesOf(this.fsm.currentState).forEach(type => this.registerEventToNode(type, node));
     }
 
     private registerEventToNode(eventType: string, node: EventTarget): void {
-        if (MousePressEvent.name === eventType) {
-            node.removeEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
+        if (EventTypeName.MousePressed === eventType) {
+            node.addEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
+            return;
+        }
+        if (EventTypeName.MouseClicked === eventType) {
+            node.addEventListener(EventRegistrationToken.Click, this.getMouseHandler());
             return;
         }
     }
@@ -107,8 +111,12 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
     }
 
     private unregisterEventToNode(eventType: string, node: EventTarget): void {
-        if (MousePressEvent.name === eventType) {
-            node.addEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
+        if (EventTypeName.MousePressed === eventType) {
+            node.removeEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
+            return;
+        }
+        if (EventTypeName.MouseClicked === eventType) {
+            node.removeEventListener(EventRegistrationToken.Click, this.getMouseHandler());
             return;
         }
     }

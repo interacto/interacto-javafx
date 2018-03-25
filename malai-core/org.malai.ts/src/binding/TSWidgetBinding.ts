@@ -15,7 +15,7 @@ import {TSInteraction} from "../interaction/TSInteraction";
 import {WidgetBindingImpl} from "../../src-core/binding/WidgetBindingImpl";
 import {FSM} from "../../src-core/fsm/FSM";
 
-export abstract class TSWidgetBinding<A extends ActionImpl, I extends TSInteraction<FSM<UIEvent>, {}>> extends WidgetBindingImpl<A, I> {
+export abstract class TSWidgetBinding<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>> extends WidgetBindingImpl<A, I> {
     /**
      * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
      * instrument is (de-)activated.

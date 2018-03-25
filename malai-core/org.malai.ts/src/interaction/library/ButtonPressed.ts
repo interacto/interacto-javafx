@@ -22,17 +22,17 @@ class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
         super();
     }
 
-    public buildFSM(dataHandler: ButtonPressedFSMHandler): void {
+    public buildFSM(dataHandler?: ButtonPressedFSMHandler): void {
         if (this.states.length > 1) {
             return;
         }
         super.buildFSM(dataHandler);
-        const pressed: TerminalState<UIEvent> = new TerminalState<UIEvent>(this, "pressed");
+        const pressed: TerminalState<Event> = new TerminalState<Event>(this, "pressed");
         this.addState(pressed);
 
         new class extends ButtonPressedTransition {
-            public action(event: UIEvent): void {
-                if (isButton(event.target)) {
+            public action(event: Event): void {
+                if (isButton(event.target) && dataHandler !== undefined) {
                     dataHandler.initToPressedHandler(event);
                 }
             }
@@ -58,7 +58,7 @@ export class ButtonPressed extends TSInteraction<ButtonPressedFSM, Element> {
         super(new ButtonPressedFSM());
 
         this.handler = new class implements ButtonPressedFSMHandler {
-            protected _parent: ButtonPressed;
+            private readonly _parent: ButtonPressed;
 
             constructor(parent: ButtonPressed) {
                 this._parent = parent;
@@ -79,14 +79,14 @@ export class ButtonPressed extends TSInteraction<ButtonPressedFSM, Element> {
     }
 
     public onNewNodeRegistered(node: EventTarget): void {
-        // if(node instanceof Button) {
-        this.registerActionHandler(node);
-        // }
+        if (isButton(node)) {
+            this.registerActionHandler(node);
+        }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
-        // if(node instanceof Button) {
-        this.unregisterActionHandler(node);
-        // }
+        if (isButton(node)) {
+            this.unregisterActionHandler(node);
+        }
     }
 }
