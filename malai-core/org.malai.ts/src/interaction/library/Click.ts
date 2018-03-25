@@ -17,7 +17,7 @@ import {InputState} from "../../../src-core/fsm/InputState";
 import {OutputState} from "../../../src-core/fsm/OutputState";
 import {PointInteraction} from "./PointInteraction";
 
-class ClickFSM extends TSFSM<ClickFSMHandler> {
+export class ClickFSM extends TSFSM<ClickFSMHandler> {
     private checkButton: number | undefined;
 
     public constructor() {
@@ -58,11 +58,11 @@ class ClickFSM extends TSFSM<ClickFSMHandler> {
         }(this, this.initState, clicked);
     }
 
-    protected getCheckButton(): number {
+    public getCheckButton(): number {
         return this.checkButton === undefined ? -1 : this.checkButton;
     }
 
-    protected setCheckButton(buttonToCheck: number): void {
+    public setCheckButton(buttonToCheck: number): void {
         if (this.checkButton === undefined) {
             this.checkButton = buttonToCheck;
         }

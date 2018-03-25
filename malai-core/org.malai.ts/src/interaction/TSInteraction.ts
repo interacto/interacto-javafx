@@ -41,9 +41,8 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
 
         const currEvents: Array<string> = [...this.getEventTypesOf(newState)];
         const events: Array<string> = [...this.getEventTypesOf(oldState)];
-        const eventsToRemove: Array<string> = events.filter(e => currEvents.indexOf(e) >= 0);
-        const eventsToAdd: Array<string> = currEvents.filter(e => events.indexOf(e) >= 0);
-
+        const eventsToRemove: Array<string> = events.filter(e => currEvents.indexOf(e) < 0);
+        const eventsToAdd: Array<string> = currEvents.filter(e => events.indexOf(e) < 0);
         this._registeredNodes.forEach(n => {
             eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
             eventsToAdd.forEach(type => this.registerEventToNode(type, n));
@@ -89,6 +88,10 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
             node.addEventListener(EventRegistrationToken.Click, this.getMouseHandler());
             return;
         }
+        if (EventTypeName.MouseMoved === eventType) {
+            node.addEventListener(EventRegistrationToken.MouseMove, this.getMouseHandler());
+            return;
+        }
     }
 
     protected registerActionHandler(node: EventTarget): void {
@@ -117,6 +120,10 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
         }
         if (EventTypeName.MouseClicked === eventType) {
             node.removeEventListener(EventRegistrationToken.Click, this.getMouseHandler());
+            return;
+        }
+        if (EventTypeName.MouseMoved === eventType) {
+            node.removeEventListener(EventRegistrationToken.MouseMove, this.getMouseHandler());
             return;
         }
     }

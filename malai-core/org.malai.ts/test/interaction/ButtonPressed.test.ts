@@ -23,6 +23,8 @@ beforeEach(() => {
     jest.clearAllMocks();
     handler = new StubFSMHandler();
     interaction = new ButtonPressed();
+    interaction.log(true);
+    interaction.getFsm().log(true);
     interaction.getFsm().addHandler(handler);
     document.documentElement.innerHTML = "<html><div><button id='b1'>A Button</button></div></html>";
     const elt = document.getElementById("b1");
@@ -32,7 +34,7 @@ beforeEach(() => {
 });
 
 test("Click on button starts and stops the interaction", () => {
-    interaction.onNewNodeRegistered(button);
+    interaction.registerToNodes([button]);
     button.click();
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);

@@ -11,18 +11,21 @@
 
 import {FSMHandler} from "../../src-core/fsm/FSMHandler";
 import {StubFSMHandler} from "../fsm/StubFSMHandler";
-import {Click} from "../../src/interaction/library/Click";
+import {DoubleClick} from "../../src/interaction/library/DoubleClick";
+import {EventRegistrationToken} from "../../src/interaction/Events";
+import {createMouseEvent} from "./StubEvents";
 
 jest.mock("../fsm/StubFSMHandler");
 
-let interaction: Click;
+let interaction: DoubleClick;
 let canvas: HTMLElement;
 let handler: FSMHandler;
 
 beforeEach(() => {
     jest.clearAllMocks();
+    jest.useFakeTimers();
     handler = new StubFSMHandler();
-    interaction = new Click();
+    interaction = new DoubleClick();
     interaction.log(true);
     interaction.getFsm().log(true);
     interaction.getFsm().addHandler(handler);
@@ -33,9 +36,28 @@ beforeEach(() => {
     }
 });
 
-test("Click on a canvas starts and stops the interaction", () => {
+test("Double click on a canvas starts and stops the interaction", () => {
     interaction.registerToNodes([canvas]);
+    canvas.click();
     canvas.click();
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
+});
+
+test("Move between clicks cancels the double click", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    canvas.click();
+    expect(handler.fsmStarts).not.toHaveBeenCalled();
+    expect(handler.fsmStops).not.toHaveBeenCalled();
+});
+
+test("Timout cancels the double click", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.click();
+    jest.runOnlyPendingTimers();
+    canvas.click();
+    expect(handler.fsmStarts).not.toHaveBeenCalled();
+    expect(handler.fsmStops).not.toHaveBeenCalled();
 });
