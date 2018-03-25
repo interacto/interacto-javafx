@@ -13,14 +13,16 @@ import {FSMDataHandler} from "../FSMDataHandler";
 import {TSFSM} from "../TSFSM";
 import {ButtonPressedTransition} from "../ButtonPressedTransition";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {ButtonPressEvent} from "../Events";
+import {isButton} from "../Events";
+import {TSInteraction} from "../TSInteraction";
 
-export class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
+
+class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
     public constructor() {
         super();
     }
 
-    protected buildFSM(dataHandler: ButtonPressedFSMHandler): void {
+    public buildFSM(dataHandler: ButtonPressedFSMHandler): void {
         if (this.states.length > 1) {
             return;
         }
@@ -30,7 +32,7 @@ export class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
 
         new class extends ButtonPressedTransition {
             public action(event: UIEvent): void {
-                if (event instanceof ButtonPressEvent) {
+                if (isButton(event.target)) {
                     dataHandler.initToPressedHandler(event);
                 }
             }
@@ -39,5 +41,52 @@ export class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
 }
 
 interface ButtonPressedFSMHandler extends FSMDataHandler {
-    initToPressedHandler(event: ButtonPressEvent): void;
+    initToPressedHandler(event: Event): void;
+}
+
+/**
+ * A user interaction for buttons.
+ * @author Arnaud BLOUIN
+ */
+export class ButtonPressed extends TSInteraction<ButtonPressedFSM, Element> {
+    private readonly handler: ButtonPressedFSMHandler;
+
+    /**
+     * Creates the interaction.
+     */
+    public constructor() {
+        super(new ButtonPressedFSM());
+
+        this.handler = new class implements ButtonPressedFSMHandler {
+            protected _parent: ButtonPressed;
+
+            constructor(parent: ButtonPressed) {
+                this._parent = parent;
+            }
+
+            public initToPressedHandler(event: Event): void {
+                if (isButton(event.target)) {
+                    this._parent._widget = event.currentTarget as Element;
+                }
+            }
+
+            public reinitData(): void {
+                this._parent.reinitData();
+            }
+        }(this);
+
+        this.fsm.buildFSM(this.handler);
+    }
+
+    public onNewNodeRegistered(node: EventTarget): void {
+        // if(node instanceof Button) {
+        this.registerActionHandler(node);
+        // }
+    }
+
+    public onNodeUnregistered(node: EventTarget): void {
+        // if(node instanceof Button) {
+        this.unregisterActionHandler(node);
+        // }
+    }
 }

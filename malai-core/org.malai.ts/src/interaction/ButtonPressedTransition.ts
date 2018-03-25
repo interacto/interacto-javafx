@@ -12,22 +12,22 @@
 import {TSTransition} from "./TSTransition";
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
-import {ButtonPressEvent} from "./Events";
+import {EventTypeName, isButton} from "./Events";
 
 export abstract class ButtonPressedTransition extends TSTransition {
     public constructor(srcState: OutputState<UIEvent>, tgtState: InputState<UIEvent>) {
         super(srcState, tgtState);
     }
 
-    public accept(e: UIEvent): boolean {
-        return e instanceof ButtonPressEvent;
+    public accept(e: Event): boolean {
+        return isButton(e.target);
     }
 
     public getAcceptedEvents(): Set<string> {
-        return new Set([ButtonPressEvent.name]);
+        return new Set([EventTypeName.ButtonPressed]);
     }
 
-    public isGuardOK(event: UIEvent): boolean {
+    public isGuardOK(event: Event): boolean {
         return true;
     }
 }

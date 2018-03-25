@@ -14,15 +14,16 @@ import {InteractionImpl} from "../../src-core/interaction/InteractionImpl";
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {EventRegistrationToken, MousePressEvent} from "./Events";
 
-export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends InteractionImpl<UIEvent, F> {
-    protected registeredNodes: Set<EventTarget>;
+export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends InteractionImpl<Event, F> {
+    protected readonly _registeredNodes: Set<EventTarget>;
     /** The widget used during the interaction. */
-    protected _widget ?: T;
+    protected _widget ?: T | undefined;
     private mouseHandler ?: (e: MouseEvent) => void;
+    private actionHandler: EventListener | undefined;
 
     protected constructor(fsm: F) {
         super(fsm);
-        this.registeredNodes = new Set();
+        this._registeredNodes = new Set<EventTarget>();
     }
 
     /**
@@ -43,7 +44,7 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
         const eventsToRemove: Array<string> = events.filter(e => currEvents.indexOf(e) >= 0);
         const eventsToAdd: Array<string> = currEvents.filter(e => events.indexOf(e) >= 0);
 
-        this.registeredNodes.forEach(n => {
+        this._registeredNodes.forEach(n => {
             eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
             eventsToAdd.forEach(type => this.registerEventToNode(type, n));
         });
@@ -58,11 +59,17 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
     }
 
     public registerToNodes(widgets: Array<EventTarget>): void {
-        widgets.forEach(w => this.registeredNodes.add(w));
+        widgets.forEach(w => {
+            this._registeredNodes.add(w);
+            this.onNewNodeRegistered(w);
+        });
     }
 
     public unregisterFromNodes(widgets: Array<EventTarget>): void {
-        widgets.forEach(w => this.registeredNodes.delete(w));
+        widgets.forEach(w => {
+            this._registeredNodes.delete(w);
+            this.onNodeUnregistered(w);
+        });
     }
 
     protected onNodeUnregistered(node: EventTarget): void {
@@ -78,6 +85,25 @@ export abstract class TSInteraction<F extends FSM<UIEvent>, T> extends Interacti
             node.removeEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
             return;
         }
+    }
+
+    protected registerActionHandler(node: EventTarget): void {
+        node.addEventListener(EventRegistrationToken.Click, this.getActionHandler());
+    }
+
+    protected unregisterActionHandler(node: EventTarget): void {
+        node.removeEventListener(EventRegistrationToken.Click, this.getActionHandler());
+    }
+
+    protected getActionHandler(): EventListener {
+        if (this.actionHandler === undefined) {
+            this.actionHandler = evt => this.processEvent(evt);
+        }
+        return this.actionHandler;
+    }
+
+    public reinitData(): void {
+        this._widget = undefined;
     }
 
     private unregisterEventToNode(eventType: string, node: EventTarget): void {
