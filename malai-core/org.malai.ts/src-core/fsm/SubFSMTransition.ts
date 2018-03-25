@@ -77,7 +77,6 @@ export class SubFSMTransition<E> extends Transition<E> {
             this.src.getFSM().stopCurrentTimeout();
             const transition: Optional<Transition<E>> = this.findTransition(event);
             if (transition.isPresent()) {
-                console.log(this.subFSMHandler);
                 this.subFSM.addHandler(this.subFSMHandler);
                 this.src.getFSM().setCurrentSubFSM(this.subFSM);
                 this.subFSM.process(event);

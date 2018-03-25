@@ -10,24 +10,31 @@
  */
 
 import {TSTransition} from "./TSTransition";
-import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
+import {OutputState} from "../../src-core/fsm/OutputState";
 import {EventRegistrationToken, EventTypeName} from "./Events";
 
-export abstract class PressureTransition extends TSTransition {
+/**
+ * This transition corresponds to a pressure of a button of a pointing device.
+ * @author Arnaud BLOUIN
+ */
+export class MoveTransition extends TSTransition {
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 
-    public accept(e: Event): boolean {
-        return e.type === EventRegistrationToken.MouseDown ;
-    }
-
-    public getAcceptedEvents(): Set<string> {
-        return new Set([EventTypeName.MousePressed]);
+    public accept(event: Event): boolean {
+        return event instanceof MouseEvent && event.type === EventRegistrationToken.MouseMove;
     }
 
     public isGuardOK(event: Event): boolean {
         return true;
+    }
+
+    public getAcceptedEvents(): Set<string> {
+        return new Set([EventTypeName.MouseMoved]);
     }
 }

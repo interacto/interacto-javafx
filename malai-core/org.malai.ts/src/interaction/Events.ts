@@ -22,6 +22,7 @@ export enum EventRegistrationToken {
 export enum EventTypeName {
     ButtonPressed = "ButtonPressedEvent",
     MouseClicked = "MouseClickedEvent",
+    MouseMoved = "MouseMovedEvent",
     MousePressed = "MousePressedEvent"
 }
 
