@@ -78,7 +78,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	/**
 	 * Specifies the widgets on which the binding must operate.
 	 * @param widget The widgets involve in the bindings.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B on(final W... widget) {
 		widgets.addAll(Arrays.asList(widget));
@@ -91,7 +91,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * When a widget is added to this list, the added widget is binded to this binding.
 	 * When widget is removed from this list, this widget is unbinded from this binding.
 	 * @param widgets The observable list of the widgets involved in the bindings.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B on(final ObservableList<? extends Node> widgets) {
 		if(additionalWidgets == null) {
@@ -108,7 +108,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * Each time the interaction starts, an instance of the action is created and configured by the given callback.
 	 * @param actionFunction The function that creates and initialises the action.
 	 * This callback takes as arguments the current user interaction.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B map(final Function<I, A> actionFunction) {
 		actionProducer = actionFunction;
@@ -120,7 +120,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * Each time the interaction starts, an instance of the action is created and configured by the given callback.
 	 * @param initActionFct The callback method that initialises the action.
 	 * This callback takes as arguments the action to configure.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B first(final Consumer<A> initActionFct) {
 		if(initActionFct != null) {
@@ -134,7 +134,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * Each time the interaction starts, an instance of the action is created and configured by the given callback.
 	 * @param initActionFct The callback method that initialises the action.
 	 * This callback takes as arguments both the action and interaction involved in the binding.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B first(final BiConsumer<A, I> initActionFct) {
 		initAction = initActionFct;
@@ -145,7 +145,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * Specifies the conditions to fulfill to initialise, update, or execute the action while the interaction is running.
 	 * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
 	 * This predicate takes as arguments the ongoing user interaction involved in the binding.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B when(final Predicate<I> checkAction) {
 		checkConditions = checkAction;
@@ -155,7 +155,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	/**
 	 * Specifies the conditions to fulfill to initialise, update, or execute the action while the interaction is running.
 	 * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B when(final BooleanSupplier checkAction) {
 		checkConditions = i -> checkAction.getAsBoolean();
@@ -165,7 +165,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	/**
 	 * Specifies that the action will be executed in a separated threads.
 	 * Beware of UI modifications: UI changes must be done in the JFX UI thread.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp) {
 		async = true;
@@ -179,7 +179,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
 	 * the interaction is reinitialised and the action finally executed and discarded / saved).
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B end(final BiConsumer<A, I> onEndFct) {
 		onEnd = onEndFct;
@@ -191,7 +191,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * Several call to 'log' can be done to log different parts:
 	 * log(LogLevel.INTERACTION).log(LogLevel.ACTION)
 	 * @param level The logging level to use.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B log(final LogLevel level) {
 		if(logLevels == null) {
@@ -204,7 +204,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	/**
 	 * Uses the given animation to explain how the binding works.
 	 * @param animation The animation to play. If null, the default animation of the user interaction is used (if defined).
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B help(final HelpAnimation animation) {
 		helpAnimation = animation;
@@ -215,7 +215,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	/**
 	 * Uses the default help animation of the user interaction to explain how the binding works.
 	 * @param helpPane The pane where the animation will be played.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B help(final Pane helpPane) {
 		withHelp = true;
