@@ -39,7 +39,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testActionExecutedOnSingleButton() throws InstantiationException, IllegalAccessException {
+	public void testActionExecutedOnSingleButton() {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
 			end((a, i) -> assertEquals(1, a.exec.get())).
@@ -49,7 +49,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testActionExecutedOnTwoMenus() throws InstantiationException, IllegalAccessException {
+	public void testActionExecutedOnTwoMenus() {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1, widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
@@ -61,7 +61,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testInit1Executed() throws InstantiationException, IllegalAccessException {
+	public void testInit1Executed() {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
 			first(a -> a.exec.setValue(10)).
@@ -72,7 +72,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testInit2Executed() throws InstantiationException, IllegalAccessException {
+	public void testInit2Executed() {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
 			first((a, i) -> a.exec.setValue(10)).
@@ -83,7 +83,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
+	public void testCheckFalse() {
 		new MenuItemBinder<>(StubAction.class, instrument).
 			on(widget1).
 			when(i -> false).

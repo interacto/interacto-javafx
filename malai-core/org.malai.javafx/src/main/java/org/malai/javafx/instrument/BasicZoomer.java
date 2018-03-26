@@ -53,7 +53,7 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 
 
 	@Override
-	protected void configureBindings() throws IllegalAccessException, InstantiationException {
+	protected void configureBindings() {
 		if(withKeys) {
 			nodeBinder(Zoom.class, new KeyPressed(false)).on(zoomable).
 				first((a, i) -> {

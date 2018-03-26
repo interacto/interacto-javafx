@@ -20,7 +20,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	}
 
 	@Test
-	public void testActionExecutedOnSingleButton() throws InstantiationException, IllegalAccessException {
+	public void testActionExecutedOnSingleButton() {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
 			end((a, i) -> assertEquals(1, a.exec.get())).
@@ -30,7 +30,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	}
 
 	@Test
-	public void testActionExecutedOnTwoComboboxes() throws InstantiationException, IllegalAccessException {
+	public void testActionExecutedOnTwoComboboxes() {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1, widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
@@ -42,7 +42,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	}
 
 	@Test
-	public void testInit1Executed() throws InstantiationException, IllegalAccessException {
+	public void testInit1Executed() {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
 			first(a -> a.exec.setValue(10)).
@@ -53,7 +53,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	}
 
 	@Test
-	public void testInit2Executed() throws InstantiationException, IllegalAccessException {
+	public void testInit2Executed() {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
 			first((a, i) -> a.exec.setValue(10)).
@@ -64,7 +64,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	}
 
 	@Test
-	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
+	public void testCheckFalse() {
 		new ComboBoxBinder<>(StubAction.class, instrument).
 			on(widget1).
 			when(i -> false).

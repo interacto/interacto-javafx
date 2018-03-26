@@ -32,12 +32,9 @@ public class MenuItem2ShowStage extends JfxMenuItemBinding<ShowStage, MenuItemPr
 	 * @param menuItem he menu item that will be uses to create the action.
 	 * @param stage The stage to show or hide
 	 * @throws IllegalArgumentException If one of the given parameters is null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow) throws InstantiationException,
-		IllegalAccessException {
+	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow) {
 		super(ins, false, ShowStage.class, new MenuItemPressed(), Collections.singletonList(menuItem));
 
 		if(stage == null) {

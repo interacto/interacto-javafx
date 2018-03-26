@@ -16,7 +16,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testActionExecutedOnSingleButton() throws InstantiationException, IllegalAccessException {
+	public void testActionExecutedOnSingleButton() {
 		new ButtonBinder<>(StubAction.class, instrument).
 			on(widget1).
 			end((a, i) -> assertEquals(1, a.exec.get())).
@@ -26,7 +26,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testActionExecutedOnTwoButtons() throws InstantiationException, IllegalAccessException {
+	public void testActionExecutedOnTwoButtons() {
 		new ButtonBinder<>(StubAction.class, instrument).
 			on(widget1, widget2).
 			end((a, i) -> assertEquals(1, a.exec.get())).
@@ -38,7 +38,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testInit1Executed() throws InstantiationException, IllegalAccessException {
+	public void testInit1Executed() {
 		new ButtonBinder<>(StubAction.class, instrument).
 			on(widget1).
 			first(a -> a.exec.setValue(10)).
@@ -49,7 +49,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testInit2Executed() throws InstantiationException, IllegalAccessException {
+	public void testInit2Executed() {
 		new ButtonBinder<>(StubAction.class, instrument).
 			on(widget1).
 			first((a, i) -> a.exec.setValue(10)).
@@ -60,7 +60,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testCheckFalse() throws InstantiationException, IllegalAccessException {
+	public void testCheckFalse() {
 		new ButtonBinder<>(StubAction.class, instrument).
 			on(widget1).
 			when(i -> false).

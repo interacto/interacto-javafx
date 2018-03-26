@@ -22,7 +22,7 @@ public class TestAnonActionBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testActionExecutedOnSingleButton() throws InstantiationException, IllegalAccessException {
+	public void testActionExecutedOnSingleButton() {
 		new AnonActionBinder<>(() -> a.foo(), new ButtonPressed(), instrument).on(widget1).bind();
 		clickOn(widget1);
 		Mockito.verify(a, Mockito.times(1)).foo();

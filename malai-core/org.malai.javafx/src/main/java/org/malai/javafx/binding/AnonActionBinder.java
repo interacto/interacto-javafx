@@ -26,7 +26,7 @@ public class AnonActionBinder<W, I extends JfxInteraction<?, ?>> extends Binder<
 	}
 
 	@Override
-	public JfXWidgetBinding<AnonAction, I, ?> bind() throws IllegalAccessException, InstantiationException {
+	public JfXWidgetBinding<AnonAction, I, ?> bind() {
 		final AnonJfxWidgetBinding<I, JfxInstrument> binding = new AnonJfxWidgetBinding<>(instrument, false, action, interaction,
 			null, null, checkConditions, onEnd, actionProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);

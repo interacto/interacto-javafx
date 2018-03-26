@@ -26,7 +26,7 @@ public class KeyNodeBinder<A extends ActionImpl> extends KeyBinder<Node, A, KeyN
 	}
 
 	@Override
-	public JfXWidgetBinding<A, KeysPressed, ?> bind() throws IllegalAccessException, InstantiationException {
+	public JfXWidgetBinding<A, KeysPressed, ?> bind() {
 		final JFxAnonNodeBinding<A, KeysPressed, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction,
 			initAction, null, checkCode, onEnd, actionProducer, null, null, null,
 			widgets, additionalWidgets, async, false, logLevels, withHelp, helpAnimation);

@@ -33,12 +33,9 @@ public class MenuItem2ShowLazyStage extends JfxMenuItemBinding<ShowStage, MenuIt
 	 * @param menuItem he menu item that will be uses to create the action.
 	 * @param stageLazy The stage to show or hide (the creation of the stage can be postponed at the execution of the action).
 	 * @throws IllegalArgumentException If one of the given parameters is null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2ShowLazyStage(final JfxInstrument ins, final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow) throws
-		InstantiationException, IllegalAccessException {
+	public MenuItem2ShowLazyStage(final JfxInstrument ins, final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow) {
 		super(ins, false, ShowStage.class, new MenuItemPressed(), Collections.singletonList(menuItem));
 
 		if(stageLazy == null) {
