@@ -34,7 +34,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	}
 
 	@Test
-	public void testCanCancelDnD() throws InstantiationException, IllegalAccessException {
+	public void testCanCancelDnD() {
 		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
 			map(i -> new MoveShape(rec)).
 			on(rec).
@@ -49,7 +49,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	}
 
 	@Test
-	public void testCanCancelDnDWithObsList() throws InstantiationException, IllegalAccessException {
+	public void testCanCancelDnDWithObsList() {
 		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
 			map(i -> new MoveShape((Rectangle) i.getSrcObject().get())).
 			on(widget1.getChildren()).

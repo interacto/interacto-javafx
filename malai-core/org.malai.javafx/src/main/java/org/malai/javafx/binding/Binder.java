@@ -225,9 +225,8 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	/**
 	 * Executes the builder to create and install the binding on the instrument.
 	 * @throws IllegalArgumentException On issues while creating the actions.
-	 * @throws InstantiationException On issues while creating the actions.
 	 */
-	public JfXWidgetBinding<A, I, ?> bind() throws IllegalAccessException, InstantiationException {
+	public JfXWidgetBinding<A, I, ?> bind() {
 		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
 			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);

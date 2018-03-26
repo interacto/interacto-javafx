@@ -31,11 +31,9 @@ public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, Men
 	 * @param menuItem he menu item that will be uses to create the action.
 	 * @param uri The URI to open.
 	 * @throws IllegalArgumentException If one of the given parameters is null.
-	 * @throws IllegalAccessException If no free-parameter constructor is available.
-	 * @throws InstantiationException If an error occurs during instantiation of the interaction/action.
 	 * @since 2.0
 	 */
-	public MenuItem2OpenWebPage(final JfxInstrument ins, final MenuItem menuItem, final URI uri) throws InstantiationException, IllegalAccessException {
+	public MenuItem2OpenWebPage(final JfxInstrument ins, final MenuItem menuItem, final URI uri) {
 		super(ins, false, OpenWebPageJFX.class, new MenuItemPressed(), Collections.singletonList(menuItem));
 
 		if(uri == null) {

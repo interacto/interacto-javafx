@@ -46,7 +46,7 @@ public class MenuItemBinder<A extends ActionImpl> extends Binder<MenuItem, A, Me
 	}
 
 	@Override
-	public JfXWidgetBinding<A, MenuItemPressed, ?> bind() throws IllegalAccessException, InstantiationException {
+	public JfXWidgetBinding<A, MenuItemPressed, ?> bind() {
 		final JFxAnonMenuBinding<A, MenuItemPressed, JfxInstrument> binding = new JFxAnonMenuBinding<>(instrument, false, actionClass, interaction,
 			initAction, checkConditions, onEnd, actionProducer, widgets, additionalMenus);
 		binding.setProgressBarProp(progressProp);

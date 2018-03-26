@@ -42,7 +42,7 @@ public class TestKeyLost extends ApplicationTest {
 	}
 
 	@BeforeEach
-	void setUp() throws InstantiationException, IllegalAccessException {
+	void setUp() {
 		WaitForAsyncUtils.waitForFxEvents();
 		Platform.runLater(() -> canvas.requestFocus());
 		WaitForAsyncUtils.waitForFxEvents();
@@ -92,8 +92,7 @@ public class TestKeyLost extends ApplicationTest {
 		Action lastCreatedAction = null;
 
 		@Override
-		protected void configureBindings() throws InstantiationException, IllegalAccessException {
-
+		protected void configureBindings() {
 		}
 
 		@Override

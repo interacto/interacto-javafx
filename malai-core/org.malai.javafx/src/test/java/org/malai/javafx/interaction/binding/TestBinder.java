@@ -41,8 +41,7 @@ public abstract class TestBinder<W> extends ApplicationTest {
 		Action lastCreatedAction = null;
 
 		@Override
-		protected void configureBindings() throws InstantiationException, IllegalAccessException {
-
+		protected void configureBindings() {
 		}
 
 		@Override
