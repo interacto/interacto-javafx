@@ -57,7 +57,7 @@ export class DoubleClickFSM extends TSFSM<FSMDataHandler> {
         this.sndClick = new ClickFSM();
     }
 
-    public buildFSM(dataHandler: FSMDataHandler): void {
+    public buildFSM(dataHandler?: FSMDataHandler): void {
         if (this.states.length > 1) {
             return;
         }
@@ -105,15 +105,15 @@ export class DoubleClickFSM extends TSFSM<FSMDataHandler> {
         new SubFSMTransition<Event>(clicked, dbleclicked, this.sndClick);
     }
 
-    protected setCheckButton(buttonToCheck: number): void {
+    public setCheckButton(buttonToCheck: number): void {
         if (this.checkButton === undefined) {
             this.checkButton = buttonToCheck;
         }
         this.sndClick.setCheckButton(buttonToCheck);
     }
 
-    protected getCheckButton(): number | undefined {
-        return this.checkButton;
+    public getCheckButton(): number {
+        return this.checkButton === undefined ? -1 : this.checkButton;
     }
 
     public reinit(): void {

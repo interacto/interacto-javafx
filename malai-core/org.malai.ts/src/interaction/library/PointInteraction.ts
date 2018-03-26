@@ -75,8 +75,8 @@ export abstract class PointInteraction<F extends FSM<Event>, T> extends TSIntera
         return this.metaPressed;
     }
 
-    public getButton(): number {
-        return this.button === undefined ? -1 : this.button;
+    public getButton(): number | undefined {
+        return this.button;
     }
 
     public getSrcObject(): Optional<EventTarget> {

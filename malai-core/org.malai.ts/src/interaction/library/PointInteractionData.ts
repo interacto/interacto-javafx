@@ -55,7 +55,7 @@ export interface PointInteractionData {
     /**
      * @return The button used for the pressure.
      */
-    getButton(): number;
+    getButton(): number | undefined;
 
     /**
      * @return The object picked at the pressed position.

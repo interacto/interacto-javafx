@@ -10,24 +10,31 @@
  */
 
 import {TSTransition} from "./TSTransition";
-import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
+import {OutputState} from "../../src-core/fsm/OutputState";
 import {EventRegistrationToken} from "./Events";
 
-export abstract class PressureTransition extends TSTransition {
+/**
+ * A transition for a pressure of a key of a keyboard.
+ * @author Arnaud BLOUIN
+ */
+export class KeyPressureTransition extends TSTransition {
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 
-    public accept(e: Event): boolean {
-        return e.type === EventRegistrationToken.MouseDown ;
-    }
-
-    public getAcceptedEvents(): Set<string> {
-        return new Set([EventRegistrationToken.MouseDown]);
+    public accept(event: Event): boolean {
+        return event instanceof KeyboardEvent && event.type === EventRegistrationToken.KeyDown;
     }
 
     public isGuardOK(event: Event): boolean {
         return true;
+    }
+
+    public getAcceptedEvents(): Set<string> {
+        return new Set([EventRegistrationToken.KeyDown]);
     }
 }

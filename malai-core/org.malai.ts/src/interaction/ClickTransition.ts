@@ -12,7 +12,7 @@
 import {TSTransition} from "./TSTransition";
 import {InputState} from "../../src-core/fsm/InputState";
 import {OutputState} from "../../src-core/fsm/OutputState";
-import {EventTypeName} from "./Events";
+import {EventRegistrationToken} from "./Events";
 
 /**
  * This transition corresponds to a pressure of a button of a pointing device.
@@ -35,6 +35,6 @@ export class ClickTransition extends TSTransition {
     }
 
     public getAcceptedEvents(): Set<string> {
-        return new Set([EventTypeName.MouseClicked]);
+        return new Set([EventRegistrationToken.Click]);
     }
 }
