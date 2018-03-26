@@ -9,25 +9,21 @@
  * General Public License for more details.
  */
 
-import {TSTransition} from "./TSTransition";
-import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
-import {EventRegistrationToken} from "./Events";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {KeyCode} from "./Events";
+import {KeyPressureTransition} from "./KeyPressureTransition";
 
-export abstract class PressureTransition extends TSTransition {
+/**
+ * This transition should be used to cancel an interaction using key ESCAPE.
+ * @author Arnaud BLOUIN
+ */
+export class EscapeKeyPressureTransition extends KeyPressureTransition {
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 
-    public accept(e: Event): boolean {
-        return e.type === EventRegistrationToken.MouseDown ;
-    }
-
-    public getAcceptedEvents(): Set<string> {
-        return new Set([EventRegistrationToken.MouseDown]);
-    }
-
     public isGuardOK(event: Event): boolean {
-        return true;
+        return event instanceof KeyboardEvent && (event.keyCode === KeyCode.ESCAPE || event.code === String(KeyCode.ESCAPE));
     }
 }

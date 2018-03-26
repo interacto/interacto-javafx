@@ -10,8 +10,30 @@
  */
 
 export function createMouseEvent(type: string, target: EventTarget): MouseEvent {
-    const evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent(type, true, false, window, 1, 2, 2, 2,
-        2, false, false, false, false, 0, target);
-    return evt;
+    return new MouseEvent(type, {
+        view: window,
+        bubbles: true,
+        cancelable: false,
+        detail: 1,
+        screenX: 20,
+        screenY: 30,
+        clientX: 2,
+        clientY: 3,
+        ctrlKey: false,
+        altKey: false,
+        shiftKey: false,
+        metaKey: false,
+        button: 0,
+        relatedTarget: target
+    });
+}
+
+export function createKeyEvent(type: string, keyCode: string): KeyboardEvent {
+    return new KeyboardEvent(type, {
+        cancelable: false,
+        bubbles: true,
+        view: window,
+        code: keyCode,
+        repeat: false
+    });
 }

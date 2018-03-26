@@ -12,13 +12,14 @@
 import {FSM} from "../../src-core/fsm/FSM";
 import {InteractionImpl} from "../../src-core/interaction/InteractionImpl";
 import {OutputState} from "../../src-core/fsm/OutputState";
-import {EventRegistrationToken, EventTypeName} from "./Events";
+import {EventRegistrationToken} from "./Events";
 
 export abstract class TSInteraction<F extends FSM<Event>, T> extends InteractionImpl<Event, F> {
     protected readonly _registeredNodes: Set<EventTarget>;
     /** The widget used during the interaction. */
-    protected _widget ?: T | undefined;
-    private mouseHandler ?: (e: MouseEvent) => void;
+    protected _widget: T | undefined;
+    private mouseHandler: ((e: MouseEvent) => void) | undefined;
+    private keyHandler: ((e: KeyboardEvent) => void) | undefined;
     private actionHandler: EventListener | undefined;
 
     protected constructor(fsm: F) {
@@ -80,16 +81,28 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
     }
 
     private registerEventToNode(eventType: string, node: EventTarget): void {
-        if (EventTypeName.MousePressed === eventType) {
+        if (EventRegistrationToken.MouseDown === eventType) {
             node.addEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
             return;
         }
-        if (EventTypeName.MouseClicked === eventType) {
+        if (EventRegistrationToken.MouseUp === eventType) {
+            node.addEventListener(EventRegistrationToken.MouseUp, this.getMouseHandler());
+            return;
+        }
+        if (EventRegistrationToken.Click === eventType) {
             node.addEventListener(EventRegistrationToken.Click, this.getMouseHandler());
             return;
         }
-        if (EventTypeName.MouseMoved === eventType) {
+        if (EventRegistrationToken.MouseMove === eventType) {
             node.addEventListener(EventRegistrationToken.MouseMove, this.getMouseHandler());
+            return;
+        }
+        if (EventRegistrationToken.KeyDown === eventType) {
+            node.addEventListener(EventRegistrationToken.KeyDown, this.getKeyHandler());
+            return;
+        }
+        if (EventRegistrationToken.KeyUp === eventType) {
+            node.addEventListener(EventRegistrationToken.KeyUp, this.getKeyHandler());
             return;
         }
     }
@@ -114,16 +127,28 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
     }
 
     private unregisterEventToNode(eventType: string, node: EventTarget): void {
-        if (EventTypeName.MousePressed === eventType) {
+        if (EventRegistrationToken.MouseDown === eventType) {
             node.removeEventListener(EventRegistrationToken.MouseDown, this.getMouseHandler());
             return;
         }
-        if (EventTypeName.MouseClicked === eventType) {
+        if (EventRegistrationToken.MouseUp === eventType) {
+            node.removeEventListener(EventRegistrationToken.MouseUp, this.getMouseHandler());
+            return;
+        }
+        if (EventRegistrationToken.Click === eventType) {
             node.removeEventListener(EventRegistrationToken.Click, this.getMouseHandler());
             return;
         }
-        if (EventTypeName.MouseMoved === eventType) {
+        if (EventRegistrationToken.MouseMove === eventType) {
             node.removeEventListener(EventRegistrationToken.MouseMove, this.getMouseHandler());
+            return;
+        }
+        if (EventRegistrationToken.KeyDown === eventType) {
+            node.removeEventListener(EventRegistrationToken.KeyDown, this.getKeyHandler());
+            return;
+        }
+        if (EventRegistrationToken.KeyUp === eventType) {
+            node.removeEventListener(EventRegistrationToken.KeyUp, this.getKeyHandler());
             return;
         }
     }
@@ -133,5 +158,12 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
             this.mouseHandler = evt => this.processEvent(evt);
         }
         return this.mouseHandler;
+    }
+
+    protected getKeyHandler(): (e: KeyboardEvent) => void {
+        if (this.keyHandler === undefined) {
+            this.keyHandler = evt => this.processEvent(evt);
+        }
+        return this.keyHandler;
     }
 }
