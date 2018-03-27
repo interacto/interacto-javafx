@@ -80,7 +80,8 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	 * @param widget The widgets involve in the bindings.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B on(final W... widget) {
+	@SafeVarargs
+	public final B on(final W... widget) {
 		widgets.addAll(Arrays.asList(widget));
 		return (B) this;
 	}
