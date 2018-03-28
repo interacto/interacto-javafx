@@ -37,7 +37,7 @@ export abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
      */
     protected modified: boolean;
 
-    public constructor() {
+    protected constructor() {
         this.activated = false;
         this.modified = false;
         this.bindings = new MArray();

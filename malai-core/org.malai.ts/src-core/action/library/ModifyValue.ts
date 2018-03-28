@@ -24,7 +24,7 @@ export abstract class ModifyValue extends ActionImpl {
      */
     protected value: Object | undefined;
 
-    public constructor(value?: Object) {
+    protected constructor(value?: Object) {
         super();
         this.value = value;
     }

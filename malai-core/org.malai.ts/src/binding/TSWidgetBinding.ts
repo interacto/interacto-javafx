@@ -26,7 +26,7 @@ export abstract class TSWidgetBinding<A extends ActionImpl, I extends TSInteract
      * @param widgets The widgets concerned by the binding. Cannot be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    public constructor(exec: boolean, clazzAction: () => A, interaction: I, widgets: Array<EventTarget>) {
+    protected constructor(exec: boolean, clazzAction: () => A, interaction: I, widgets: Array<EventTarget>) {
         super(exec, clazzAction, interaction);
         interaction.registerToNodes(widgets);
     }

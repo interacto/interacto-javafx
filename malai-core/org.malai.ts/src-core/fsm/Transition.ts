@@ -18,7 +18,7 @@ export abstract class Transition<E> {
 
     public readonly tgt: InputState<E>;
 
-    constructor(srcState: OutputState<E>, tgtState: InputState<E>) {
+    protected constructor(srcState: OutputState<E>, tgtState: InputState<E>) {
         this.src = srcState;
         this.tgt = tgtState;
         this.src.addTransition(this);

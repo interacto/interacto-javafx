@@ -27,7 +27,7 @@ export abstract class WidgetTransition<E, T> extends Transition<E> {
      */
     protected widget: T;
 
-    public constructor(srcState: OutputState<E>, tgtState: InputState<E>) {
+    protected constructor(srcState: OutputState<E>, tgtState: InputState<E>) {
         super(srcState, tgtState);
     }
 

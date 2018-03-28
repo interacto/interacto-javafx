@@ -26,7 +26,7 @@ export abstract class InstrumentAction extends ActionImpl {
      */
     protected instrument: Instrument<WidgetBinding> | undefined;
 
-    public constructor(instrument?: Instrument<WidgetBinding>) {
+    protected constructor(instrument?: Instrument<WidgetBinding>) {
         super();
         this.instrument = instrument;
     }

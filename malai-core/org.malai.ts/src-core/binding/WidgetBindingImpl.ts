@@ -69,7 +69,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
      */
     private readonly actionProducer: (i: I) => A;
 
-    public constructor(/* ins : N,  */ exec: boolean, actionClass: (i: I) => A, interaction: I) {
+    protected constructor(/* ins : N,  */ exec: boolean, actionClass: (i: I) => A, interaction: I) {
         this.execute = false;
         this.async = false;
         this.actionProducer = actionClass;

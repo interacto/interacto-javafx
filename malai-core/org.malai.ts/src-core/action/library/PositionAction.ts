@@ -29,7 +29,7 @@ export abstract class PositionAction extends ActionImpl {
      */
     protected py: number;
 
-    public constructor() {
+    protected constructor() {
         super();
         this.px = NaN;
         this.py = NaN;

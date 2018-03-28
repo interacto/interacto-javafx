@@ -30,7 +30,7 @@ export abstract class UpdateBinder<A extends ActionImpl, I extends TSInteraction
     protected execOnChanges: boolean;
     protected _strictStart: boolean;
 
-    public constructor(actionProducer: () => A, interaction: I) {
+    protected constructor(actionProducer: () => A, interaction: I) {
         super(actionProducer, interaction);
         this.updateFct = () => {};
         this.cancelFct = () => {};
