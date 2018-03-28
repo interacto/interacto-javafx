@@ -16,29 +16,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import javafx.scene.input.KeyCode;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.KeysPressed;
 
 /**
- * The base binding builder to create bindings between a keys pressure interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The base binding builder to create bindings between a keys pressure interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @param <W> The type of the widget to bind.
  * @author Arnaud Blouin
  */
-public abstract class KeyBinder<W, A extends ActionImpl, B extends KeyBinder<W, A, B>> extends Binder<W, A, KeysPressed, B> {
+public abstract class KeyBinder<W, C extends CommandImpl, B extends KeyBinder<W, C, B>> extends Binder<W, C, KeysPressed, B> {
 	final Collection<KeyCode> codes;
 	final Predicate<KeysPressed> checkCode;
 
-	public KeyBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new KeysPressed(), instrument);
+	public KeyBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new KeysPressed(), instrument);
 		codes = new ArrayList<>();
 
 		checkCode = interaction -> {
 			final List<KeyCode> keys = interaction.getKeyCodes();
 
-			return (codes.isEmpty() || codes.size() == keys.size() && codes.stream().allMatch(code -> keys.contains(code))) &&
-				(checkConditions == null || checkConditions.test(interaction));
+			return (codes.isEmpty() || codes.size() == keys.size() && keys.containsAll(codes)) && (checkConditions == null || checkConditions.test(interaction));
 		};
 	}
 

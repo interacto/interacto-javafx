@@ -1,9 +1,10 @@
 package org.malai.instrument;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.malai.action.Action;
-import org.malai.action.ActionImplStub;
+import org.malai.command.Command;
+import org.malai.command.CommandImplStub;
 import org.malai.binding.WidgetBinding;
 import org.malai.binding.WidgetBindingImpl;
 import org.malai.error.ErrorCatcher;
@@ -27,7 +28,7 @@ public class TestInteractor {
 		instrument = new StubInstrument() {
 			@Override
 			protected void configureBindings() {
-				TestInteractor.this.interactor = new StubInteractor(instrument, false, ActionImplStub.class, new InteractionMock());
+				TestInteractor.this.interactor = new StubInteractor(instrument, false, CommandImplStub.class, new InteractionMock());
 				addBinding(interactor);
 			}
 		};
@@ -35,9 +36,14 @@ public class TestInteractor {
 		ErrorCatcher.INSTANCE.setNotifier(exception -> fail(exception.toString()));
 	}
 
+	@AfterEach
+	void tearDown() {
+		ErrorCatcher.INSTANCE.setNotifier(null);
+	}
+
 	@Test
 	void testConstructorInstrumentNull() {
-		assertThrows(IllegalArgumentException.class, () -> new StubInteractor(null, false, ActionImplStub.class, new InteractionMock()));
+		assertThrows(IllegalArgumentException.class, () -> new StubInteractor(null, false, CommandImplStub.class, new InteractionMock()));
 	}
 
 	@Test
@@ -47,7 +53,7 @@ public class TestInteractor {
 
 	@Test
 	void testConstructorInteractionNull() {
-		assertThrows(IllegalArgumentException.class, () -> new StubInteractor(instrument, false, ActionImplStub.class, null));
+		assertThrows(IllegalArgumentException.class, () -> new StubInteractor(instrument, false, CommandImplStub.class, null));
 	}
 
 	@Test
@@ -57,7 +63,7 @@ public class TestInteractor {
 
 	@Test
 	void testConstructorCreatedActionIsNull() {
-		assertNull(interactor.getAction());
+		assertNull(interactor.getCommand());
 	}
 
 	@Test
@@ -81,7 +87,7 @@ public class TestInteractor {
 
 	@Test
 	void testExecuteOK() {
-		interactor = new StubInteractor(instrument, true, ActionImplStub.class, new InteractionMock());
+		interactor = new StubInteractor(instrument, true, CommandImplStub.class, new InteractionMock());
 		assertTrue(interactor.isExecute());
 	}
 
@@ -120,7 +126,7 @@ public class TestInteractor {
 		interactor.mustCancel = false;
 		instrument.setActivated(false);
 		interactor.fsmStarts();
-		assertNull(interactor.getAction());
+		assertNull(interactor.getCommand());
 	}
 
 	@Test
@@ -129,7 +135,7 @@ public class TestInteractor {
 		instrument.setActivated(true);
 		interactor.conditionRespected = false;
 		interactor.fsmStarts();
-		assertNull(interactor.getAction());
+		assertNull(interactor.getCommand());
 	}
 
 	@Test
@@ -143,7 +149,7 @@ public class TestInteractor {
 		instrument.setActivated(true);
 		interactor.conditionRespected = true;
 		interactor.fsmStarts();
-		assertNotNull(interactor.getAction());
+		assertNotNull(interactor.getCommand());
 	}
 
 	@Test
@@ -151,7 +157,7 @@ public class TestInteractor {
 		final boolean[] ok = {false};
 		ErrorCatcher.INSTANCE.setNotifier(exception -> ok[0] = true);
 		StubInstrument ins = new StubInstrument();
-		WidgetBinding interactor2 = new WidgetBindingImpl<ActionImplStub2, InteractionMock, StubInstrument>(ins, false, ActionImplStub2.class, new InteractionMock()) {
+		WidgetBinding interactor2 = new WidgetBindingImpl<CommandImplStub2, InteractionMock, StubInstrument>(ins, false, CommandImplStub2.class, new InteractionMock()) {
 			@Override
 			public void first() {
 			}
@@ -162,14 +168,14 @@ public class TestInteractor {
 			}
 
 			@Override
-			protected void executeActionAsync(final Action act) {
+			protected void executeCmdAsync(final Command cmd) {
 
 			}
 		};
 		ins.setActivated(true);
 		interactor2.fsmStarts();
 		assertTrue(ok[0]);
-		assertNull(interactor.getAction());
+		assertNull(interactor.getCommand());
 	}
 
 	@Test
@@ -177,7 +183,7 @@ public class TestInteractor {
 		final boolean[] ok = {false};
 		ErrorCatcher.INSTANCE.setNotifier(exception -> ok[0] = true);
 		StubInstrument ins = new StubInstrument();
-		WidgetBinding interactor2 = new WidgetBindingImpl<ActionImplStub3, InteractionMock, StubInstrument>(ins, false, ActionImplStub3.class, new InteractionMock()) {
+		WidgetBinding interactor2 = new WidgetBindingImpl<CommandImplStub3, InteractionMock, StubInstrument>(ins, false, CommandImplStub3.class, new InteractionMock()) {
 			@Override
 			public void first() {
 			}
@@ -188,28 +194,28 @@ public class TestInteractor {
 			}
 
 			@Override
-			protected void executeActionAsync(final Action act) {
+			protected void executeCmdAsync(final Command cmd) {
 
 			}
 		};
 		ins.setActivated(true);
 		interactor2.fsmStarts();
 		assertTrue(ok[0]);
-		assertNull(interactor2.getAction());
+		assertNull(interactor2.getCommand());
 	}
 
 	public static class StubInstrument extends InstrumentImpl<WidgetBindingImpl<?, ?, StubInstrument>> {
 		@Override
-		protected void configureBindings() throws InstantiationException, IllegalAccessException {
+		protected void configureBindings() {
 		}
 	}
 
-	static class StubInteractor extends WidgetBindingImpl<ActionImplStub, InteractionMock, StubInstrument> {
+	static class StubInteractor extends WidgetBindingImpl<CommandImplStub, InteractionMock, StubInstrument> {
 		public boolean conditionRespected;
 		public boolean mustCancel;
 
-		public StubInteractor(final StubInstrument ins, final boolean exec, final Class<ActionImplStub> clazzAction, final InteractionMock interaction) {
-			super(ins, exec, clazzAction, interaction);
+		public StubInteractor(final StubInstrument ins, final boolean exec, final Class<CommandImplStub> clazzCmd, final InteractionMock interaction) {
+			super(ins, exec, clazzCmd, interaction);
 			conditionRespected = false;
 			mustCancel = false;
 		}
@@ -230,16 +236,16 @@ public class TestInteractor {
 		}
 
 		@Override
-		protected void executeActionAsync(final Action act) {
+		protected void executeCmdAsync(final Command cmd) {
 
 		}
 	}
 
-	static class ActionImplStub2 extends ActionImplStub {
+	static class CommandImplStub2 extends CommandImplStub {
 	}
 
-	static class ActionImplStub3 extends ActionImplStub {
-		ActionImplStub3(final int foo) {
+	static class CommandImplStub3 extends CommandImplStub {
+		CommandImplStub3(final int foo) {
 		}
 	}
 }

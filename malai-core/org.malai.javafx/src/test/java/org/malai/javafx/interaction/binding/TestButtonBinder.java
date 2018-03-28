@@ -16,20 +16,20 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testActionExecutedOnSingleButton() {
-		new ButtonBinder<>(StubAction.class, instrument).
+	public void testCommandExecutedOnSingleButton() {
+		new ButtonBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			end((a, i) -> assertEquals(1, a.exec.get())).
+			end((c, i) -> assertEquals(1, c.exec.get())).
 			bind();
 		clickOn(widget1);
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
-	public void testActionExecutedOnTwoButtons() {
-		new ButtonBinder<>(StubAction.class, instrument).
+	public void testCommandExecutedOnTwoButtons() {
+		new ButtonBinder<>(StubCmd.class, instrument).
 			on(widget1, widget2).
-			end((a, i) -> assertEquals(1, a.exec.get())).
+			end((c, i) -> assertEquals(1, c.exec.get())).
 			bind();
 		clickOn(widget2);
 		assertEquals(1, instrument.exec.get());
@@ -39,10 +39,10 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testInit1Executed() {
-		new ButtonBinder<>(StubAction.class, instrument).
+		new ButtonBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			first(a -> a.exec.setValue(10)).
-			end((a, i) -> assertEquals(11, a.exec.get())).
+			first(c -> c.exec.setValue(10)).
+			end((c, i) -> assertEquals(11, c.exec.get())).
 			bind();
 		clickOn(widget1);
 		assertEquals(1, instrument.exec.get());
@@ -50,10 +50,10 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testInit2Executed() {
-		new ButtonBinder<>(StubAction.class, instrument).
+		new ButtonBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			first((a, i) -> a.exec.setValue(10)).
-			end((a, i) -> assertEquals(11, a.exec.get())).
+			first((c, i) -> c.exec.setValue(10)).
+			end((c, i) -> assertEquals(11, c.exec.get())).
 			bind();
 		clickOn(widget1);
 		assertEquals(1, instrument.exec.get());
@@ -61,7 +61,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testCheckFalse() {
-		new ButtonBinder<>(StubAction.class, instrument).
+		new ButtonBinder<>(StubCmd.class, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();

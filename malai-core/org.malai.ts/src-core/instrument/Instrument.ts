@@ -12,15 +12,15 @@
 import {WidgetBinding} from "../binding/WidgetBinding";
 import {Modifiable} from "../properties/Modifiable";
 import {Reinitialisable} from "../properties/Reinitialisable";
-import {ActionHandler} from "../action/ActionHandler";
 import {MArray} from "../../src/util/ArrayUtil";
+import {CommandHandler} from "../command/CommandHandler";
 
 /**
  * The concept of instrument and its related services.
  * @author Arnaud BLOUIN
  * @class
  */
-export interface Instrument<T extends WidgetBinding> extends Modifiable, Reinitialisable, ActionHandler {
+export interface Instrument<T extends WidgetBinding> extends Modifiable, Reinitialisable, CommandHandler {
     /**
      * @return {number} The number of widget bindings that compose the instrument.
      */

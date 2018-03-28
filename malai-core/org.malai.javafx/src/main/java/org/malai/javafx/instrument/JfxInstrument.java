@@ -14,9 +14,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.instrument.InstrumentImpl;
-import org.malai.javafx.binding.AnonActionBinder;
+import org.malai.javafx.binding.AnonCmdBinder;
 import org.malai.javafx.binding.ButtonBinder;
 import org.malai.javafx.binding.CheckBoxBinder;
 import org.malai.javafx.binding.ColorPickerBinder;
@@ -76,175 +76,175 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given action type.
+	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param action The anonymous action to produce.
+	 * @param cmd The anonymous command to produce.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <W extends Node, I extends JfxInteraction<?, ?>> AnonActionBinder<W, I> anonActionBinder(final Runnable action, final I interaction) {
-		return new AnonActionBinder<>(action, interaction, this);
+	protected <W extends Node, I extends JfxInteraction<?, ?>> AnonCmdBinder<W, I> anonActionBinder(final Runnable cmd, final I interaction) {
+		return new AnonCmdBinder<>(cmd, interaction, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given action type.
+	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> KeyNodeBinder<A> keyNodeBinder(final Class<A> actionClass) {
-		return new KeyNodeBinder<>(actionClass, this);
+	protected <A extends CommandImpl> KeyNodeBinder<A> keyNodeBinder(final Class<A> cmdClass) {
+		return new KeyNodeBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given action type.
+	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> KeyWindowBinder<A> keyWindowBinder(final Class<A> actionClass) {
-		return new KeyWindowBinder<>(actionClass, this);
+	protected <A extends CommandImpl> KeyWindowBinder<A> keyWindowBinder(final Class<A> cmdClass) {
+		return new KeyWindowBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a button interaction and the given action type.
+	 * Creates binding builder to build a binding between a button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> ButtonBinder<A> buttonBinder(final Class<A> actionClass) {
-		return new ButtonBinder<>(actionClass, this);
+	protected <A extends CommandImpl> ButtonBinder<A> buttonBinder(final Class<A> cmdClass) {
+		return new ButtonBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a toggle button interaction and the given action type.
+	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> ToggleButtonBinder<A> toggleButtonBinder(final Class<A> actionClass) {
-		return new ToggleButtonBinder<>(actionClass, this);
+	protected <A extends CommandImpl> ToggleButtonBinder<A> toggleButtonBinder(final Class<A> cmdClass) {
+		return new ToggleButtonBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a checkbox interaction and the given action type.
+	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> CheckBoxBinder<A> checkboxBinder(final Class<A> actionClass) {
-		return new CheckBoxBinder<>(actionClass, this);
+	protected <A extends CommandImpl> CheckBoxBinder<A> checkboxBinder(final Class<A> cmdClass) {
+		return new CheckBoxBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a color picker interaction and the given action type.
+	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> ColorPickerBinder<A> colorPickerBinder(final Class<A> actionClass) {
-		return new ColorPickerBinder<>(actionClass, this);
+	protected <A extends CommandImpl> ColorPickerBinder<A> colorPickerBinder(final Class<A> cmdClass) {
+		return new ColorPickerBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a spinner interaction and the given action type.
+	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> SpinnerBinder<A> spinnerBinder(final Class<A> actionClass) {
-		return new SpinnerBinder<>(actionClass, this);
+	protected <A extends CommandImpl> SpinnerBinder<A> spinnerBinder(final Class<A> cmdClass) {
+		return new SpinnerBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a text input interaction and the given action type.
+	 * Creates binding builder to build a binding between a text input interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl, W extends TextInputControl> TextInputBinder<A, W> textInputBinder(final Class<A> actionClass) {
-		return new TextInputBinder<>(actionClass, this);
+	protected <A extends CommandImpl, W extends TextInputControl> TextInputBinder<A, W> textInputBinder(final Class<A> cmdClass) {
+		return new TextInputBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a menu item interaction and the given action type.
+	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> MenuItemBinder<A> menuItemBinder(final Class<A> actionClass) {
-		return new MenuItemBinder<>(actionClass, this);
+	protected <A extends CommandImpl> MenuItemBinder<A> menuItemBinder(final Class<A> cmdClass) {
+		return new MenuItemBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a combobox interaction and the given action type.
+	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> ComboBoxBinder<A> comboboxBinder(final Class<A> actionClass) {
-		return new ComboBoxBinder<>(actionClass, this);
+	protected <A extends CommandImpl> ComboBoxBinder<A> comboboxBinder(final Class<A> cmdClass) {
+		return new ComboBoxBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given action type.
+	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param actionClass The action to produce.
-	 * @param <A> The type of the action.
+	 * @param cmdClass The command to produce.
+	 * @param <A> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl> TabBinder<A> tabBinder(final Class<A> actionClass) {
-		return new TabBinder<>(actionClass, this);
+	protected <A extends CommandImpl> TabBinder<A> tabBinder(final Class<A> cmdClass) {
+		return new TabBinder<>(cmdClass, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a given interaction and the given action type.
-	 * This builder is dedicated to bind window interactions to actions.
+	 * Creates binding builder to build a binding between a given interaction and the given command type.
+	 * This builder is dedicated to bind window interactions to commands.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param action The action to produce.
+	 * @param cmdClass The command to produce.
 	 * @param interaction The user interaction to perform on windows
-	 * @param <A> The type of the action.
+	 * @param <A> The type of the command.
 	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl, I extends JfxInteraction<?, ?>> WindowBinder<A, I> windowBinder(final Class<A> action, final I interaction) {
-		return new WindowBinder<>(action, interaction, this);
+	protected <A extends CommandImpl, I extends JfxInteraction<?, ?>> WindowBinder<A, I> windowBinder(final Class<A> cmdClass, final I interaction) {
+		return new WindowBinder<>(cmdClass, interaction, this);
 	}
 
 	/**
-	 * Creates binding builder to build a binding between a given interaction and the given action type.
-	 * This builder is dedicated to bind node interactions to actions.
+	 * Creates binding builder to build a binding between a given interaction and the given command type.
+	 * This builder is dedicated to bind node interactions to commands.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param action The action to produce.
+	 * @param cmdClass The command to produce.
 	 * @param interaction The user interaction to perform on nodes
-	 * @param <A> The type of the action.
+	 * @param <A> The type of the command.
 	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends ActionImpl, I extends JfxInteraction<?, ?>> NodeBinder<A, I> nodeBinder(final Class<A> action, final I interaction) {
-		return new NodeBinder<>(action, interaction, this);
+	protected <A extends CommandImpl, I extends JfxInteraction<?, ?>> NodeBinder<A, I> nodeBinder(final Class<A> cmdClass, final I interaction) {
+		return new NodeBinder<>(cmdClass, interaction, this);
 	}
 }

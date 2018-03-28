@@ -18,7 +18,7 @@ import org.malai.undo.UndoHandler;
 import org.malai.undo.Undoable;
 
 /**
- * Additional routines to handle undoable redoable actions in JavaFX.
+ * Additional routines to handle undoable redoable commands in JavaFX.
  */
 public final class FXUndoCollector {
 	/** The singleton. */

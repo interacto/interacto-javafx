@@ -11,7 +11,7 @@
 package org.malai.instrument;
 
 import java.util.List;
-import org.malai.action.ActionHandler;
+import org.malai.command.CmdHandler;
 import org.malai.binding.WidgetBinding;
 import org.malai.properties.Modifiable;
 import org.malai.properties.Preferenciable;
@@ -21,7 +21,7 @@ import org.malai.properties.Reinitialisable;
  * The concept of instrument and its related services.
  * @author Arnaud BLOUIN
  */
-public interface Instrument<T extends WidgetBinding> extends Preferenciable, Modifiable, Reinitialisable, ActionHandler {
+public interface Instrument<T extends WidgetBinding> extends Preferenciable, Modifiable, Reinitialisable, CmdHandler {
 	/**
 	 * @return The number of widget bindings that compose the instrument.
 	 */

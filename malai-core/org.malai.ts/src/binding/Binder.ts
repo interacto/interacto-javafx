@@ -9,39 +9,39 @@
  * General Public License for more details.
  */
 
-import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {TSInteraction} from "../interaction/TSInteraction";
 import {MArray} from "../util/ArrayUtil";
 import {LogLevel} from "../../src-core/logging/LogLevel";
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {AnonNodeBinding} from "./AnonNodeBinding";
 import {FSM} from "../../src-core/fsm/FSM";
+import {CommandImpl} from "../../src-core/command/CommandImpl";
 
 /**
  * The base class that defines the concept of binding builder (called binder).
  * @param <W> The type of the widgets.
- * @param <A> The type of the action to produce.
+ * @param <A> The type of the command to produce.
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>, B extends Binder<A, I, B>> {
-    protected initAction: (a: A | undefined, i: I) => void;
+export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>, B extends Binder<C, I, B>> {
+    protected initCmd: (c: C | undefined, i: I) => void;
     protected checkConditions: (i: I) => boolean;
     protected readonly widgets: MArray<EventTarget>;
-    protected readonly actionClass: () => A;
+    protected readonly cmdClass: () => C;
     protected readonly interaction: I;
     protected _async: boolean;
-    protected onEnd: (a: A | undefined, i: I) => void;
+    protected onEnd: (c: C | undefined, i: I) => void;
 // protected List<ObservableList<? extends Node>> additionalWidgets;
     protected readonly logLevels: Set<LogLevel>;
 
-    protected constructor(action: () => A, interaction: I) {
-        this.actionClass = action;
+    protected constructor(cmdProducer: () => C, interaction: I) {
+        this.cmdClass = cmdProducer;
         this.interaction = interaction;
         this.widgets = new MArray();
         this._async = false;
         this.checkConditions = () => true;
-        this.initAction = () => {};
+        this.initCmd = () => {};
         this.onEnd = () => {};
         this.logLevels = new Set<LogLevel>();
     }
@@ -73,46 +73,32 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<E
 // }
 
 
-// /**
-//  * Specifies how the action is created from the user interaction.
-//  * Called a single time per interaction executed (just before 'first' that can still be called to, somehow, configure the action).
-//  * Each time the interaction starts, an instance of the action is created and configured by the given callback.
-//  * @param actionFunction The function that creates and initialises the action.
-//  * This callback takes as arguments the current user interaction.
-//  * @return The builder to chain the building configuration.
-//  */
-// public map(final Function<I, A> actionFunction): B {
-//     actionProducer = actionFunction;
-//     return this as {} as B;
-// }
-
-
     /**
-     * Specifies the initialisation of the action when the interaction starts.
-     * Each time the interaction starts, an instance of the action is created and configured by the given callback.
-     * @param initActionFct The callback method that initialises the action.
-     * This callback takes as arguments both the action and interaction involved in the binding.
+     * Specifies the initialisation of the command when the interaction starts.
+     * Each time the interaction starts, an instance of the command is created and configured by the given callback.
+     * @param initCmdFct The callback method that initialises the command.
+     * This callback takes as arguments both the command and interaction involved in the binding.
      * @return The builder to chain the building configuration.
      */
-    public first(initActionFct: (a: A, i: I) => void): B {
-        this.initAction = initActionFct;
+    public first(initCmdFct: (c: C, i: I) => void): B {
+        this.initCmd = initCmdFct;
         return this as {} as B;
     }
 
     /**
-     * Specifies the conditions to fulfill to initialise, update, or execute the action while the interaction is running.
-     * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
+     * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
+     * @param checkCmd The predicate that checks whether the command can be initialised, updated, or executed.
      * This predicate takes as arguments the ongoing user interaction involved in the binding.
      * @return The builder to chain the building configuration.
      */
-    public when(checkAction: (i: I) => boolean): B {
-        this.checkConditions = checkAction;
+    public when(checkCmd: (i: I) => boolean): B {
+        this.checkConditions = checkCmd;
         return this as {} as B;
     }
 
 
     /**
-     * Specifies that the action will be executed in a separated threads.
+     * Specifies that the command will be executed in a separated threads.
      * Beware of UI modifications: UI changes must be done in the JFX UI thread.
      * @return The builder to chain the building configuration.
      */
@@ -122,12 +108,12 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<E
     }
 
     /**
-     * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
-     * the interaction is reinitialised and the action finally executed and discarded / saved).
+     * Specifies what to do end when an interaction ends (when the last event of the interaction has occurred, but just after
+     * the interaction is reinitialised and the command finally executed and discarded / saved).
      * @param onEndFct The callback method to specify what to do when an interaction ends.
      * @return The builder to chain the building configuration.
      */
-    public end(onEndFct: (a: A, i: I) => void): B {
+    public end(onEndFct: (c: C, i: I) => void): B {
         this.onEnd = onEndFct;
         return this as {} as B;
     }
@@ -135,7 +121,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<E
     /**
      * Specifies the loggings to use.
      * Several call to 'log' can be done to log different parts:
-     * log(LogLevel.INTERACTION).log(LogLevel.ACTION)
+     * log(LogLevel.INTERACTION).log(LogLevel.COMMAND)
      * @param level The logging level to use.
      * @return The builder to chain the building configuration.
      */
@@ -146,11 +132,11 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<E
 
     /**
      * Executes the builder to create and install the binding on the instrument.
-     * @throws IllegalArgumentException On issues while creating the actions.
-     * @throws InstantiationException On issues while creating the actions.
+     * @throws IllegalArgumentException On issues while creating the commands.
+     * @throws InstantiationException On issues while creating the commands.
      */
-    public bind(): TSWidgetBinding<A, I> {
-        return new AnonNodeBinding<A, I>(false, this.actionClass, this.interaction, this.initAction, () => {},
+    public bind(): TSWidgetBinding<C, I> {
+        return new AnonNodeBinding<C, I>(false, this.cmdClass, this.interaction, this.initCmd, () => {},
             this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
             this.widgets, this._async, false, new Array(...this.logLevels));
     }

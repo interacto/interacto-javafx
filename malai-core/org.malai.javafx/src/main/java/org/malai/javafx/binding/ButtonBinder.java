@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.Button;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.ButtonPressed;
 
 /**
- * The binding builder to create bindings between a button interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a button interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ButtonBinder<A extends ActionImpl> extends Binder<Button, A, ButtonPressed, ButtonBinder<A>> {
-	public ButtonBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new ButtonPressed(), instrument);
+public class ButtonBinder<C extends CommandImpl> extends Binder<Button, C, ButtonPressed, ButtonBinder<C>> {
+	public ButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new ButtonPressed(), instrument);
 	}
 }

@@ -1,6 +1,6 @@
 Version 3.0
 - port to JavaFX
-- Registration policy for actions
+- Registration policy for commands
 - Widget binding
 - fixed: problem with concurrent events
 
@@ -25,9 +25,9 @@ Version 1.3 -- 2014-09-14
 *******************************************************************
 Version 1.2
 
-- The executing of an action may provoke the execution of other actions. 
+- The executing of a command may provoke the execution of other commands.
 For instance with a drawing editor, one may want that after having pasting shapes, the new shapes must be selected.
-Thus, the action PasteShapes will be followed by an action SelectShapes.
+Thus, the command PasteShapes will be followed by a command SelectShapes.
 This is the goal of this feature.
 
 *******************************************************************
@@ -35,5 +35,5 @@ Version 1.1 - November 4th 2012
 
 - Malai is now separated in several components (core, Swing, android, etc.)
 - Two interactions added to the library
-- Fixed: action not created when the last event of the interaction permits its creation.
+- Fixed: command not created when the last event of the interaction permits its creation.
 

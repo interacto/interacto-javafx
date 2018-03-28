@@ -14,28 +14,28 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Task;
-import org.malai.action.Action;
-import org.malai.javafx.action.ProgressableAction;
+import org.malai.command.Command;
+import org.malai.javafx.command.ProgressableCmd;
 
 /**
- * A future task to execute an action async.
+ * A future task to execute a command async.
  * @author Arnaud Blouin
  */
 public class BindingTask extends Task<Boolean> {
-	private final Action action;
+	private final Command cmd;
 	private final ChangeListener<Number> updateProgress;
 	private final ChangeListener<String> updateTextProgress;
 
-	public BindingTask(final Action action) {
-		this.action = action;
+	public BindingTask(final Command cmd) {
+		this.cmd = cmd;
 		updateProgress = (observable, oldValue, newValue) -> updateProgress(newValue.doubleValue(), 100d);
 		updateTextProgress = (observable, oldValue, newValue) -> updateMessage(newValue);
 	}
 
 	@Override
 	protected Boolean call() {
-		final DoubleProperty progProp = action instanceof ProgressableAction ? ((ProgressableAction) action).progress() : null;
-		final StringProperty textProp = action instanceof ProgressableAction ? ((ProgressableAction) action).textProgress() : null;
+		final DoubleProperty progProp = cmd instanceof ProgressableCmd ? ((ProgressableCmd) cmd).progress() : null;
+		final StringProperty textProp = cmd instanceof ProgressableCmd ? ((ProgressableCmd) cmd).textProgress() : null;
 
 		if(progProp != null) {
 			progProp.addListener(updateProgress);
@@ -45,7 +45,7 @@ public class BindingTask extends Task<Boolean> {
 			textProp.addListener(updateTextProgress);
 		}
 
-		final boolean ok = action.doIt();
+		final boolean ok = cmd.doIt();
 
 		if(progProp != null) {
 			progProp.removeListener(updateProgress);

@@ -17,19 +17,19 @@ package org.malai.undo;
  */
 public interface Undoable {
 	/**
-	 * Cancels the action.
+	 * Cancels the command.
 	 * @since 0.1
 	 */
 	void undo();
 
 	/**
-	 * Redoes the cancelled action.
+	 * Redoes the cancelled command.
 	 * @since 0.1
 	 */
 	void redo();
 
 	/**
-	 * @return The name of the undo action.
+	 * @return The name of the undo command.
 	 * @since 0.1
 	 */
 	String getUndoName();

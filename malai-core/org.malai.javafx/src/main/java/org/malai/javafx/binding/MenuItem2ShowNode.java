@@ -13,7 +13,7 @@ package org.malai.javafx.binding;
 import java.util.Collections;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
-import org.malai.javafx.action.ShowNode;
+import org.malai.javafx.command.ShowNode;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemPressed;
 
@@ -29,7 +29,7 @@ public class MenuItem2ShowNode extends JfxMenuItemBinding<ShowNode, MenuItemPres
 	/**
 	 * Creates the widget binding.
 	 * @param ins The instrument that will contain the binding.
-	 * @param menuItem he menu item that will be uses to create the action.
+	 * @param menuItem he menu item that will be uses to create the command.
 	 * @param node The node to show or hide
 	 * @throws IllegalArgumentException If one of the given parameters is null.
 	 * @since 2.0
@@ -47,7 +47,7 @@ public class MenuItem2ShowNode extends JfxMenuItemBinding<ShowNode, MenuItemPres
 
 	@Override
 	public void first() {
-		action.setWidget(nodeToShow);
-		action.setVisible(show);
+		cmd.setWidget(nodeToShow);
+		cmd.setVisible(show);
 	}
 }

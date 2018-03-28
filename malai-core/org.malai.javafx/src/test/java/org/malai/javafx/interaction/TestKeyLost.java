@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.malai.action.Action;
-import org.malai.action.ActionImpl;
+import org.malai.command.Command;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.binding.KeyNodeBinder;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -46,7 +46,7 @@ public class TestKeyLost extends ApplicationTest {
 		WaitForAsyncUtils.waitForFxEvents();
 		Platform.runLater(() -> canvas.requestFocus());
 		WaitForAsyncUtils.waitForFxEvents();
-		new KeyNodeBinder<>(StubAction.class, instrument).with(KeyCode.CONTROL, KeyCode.C).on(canvas).bind();
+		new KeyNodeBinder<>(StubCmd.class, instrument).with(KeyCode.CONTROL, KeyCode.C).on(canvas).bind();
 	}
 
 	@Disabled
@@ -62,15 +62,15 @@ public class TestKeyLost extends ApplicationTest {
 		press(KeyCode.CONTROL).type(KeyCode.C);
 
 		assertEquals(1, instrument.exec.get());
-		assertEquals(1, ((StubAction) instrument.lastCreatedAction).exec.get());
+		assertEquals(1, ((StubCmd) instrument.lastCreatedCmd).exec.get());
 	}
 
 
-	public static class StubAction extends ActionImpl {
+	public static class StubCmd extends CommandImpl {
 		final IntegerProperty exec = new SimpleIntegerProperty(0);
 
 		@Override
-		protected void doActionBody() {
+		protected void doCmdBody() {
 			synchronized(exec) {
 				exec.setValue(exec.getValue() + 1);
 			}
@@ -89,17 +89,17 @@ public class TestKeyLost extends ApplicationTest {
 
 	static class StubInstrument extends JfxInstrument {
 		final IntegerProperty exec = new SimpleIntegerProperty(0);
-		Action lastCreatedAction = null;
+		Command lastCreatedCmd = null;
 
 		@Override
 		protected void configureBindings() {
 		}
 
 		@Override
-		public void onActionDone(final Action action) {
+		public void onCmdDone(final Command cmd) {
 			synchronized(exec) {
 				exec.setValue(exec.getValue() + 1);
-				lastCreatedAction = action;
+				lastCreatedCmd = cmd;
 			}
 		}
 	}

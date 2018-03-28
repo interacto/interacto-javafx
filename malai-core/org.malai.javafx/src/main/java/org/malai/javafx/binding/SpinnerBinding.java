@@ -12,40 +12,40 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.Node;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.SpinnerChanged;
 
 /**
  * A widget binding for spinners.
- * @param <A> The action to produce.
+ * @param <C> The command to produce.
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class SpinnerBinding<A extends ActionImpl, I extends JfxInstrument> extends JfXWidgetBinding<A, SpinnerChanged, I> {
+public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, I> {
 	/**
 	 * Creates a spinner binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets) {
-		this(ins, exec, clazzAction, widgets, false, null);
+	public SpinnerBinding(final I ins, final boolean exec, final Class<C> cmdClass, final List<Node> widgets) {
+		this(ins, exec, cmdClass, widgets, false, null);
 	}
 
 	/**
 	 * Creates a spinner binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Class<A> clazzAction, final List<Node> widgets, final boolean help,
+	public SpinnerBinding(final I ins, final boolean exec, final Class<C> cmdClass, final List<Node> widgets, final boolean help,
 						  final HelpAnimation animation) {
-		super(ins, exec, clazzAction, new SpinnerChanged(), widgets, help, animation);
+		super(ins, exec, cmdClass, new SpinnerChanged(), widgets, help, animation);
 	}
 }

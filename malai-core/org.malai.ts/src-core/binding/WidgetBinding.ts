@@ -11,8 +11,8 @@
 
 import {FSMHandler} from "../fsm/FSMHandler";
 import {InteractionImpl} from "../interaction/InteractionImpl";
-import {Action} from "../action/Action";
 import {FSM} from "../fsm/FSM";
+import {Command} from "../command/Command";
 
 /**
  * The concept of widget binding and its related services.
@@ -25,12 +25,12 @@ export interface WidgetBinding extends FSMHandler {
     clearEvents(): void;
 
     /**
-     * After being created by method map, the action must be initialised by this method.
+     * After being created by method map, the command must be initialised by this method.
      */
     first(): void;
 
     /**
-     * Updates the current action. To override.
+     * Updates the current command. To override.
      */
     then(): void;
 
@@ -45,9 +45,9 @@ export interface WidgetBinding extends FSMHandler {
     getInteraction(): InteractionImpl<{}, FSM<{}>>;
 
     /**
-     * @return {*} The action in progress or null.
+     * @return {*} The command in progress or null.
      */
-    getAction(): Action | undefined;
+    getCommand(): Command | undefined;
 
     /**
      * @return {boolean} True if the widget binding is activated.
@@ -72,7 +72,7 @@ export interface WidgetBinding extends FSMHandler {
     isStrictStart(): boolean;
 
     /**
-     * @return {boolean} True if the action is executed on each evolution of the interaction.
+     * @return {boolean} True if the command is executed on each evolution of the interaction.
      */
     isExecute(): boolean;
 

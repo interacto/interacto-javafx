@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.TabPane;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.TabSelected;
 
 /**
- * The binding builder to create bindings between a tab interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a tab interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class TabBinder<A extends ActionImpl> extends Binder<TabPane, A, TabSelected, TabBinder<A>> {
-	public TabBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new TabSelected(), instrument);
+public class TabBinder<C extends CommandImpl> extends Binder<TabPane, C, TabSelected, TabBinder<C>> {
+	public TabBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new TabSelected(), instrument);
 	}
 }

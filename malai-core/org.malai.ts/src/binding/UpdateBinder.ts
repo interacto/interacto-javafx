@@ -9,29 +9,29 @@
  * General Public License for more details.
  */
 
-import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {TSInteraction} from "../interaction/TSInteraction";
 import {FSM} from "../../src-core/fsm/FSM";
 import {Binder} from "./Binder";
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {AnonNodeBinding} from "./AnonNodeBinding";
+import {CommandImpl} from "../../src-core/command/CommandImpl";
 
 /**
  * The base binding builder for bindings where actions can be updated while the user interaction is running.
- * @param <A> The type of the action to produce.
+ * @param <A> The type of the command to produce.
  * @author Arnaud Blouin
  */
-export abstract class UpdateBinder<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>, B extends UpdateBinder<A, I, B>>
-    extends Binder<A, I, B> {
-    protected updateFct: (a: A | undefined, i: I) => void;
-    protected cancelFct: (a: A | undefined, i: I) => void;
-    protected endOrCancelFct: (a: A | undefined, i: I) => void;
+export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>, B extends UpdateBinder<C, I, B>>
+    extends Binder<C, I, B> {
+    protected updateFct: (c: C | undefined, i: I) => void;
+    protected cancelFct: (c: C | undefined, i: I) => void;
+    protected endOrCancelFct: (c: C | undefined, i: I) => void;
     protected feedbackFct: () => void;
     protected execOnChanges: boolean;
     protected _strictStart: boolean;
 
-    protected constructor(actionProducer: () => A, interaction: I) {
-        super(actionProducer, interaction);
+    protected constructor(cmdProducer: () => C, interaction: I) {
+        super(cmdProducer, interaction);
         this.updateFct = () => {};
         this.cancelFct = () => {};
         this.endOrCancelFct = () => {};
@@ -41,19 +41,19 @@ export abstract class UpdateBinder<A extends ActionImpl, I extends TSInteraction
     }
 
     /**
-     * Specifies the update of the action on interaction updates.
-     * @param update The callback method that updates the action.
-     * This callback takes as arguments the action to update and the ongoing interactions (and its parameters).
+     * Specifies the update of the command on interaction updates.
+     * @param update The callback method that updates the command.
+     * This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
      * @return The builder to chain the buiding configuration.
      */
-    public then(update: (a: A | undefined, i: I) => void): B {
+    public then(update: (c: C | undefined, i: I) => void): B {
         this.updateFct = update;
         return this as {} as B;
     }
 
     /**
-     * Defines whether the action must be executed on each interaction updates (if 'when' predicate is ok).
-     * @return The builder to chain the buiding configuration.
+     * Defines whether the command must be executed on each interaction updates (if 'when' predicate is ok).
+     * @return The builder to chain the building configuration.
      */
     public exec(): B {
         this.execOnChanges = true;
@@ -61,28 +61,28 @@ export abstract class UpdateBinder<A extends ActionImpl, I extends TSInteraction
     }
 
     /**
-     * Defines what to do when an action is aborted (because the interaction is abord map).
-     * The undoable action is autmatically cancelled so that nothing must be done on the action.
-     * @return The builder to chain the buiding configuration.
+     * Defines what to do when a command is aborted (because the interaction is aborted first).
+     * The undoable command is automatically cancelled so that nothing must be done on the command.
+     * @return The builder to chain the building configuration.
      */
-    public cancel(cancel: (a: A | undefined, i: I) => void): B {
+    public cancel(cancel: (c: C | undefined, i: I) => void): B {
         this.cancelFct = cancel;
         return this as {} as B;
     }
 
     /**
-     * Defines what to do when an action is aborted (because the interaction is abord map).
-     * The undoable action is autmatically cancelled so that nothing must be done on the action.
-     * @return The builder to chain the buiding configuration.
+     * Defines what to do when a command is aborted (because the interaction is aborted first).
+     * The undoable command is automatically cancelled so that nothing must be done on the command.
+     * @return The builder to chain the building configuration.
      */
-    public endOrCancel(endOrCancel: (a: A | undefined, i: I) => void): B {
+    public endOrCancel(endOrCancel: (c: C | undefined, i: I) => void): B {
         this.endOrCancelFct = endOrCancel;
         return this as {} as B;
     }
 
     /**
      * Defines interim feedback provided to users on each interaction updates.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public feedback(feedback: () => void): B {
         this.feedbackFct = feedback;
@@ -91,15 +91,15 @@ export abstract class UpdateBinder<A extends ActionImpl, I extends TSInteraction
 
     /**
      * The interaction does not start if the condition of the binding ('when') is not fulfilled.
-     * @return The builder to chain the buiding configuration.
+     * @return The builder to chain the building configuration.
      */
     public strictStart(): B {
         this._strictStart = true;
         return this as {} as B;
     }
 
-    public bind(): TSWidgetBinding<A, I> {
-        return new AnonNodeBinding(this.execOnChanges, this.actionClass, this.interaction, this.initAction, this.updateFct,
+    public bind(): TSWidgetBinding<C, I> {
+        return new AnonNodeBinding(this.execOnChanges, this.cmdClass, this.interaction, this.initCmd, this.updateFct,
             this.checkConditions, this.onEnd, this.cancelFct, this.endOrCancelFct, this.feedbackFct, this.widgets, this._async,
             this._strictStart, new Array(...this.logLevels));
     }

@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.function.Supplier;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import org.malai.javafx.action.ShowStage;
+import org.malai.javafx.command.ShowStage;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemPressed;
 
@@ -30,8 +30,8 @@ public class MenuItem2ShowLazyStage extends JfxMenuItemBinding<ShowStage, MenuIt
 	/**
 	 * Creates the binding.
 	 * @param ins The instrument that will contain the binding.
-	 * @param menuItem he menu item that will be uses to create the action.
-	 * @param stageLazy The stage to show or hide (the creation of the stage can be postponed at the execution of the action).
+	 * @param menuItem he menu item that will be uses to create the command.
+	 * @param stageLazy The stage to show or hide (the creation of the stage can be postponed at the execution of the command).
 	 * @throws IllegalArgumentException If one of the given parameters is null.
 	 * @since 2.0
 	 */
@@ -48,7 +48,7 @@ public class MenuItem2ShowLazyStage extends JfxMenuItemBinding<ShowStage, MenuIt
 
 	@Override
 	public void first() {
-		action.setWidget(stageToShowLazy.get());
-		action.setVisible(show);
+		cmd.setWidget(stageToShowLazy.get());
+		cmd.setVisible(show);
 	}
 }

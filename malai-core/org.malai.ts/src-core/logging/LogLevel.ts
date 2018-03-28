@@ -10,14 +10,14 @@
  */
 
 /**
- * Logging level to log interactions, bindings, and actions.
+ * Logging level to log interactions, bindings, and commands.
  * @author Arnaud Blouin
  * @enum
  * @property {LogLevel} INTERACTION
  * @property {LogLevel} BINDING
- * @property {LogLevel} ACTION
+ * @property {LogLevel} COMMAND
  */
 export enum LogLevel {
-    INTERACTION, BINDING, ACTION
+    INTERACTION, BINDING, COMMAND
 }
 

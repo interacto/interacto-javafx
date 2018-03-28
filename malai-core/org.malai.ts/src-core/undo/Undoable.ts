@@ -17,19 +17,19 @@
  */
 export interface Undoable {
     /**
-     * Cancels the action.
+     * Cancels the command.
      * @since 0.1
      */
     undo(): void;
 
     /**
-     * Redoes the cancelled action.
+     * Redoes the cancelled command.
      * @since 0.1
      */
     redo(): void;
 
     /**
-     * @return {string} The name of the undo action.
+     * @return {string} The name of the undo command.
      * @since 0.1
      */
     getUndoName(): string;

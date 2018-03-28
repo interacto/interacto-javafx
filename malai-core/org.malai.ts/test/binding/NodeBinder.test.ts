@@ -9,12 +9,12 @@
  * General Public License for more details.
  */
 
-import {StubAction} from "../action/StubAction";
 import {Click} from "../../src/interaction/library/Click";
 import {NodeBinder} from "../../src/binding/NodeBinder";
 import {DoubleClick} from "../../src/interaction/library/DoubleClick";
+import {StubCmd} from "../command/StubCmd";
 
-jest.mock("../action/StubAction");
+jest.mock("../command/StubCmd");
 
 let widget: HTMLElement;
 
@@ -28,15 +28,14 @@ beforeEach(() => {
 });
 
 test("Node binder ok with click", () => {
-    new NodeBinder(() => new StubAction(), new Click()).on(widget).bind();
-    // nodeBinder(() => new StubAction(), new Click()).on(widget).bind();
+    new NodeBinder(() => new StubCmd(), new Click()).on(widget).bind();
     widget.click();
-    expect(StubAction.prototype.doIt).toHaveBeenCalledTimes(1);
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
 test("Node binder ok with double-click", () => {
-    new NodeBinder(() => new StubAction(), new DoubleClick()).on(widget).bind();
+    new NodeBinder(() => new StubCmd(), new DoubleClick()).on(widget).bind();
     widget.click();
     widget.click();
-    expect(StubAction.prototype.doIt).toHaveBeenCalledTimes(1);
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });

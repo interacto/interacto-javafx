@@ -9,25 +9,25 @@
  * General Public License for more details.
  */
 
-import {Action} from "../../src-core/action/Action";
-import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {TSInteraction} from "../interaction/TSInteraction";
 import {WidgetBindingImpl} from "../../src-core/binding/WidgetBindingImpl";
 import {FSM} from "../../src-core/fsm/FSM";
+import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {Command} from "../../src-core/command/Command";
 
-export abstract class TSWidgetBinding<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>> extends WidgetBindingImpl<A, I> {
+export abstract class TSWidgetBinding<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>> extends WidgetBindingImpl<C, I> {
     /**
      * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
      * instrument is (de-)activated.
-     * @param exec Specifies whether the action must be execute or update on each evolution of the interaction.
-     * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+     * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
+     * @param cmdProducer The type of the command that will be created. Used to instantiate the command by reflexivity.
      * The class must be public and must have a constructor with no parameter.
      * @param interaction The user interaction of the binding.
      * @param widgets The widgets concerned by the binding. Cannot be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    protected constructor(exec: boolean, clazzAction: () => A, interaction: I, widgets: Array<EventTarget>) {
-        super(exec, clazzAction, interaction);
+    protected constructor(exec: boolean, cmdProducer: () => C, interaction: I, widgets: Array<EventTarget>) {
+        super(exec, cmdProducer, interaction);
         interaction.registerToNodes(widgets);
     }
 
@@ -35,7 +35,7 @@ export abstract class TSWidgetBinding<A extends ActionImpl, I extends TSInteract
         return true;
     }
 
-    protected executeActionAsync(act: Action): void {
+    protected executeCmdAsync(cmd: Command): void {
         //TODO
     }
 }

@@ -11,27 +11,28 @@
 package org.malai.javafx.binding;
 
 import javafx.stage.Window;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.KeysPressed;
 
 /**
- * The binding builder to create bindings between a key interaction (eg shorcuts) on a window and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a key interaction (eg shorcuts) on a window and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class KeyWindowBinder<A extends ActionImpl> extends KeyBinder<Window, A, KeyWindowBinder<A>> {
-	public KeyWindowBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, instrument);
+public class KeyWindowBinder<C extends CommandImpl> extends KeyBinder<Window, C, KeyWindowBinder<C>> {
+	public KeyWindowBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, instrument);
 	}
 
 	@Override
-	public JfXWidgetBinding<A, KeysPressed, ?> bind() {
-		final JFxAnonNodeBinding<A, KeysPressed, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, actionClass, interaction, widgets,
-			initAction, null, checkCode, onEnd, actionProducer, null, null, null, async, false, logLevels, withHelp, helpAnimation);
+	public JfXWidgetBinding<C, KeysPressed, ?> bind() {
+		final JFxAnonNodeBinding<C, KeysPressed, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction,
+			widgets, initCmd, null, checkCode, onEnd, cmdProducer, null, null, null, async, false,
+			logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
-		binding.setCancelActionButton(cancel);
+		binding.setCancelCmdButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}

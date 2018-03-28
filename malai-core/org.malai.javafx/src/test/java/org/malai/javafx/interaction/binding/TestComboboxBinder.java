@@ -20,20 +20,20 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	}
 
 	@Test
-	public void testActionExecutedOnSingleButton() {
-		new ComboBoxBinder<>(StubAction.class, instrument).
+	public void testCommandExecutedOnSingleButton() {
+		new ComboBoxBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			end((a, i) -> assertEquals(1, a.exec.get())).
+			end((c, i) -> assertEquals(1, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget1, "b");
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
-	public void testActionExecutedOnTwoComboboxes() {
-		new ComboBoxBinder<>(StubAction.class, instrument).
+	public void testCommandExecutedOnTwoComboboxes() {
+		new ComboBoxBinder<>(StubCmd.class, instrument).
 			on(widget1, widget2).
-			end((a, i) -> assertEquals(1, a.exec.get())).
+			end((c, i) -> assertEquals(1, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget2, "d");
 		assertEquals(1, instrument.exec.get());
@@ -43,10 +43,10 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testInit1Executed() {
-		new ComboBoxBinder<>(StubAction.class, instrument).
+		new ComboBoxBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			first(a -> a.exec.setValue(10)).
-			end((a, i) -> assertEquals(11, a.exec.get())).
+			first(c -> c.exec.setValue(10)).
+			end((c, i) -> assertEquals(11, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget1, "b");
 		assertEquals(1, instrument.exec.get());
@@ -54,10 +54,10 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testInit2Executed() {
-		new ComboBoxBinder<>(StubAction.class, instrument).
+		new ComboBoxBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			first((a, i) -> a.exec.setValue(10)).
-			end((a, i) -> assertEquals(11, a.exec.get())).
+			first((c, i) -> c.exec.setValue(10)).
+			end((c, i) -> assertEquals(11, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(widget1, "b");
 		assertEquals(1, instrument.exec.get());
@@ -65,7 +65,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testCheckFalse() {
-		new ComboBoxBinder<>(StubAction.class, instrument).
+		new ComboBoxBinder<>(StubCmd.class, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();

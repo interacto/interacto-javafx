@@ -14,10 +14,10 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.Property;
-import org.malai.action.Action;
-import org.malai.action.ActionImpl;
-import org.malai.action.ActionsRegistry;
-import org.malai.action.AutoUnbind;
+import org.malai.command.Command;
+import org.malai.command.CommandImpl;
+import org.malai.command.CommandsRegistry;
+import org.malai.command.AutoUnbind;
 import org.malai.error.ErrorCatcher;
 import org.malai.fsm.CancelFSMException;
 import org.malai.instrument.Instrument;
@@ -25,56 +25,56 @@ import org.malai.interaction.InteractionImpl;
 import org.malai.undo.Undoable;
 
 /**
- * The base class to do widget bindings, i.e. bindings between user interactions and (undoable) actions.
- * @param <A> The type of the action that will produce this widget binding.
+ * The base class to do widget bindings, i.e. bindings between user interactions and (undoable) commands.
+ * @param <A> The type of the command that will produce this widget binding.
  * @param <I> The type of the interaction that will use this widget binding.
  * @param <N> The type of the instrument that will contain this widget binding.
  * @author Arnaud BLOUIN
  */
-public abstract class WidgetBindingImpl<A extends ActionImpl, I extends InteractionImpl<?, ?>, N extends Instrument<?>> implements WidgetBinding {
+public abstract class WidgetBindingImpl<A extends CommandImpl, I extends InteractionImpl<?, ?>, N extends Instrument<?>> implements WidgetBinding {
 	protected Logger loggerBinding;
 
-	protected Logger loggerAction;
+	protected Logger loggerCmd;
 
 	/** The source interaction. */
 	protected final I interaction;
 
-	/** The current action in progress. */
-	protected A action;
+	/** The current command in progress. */
+	protected A cmd;
 
 	/** The instrument that contains the widget binding. */
 	protected final N instrument;
 
-	/** Specifies if the action must be execute or update * on each evolution of the interaction. */
+	/** Specifies if the command must be execute or update * on each evolution of the interaction. */
 	protected final boolean execute;
 
-	/** Defines whether the action must be executed in a specific thread. */
+	/** Defines whether the command must be executed in a specific thread. */
 	protected boolean async;
 
-	/** The action class to instantiate. */
-	protected final Class<A> clazzAction;
+	/** The command class to instantiate. */
+	protected final Class<A> clazzCmd;
 
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The widget binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
-	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param actionClass The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param cmdClass The type of the command that will be created. Used to instantiate the cmd by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> actionClass, final I interaction) {
+	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> cmdClass, final I interaction) {
 		super();
 
-		if(ins == null || actionClass == null || interaction == null) {
+		if(ins == null || cmdClass == null || interaction == null) {
 			throw new IllegalArgumentException();
 		}
 
-		clazzAction = actionClass;
+		clazzCmd = cmdClass;
 		this.interaction = interaction;
-		action = null;
+		cmd = null;
 		instrument = ins;
 		execute = exec;
 		this.interaction.getFsm().addHandler(this);
@@ -92,13 +92,13 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		}
 	}
 
-	public void logAction(final boolean log) {
+	public void logCmd(final boolean log) {
 		if(log) {
-			if(loggerAction == null) {
-				loggerAction = Logger.getLogger(getClass().getName());
+			if(loggerCmd == null) {
+				loggerCmd = Logger.getLogger(getClass().getName());
 			}
 		}else {
-			loggerAction = null;
+			loggerCmd = null;
 		}
 	}
 
@@ -107,19 +107,19 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 	}
 
 	/**
-	 * Whether the action must be executed in a specific thread.
-	 * @return True: the action will be executed asynchronously.
+	 * Whether the command must be executed in a specific thread.
+	 * @return True: the command will be executed asynchronously.
 	 */
 	public boolean isAsync() {
 		return async;
 	}
 
 	/**
-	 * Sets wether the action must be executed in a specific thread.
-	 * @param asyncAction True: the action will be executed asynchronously.
+	 * Sets wether the command must be executed in a specific thread.
+	 * @param asyncCmd True: the command will be executed asynchronously.
 	 */
-	public void setAsync(final boolean asyncAction) {
-		async = asyncAction;
+	public void setAsync(final boolean asyncCmd) {
+		async = asyncCmd;
 	}
 
 	@Override
@@ -129,12 +129,12 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	/**
-	 * creates the action of the widget binding. If the attribute 'action' is not null, nothing will be done.
-	 * @return The created action or null if problems occured.
+	 * creates the command of the widget binding. If the attribute 'cmd' is not null, nothing will be done.
+	 * @return The created command or null if problems occured.
 	 */
 	protected A map() {
 		try {
-			return clazzAction.newInstance();
+			return clazzCmd.newInstance();
 		}catch(final IllegalAccessException | InstantiationException ex) {
 			ErrorCatcher.INSTANCE.reportError(ex);
 			return null;
@@ -163,8 +163,8 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 
 	@Override
-	public A getAction() {
-		return action;
+	public A getCommand() {
+		return cmd;
 	}
 
 
@@ -184,22 +184,22 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		return false;
 	}
 
-	protected void unbindActionAttributes() {
-		if(action != null) {
-			unbindActionAttributesClass(action.getClass());
-			if(loggerAction != null) {
-				loggerAction.log(Level.INFO, "Action unbound: " + action);
+	protected void unbindCmdAttributes() {
+		if(cmd != null) {
+			unbindCmdAttributesClass(cmd.getClass());
+			if(loggerCmd != null) {
+				loggerCmd.log(Level.INFO, "Command unbound: " + cmd);
 			}
 		}
 	}
 
-	private void unbindActionAttributesClass(final Class<? extends ActionImpl> clazz) {
+	private void unbindCmdAttributesClass(final Class<? extends CommandImpl> clazz) {
 		Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(AutoUnbind.class) &&
 			Property.class.isAssignableFrom(field.getType())).forEach(field -> {
 			try {
 				final boolean access = field.isAccessible();
 				field.setAccessible(true);
-				final Object o = field.get(action);
+				final Object o = field.get(cmd);
 				if(o instanceof Property<?>) {
 					((Property<?>) o).unbind();
 				}
@@ -210,39 +210,39 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		});
 
 		final Class<?> superClass = clazz.getSuperclass();
-		if(superClass != null && superClass != ActionImpl.class && ActionImpl.class.isAssignableFrom(superClass)) {
-			unbindActionAttributesClass((Class<? extends ActionImpl>) superClass);
+		if(superClass != null && superClass != CommandImpl.class && CommandImpl.class.isAssignableFrom(superClass)) {
+			unbindCmdAttributesClass((Class<? extends CommandImpl>) superClass);
 		}
 	}
 
 	@Override
 	public void fsmCancels() {
-		if(action != null) {
+		if(cmd != null) {
 			if(loggerBinding != null) {
 				loggerBinding.log(Level.INFO, "Binding cancelled");
 			}
 
-			action.cancel();
-			if(loggerAction != null) {
-				loggerAction.log(Level.INFO, "Action cancelled");
+			cmd.cancel();
+			if(loggerCmd != null) {
+				loggerCmd.log(Level.INFO, "Command cancelled");
 			}
-			unbindActionAttributes();
+			unbindCmdAttributes();
 
-			// The instrument is notified about the cancel of the action.
-			instrument.onActionCancelled(action);
+			// The instrument is notified about the cancel of the command.
+			instrument.onCmdCancelled(cmd);
 
-			if(isExecute() && action.hadEffect()) {
-				if(action instanceof Undoable) {
-					((Undoable) action).undo();
-					if(loggerAction != null) {
-						loggerAction.log(Level.INFO, "Action undone");
+			if(isExecute() && cmd.hadEffect()) {
+				if(cmd instanceof Undoable) {
+					((Undoable) cmd).undo();
+					if(loggerCmd != null) {
+						loggerCmd.log(Level.INFO, "Command undone");
 					}
 				}else {
-					throw new MustBeUndoableActionException(action.getClass());
+					throw new MustBeUndoableCmdException(cmd.getClass());
 				}
 			}
 
-			action = null;
+			cmd = null;
 			instrument.interimFeedback();
 		}
 	}
@@ -250,17 +250,17 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 
 	@Override
 	public void fsmStarts() throws CancelFSMException {
-		final boolean ok = action == null && isActivated() && when();
+		final boolean ok = cmd == null && isActivated() && when();
 
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Starting binding: " + ok);
 		}
 
 		if(ok) {
-			action = map();
+			cmd = map();
 			first();
-			if(loggerAction != null) {
-				loggerAction.log(Level.INFO, "Action created and init: " + action);
+			if(loggerCmd != null) {
+				loggerCmd.log(Level.INFO, "Command created and init: " + cmd);
 			}
 			feedback();
 		}else {
@@ -281,74 +281,74 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 			loggerBinding.log(Level.INFO, "Binding stops with condition: " + ok);
 		}
 		if(ok) {
-			if(action == null) {
-				action = map();
+			if(cmd == null) {
+				cmd = map();
 				first();
-				if(loggerAction != null) {
-					loggerAction.log(Level.INFO, "Action created and init: " + action);
+				if(loggerCmd != null) {
+					loggerCmd.log(Level.INFO, "Command created and init: " + cmd);
 				}
 			}
 
 			if(!execute) {
 				then();
-				if(loggerAction != null) {
-					loggerAction.log(Level.INFO, "Action updated: " + action);
+				if(loggerCmd != null) {
+					loggerCmd.log(Level.INFO, "Command updated: " + cmd);
 				}
 			}
 
-			executeAction(action, async);
-			unbindActionAttributes();
-			action = null;
+			executeCmd(cmd, async);
+			unbindCmdAttributes();
+			cmd = null;
 			instrument.interimFeedback();
 		}else {
-			if(action != null) {
-				if(loggerAction != null) {
-					loggerAction.log(Level.INFO, "Cancelling the action: " + action);
+			if(cmd != null) {
+				if(loggerCmd != null) {
+					loggerCmd.log(Level.INFO, "Cancelling the command: " + cmd);
 				}
-				action.cancel();
-				unbindActionAttributes();
-				instrument.onActionCancelled(action);
-				action = null;
+				cmd.cancel();
+				unbindCmdAttributes();
+				instrument.onCmdCancelled(cmd);
+				cmd = null;
 				instrument.interimFeedback();
 			}
 		}
 	}
 
 
-	private void executeAction(final Action act, final boolean async) {
+	private void executeCmd(final Command cmd, final boolean async) {
 		if(async) {
-			executeActionAsync(act);
+			executeCmdAsync(cmd);
 		}else {
-			afterActionExecuted(act, act.doIt());
+			afterCmdExecuted(cmd, cmd.doIt());
 		}
 	}
 
-	protected abstract void executeActionAsync(final Action act);
+	protected abstract void executeCmdAsync(final Command cmd);
 
-	protected void afterActionExecuted(final Action act, final boolean ok) {
-		if(loggerAction != null) {
-			loggerAction.log(Level.INFO, "Action execution did it: " + ok);
+	protected void afterCmdExecuted(final Command cmd, final boolean ok) {
+		if(loggerCmd != null) {
+			loggerCmd.log(Level.INFO, "Command execution did it: " + ok);
 		}
 
 		if(ok) {
-			instrument.onActionExecuted(act);
-			act.done();
-			instrument.onActionDone(act);
+			instrument.onCmdExecuted(cmd);
+			cmd.done();
+			instrument.onCmdDone(cmd);
 		}
 
-		final boolean hadEffect = act.hadEffect();
+		final boolean hadEffect = cmd.hadEffect();
 
-		if(loggerAction != null) {
-			loggerAction.log(Level.INFO, "Action execution had effect: " + hadEffect);
+		if(loggerCmd != null) {
+			loggerCmd.log(Level.INFO, "Command execution had effect: " + hadEffect);
 		}
 		if(hadEffect) {
-			if(act.getRegistrationPolicy() != Action.RegistrationPolicy.NONE) {
-				ActionsRegistry.INSTANCE.addAction(act, instrument);
-				instrument.onActionAdded(act);
+			if(cmd.getRegistrationPolicy() != Command.RegistrationPolicy.NONE) {
+				CommandsRegistry.INSTANCE.addCommand(cmd, instrument);
+				instrument.onCmdAdded(cmd);
 			}else {
-				ActionsRegistry.INSTANCE.unregisterActions(act);
+				CommandsRegistry.INSTANCE.unregisterCommand(cmd);
 			}
-			act.followingActions().forEach(actFollow -> executeAction(actFollow, false));
+			cmd.followingCmds().forEach(cmdFollow -> executeCmd(cmdFollow, false));
 		}
 	}
 
@@ -362,26 +362,26 @@ public abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
 		}
 
 		if(ok) {
-			if(action == null) {
-				if(loggerAction != null) {
-					loggerAction.log(Level.INFO, "Action creation");
+			if(cmd == null) {
+				if(loggerCmd != null) {
+					loggerCmd.log(Level.INFO, "Command creation");
 				}
-				action = map();
+				cmd = map();
 				first();
 			}
 
-			if(loggerAction != null) {
-				loggerAction.log(Level.INFO, "Action update");
+			if(loggerCmd != null) {
+				loggerCmd.log(Level.INFO, "Command update");
 			}
 
 			then();
 
-			if(execute && action.canDo()) {
-				if(loggerAction != null) {
-					loggerAction.log(Level.INFO, "Action execution");
+			if(execute && cmd.canDo()) {
+				if(loggerCmd != null) {
+					loggerCmd.log(Level.INFO, "Command execution");
 				}
-				action.doIt();
-				instrument.onActionExecuted(action);
+				cmd.doIt();
+				instrument.onCmdExecuted(cmd);
 			}
 
 			feedback();
