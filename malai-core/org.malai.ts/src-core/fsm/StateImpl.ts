@@ -17,7 +17,7 @@ export abstract class StateImpl<E> implements State<E> {
 
     protected readonly name: string;
 
-    constructor(stateMachine: FSM<E>, stateName: string) {
+    protected constructor(stateMachine: FSM<E>, stateName: string) {
         this.fsm = stateMachine;
         this.name = stateName;
     }

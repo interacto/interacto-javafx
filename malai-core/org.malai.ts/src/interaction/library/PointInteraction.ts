@@ -38,7 +38,7 @@ export abstract class PointInteraction<F extends FSM<Event>, T> extends TSIntera
 
     protected metaPressed: boolean;
 
-    public constructor(fsm: F) {
+    protected constructor(fsm: F) {
         super(fsm);
         this.altPressed = false;
         this.ctrlPressed = false;

@@ -14,7 +14,7 @@ import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
 
 export abstract class TSTransition extends Transition<Event> {
-    public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
+    protected constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 }

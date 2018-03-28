@@ -24,7 +24,7 @@ export abstract class ActionImpl implements Action {
      */
     protected status: ActionStatus;
 
-    public constructor() {
+    protected constructor() {
         this.status = ActionStatus.CREATED;
     }
 

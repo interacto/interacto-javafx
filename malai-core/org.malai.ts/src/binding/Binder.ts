@@ -35,7 +35,7 @@ export abstract class Binder<A extends ActionImpl, I extends TSInteraction<FSM<E
 // protected List<ObservableList<? extends Node>> additionalWidgets;
     protected readonly logLevels: Set<LogLevel>;
 
-    public constructor(action: () => A, interaction: I) {
+    protected constructor(action: () => A, interaction: I) {
         this.actionClass = action;
         this.interaction = interaction;
         this.widgets = new MArray();
