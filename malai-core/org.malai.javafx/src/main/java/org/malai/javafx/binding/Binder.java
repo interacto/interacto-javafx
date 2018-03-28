@@ -28,29 +28,29 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
 
 /**
  * The base class that defines the concept of binding builder (called binder).
  * @param <W> The type of the widgets.
- * @param <A> The type of the action to produce.
+ * @param <C> The type of the action to produce.
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?, ?>, B extends Binder<W, A, I, B>> {
-	protected BiConsumer<A, I> initAction;
+public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<?, ?>, B extends Binder<W, C, I, B>> {
+	protected BiConsumer<C, I> initCmd;
 	protected Predicate<I> checkConditions;
-	protected Function<I, A> actionProducer;
+	protected Function<I, C> cmdProducer;
 	protected final List<W> widgets;
-	protected final Class<A> actionClass;
+	protected final Class<C> cmdClass;
 	protected final I interaction;
 	protected final JfxInstrument instrument;
 	protected boolean async;
-	protected BiConsumer<A, I> onEnd;
+	protected BiConsumer<C, I> onEnd;
 	protected List<ObservableList<? extends Node>> additionalWidgets;
 	protected Set<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
@@ -59,17 +59,17 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	protected StringProperty msgProp;
 	protected Button cancel;
 
-	public Binder(final Class<A> action, final I interaction, final JfxInstrument ins) {
+	public Binder(final Class<C> cmdClass, final I interaction, final JfxInstrument ins) {
 		super();
-		actionClass = Objects.requireNonNull(action);
+		this.cmdClass = Objects.requireNonNull(cmdClass);
 		this.interaction = Objects.requireNonNull(interaction);
 		widgets = new ArrayList<>();
 		instrument = Objects.requireNonNull(ins);
 		async = false;
 		checkConditions = null;
-		initAction = null;
+		initCmd = null;
 		onEnd = null;
-		actionProducer = null;
+		cmdProducer = null;
 		additionalWidgets = null;
 		helpAnimation = null;
 		withHelp = false;
@@ -104,67 +104,67 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 
 
 	/**
-	 * Specifies how the action is created from the user interaction.
-	 * Called a single time per interaction executed (just before 'first' that can still be called to, somehow, configure the action).
-	 * Each time the interaction starts, an instance of the action is created and configured by the given callback.
-	 * @param actionFunction The function that creates and initialises the action.
+	 * Specifies how the command is created from the user interaction.
+	 * Called a single time per interaction executed (just before 'first' that can still be called to, somehow, configure the command).
+	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
+	 * @param cmdFunction The function that creates and initialises the command.
 	 * This callback takes as arguments the current user interaction.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B map(final Function<I, A> actionFunction) {
-		actionProducer = actionFunction;
+	public B map(final Function<I, C> cmdFunction) {
+		cmdProducer = cmdFunction;
 		return (B) this;
 	}
 
 	/**
-	 * Specifies the initialisation of the action when the interaction starts.
-	 * Each time the interaction starts, an instance of the action is created and configured by the given callback.
-	 * @param initActionFct The callback method that initialises the action.
-	 * This callback takes as arguments the action to configure.
+	 * Specifies the initialisation of the command when the interaction starts.
+	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
+	 * @param initCmdFct The callback method that initialises the command.
+	 * This callback takes as arguments the command to configure.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B first(final Consumer<A> initActionFct) {
-		if(initActionFct != null) {
-			initAction = (a, i) -> initActionFct.accept(a);
+	public B first(final Consumer<C> initCmdFct) {
+		if(initCmdFct != null) {
+			initCmd = (c, i) -> initCmdFct.accept(c);
 		}
 		return (B) this;
 	}
 
 	/**
-	 * Specifies the initialisation of the action when the interaction starts.
-	 * Each time the interaction starts, an instance of the action is created and configured by the given callback.
-	 * @param initActionFct The callback method that initialises the action.
-	 * This callback takes as arguments both the action and interaction involved in the binding.
+	 * Specifies the initialisation of the command when the interaction starts.
+	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
+	 * @param initCmdFct The callback method that initialises the command.
+	 * This callback takes as arguments both the command and interaction involved in the binding.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B first(final BiConsumer<A, I> initActionFct) {
-		initAction = initActionFct;
+	public B first(final BiConsumer<C, I> initCmdFct) {
+		initCmd = initCmdFct;
 		return (B) this;
 	}
 
 	/**
-	 * Specifies the conditions to fulfill to initialise, update, or execute the action while the interaction is running.
-	 * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
+	 * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
+	 * @param checkCmd The predicate that checks whether the command can be initialised, updated, or executed.
 	 * This predicate takes as arguments the ongoing user interaction involved in the binding.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B when(final Predicate<I> checkAction) {
-		checkConditions = checkAction;
+	public B when(final Predicate<I> checkCmd) {
+		checkConditions = checkCmd;
 		return (B) this;
 	}
 
 	/**
-	 * Specifies the conditions to fulfill to initialise, update, or execute the action while the interaction is running.
-	 * @param checkAction The predicate that checks whether the action can be initialised, updated, or executed.
+	 * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
+	 * @param checkCmd The predicate that checks whether the command can be initialised, updated, or executed.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B when(final BooleanSupplier checkAction) {
-		checkConditions = i -> checkAction.getAsBoolean();
+	public B when(final BooleanSupplier checkCmd) {
+		checkConditions = i -> checkCmd.getAsBoolean();
 		return (B) this;
 	}
 
 	/**
-	 * Specifies that the action will be executed in a separated threads.
+	 * Specifies that the command will be executed in a separated threads.
 	 * Beware of UI modifications: UI changes must be done in the JFX UI thread.
 	 * @return The builder to chain the building configuration.
 	 */
@@ -178,11 +178,11 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 
 	/**
 	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
-	 * the interaction is reinitialised and the action finally executed and discarded / saved).
+	 * the interaction is reinitialised and the command finally executed and discarded / saved).
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B end(final BiConsumer<A, I> onEndFct) {
+	public B end(final BiConsumer<C, I> onEndFct) {
 		onEnd = onEndFct;
 		return (B) this;
 	}
@@ -190,7 +190,7 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 	/**
 	 * Specifies the loggings to use.
 	 * Several call to 'log' can be done to log different parts:
-	 * log(LogLevel.INTERACTION).log(LogLevel.ACTION)
+	 * log(LogLevel.INTERACTION).log(LogLevel.COMMAND)
 	 * @param level The logging level to use.
 	 * @return The builder to chain the building configuration.
 	 */
@@ -225,15 +225,15 @@ public abstract class Binder<W, A extends ActionImpl, I extends JfxInteraction<?
 
 	/**
 	 * Executes the builder to create and install the binding on the instrument.
-	 * @throws IllegalArgumentException On issues while creating the actions.
+	 * @throws IllegalArgumentException On issues while creating the commands.
 	 */
-	public JfXWidgetBinding<A, I, ?> bind() {
-		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false,
-			actionClass, interaction, initAction, null, checkConditions, onEnd, actionProducer, null, null, null,
+	public JfXWidgetBinding<C, I, ?> bind() {
+		final JFxAnonNodeBinding<C, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction, initCmd,
+			null, checkConditions, onEnd, cmdProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
-		binding.setCancelActionButton(cancel);
+		binding.setCancelCmdButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}

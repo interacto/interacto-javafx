@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.ComboBox;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.ComboBoxSelected;
 
 /**
- * The binding builder to create bindings between a combobox interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a combobox interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ComboBoxBinder<A extends ActionImpl> extends Binder<ComboBox<?>, A, ComboBoxSelected, ComboBoxBinder<A>> {
-	public ComboBoxBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new ComboBoxSelected(), instrument);
+public class ComboBoxBinder<C extends CommandImpl> extends Binder<ComboBox<?>, C, ComboBoxSelected, ComboBoxBinder<C>> {
+	public ComboBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new ComboBoxSelected(), instrument);
 	}
 }

@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.CheckBox;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.BoxChecked;
 
 /**
- * The binding builder to create bindings between a checkbox interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a checkbox interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class CheckBoxBinder<A extends ActionImpl> extends Binder<CheckBox, A, BoxChecked, CheckBoxBinder<A>> {
-	public CheckBoxBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new BoxChecked(), instrument);
+public class CheckBoxBinder<C extends CommandImpl> extends Binder<CheckBox, C, BoxChecked, CheckBoxBinder<C>> {
+	public CheckBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new BoxChecked(), instrument);
 	}
 }

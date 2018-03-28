@@ -5,9 +5,9 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.malai.action.Action;
-import org.malai.action.ActionImpl;
-import org.malai.action.AutoUnbind;
+import org.malai.command.Command;
+import org.malai.command.CommandImpl;
+import org.malai.command.AutoUnbind;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.FSM;
 import org.malai.instrument.Instrument;
@@ -35,14 +35,14 @@ public class TestAutoUnbind {
 
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
-		final A act = new A(val.multiply(10d), val.add(11d));
+		final A aCmd = new A(val.multiply(10d), val.add(11d));
 		WidgetBindingImpl<A, InteractionImpl<?,?>, Instrument<?>> binding = new WidgetBindingImpl<A, InteractionImpl<?,?>, Instrument<?>>(ins, false, A.class, inter) {
 			@Override
 			public void first() {
 			}
 			@Override
 			protected A map() {
-				return act;
+				return aCmd;
 			}
 			@Override
 			public boolean when() {
@@ -50,7 +50,7 @@ public class TestAutoUnbind {
 			}
 
 			@Override
-			protected void executeActionAsync(final Action act) {
+			protected void executeCmdAsync(final Command cmd) {
 
 			}
 		};
@@ -58,13 +58,13 @@ public class TestAutoUnbind {
 		binding.setActivated(true);
 		binding.fsmStarts();
 		binding.fsmStops();
-		assertFalse(act.x.isBound());
-		assertFalse(act.y.isBound());
+		assertFalse(aCmd.x.isBound());
+		assertFalse(aCmd.y.isBound());
 	}
 
 	@Test
 	public void testUnbindSuperClassFields() throws CancelFSMException {
-		final B act = new B(val.multiply(10d), val.add(11d), val.add(20d));
+		final B bCmd = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
 		WidgetBindingImpl<B, InteractionImpl<?,?>, Instrument<?>> binding = new WidgetBindingImpl<B, InteractionImpl<?,?>, Instrument<?>>(ins, false, B.class, inter) {
 			@Override
@@ -72,7 +72,7 @@ public class TestAutoUnbind {
 			}
 			@Override
 			protected B map() {
-				return act;
+				return bCmd;
 			}
 			@Override
 			public boolean when() {
@@ -80,7 +80,7 @@ public class TestAutoUnbind {
 			}
 
 			@Override
-			protected void executeActionAsync(final Action act) {
+			protected void executeCmdAsync(final Command cmd) {
 
 			}
 		};
@@ -88,9 +88,9 @@ public class TestAutoUnbind {
 		binding.setActivated(true);
 		binding.fsmStarts();
 		binding.fsmStops();
-		assertFalse(act.x.isBound());
-		assertFalse(act.y.isBound());
-		assertFalse(act.z.isBound());
+		assertFalse(bCmd.x.isBound());
+		assertFalse(bCmd.y.isBound());
+		assertFalse(bCmd.z.isBound());
 	}
 }
 
@@ -105,7 +105,7 @@ class B extends A {
 	}
 }
 
-class A extends ActionImpl {
+class A extends CommandImpl {
 	private double bar;
 	@AutoUnbind final SimpleDoubleProperty x;
 	@AutoUnbind final DoubleProperty y;
@@ -118,7 +118,7 @@ class A extends ActionImpl {
 	}
 
 	@Override
-	protected void doActionBody() {
+	protected void doCmdBody() {
 
 	}
 

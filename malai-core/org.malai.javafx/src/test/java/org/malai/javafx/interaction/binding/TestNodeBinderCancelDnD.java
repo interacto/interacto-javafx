@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.binding.NodeBinder;
 import org.malai.javafx.interaction.library.DnD;
 import org.malai.undo.Undoable;
@@ -38,10 +38,10 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
 			map(i -> new MoveShape(rec)).
 			on(rec).
-			first((a, i) -> rec.requestFocus()).
-			then((a, i) -> a.setCoord(rec.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
+			first((c, i) -> rec.requestFocus()).
+			then((c, i) -> c.setCoord(rec.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
 				rec.getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
-			end((a, i) -> fail("")).
+			end((c, i) -> fail("")).
 			exec().
 			bind();
 		drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
@@ -53,10 +53,10 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
 			map(i -> new MoveShape((Rectangle) i.getSrcObject().get())).
 			on(widget1.getChildren()).
-			first((a, i) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
-			then((a, i) -> a.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
+			first((c, i) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
+			then((c, i) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
 				((Rectangle) i.getSrcObject().get()).getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
-			end((a, i) -> fail("")).
+			end((c, i) -> fail("")).
 			exec().
 			bind();
 
@@ -68,7 +68,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	}
 }
 
-class MoveShape extends ActionImpl implements Undoable {
+class MoveShape extends CommandImpl implements Undoable {
 	private double mementoX;
 	private double mementoY;
 	private final DoubleProperty newX;
@@ -83,7 +83,7 @@ class MoveShape extends ActionImpl implements Undoable {
 	}
 
 	@Override
-	protected void doActionBody() {
+	protected void doCmdBody() {
 		redo();
 	}
 

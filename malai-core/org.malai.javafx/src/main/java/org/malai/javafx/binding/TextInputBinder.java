@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.TextInputControl;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.TextInputChanged;
 
 /**
- * The binding builder to create bindings between a text input interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a text input interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class TextInputBinder<A extends ActionImpl, W extends TextInputControl> extends UpdateBinder<W, A, TextInputChanged, TextInputBinder<A, W>> {
-	public TextInputBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new TextInputChanged(), instrument);
+public class TextInputBinder<C extends CommandImpl, W extends TextInputControl> extends UpdateBinder<W, C, TextInputChanged, TextInputBinder<C, W>> {
+	public TextInputBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new TextInputChanged(), instrument);
 	}
 }

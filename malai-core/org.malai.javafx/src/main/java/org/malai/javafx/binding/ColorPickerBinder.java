@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.ColorPicker;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.ColorPicked;
 
 /**
- * The binding builder to create bindings between a color picker interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a color picker interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ColorPickerBinder<A extends ActionImpl> extends Binder<ColorPicker, A, ColorPicked, ColorPickerBinder<A>> {
-	public ColorPickerBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new ColorPicked(), instrument);
+public class ColorPickerBinder<C extends CommandImpl> extends Binder<ColorPicker, C, ColorPicked, ColorPickerBinder<C>> {
+	public ColorPickerBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new ColorPicked(), instrument);
 	}
 }

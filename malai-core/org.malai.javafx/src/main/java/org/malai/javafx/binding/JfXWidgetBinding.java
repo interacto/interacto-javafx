@@ -26,24 +26,24 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Window;
-import org.malai.action.Action;
-import org.malai.action.ActionImpl;
 import org.malai.binding.WidgetBindingImpl;
+import org.malai.command.Command;
+import org.malai.command.CommandImpl;
 import org.malai.error.ErrorCatcher;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.help.HelpAnimationPlayer;
-import org.malai.javafx.interaction.JfxInteraction;
 
 /**
  * Base of a widget binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends WidgetBindingImpl<A, I, N> {
-	/** The executor service used to execute action async. Do not access directly (lazy instantiation). Use its private getter instead. */
+public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends WidgetBindingImpl<C, I, N> {
+	/** The executor service used to execute command async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;
 
-	private static ExecutorService getActionExecutor() {
+	private static ExecutorService getCmdExecutor() {
 		if(executorService == null) {
 			executorService = Executors.newSingleThreadExecutor();
 		}
@@ -53,27 +53,27 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	protected final BooleanProperty activation;
 	protected boolean withHelp;
 	protected HelpAnimation customAnimation;
-	/** The property used to displayed a message while executing an action async. */
+	/** The property used to displayed a message while executing a command async. */
 	protected StringProperty progressMsgProp;
-	/** The property used to make a progress bar progressing while executing an action async. */
+	/** The property used to make a progress bar progressing while executing a command async. */
 	protected DoubleProperty progressBarProp;
-	/** The button used to stop the action executed async. May be null. */
-	protected Button cancelActionButton;
+	/** The button used to stop the command executed async. May be null. */
+	protected Button cancelCmdButton;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
-	 * @param exec Specifies whether the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
+	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
+	public JfXWidgetBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
 							final List<Node> widgets, final boolean help, final HelpAnimation animation) {
-		super(ins, exec, clazzAction, interaction);
+		super(ins, exec, clazzCmd, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
 		initActivation();
 		withHelp = help;
@@ -85,32 +85,32 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
-	 * @param exec Specifies whether the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
+	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction, final boolean help,
+	public JfXWidgetBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction, final boolean help,
 							final HelpAnimation animation, final Node... widgets) {
-		this(ins, exec, clazzAction, interaction, Arrays.asList(widgets), help, animation);
+		this(ins, exec, clazzCmd, interaction, Arrays.asList(widgets), help, animation);
 	}
 
 	/**
 	 * Creates a widget binding for windows. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
-	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param windows The windows concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final Class<A> clazzAction,
+	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final Class<C> clazzCmd,
 							final I interaction, final HelpAnimation animation, final boolean help) {
-		super(ins, exec, clazzAction, interaction);
+		super(ins, exec, clazzCmd, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
 		withHelp = help;
 		customAnimation = animation;
@@ -119,7 +119,7 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	}
 
 	/**
-	 * The property used to displayed a message while executing an action async.
+	 * The property used to displayed a message while executing a command async.
 	 * @param progressMsgProp The string property to be bound. Nothing done if null or already bound.
 	 */
 	public void setProgressMsgProp(final StringProperty progressMsgProp) {
@@ -127,7 +127,7 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	}
 
 	/**
-	 * The property used to make a progress bar progressing while executing an action async.
+	 * The property used to make a progress bar progressing while executing a command async.
 	 * @param progressBarProp The double property to be bound. Nothing done if null or already bound.
 	 */
 	public void setProgressBarProp(final DoubleProperty progressBarProp) {
@@ -135,11 +135,11 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 	}
 
 	/**
-	 * The button used to stop the action executed async.
-	 * @param cancelActionButton The cancel button. May be null.
+	 * The button used to stop the command executed async.
+	 * @param cancelCmdButton The cancel button. May be null.
 	 */
-	public void setCancelActionButton(final Button cancelActionButton) {
-		this.cancelActionButton = cancelActionButton;
+	public void setCancelCmdButton(final Button cancelCmdButton) {
+		this.cancelCmdButton = cancelCmdButton;
 	}
 
 	@Override
@@ -161,8 +161,8 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 
 
 	@Override
-	protected void executeActionAsync(final Action act) {
-		final BindingTask task = new BindingTask(act);
+	protected void executeCmdAsync(final Command cmd) {
+		final BindingTask task = new BindingTask(cmd);
 		final boolean progressBound = progressBarProp != null && !progressBarProp.isBound();
 		final boolean msgBound = progressMsgProp != null && !progressMsgProp.isBound();
 		final EventHandler<ActionEvent> cancelEvent = evt -> task.cancel();
@@ -175,12 +175,12 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 			progressMsgProp.bind(task.messageProperty());
 		}
 
-		if(cancelActionButton != null) {
-			cancelActionButton.addEventHandler(ActionEvent.ACTION, cancelEvent);
-			cancelActionButton.setVisible(true);
+		if(cancelCmdButton != null) {
+			cancelCmdButton.addEventHandler(ActionEvent.ACTION, cancelEvent);
+			cancelCmdButton.setVisible(true);
 		}
 
-		getActionExecutor().submit(task);
+		getCmdExecutor().submit(task);
 
 		new Thread(() -> {
 			boolean ok;
@@ -188,8 +188,8 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 			try {
 				ok = task.get();
 			}catch(final CancellationException | InterruptedException ex1) {
-				if(loggerAction != null) {
-					loggerAction.log(Level.INFO, "Action execution cancelled: " + act);
+				if(loggerCmd != null) {
+					loggerCmd.log(Level.INFO, "Command execution cancelled: " + cmd);
 				}
 				ok = false;
 			}catch(final ExecutionException ex2) {
@@ -197,9 +197,9 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 				ok = false;
 			}
 
-			if(cancelActionButton != null) {
-				cancelActionButton.removeEventHandler(ActionEvent.ACTION, cancelEvent);
-				cancelActionButton.setVisible(false);
+			if(cancelCmdButton != null) {
+				cancelCmdButton.removeEventHandler(ActionEvent.ACTION, cancelEvent);
+				cancelCmdButton.setVisible(false);
 			}
 
 			if(progressBound) {
@@ -210,7 +210,7 @@ public abstract class JfXWidgetBinding<A extends ActionImpl, I extends JfxIntera
 				progressMsgProp.unbind();
 			}
 
-			afterActionExecuted(act, ok);
+			afterCmdExecuted(cmd, ok);
 		}).start();
 	}
 

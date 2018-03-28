@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.Spinner;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.SpinnerChanged;
 
 /**
- * The binding builder to create bindings between a spinner interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a spinner interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class SpinnerBinder<A extends ActionImpl> extends UpdateBinder<Spinner<?>, A, SpinnerChanged, SpinnerBinder<A>> {
-	public SpinnerBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new SpinnerChanged(), instrument);
+public class SpinnerBinder<C extends CommandImpl> extends UpdateBinder<Spinner<?>, C, SpinnerChanged, SpinnerBinder<C>> {
+	public SpinnerBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new SpinnerChanged(), instrument);
 	}
 }

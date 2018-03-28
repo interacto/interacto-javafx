@@ -10,7 +10,7 @@
  */
 package org.malai.binding;
 
-import org.malai.action.Action;
+import org.malai.command.Command;
 import org.malai.fsm.FSMHandler;
 import org.malai.instrument.Instrument;
 import org.malai.interaction.InteractionImpl;
@@ -26,12 +26,12 @@ public interface WidgetBinding extends FSMHandler {
 	void clearEvents();
 
 	/**
-	 * After being created by method map, the action must be initialised by this method.
+	 * After being created by method map, the command must be initialised by this method.
 	 */
 	void first();
 
 	/**
-	 * Updates the current action. To override.
+	 * Updates the current command. To override.
 	 */
 	void then();
 
@@ -46,9 +46,9 @@ public interface WidgetBinding extends FSMHandler {
 	InteractionImpl<?, ?> getInteraction();
 
 	/**
-	 * @return The action in progress or null.
+	 * @return The command in progress or null.
 	 */
-	Action getAction();
+	Command getCommand();
 
 	/**
 	 * @return True if the widget binding is activated.
@@ -72,7 +72,7 @@ public interface WidgetBinding extends FSMHandler {
 	boolean isStrictStart();
 
 	/**
-	 * @return True if the action is executed on each evolution of the interaction.
+	 * @return True if the command is executed on each evolution of the interaction.
 	 */
 	boolean isExecute();
 

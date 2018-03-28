@@ -11,18 +11,18 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.Node;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * The binding builder to create bindings between a given user interaction on a node and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a given user interaction on a node and a given command.
+ * @param <C> The type of the command to produce.
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public class NodeBinder<A extends ActionImpl, I extends JfxInteraction<?, ?>> extends UpdateBinder<Node, A, I, NodeBinder<A, I>> {
-	public NodeBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
-		super(action, interaction, instrument);
+public class NodeBinder<C extends CommandImpl, I extends JfxInteraction<?, ?>> extends UpdateBinder<Node, C, I, NodeBinder<C, I>> {
+	public NodeBinder(final Class<C> cmdClass, final I interaction, final JfxInstrument instrument) {
+		super(cmdClass, interaction, instrument);
 	}
 }

@@ -4,8 +4,8 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Node;
-import org.malai.action.Action;
-import org.malai.action.ActionImpl;
+import org.malai.command.Command;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
@@ -15,11 +15,11 @@ public abstract class TestBinder<W> extends ApplicationTest {
 	W widget2;
 	StubInstrument instrument;
 
-	public static class StubAction extends ActionImpl {
+	public static class StubCmd extends CommandImpl {
 		final IntegerProperty exec = new SimpleIntegerProperty(0);
 
 		@Override
-		protected void doActionBody() {
+		protected void doCmdBody() {
 			synchronized(exec) {
 				exec.setValue(exec.getValue() + 1);
 			}
@@ -38,17 +38,17 @@ public abstract class TestBinder<W> extends ApplicationTest {
 
 	static class StubInstrument extends JfxInstrument {
 		final IntegerProperty exec = new SimpleIntegerProperty(0);
-		Action lastCreatedAction = null;
+		Command lastCreatedCmd = null;
 
 		@Override
 		protected void configureBindings() {
 		}
 
 		@Override
-		public void onActionDone(final Action action) {
+		public void onCmdDone(final Command cmd) {
 			synchronized(exec) {
 				exec.setValue(exec.getValue() + 1);
-				lastCreatedAction = action;
+				lastCreatedCmd = cmd;
 			}
 		}
 	}

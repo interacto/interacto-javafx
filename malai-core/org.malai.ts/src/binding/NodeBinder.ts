@@ -9,19 +9,19 @@
  * General Public License for more details.
  */
 
-import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {TSInteraction} from "../interaction/TSInteraction";
 import {FSM} from "../../src-core/fsm/FSM";
 import {UpdateBinder} from "./UpdateBinder";
+import {CommandImpl} from "../../src-core/command/CommandImpl";
 
 /**
- * The binding builder to create bindings between a given user interaction on a node and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a given user interaction on a node and a given command.
+ * @param <C> The type of the command to produce.
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-export class NodeBinder<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>> extends UpdateBinder<A, I, NodeBinder<A, I>> {
-    public constructor(action: () => A, interaction: I) {
-        super(action, interaction);
+export class NodeBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>> extends UpdateBinder<C, I, NodeBinder<C, I>> {
+    public constructor(cmdProducer: () => C, interaction: I) {
+        super(cmdProducer, interaction);
     }
 }

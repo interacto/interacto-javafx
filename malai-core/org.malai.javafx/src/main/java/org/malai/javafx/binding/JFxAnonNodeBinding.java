@@ -20,63 +20,63 @@ import java.util.logging.Level;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.Window;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
 
 /**
- * This anonymous widget binding takes a function as a parameter that will be executed to initialise the action.
+ * This anonymous widget binding takes a function as a parameter that will be executed to initialise the command.
  * The goal is to avoid the creation of a specific class when the binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
-	private final BiConsumer<A, I> execInitAction;
-	private final BiConsumer<A, I> execUpdateAction;
+public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends JfXWidgetBinding<C, I, N> {
+	private final BiConsumer<C, I> execInitCmd;
+	private final BiConsumer<C, I> execUpdateCmd;
 	private final Predicate<I> checkInteraction;
-	private final Function<I, A> actionProducer;
-	private final BiConsumer<A, I> cancelFct;
-	private final BiConsumer<A, I> endOrCancelFct;
+	private final Function<I, C> cmdProducer;
+	private final BiConsumer<C, I> cancelFct;
+	private final BiConsumer<C, I> endOrCancelFct;
 	private final Runnable feedbackFct;
-	private final BiConsumer<A, I> onEnd;
+	private final BiConsumer<C, I> onEnd;
 	private final boolean strictStart;
-	/** Used rather than 'action' to catch the action during its creation.
-	 * Sometimes (eg onInteractionStops) can create the action, execute it, and forget it.
+	/** Used rather than 'command' to catch the command during its creation.
+	 * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
 	 */
-	protected A currentAction;
+	protected C currentCmd;
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the binding.
-	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets used by the binding. Cannot be null.
-	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
-	 * @param updateActionFct The function that updates the action. Can be null.
+	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
+	 * @param updateCmdFct The function that updates the command. Can be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
-							  final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
-							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
+	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
+							  final BiConsumer<C, I> initCmdFct, final BiConsumer<C, I> updateCmdFct,
+							  final Predicate<I> check, final BiConsumer<C, I> onEndFct, final Function<I, C> cmdFunction,
+							  final BiConsumer<C, I> cancel, final BiConsumer<C, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
 							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean asyncExec, final boolean strict, final Set<LogLevel> loggers,
 							  final boolean help, final HelpAnimation animation) {
-		super(ins, exec, clazzAction, interaction, widgets, help, animation);
-		execInitAction = initActionFct;
-		execUpdateAction = updateActionFct;
+		super(ins, exec, clazzCmd, interaction, widgets, help, animation);
+		execInitCmd = initCmdFct;
+		execUpdateCmd = updateCmdFct;
 		cancelFct = cancel;
 		endOrCancelFct = endOrCancel;
 		feedbackFct = feedback;
-		actionProducer = actionFunction;
+		cmdProducer = cmdFunction;
 		checkInteraction = check == null ? i -> true : check;
 		async = asyncExec;
 		onEnd = onEndFct;
 		strictStart = strict;
-		currentAction = null;
+		currentCmd = null;
 		configureLoggers(loggers);
 
 		if(additionalWidgets != null) {
@@ -88,38 +88,38 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the binding.
-	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param widgets The windows used by the binding. Cannot be null.
-	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
-	 * @param updateActionFct The function that updates the action. Can be null.
+	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
+	 * @param updateCmdFct The function that updates the command. Can be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
-							  final List<Window> widgets, final BiConsumer<A, I> initActionFct, final BiConsumer<A, I> updateActionFct,
-							  final Predicate<I> check, final BiConsumer<A, I> onEndFct, final Function<I, A> actionFunction,
-							  final BiConsumer<A, I> cancel, final BiConsumer<A, I> endOrCancel, final Runnable feedback, final boolean asyncExec,
+	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
+							  final List<Window> widgets, final BiConsumer<C, I> initCmdFct, final BiConsumer<C, I> updateCmdFct,
+							  final Predicate<I> check, final BiConsumer<C, I> onEndFct, final Function<I, C> cmdFunction,
+							  final BiConsumer<C, I> cancel, final BiConsumer<C, I> endOrCancel, final Runnable feedback, final boolean asyncExec,
 							  final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
-		super(ins, exec, widgets, clazzAction, interaction, animation, help);
-		execInitAction = initActionFct;
-		execUpdateAction = updateActionFct;
+		super(ins, exec, widgets, clazzCmd, interaction, animation, help);
+		execInitCmd = initCmdFct;
+		execUpdateCmd = updateCmdFct;
 		cancelFct = cancel;
 		endOrCancelFct = endOrCancel;
 		feedbackFct = feedback;
-		actionProducer = actionFunction;
+		cmdProducer = cmdFunction;
 		checkInteraction = check == null ? i -> true : check;
 		async = asyncExec;
 		onEnd = onEndFct;
 		strictStart = strict;
-		currentAction = null;
+		currentCmd = null;
 		configureLoggers(loggers);
 	}
 
 	private void configureLoggers(final Set<LogLevel> loggers) {
 		if(loggers != null) {
-			logAction(loggers.contains(LogLevel.ACTION));
+			logCmd(loggers.contains(LogLevel.COMMAND));
 			logBinding(loggers.contains(LogLevel.BINDING));
 			interaction.log(loggers.contains(LogLevel.INTERACTION));
 		}
@@ -131,26 +131,26 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?
 	}
 
 	@Override
-	protected A map() {
-		if(actionProducer == null) {
-			currentAction = super.map();
+	protected C map() {
+		if(cmdProducer == null) {
+			currentCmd = super.map();
 		}else {
-			currentAction = actionProducer.apply(getInteraction());
+			currentCmd = cmdProducer.apply(getInteraction());
 		}
-		return currentAction;
+		return currentCmd;
 	}
 
 	@Override
 	public void first() {
-		if(execInitAction != null && currentAction != null) {
-			execInitAction.accept(getAction(), getInteraction());
+		if(execInitCmd != null && currentCmd != null) {
+			execInitCmd.accept(getCommand(), getInteraction());
 		}
 	}
 
 	@Override
 	public void then() {
-		if(execUpdateAction != null) {
-			execUpdateAction.accept(getAction(), getInteraction());
+		if(execUpdateCmd != null) {
+			execUpdateCmd.accept(getCommand(), getInteraction());
 		}
 	}
 
@@ -165,14 +165,14 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?
 
 	@Override
 	public void fsmCancels() {
-		if(endOrCancelFct != null && currentAction != null) {
-			endOrCancelFct.accept(action, interaction);
+		if(endOrCancelFct != null && currentCmd != null) {
+			endOrCancelFct.accept(cmd, interaction);
 		}
-		if(cancelFct != null && currentAction != null) {
-			cancelFct.accept(action, interaction);
+		if(cancelFct != null && currentCmd != null) {
+			cancelFct.accept(cmd, interaction);
 		}
 		super.fsmCancels();
-		currentAction = null;
+		currentCmd = null;
 	}
 
 	@Override
@@ -188,17 +188,17 @@ public class JFxAnonNodeBinding<A extends ActionImpl, I extends JfxInteraction<?
 	@Override
 	public void fsmStops() {
 		super.fsmStops();
-		if(endOrCancelFct != null && currentAction != null) {
-			endOrCancelFct.accept(currentAction, getInteraction());
+		if(endOrCancelFct != null && currentCmd != null) {
+			endOrCancelFct.accept(currentCmd, getInteraction());
 		}
-		if(onEnd != null && currentAction != null) {
-			onEnd.accept(currentAction, getInteraction());
+		if(onEnd != null && currentCmd != null) {
+			onEnd.accept(currentCmd, getInteraction());
 		}
-		currentAction = null;
+		currentCmd = null;
 	}
 
 	@Override
 	public String toString() {
-		return "JFxAnonNodeBinding in " + instrument + '{' + interaction + " -> " + clazzAction + '}';
+		return "JFxAnonNodeBinding in " + instrument + '{' + interaction + " -> " + clazzCmd + '}';
 	}
 }

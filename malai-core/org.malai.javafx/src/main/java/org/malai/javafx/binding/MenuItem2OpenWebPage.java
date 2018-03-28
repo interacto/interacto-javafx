@@ -13,7 +13,7 @@ package org.malai.javafx.binding;
 import java.net.URI;
 import java.util.Collections;
 import javafx.scene.control.MenuItem;
-import org.malai.javafx.action.OpenWebPageJFX;
+import org.malai.javafx.command.OpenWebPageJFX;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemPressed;
 
@@ -28,7 +28,7 @@ public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, Men
 	/**
 	 * Creates the widget binding.
 	 * @param ins The instrument that will contain the binding.
-	 * @param menuItem he menu item that will be uses to create the action.
+	 * @param menuItem he menu item that will be uses to create the command.
 	 * @param uri The URI to open.
 	 * @throws IllegalArgumentException If one of the given parameters is null.
 	 * @since 2.0
@@ -45,6 +45,6 @@ public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, Men
 
 	@Override
 	public void first() {
-		action.setUri(uri);
+		cmd.setUri(uri);
 	}
 }

@@ -12,7 +12,7 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.control.MenuItem;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
 
@@ -20,20 +20,20 @@ import org.malai.javafx.interaction.library.MenuItemInteraction;
  * Base of a menu item binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxMenuItemBinding<A extends ActionImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfXWidgetBinding<A, I, N> {
+public abstract class JfxMenuItemBinding<C extends CommandImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfXWidgetBinding<C, I, N> {
 	/**
 	 * Creates a widget binding for menu items. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the binding.
-	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param menuItems The menu items concerned by the binding. Can be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction, final List<MenuItem> menuItems) {
-		super(ins, exec, clazzAction, interaction, false, null);
+	public JfxMenuItemBinding(final N ins, final boolean exec, final Class<C> cmdClass, final I interaction, final List<MenuItem> menuItems) {
+		super(ins, exec, cmdClass, interaction, false, null);
 
 		if(menuItems != null) {
 			interaction.registerToMenuItems(menuItems);

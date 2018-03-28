@@ -10,20 +10,20 @@
  */
 
 import {ButtonBinder} from "../../src/binding/ButtonBinder";
-import {StubAction} from "../action/StubAction";
 import {StubFSMHandler} from "../fsm/StubFSMHandler";
 import {TSWidgetBinding} from "../../src/binding/TSWidgetBinding";
 import {ButtonPressed} from "../../src/interaction/library/ButtonPressed";
+import {StubCmd} from "../command/StubCmd";
 
 jest.mock("../fsm/StubFSMHandler");
-jest.mock("../action/StubAction");
+jest.mock("../command/StubCmd");
 
 let button: HTMLElement;
-let binding: TSWidgetBinding<StubAction, ButtonPressed>;
+let binding: TSWidgetBinding<StubCmd, ButtonPressed>;
 
 beforeEach(() => {
     jest.clearAllMocks();
-    const binder = new ButtonBinder(() => new StubAction());
+    const binder = new ButtonBinder(() => new StubCmd());
     document.documentElement.innerHTML = "<html><div><button id='b1'>A Button</button></div></html>";
     const elt = document.getElementById("b1");
     if (elt !== null) {
@@ -45,7 +45,7 @@ test("Click on button triggers the interaction", () => {
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
 });
 
-test("Click on button produces an action", () => {
+test("Click on button produces a command", () => {
     button.click();
-    expect(StubAction.prototype.doIt).toHaveBeenCalledTimes(1);
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });

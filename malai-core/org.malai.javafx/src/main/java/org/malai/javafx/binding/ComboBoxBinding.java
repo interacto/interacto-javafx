@@ -12,40 +12,40 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.Node;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.ComboBoxSelected;
 
 /**
  * A widget binding for combo-boxes.
- * @param <A> The action to produce.
+ * @param <C> The command to produce.
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ComboBoxBinding<A extends ActionImpl, I extends JfxInstrument> extends JfXWidgetBinding<A, ComboBoxSelected, I> {
+public abstract class ComboBoxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ComboBoxSelected, I> {
 	/**
 	 * Creates a combo-box binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ComboBoxBinding(I ins, Class<A> clazzAction, List<Node> widgets) {
-		this(ins, clazzAction, widgets, false, null);
+	public ComboBoxBinding(I ins, Class<C> cmdClass, List<Node> widgets) {
+		this(ins, cmdClass, widgets, false, null);
 	}
 
 	/**
 	 * Creates a combo-box binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ComboBoxBinding(I ins, Class<A> clazzAction, List<Node> widgets,
+	public ComboBoxBinding(I ins, Class<C> cmdClass, List<Node> widgets,
 						   final boolean help, final HelpAnimation animation) {
-		super(ins, false, clazzAction, new ComboBoxSelected(), widgets, help, animation);
+		super(ins, false, cmdClass, new ComboBoxSelected(), widgets, help, animation);
 	}
 }

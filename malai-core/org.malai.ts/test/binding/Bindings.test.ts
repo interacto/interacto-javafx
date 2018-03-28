@@ -9,11 +9,11 @@
  * General Public License for more details.
  */
 
-import {StubAction} from "../action/StubAction";
-import {anonActionBinder, buttonBinder, nodeBinder} from "../../src/binding/Bindings";
+import {anonCmdBinder, buttonBinder, nodeBinder} from "../../src/binding/Bindings";
 import {Click} from "../../src/interaction/library/Click";
+import {StubCmd} from "../command/StubCmd";
 
-jest.mock("../action/StubAction");
+jest.mock("../command/StubCmd");
 
 let button: HTMLElement;
 let canvas: HTMLElement;
@@ -32,20 +32,20 @@ beforeEach(() => {
 });
 
 test("button binder ok", () => {
-    buttonBinder(() => new StubAction()).on(button).bind();
+    buttonBinder(() => new StubCmd()).on(button).bind();
     button.click();
-    expect(StubAction.prototype.doIt).toHaveBeenCalledTimes(1);
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
 test("node binder ok", () => {
-    nodeBinder(() => new StubAction(), new Click()).on(canvas).bind();
+    nodeBinder(() => new StubCmd(), new Click()).on(canvas).bind();
     canvas.click();
-    expect(StubAction.prototype.doIt).toHaveBeenCalledTimes(1);
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
-test("Anon action binder ok", () => {
-    const action = new StubAction();
-    anonActionBinder(() => action.doIt(), new Click()).on(canvas).bind();
+test("Anon cmd binder ok", () => {
+    const cmd = new StubCmd();
+    anonCmdBinder(() => cmd.doIt(), new Click()).on(canvas).bind();
     canvas.click();
-    expect(StubAction.prototype.doIt).toHaveBeenCalledTimes(1);
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });

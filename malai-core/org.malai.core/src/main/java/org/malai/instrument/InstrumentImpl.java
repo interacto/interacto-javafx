@@ -12,7 +12,7 @@ package org.malai.instrument;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.malai.action.Action;
+import org.malai.command.Command;
 import org.malai.binding.WidgetBinding;
 import org.malai.error.ErrorCatcher;
 import org.malai.undo.Undoable;
@@ -174,22 +174,22 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 	}
 
 	@Override
-	public void onActionAdded(final Action action) {
+	public void onCmdAdded(final Command cmd) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionCancelled(final Action action) {
+	public void onCmdCancelled(final Command cmd) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionExecuted(final Action action) {
+	public void onCmdExecuted(final Command cmd) {
 		// Should be overridden.
 	}
 
 	@Override
-	public void onActionDone(final Action action) {
+	public void onCmdDone(final Command cmd) {
 		// Should be overridden.
 	}
 }

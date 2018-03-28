@@ -9,35 +9,35 @@
  * General Public License for more details.
  */
 
-import {ActionImpl} from "../action/ActionImpl";
 import {InteractionImpl} from "../interaction/InteractionImpl";
 import {WidgetBinding} from "./WidgetBinding";
 import {CancelFSMException} from "../fsm/CancelFSMException";
-import {Action, RegistrationPolicy} from "../action/Action";
-import {ActionsRegistry} from "../action/ActionsRegistry";
 import {isUndoableType} from "../undo/Undoable";
 import {factory} from "../logging/ConfigLog";
 import {Logger} from "typescript-logging";
-import {MustBeUndoableActionException} from "./MustBeUndoableActionException";
 import {FSM} from "../fsm/FSM";
+import {CommandImpl} from "../command/CommandImpl";
+import {MustBeUndoableCmdException} from "./MustBeUndoableCmdException";
+import {Command, RegistrationPolicy} from "../command/Command";
+import {CommandsRegistry} from "../command/CommandsRegistry";
 
 /**
  * Creates a widget binding. This constructor must initialise the interaction. The widget binding is (de-)activated if the given
  * instrument is (de-)activated.
  * @param {*} ins The instrument that contains the widget binding.
- * @param {boolean} exec Specifies if the action must be execute or update on each evolution of the interaction.
- * @param {*} actionClass The type of the action that will be created. Used to instantiate the action by reflexivity.
+ * @param {boolean} exec Specifies if the command must be execute or update on each evolution of the interaction.
+ * @param {*} actionClass The type of the command that will be created. Used to instantiate the command by reflexivity.
  * The class must be public and must have a constructor with no parameter.
  * @param {InteractionImpl} interaction The user interaction of the binding.
  * @throws IllegalArgumentException If the given interaction or instrument is null.
  * @class
  * @author Arnaud BLOUIN
  */
-export abstract class WidgetBindingImpl<A extends ActionImpl, I extends InteractionImpl<{}, FSM<{}>>> implements WidgetBinding {
+export abstract class WidgetBindingImpl<C extends CommandImpl, I extends InteractionImpl<{}, FSM<{}>>> implements WidgetBinding {
     //, N extends Instrument<any>
     protected loggerBinding: Logger | undefined;
 
-    protected loggerAction: Logger | undefined;
+    protected loggerCmd: Logger | undefined;
 
     /**
      * The source interaction.
@@ -47,7 +47,7 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     /**
      * The current action in progress.
      */
-    protected action: A | undefined;
+    protected cmd: C | undefined;
 
     // /**
     //  * The instrument that contains the widget binding.
@@ -55,26 +55,26 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     // protected readonly instrument : N;
 
     /**
-     * Specifies if the action must be execute or update * on each evolution of the interaction.
+     * Specifies if the command must be execute or update * on each evolution of the interaction.
      */
     protected execute: boolean;
 
     /**
-     * Defines whether the action must be executed in a specific thread.
+     * Defines whether the command must be executed in a specific thread.
      */
     protected async: boolean;
 
     /**
-     * The action class to instantiate.
+     * The command class to instantiate.
      */
-    private readonly actionProducer: (i: I) => A;
+    private readonly cmdProducer: (i: I) => C;
 
-    protected constructor(/* ins : N,  */ exec: boolean, actionClass: (i: I) => A, interaction: I) {
+    protected constructor(/* ins : N,  */ exec: boolean, cmdClass: (i: I) => C, interaction: I) {
         this.execute = false;
         this.async = false;
-        this.actionProducer = actionClass;
+        this.cmdProducer = cmdClass;
         this.interaction = interaction;
-        this.action = undefined;
+        this.cmd = undefined;
         // this.instrument = ins;
         this.execute = exec;
         this.interaction.getFsm().addHandler(this);
@@ -91,13 +91,13 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
         }
     }
 
-    public logAction(log: boolean): void {
+    public logCmd(log: boolean): void {
         if (log) {
-            if (this.loggerAction === undefined) {
-                this.loggerAction = factory.getLogger("Action");
+            if (this.loggerCmd === undefined) {
+                this.loggerCmd = factory.getLogger("Command");
             }
         } else {
-            this.loggerAction = undefined;
+            this.loggerCmd = undefined;
         }
     }
 
@@ -106,19 +106,19 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     }
 
     /**
-     * Whether the action must be executed in a specific thread.
-     * @return {boolean} True: the action will be executed asynchronously.
+     * Whether the command must be executed in a specific thread.
+     * @return {boolean} True: the command will be executed asynchronously.
      */
     public isAsync(): boolean {
         return this.async;
     }
 
     /**
-     * Sets wether the action must be executed in a specific thread.
-     * @param {boolean} asyncAction True: the action will be executed asynchronously.
+     * Sets wether the command must be executed in a specific thread.
+     * @param {boolean} asyncCmd True: the command will be executed asynchronously.
      */
-    public setAsync(asyncAction: boolean) {
-        this.async = asyncAction;
+    public setAsync(asyncCmd: boolean) {
+        this.async = asyncCmd;
     }
 
     /**
@@ -129,11 +129,11 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     }
 
     /**
-     * creates the action of the widget binding. If the attribute 'action' is not null, nothing will be done.
-     * @return {ActionImpl} The created action.
+     * creates the command of the widget binding. If the attribute 'cmd' is not null, nothing will be done.
+     * @return {CommandImpl} The created command.
      */
-    protected map(): A {
-        return this.actionProducer(this.interaction);
+    protected map(): C {
+        return this.cmdProducer(this.interaction);
     }
 
     public abstract first(): void;
@@ -151,10 +151,10 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
     }
 
     /**
-     * @return {ActionImpl}
+     * @return {CommandImpl}
      */
-    public getAction(): A | undefined {
-        return this.action;
+    public getCommand(): C | undefined {
+        return this.cmd;
     }
 
     /**
@@ -179,23 +179,23 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
         return false;
     }
 
-    protected unbindActionAttributes(): void {
-        if (this.action !== undefined) {
-            this.unbindActionAttributesClass(this.action.constructor);
-            if (this.loggerAction !== undefined) {
-                this.loggerAction.info("Action unbound: " + String(this.action));
+    protected unbindCmdAttributes(): void {
+        if (this.cmd !== undefined) {
+            this.unbindCmdAttributesClass(this.cmd.constructor);
+            if (this.loggerCmd !== undefined) {
+                this.loggerCmd.info("Command unbound: " + String(this.cmd));
             }
         }
     }
 
-    private unbindActionAttributesClass(clazz: Object): void {
+    private unbindCmdAttributesClass(clazz: Object): void {
         //FIXME
         // java.util.Arrays.stream<any>(clazz.getDeclaredFields()).filter((field) =>
         // field.isAnnotationPresent("AutoUnbind") && "javafx.beans.property.Property".isAssignableFrom(field.getType())).
         // forEach((field) => {
         //     try {
         //         let access : boolean = field.isAccessible();
-        //         let o : any = /* get */this.action[field.name];
+        //         let o : any = /* get */this.cmd[field.name];
         //         if(o instanceof Property) {
         //             (<javafx.beans.property.Property<any>><any>o).unbind();
         //         }
@@ -213,27 +213,27 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
      *
      */
     public fsmCancels(): void {
-        if (this.action !== undefined) {
+        if (this.cmd !== undefined) {
             if (this.loggerBinding !== undefined) {
                 this.loggerBinding.info("Binding cancelled");
             }
-            this.action.cancel();
-            if (this.loggerAction !== undefined) {
-                this.loggerAction.info("Action cancelled");
+            this.cmd.cancel();
+            if (this.loggerCmd !== undefined) {
+                this.loggerCmd.info("Command cancelled");
             }
-            this.unbindActionAttributes();
-            // this.instrument.onActionCancelled(this.action);
-            if (this.isExecute() && this.action.hadEffect()) {
-                if (isUndoableType(this.action)) {
-                    this.action.undo();
-                    if (this.loggerAction !== undefined) {
-                        this.loggerAction.info("Action undone");
+            this.unbindCmdAttributes();
+            // this.instrument.onCmdCancelled(this.cmd);
+            if (this.isExecute() && this.cmd.hadEffect()) {
+                if (isUndoableType(this.cmd)) {
+                    this.cmd.undo();
+                    if (this.loggerCmd !== undefined) {
+                        this.loggerCmd.info("Command undone");
                     }
                 } else {
-                    throw new MustBeUndoableActionException(this.action);
+                    throw new MustBeUndoableCmdException(this.cmd);
                 }
             }
-            this.action = undefined;
+            this.cmd = undefined;
             // this.instrument.interimFeedback();
         }
     }
@@ -242,15 +242,15 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
      *
      */
     public fsmStarts(): void {
-        const ok: boolean = this.action === undefined && this.isActivated() && this.when();
+        const ok: boolean = this.cmd === undefined && this.isActivated() && this.when();
         if (this.loggerBinding !== undefined) {
             this.loggerBinding.info("Starting binding: " + String(ok));
         }
         if (ok) {
-            this.action = this.map();
+            this.cmd = this.map();
             this.first();
-            if (this.loggerAction !== undefined) {
-                this.loggerAction.info("Action created and init: " + String(this.action));
+            if (this.loggerCmd !== undefined) {
+                this.loggerCmd.info("Command created and init: " + String(this.cmd));
             }
             this.feedback();
         } else {
@@ -272,68 +272,68 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
             this.loggerBinding.info("Binding stops with condition: " + String(ok));
         }
         if (ok) {
-            if (this.action === undefined) {
-                this.action = this.map();
+            if (this.cmd === undefined) {
+                this.cmd = this.map();
                 this.first();
-                if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Action created and init: " + String(this.action));
+                if (this.loggerCmd !== undefined) {
+                    this.loggerCmd.info("Command created and init: " + String(this.cmd));
                 }
             }
             if (!this.execute) {
                 this.then();
-                if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Action updated: " + String(this.action));
+                if (this.loggerCmd !== undefined) {
+                    this.loggerCmd.info("Command updated: " + String(this.cmd));
                 }
             }
-            this.executeAction(this.action, this.async);
-            this.unbindActionAttributes();
-            this.action = undefined;
+            this.executeCmd(this.cmd, this.async);
+            this.unbindCmdAttributes();
+            this.cmd = undefined;
             // this.instrument.interimFeedback();
         } else {
-            if (this.action !== undefined) {
-                if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Cancelling the action: " + String(this.action));
+            if (this.cmd !== undefined) {
+                if (this.loggerCmd !== undefined) {
+                    this.loggerCmd.info("Cancelling the command: " + String(this.cmd));
                 }
-                this.action.cancel();
-                this.unbindActionAttributes();
-                // this.instrument.onActionCancelled(this.action);
-                this.action = undefined;
+                this.cmd.cancel();
+                this.unbindCmdAttributes();
+                // this.instrument.onCmdCancelled(this.cmd);
+                this.cmd = undefined;
                 // this.instrument.interimFeedback();
             }
         }
     }
 
-    private executeAction(act: Action, async: boolean): void {
+    private executeCmd(cmd: Command, async: boolean): void {
         if (async) {
-            this.executeActionAsync(act);
+            this.executeCmdAsync(cmd);
         } else {
-            this.afterActionExecuted(act, act.doIt());
+            this.afterCmdExecuted(cmd, cmd.doIt());
         }
     }
 
-    protected abstract executeActionAsync(act: Action): void;
+    protected abstract executeCmdAsync(cmd: Command): void;
 
-    protected afterActionExecuted(act: Action, ok: boolean): void {
-        if (this.loggerAction !== undefined) {
-            this.loggerAction.info("Action execution did it: " + String(ok));
+    protected afterCmdExecuted(cmd: Command, ok: boolean): void {
+        if (this.loggerCmd !== undefined) {
+            this.loggerCmd.info("Command execution did it: " + String(ok));
         }
         if (ok) {
-            // this.instrument.onActionExecuted(act);
-            act.done();
-            // this.instrument.onActionDone(act);
+            // this.instrument.onCmdExecuted(cmd);
+            cmd.done();
+            // this.instrument.onCmdDone(cmd);
         }
-        const hadEffect: boolean = act.hadEffect();
-        if (this.loggerAction !== undefined) {
-            this.loggerAction.info("Action execution had effect: " + String(hadEffect));
+        const hadEffect: boolean = cmd.hadEffect();
+        if (this.loggerCmd !== undefined) {
+            this.loggerCmd.info("Command execution had effect: " + String(hadEffect));
         }
         if (hadEffect) {
-            if (act.getRegistrationPolicy() !== RegistrationPolicy.NONE) {
-                ActionsRegistry.INSTANCE.addAction(act); //, this.instrument
-                // this.instrument.onActionAdded(act);
+            if (cmd.getRegistrationPolicy() !== RegistrationPolicy.NONE) {
+                CommandsRegistry.INSTANCE.addCommand(cmd); //, this.instrument
+                // this.instrument.onCmdAdded(cmd);
             } else {
-                ActionsRegistry.INSTANCE.unregisterActions(act);
+                CommandsRegistry.INSTANCE.unregisterCmd(cmd);
             }
-            act.followingActions().forEach(actFollow => this.executeAction(actFollow, false));
+            cmd.followingCmds().forEach(cmdFollow => this.executeCmd(cmdFollow, false));
         }
     }
 
@@ -343,23 +343,23 @@ export abstract class WidgetBindingImpl<A extends ActionImpl, I extends Interact
             this.loggerBinding.info("Binding updates with condition: " + String(ok));
         }
         if (ok) {
-            if (this.action === undefined) {
-                if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Action creation");
+            if (this.cmd === undefined) {
+                if (this.loggerCmd !== undefined) {
+                    this.loggerCmd.info("Command creation");
                 }
-                this.action = this.map();
+                this.cmd = this.map();
                 this.first();
             }
-            if (this.loggerAction !== undefined) {
-                this.loggerAction.info("Action update");
+            if (this.loggerCmd !== undefined) {
+                this.loggerCmd.info("Command update");
             }
             this.then();
-            if (this.execute && this.action.canDo()) {
-                if (this.loggerAction !== undefined) {
-                    this.loggerAction.info("Action execution");
+            if (this.execute && this.cmd.canDo()) {
+                if (this.loggerCmd !== undefined) {
+                    this.loggerCmd.info("Command execution");
                 }
-                this.action.doIt();
-                // this.instrument.onActionExecuted(this.action);
+                this.cmd.doIt();
+                // this.instrument.onCmdExecuted(this.cmd);
             }
             this.feedback();
         }

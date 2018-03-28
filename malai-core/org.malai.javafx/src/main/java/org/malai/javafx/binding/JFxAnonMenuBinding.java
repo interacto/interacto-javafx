@@ -17,47 +17,47 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import javafx.scene.control.MenuItem;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
 
 /**
- * This anonymous widget binding for menus takes a function as a parameter that will be executed to initialise the action.
+ * This anonymous widget binding for menus takes a function as a parameter that will be executed to initialise the command.
  * The goal is to avoid the creation of a specific class when the widget binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfxMenuItemBinding<A, I, N> {
-	private final BiConsumer<A, I> execInitAction;
+public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfxMenuItemBinding<C, I, N> {
+	private final BiConsumer<C, I> execInitCmd;
 	private final Predicate<I> checkInteraction;
-	private final BiConsumer<A, I> onEnd;
-	private final Function<I, A> actionProducer;
-	/** Used rather than 'action' to catch the action during its creation.
-	 * Sometimes (eg onInteractionStops) can create the action, execute it, and forget it.
+	private final BiConsumer<C, I> onEnd;
+	private final Function<I, C> cmdProducer;
+	/** Used rather than 'command' to catch the command during its creation.
+	 * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
 	 */
-	protected A currentAction;
+	protected C currentCmd;
 
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the binding.
-	 * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-	 * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction to use.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param menus The menus used by the binding. Cannot be null.
-	 * @param initActionFct The function that initialises the action to execute. Cannot be null.
+	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<A> clazzAction, final I interaction,
-							  final BiConsumer<A, I> initActionFct, final Predicate<I> check, final BiConsumer<A, I> onEndFct,
-							  final Function<I, A> actionFct, final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus) {
-		super(ins, exec, clazzAction, interaction, menus);
-		execInitAction = initActionFct == null ? (a, i) -> {} : initActionFct;
+	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
+							  final BiConsumer<C, I> initCmdFct, final Predicate<I> check, final BiConsumer<C, I> onEndFct,
+							  final Function<I, C> cmdFct, final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus) {
+		super(ins, exec, clazzCmd, interaction, menus);
+		execInitCmd = initCmdFct == null ? (c, i) -> {} : initCmdFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
-		actionProducer = actionFct;
-		currentAction = null;
+		cmdProducer = cmdFct;
+		currentCmd = null;
 
 		if(additionalMenus != null) {
 			additionalMenus.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableMenuList(elt));
@@ -66,7 +66,7 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 
 	@Override
 	public void first() {
-		execInitAction.accept(getAction(), getInteraction());
+		execInitCmd.accept(getCommand(), getInteraction());
 	}
 
 	@Override
@@ -75,13 +75,13 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	}
 
 	@Override
-	protected A map() {
-		if(actionProducer == null) {
-			currentAction = super.map();
+	protected C map() {
+		if(cmdProducer == null) {
+			currentCmd = super.map();
 		}else {
-			currentAction = actionProducer.apply(getInteraction());
+			currentCmd = cmdProducer.apply(getInteraction());
 		}
-		return currentAction;
+		return currentCmd;
 	}
 
 
@@ -89,19 +89,19 @@ public class JFxAnonMenuBinding<A extends ActionImpl, I extends MenuItemInteract
 	public void fsmStops() {
 		super.fsmStops();
 		if(onEnd != null) {
-			onEnd.accept(currentAction, getInteraction());
+			onEnd.accept(currentCmd, getInteraction());
 		}
-		currentAction = null;
+		currentCmd = null;
 	}
 
 	@Override
 	public void fsmCancels() {
 		super.fsmCancels();
-		currentAction = null;
+		currentCmd = null;
 	}
 
 	@Override
 	public String toString() {
-		return "JFxAnonMenuBinding in " + instrument + '{' + interaction + " -> " + clazzAction + '}';
+		return "JFxAnonMenuBinding in " + instrument + '{' + interaction + " -> " + clazzCmd + '}';
 	}
 }

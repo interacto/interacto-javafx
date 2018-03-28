@@ -15,7 +15,7 @@
   "scripts": {
     "compile": "tsc",
     "all": "npm run clean && npm run compile && npm run coverage && npm run lint",
-    "clean": "rm -r target/*",
+    "clean": "rm -rf target/* coverage/*",
     "test": "jest",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "coverage": "jest --coverage --collectCoverageFrom=target/src*/**/*.js"

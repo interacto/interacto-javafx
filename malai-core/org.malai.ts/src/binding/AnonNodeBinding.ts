@@ -11,45 +11,45 @@
 
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {TSInteraction} from "../interaction/TSInteraction";
-import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {LogLevel} from "../../src-core/logging/LogLevel";
 import {FSM} from "../../src-core/fsm/FSM";
+import {CommandImpl} from "../../src-core/command/CommandImpl";
 
-export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<Event>, {}>> extends TSWidgetBinding<A, I> {
-    private readonly execInitAction: (a: A | undefined, i: I) => void;
-    private readonly execUpdateAction: (a: A | undefined, i: I) => void;
+export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>> extends TSWidgetBinding<C, I> {
+    private readonly execInitCmd: (c: C | undefined, i: I) => void;
+    private readonly execUpdateCmd: (c: C | undefined, i: I) => void;
     private readonly checkInteraction: (i: I) => boolean;
-    private readonly cancelFct: (a: A | undefined, i: I) => void;
-    private readonly endOrCancelFct: (a: A | undefined, i: I) => void;
+    private readonly cancelFct: (c: C | undefined, i: I) => void;
+    private readonly endOrCancelFct: (c: C | undefined, i: I) => void;
     private readonly feedbackFct: () => void;
-    private readonly onEnd: (a: A | undefined, i: I) => void;
+    private readonly onEnd: (c: C | undefined, i: I) => void;
     private readonly strictStart: boolean;
-    /** Used rather than 'action' to catch the action during its creation.
-     * Sometimes (eg onInteractionStops) can create the action, execute it, and forget it.
+    /** Used rather than 'cmd' to catch the command during its creation.
+     * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
      */
-    protected currentAction: A | undefined;
+    protected currentCmd: C | undefined;
 
     /**
      * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
      * instrument is (de-)activated.
-     * @param exec Specifies if the action must be execute or update on each evolution of the interaction.
-     * @param clazzAction The type of the action that will be created. Used to instantiate the action by reflexivity.
+     * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+     * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
      * The class must be public and must have a constructor with no parameter.
      * @param interaction The user interaction of the binding.
      * @param widgets The widgets used by the binding. Cannot be null.
-     * @param initActionFct The function that initialises the action to execute. Cannot be null.
-     * @param updateActionFct The function that updates the action. Can be null.
+     * @param initCmdFct The function that initialises the command to execute. Cannot be null.
+     * @param updateCmdFct The function that updates the command. Can be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    public constructor(exec: boolean, clazzAction: () => A, interaction: I, initActionFct: (a: A | undefined, i: I) => void,
-                       updateActionFct: (a: A | undefined, i: I) => void, check: (i: I) => boolean,
-                       onEndFct: (a: A | undefined, i: I) => void, cancel: (a: A | undefined, i: I) => void,
-                       endOrCancel: (a: A | undefined, i: I) => void, feedback: () => void, widgets: Array<EventTarget>,
+    public constructor(exec: boolean, cmdClass: () => C, interaction: I, initCmdFct: (c: C | undefined, i: I) => void,
+                       updateCmdFct: (c: C | undefined, i: I) => void, check: (i: I) => boolean,
+                       onEndFct: (c: C | undefined, i: I) => void, cancel: (c: C | undefined, i: I) => void,
+                       endOrCancel: (c: C | undefined, i: I) => void, feedback: () => void, widgets: Array<EventTarget>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
-        super(exec, clazzAction, interaction, widgets);
-        this.execInitAction = initActionFct;
-        this.execUpdateAction = updateActionFct;
+        super(exec, cmdClass, interaction, widgets);
+        this.execInitCmd = initCmdFct;
+        this.execUpdateCmd = updateCmdFct;
         this.cancelFct = cancel;
         this.endOrCancelFct = endOrCancel;
         this.feedbackFct = feedback;
@@ -57,7 +57,7 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<E
         this.async = asyncExec;
         this.onEnd = onEndFct;
         this.strictStart = strict;
-        this.currentAction = undefined;
+        this.currentCmd = undefined;
         this.configureLoggers(loggers);
 
         // if(additionalWidgets !== undefined) {
@@ -65,7 +65,7 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<E
     }
 
     private configureLoggers(loggers: Array<LogLevel>): void {
-        this.logAction(loggers.indexOf(LogLevel.ACTION) >= 0);
+        this.logCmd(loggers.indexOf(LogLevel.COMMAND) >= 0);
         this.logBinding(loggers.indexOf(LogLevel.BINDING) >= 0);
         this.interaction.log(loggers.indexOf(LogLevel.INTERACTION) >= 0);
     }
@@ -75,13 +75,13 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<E
     }
 
     public first(): void {
-        if (this.currentAction !== undefined) {
-            this.execInitAction(this.getAction(), this.getInteraction());
+        if (this.currentCmd !== undefined) {
+            this.execInitCmd(this.getCommand(), this.getInteraction());
         }
     }
 
     public then(): void {
-        this.execUpdateAction(this.getAction(), this.getInteraction());
+        this.execUpdateCmd(this.getCommand(), this.getInteraction());
     }
 
     public when(): boolean {
@@ -92,14 +92,14 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<E
     }
 
     public fsmCancels(): void {
-        if (this.currentAction !== undefined) {
-            this.endOrCancelFct(this.action, this.interaction);
+        if (this.currentCmd !== undefined) {
+            this.endOrCancelFct(this.cmd, this.interaction);
         }
-        if (this.currentAction !== undefined) {
-            this.cancelFct(this.action, this.interaction);
+        if (this.currentCmd !== undefined) {
+            this.cancelFct(this.cmd, this.interaction);
         }
         super.fsmCancels();
-        this.currentAction = undefined;
+        this.currentCmd = undefined;
     }
 
     public feedback(): void {
@@ -111,12 +111,12 @@ export class AnonNodeBinding<A extends ActionImpl, I extends TSInteraction<FSM<E
 
     public fsmStops(): void {
         super.fsmStops();
-        if (this.currentAction !== undefined) {
-            this.endOrCancelFct(this.currentAction, this.getInteraction());
+        if (this.currentCmd !== undefined) {
+            this.endOrCancelFct(this.currentCmd, this.getInteraction());
         }
-        if (this.currentAction !== undefined) {
-            this.onEnd(this.currentAction, this.getInteraction());
+        if (this.currentCmd !== undefined) {
+            this.onEnd(this.currentCmd, this.getInteraction());
         }
-        this.currentAction = undefined;
+        this.currentCmd = undefined;
     }
 }

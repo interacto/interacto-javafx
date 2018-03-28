@@ -12,7 +12,7 @@ package org.malai.javafx.instrument;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
-import org.malai.action.library.Zoom;
+import org.malai.command.library.Zoom;
 import org.malai.javafx.interaction.library.KeyPressed;
 import org.malai.javafx.interaction.library.KeysScroll;
 import org.malai.properties.Zoomable;
@@ -56,26 +56,26 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 	protected void configureBindings() {
 		if(withKeys) {
 			nodeBinder(Zoom.class, new KeyPressed(false)).on(zoomable).
-				first((a, i) -> {
+				first((c, i) -> {
 					final String key = i.getKey();
-					a.setZoomable(getZoomable());
+					c.setZoomable(getZoomable());
 					if("+".equals(key)) {
-						a.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
+						c.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
 					}else {
-						a.setZoomLevel(zoomable.getZoom() - zoomable.getZoomIncrement());
+						c.setZoomLevel(zoomable.getZoom() - zoomable.getZoomIncrement());
 					}
-					a.setPx(-1d);
-					a.setPy(-1d);
+					c.setPx(-1d);
+					c.setPy(-1d);
 				}).
 				when(i -> "+".equals(i.getKey()) || "-".equals(i.getKey())).bind();
 		}
 
 		nodeBinder(Zoom.class, new KeysScroll()).on(zoomable).
-			first(a -> a.setZoomable(zoomable)).
-			then((a, i) -> {
-				a.setZoomLevel(zoomable.getZoom() + (i.getScrollData().getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
-				a.setPx(i.getScrollData().getPx());
-				a.setPy(i.getScrollData().getPy());
+			first(c -> c.setZoomable(zoomable)).
+			then((c, i) -> {
+				c.setZoomLevel(zoomable.getZoom() + (i.getScrollData().getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
+				c.setPx(i.getScrollData().getPx());
+				c.setPy(i.getScrollData().getPy());
 			}).
 			when(i -> i.getKeys().size() == 1 && i.getKeyCodes().get(0) == KeyCode.CONTROL).bind();
 	}

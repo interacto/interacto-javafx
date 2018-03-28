@@ -9,17 +9,17 @@
  * General Public License for more details.
  */
 
-import {ActionImpl} from "../../src-core/action/ActionImpl";
 import {ButtonPressed} from "../interaction/library/ButtonPressed";
 import {Binder} from "./Binder";
+import {CommandImpl} from "../../src-core/command/CommandImpl";
 
 /**
- * The binding builder to create bindings between a button interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a button interaction and a given command.
+ * @param <A> The type of the command to produce.
  * @author Arnaud Blouin
  */
-export class ButtonBinder<A extends ActionImpl> extends Binder<A, ButtonPressed, ButtonBinder<A>> {
-    public constructor(action: () => A) {
-        super(action, new ButtonPressed());
+export class ButtonBinder<C extends CommandImpl> extends Binder<C, ButtonPressed, ButtonBinder<C>> {
+    public constructor(cmd: () => C) {
+        super(cmd, new ButtonPressed());
     }
 }

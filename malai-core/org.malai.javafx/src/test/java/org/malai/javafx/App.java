@@ -14,7 +14,7 @@ public class App extends Application {
 	}
 
 	@Override
-	public void start(final Stage primaryStage) throws Exception {
+	public void start(final Stage primaryStage) {
 		canvas.setWidth(1200);
 		canvas.setHeight(800);
 		final VBox parent = new VBox();

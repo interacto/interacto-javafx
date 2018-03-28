@@ -13,8 +13,8 @@ import {WidgetBinding} from "../binding/WidgetBinding";
 import {Instrument} from "./Instrument";
 import {ErrorCatcher} from "../error/ErrorCatcher";
 import {Undoable} from "../undo/Undoable";
-import {Action} from "../action/Action";
 import {MArray} from "../../src/util/ArrayUtil";
+import {Command} from "../command/Command";
 
 /**
  * Creates and initialises the instrument.
@@ -190,26 +190,26 @@ export abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
     }
 
     /**
-     * @param {*} action
+     * @param {*} cmd
      */
-    public onActionAdded(action: Action): void {
+    public onCmdAdded(cmd: Command): void {
     }
 
     /**
-     * @param {*} action
+     * @param {*} cmd
      */
-    public onActionCancelled(action: Action): void {
+    public onCmdCancelled(cmd: Command): void {
     }
 
     /**
-     * @param {*} action
+     * @param {*} cmd
      */
-    public onActionExecuted(action: Action): void {
+    public onCmdExecuted(cmd: Command): void {
     }
 
     /**
-     * @param {*} action
+     * @param {*} cmd
      */
-    public onActionDone(action: Action): void {
+    public onCmdDone(cmd: Command): void {
     }
 }

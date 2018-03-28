@@ -14,55 +14,55 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
- * The base binding builder for bindings where actions can be updated while the user interaction is running.
- * @param <A> The type of the action to produce.
+ * The base binding builder for bindings where commands can be updated while the user interaction is running.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInteraction<?, ?>, B extends UpdateBinder<W, A, I, B>> extends Binder<W, A, I, B> {
-	protected BiConsumer<A, I> updateFct;
-	protected BiConsumer<A, I> cancelFct;
-	protected BiConsumer<A, I> endOrCancelFct;
+public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxInteraction<?, ?>, B extends UpdateBinder<W, C, I, B>> extends Binder<W, C, I, B> {
+	protected BiConsumer<C, I> updateFct;
+	protected BiConsumer<C, I> cancelFct;
+	protected BiConsumer<C, I> endOrCancelFct;
 	protected Runnable feedbackFct;
 	protected boolean execOnChanges;
 	protected boolean strictStart;
 
-	public UpdateBinder(final Class<A> action, final I interaction, final JfxInstrument instrument) {
-		super(action, interaction, instrument);
+	public UpdateBinder(final Class<C> cmdClass, final I interaction, final JfxInstrument instrument) {
+		super(cmdClass, interaction, instrument);
 		updateFct = null;
 		execOnChanges = false;
 	}
 
 	/**
-	 * Specifies the update of the action on interaction updates.
+	 * Specifies the update of the command on interaction command.
 	 * @param update The callback method that updates the action.
-	 * This callback takes as arguments the action to update and the ongoing interactions (and its parameters).
+	 * This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B then(final BiConsumer<A, I> update) {
+	public B then(final BiConsumer<C, I> update) {
 		updateFct = update;
 		return (B) this;
 	}
 
 	/**
-	 * Specifies the update of the action on interaction updates.
-	 * @param update The callback method that updates the action.
-	 * This callback takes as arguments the action to update.
+	 * Specifies the update of the command on interaction updates.
+	 * @param update The callback method that updates the command.
+	 * This callback takes as arguments the command to update.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B then(final Consumer<A> update) {
+	public B then(final Consumer<C> update) {
 		if(update != null) {
-			updateFct = (a, i) -> update.accept(a);
+			updateFct = (c, i) -> update.accept(c);
 		}
 		return (B) this;
 	}
 
 	/**
-	 * Defines whether the action must be executed on each interaction updates (if 'when' predicate is ok).
+	 * Defines whether the command must be executed on each interaction updates (if 'when' predicate is ok).
 	 * @return The builder to chain the buiding configuration.
 	 */
 	public B exec() {
@@ -71,21 +71,21 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	}
 
 	/**
-	 * Defines what to do when an action is aborted (because the interaction is abord map).
-	 * The undoable action is autmatically cancelled so that nothing must be done on the action.
+	 * Defines what to do when a command is aborted (because the interaction is abord map).
+	 * The undoable command is autmatically cancelled so that nothing must be done on the command.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B cancel(final BiConsumer<A, I> cancel) {
+	public B cancel(final BiConsumer<C, I> cancel) {
 		cancelFct = cancel;
 		return (B) this;
 	}
 
 	/**
-	 * Defines what to do when an action is aborted (because the interaction is abord map).
-	 * The undoable action is autmatically cancelled so that nothing must be done on the action.
+	 * Defines what to do when ancommand is aborted (because the interaction is abord map).
+	 * The undoable command is autmatically cancelled so that nothing must be done on the command.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B endOrCancel(final BiConsumer<A, I> endOrCancel) {
+	public B endOrCancel(final BiConsumer<C, I> endOrCancel) {
 		endOrCancelFct = endOrCancel;
 		return (B) this;
 	}
@@ -109,14 +109,14 @@ public abstract class UpdateBinder<W, A extends ActionImpl, I extends JfxInterac
 	}
 
 	@Override
-	public JfXWidgetBinding<A, I, ?> bind() {
-		final JFxAnonNodeBinding<A, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
-			(instrument, execOnChanges, actionClass, interaction, initAction, updateFct, checkConditions, onEnd, actionProducer, cancelFct,
+	public JfXWidgetBinding<C, I, ?> bind() {
+		final JFxAnonNodeBinding<C, I, JfxInstrument> binding = new JFxAnonNodeBinding<>
+			(instrument, execOnChanges, cmdClass, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
 				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
 				strictStart, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
-		binding.setCancelActionButton(cancel);
+		binding.setCancelCmdButton(cancel);
 		instrument.addBinding(binding);
 		return binding;
 	}

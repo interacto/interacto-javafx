@@ -13,7 +13,7 @@ package org.malai.javafx.binding;
 import java.util.Collections;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
-import org.malai.javafx.action.ShowStage;
+import org.malai.javafx.command.ShowStage;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemPressed;
 
@@ -29,7 +29,7 @@ public class MenuItem2ShowStage extends JfxMenuItemBinding<ShowStage, MenuItemPr
 	/**
 	 * Creates the widget binding.
 	 * @param ins The instrument that will contain the widget binding.
-	 * @param menuItem he menu item that will be uses to create the action.
+	 * @param menuItem he menu item that will be uses to create the command.
 	 * @param stage The stage to show or hide
 	 * @throws IllegalArgumentException If one of the given parameters is null.
 	 * @since 2.0
@@ -47,7 +47,7 @@ public class MenuItem2ShowStage extends JfxMenuItemBinding<ShowStage, MenuItemPr
 
 	@Override
 	public void first() {
-		action.setWidget(stageToShow);
-		action.setVisible(show);
+		cmd.setWidget(stageToShow);
+		cmd.setVisible(show);
 	}
 }

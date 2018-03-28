@@ -11,17 +11,17 @@
 package org.malai.javafx.binding;
 
 import javafx.scene.control.ToggleButton;
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.ToggleButtonPressed;
 
 /**
- * The binding builder to create bindings between a toggle button interaction and a given action.
- * @param <A> The type of the action to produce.
+ * The binding builder to create bindings between a toggle button interaction and a given command.
+ * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ToggleButtonBinder<A extends ActionImpl> extends Binder<ToggleButton, A, ToggleButtonPressed, ToggleButtonBinder<A>> {
-	public ToggleButtonBinder(final Class<A> action, final JfxInstrument instrument) {
-		super(action, new ToggleButtonPressed(), instrument);
+public class ToggleButtonBinder<C extends CommandImpl> extends Binder<ToggleButton, C, ToggleButtonPressed, ToggleButtonBinder<C>> {
+	public ToggleButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(cmdClass, new ToggleButtonPressed(), instrument);
 	}
 }
