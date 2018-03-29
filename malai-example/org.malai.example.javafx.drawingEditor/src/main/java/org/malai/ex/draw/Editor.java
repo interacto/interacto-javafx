@@ -5,36 +5,33 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.malai.action.ActionsRegistry;
+import org.malai.command.CommandsRegistry;
 import org.malai.undo.UndoCollector;
 
 /*
  * The main GUI of the application.
- * Each GUI of the application should inherit
- * of the Malai class UI that represents a GUI.
- * A Malai UI is a JFrame.
  */
 public class Editor extends Application {
 
 	static {
 		/*
 		 * One of the first thing to do is to define the
-		 * number of undoable actions that can be stored.
+		 * number of undoable commands that can be stored.
 		 * When the threshold is reached, the oldest stored
-		 * action is flushed.
+		 * command is flushed.
 		 */
 		UndoCollector.INSTANCE.setSizeMax(30);
 
 		/*
-		 * In the same way, the number of actions that can
+		 * In the same way, the number of commands that can
 		 * be kept in memory should be defined.
 		 * This step is different from the undo process.
-		 * An action may need another action to run. So,
-		 * this registry stores the recent executed actions.
+		 * A command may need another command to run. So,
+		 * this registry stores the recent executed commands.
 		 * When the threshold is reached, the oldest stored
-		 * action is flushed.
+		 * command is flushed.
 		 */
-		ActionsRegistry.INSTANCE.setSizeMax(30);
+		CommandsRegistry.INSTANCE.setSizeMax(30);
 	}
 
 	public static void main(final String[] args) {

@@ -6,7 +6,7 @@ If you move this bindings to the view, this becomes an MVC pattern.
 Packages:
 
 'draw': the main class.
-'action': the GUI commands (the actions) that users can produce while interacting with the GUI.
-'instrument': the controllers/presenters/... that receives events from the GUI and that transform them into actions
-'model': the model of the app. Knows nothing about the view, the instruments, and the actions
+'command': the GUI commands that users can produce while interacting with the GUI.
+'instrument': the controllers/presenters/... that receives events from the GUI and that transform them into commands
+'model': the model of the app. Knows nothing about the view, the instruments, and the commands
 'view': the JavaFX view

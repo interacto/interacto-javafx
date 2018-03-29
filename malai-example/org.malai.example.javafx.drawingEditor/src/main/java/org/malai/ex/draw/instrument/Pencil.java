@@ -20,10 +20,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
-import org.malai.ex.draw.action.AddShape;
-import org.malai.ex.draw.action.ChangeColour;
-import org.malai.ex.draw.action.MoveShape;
-import org.malai.ex.draw.action.Save;
+import org.malai.ex.draw.command.AddShape;
+import org.malai.ex.draw.command.ChangeColour;
+import org.malai.ex.draw.command.MoveShape;
+import org.malai.ex.draw.command.Save;
 import org.malai.ex.draw.learning.AddRectHelpAnimation;
 import org.malai.ex.draw.learning.MoveRectHelpAnimation;
 import org.malai.ex.draw.model.MyDrawing;
@@ -57,20 +57,20 @@ public class Pencil extends JfxInstrument implements Initializable {
 	}
 
 	@Override
-	protected void configureBindings() throws InstantiationException, IllegalAccessException {
-		// A DnD interaction with the left button of the mouse will produce an AddShape action while interacting on the canvas.
+	protected void configureBindings() {
+		// A DnD interaction with the left button of the mouse will produce an AddShape command while interacting on the canvas.
 		// A temporary view of the created shape is created and displayed by the canvas.
 		// This view is removed at the end of the interaction.
 		nodeBinder(AddShape.class, new DnD()).on(canvas).
 			map(i -> new AddShape(drawing, new MyRect(i.getSrcLocalPoint().getX(), i.getSrcLocalPoint().getY()))).
-			first((a, i) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(a.getShape()))).
-			then((a, i) -> {
-				final MyRect sh = (MyRect) a.getShape();
+			first((c, i) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(c.getShape()))).
+			then((c, i) -> {
+				final MyRect sh = (MyRect) c.getShape();
 				sh.setWidth(i.getEndLocalPt().getX() - sh.getX());
 				sh.setHeight(i.getEndLocalPt().getY() - sh.getY());
 			}).
 			when(i -> i.getButton() == MouseButton.PRIMARY).
-			end((a, i) -> canvas.setTmpShape(null)).
+			end((c, i) -> canvas.setTmpShape(null)).
 			// The UI command creation process is logged:
 			log(LogLevel.INTERACTION).
 			// strict start stops the interaction if the condition ('when') is not fulfilled at an interaction start.
@@ -82,7 +82,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// A DnD interaction with the right button of the mouse moves the targeted shape.
 		// To incrementally moves the shape, the DnD interaction has its parameter 'updateSrcOnUpdate' set to true:
 		// At each interaction updates, the source point and object take the latest target point and object.
-		// The DnD interaction can be stopped (aborted) by pressing the key 'ESC'. This cancels the ongoing action (that thus needs to be undoable).
+		// The DnD interaction can be stopped (aborted) by pressing the key 'ESC'. This cancels the ongoing command (that thus needs to be undoable).
 		nodeBinder(MoveShape.class, new DnD(true, true)).
 			// The binding dynamically registers elements of the given observable list.
 			// When nodes are added to this list, these nodes register the binding.
@@ -92,20 +92,20 @@ public class Pencil extends JfxInstrument implements Initializable {
 			// The command is created using two double bindings that are automatically updated on changes.
 			// In the command these binding are @autoUnbind to be unbound on their command termination.
 			map(i -> {
-					final MyShape sh = i.getSrcObject().map(o -> (MyShape) o.getUserData()).get();
-					return new MoveShape(sh,
-						Bindings.createDoubleBinding(() -> sh.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()), i.endScenePtProperty(), i.srcScenePointProperty()),
-						Bindings.createDoubleBinding(() -> sh.getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()), i.endScenePtProperty(), i.srcScenePointProperty()));
+				final MyShape sh = i.getSrcObject().map(o -> (MyShape) o.getUserData()).get();
+				return new MoveShape(sh,
+					Bindings.createDoubleBinding(() -> sh.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()), i.endScenePtProperty(), i.srcScenePointProperty()),
+					Bindings.createDoubleBinding(() -> sh.getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()), i.endScenePtProperty(), i.srcScenePointProperty()));
 			}).
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 			exec().
-			first((a, i) -> {
+			first((c, i) -> {
 				// Required to grab the focus to get key events
 				Platform.runLater(() -> i.getSrcObject().get().requestFocus());
 				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
 			}).
-			endOrCancel((a, i) -> i.getSrcObject().get().setEffect(null)).
+			endOrCancel((c, i) -> i.getSrcObject().get().setEffect(null)).
 			strictStart().
 			help(new MoveRectHelpAnimation(learningPane, canvas)).
 			bind();
@@ -121,7 +121,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 //			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
 //									a.getShape().getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
 //			when(i -> i.getButton() == MouseButton.SECONDARY).
-//			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
+//			// exec(true): this allows to execute the command each time the interaction updates (and 'when' is true).
 //			exec(true).
 //			first((a, i) -> {
 //				// Required to grab the focus to get key events
@@ -133,7 +133,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 //			bind();
 
 		/*
-		 * A DnD on the colour picker produces ChangeCol actions when the target of the DnD is a shape
+		 * A DnD on the colour picker produces ChangeCol commands when the target of the DnD is a shape
 		 * (the shape we want to change the colour). The interim feedback changes the cursor during the DnD to show the dragged colour.
 		 * Note that the feedback callback is not optimised here as the colour does not change during the DnD. The cursor
 		 * should be changed in 'first'
@@ -147,14 +147,14 @@ public class Pencil extends JfxInstrument implements Initializable {
 			bind();
 
 		/*
-		 * A mouse pressure creates an anonymous action that simply shows a message in the console.
+		 * A mouse pressure creates an anonymous command that simply shows a message in the console.
 		 */
-		anonActionBinder(() -> System.out.println("An example of the anonymous action."), new Press()).on(canvas).bind();
+		anonCmdBinder(() -> System.out.println("An example of the anonymous command."), new Press()).on(canvas).bind();
 
 		/*
-		 * A widget binding that execute an action asynchronously.
+		 * A widget binding that execute a command asynchronously.
 		 * Widgets and properties are provided to the binding to:
-		 * show/hide the cancel button, provide widgets with information regarding the progress of the action execution.
+		 * show/hide the cancel button, provide widgets with information regarding the progress of the command execution.
 		 */
 		buttonBinder(Save.class).on(save).
 			async(cancel, progressbar.progressProperty(), textProgress.textProperty()).

@@ -7,8 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import org.malai.action.library.Redo;
-import org.malai.action.library.Undo;
+import org.malai.command.library.Redo;
+import org.malai.command.library.Undo;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.undo.FXUndoCollector;
 import org.malai.undo.UndoCollector;
@@ -17,9 +17,9 @@ import org.malai.undo.UndoCollector;
  * Manages undos and redos.
  */
 public class UndoRedoer extends JfxInstrument implements Initializable {
-	/** The button used to undo actions. */
+	/** The button used to undo commands. */
 	@FXML private Button undoB;
-	/** The button used to redo actions. */
+	/** The button used to redo commands. */
 	@FXML private Button redoB;
 
 	@Override
@@ -37,8 +37,8 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 	}
 
 	@Override
-	protected void configureBindings() throws InstantiationException, IllegalAccessException {
-		// Undo and Redo are actions provided by Malai.
+	protected void configureBindings() {
+		// Undo and Redo are commands provided by Malai.
 		buttonBinder(Undo.class).on(undoB).bind();
 		buttonBinder(Redo.class).on(redoB).bind();
 	}

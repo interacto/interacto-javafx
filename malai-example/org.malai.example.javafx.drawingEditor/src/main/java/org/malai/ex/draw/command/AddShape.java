@@ -1,24 +1,24 @@
-package org.malai.ex.draw.action;
+package org.malai.ex.draw.command;
 
 import org.malai.ex.draw.model.MyDrawing;
 import org.malai.ex.draw.model.MyShape;
 import org.malai.undo.Undoable;
 
 /*
- * Defines an Malai action that adds a shape into a drawing.
- * A Malai action must inherits from Action.
- * An action may be undoable. In such a case, it must implements
+ * Defines a Malai command that adds a shape into a drawing.
+ * A Malai command must inherits from Command.
+ * A command may be undoable. In such a case, it must implements
  * the interface Undoable.
  */
-public class AddShape extends ShapeAction implements Undoable {
+public class AddShape extends ShapeCmd implements Undoable {
 	/*
-	 * The attributes of the actions are used to execute, undo, and redo them.
+	 * The attributes of the commands are used to execute, undo, and redo them.
 	 * They must be set throw setters, not using a constructor.
 	 */
 	private final MyDrawing drawing;
 
 	/*
-	 * A Malai action must have a constructor having NO parameter.
+	 * A Malai command must have a constructor having NO parameter.
 	 */
 	public AddShape(final MyDrawing drawing, final MyShape shape) {
 		super(shape);
@@ -26,9 +26,9 @@ public class AddShape extends ShapeAction implements Undoable {
 	}
 
 	@Override
-	protected void doActionBody() {
+	protected void doCmdBody() {
 		/*
-		 * This operation must contain the execution of the action.
+		 * This operation must contain the execution of the command.
 		 * Here, adding the shape into the drawing and setting the drawing as modified.
 		 */
 		drawing.addShape(shape);
@@ -57,7 +57,7 @@ public class AddShape extends ShapeAction implements Undoable {
 		 * Defines what to do for redoing the action.
 		 * Here, doing the same job that the execution of the action.
 		 */
-		doActionBody();
+		doCmdBody();
 	}
 
 	@Override

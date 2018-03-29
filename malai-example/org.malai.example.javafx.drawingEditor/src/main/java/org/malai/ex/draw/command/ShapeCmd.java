@@ -1,12 +1,12 @@
-package org.malai.ex.draw.action;
+package org.malai.ex.draw.command;
 
-import org.malai.action.ActionImpl;
+import org.malai.command.CommandImpl;
 import org.malai.ex.draw.model.MyShape;
 
-abstract class ShapeAction extends ActionImpl {
+abstract class ShapeCmd extends CommandImpl {
 	MyShape shape;
 
-	public ShapeAction(final MyShape shape) {
+	public ShapeCmd(final MyShape shape) {
 		super();
 		this.shape = shape;
 	}
