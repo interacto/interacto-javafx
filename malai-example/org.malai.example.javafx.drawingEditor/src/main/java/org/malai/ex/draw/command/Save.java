@@ -1,15 +1,15 @@
-package org.malai.ex.draw.action;
+package org.malai.ex.draw.command;
 
-import org.malai.javafx.action.ProgressableActionImpl;
+import org.malai.javafx.command.ProgressableCmdImpl;
 
 /**
- * A fake saving action to show how an action that longs can be handled.
+ * A fake saving command to show how a command that longs can be handled.
  */
-public class Save extends ProgressableActionImpl {
+public class Save extends ProgressableCmdImpl {
 	private boolean ok;
 
 	@Override
-	protected void doActionBody() {
+	protected void doCmdBody() {
 		textProgress.set("Saving...");
 		try {
 			for(int i = 0; i < 10; i++) {

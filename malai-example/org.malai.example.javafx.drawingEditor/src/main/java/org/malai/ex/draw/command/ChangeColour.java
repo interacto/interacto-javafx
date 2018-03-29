@@ -1,10 +1,10 @@
-package org.malai.ex.draw.action;
+package org.malai.ex.draw.command;
 
 import javafx.scene.paint.Color;
 import org.malai.ex.draw.model.MyShape;
 import org.malai.undo.Undoable;
 
-public class ChangeColour extends ShapeAction implements Undoable {
+public class ChangeColour extends ShapeCmd implements Undoable {
 	private Color newCol;
 	private Color mementoCol;
 
@@ -14,14 +14,14 @@ public class ChangeColour extends ShapeAction implements Undoable {
 	}
 
 	@Override
-	protected void doActionBody() {
+	protected void doCmdBody() {
 		redo();
 	}
 
 	/*
-	 * This action needs a memento to save the previous state of the modified object:
+	 * This command needs a memento to save the previous state of the modified object:
 	 * its colour. This operation is automatically called a single time before the first execution of the
-	 * action to produce the memento (here the former colour of the shape to modify).
+	 * command to produce the memento (here the former colour of the shape to modify).
 	 */
 	@Override
 	protected void createMemento() {
