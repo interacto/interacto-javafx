@@ -82,7 +82,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <W extends Node, I extends JfxInteraction<?, ?>> AnonCmdBinder<W, I> anonActionBinder(final Runnable cmd, final I interaction) {
+	protected <W extends Node, I extends JfxInteraction<?, ?>> AnonCmdBinder<W, I> anonCmdBinder(final Runnable cmd, final I interaction) {
 		return new AnonCmdBinder<>(cmd, interaction, this);
 	}
 
