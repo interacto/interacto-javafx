@@ -80,4 +80,10 @@ public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 	public H getDataHandler() {
 		return dataHandler;
 	}
+
+	@Override
+	public void uninstall() {
+		super.uninstall();
+		dataHandler = null;
+	}
 }

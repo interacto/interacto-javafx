@@ -34,4 +34,10 @@ public abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputS
 			transitions.add(tr);
 		}
 	}
+
+	@Override
+	public void uninstall() {
+		transitions.forEach(tr -> tr.uninstall());
+		transitions.clear();
+	}
 }

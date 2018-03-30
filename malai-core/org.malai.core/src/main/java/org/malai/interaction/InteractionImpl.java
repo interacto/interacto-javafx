@@ -92,4 +92,9 @@ public abstract class InteractionImpl<E, F extends FSM<E>> {
 	}
 
 	protected abstract void reinitData();
+
+	public void uninstall() {
+		setActivated(false);
+		logger = null;
+	}
 }

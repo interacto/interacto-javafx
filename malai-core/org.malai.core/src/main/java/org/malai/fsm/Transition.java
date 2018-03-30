@@ -50,4 +50,10 @@ public abstract class Transition<E> {
 	protected abstract boolean isGuardOK(final E event);
 
 	public abstract Set<Object> getAcceptedEvents();
+
+	/**
+	 * Clean the transition when not used anymore.
+	 */
+	public void uninstall() {
+	}
 }

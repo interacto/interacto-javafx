@@ -50,6 +50,35 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 	private EventHandler<KeyEvent> keyHandler;
 	private EventHandler<ActionEvent> actionHandler;
 
+	private final SetChangeListener<Node> nodesHandler = change -> {
+		if(change.wasAdded()) {
+			onNewNodeRegistered(change.getElementAdded());
+		}
+		if(change.wasRemoved()) {
+			onNodeUnregistered(change.getElementRemoved());
+		}
+	};
+
+	private final SetChangeListener<Window> windowsHandler = change -> {
+		if(change.wasAdded()) {
+			onNewWindowRegistered(change.getElementAdded());
+		}
+		if(change.wasRemoved()) {
+			onWindowUnregistered(change.getElementRemoved());
+		}
+	};
+
+	private final ListChangeListener<Node> addNodesHandler = change -> {
+		while(change.next()) {
+			if(change.wasAdded()) {
+				change.getAddedSubList().forEach(elt -> onNewNodeRegistered(elt));
+			}
+			if(change.wasRemoved()) {
+				change.getRemoved().forEach(elt -> onNodeUnregistered(elt));
+			}
+		}
+	};
+
 	protected JfxInteraction(final F fsm) {
 		super(fsm);
 		registeredNodes = FXCollections.observableSet();
@@ -57,24 +86,10 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 		additionalNodes = new ArrayList<>();
 
 		// Listener to any changes in the list of registered nodes
-		registeredNodes.addListener((SetChangeListener<Node>) change -> {
-			if(change.wasAdded()) {
-				onNewNodeRegistered(change.getElementAdded());
-			}
-			if(change.wasRemoved()) {
-				onNodeUnregistered(change.getElementRemoved());
-			}
-		});
+		registeredNodes.addListener(nodesHandler);
 
 		// Listener to any changes in the list of registered windows
-		registeredWindows.addListener((SetChangeListener<Window>) change -> {
-			if(change.wasAdded()) {
-				onNewWindowRegistered(change.getElementAdded());
-			}
-			if(change.wasRemoved()) {
-				onWindowUnregistered(change.getElementRemoved());
-			}
-		});
+		registeredWindows.addListener(windowsHandler);
 	}
 
 	/**
@@ -149,16 +164,7 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 			}
 
 			// Listener to any changes in the list of registered windows
-			nodes.addListener((ListChangeListener<Node>) change -> {
-				while(change.next()) {
-					if(change.wasAdded()) {
-						change.getAddedSubList().forEach(elt -> onNewNodeRegistered(elt));
-					}
-					if(change.wasRemoved()) {
-						change.getRemoved().forEach(elt -> onNodeUnregistered(elt));
-					}
-				}
-			});
+			nodes.addListener(addNodesHandler);
 		}
 	}
 
@@ -372,5 +378,22 @@ public abstract class JfxInteraction<F extends FSM<Event>, T> extends Interactio
 
 	public Set<Window> getRegisteredWindows() {
 		return Collections.unmodifiableSet(registeredWindows);
+	}
+
+	@Override
+	public void uninstall() {
+		helpAnimation = null;
+		widget = null;
+		scrollHandler = null;
+		mouseHandler = null;
+		keyHandler = null;
+		actionHandler = null;
+		registeredNodes.clear();
+		registeredWindows.clear();
+		additionalNodes.forEach(adds -> adds.addListener(addNodesHandler));
+		additionalNodes.clear();
+		registeredNodes.removeListener(nodesHandler);
+		registeredWindows.removeListener(windowsHandler);
+		super.uninstall();
 	}
 }

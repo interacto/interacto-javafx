@@ -388,6 +388,12 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 		}
 	}
 
+	@Override
+	public void uninstallBinding() {
+		setActivated(false);
+		loggerCmd = null;
+		loggerBinding = null;
+	}
 
 	@Override
 	public boolean isExecute() {
@@ -407,7 +413,7 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 			loggerBinding.log(Level.INFO, "Binding Activated: " + activ);
 		}
 
-		interaction.setActivated(activ);
+		cmd = null;
 	}
 
 

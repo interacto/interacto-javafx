@@ -152,6 +152,11 @@ public abstract class InstrumentImpl<T extends WidgetBinding> implements Instrum
 		// Should be overridden.
 	}
 
+	@Override
+	public void uninstallBindings() {
+		bindings.forEach(binding -> binding.uninstallBinding());
+		bindings.clear();
+	}
 
 	@Override
 	public void onUndoableCleared() {

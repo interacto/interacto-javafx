@@ -58,4 +58,6 @@ public interface Instrument<T extends WidgetBinding> extends Preferenciable, Mod
 	 * Must be overridden.
 	 */
 	void interimFeedback();
+
+	void uninstallBindings();
 }
