@@ -101,4 +101,9 @@ public class SubFSMTransition<E> extends Transition<E> {
 	public Set<Object> getAcceptedEvents() {
 		return subFSM.initState.getTransitions().stream().map(tr -> tr.getAcceptedEvents()).flatMap(s -> s.stream()).collect(Collectors.toSet());
 	}
+
+	@Override
+	public void uninstall() {
+		subFSM.uninstall();
+	}
 }

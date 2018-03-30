@@ -86,4 +86,6 @@ public interface WidgetBinding extends FSMHandler {
 	 * @return The instrument that contains the widget binding.
 	 */
 	Instrument<?> getInstrument();
+
+	void uninstallBinding();
 }

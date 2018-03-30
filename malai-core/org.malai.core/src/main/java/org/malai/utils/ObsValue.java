@@ -59,6 +59,10 @@ public class ObsValue<T> {
 		}
 	}
 
+	public void unobsAll() {
+		handlers.clear();
+	}
+
 	public interface Change<T> {
 		void onChange(final T oldValue, final T newValue);
 	}

@@ -39,6 +39,7 @@ public class TestInteractor {
 	@AfterEach
 	void tearDown() {
 		ErrorCatcher.INSTANCE.setNotifier(null);
+		instrument.uninstallBindings();
 	}
 
 	@Test

@@ -61,6 +61,12 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	}
 
 	@Override
+	public void uninstallBindings() {
+		activatedProp.unbind();
+		super.uninstallBindings();
+	}
+
+	@Override
 	public void setActivated(boolean toBeActivated) {
 		super.setActivated(toBeActivated);
 		if(!activatedProp.isBound()) {

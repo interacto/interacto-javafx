@@ -351,4 +351,15 @@ public class FSM<E> {
 	public ObsValue<OutputState<E>> currentStateProp() {
 		return currentState;
 	}
+
+	public void uninstall() {
+		fullReinit();
+		logger = null;
+		currentState.unobsAll();
+		currentState.set(null);
+		startingState = null;
+		currentSubFSM = null;
+		states.forEach(state -> state.uninstall());
+		states.clear();
+	}
 }

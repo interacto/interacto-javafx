@@ -21,6 +21,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -60,6 +61,12 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	/** The button used to stop the command executed async. May be null. */
 	protected Button cancelCmdButton;
 
+	private final ChangeListener<Boolean> activationHandler = (observable, oldValue, newValue) -> {
+		if(oldValue != newValue) {
+			interaction.setActivated(newValue);
+		}
+	};
+
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -75,7 +82,7 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 							final List<Node> widgets, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, clazzCmd, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
-		initActivation();
+		activation.addListener(activationHandler);
 		withHelp = help;
 		customAnimation = animation;
 		interaction.registerToNodes(widgets);
@@ -114,7 +121,7 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		activation = new SimpleBooleanProperty(isActivated());
 		withHelp = help;
 		customAnimation = animation;
-		initActivation();
+		activation.addListener(activationHandler);
 		interaction.registerToWindows(windows);
 	}
 
@@ -214,14 +221,6 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		}).start();
 	}
 
-	private void initActivation() {
-		activation.addListener((observable, oldValue, newValue) -> {
-			if(oldValue != newValue) {
-				interaction.setActivated(newValue);
-			}
-		});
-	}
-
 	@Override
 	public boolean when() {
 		return true;
@@ -229,5 +228,23 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 
 	public BooleanProperty activationProperty() {
 		return activation;
+	}
+
+	@Override
+	public void uninstallBinding() {
+		activation.unbind();
+		activation.removeListener(activationHandler);
+		if(progressBarProp != null) {
+			progressBarProp.unbind();
+			progressBarProp = null;
+		}
+		if(progressMsgProp != null) {
+			progressMsgProp.unbind();
+			progressMsgProp = null;
+		}
+		customAnimation = null;
+		cancelCmdButton = null;
+		//TODO cancelCmdButton action handler
+		super.uninstallBinding();
 	}
 }

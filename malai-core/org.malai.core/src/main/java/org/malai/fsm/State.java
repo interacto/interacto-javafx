@@ -26,4 +26,7 @@ public interface State<E> {
 			getFSM().onStarting();
 		}
 	}
+
+	default void uninstall() {
+	}
 }
