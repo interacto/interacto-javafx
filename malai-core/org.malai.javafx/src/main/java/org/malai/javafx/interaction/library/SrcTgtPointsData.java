@@ -10,30 +10,30 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.Optional;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.geometry.Point3D;
 import javafx.scene.Node;
-import org.malai.javafx.interaction.JfxInteraction;
 
-public class DoubleClick extends JfxInteraction<FullPointData, DoubleClickFSM, Node> {
-	protected final Click firstClick;
+public interface SrcTgtPointsData extends FullPointData {
+	/**
+	 * @return The object picked at the target location.
+	 */
+	Optional<Node> getTgtObject();
 
-	public DoubleClick() {
-		this(new DoubleClickFSM());
-	}
+	ReadOnlyObjectProperty<Point3D> tgtLocalPointProperty();
 
-	protected DoubleClick(final DoubleClickFSM fsm) {
-		super(fsm);
-		firstClick = new Click(fsm.firstClickFSM);
-		fsm.buildFSM(this);
-	}
+	ReadOnlyObjectProperty<Point3D> tgtScenePointProperty();
 
-	@Override
-	public void reinitData() {
-		super.reinitData();
-		firstClick.reinitData();
-	}
+	ReadOnlyObjectProperty<Node> tgtObjectProperty();
 
-	@Override
-	public FullPointData getData() {
-		return firstClick.getData();
-	}
+	/**
+	 * @return The target position.
+	 */
+	Point3D getTgtLocalPoint();
+
+	/**
+	 * @return The target scene position.
+	 */
+	Point3D getTgtScenePoint();
 }

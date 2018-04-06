@@ -10,13 +10,19 @@
  */
 package org.malai.javafx.interaction.library;
 
+import java.util.Optional;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.event.Event;
+import javafx.geometry.Point3D;
+import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import org.malai.javafx.interaction.JfxInteraction;
 
-public class DragLock extends PointInteraction<DragLockFSM, Event> {
+public class DragLock extends JfxInteraction<SrcTgtPointsData, DragLockFSM, Event> implements SrcTgtPointsData {
 	private final DragLockFSM.DragLockFSMHandler handler;
-	private final DoubleClick firstClick;
-	private final DoubleClick sndClick;
+	protected final DoubleClick firstClick;
+	protected final DoubleClick sndClick;
 
 	public DragLock() {
 		super(new DragLockFSM());
@@ -24,7 +30,8 @@ public class DragLock extends PointInteraction<DragLockFSM, Event> {
 		handler = new DragLockFSM.DragLockFSMHandler() {
 			@Override
 			public void onMove(final MouseEvent event) {
-				setPointData(event);
+				sndClick.firstClick.setPointData(event);
+				sndClick.firstClick.pointData.setModifiersData(event);
 			}
 
 			@Override
@@ -45,11 +52,78 @@ public class DragLock extends PointInteraction<DragLockFSM, Event> {
 		sndClick.reinitData();
 	}
 
-	public PointInteractionData getLockData() {
-		return firstClick.getClickData();
+	@Override
+	public SrcTgtPointsData getData() {
+		return this;
 	}
 
-	public PointInteractionData getTgtData() {
-		return sndClick.getClickData().getSrcLocalPoint() == null ? this : sndClick.getClickData();
+	@Override
+	public Optional<Node> getTgtObject() {
+		return sndClick.getData().getSrcObject();
+	}
+
+	@Override
+	public ReadOnlyObjectProperty<Point3D> tgtLocalPointProperty() {
+		return sndClick.getData().srcLocalPointProperty();
+	}
+
+	@Override
+	public ReadOnlyObjectProperty<Point3D> tgtScenePointProperty() {
+		return sndClick.getData().srcScenePointProperty();
+	}
+
+	@Override
+	public ReadOnlyObjectProperty<Node> tgtObjectProperty() {
+		return sndClick.getData().srcObjectProperty();
+	}
+
+	@Override
+	public Point3D getTgtLocalPoint() {
+		return sndClick.getData().getSrcLocalPoint() == null ? getSrcLocalPoint() : sndClick.getData().getSrcLocalPoint();
+	}
+
+	@Override
+	public Point3D getTgtScenePoint() {
+		return sndClick.getData().getSrcScenePoint() == null ? getSrcScenePoint() : sndClick.getData().getSrcScenePoint();
+	}
+
+	@Override
+	public ReadOnlyObjectProperty<Point3D> srcLocalPointProperty() {
+		return firstClick.getData().srcLocalPointProperty();
+	}
+
+	@Override
+	public ReadOnlyObjectProperty<Point3D> srcScenePointProperty() {
+		return firstClick.getData().srcScenePointProperty();
+	}
+
+	@Override
+	public ReadOnlyObjectProperty<Node> srcObjectProperty() {
+		return firstClick.getData().srcObjectProperty();
+	}
+
+	@Override
+	public boolean isAltPressed() {
+		return firstClick.getData().isAltPressed();
+	}
+
+	@Override
+	public boolean isCtrlPressed() {
+		return firstClick.getData().isCtrlPressed();
+	}
+
+	@Override
+	public boolean isShiftPressed() {
+		return firstClick.getData().isShiftPressed();
+	}
+
+	@Override
+	public boolean isMetaPressed() {
+		return firstClick.getData().isMetaPressed();
+	}
+
+	@Override
+	public MouseButton getButton() {
+		return firstClick.getData().getButton();
 	}
 }

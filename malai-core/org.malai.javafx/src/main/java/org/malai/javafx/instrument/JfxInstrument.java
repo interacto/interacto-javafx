@@ -14,6 +14,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
+import javafx.stage.Window;
 import org.malai.command.CommandImpl;
 import org.malai.instrument.InstrumentImpl;
 import org.malai.javafx.binding.AnonCmdBinder;
@@ -31,13 +32,15 @@ import org.malai.javafx.binding.TabBinder;
 import org.malai.javafx.binding.TextInputBinder;
 import org.malai.javafx.binding.ToggleButtonBinder;
 import org.malai.javafx.binding.WindowBinder;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * Base of an instrument for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction<?, ?>, ? extends JfxInstrument>> {
+public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction<?, ?, ?>, ? extends JfxInstrument, ?>> {
 	protected final BooleanProperty activatedProp;
 
 	/**
@@ -88,7 +91,8 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <W extends Node, I extends JfxInteraction<?, ?>> AnonCmdBinder<W, I> anonCmdBinder(final Runnable cmd, final I interaction) {
+	protected <D extends InteractionData, W extends Node, I extends JfxInteraction<D, ?, ?>> AnonCmdBinder<W, I, D>
+				anonCmdBinder(final Runnable cmd, final I interaction) {
 		return new AnonCmdBinder<>(cmd, interaction, this);
 	}
 
@@ -235,7 +239,8 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends CommandImpl, I extends JfxInteraction<?, ?>> WindowBinder<A, I> windowBinder(final Class<A> cmdClass, final I interaction) {
+	protected <A extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<A, I> windowBinder(final Class<A> cmdClass,
+																														  final I interaction) {
 		return new WindowBinder<>(cmdClass, interaction, this);
 	}
 
@@ -250,7 +255,8 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends CommandImpl, I extends JfxInteraction<?, ?>> NodeBinder<A, I> nodeBinder(final Class<A> cmdClass, final I interaction) {
+	protected <D extends InteractionData, A extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<A, I, D>
+				nodeBinder(final Class<A> cmdClass, final I interaction) {
 		return new NodeBinder<>(cmdClass, interaction, this);
 	}
 }

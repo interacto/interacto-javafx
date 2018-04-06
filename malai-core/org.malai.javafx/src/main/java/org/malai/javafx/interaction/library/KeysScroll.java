@@ -12,7 +12,7 @@ package org.malai.javafx.interaction.library;
 
 import javafx.scene.input.KeyEvent;
 
-public class KeysScroll extends MultiKeyInteraction<KeysScrollFSM> {
+public class KeysScroll extends MultiKeyInteraction<KeysScrollData, KeysScrollFSM> implements KeysScrollData {
 	private final Scroll scroll;
 	private final KeysScrollFSM.KeysScrollFSMHandler handler;
 
@@ -46,7 +46,28 @@ public class KeysScroll extends MultiKeyInteraction<KeysScrollFSM> {
 		scroll.reinitData();
 	}
 
-	public ScrollData getScrollData() {
-		return scroll;
+	@Override
+	public KeysScrollData getData() {
+		return this;
+	}
+
+	@Override
+	public Object getScrolledNode() {
+		return scroll.getData().getScrolledNode();
+	}
+
+	@Override
+	public double getPx() {
+		return scroll.getData().getPx();
+	}
+
+	@Override
+	public double getPy() {
+		return scroll.getData().getPy();
+	}
+
+	@Override
+	public double getIncrement() {
+		return scroll.getData().getIncrement();
 	}
 }

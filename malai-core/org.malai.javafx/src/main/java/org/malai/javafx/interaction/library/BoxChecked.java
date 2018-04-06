@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for checkboxes.
  * @author Arnaud BLOUIN
  */
-public class BoxChecked extends JfxInteraction<BoxCheckedFSM, CheckBox> {
+public class BoxChecked extends JfxInteraction<WidgetData<CheckBox>, BoxCheckedFSM, CheckBox> {
 	private final BoxCheckedFSM.BoxCheckedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class BoxChecked extends JfxInteraction<BoxCheckedFSM, CheckBox> {
 		if(node instanceof CheckBox) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<CheckBox> getData() {
+		return this;
 	}
 
 	@Override

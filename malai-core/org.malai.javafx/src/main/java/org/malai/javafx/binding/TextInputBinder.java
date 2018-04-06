@@ -14,13 +14,15 @@ import javafx.scene.control.TextInputControl;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.TextInputChanged;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a text input interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class TextInputBinder<C extends CommandImpl, W extends TextInputControl> extends UpdateBinder<W, C, TextInputChanged, TextInputBinder<C, W>> {
+public class TextInputBinder<C extends CommandImpl, W extends TextInputControl> extends UpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>,
+			TextInputBinder<C, W>> {
 	public TextInputBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new TextInputChanged(), instrument);
 	}

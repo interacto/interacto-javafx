@@ -15,9 +15,10 @@ import java.util.stream.Collectors;
 import javafx.scene.Node;
 import org.malai.command.AnonCommand;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 
-public class AnonCmdBinder<W, I extends JfxInteraction<?, ?>> extends Binder<W, AnonCommand, I, AnonCmdBinder<W, I>> {
+public class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D, AnonCmdBinder<W, I, D>> {
 	private final Runnable cmd;
 
 	public AnonCmdBinder(final Runnable anonCmd, final I interaction, final JfxInstrument ins) {
@@ -26,8 +27,8 @@ public class AnonCmdBinder<W, I extends JfxInteraction<?, ?>> extends Binder<W, 
 	}
 
 	@Override
-	public JfXWidgetBinding<AnonCommand, I, ?> bind() {
-		final AnonJfxWidgetBinding<I, JfxInstrument> binding = new AnonJfxWidgetBinding<>(instrument, false, cmd, interaction,
+	public JfXWidgetBinding<AnonCommand, I, ?, D> bind() {
+		final AnonJfxWidgetBinding<I, JfxInstrument, D> binding = new AnonJfxWidgetBinding<>(instrument, false, cmd, interaction,
 			null, null, checkConditions, onEnd, cmdProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);

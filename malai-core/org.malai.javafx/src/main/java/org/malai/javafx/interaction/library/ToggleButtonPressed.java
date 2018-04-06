@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for toggle buttons.
  * @author Arnaud BLOUIN
  */
-public class ToggleButtonPressed extends JfxInteraction<ToggleButtonPressedFSM, ToggleButton> {
+public class ToggleButtonPressed extends JfxInteraction<WidgetData<ToggleButton>, ToggleButtonPressedFSM, ToggleButton> {
 	private final ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class ToggleButtonPressed extends JfxInteraction<ToggleButtonPressedFSM, 
 		if(node instanceof ToggleButton) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<ToggleButton> getData() {
+		return this;
 	}
 
 	@Override

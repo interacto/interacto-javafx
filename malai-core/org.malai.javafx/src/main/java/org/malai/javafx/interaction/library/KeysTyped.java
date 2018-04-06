@@ -12,7 +12,7 @@ package org.malai.javafx.interaction.library;
 
 import javafx.scene.input.KeyEvent;
 
-public class KeysTyped extends MultiKeyInteraction<KeysTypedFSM> {
+public class KeysTyped extends MultiKeyInteraction<KeysData, KeysTypedFSM> {
 	private final KeysTypedFSM.KeysTypedFSMHandler handler;
 
 	public KeysTyped() {
@@ -31,5 +31,10 @@ public class KeysTyped extends MultiKeyInteraction<KeysTypedFSM> {
 		};
 
 		fsm.buildFSM(handler);
+	}
+
+	@Override
+	public KeysData getData() {
+		return this;
 	}
 }

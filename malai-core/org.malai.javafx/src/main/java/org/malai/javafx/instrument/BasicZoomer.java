@@ -73,9 +73,9 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 		nodeBinder(Zoom.class, new KeysScroll()).on(zoomable).
 			first(c -> c.setZoomable(zoomable)).
 			then((c, i) -> {
-				c.setZoomLevel(zoomable.getZoom() + (i.getScrollData().getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
-				c.setPx(i.getScrollData().getPx());
-				c.setPy(i.getScrollData().getPy());
+				c.setZoomLevel(zoomable.getZoom() + (i.getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
+				c.setPx(i.getPx());
+				c.setPy(i.getPy());
 			}).
 			when(i -> i.getKeys().size() == 1 && i.getKeyCodes().get(0) == KeyCode.CONTROL).bind();
 	}

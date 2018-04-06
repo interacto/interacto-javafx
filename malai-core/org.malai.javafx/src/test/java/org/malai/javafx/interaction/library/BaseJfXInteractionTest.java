@@ -24,7 +24,7 @@ import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
-public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> extends ApplicationTest {
+public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> extends ApplicationTest {
 	T interaction;
 	FSMHandler handler;
 //	@Mock MouseEvent evt;

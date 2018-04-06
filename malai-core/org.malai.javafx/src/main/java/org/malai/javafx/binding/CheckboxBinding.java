@@ -12,10 +12,12 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.BoxChecked;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * A widget binding for checkboxes.
@@ -23,7 +25,7 @@ import org.malai.javafx.interaction.library.BoxChecked;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class CheckboxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, BoxChecked, I> {
+public abstract class CheckboxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, BoxChecked, I, WidgetData<CheckBox>> {
 	/**
 	 * Creates a checkbox binding.
 	 * @param ins The instrument that contains the binding.

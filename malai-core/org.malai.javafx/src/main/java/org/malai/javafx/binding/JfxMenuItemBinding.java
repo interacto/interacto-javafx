@@ -15,12 +15,14 @@ import javafx.scene.control.MenuItem;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * Base of a menu item binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxMenuItemBinding<C extends CommandImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfXWidgetBinding<C, I, N> {
+public abstract class JfxMenuItemBinding<C extends CommandImpl, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>, N extends JfxInstrument>
+			extends JfXWidgetBinding<C, I, N, WidgetData<MenuItem>> {
 	/**
 	 * Creates a widget binding for menu items. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.

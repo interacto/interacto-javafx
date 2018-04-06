@@ -32,10 +32,10 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(1, interaction.getPoints().size());
-				assertEquals(11, interaction.getPoints().get(0).getX(), 0.0001d);
-				assertEquals(23, interaction.getPoints().get(0).getY(), 0.0001d);
-				assertEquals(0, interaction.getPoints().get(0).getZ(), 0.0001d);
+				assertEquals(1, interaction.getPointsData().size());
+				assertEquals(11, interaction.getPointsData().get(0).getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getPointsData().get(0).getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(0, interaction.getPointsData().get(0).getSrcLocalPoint().getZ(), 0.0001d);
 			}
 		});
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
@@ -54,13 +54,13 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(2, interaction.getPoints().size());
-				assertEquals(11, interaction.getPoints().get(0).getX(), 0.0001d);
-				assertEquals(23, interaction.getPoints().get(0).getY(), 0.0001d);
-				assertEquals(0, interaction.getPoints().get(0).getZ(), 0.0001d);
-				assertEquals(121, interaction.getPoints().get(1).getX(), 0.0001d);
-				assertEquals(213, interaction.getPoints().get(1).getY(), 0.0001d);
-				assertEquals(0, interaction.getPoints().get(1).getZ(), 0.0001d);
+				assertEquals(2, interaction.getPointsData().size());
+				assertEquals(11, interaction.getPointsData().get(0).getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getPointsData().get(0).getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(0, interaction.getPointsData().get(0).getSrcLocalPoint().getZ(), 0.0001d);
+				assertEquals(121, interaction.getPointsData().get(1).getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(213, interaction.getPointsData().get(1).getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(0, interaction.getPointsData().get(1).getSrcLocalPoint().getZ(), 0.0001d);
 			}
 		});
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
@@ -81,13 +81,13 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(3, interaction.getPoints().size());
-				assertEquals(11, interaction.getPoints().get(0).getX(), 0.0001d);
-				assertEquals(23, interaction.getPoints().get(0).getY(), 0.0001d);
-				assertEquals(111, interaction.getPoints().get(1).getX(), 0.0001d);
-				assertEquals(231, interaction.getPoints().get(1).getY(), 0.0001d);
-				assertEquals(112, interaction.getPoints().get(2).getX(), 0.0001d);
-				assertEquals(233, interaction.getPoints().get(2).getY(), 0.0001d);
+				assertEquals(3, interaction.getPointsData().size());
+				assertEquals(11, interaction.getPointsData().get(0).getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getPointsData().get(0).getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(111, interaction.getPointsData().get(1).getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(231, interaction.getPointsData().get(1).getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(112, interaction.getPointsData().get(2).getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(233, interaction.getPointsData().get(2).getSrcLocalPoint().getY(), 0.0001d);
 			}
 		});
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
@@ -100,7 +100,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseClickEvent(111, 231, MouseButton.PRIMARY, null));
 		interaction.processEvent(createMouseClickEvent(112, 233, MouseButton.SECONDARY, null));
-		assertTrue(interaction.getPoints().isEmpty());
+		assertTrue(interaction.getPointsData().isEmpty());
 		assertNull(interaction.getCurrentPosition());
 	}
 
@@ -121,7 +121,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(2, interaction.getPoints().size());
+				assertEquals(2, interaction.getPointsData().size());
 				assertEquals(112, interaction.getCurrentPosition().getX(), 0.0001d);
 				assertEquals(233, interaction.getCurrentPosition().getY(), 0.0001d);
 			}
@@ -138,7 +138,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(3, interaction.getPoints().size());
+				assertEquals(3, interaction.getPointsData().size());
 				assertEquals(1112, interaction.getCurrentPosition().getX(), 0.0001d);
 				assertEquals(2343, interaction.getCurrentPosition().getY(), 0.0001d);
 			}

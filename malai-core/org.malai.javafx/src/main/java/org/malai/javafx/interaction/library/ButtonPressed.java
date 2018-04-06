@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for buttons.
  * @author Arnaud BLOUIN
  */
-public class ButtonPressed extends JfxInteraction<ButtonPressedFSM, Button> {
+public class ButtonPressed extends JfxInteraction<WidgetData<Button>, ButtonPressedFSM, Button> {
 	private final ButtonPressedFSM.ButtonPressedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class ButtonPressed extends JfxInteraction<ButtonPressedFSM, Button> {
 		if(node instanceof Button) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<Button> getData() {
+		return this;
 	}
 
 	@Override

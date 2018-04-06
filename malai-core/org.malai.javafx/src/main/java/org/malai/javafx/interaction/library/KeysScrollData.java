@@ -10,21 +10,5 @@
  */
 package org.malai.javafx.interaction.library;
 
-import javafx.scene.input.KeyCode;
-
-public interface KeyInteractionData {
-	/**
-	 * @return The object that produced the interaction.
-	 */
-	Object getObject();
-
-	/**
-	 * @return The key used by the interaction.
-	 */
-	String getKey();
-
-	/**
-	 * @return The key code used by the interaction.
-	 */
-	KeyCode getKeyCode();
+public interface KeysScrollData extends KeysData, ScrollData {
 }

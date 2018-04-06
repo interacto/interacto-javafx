@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for menu buttons.
  * @author Arnaud BLOUIN
  */
-public class MenuButtonPressed extends JfxInteraction<MenuButtonPressedFSM, MenuButton> {
+public class MenuButtonPressed extends JfxInteraction<WidgetData<MenuButton>, MenuButtonPressedFSM, MenuButton> {
 	private final MenuButtonPressedFSM.MenuButtonPressedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class MenuButtonPressed extends JfxInteraction<MenuButtonPressedFSM, Menu
 		if(node instanceof MenuButton) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<MenuButton> getData() {
+		return this;
 	}
 
 	@Override

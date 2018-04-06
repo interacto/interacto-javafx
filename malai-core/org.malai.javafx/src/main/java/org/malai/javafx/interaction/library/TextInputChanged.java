@@ -22,7 +22,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for text input controls.
  * @author Arnaud BLOUIN
  */
-public class TextInputChanged extends JfxInteraction<TextInputChangedFSM, TextInputControl> {
+public class TextInputChanged extends JfxInteraction<WidgetData<TextInputControl>, TextInputChangedFSM, TextInputControl> {
 	private static final EventHandler<? super KeyEvent> HANDLER_KEY_ACTION = evt -> {
 		final KeyCode code = evt.getCode();
 		if(!code.isFunctionKey() && !code.isMediaKey() && !code.isModifierKey() && !code.isArrowKey() && !code.isNavigationKey() && evt.getSource() instanceof
@@ -63,6 +63,11 @@ public class TextInputChanged extends JfxInteraction<TextInputChangedFSM, TextIn
 			node.removeEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
 			node.addEventHandler(KeyEvent.KEY_PRESSED, HANDLER_KEY_ACTION);
 		}
+	}
+
+	@Override
+	public WidgetData<TextInputControl> getData() {
+		return this;
 	}
 
 	@Override

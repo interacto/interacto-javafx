@@ -21,17 +21,19 @@ import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.command.AnonCommand;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
 
-public class AnonJfxWidgetBinding<I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends JFxAnonNodeBinding<AnonCommand, I, N> {
+public class AnonJfxWidgetBinding<I extends JfxInteraction<D, ?, ?>, N extends JfxInstrument, D extends InteractionData>
+			extends JFxAnonNodeBinding<AnonCommand, I, N, D> {
 	private final Runnable anonCmd;
 
 	public AnonJfxWidgetBinding(final N ins, final boolean exec, final Runnable cmd, final I interaction,
-								final BiConsumer<AnonCommand, I> initCmdFct, final BiConsumer<AnonCommand, I> updateCmdFct,
-								final Predicate<I> check, final BiConsumer<AnonCommand, I> onEndFct, final Function<I, AnonCommand> cmdFunction,
-								final BiConsumer<AnonCommand, I> cancel, final BiConsumer<AnonCommand, I> endOrCancel, final Runnable feedback,
+								final BiConsumer<AnonCommand, D> initCmdFct, final BiConsumer<AnonCommand, D> updateCmdFct,
+								final Predicate<D> check, final BiConsumer<AnonCommand, D> onEndFct, final Function<D, AnonCommand> cmdFunction,
+								final BiConsumer<AnonCommand, D> cancel, final BiConsumer<AnonCommand, D> endOrCancel, final Runnable feedback,
 								final List<Node> widgets, final List<ObservableList<? extends Node>> additionalWidgets, final boolean async,
 								final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, AnonCommand.class, interaction, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel, feedback,
@@ -40,9 +42,9 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction<?, ?>, N extends JfxI
 	}
 
 	public AnonJfxWidgetBinding(final N ins, final boolean exec, final Runnable cmd, final I interaction, final List<Window> widgets,
-								final BiConsumer<AnonCommand, I> initCmdFct, final BiConsumer<AnonCommand, I> updateCmdFct, final Predicate<I> check,
-								final BiConsumer<AnonCommand, I> onEndFct, final Function<I, AnonCommand> cmdFunction, final BiConsumer<AnonCommand, I> cancel,
-								final BiConsumer<AnonCommand, I> endOrCancel, final Runnable feedback, final boolean async,
+								final BiConsumer<AnonCommand, D> initCmdFct, final BiConsumer<AnonCommand, D> updateCmdFct, final Predicate<D> check,
+								final BiConsumer<AnonCommand, D> onEndFct, final Function<D, AnonCommand> cmdFunction, final BiConsumer<AnonCommand, D> cancel,
+								final BiConsumer<AnonCommand, D> endOrCancel, final Runnable feedback, final boolean async,
 								final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, AnonCommand.class, interaction, widgets, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel,
 			feedback, async, strict, loggers, help, animation);

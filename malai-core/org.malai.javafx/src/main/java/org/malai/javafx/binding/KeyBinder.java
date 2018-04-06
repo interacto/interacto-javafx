@@ -18,6 +18,7 @@ import java.util.function.Predicate;
 import javafx.scene.input.KeyCode;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.library.KeysData;
 import org.malai.javafx.interaction.library.KeysPressed;
 
 /**
@@ -26,9 +27,9 @@ import org.malai.javafx.interaction.library.KeysPressed;
  * @param <W> The type of the widget to bind.
  * @author Arnaud Blouin
  */
-public abstract class KeyBinder<W, C extends CommandImpl, B extends KeyBinder<W, C, B>> extends Binder<W, C, KeysPressed, B> {
+public abstract class KeyBinder<W, C extends CommandImpl, B extends KeyBinder<W, C, B>> extends Binder<W, C, KeysPressed, KeysData, B> {
 	final Collection<KeyCode> codes;
-	final Predicate<KeysPressed> checkCode;
+	final Predicate<KeysData> checkCode;
 
 	public KeyBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new KeysPressed(), instrument);

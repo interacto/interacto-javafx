@@ -14,13 +14,14 @@ import javafx.scene.control.Button;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.ButtonPressed;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a button interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ButtonBinder<C extends CommandImpl> extends Binder<Button, C, ButtonPressed, ButtonBinder<C>> {
+public class ButtonBinder<C extends CommandImpl> extends Binder<Button, C, ButtonPressed, WidgetData<Button>, ButtonBinder<C>> {
 	public ButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new ButtonPressed(), instrument);
 	}

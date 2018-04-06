@@ -11,31 +11,32 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import javafx.event.Event;
 import javafx.geometry.Point3D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import org.malai.javafx.interaction.JfxInteraction;
 
-public class MultiClick extends JfxInteraction<MultiClickFSM, Event> {
+public class MultiClick extends JfxInteraction<PointsData, MultiClickFSM, Event> implements PointsData {
 	private final MultiClickFSM.MultiClickFSMHandler handler;
-	/** The list of pressed position. */
-	protected final List<Point3D> points;
 	/** The current position of the pointing device. */
 	protected Point3D currentPosition;
-	protected MouseButton currentButton;
+	protected final List<PointData> pointsData;
 
 	public MultiClick(final int minPts) {
 		super(new MultiClickFSM(minPts));
-		points = new ArrayList<>();
+		pointsData = new ArrayList<>();
 
 		handler = new MultiClickFSM.MultiClickFSMHandler() {
 			@Override
 			public void onClick(final MouseEvent event) {
-				MultiClick.this.points.add(new Point3D(event.getX(), event.getY(), event.getZ()));
+				final PointDataImpl data = new PointDataImpl();
+				data.setPointData(event);
+				pointsData.add(data);
 				currentPosition = new Point3D(event.getX(), event.getY(), event.getZ());
-				currentButton = event.getButton();
 			}
 
 			@Override
@@ -61,28 +62,30 @@ public class MultiClick extends JfxInteraction<MultiClickFSM, Event> {
 		return super.getFsm();
 	}
 
-	/**
-	 * @return The list of pressed position.
-	 */
-	public List<Point3D> getPoints() {
-		return points;
+	@Override
+	public List<PointData> getPointsData() {
+		return Collections.unmodifiableList(pointsData);
 	}
 
-	/**
-	 * @return The current position of the pointing device.
-	 */
+	@Override
 	public Point3D getCurrentPosition() {
 		return currentPosition;
 	}
 
-	public MouseButton getCurrentButton() {
-		return currentButton;
+	@Override
+	public Optional<MouseButton> getLastButton() {
+		return pointsData.isEmpty() ? Optional.empty() : Optional.of(pointsData.get(pointsData.size() - 1).getButton());
 	}
 
 	@Override
 	public void reinitData() {
 		super.reinitData();
-		points.clear();
+		pointsData.clear();
 		currentPosition = null;
+	}
+
+	@Override
+	public PointsData getData() {
+		return this;
 	}
 }

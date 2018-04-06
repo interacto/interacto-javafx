@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<?, W>> extends BaseJfXInteractionTest<I> {
+public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<?, ?, W>> extends BaseJfXInteractionTest<I> {
 	W wimpWidget;
 	long sleep;
 

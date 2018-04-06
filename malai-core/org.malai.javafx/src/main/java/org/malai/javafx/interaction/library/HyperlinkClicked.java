@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for hyperlinks.
  * @author Arnaud BLOUIN
  */
-public class HyperlinkClicked extends JfxInteraction<HyperlinkClickedFSM, Hyperlink> {
+public class HyperlinkClicked extends JfxInteraction<WidgetData<Hyperlink>, HyperlinkClickedFSM, Hyperlink> {
 	private final HyperlinkClickedFSM.HyperlinkClickedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class HyperlinkClicked extends JfxInteraction<HyperlinkClickedFSM, Hyperl
 		if(node instanceof Hyperlink) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<Hyperlink> getData() {
+		return this;
 	}
 
 	@Override

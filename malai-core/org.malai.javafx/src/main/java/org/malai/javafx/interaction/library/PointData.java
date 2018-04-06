@@ -11,12 +11,12 @@
 package org.malai.javafx.interaction.library;
 
 import java.util.Optional;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
+import org.malai.javafx.interaction.InteractionData;
 
-public interface PointInteractionData {
+public interface PointData extends InteractionData {
 	/**
 	 * @return True: the alt key is pressed.
 	 */
@@ -56,10 +56,4 @@ public interface PointInteractionData {
 	 * @return The object picked at the pressed position.
 	 */
 	Optional<Node> getSrcObject();
-
-	ReadOnlyObjectProperty<Point3D> srcLocalPointProperty();
-
-	ReadOnlyObjectProperty<Point3D> srcScenePointProperty();
-
-	ReadOnlyObjectProperty<Node> srcObjectProperty();
 }

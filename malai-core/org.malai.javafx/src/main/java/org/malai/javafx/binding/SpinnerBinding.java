@@ -12,10 +12,12 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.control.Spinner;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.SpinnerChanged;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * A widget binding for spinners.
@@ -23,7 +25,7 @@ import org.malai.javafx.interaction.library.SpinnerChanged;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, I> {
+public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, I, WidgetData<Spinner<?>>> {
 	/**
 	 * Creates a spinner binding.
 	 * @param ins The instrument that contains the binding.

@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for spinners.
  * @author Arnaud BLOUIN
  */
-public class SpinnerChanged extends JfxInteraction<SpinnerChangedFSM, Spinner<?>> {
+public class SpinnerChanged extends JfxInteraction<WidgetData<Spinner<?>>, SpinnerChangedFSM, Spinner<?>> {
 	final SpinnerChangedFSM.SpinnerChangedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class SpinnerChanged extends JfxInteraction<SpinnerChangedFSM, Spinner<?>
 		if(node instanceof Spinner<?>) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<Spinner<?>> getData() {
+		return this;
 	}
 
 	@Override

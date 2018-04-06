@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for windows to be closed.
  * @author Arnaud BLOUIN
  */
-public class WindowClosed extends JfxInteraction<WindowClosedFSM, Window> {
+public class WindowClosed extends JfxInteraction<WidgetData<Window>, WindowClosedFSM, Window> {
 	private final EventHandler<WindowEvent> winClose;
 	private final WindowClosedFSM.WindowClosedHandler handler;
 
@@ -52,6 +52,11 @@ public class WindowClosed extends JfxInteraction<WindowClosedFSM, Window> {
 		if(window != null) {
 			window.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, winClose);
 		}
+	}
+
+	@Override
+	public WidgetData<Window> getData() {
+		return this;
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.malai.command.Command;
 import org.malai.command.CommandImpl;
 import org.malai.error.ErrorCatcher;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.help.HelpAnimationPlayer;
@@ -40,7 +41,8 @@ import org.malai.javafx.interaction.help.HelpAnimationPlayer;
  * Base of a widget binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends WidgetBindingImpl<C, I, N> {
+public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, N extends JfxInstrument, D extends InteractionData>
+			extends WidgetBindingImpl<C, I, N> {
 	/** The executor service used to execute command async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;
 

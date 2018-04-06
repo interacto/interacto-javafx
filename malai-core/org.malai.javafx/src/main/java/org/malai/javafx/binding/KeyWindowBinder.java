@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import javafx.stage.Window;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.library.KeysData;
 import org.malai.javafx.interaction.library.KeysPressed;
 
 /**
@@ -26,8 +27,8 @@ public class KeyWindowBinder<C extends CommandImpl> extends KeyBinder<Window, C,
 	}
 
 	@Override
-	public JfXWidgetBinding<C, KeysPressed, ?> bind() {
-		final JFxAnonNodeBinding<C, KeysPressed, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction,
+	public JfXWidgetBinding<C, KeysPressed, ?, KeysData> bind() {
+		final JFxAnonNodeBinding<C, KeysPressed, JfxInstrument, KeysData> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction,
 			widgets, initCmd, null, checkCode, onEnd, cmdProducer, null, null, null, async, false,
 			logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
