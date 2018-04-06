@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for colour pickers.
  * @author Arnaud BLOUIN
  */
-public class ColorPicked extends JfxInteraction<ColorPickedFSM, ColorPicker> {
+public class ColorPicked extends JfxInteraction<WidgetData<ColorPicker>, ColorPickedFSM, ColorPicker> {
 	private final ColorPickedFSM.ColorPickedFSMFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class ColorPicked extends JfxInteraction<ColorPickedFSM, ColorPicker> {
 		if(node instanceof ColorPicker) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<ColorPicker> getData() {
+		return this;
 	}
 
 	@Override

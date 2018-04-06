@@ -39,8 +39,8 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			map(i -> new MoveShape(rec)).
 			on(rec).
 			first((c, i) -> rec.requestFocus()).
-			then((c, i) -> c.setCoord(rec.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
-				rec.getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
+			then((c, i) -> c.setCoord(rec.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
+				rec.getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
 			end((c, i) -> fail("")).
 			exec().
 			bind();
@@ -54,8 +54,8 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			map(i -> new MoveShape((Rectangle) i.getSrcObject().get())).
 			on(widget1.getChildren()).
 			first((c, i) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
-			then((c, i) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
-				((Rectangle) i.getSrcObject().get()).getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
+			then((c, i) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
+				((Rectangle) i.getSrcObject().get()).getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
 			end((c, i) -> fail("")).
 			exec().
 			bind();

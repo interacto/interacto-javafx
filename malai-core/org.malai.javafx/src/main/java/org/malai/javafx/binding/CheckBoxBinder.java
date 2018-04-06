@@ -14,13 +14,14 @@ import javafx.scene.control.CheckBox;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.BoxChecked;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a checkbox interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class CheckBoxBinder<C extends CommandImpl> extends Binder<CheckBox, C, BoxChecked, CheckBoxBinder<C>> {
+public class CheckBoxBinder<C extends CommandImpl> extends Binder<CheckBox, C, BoxChecked, WidgetData<CheckBox>, CheckBoxBinder<C>> {
 	public CheckBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new BoxChecked(), instrument);
 	}

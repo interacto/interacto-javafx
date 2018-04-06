@@ -17,13 +17,14 @@ import javafx.scene.control.MenuItem;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemPressed;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a menu item interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class MenuItemBinder<C extends CommandImpl> extends Binder<MenuItem, C, MenuItemPressed, MenuItemBinder<C>> {
+public class MenuItemBinder<C extends CommandImpl> extends Binder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>, MenuItemBinder<C>> {
 	protected List<ObservableList<? extends MenuItem>> additionalMenus;
 
 	public MenuItemBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
@@ -46,7 +47,7 @@ public class MenuItemBinder<C extends CommandImpl> extends Binder<MenuItem, C, M
 	}
 
 	@Override
-	public JfXWidgetBinding<C, MenuItemPressed, ?> bind() {
+	public JfXWidgetBinding<C, MenuItemPressed, ?, WidgetData<MenuItem>> bind() {
 		final JFxAnonMenuBinding<C, MenuItemPressed, JfxInstrument> binding = new JFxAnonMenuBinding<>(instrument, false, cmdClass, interaction,
 			initCmd, checkConditions, onEnd, cmdProducer, widgets, additionalMenus);
 		binding.setProgressBarProp(progressProp);

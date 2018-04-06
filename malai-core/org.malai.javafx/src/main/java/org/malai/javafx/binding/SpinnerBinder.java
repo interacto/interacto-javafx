@@ -14,13 +14,14 @@ import javafx.scene.control.Spinner;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.SpinnerChanged;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a spinner interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class SpinnerBinder<C extends CommandImpl> extends UpdateBinder<Spinner<?>, C, SpinnerChanged, SpinnerBinder<C>> {
+public class SpinnerBinder<C extends CommandImpl> extends UpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>, SpinnerBinder<C>> {
 	public SpinnerBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new SpinnerChanged(), instrument);
 	}

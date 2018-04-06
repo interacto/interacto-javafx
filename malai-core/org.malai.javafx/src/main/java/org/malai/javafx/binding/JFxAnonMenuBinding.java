@@ -20,17 +20,19 @@ import javafx.scene.control.MenuItem;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.MenuItemInteraction;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * This anonymous widget binding for menus takes a function as a parameter that will be executed to initialise the command.
  * The goal is to avoid the creation of a specific class when the widget binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInteraction<?, MenuItem>, N extends JfxInstrument> extends JfxMenuItemBinding<C, I, N> {
-	private final BiConsumer<C, I> execInitCmd;
-	private final Predicate<I> checkInteraction;
-	private final BiConsumer<C, I> onEnd;
-	private final Function<I, C> cmdProducer;
+public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>, N extends JfxInstrument>
+			extends JfxMenuItemBinding<C, I, N> {
+	private final BiConsumer<C, WidgetData<MenuItem>> execInitCmd;
+	private final Predicate<WidgetData<MenuItem>> checkInteraction;
+	private final BiConsumer<C, WidgetData<MenuItem>> onEnd;
+	private final Function<WidgetData<MenuItem>, C> cmdProducer;
 	/** Used rather than 'command' to catch the command during its creation.
 	 * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
 	 */
@@ -50,8 +52,9 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
-							  final BiConsumer<C, I> initCmdFct, final Predicate<I> check, final BiConsumer<C, I> onEndFct,
-							  final Function<I, C> cmdFct, final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus) {
+							  final BiConsumer<C, WidgetData<MenuItem>> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
+							  final BiConsumer<C, WidgetData<MenuItem>> onEndFct, final Function<WidgetData<MenuItem>, C> cmdFct,
+							  final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus) {
 		super(ins, exec, clazzCmd, interaction, menus);
 		execInitCmd = initCmdFct == null ? (c, i) -> {} : initCmdFct;
 		checkInteraction = check == null ? i -> true : check;

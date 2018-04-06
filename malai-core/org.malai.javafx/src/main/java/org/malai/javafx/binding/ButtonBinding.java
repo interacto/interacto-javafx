@@ -12,10 +12,12 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.ButtonPressed;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * A widget binding for buttons.
@@ -23,7 +25,7 @@ import org.malai.javafx.interaction.library.ButtonPressed;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ButtonBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ButtonPressed, I> {
+public abstract class ButtonBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ButtonPressed, I, WidgetData<Button>> {
 	/**
 	 * Creates a button binding.
 	 * @param ins The instrument that contains the binding.

@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.stage.Window;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
@@ -31,15 +32,16 @@ import org.malai.logging.LogLevel;
  * The goal is to avoid the creation of a specific class when the binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<?, ?>, N extends JfxInstrument> extends JfXWidgetBinding<C, I, N> {
-	private final BiConsumer<C, I> execInitCmd;
-	private final BiConsumer<C, I> execUpdateCmd;
-	private final Predicate<I> checkInteraction;
-	private final Function<I, C> cmdProducer;
-	private final BiConsumer<C, I> cancelFct;
-	private final BiConsumer<C, I> endOrCancelFct;
+public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, N extends JfxInstrument, D extends InteractionData>
+			extends JfXWidgetBinding<C, I, N, D> {
+	private final BiConsumer<C, D> execInitCmd;
+	private final BiConsumer<C, D> execUpdateCmd;
+	private final Predicate<D> checkInteraction;
+	private final Function<D, C> cmdProducer;
+	private final BiConsumer<C, D> cancelFct;
+	private final BiConsumer<C, D> endOrCancelFct;
 	private final Runnable feedbackFct;
-	private final BiConsumer<C, I> onEnd;
+	private final BiConsumer<C, D> onEnd;
 	private final boolean strictStart;
 	/** Used rather than 'command' to catch the command during its creation.
 	 * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
@@ -60,11 +62,11 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
-							  final BiConsumer<C, I> initCmdFct, final BiConsumer<C, I> updateCmdFct,
-							  final Predicate<I> check, final BiConsumer<C, I> onEndFct, final Function<I, C> cmdFunction,
-							  final BiConsumer<C, I> cancel, final BiConsumer<C, I> endOrCancel, final Runnable feedback, final List<Node> widgets,
-							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean asyncExec, final boolean strict, final Set<LogLevel> loggers,
-							  final boolean help, final HelpAnimation animation) {
+							  final BiConsumer<C, D> initCmdFct, final BiConsumer<C, D> updateCmdFct,
+							  final Predicate<D> check, final BiConsumer<C, D> onEndFct, final Function<D, C> cmdFunction,
+							  final BiConsumer<C, D> cancel, final BiConsumer<C, D> endOrCancel, final Runnable feedback, final List<Node> widgets,
+							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean asyncExec, final boolean strict,
+							  final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, clazzCmd, interaction, widgets, help, animation);
 		execInitCmd = initCmdFct;
 		execUpdateCmd = updateCmdFct;
@@ -98,9 +100,9 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
-							  final List<Window> widgets, final BiConsumer<C, I> initCmdFct, final BiConsumer<C, I> updateCmdFct,
-							  final Predicate<I> check, final BiConsumer<C, I> onEndFct, final Function<I, C> cmdFunction,
-							  final BiConsumer<C, I> cancel, final BiConsumer<C, I> endOrCancel, final Runnable feedback, final boolean asyncExec,
+							  final List<Window> widgets, final BiConsumer<C, D> initCmdFct, final BiConsumer<C, D> updateCmdFct,
+							  final Predicate<D> check, final BiConsumer<C, D> onEndFct, final Function<D, C> cmdFunction,
+							  final BiConsumer<C, D> cancel, final BiConsumer<C, D> endOrCancel, final Runnable feedback, final boolean asyncExec,
 							  final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, widgets, clazzCmd, interaction, animation, help);
 		execInitCmd = initCmdFct;
@@ -135,7 +137,7 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 		if(cmdProducer == null) {
 			currentCmd = super.map();
 		}else {
-			currentCmd = cmdProducer.apply(getInteraction());
+			currentCmd = cmdProducer.apply(getInteraction().getData());
 		}
 		return currentCmd;
 	}
@@ -143,20 +145,20 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 	@Override
 	public void first() {
 		if(execInitCmd != null && currentCmd != null) {
-			execInitCmd.accept(getCommand(), getInteraction());
+			execInitCmd.accept(getCommand(), getInteraction().getData());
 		}
 	}
 
 	@Override
 	public void then() {
 		if(execUpdateCmd != null) {
-			execUpdateCmd.accept(getCommand(), getInteraction());
+			execUpdateCmd.accept(getCommand(), getInteraction().getData());
 		}
 	}
 
 	@Override
 	public boolean when() {
-		final boolean ok = checkInteraction == null || checkInteraction.test(getInteraction());
+		final boolean ok = checkInteraction == null || checkInteraction.test(getInteraction().getData());
 		if(loggerBinding != null) {
 			loggerBinding.log(Level.INFO, "Checking condition: " + ok);
 		}
@@ -166,10 +168,10 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 	@Override
 	public void fsmCancels() {
 		if(endOrCancelFct != null && currentCmd != null) {
-			endOrCancelFct.accept(cmd, interaction);
+			endOrCancelFct.accept(cmd, interaction.getData());
 		}
 		if(cancelFct != null && currentCmd != null) {
-			cancelFct.accept(cmd, interaction);
+			cancelFct.accept(cmd, interaction.getData());
 		}
 		super.fsmCancels();
 		currentCmd = null;
@@ -189,10 +191,10 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 	public void fsmStops() {
 		super.fsmStops();
 		if(endOrCancelFct != null && currentCmd != null) {
-			endOrCancelFct.accept(currentCmd, getInteraction());
+			endOrCancelFct.accept(currentCmd, getInteraction().getData());
 		}
 		if(onEnd != null && currentCmd != null) {
-			onEnd.accept(currentCmd, getInteraction());
+			onEnd.accept(currentCmd, getInteraction().getData());
 		}
 		currentCmd = null;
 	}

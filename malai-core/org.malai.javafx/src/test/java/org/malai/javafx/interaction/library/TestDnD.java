@@ -31,8 +31,8 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 			public void fsmStarts() {
 				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
 				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(11, interaction.getEndLocalPt().getX(), 0.0001d);
-				assertEquals(23, interaction.getEndLocalPt().getY(), 0.0001d);
+				assertEquals(11, interaction.getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getTgtLocalPoint().getY(), 0.0001d);
 				assertEquals(MouseButton.PRIMARY, interaction.getButton());
 			}
 		});
@@ -76,10 +76,10 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 			public void fsmUpdates() {
 				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
 				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(12, interaction.getEndLocalPt().getX(), 0.0001d);
-				assertEquals(24, interaction.getEndLocalPt().getY(), 0.0001d);
+				assertEquals(12, interaction.getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(24, interaction.getTgtLocalPoint().getY(), 0.0001d);
 				assertEquals(MouseButton.SECONDARY, interaction.getButton());
-				assertEquals(button, interaction.getEndObject().get());
+				assertEquals(button, interaction.getTgtObject().get());
 			}
 		});
 		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY, button));
@@ -127,8 +127,8 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 			public void fsmUpdates() {
 				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
 				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(12, interaction.getEndLocalPt().getX(), 0.0001d);
-				assertEquals(24, interaction.getEndLocalPt().getY(), 0.0001d);
+				assertEquals(12, interaction.getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(24, interaction.getTgtLocalPoint().getY(), 0.0001d);
 				assertEquals(MouseButton.MIDDLE, interaction.getButton());
 			}
 		});
@@ -153,8 +153,8 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 			public void fsmStops() {
 				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
 				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(15, interaction.getEndLocalPt().getX(), 0.0001d);
-				assertEquals(25, interaction.getEndLocalPt().getY(), 0.0001d);
+				assertEquals(15, interaction.getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(25, interaction.getTgtLocalPoint().getY(), 0.0001d);
 				assertEquals(MouseButton.PRIMARY, interaction.getButton());
 			}
 		});
@@ -193,8 +193,8 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 			public void fsmStops() {
 				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
 				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(15, interaction.getEndLocalPt().getX(), 0.0001d);
-				assertEquals(25, interaction.getEndLocalPt().getY(), 0.0001d);
+				assertEquals(15, interaction.getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(25, interaction.getTgtLocalPoint().getY(), 0.0001d);
 				assertEquals(MouseButton.PRIMARY, interaction.getButton());
 			}
 		});

@@ -10,32 +10,19 @@
  */
 package org.malai.javafx.interaction.library;
 
-import javafx.event.Event;
-import javafx.scene.input.MouseEvent;
+import java.util.List;
+import java.util.Optional;
+import javafx.geometry.Point3D;
+import javafx.scene.input.MouseButton;
+import org.malai.javafx.interaction.InteractionData;
 
-public class Press extends PointInteraction<FullPointData, PressFSM, Event> {
-	private final PressFSM.PressFSMHandler handler;
+public interface PointsData extends InteractionData {
+	List<PointData> getPointsData();
 
-	public Press() {
-		super(new PressFSM());
+	/**
+	 * @return The current position of the pointing device.
+	 */
+	Point3D getCurrentPosition();
 
-		handler = new PressFSM.PressFSMHandler() {
-			@Override
-			public void initToPress(final MouseEvent event) {
-				setPointData(event);
-			}
-
-			@Override
-			public void reinitData() {
-				Press.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
-	}
-
-	@Override
-	public FullPointData getData() {
-		return this;
-	}
+	Optional<MouseButton> getLastButton();
 }

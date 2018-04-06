@@ -66,8 +66,8 @@ public class Pencil extends JfxInstrument implements Initializable {
 			first((c, i) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(c.getShape()))).
 			then((c, i) -> {
 				final MyRect sh = (MyRect) c.getShape();
-				sh.setWidth(i.getEndLocalPt().getX() - sh.getX());
-				sh.setHeight(i.getEndLocalPt().getY() - sh.getY());
+				sh.setWidth(i.getTgtLocalPoint().getX() - sh.getX());
+				sh.setHeight(i.getTgtLocalPoint().getY() - sh.getY());
 			}).
 			when(i -> i.getButton() == MouseButton.PRIMARY).
 			end((c, i) -> canvas.setTmpShape(null)).
@@ -94,8 +94,8 @@ public class Pencil extends JfxInstrument implements Initializable {
 			map(i -> {
 				final MyShape sh = i.getSrcObject().map(o -> (MyShape) o.getUserData()).get();
 				return new MoveShape(sh,
-					Bindings.createDoubleBinding(() -> sh.getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()), i.endScenePtProperty(), i.srcScenePointProperty()),
-					Bindings.createDoubleBinding(() -> sh.getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()), i.endScenePtProperty(), i.srcScenePointProperty()));
+					Bindings.createDoubleBinding(() -> sh.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()), i.tgtScenePointProperty(), i.srcScenePointProperty()),
+					Bindings.createDoubleBinding(() -> sh.getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()), i.tgtScenePointProperty(), i.srcScenePointProperty()));
 			}).
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
@@ -111,7 +111,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 			bind();
 
 
-//		nodeBinder(MoveShape.class, new CancellableDnD(true)).
+//		nodeBinder(MoveShape.class, new DnD(true, true)).
 //			// The binding dynamically registers elements of the given observable list.
 //			// When nodes are added to this list, these nodes register the binding.
 //			// When nodes are removed from this list, their binding is cancelled.
@@ -140,8 +140,8 @@ public class Pencil extends JfxInstrument implements Initializable {
 		 */
 		nodeBinder(ChangeColour.class, new DnD()).on(lineCol).
 			map(i -> new ChangeColour(lineCol.getValue(), null)).
-			then((a, i) -> i.getEndObjet().map(view -> (MyShape) view.getUserData()).ifPresent(sh -> a.setShape(sh))).
-			when(i -> i.getEndObjet().orElse(null) instanceof Shape).
+			then((a, i) -> i.getTgtObject().map(view -> (MyShape) view.getUserData()).ifPresent(sh -> a.setShape(sh))).
+			when(i -> i.getTgtObject().orElse(null) instanceof Shape).
 			feedback(() -> lineCol.getScene().setCursor(new ColorCursor(lineCol.getValue()))).
 			endOrCancel((a, i) -> lineCol.getScene().setCursor(Cursor.DEFAULT)).
 			bind();

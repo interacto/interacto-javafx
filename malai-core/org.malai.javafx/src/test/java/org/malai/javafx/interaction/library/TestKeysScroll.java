@@ -106,9 +106,9 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(1, interaction.getScrollData().getIncrement(), 0.0001);
-				assertEquals(10, interaction.getScrollData().getPx(), 0.0001);
-				assertEquals(20, interaction.getScrollData().getPy(), 0.0001);
+				assertEquals(1, interaction.getIncrement(), 0.0001);
+				assertEquals(10, interaction.getPx(), 0.0001);
+				assertEquals(20, interaction.getPy(), 0.0001);
 			}
 		});
 		interaction.processEvent(createKeyPressEvent("B", KeyCode.B));

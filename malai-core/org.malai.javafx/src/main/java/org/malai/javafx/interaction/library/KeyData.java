@@ -10,32 +10,22 @@
  */
 package org.malai.javafx.interaction.library;
 
-import javafx.event.Event;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCode;
+import org.malai.javafx.interaction.InteractionData;
 
-public class Press extends PointInteraction<FullPointData, PressFSM, Event> {
-	private final PressFSM.PressFSMHandler handler;
+public interface KeyData extends InteractionData {
+	/**
+	 * @return The object that produced the interaction.
+	 */
+	Object getObject();
 
-	public Press() {
-		super(new PressFSM());
+	/**
+	 * @return The key used by the interaction.
+	 */
+	String getKey();
 
-		handler = new PressFSM.PressFSMHandler() {
-			@Override
-			public void initToPress(final MouseEvent event) {
-				setPointData(event);
-			}
-
-			@Override
-			public void reinitData() {
-				Press.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
-	}
-
-	@Override
-	public FullPointData getData() {
-		return this;
-	}
+	/**
+	 * @return The key code used by the interaction.
+	 */
+	KeyCode getKeyCode();
 }

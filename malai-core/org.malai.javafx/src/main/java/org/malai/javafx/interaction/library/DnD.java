@@ -8,43 +8,43 @@ import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
-public class DnD extends PointInteraction<DnDFSM, Node> {
+public class DnD extends PointInteraction<SrcTgtPointsData, DnDFSM, Node> implements SrcTgtPointsData {
 	private final DnDFSM.DnDFSMHandler handler;
 	/** The ending local point of the dnd. */
-	protected final ObjectProperty<Point3D> endLocalPt;
+	protected final ObjectProperty<Point3D> tgtLocalPt;
 	/** The ending scene point of the dnd. */
-	protected final ObjectProperty<Point3D> endScenePt;
+	protected final ObjectProperty<Point3D> tgtScenePt;
 	/** The object picked at the beginning of the dnd. */
-	protected final ObjectProperty<Node> endObject;
+	protected final ObjectProperty<Node> tgtObject;
 
 	public DnD(final boolean updateSrcOnUpdate, final boolean cancellable) {
 		super(new DnDFSM(cancellable));
 
-		endLocalPt = new SimpleObjectProperty<>();
-		endScenePt = new SimpleObjectProperty<>();
-		endObject = new SimpleObjectProperty<>();
+		tgtLocalPt = new SimpleObjectProperty<>();
+		tgtScenePt = new SimpleObjectProperty<>();
+		tgtObject = new SimpleObjectProperty<>();
 
 		handler = new DnDFSM.DnDFSMHandler() {
 			@Override
 			public void onPress(final MouseEvent event) {
 				setPointData(event);
-				setDropData(event);
+				setTgtData(event);
 			}
 
 			@Override
 			public void onDrag(final MouseEvent event) {
 				if(updateSrcOnUpdate) {
-					srcLocalPoint.set(endLocalPt.get());
-					srcScenePoint.set(endScenePt.get());
-					srcObject.set(endObject.get());
+					srcLocalPoint.set(tgtLocalPt.get());
+					srcScenePoint.set(tgtScenePt.get());
+					srcObject.set(tgtObject.get());
 				}
 
-				setDropData(event);
+				setTgtData(event);
 			}
 
 			@Override
 			public void onRelease(final MouseEvent event) {
-				setDropData(event);
+				setTgtData(event);
 			}
 
 			@Override
@@ -60,55 +60,53 @@ public class DnD extends PointInteraction<DnDFSM, Node> {
 		this(false, false);
 	}
 
-	protected void setDropData(final MouseEvent event) {
-		endLocalPt.set(new Point3D(event.getX(), event.getY(), event.getZ()));
-		endScenePt.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
-		endObject.set(event.getPickResult().getIntersectedNode());
-		setModifiersData(event);
+	protected void setTgtData(final MouseEvent event) {
+		tgtLocalPt.set(new Point3D(event.getX(), event.getY(), event.getZ()));
+		tgtScenePt.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
+		tgtObject.set(event.getPickResult().getIntersectedNode());
+		pointData.setModifiersData(event);
 	}
 
 	@Override
 	public void reinitData() {
 		super.reinitData();
-		endLocalPt.setValue(null);
-		endScenePt.setValue(null);
-		endObject.set(null);
+		tgtLocalPt.setValue(null);
+		tgtScenePt.setValue(null);
+		tgtObject.set(null);
 	}
 
-	/**
-	 * @return The ending local point of the dnd.
-	 */
-	public Point3D getEndLocalPt() {
-		return endLocalPt.get();
+	@Override
+	public SrcTgtPointsData getData() {
+		return this;
 	}
 
-	/**
-	 * @return The ending scene point of the dnd.
-	 */
-	public Point3D getEndScenePt() {
-		return endScenePt.get();
+	@Override
+	public Optional<Node> getTgtObject() {
+		return Optional.ofNullable(tgtObject.get());
 	}
 
-	/**
-	 * @return The object picked at the end of the dnd.
-	 */
-	public Optional<Node> getEndObjet() {
-		return Optional.ofNullable(endObject.get());
+	@Override
+	public ReadOnlyObjectProperty<Point3D> tgtLocalPointProperty() {
+		return tgtLocalPt;
 	}
 
-	public ReadOnlyObjectProperty<Point3D> endLocalPtProperty() {
-		return endLocalPt;
+	@Override
+	public ReadOnlyObjectProperty<Point3D> tgtScenePointProperty() {
+		return tgtScenePt;
 	}
 
-	public ReadOnlyObjectProperty<Point3D> endScenePtProperty() {
-		return endScenePt;
+	@Override
+	public ReadOnlyObjectProperty<Node> tgtObjectProperty() {
+		return tgtObject;
 	}
 
-	public Optional<Node> getEndObject() {
-		return Optional.ofNullable(endObject.get());
+	@Override
+	public Point3D getTgtLocalPoint() {
+		return tgtLocalPt.get();
 	}
 
-	public ReadOnlyObjectProperty<Node> endObjectProperty() {
-		return endObject;
+	@Override
+	public Point3D getTgtScenePoint() {
+		return tgtScenePt.get();
 	}
 }

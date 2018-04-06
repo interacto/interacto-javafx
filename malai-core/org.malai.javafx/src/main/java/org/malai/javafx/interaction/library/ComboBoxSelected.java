@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for combo boxes.
  * @author Arnaud BLOUIN
  */
-public class ComboBoxSelected extends JfxInteraction<ComboBoxSelectedFSM, ComboBox<?>> {
+public class ComboBoxSelected extends JfxInteraction<WidgetData<ComboBox<?>>, ComboBoxSelectedFSM, ComboBox<?>> {
 	private final ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class ComboBoxSelected extends JfxInteraction<ComboBoxSelectedFSM, ComboB
 		if(node instanceof ComboBox<?>) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<ComboBox<?>> getData() {
+		return this;
 	}
 
 	@Override

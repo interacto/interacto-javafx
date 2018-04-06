@@ -17,7 +17,7 @@ import javafx.scene.control.MenuItem;
  * A user interaction for menu items.
  * @author Arnaud BLOUIN
  */
-public class MenuItemPressed extends MenuItemInteraction<MenuItemPressedFSM, MenuItem> {
+public class MenuItemPressed extends MenuItemInteraction<WidgetData<MenuItem>, MenuItemPressedFSM, MenuItem> {
 	private final MenuItemPressedFSM.MenuItemPressedFSMHandler handler;
 
 	/**
@@ -51,5 +51,10 @@ public class MenuItemPressed extends MenuItemInteraction<MenuItemPressedFSM, Men
 	@Override
 	protected void onMenuItemRegistered(final MenuItem menuItem) {
 		menuItem.addEventHandler(ActionEvent.ACTION, getActionHandler());
+	}
+
+	@Override
+	public WidgetData<MenuItem> getData() {
+		return this;
 	}
 }

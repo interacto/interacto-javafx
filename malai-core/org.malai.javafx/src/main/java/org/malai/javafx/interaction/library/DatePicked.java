@@ -19,7 +19,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for date pickers.
  * @author Arnaud BLOUIN
  */
-public class DatePicked extends JfxInteraction<DatePickedFSM, DatePicker> {
+public class DatePicked extends JfxInteraction<WidgetData<DatePicker>, DatePickedFSM, DatePicker> {
 	private final DatePickedFSM.DatePickedFSMHandler handler;
 
 	/**
@@ -50,6 +50,11 @@ public class DatePicked extends JfxInteraction<DatePickedFSM, DatePicker> {
 		if(node instanceof DatePicker) {
 			registerActionHandler(node);
 		}
+	}
+
+	@Override
+	public WidgetData<DatePicker> getData() {
+		return this;
 	}
 
 	@Override

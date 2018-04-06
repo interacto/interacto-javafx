@@ -30,6 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
@@ -41,16 +42,16 @@ import org.malai.logging.LogLevel;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<?, ?>, B extends Binder<W, C, I, B>> {
-	protected BiConsumer<C, I> initCmd;
-	protected Predicate<I> checkConditions;
-	protected Function<I, C> cmdProducer;
+public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
+	protected BiConsumer<C, D> initCmd;
+	protected Predicate<D> checkConditions;
+	protected Function<D, C> cmdProducer;
 	protected final List<W> widgets;
 	protected final Class<C> cmdClass;
 	protected final I interaction;
 	protected final JfxInstrument instrument;
 	protected boolean async;
-	protected BiConsumer<C, I> onEnd;
+	protected BiConsumer<C, D> onEnd;
 	protected List<ObservableList<? extends Node>> additionalWidgets;
 	protected Set<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
@@ -111,7 +112,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * This callback takes as arguments the current user interaction.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B map(final Function<I, C> cmdFunction) {
+	public B map(final Function<D, C> cmdFunction) {
 		cmdProducer = cmdFunction;
 		return (B) this;
 	}
@@ -137,7 +138,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * This callback takes as arguments both the command and interaction involved in the binding.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B first(final BiConsumer<C, I> initCmdFct) {
+	public B first(final BiConsumer<C, D> initCmdFct) {
 		initCmd = initCmdFct;
 		return (B) this;
 	}
@@ -148,7 +149,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * This predicate takes as arguments the ongoing user interaction involved in the binding.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B when(final Predicate<I> checkCmd) {
+	public B when(final Predicate<D> checkCmd) {
 		checkConditions = checkCmd;
 		return (B) this;
 	}
@@ -182,7 +183,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B end(final BiConsumer<C, I> onEndFct) {
+	public B end(final BiConsumer<C, D> onEndFct) {
 		onEnd = onEndFct;
 		return (B) this;
 	}
@@ -227,10 +228,8 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * Executes the builder to create and install the binding on the instrument.
 	 * @throws IllegalArgumentException On issues while creating the commands.
 	 */
-	public JfXWidgetBinding<C, I, ?> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction, initCmd,
-			null, checkConditions, onEnd, cmdProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
+	public JfXWidgetBinding<C, I, ?, D> bind() {
+		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction, initCmd, null, checkConditions, onEnd, cmdProducer, null, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

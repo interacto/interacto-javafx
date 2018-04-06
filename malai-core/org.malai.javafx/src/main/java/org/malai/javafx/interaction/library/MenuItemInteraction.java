@@ -22,13 +22,14 @@ import javafx.collections.SetChangeListener;
 import javafx.event.Event;
 import javafx.scene.control.MenuItem;
 import org.malai.fsm.FSM;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
  * A JavaFX interaction that uses a single menu item.
  * @author Arnaud BLOUIN
  */
-public abstract class MenuItemInteraction<F extends FSM<Event>, T extends MenuItem> extends JfxInteraction<F, T> {
+public abstract class MenuItemInteraction<D extends InteractionData, F extends FSM<Event>, T extends MenuItem> extends JfxInteraction<D, F, T> {
 	protected final ObservableSet<MenuItem> registeredItems;
 	protected List<ObservableList<? extends MenuItem>> additionalMenus;
 

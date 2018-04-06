@@ -8,28 +8,7 @@
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * General Public License for more details.
  */
-package org.malai.javafx.interaction.library;
+package org.malai.javafx.interaction;
 
-import org.malai.javafx.interaction.InteractionData;
-
-public interface ScrollData extends InteractionData {
-	/**
-	 * @return The object on which the scroll is performed.
-	 */
-	Object getScrolledNode();
-
-	/**
-	 * @return The X-coordinate of the scroll position.
-	 */
-	double getPx();
-
-	/**
-	 * @return The Y-coordinate of the scroll position.
-	 */
-	double getPy();
-
-	/**
-	 * @return The total increment of the scrolling.
-	 */
-	double getIncrement();
+public interface InteractionData {
 }

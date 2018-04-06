@@ -14,13 +14,14 @@ import javafx.scene.control.ToggleButton;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.ToggleButtonPressed;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a toggle button interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ToggleButtonBinder<C extends CommandImpl> extends Binder<ToggleButton, C, ToggleButtonPressed, ToggleButtonBinder<C>> {
+public class ToggleButtonBinder<C extends CommandImpl> extends Binder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>, ToggleButtonBinder<C>> {
 	public ToggleButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new ToggleButtonPressed(), instrument);
 	}

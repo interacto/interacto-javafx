@@ -12,10 +12,12 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.control.ToggleButton;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.ToggleButtonPressed;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * A widget binding for toggle buttons.
@@ -23,7 +25,7 @@ import org.malai.javafx.interaction.library.ToggleButtonPressed;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ToggleButtonPressed, I> {
+public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ToggleButtonPressed, I, WidgetData<ToggleButton>> {
 	/**
 	 * Creates a toggle button binding.
 	 * @param ins The instrument that contains the binding.

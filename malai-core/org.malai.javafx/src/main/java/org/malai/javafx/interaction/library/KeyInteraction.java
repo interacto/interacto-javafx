@@ -16,7 +16,7 @@ import javafx.scene.input.KeyEvent;
 import org.malai.fsm.FSM;
 import org.malai.javafx.interaction.JfxInteraction;
 
-public abstract class KeyInteraction<F extends FSM<Event>, T> extends JfxInteraction<F, T> implements KeyInteractionData {
+public abstract class KeyInteraction<D extends KeyData, F extends FSM<Event>, T> extends JfxInteraction<D, F, T> implements KeyData {
 	/** The key pressed. */
 	protected String key;
 	/** The code of the key. */

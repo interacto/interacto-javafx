@@ -24,7 +24,7 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 
 	@Test
 	void testSubDataHandlerNotNull() {
-		assertNotNull(((JfxFSM<?>)((Click) interaction.getLockData()).getFsm()).getDataHandler());
+		assertNotNull(((JfxFSM<?>) interaction.firstClick.firstClick.getFsm()).getDataHandler());
 	}
 
 	@Test
@@ -45,11 +45,11 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(11d, interaction.getLockData().getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23d, interaction.getLockData().getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(22d, interaction.getTgtData().getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(33d, interaction.getTgtData().getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.MIDDLE, interaction.getLockData().getButton());
+				assertEquals(11d, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23d, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(22d, interaction.getData().getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(33d, interaction.getData().getTgtLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.MIDDLE, interaction.getData().getButton());
 			}
 		});
 
@@ -68,9 +68,9 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(30d, interaction.getTgtData().getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(40d, interaction.getTgtData().getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.MIDDLE, interaction.getTgtData().getButton());
+				assertEquals(30d, interaction.getData().getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(40d, interaction.getData().getTgtLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.MIDDLE, interaction.getData().getButton());
 			}
 		});
 
@@ -92,8 +92,8 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 		interaction.processEvent(createMouseMoveEvent(20, 30, MouseButton.MIDDLE));
 		interaction.processEvent(createMouseClickEvent(22, 33, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseClickEvent(22, 33, MouseButton.MIDDLE, null));
-		assertNull(interaction.getLockData().getSrcLocalPoint());
-		assertNull(interaction.getTgtData().getSrcLocalPoint());
+		assertNull(interaction.getData().getSrcLocalPoint());
+		assertNull(interaction.getData().getTgtLocalPoint());
 	}
 
 	@Test

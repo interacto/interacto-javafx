@@ -20,7 +20,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * A user interaction for tabs.
  * @author Arnaud BLOUIN
  */
-public class TabSelected extends JfxInteraction<TabSelectedFSM, TabPane> {
+public class TabSelected extends JfxInteraction<WidgetData<TabPane>, TabSelectedFSM, TabPane> {
 	private final ChangeListener<Tab> event;
 	private final TabSelectedFSM.TabSelectedFSMHandler handler;
 
@@ -53,6 +53,11 @@ public class TabSelected extends JfxInteraction<TabSelectedFSM, TabPane> {
 		if(node instanceof TabPane) {
 			((TabPane) node).getSelectionModel().selectedItemProperty().addListener(event);
 		}
+	}
+
+	@Override
+	public WidgetData<TabPane> getData() {
+		return this;
 	}
 
 	@Override

@@ -14,13 +14,14 @@ import javafx.scene.control.ComboBox;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.ComboBoxSelected;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a combobox interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ComboBoxBinder<C extends CommandImpl> extends Binder<ComboBox<?>, C, ComboBoxSelected, ComboBoxBinder<C>> {
+public class ComboBoxBinder<C extends CommandImpl> extends Binder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>, ComboBoxBinder<C>> {
 	public ComboBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new ComboBoxSelected(), instrument);
 	}

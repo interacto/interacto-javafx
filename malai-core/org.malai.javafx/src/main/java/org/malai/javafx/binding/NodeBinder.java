@@ -13,6 +13,7 @@ package org.malai.javafx.binding;
 import javafx.scene.Node;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
@@ -21,7 +22,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public class NodeBinder<C extends CommandImpl, I extends JfxInteraction<?, ?>> extends UpdateBinder<Node, C, I, NodeBinder<C, I>> {
+public class NodeBinder<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends UpdateBinder<Node, C, I, D, NodeBinder<C, I, D>> {
 	public NodeBinder(final Class<C> cmdClass, final I interaction, final JfxInstrument instrument) {
 		super(cmdClass, interaction, instrument);
 	}

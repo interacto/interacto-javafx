@@ -14,7 +14,7 @@ import javafx.event.Event;
 import javafx.scene.input.ScrollEvent;
 import org.malai.javafx.interaction.JfxInteraction;
 
-public class Scroll extends JfxInteraction<ScrollFSM, Event> implements ScrollData {
+public class Scroll extends JfxInteraction<ScrollData, ScrollFSM, Event> implements ScrollData {
 	private final ScrollFSM.ScrollFSMHandler handler;
 
 	/** The scrolled node. */
@@ -81,5 +81,10 @@ public class Scroll extends JfxInteraction<ScrollFSM, Event> implements ScrollDa
 		py = 0d;
 		increment = 0d;
 		scrolledNode = null;
+	}
+
+	@Override
+	public ScrollData getData() {
+		return this;
 	}
 }

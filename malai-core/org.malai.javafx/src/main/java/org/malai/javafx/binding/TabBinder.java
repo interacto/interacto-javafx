@@ -14,13 +14,14 @@ import javafx.scene.control.TabPane;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.library.TabSelected;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * The binding builder to create bindings between a tab interaction and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class TabBinder<C extends CommandImpl> extends Binder<TabPane, C, TabSelected, TabBinder<C>> {
+public class TabBinder<C extends CommandImpl> extends Binder<TabPane, C, TabSelected, WidgetData<TabPane>, TabBinder<C>> {
 	public TabBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(cmdClass, new TabSelected(), instrument);
 	}

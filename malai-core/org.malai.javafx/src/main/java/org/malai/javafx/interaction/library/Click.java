@@ -13,7 +13,7 @@ package org.malai.javafx.interaction.library;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
-public class Click extends PointInteraction<ClickFSM, Node> {
+public class Click extends PointInteraction<FullPointData, ClickFSM, Node> {
 	private final ClickFSM.ClickFSMHandler handler;
 
 	protected Click(final ClickFSM fsm) {
@@ -32,6 +32,11 @@ public class Click extends PointInteraction<ClickFSM, Node> {
 		};
 
 		fsm.buildFSM(handler);
+	}
+
+	@Override
+	public FullPointData getData() {
+		return this;
 	}
 
 	public Click() {

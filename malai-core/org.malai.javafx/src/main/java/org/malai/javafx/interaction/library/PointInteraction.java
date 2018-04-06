@@ -10,7 +10,6 @@
  */
 package org.malai.javafx.interaction.library;
 
-import java.util.Optional;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,31 +21,23 @@ import javafx.scene.input.MouseEvent;
 import org.malai.fsm.FSM;
 import org.malai.javafx.interaction.JfxInteraction;
 
-public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInteraction<F, T> implements PointInteractionData {
+public abstract class PointInteraction<D extends FullPointData, F extends FSM<Event>, T> extends JfxInteraction<D, F, T> implements FullPointData {
 	/** The pressed local position. */
 	protected final ObjectProperty<Point3D> srcLocalPoint;
 	/** The pressed scene position. */
 	protected final ObjectProperty<Point3D> srcScenePoint;
+	protected final PointDataImpl pointData;
 
-	/** The button used for the pressure. */
-	protected MouseButton button;
 
 	/** The object picked at the pressed position. */
 	protected final ObjectProperty<Node> srcObject;
-
-	protected boolean altPressed;
-
-	protected boolean ctrlPressed;
-
-	protected boolean shiftPressed;
-
-	protected boolean metaPressed;
 
 	public PointInteraction(final F fsm) {
 		super(fsm);
 		srcLocalPoint = new SimpleObjectProperty<>();
 		srcScenePoint = new SimpleObjectProperty<>();
 		srcObject = new SimpleObjectProperty<>();
+		pointData = new PointDataImpl();
 	}
 
 	@Override
@@ -55,51 +46,7 @@ public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInter
 		srcLocalPoint.set(null);
 		srcScenePoint.set(null);
 		srcObject.set(null);
-		button = null;
-		altPressed = false;
-		ctrlPressed = false;
-		shiftPressed = false;
-		metaPressed = false;
-	}
-
-	@Override
-	public boolean isAltPressed() {
-		return altPressed;
-	}
-
-	@Override
-	public boolean isCtrlPressed() {
-		return ctrlPressed;
-	}
-
-	@Override
-	public boolean isShiftPressed() {
-		return shiftPressed;
-	}
-
-	@Override
-	public boolean isMetaPressed() {
-		return metaPressed;
-	}
-
-	@Override
-	public Point3D getSrcLocalPoint() {
-		return srcLocalPoint.get();
-	}
-
-	@Override
-	public Point3D getSrcScenePoint() {
-		return srcScenePoint.get();
-	}
-
-	@Override
-	public MouseButton getButton() {
-		return button;
-	}
-
-	@Override
-	public Optional<Node> getSrcObject() {
-		return Optional.ofNullable(srcObject.get());
+		pointData.reinitData();
 	}
 
 	@Override
@@ -117,18 +64,35 @@ public abstract class PointInteraction<F extends FSM<Event>, T> extends JfxInter
 		return srcObject;
 	}
 
-	protected void setModifiersData(final MouseEvent event) {
-		altPressed = event.isAltDown();
-		shiftPressed = event.isShiftDown();
-		ctrlPressed = event.isControlDown();
-		metaPressed = event.isMetaDown();
-	}
-
 	protected void setPointData(final MouseEvent event) {
 		srcLocalPoint.set(new Point3D(event.getX(), event.getY(), event.getZ()));
 		srcScenePoint.set(new Point3D(event.getSceneX(), event.getSceneY(), event.getZ()));
-		button = event.getButton();
 		srcObject.set(event.getPickResult().getIntersectedNode());
-		setModifiersData(event);
+		pointData.setPointData(event);
+	}
+
+	@Override
+	public boolean isAltPressed() {
+		return pointData.isAltPressed();
+	}
+
+	@Override
+	public boolean isCtrlPressed() {
+		return pointData.isCtrlPressed();
+	}
+
+	@Override
+	public boolean isShiftPressed() {
+		return pointData.isShiftPressed();
+	}
+
+	@Override
+	public boolean isMetaPressed() {
+		return pointData.isMetaPressed();
+	}
+
+	@Override
+	public MouseButton getButton() {
+		return pointData.getButton();
 	}
 }

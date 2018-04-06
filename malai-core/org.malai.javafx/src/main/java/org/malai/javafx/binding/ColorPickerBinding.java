@@ -12,10 +12,12 @@ package org.malai.javafx.binding;
 
 import java.util.List;
 import javafx.scene.Node;
+import javafx.scene.control.ColorPicker;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.ColorPicked;
+import org.malai.javafx.interaction.library.WidgetData;
 
 /**
  * A widget binding for color pickers.
@@ -23,7 +25,7 @@ import org.malai.javafx.interaction.library.ColorPicked;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ColorPickerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ColorPicked, I> {
+public abstract class ColorPickerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ColorPicked, I, WidgetData<ColorPicker>> {
 	/**
 	 * Creates a color picker binding.
 	 * @param ins The instrument that contains the binding.

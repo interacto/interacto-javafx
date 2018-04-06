@@ -37,9 +37,9 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(11, interaction.getClickData().getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getClickData().getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.MIDDLE, interaction.getClickData().getButton());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.MIDDLE, interaction.getData().getButton());
 			}
 		});
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
@@ -53,7 +53,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 
 	@Test
 	void testSubDataHandlerNotNull() {
-		assertNotNull(((JfxFSM<?>)((Click) interaction.getClickData()).getFsm()).getDataHandler());
+		assertNotNull(((JfxFSM<?>)((Click) interaction.getData()).getFsm()).getDataHandler());
 	}
 
 	@Test
@@ -63,10 +63,10 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStarts() {
-				assertEquals(11, interaction.getClickData().getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getClickData().getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.MIDDLE, interaction.getClickData().getButton());
-				assertEquals(pane, interaction.getClickData().getSrcObject().get());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.MIDDLE, interaction.getData().getButton());
+				assertEquals(pane, interaction.getData().getSrcObject().get());
 			}
 		});
 		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, pane));
@@ -79,10 +79,10 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(11, interaction.getClickData().getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getClickData().getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.MIDDLE, interaction.getClickData().getButton());
-				assertEquals(pane, interaction.getClickData().getSrcObject().get());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.MIDDLE, interaction.getData().getButton());
+				assertEquals(pane, interaction.getData().getSrcObject().get());
 			}
 		});
 		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, pane));
@@ -102,8 +102,8 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	void testDbleClickReinitData() {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
-		assertNull(interaction.getClickData().getSrcLocalPoint());
-		assertNull(interaction.getClickData().getButton());
+		assertNull(interaction.getData().getSrcLocalPoint());
+		assertNull(interaction.getData().getButton());
 	}
 
 	@Test
