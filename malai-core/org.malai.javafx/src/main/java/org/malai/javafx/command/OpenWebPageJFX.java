@@ -10,8 +10,7 @@
  */
 package org.malai.javafx.command;
 
-import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
-import javafx.application.Application;
+import javafx.application.HostServices;
 import org.malai.command.CommandImpl;
 
 /**
@@ -22,7 +21,7 @@ public class OpenWebPageJFX extends CommandImpl {
 	/** The URI to open. */
 	protected String uri;
 
-	protected Application app;
+	protected HostServices services;
 
 	private boolean browsed;
 
@@ -34,9 +33,9 @@ public class OpenWebPageJFX extends CommandImpl {
 		this(null, null);
 	}
 
-	public OpenWebPageJFX(final Application app, final String uri) {
+	public OpenWebPageJFX(final HostServices services, final String uri) {
 		super();
-		this.app = app;
+		this.services = services;
 		this.uri = uri;
 		browsed = false;
 	}
@@ -44,19 +43,19 @@ public class OpenWebPageJFX extends CommandImpl {
 	@Override
 	public void flush() {
 		uri = null;
-		app = null;
+		services = null;
 	}
 
 
 	@Override
 	protected void doCmdBody() {
-		HostServicesFactory.getInstance(app).showDocument(uri);
+		services.showDocument(uri);
 	}
 
 
 	@Override
 	public boolean canDo() {
-		return uri != null && app != null;
+		return uri != null && services != null;
 	}
 
 	@Override
@@ -72,7 +71,7 @@ public class OpenWebPageJFX extends CommandImpl {
 		this.uri = uri;
 	}
 
-	public void setApp(final Application app) {
-		this.app = app;
+	public void setServices(final HostServices services) {
+		this.services = services;
 	}
 }
