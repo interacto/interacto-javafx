@@ -10,18 +10,19 @@
  */
 package org.malai.javafx.command;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import javafx.application.Application;
 import org.malai.command.CommandImpl;
 
 /**
- * This command opens an URI in the default browser.
+ * This command opens a URI.
  * @author Arnaud BLOUIN
  */
 public class OpenWebPageJFX extends CommandImpl {
 	/** The URI to open. */
-	protected URI uri;
+	protected String uri;
+
+	protected Application app;
 
 	private boolean browsed;
 
@@ -30,32 +31,32 @@ public class OpenWebPageJFX extends CommandImpl {
 	 * @since 0.2
 	 */
 	public OpenWebPageJFX() {
+		this(null, null);
+	}
+
+	public OpenWebPageJFX(final Application app, final String uri) {
 		super();
+		this.app = app;
+		this.uri = uri;
 		browsed = false;
 	}
 
 	@Override
 	public void flush() {
 		uri = null;
+		app = null;
 	}
 
 
 	@Override
 	protected void doCmdBody() {
-		new Thread(() -> {
-			try {
-				Desktop.getDesktop().browse(uri);
-				browsed = true;
-			}catch(IOException e) {
-				browsed = false;
-			}
-		}).start();
+		HostServicesFactory.getInstance(app).showDocument(uri);
 	}
 
 
 	@Override
 	public boolean canDo() {
-		return uri != null && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
+		return uri != null && app != null;
 	}
 
 	@Override
@@ -67,7 +68,11 @@ public class OpenWebPageJFX extends CommandImpl {
 	 * @param uri The URI to open.
 	 * @since 0.2
 	 */
-	public void setUri(final URI uri) {
+	public void setUri(final String uri) {
 		this.uri = uri;
+	}
+
+	public void setApp(final Application app) {
+		this.app = app;
 	}
 }
