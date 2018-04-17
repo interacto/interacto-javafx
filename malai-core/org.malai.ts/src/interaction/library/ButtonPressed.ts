@@ -32,7 +32,7 @@ class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
 
         new class extends ButtonPressedTransition {
             public action(event: Event): void {
-                if (isButton(event.target) && dataHandler !== undefined) {
+                if (event.target !== null && isButton(event.target) && dataHandler !== undefined) {
                     dataHandler.initToPressedHandler(event);
                 }
             }
@@ -65,7 +65,7 @@ export class ButtonPressed extends TSInteraction<ButtonPressedFSM, Element> {
             }
 
             public initToPressedHandler(event: Event): void {
-                if (isButton(event.target)) {
+                if (event.target !== null && isButton(event.target)) {
                     this._parent._widget = event.currentTarget as Element;
                 }
             }

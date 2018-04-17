@@ -112,7 +112,7 @@ export abstract class PointInteraction<F extends FSM<Event>, T> extends TSIntera
         this.srcClientX = event.clientX;
         this.srcClientY = event.clientY;
         this.button = event.button;
-        this.srcObject = event.target;
+        this.srcObject = event.target === null ? undefined : event.target;
         this.setModifiersData(event);
     }
 }
