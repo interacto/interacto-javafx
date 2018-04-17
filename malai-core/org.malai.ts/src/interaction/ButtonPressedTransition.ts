@@ -20,7 +20,7 @@ export abstract class ButtonPressedTransition extends TSTransition {
     }
 
     public accept(e: Event): boolean {
-        return isButton(e.target);
+        return e.target !== null && isButton(e.target);
     }
 
     public getAcceptedEvents(): Set<string> {
