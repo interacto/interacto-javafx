@@ -11,7 +11,7 @@
 
 import {Optional} from "../../util/Optional";
 
-export interface PointInteractionData {
+export interface PointData {
     /**
      * @return True: the alt key is pressed.
      */

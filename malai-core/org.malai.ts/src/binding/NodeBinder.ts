@@ -13,6 +13,7 @@ import {TSInteraction} from "../interaction/TSInteraction";
 import {FSM} from "../../src-core/fsm/FSM";
 import {UpdateBinder} from "./UpdateBinder";
 import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
 
 /**
  * The binding builder to create bindings between a given user interaction on a node and a given command.
@@ -20,7 +21,8 @@ import {CommandImpl} from "../../src-core/command/CommandImpl";
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-export class NodeBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>> extends UpdateBinder<C, I, NodeBinder<C, I>> {
+export class NodeBinder<C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData>
+            extends UpdateBinder<C, I, D, NodeBinder<C, I, D>> {
     public constructor(interaction: I, cmdProducer: () => C) {
         super(interaction, cmdProducer);
     }

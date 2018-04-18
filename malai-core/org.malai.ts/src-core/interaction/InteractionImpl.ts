@@ -14,8 +14,9 @@ import {OutputState} from "../fsm/OutputState";
 import {InitState} from "../fsm/InitState";
 import {Logger} from "typescript-logging";
 import {factory} from "../logging/ConfigLog";
+import {InteractionData} from "./InteractionData";
 
-export abstract class InteractionImpl<E, F extends FSM<E>> {
+export abstract class InteractionImpl<D extends InteractionData, E, F extends FSM<E>> {
     protected logger: Logger | undefined;
 
     protected readonly fsm: F;
@@ -77,6 +78,8 @@ export abstract class InteractionImpl<E, F extends FSM<E>> {
     public getFsm(): F {
         return this.fsm;
     }
+
+    public abstract getData(): D;
 
     protected reinit(): void {
         this.fsm.reinit();

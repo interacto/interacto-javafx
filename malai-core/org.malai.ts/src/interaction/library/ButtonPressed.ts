@@ -15,6 +15,7 @@ import {ButtonPressedTransition} from "../ButtonPressedTransition";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
 import {isButton} from "../Events";
 import {TSInteraction} from "../TSInteraction";
+import {WidgetData} from "../../../src-core/interaction/WidgetData";
 
 
 class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
@@ -48,7 +49,7 @@ interface ButtonPressedFSMHandler extends FSMDataHandler {
  * A user interaction for buttons.
  * @author Arnaud BLOUIN
  */
-export class ButtonPressed extends TSInteraction<ButtonPressedFSM, Element> {
+export class ButtonPressed extends TSInteraction<WidgetData<Element>, ButtonPressedFSM, Element> {
     private readonly handler: ButtonPressedFSMHandler;
 
     /**
@@ -88,5 +89,9 @@ export class ButtonPressed extends TSInteraction<ButtonPressedFSM, Element> {
         if (isButton(node)) {
             this.unregisterActionHandler(node);
         }
+    }
+
+    public getData(): WidgetData<Element> {
+        return this;
     }
 }

@@ -72,7 +72,7 @@
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
     "prefer-for-of": true,
     "no-inferrable-types": true,
-    "no-empty-interface": true,
+    "no-empty-interface": false,
     "no-misused-new": true,
     "unified-signatures": true,
     "no-null-keyword": true,

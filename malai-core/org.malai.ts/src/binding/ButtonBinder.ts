@@ -12,13 +12,14 @@
 import {ButtonPressed} from "../interaction/library/ButtonPressed";
 import {Binder} from "./Binder";
 import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 
 /**
  * The binding builder to create bindings between a button interaction and a given command.
  * @param <A> The type of the command to produce.
  * @author Arnaud Blouin
  */
-export class ButtonBinder<C extends CommandImpl> extends Binder<C, ButtonPressed, ButtonBinder<C>> {
+export class ButtonBinder<C extends CommandImpl> extends Binder<C, ButtonPressed, WidgetData<Element>, ButtonBinder<C>> {
     public constructor(cmd: () => C) {
         super(new ButtonPressed(), cmd);
     }

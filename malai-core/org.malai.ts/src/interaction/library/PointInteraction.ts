@@ -10,109 +10,65 @@
  */
 
 import {FSM} from "../../../src-core/fsm/FSM";
-import {PointInteractionData} from "./PointInteractionData";
 import {TSInteraction} from "../TSInteraction";
+import {PointData} from "./PointData";
+import {PointDataImpl} from "./PointDataImpl";
 import {Optional} from "../../util/Optional";
 
-export abstract class PointInteraction<F extends FSM<Event>, T> extends TSInteraction<F, T> implements PointInteractionData {
-    /** The pressed X-local position. */
-    protected srcClientX: number | undefined;
-    /** The pressed Y-local position. */
-    protected srcClientY: number | undefined;
-    /** The pressed X-screen position. */
-    protected srcScreenX: number | undefined;
-    /** The pressed Y-screen position. */
-    protected srcScreenY: number | undefined;
-
-    /** The button used for the pressure. */
-    protected button: number | undefined;
-
-    /** The object picked at the pressed position. */
-    protected srcObject: EventTarget | undefined;
-
-    protected altPressed: boolean;
-
-    protected ctrlPressed: boolean;
-
-    protected shiftPressed: boolean;
-
-    protected metaPressed: boolean;
+export abstract class PointInteraction<D extends PointData, F extends FSM<Event>, T> extends TSInteraction<D, F, T> implements PointData {
+    public readonly pointData: PointDataImpl;
 
     protected constructor(fsm: F) {
         super(fsm);
-        this.altPressed = false;
-        this.ctrlPressed = false;
-        this.shiftPressed = false;
-        this.metaPressed = false;
+        this.pointData = new PointDataImpl();
     }
 
     public reinitData(): void {
         super.reinitData();
-        this.srcClientX = undefined;
-        this.srcClientY = undefined;
-        this.srcScreenX = undefined;
-        this.srcScreenY = undefined;
-        this.button = undefined;
-        this.altPressed = false;
-        this.ctrlPressed = false;
-        this.shiftPressed = false;
-        this.metaPressed = false;
+        this.pointData.reinitData();
     }
 
-    public isAltPressed(): boolean {
-        return this.altPressed;
-    }
-
-    public isCtrlPressed(): boolean {
-        return this.ctrlPressed;
-    }
-
-    public isShiftPressed(): boolean {
-        return this.shiftPressed;
-    }
-
-    public isMetaPressed(): boolean {
-        return this.metaPressed;
+    public setPointData(event: MouseEvent): void {
+        this.pointData.setPointData(event);
     }
 
     public getButton(): number | undefined {
-        return this.button;
-    }
-
-    public getSrcObject(): Optional<EventTarget> {
-        return Optional.ofNullable(this.srcObject);
-    }
-
-    public getSrcScreenY(): number {
-        return this.srcScreenY === undefined ? 0 : this.srcScreenY;
-    }
-
-    public getSrcScreenX(): number {
-        return this.srcScreenX === undefined ? 0 : this.srcScreenX;
-    }
-
-    public getSrcClientY(): number {
-        return this.srcClientX === undefined ? 0 : this.srcClientX;
+        return this.pointData.getButton();
     }
 
     public getSrcClientX(): number {
-        return this.srcClientY === undefined ? 0 : this.srcClientY;
+        return this.pointData.getSrcClientX();
     }
 
-    protected setModifiersData(event: MouseEvent): void {
-        this.altPressed = event.altKey;
-        this.shiftPressed = event.shiftKey;
-        this.ctrlPressed = event.ctrlKey;
-        this.metaPressed = event.metaKey;
+    public getSrcClientY(): number {
+        return this.pointData.getSrcClientY();
     }
 
-    protected setPointData(event: MouseEvent): void {
-        this.srcScreenY = event.screenY;
-        this.srcScreenX = event.screenX;
-        this.srcClientX = event.clientX;
-        this.srcClientY = event.clientY;
-        this.button = event.button;
-        this.srcObject = event.target === null ? undefined : event.target;
-        this.setModifiersData(event);
+    public getSrcObject(): Optional<EventTarget> {
+        return this.pointData.getSrcObject();
+    }
+
+    public getSrcScreenX(): number {
+        return this.pointData.getSrcScreenX();
+    }
+
+    public getSrcScreenY(): number {
+        return this.pointData.getSrcScreenY();
+    }
+
+    public isAltPressed(): boolean {
+        return this.pointData.isAltPressed();
+    }
+
+    public isCtrlPressed(): boolean {
+        return this.pointData.isCtrlPressed();
+    }
+
+    public isMetaPressed(): boolean {
+        return this.pointData.isMetaPressed();
+    }
+
+    public isShiftPressed(): boolean {
+        return this.pointData.isShiftPressed();
     }
 }

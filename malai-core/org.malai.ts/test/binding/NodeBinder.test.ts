@@ -13,6 +13,7 @@ import {Click} from "../../src/interaction/library/Click";
 import {NodeBinder} from "../../src/binding/NodeBinder";
 import {DoubleClick} from "../../src/interaction/library/DoubleClick";
 import {StubCmd} from "../command/StubCmd";
+import {PointData} from "../../src/interaction/library/PointData";
 
 jest.mock("../command/StubCmd");
 
@@ -28,13 +29,13 @@ beforeEach(() => {
 });
 
 test("Node binder ok with click", () => {
-    new NodeBinder(new Click(), () => new StubCmd()).on(widget).bind();
+    new NodeBinder<StubCmd, Click, PointData>(new Click(), () => new StubCmd()).on(widget).bind();
     widget.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
 test("Node binder ok with double-click", () => {
-    new NodeBinder(new DoubleClick(), () => new StubCmd()).on(widget).bind();
+    new NodeBinder<StubCmd, DoubleClick, PointData>(new DoubleClick(), () => new StubCmd()).on(widget).bind();
     widget.click();
     widget.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
