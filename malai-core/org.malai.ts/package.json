@@ -1,7 +1,7 @@
 {
   "name": "org.malai.ts",
   "description": "The typescript implementation of Malai",
-  "version": "3.0.0-alpha.0",
+  "version": "3.1.0-alpha.0",
   "author": "Arnaud Blouin",
   "repository": "https://github.com/arnobl/Malai.git",
   "license": "GPL2",
