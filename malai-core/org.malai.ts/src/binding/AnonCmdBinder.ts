@@ -15,13 +15,16 @@ import {Binder} from "./Binder";
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {AnonNodeBinding} from "./AnonNodeBinding";
 import {AnonCmd} from "../../src-core/command/AnonCmd";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
 
-export class AnonCmdBinder<I extends TSInteraction<FSM<Event>, {}>> extends Binder<AnonCmd, I, AnonCmdBinder<I>> {
+export class AnonCmdBinder<I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData>
+            extends Binder<AnonCmd, I, D, AnonCmdBinder<I, D>> {
+
     public constructor(interaction: I, anonCmd: () => void) {
         super(interaction, () => new AnonCmd(anonCmd));
     }
 
-    public bind(): TSWidgetBinding<AnonCmd, I> {
+    public bind(): TSWidgetBinding<AnonCmd, I, D> {
         return new AnonNodeBinding(false, this.interaction, this.cmdClass, () => {},
             () => {}, this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
             this.widgets, this._async, false, new Array(...this.logLevels));

@@ -15,27 +15,33 @@ import {Binder} from "./Binder";
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {AnonNodeBinding} from "./AnonNodeBinding";
 import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
 
 /**
  * The base binding builder for bindings where actions can be updated while the user interaction is running.
  * @param <A> The type of the command to produce.
  * @author Arnaud Blouin
  */
-export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>, B extends UpdateBinder<C, I, B>>
-    extends Binder<C, I, B> {
-    protected updateFct: (i: I, c: C | undefined) => void;
-    protected cancelFct: (i: I, c: C | undefined) => void;
-    protected endOrCancelFct: (i: I, c: C | undefined) => void;
+export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData,
+    B extends UpdateBinder<C, I, D, B>> extends Binder<C, I, D, B> {
+
+    protected updateFct: (i: D, c: C | undefined) => void;
+    protected cancelFct: (i: D, c: C | undefined) => void;
+    protected endOrCancelFct: (i: D, c: C | undefined) => void;
     protected feedbackFct: () => void;
     protected execOnChanges: boolean;
     protected _strictStart: boolean;
 
     protected constructor(interaction: I, cmdProducer: () => C) {
         super(interaction, cmdProducer);
-        this.updateFct = () => {};
-        this.cancelFct = () => {};
-        this.endOrCancelFct = () => {};
-        this.feedbackFct = () => {};
+        this.updateFct = () => {
+        };
+        this.cancelFct = () => {
+        };
+        this.endOrCancelFct = () => {
+        };
+        this.feedbackFct = () => {
+        };
         this.execOnChanges = false;
         this._strictStart = false;
     }
@@ -46,7 +52,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
      * This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
      * @return The builder to chain the buiding configuration.
      */
-    public then(update: (i: I, c: C | undefined) => void): B {
+    public then(update: (i: D, c: C | undefined) => void): B {
         this.updateFct = update;
         return this as {} as B;
     }
@@ -65,7 +71,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
      * The undoable command is automatically cancelled so that nothing must be done on the command.
      * @return The builder to chain the building configuration.
      */
-    public cancel(cancel: (i: I, c: C | undefined) => void): B {
+    public cancel(cancel: (i: D, c: C | undefined) => void): B {
         this.cancelFct = cancel;
         return this as {} as B;
     }
@@ -75,7 +81,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
      * The undoable command is automatically cancelled so that nothing must be done on the command.
      * @return The builder to chain the building configuration.
      */
-    public endOrCancel(endOrCancel: (i: I, c: C | undefined) => void): B {
+    public endOrCancel(endOrCancel: (i: D, c: C | undefined) => void): B {
         this.endOrCancelFct = endOrCancel;
         return this as {} as B;
     }
@@ -98,7 +104,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
         return this as {} as B;
     }
 
-    public bind(): TSWidgetBinding<C, I> {
+    public bind(): TSWidgetBinding<C, I, D> {
         return new AnonNodeBinding(this.execOnChanges, this.interaction, this.cmdClass, this.initCmd, this.updateFct,
             this.checkConditions, this.onEnd, this.cancelFct, this.endOrCancelFct, this.feedbackFct, this.widgets, this._async,
             this._strictStart, new Array(...this.logLevels));

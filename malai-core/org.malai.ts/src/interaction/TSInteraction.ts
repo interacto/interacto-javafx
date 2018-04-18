@@ -13,8 +13,11 @@ import {FSM} from "../../src-core/fsm/FSM";
 import {InteractionImpl} from "../../src-core/interaction/InteractionImpl";
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {EventRegistrationToken} from "./Events";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 
-export abstract class TSInteraction<F extends FSM<Event>, T> extends InteractionImpl<Event, F> {
+export abstract class TSInteraction<D extends InteractionData, F extends FSM<Event>, T> extends InteractionImpl<D, Event, F>
+        implements WidgetData<T> {
     protected readonly _registeredNodes: Set<EventTarget>;
     /** The widget used during the interaction. */
     protected _widget: T | undefined;
@@ -30,7 +33,7 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
     /**
      * @return The widget used during the interaction.
      */
-    public get widget(): T | undefined {
+    public getWidget(): T | undefined {
         return this._widget;
     }
 

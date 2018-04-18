@@ -16,6 +16,7 @@ import {TSWidgetBinding} from "./TSWidgetBinding";
 import {AnonNodeBinding} from "./AnonNodeBinding";
 import {FSM} from "../../src-core/fsm/FSM";
 import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
 
 /**
  * The base class that defines the concept of binding builder (called binder).
@@ -24,14 +25,16 @@ import {CommandImpl} from "../../src-core/command/CommandImpl";
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>, B extends Binder<C, I, B>> {
-    protected initCmd: (i: I, c: C | undefined) => void;
-    protected checkConditions: (i: I) => boolean;
+export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData,
+            B extends Binder<C, I, D, B>> {
+
+    protected initCmd: (i: D, c: C | undefined) => void;
+    protected checkConditions: (i: D) => boolean;
     protected readonly widgets: MArray<EventTarget>;
     protected readonly cmdClass: () => C;
     protected readonly interaction: I;
     protected _async: boolean;
-    protected onEnd: (i: I, c: C | undefined) => void;
+    protected onEnd: (i: D, c: C | undefined) => void;
 // protected List<ObservableList<? extends Node>> additionalWidgets;
     protected readonly logLevels: Set<LogLevel>;
 
@@ -80,7 +83,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<
      * This callback takes as arguments both the command and interaction involved in the binding.
      * @return The builder to chain the building configuration.
      */
-    public first(initCmdFct: (i: I, c: C) => void): B {
+    public first(initCmdFct: (i: D, c: C) => void): B {
         this.initCmd = initCmdFct;
         return this as {} as B;
     }
@@ -91,7 +94,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<
      * This predicate takes as arguments the ongoing user interaction involved in the binding.
      * @return The builder to chain the building configuration.
      */
-    public when(checkCmd: (i: I) => boolean): B {
+    public when(checkCmd: (i: D) => boolean): B {
         this.checkConditions = checkCmd;
         return this as {} as B;
     }
@@ -113,7 +116,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<
      * @param onEndFct The callback method to specify what to do when an interaction ends.
      * @return The builder to chain the building configuration.
      */
-    public end(onEndFct: (i: I, c: C) => void): B {
+    public end(onEndFct: (i: D, c: C) => void): B {
         this.onEnd = onEndFct;
         return this as {} as B;
     }
@@ -135,8 +138,8 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<
      * @throws IllegalArgumentException On issues while creating the commands.
      * @throws InstantiationException On issues while creating the commands.
      */
-    public bind(): TSWidgetBinding<C, I> {
-        return new AnonNodeBinding<C, I>(false, this.interaction, this.cmdClass, this.initCmd, () => {},
+    public bind(): TSWidgetBinding<C, I, D> {
+        return new AnonNodeBinding<C, I, D>(false, this.interaction, this.cmdClass, this.initCmd, () => {},
             this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
             this.widgets, this._async, false, new Array(...this.logLevels));
     }

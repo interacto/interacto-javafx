@@ -16,6 +16,7 @@ import {ClickTransition} from "../ClickTransition";
 import {InputState} from "../../../src-core/fsm/InputState";
 import {OutputState} from "../../../src-core/fsm/OutputState";
 import {PointInteraction} from "./PointInteraction";
+import {PointData} from "./PointData";
 
 export class ClickFSM extends TSFSM<ClickFSMHandler> {
     private checkButton: number | undefined;
@@ -78,7 +79,7 @@ interface ClickFSMHandler extends FSMDataHandler {
     initToClicked(event: MouseEvent): void;
 }
 
-export class Click extends PointInteraction<ClickFSM, Node> {
+export class Click extends PointInteraction<PointData, ClickFSM, Node> {
     private readonly handler: ClickFSMHandler;
 
     public constructor(fsm?: ClickFSM) {
@@ -101,5 +102,9 @@ export class Click extends PointInteraction<ClickFSM, Node> {
         }(this);
 
         this.getFsm().buildFSM(this.handler);
+    }
+
+    public getData(): PointData {
+        return this;
     }
 }

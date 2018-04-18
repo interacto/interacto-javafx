@@ -21,8 +21,9 @@ import {FSM} from "../../../src-core/fsm/FSM";
 import {OutputState} from "../../../src-core/fsm/OutputState";
 import {MoveTransition} from "../MoveTransition";
 import {PointInteraction} from "./PointInteraction";
-import {PointInteractionData} from "./PointInteractionData";
 import {EscapeKeyPressureTransition} from "../EscapeKeyPressureTransition";
+import {SrcTgtPointsData} from "./SrcTgtPointsData";
+import {Optional} from "../../util/Optional";
 
 export class DragLockFSM extends TSFSM<DragLockFSMHandler> {
     public readonly firstDbleClick: DoubleClickFSM;
@@ -102,7 +103,7 @@ interface DragLockFSMHandler extends FSMDataHandler {
     onMove(event: MouseEvent): void;
 }
 
-export class DragLock extends PointInteraction<DragLockFSM, Event> {
+export class DragLock extends PointInteraction<SrcTgtPointsData, DragLockFSM, Event> implements SrcTgtPointsData {
     private readonly handler: DragLockFSMHandler;
     private readonly firstClick: DoubleClick;
     private readonly sndClick: DoubleClick;
@@ -118,7 +119,8 @@ export class DragLock extends PointInteraction<DragLockFSM, Event> {
             }
 
             public onMove(event: MouseEvent): void {
-                this._parent.setPointData(event);
+                this._parent.sndClick.firstClick.setPointData(event);
+                this._parent.sndClick.firstClick.pointData.setModifiersData(event);
             }
 
             public reinitData(): void {
@@ -137,11 +139,47 @@ export class DragLock extends PointInteraction<DragLockFSM, Event> {
         this.sndClick.reinitData();
     }
 
-    public getLockData(): PointInteractionData {
-        return this.firstClick.getClickData();
+    public getData(): SrcTgtPointsData {
+        return this;
     }
 
-    public getTgtData(): PointInteractionData {
-        return this.sndClick.getClickData().getButton() === undefined ? this : this.sndClick.getClickData();
+    public getTgtObject(): Optional<EventTarget> {
+        return this.sndClick.getData().getSrcObject();
+    }
+
+    public getTgtClientX() {
+        return this.sndClick.getData().getButton() === undefined ? this.getSrcClientX() : this.sndClick.getData().getSrcClientX();
+    }
+
+    public getTgtClientY() {
+        return this.sndClick.getData().getButton() === undefined ? this.getSrcClientY() : this.sndClick.getData().getSrcClientY();
+    }
+
+    public getTgtScreenX() {
+        return this.sndClick.getData().getButton() === undefined ? this.getSrcScreenX() : this.sndClick.getData().getSrcScreenX();
+    }
+
+    public getTgtScreenY() {
+        return this.sndClick.getData().getButton() === undefined ? this.getSrcScreenY() : this.sndClick.getData().getSrcScreenY();
+    }
+
+    public isAltPressed(): boolean {
+        return this.firstClick.getData().isAltPressed();
+    }
+
+    public isCtrlPressed(): boolean {
+        return this.firstClick.getData().isCtrlPressed();
+    }
+
+    public isShiftPressed(): boolean {
+        return this.firstClick.getData().isShiftPressed();
+    }
+
+    public isMetaPressed(): boolean {
+        return this.firstClick.getData().isMetaPressed();
+    }
+
+    public getButton(): number | undefined {
+        return this.firstClick.getData().getButton();
     }
 }

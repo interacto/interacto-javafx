@@ -42,7 +42,7 @@ export interface WidgetBinding extends FSMHandler {
     /**
      * @return {InteractionImpl} The interaction.
      */
-    getInteraction(): InteractionImpl<{}, FSM<{}>>;
+    getInteraction(): InteractionImpl<{}, {}, FSM<{}>>;
 
     /**
      * @return {*} The command in progress or null.

@@ -20,6 +20,7 @@ import {CommandImpl} from "../command/CommandImpl";
 import {MustBeUndoableCmdException} from "./MustBeUndoableCmdException";
 import {Command, RegistrationPolicy} from "../command/Command";
 import {CommandsRegistry} from "../command/CommandsRegistry";
+import {InteractionData} from "../interaction/InteractionData";
 
 /**
  * Creates a widget binding. This constructor must initialise the interaction. The widget binding is (de-)activated if the given
@@ -33,8 +34,8 @@ import {CommandsRegistry} from "../command/CommandsRegistry";
  * @class
  * @author Arnaud BLOUIN
  */
-export abstract class WidgetBindingImpl<C extends CommandImpl, I extends InteractionImpl<{}, FSM<{}>>> implements WidgetBinding {
-    //, N extends Instrument<any>
+export abstract class WidgetBindingImpl<C extends CommandImpl, I extends InteractionImpl<D, {}, FSM<{}>>, D extends InteractionData>
+            implements WidgetBinding {
     protected loggerBinding: Logger | undefined;
 
     protected loggerCmd: Logger | undefined;
@@ -49,11 +50,6 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
      */
     protected cmd: C | undefined;
 
-    // /**
-    //  * The instrument that contains the widget binding.
-    //  */
-    // protected readonly instrument : N;
-
     /**
      * Specifies if the command must be execute or update * on each evolution of the interaction.
      */
@@ -67,9 +63,9 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
     /**
      * The command class to instantiate.
      */
-    private readonly cmdProducer: (i: I) => C;
+    private readonly cmdProducer: (i: D) => C;
 
-    protected constructor(exec: boolean, interaction: I, cmdClass: (i: I) => C) {
+    protected constructor(exec: boolean, interaction: I, cmdClass: (i: D) => C) {
         this.execute = false;
         this.async = false;
         this.cmdProducer = cmdClass;
@@ -133,7 +129,7 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
      * @return {CommandImpl} The created command.
      */
     protected map(): C {
-        return this.cmdProducer(this.interaction);
+        return this.cmdProducer(this.interaction.getData());
     }
 
     public abstract first(): void;
@@ -395,12 +391,4 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
         }
         this.interaction.setActivated(activ);
     }
-
-    // /**
-    //  *
-    //  * @return {*}
-    //  */
-    // public getInstrument() : N {
-    //     return this.instrument;
-    // }
 }

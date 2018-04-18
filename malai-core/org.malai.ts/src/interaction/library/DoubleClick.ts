@@ -22,7 +22,7 @@ import {OutputState} from "../../../src-core/fsm/OutputState";
 import {TimeoutTransition} from "../../../src-core/fsm/TimeoutTransition";
 import {MoveTransition} from "../MoveTransition";
 import {TSInteraction} from "../TSInteraction";
-import {PointInteractionData} from "./PointInteractionData";
+import {PointData} from "./PointData";
 
 export class DoubleClickFSM extends TSFSM<FSMDataHandler> {
     /** The time gap between the two spinner events. */
@@ -122,8 +122,8 @@ export class DoubleClickFSM extends TSFSM<FSMDataHandler> {
     }
 }
 
-export class DoubleClick extends TSInteraction<DoubleClickFSM, Node> {
-    private readonly firstClick: Click;
+export class DoubleClick extends TSInteraction<PointData, DoubleClickFSM, Node> {
+    public readonly firstClick: Click;
 
     public constructor(fsm?: DoubleClickFSM) {
         super(fsm === undefined ? new DoubleClickFSM() : fsm);
@@ -137,7 +137,7 @@ export class DoubleClick extends TSInteraction<DoubleClickFSM, Node> {
         this.firstClick.reinitData();
     }
 
-    public getClickData(): PointInteractionData {
-        return this.firstClick;
+    public getData(): PointData {
+        return this.firstClick.getData();
     }
 }

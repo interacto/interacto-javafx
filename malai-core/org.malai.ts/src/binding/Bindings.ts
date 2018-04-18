@@ -15,6 +15,7 @@ import {FSM} from "../../src-core/fsm/FSM";
 import {NodeBinder} from "./NodeBinder";
 import {CommandImpl} from "../../src-core/command/CommandImpl";
 import {AnonCmdBinder} from "./AnonCmdBinder";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
 
 /**
  * Creates binding builder to build a binding between a given interaction and the given command type.
@@ -25,8 +26,8 @@ import {AnonCmdBinder} from "./AnonCmdBinder";
  * @return The binding builder. Cannot be null.
  * @throws NullPointerException If the given class is null.
  */
-export function nodeBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>>(interaction: I,
-                                                                                           cmdProducer: () => C): NodeBinder<C, I> {
+export function nodeBinder<D extends InteractionData, C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>>
+        (interaction: I, cmdProducer: () => C): NodeBinder<C, I, D> {
     return new NodeBinder(interaction, cmdProducer);
 }
 
@@ -48,6 +49,7 @@ export function buttonBinder<C extends CommandImpl>(cmdProducer: () => C): Butto
  * @return The binding builder. Cannot be null.
  * @throws NullPointerException If the given class is null.
  */
-export function anonCmdBinder<I extends TSInteraction<FSM<Event>, {}>>(interaction: I, cmd: () => void): AnonCmdBinder<I> {
+export function anonCmdBinder<D extends InteractionData, I extends TSInteraction<D, FSM<Event>, {}>>
+        (interaction: I, cmd: () => void): AnonCmdBinder<I, D> {
     return new AnonCmdBinder(interaction, cmd);
 }

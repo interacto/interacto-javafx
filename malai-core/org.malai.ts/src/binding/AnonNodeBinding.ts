@@ -14,15 +14,18 @@ import {TSInteraction} from "../interaction/TSInteraction";
 import {LogLevel} from "../../src-core/logging/LogLevel";
 import {FSM} from "../../src-core/fsm/FSM";
 import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
 
-export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>> extends TSWidgetBinding<C, I> {
-    private readonly execInitCmd: (i: I, c: C | undefined) => void;
-    private readonly execUpdateCmd: (i: I, c: C | undefined) => void;
-    private readonly checkInteraction: (i: I) => boolean;
-    private readonly cancelFct: (i: I, c: C | undefined) => void;
-    private readonly endOrCancelFct: (i: I, c: C | undefined) => void;
+export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData>
+    extends TSWidgetBinding<C, I, D> {
+
+    private readonly execInitCmd: (i: D, c: C | undefined) => void;
+    private readonly execUpdateCmd: (i: D, c: C | undefined) => void;
+    private readonly checkInteraction: (i: D) => boolean;
+    private readonly cancelFct: (i: D, c: C | undefined) => void;
+    private readonly endOrCancelFct: (i: D, c: C | undefined) => void;
     private readonly feedbackFct: () => void;
-    private readonly onEnd: (i: I, c: C | undefined) => void;
+    private readonly onEnd: (i: D, c: C | undefined) => void;
     private readonly strictStart: boolean;
     /** Used rather than 'cmd' to catch the command during its creation.
      * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
@@ -41,10 +44,10 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<
      * @param updateCmdFct The function that updates the command. Can be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    public constructor(exec: boolean, interaction: I, cmdClass: () => C, initCmdFct: (i: I, c: C | undefined) => void,
-                       updateCmdFct: (i: I, c: C | undefined) => void, check: (i: I) => boolean,
-                       onEndFct: (i: I, c: C | undefined) => void, cancel: (i: I, c: C | undefined) => void,
-                       endOrCancel: (i: I, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>,
+    public constructor(exec: boolean, interaction: I, cmdClass: () => C, initCmdFct: (i: D, c: C | undefined) => void,
+                       updateCmdFct: (i: D, c: C | undefined) => void, check: (i: D) => boolean,
+                       onEndFct: (i: D, c: C | undefined) => void, cancel: (i: D, c: C | undefined) => void,
+                       endOrCancel: (i: D, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
         super(exec, interaction, cmdClass, widgets);
@@ -76,27 +79,27 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<
 
     public first(): void {
         if (this.currentCmd !== undefined) {
-            this.execInitCmd(this.getInteraction(), this.getCommand());
+            this.execInitCmd(this.getInteraction().getData(), this.getCommand());
         }
     }
 
     public then(): void {
-        this.execUpdateCmd(this.getInteraction(), this.getCommand());
+        this.execUpdateCmd(this.getInteraction().getData(), this.getCommand());
     }
 
     public when(): boolean {
         // if(loggerBinding !== undefined) {
         //     loggerBinding.log(Level.INFO, "Checking condition: " + ok);
         // }
-        return this.checkInteraction(this.getInteraction());
+        return this.checkInteraction(this.getInteraction().getData());
     }
 
     public fsmCancels(): void {
         if (this.currentCmd !== undefined) {
-            this.endOrCancelFct(this.interaction, this.cmd);
+            this.endOrCancelFct(this.interaction.getData(), this.cmd);
         }
         if (this.currentCmd !== undefined) {
-            this.cancelFct(this.interaction, this.cmd);
+            this.cancelFct(this.interaction.getData(), this.cmd);
         }
         super.fsmCancels();
         this.currentCmd = undefined;
@@ -112,10 +115,10 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<
     public fsmStops(): void {
         super.fsmStops();
         if (this.currentCmd !== undefined) {
-            this.endOrCancelFct(this.getInteraction(), this.currentCmd);
+            this.endOrCancelFct(this.getInteraction().getData(), this.currentCmd);
         }
         if (this.currentCmd !== undefined) {
-            this.onEnd(this.getInteraction(), this.currentCmd);
+            this.onEnd(this.getInteraction().getData(), this.currentCmd);
         }
         this.currentCmd = undefined;
     }
