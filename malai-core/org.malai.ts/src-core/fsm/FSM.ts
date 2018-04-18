@@ -354,4 +354,13 @@ export class FSM<E> {
     public getEventsToProcess(): MArray<E> {
         return new MArray(...this.eventsToProcess);
     }
+
+    public uninstall(): void {
+        this.fullReinit();
+        this.logger = undefined;
+        this._currentState.unobsAll();
+        this.currentSubFSM = undefined;
+        this.states.forEach(state => state.uninstall());
+        this.states.clear();
+    }
 }

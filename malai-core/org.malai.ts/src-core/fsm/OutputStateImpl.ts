@@ -55,4 +55,9 @@ export abstract class OutputStateImpl<E> extends StateImpl<E> implements OutputS
     }
 
     public abstract exit(): void;
+
+    public uninstall(): void {
+        this.transitions.forEach(tr => tr.uninstall());
+        this.transitions.clear();
+    }
 }

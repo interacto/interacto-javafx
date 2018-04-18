@@ -69,4 +69,9 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
     public getDataHandler(): H | undefined {
         return this.dataHandler;
     }
+
+    public uninstall(): void {
+        super.uninstall();
+        this.dataHandler = undefined;
+    }
 }

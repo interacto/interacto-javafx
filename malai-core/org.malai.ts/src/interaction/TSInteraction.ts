@@ -166,4 +166,10 @@ export abstract class TSInteraction<F extends FSM<Event>, T> extends Interaction
         }
         return this.keyHandler;
     }
+
+    public uninstall(): void {
+        this._widget = undefined;
+        this._registeredNodes.clear();
+        super.uninstall();
+    }
 }

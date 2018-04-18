@@ -49,6 +49,10 @@ export class ObsValue<T> {
         this.handlers.push(handler);
     }
 
+    public unobsAll(): void {
+        this.handlers.clear();
+    }
+
     public unobs(handler: (oldValue: T, newValue: T) => void): void {
         this.handlers.remove(handler);
     }

@@ -365,6 +365,12 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
         }
     }
 
+    public uninstallBinding(): void {
+        this.setActivated(false);
+        this.loggerCmd = undefined;
+        this.loggerBinding = undefined;
+    }
+
     /**
      *
      * @return {boolean}

@@ -22,5 +22,7 @@ export interface State<E> {
      * @throws CancelFSMException
      */
     checkStartingState(): void;
+
+    uninstall(): void;
 }
 
