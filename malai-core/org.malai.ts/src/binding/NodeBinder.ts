@@ -21,7 +21,7 @@ import {CommandImpl} from "../../src-core/command/CommandImpl";
  * @author Arnaud Blouin
  */
 export class NodeBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>> extends UpdateBinder<C, I, NodeBinder<C, I>> {
-    public constructor(cmdProducer: () => C, interaction: I) {
-        super(cmdProducer, interaction);
+    public constructor(interaction: I, cmdProducer: () => C) {
+        super(interaction, cmdProducer);
     }
 }

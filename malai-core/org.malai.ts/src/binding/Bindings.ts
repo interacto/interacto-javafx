@@ -25,9 +25,9 @@ import {AnonCmdBinder} from "./AnonCmdBinder";
  * @return The binding builder. Cannot be null.
  * @throws NullPointerException If the given class is null.
  */
-export function nodeBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>>(cmdProducer: () => C,
-                                                                                           interaction: I): NodeBinder<C, I> {
-    return new NodeBinder(cmdProducer, interaction);
+export function nodeBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>>(interaction: I,
+                                                                                           cmdProducer: () => C): NodeBinder<C, I> {
+    return new NodeBinder(interaction, cmdProducer);
 }
 
 /**
@@ -48,6 +48,6 @@ export function buttonBinder<C extends CommandImpl>(cmdProducer: () => C): Butto
  * @return The binding builder. Cannot be null.
  * @throws NullPointerException If the given class is null.
  */
-export function anonCmdBinder<I extends TSInteraction<FSM<Event>, {}>>(cmd: () => void, interaction: I): AnonCmdBinder<I> {
-    return new AnonCmdBinder(cmd, interaction);
+export function anonCmdBinder<I extends TSInteraction<FSM<Event>, {}>>(interaction: I, cmd: () => void): AnonCmdBinder<I> {
+    return new AnonCmdBinder(interaction, cmd);
 }
