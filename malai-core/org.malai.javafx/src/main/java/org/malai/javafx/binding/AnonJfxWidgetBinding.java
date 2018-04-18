@@ -30,23 +30,23 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction<D, ?, ?>, N extends J
 			extends JFxAnonNodeBinding<AnonCommand, I, N, D> {
 	private final Runnable anonCmd;
 
-	public AnonJfxWidgetBinding(final N ins, final boolean exec, final Runnable cmd, final I interaction,
-								final BiConsumer<AnonCommand, D> initCmdFct, final BiConsumer<AnonCommand, D> updateCmdFct,
-								final Predicate<D> check, final BiConsumer<AnonCommand, D> onEndFct, final Function<D, AnonCommand> cmdFunction,
-								final BiConsumer<AnonCommand, D> cancel, final BiConsumer<AnonCommand, D> endOrCancel, final Runnable feedback,
-								final List<Node> widgets, final List<ObservableList<? extends Node>> additionalWidgets, final boolean async,
-								final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
-		super(ins, exec, AnonCommand.class, interaction, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel, feedback,
+	public AnonJfxWidgetBinding(final N ins, final boolean exec, final I interaction, final Runnable cmd, final BiConsumer<D, AnonCommand> initCmdFct,
+								final BiConsumer<D, AnonCommand> updateCmdFct, final Predicate<D> check, final BiConsumer<D, AnonCommand> onEndFct,
+								final Function<D, AnonCommand> cmdFunction, final BiConsumer<D, AnonCommand> cancel,
+								final BiConsumer<D, AnonCommand> endOrCancel, final Runnable feedback, final List<Node> widgets,
+								final List<ObservableList<? extends Node>> additionalWidgets, final boolean async, final boolean strict,
+								final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
+		super(ins, exec, interaction, AnonCommand.class, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel, feedback,
 			widgets, additionalWidgets, async, strict, loggers, help, animation);
 		anonCmd = Objects.requireNonNull(cmd);
 	}
 
-	public AnonJfxWidgetBinding(final N ins, final boolean exec, final Runnable cmd, final I interaction, final List<Window> widgets,
-								final BiConsumer<AnonCommand, D> initCmdFct, final BiConsumer<AnonCommand, D> updateCmdFct, final Predicate<D> check,
-								final BiConsumer<AnonCommand, D> onEndFct, final Function<D, AnonCommand> cmdFunction, final BiConsumer<AnonCommand, D> cancel,
-								final BiConsumer<AnonCommand, D> endOrCancel, final Runnable feedback, final boolean async,
+	public AnonJfxWidgetBinding(final N ins, final boolean exec, final I interaction, final Runnable cmd, final List<Window> widgets,
+								final BiConsumer<D, AnonCommand> initCmdFct, final BiConsumer<D, AnonCommand> updateCmdFct, final Predicate<D> check,
+								final BiConsumer<D, AnonCommand> onEndFct, final Function<D, AnonCommand> cmdFunction, final BiConsumer<D, AnonCommand> cancel,
+								final BiConsumer<D, AnonCommand> endOrCancel, final Runnable feedback, final boolean async,
 								final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
-		super(ins, exec, AnonCommand.class, interaction, widgets, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel,
+		super(ins, exec, interaction, AnonCommand.class, widgets, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel,
 			feedback, async, strict, loggers, help, animation);
 		anonCmd = Objects.requireNonNull(cmd);
 	}

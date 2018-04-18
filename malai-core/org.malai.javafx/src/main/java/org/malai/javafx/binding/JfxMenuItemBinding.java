@@ -34,8 +34,8 @@ public abstract class JfxMenuItemBinding<C extends CommandImpl, I extends MenuIt
 	 * @param menuItems The menu items concerned by the binding. Can be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemBinding(final N ins, final boolean exec, final Class<C> cmdClass, final I interaction, final List<MenuItem> menuItems) {
-		super(ins, exec, cmdClass, interaction, false, null);
+	public JfxMenuItemBinding(final N ins, final boolean exec, final I interaction, final Class<C> cmdClass, final List<MenuItem> menuItems) {
+		super(ins, exec, interaction, cmdClass, false, null);
 
 		if(menuItems != null) {
 			interaction.registerToMenuItems(menuItems);

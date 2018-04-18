@@ -23,6 +23,6 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class ComboBoxBinder<C extends CommandImpl> extends Binder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>, ComboBoxBinder<C>> {
 	public ComboBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new ComboBoxSelected(), instrument);
+		super(new ComboBoxSelected(), cmdClass, instrument);
 	}
 }

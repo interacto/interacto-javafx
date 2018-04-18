@@ -48,6 +48,6 @@ public abstract class ColorPickerBinding<C extends CommandImpl, I extends JfxIns
 	 */
 	public ColorPickerBinding(I ins, Class<C> clazzCmd, List<Node> widgets,
 							  final boolean help, final HelpAnimation animation) {
-		super(ins, false, clazzCmd, new ColorPicked(), widgets, help, animation);
+		super(ins, false, new ColorPicked(), clazzCmd, widgets, help, animation);
 	}
 }

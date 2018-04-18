@@ -19,7 +19,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 	public void testCommandExecutedOnSingleButton() {
 		new CheckBoxBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			end((c, i) -> assertEquals(1, c.exec.get())).
+			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
 		clickOn(widget1);
 		assertEquals(1, instrument.exec.get());
@@ -29,7 +29,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 	public void testCommandExecutedOnTwoCheckboxes() {
 		new CheckBoxBinder<>(StubCmd.class, instrument).
 			on(widget1, widget2).
-			end((c, i) -> assertEquals(1, c.exec.get())).
+			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
 		clickOn(widget2);
 		assertEquals(1, instrument.exec.get());
@@ -42,7 +42,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 		new CheckBoxBinder<>(StubCmd.class, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
-			end((c, i) -> assertEquals(11, c.exec.get())).
+			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
 		clickOn(widget1);
 		assertEquals(1, instrument.exec.get());
@@ -52,8 +52,8 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 	public void testInit2Executed() {
 		new CheckBoxBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			first((c, i) -> c.exec.setValue(10)).
-			end((c, i) -> assertEquals(11, c.exec.get())).
+			first((i, c) -> c.exec.setValue(10)).
+			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
 		clickOn(widget1);
 		assertEquals(1, instrument.exec.get());

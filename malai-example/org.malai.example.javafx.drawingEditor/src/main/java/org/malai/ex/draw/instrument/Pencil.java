@@ -61,16 +61,16 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// A DnD interaction with the left button of the mouse will produce an AddShape command while interacting on the canvas.
 		// A temporary view of the created shape is created and displayed by the canvas.
 		// This view is removed at the end of the interaction.
-		nodeBinder(AddShape.class, new DnD()).on(canvas).
+		nodeBinder(new DnD(), AddShape.class).on(canvas).
 			map(i -> new AddShape(drawing, new MyRect(i.getSrcLocalPoint().getX(), i.getSrcLocalPoint().getY()))).
-			first((c, i) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(c.getShape()))).
-			then((c, i) -> {
+			first((i, c) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(c.getShape()))).
+			then((i, c) -> {
 				final MyRect sh = (MyRect) c.getShape();
 				sh.setWidth(i.getTgtLocalPoint().getX() - sh.getX());
 				sh.setHeight(i.getTgtLocalPoint().getY() - sh.getY());
 			}).
 			when(i -> i.getButton() == MouseButton.PRIMARY).
-			end((c, i) -> canvas.setTmpShape(null)).
+			end((i, c) -> canvas.setTmpShape(null)).
 			// The UI command creation process is logged:
 			log(LogLevel.INTERACTION).
 			// strict start stops the interaction if the condition ('when') is not fulfilled at an interaction start.
@@ -83,7 +83,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// To incrementally moves the shape, the DnD interaction has its parameter 'updateSrcOnUpdate' set to true:
 		// At each interaction updates, the source point and object take the latest target point and object.
 		// The DnD interaction can be stopped (aborted) by pressing the key 'ESC'. This cancels the ongoing command (that thus needs to be undoable).
-		nodeBinder(MoveShape.class, new DnD(true, true)).
+		nodeBinder(new DnD(true, true), MoveShape.class).
 			// The binding dynamically registers elements of the given observable list.
 			// When nodes are added to this list, these nodes register the binding.
 			// When nodes are removed from this list, their binding is cancelled.
@@ -100,12 +100,12 @@ public class Pencil extends JfxInstrument implements Initializable {
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 			exec().
-			first((c, i) -> {
+			first((i, c) -> {
 				// Required to grab the focus to get key events
 				Platform.runLater(() -> i.getSrcObject().get().requestFocus());
 				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
 			}).
-			endOrCancel((c, i) -> i.getSrcObject().get().setEffect(null)).
+			endOrCancel((i, c) -> i.getSrcObject().get().setEffect(null)).
 			strictStart().
 			help(new MoveRectHelpAnimation(learningPane, canvas)).
 			bind();
@@ -138,9 +138,9 @@ public class Pencil extends JfxInstrument implements Initializable {
 		 * Note that the feedback callback is not optimised here as the colour does not change during the DnD. The cursor
 		 * should be changed in 'first'
 		 */
-		nodeBinder(ChangeColour.class, new DnD()).on(lineCol).
+		nodeBinder(new DnD(), ChangeColour.class).on(lineCol).
 			map(i -> new ChangeColour(lineCol.getValue(), null)).
-			then((a, i) -> i.getTgtObject().map(view -> (MyShape) view.getUserData()).ifPresent(sh -> a.setShape(sh))).
+			then((i, c) -> i.getTgtObject().map(view -> (MyShape) view.getUserData()).ifPresent(sh -> c.setShape(sh))).
 			when(i -> i.getTgtObject().orElse(null) instanceof Shape).
 			feedback(() -> lineCol.getScene().setCursor(new ColorCursor(lineCol.getValue()))).
 			endOrCancel((a, i) -> lineCol.getScene().setCursor(Cursor.DEFAULT)).
@@ -149,7 +149,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 		/*
 		 * A mouse pressure creates an anonymous command that simply shows a message in the console.
 		 */
-		anonCmdBinder(() -> System.out.println("An example of the anonymous command."), new Press()).on(canvas).bind();
+		anonCmdBinder(new Press(), () -> System.out.println("An example of the anonymous command.")).on(canvas).bind();
 
 		/*
 		 * A widget binding that execute a command asynchronously.

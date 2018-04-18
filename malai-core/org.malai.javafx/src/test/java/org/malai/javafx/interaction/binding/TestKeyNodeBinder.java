@@ -108,7 +108,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testInit2Executed() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).first((a, i) -> a.exec.setValue(20)).bind();
+		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).first((i, c) -> c.exec.setValue(20)).bind();
 		type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());

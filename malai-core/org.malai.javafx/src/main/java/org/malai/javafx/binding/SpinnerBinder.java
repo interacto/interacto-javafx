@@ -23,6 +23,6 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class SpinnerBinder<C extends CommandImpl> extends UpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>, SpinnerBinder<C>> {
 	public SpinnerBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new SpinnerChanged(), instrument);
+		super(new SpinnerChanged(), cmdClass, instrument);
 	}
 }

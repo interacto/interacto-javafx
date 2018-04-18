@@ -32,7 +32,7 @@ public abstract class KeyBinder<W, C extends CommandImpl, B extends KeyBinder<W,
 	final Predicate<KeysData> checkCode;
 
 	public KeyBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new KeysPressed(), instrument);
+		super(new KeysPressed(), cmdClass, instrument);
 		codes = new ArrayList<>();
 
 		checkCode = interaction -> {

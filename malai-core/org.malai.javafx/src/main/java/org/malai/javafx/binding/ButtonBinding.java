@@ -48,6 +48,6 @@ public abstract class ButtonBinding<C extends CommandImpl, I extends JfxInstrume
 	 */
 	public ButtonBinding(final I ins, final Class<C> clazzCmd, final List<Node> widgets,
 						 final boolean help, final HelpAnimation animation) {
-		super(ins, false, clazzCmd, new ButtonPressed(), widgets, help, animation);
+		super(ins, false, new ButtonPressed(), clazzCmd, widgets, help, animation);
 	}
 }

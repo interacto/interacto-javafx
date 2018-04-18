@@ -23,6 +23,6 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class CheckBoxBinder<C extends CommandImpl> extends Binder<CheckBox, C, BoxChecked, WidgetData<CheckBox>, CheckBoxBinder<C>> {
 	public CheckBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new BoxChecked(), instrument);
+		super(new BoxChecked(), cmdClass, instrument);
 	}
 }

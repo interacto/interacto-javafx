@@ -23,6 +23,6 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class ToggleButtonBinder<C extends CommandImpl> extends Binder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>, ToggleButtonBinder<C>> {
 	public ToggleButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new ToggleButtonPressed(), instrument);
+		super(new ToggleButtonPressed(), cmdClass, instrument);
 	}
 }

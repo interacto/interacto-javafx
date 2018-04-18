@@ -48,6 +48,6 @@ public abstract class CheckboxBinding<C extends CommandImpl, I extends JfxInstru
 	 */
 	public CheckboxBinding(I ins, Class<C> clazzCmd, List<Node> widgets,
 						   final boolean help, final HelpAnimation animation) {
-		super(ins, false, clazzCmd, new BoxChecked(), widgets, help, animation);
+		super(ins, false, new BoxChecked(), clazzCmd, widgets, help, animation);
 	}
 }

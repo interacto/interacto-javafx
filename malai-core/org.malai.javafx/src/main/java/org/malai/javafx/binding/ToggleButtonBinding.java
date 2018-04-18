@@ -36,7 +36,7 @@ public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxIn
 	 */
 	public ToggleButtonBinding(final I ins, final Class<C> cmdClass, final List<Node> widgets,
 							   final boolean help, final HelpAnimation animation) {
-		super(ins, false, cmdClass, new ToggleButtonPressed(), widgets, help, animation);
+		super(ins, false, new ToggleButtonPressed(), cmdClass, widgets, help, animation);
 	}
 
 	/**

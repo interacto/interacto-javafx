@@ -24,6 +24,6 @@ import org.malai.javafx.interaction.library.WidgetData;
 public class TextInputBinder<C extends CommandImpl, W extends TextInputControl> extends UpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>,
 			TextInputBinder<C, W>> {
 	public TextInputBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new TextInputChanged(), instrument);
+		super(new TextInputChanged(), cmdClass, instrument);
 	}
 }

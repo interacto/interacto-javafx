@@ -21,15 +21,14 @@ import org.malai.javafx.interaction.JfxInteraction;
 public class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D, AnonCmdBinder<W, I, D>> {
 	private final Runnable cmd;
 
-	public AnonCmdBinder(final Runnable anonCmd, final I interaction, final JfxInstrument ins) {
-		super(AnonCommand.class, interaction, ins);
+	public AnonCmdBinder(final I interaction, final Runnable anonCmd, final JfxInstrument ins) {
+		super(interaction, AnonCommand.class, ins);
 		cmd = Objects.requireNonNull(anonCmd);
 	}
 
 	@Override
 	public JfXWidgetBinding<AnonCommand, I, ?, D> bind() {
-		final AnonJfxWidgetBinding<I, JfxInstrument, D> binding = new AnonJfxWidgetBinding<>(instrument, false, cmd, interaction,
-			null, null, checkConditions, onEnd, cmdProducer, null, null, null,
+		final AnonJfxWidgetBinding<I, JfxInstrument, D> binding = new AnonJfxWidgetBinding<>(instrument, false, interaction, cmd, null, null, checkConditions, onEnd, cmdProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);

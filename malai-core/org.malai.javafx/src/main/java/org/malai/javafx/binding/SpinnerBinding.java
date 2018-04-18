@@ -48,6 +48,6 @@ public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrum
 	 */
 	public SpinnerBinding(final I ins, final boolean exec, final Class<C> cmdClass, final List<Node> widgets, final boolean help,
 						  final HelpAnimation animation) {
-		super(ins, exec, cmdClass, new SpinnerChanged(), widgets, help, animation);
+		super(ins, exec, new SpinnerChanged(), cmdClass, widgets, help, animation);
 	}
 }
