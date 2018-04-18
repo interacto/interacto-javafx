@@ -25,17 +25,17 @@ import {CommandImpl} from "../../src-core/command/CommandImpl";
  * @author Arnaud Blouin
  */
 export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>, B extends Binder<C, I, B>> {
-    protected initCmd: (c: C | undefined, i: I) => void;
+    protected initCmd: (i: I, c: C | undefined) => void;
     protected checkConditions: (i: I) => boolean;
     protected readonly widgets: MArray<EventTarget>;
     protected readonly cmdClass: () => C;
     protected readonly interaction: I;
     protected _async: boolean;
-    protected onEnd: (c: C | undefined, i: I) => void;
+    protected onEnd: (i: I, c: C | undefined) => void;
 // protected List<ObservableList<? extends Node>> additionalWidgets;
     protected readonly logLevels: Set<LogLevel>;
 
-    protected constructor(cmdProducer: () => C, interaction: I) {
+    protected constructor(interaction: I, cmdProducer: () => C) {
         this.cmdClass = cmdProducer;
         this.interaction = interaction;
         this.widgets = new MArray();
@@ -80,7 +80,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<
      * This callback takes as arguments both the command and interaction involved in the binding.
      * @return The builder to chain the building configuration.
      */
-    public first(initCmdFct: (c: C, i: I) => void): B {
+    public first(initCmdFct: (i: I, c: C) => void): B {
         this.initCmd = initCmdFct;
         return this as {} as B;
     }
@@ -113,7 +113,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<
      * @param onEndFct The callback method to specify what to do when an interaction ends.
      * @return The builder to chain the building configuration.
      */
-    public end(onEndFct: (c: C, i: I) => void): B {
+    public end(onEndFct: (i: I, c: C) => void): B {
         this.onEnd = onEndFct;
         return this as {} as B;
     }
@@ -136,7 +136,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<FSM<
      * @throws InstantiationException On issues while creating the commands.
      */
     public bind(): TSWidgetBinding<C, I> {
-        return new AnonNodeBinding<C, I>(false, this.cmdClass, this.interaction, this.initCmd, () => {},
+        return new AnonNodeBinding<C, I>(false, this.interaction, this.cmdClass, this.initCmd, () => {},
             this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
             this.widgets, this._async, false, new Array(...this.logLevels));
     }

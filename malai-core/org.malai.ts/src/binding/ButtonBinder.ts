@@ -20,6 +20,6 @@ import {CommandImpl} from "../../src-core/command/CommandImpl";
  */
 export class ButtonBinder<C extends CommandImpl> extends Binder<C, ButtonPressed, ButtonBinder<C>> {
     public constructor(cmd: () => C) {
-        super(cmd, new ButtonPressed());
+        super(new ButtonPressed(), cmd);
     }
 }

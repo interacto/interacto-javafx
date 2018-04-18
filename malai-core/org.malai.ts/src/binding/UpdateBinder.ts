@@ -23,15 +23,15 @@ import {CommandImpl} from "../../src-core/command/CommandImpl";
  */
 export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>, B extends UpdateBinder<C, I, B>>
     extends Binder<C, I, B> {
-    protected updateFct: (c: C | undefined, i: I) => void;
-    protected cancelFct: (c: C | undefined, i: I) => void;
-    protected endOrCancelFct: (c: C | undefined, i: I) => void;
+    protected updateFct: (i: I, c: C | undefined) => void;
+    protected cancelFct: (i: I, c: C | undefined) => void;
+    protected endOrCancelFct: (i: I, c: C | undefined) => void;
     protected feedbackFct: () => void;
     protected execOnChanges: boolean;
     protected _strictStart: boolean;
 
-    protected constructor(cmdProducer: () => C, interaction: I) {
-        super(cmdProducer, interaction);
+    protected constructor(interaction: I, cmdProducer: () => C) {
+        super(interaction, cmdProducer);
         this.updateFct = () => {};
         this.cancelFct = () => {};
         this.endOrCancelFct = () => {};
@@ -46,7 +46,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
      * This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
      * @return The builder to chain the buiding configuration.
      */
-    public then(update: (c: C | undefined, i: I) => void): B {
+    public then(update: (i: I, c: C | undefined) => void): B {
         this.updateFct = update;
         return this as {} as B;
     }
@@ -65,7 +65,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
      * The undoable command is automatically cancelled so that nothing must be done on the command.
      * @return The builder to chain the building configuration.
      */
-    public cancel(cancel: (c: C | undefined, i: I) => void): B {
+    public cancel(cancel: (i: I, c: C | undefined) => void): B {
         this.cancelFct = cancel;
         return this as {} as B;
     }
@@ -75,7 +75,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
      * The undoable command is automatically cancelled so that nothing must be done on the command.
      * @return The builder to chain the building configuration.
      */
-    public endOrCancel(endOrCancel: (c: C | undefined, i: I) => void): B {
+    public endOrCancel(endOrCancel: (i: I, c: C | undefined) => void): B {
         this.endOrCancelFct = endOrCancel;
         return this as {} as B;
     }
@@ -99,7 +99,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
     }
 
     public bind(): TSWidgetBinding<C, I> {
-        return new AnonNodeBinding(this.execOnChanges, this.cmdClass, this.interaction, this.initCmd, this.updateFct,
+        return new AnonNodeBinding(this.execOnChanges, this.interaction, this.cmdClass, this.initCmd, this.updateFct,
             this.checkConditions, this.onEnd, this.cancelFct, this.endOrCancelFct, this.feedbackFct, this.widgets, this._async,
             this._strictStart, new Array(...this.logLevels));
     }

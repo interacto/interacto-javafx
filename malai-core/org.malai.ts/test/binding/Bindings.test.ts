@@ -38,14 +38,14 @@ test("button binder ok", () => {
 });
 
 test("node binder ok", () => {
-    nodeBinder(() => new StubCmd(), new Click()).on(canvas).bind();
+    nodeBinder(new Click(), () => new StubCmd()).on(canvas).bind();
     canvas.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
 test("Anon cmd binder ok", () => {
     const cmd = new StubCmd();
-    anonCmdBinder(() => cmd.doIt(), new Click()).on(canvas).bind();
+    anonCmdBinder(new Click(), () => cmd.doIt()).on(canvas).bind();
     canvas.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });

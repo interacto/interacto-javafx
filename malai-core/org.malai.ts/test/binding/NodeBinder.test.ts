@@ -28,13 +28,13 @@ beforeEach(() => {
 });
 
 test("Node binder ok with click", () => {
-    new NodeBinder(() => new StubCmd(), new Click()).on(widget).bind();
+    new NodeBinder(new Click(), () => new StubCmd()).on(widget).bind();
     widget.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
 test("Node binder ok with double-click", () => {
-    new NodeBinder(() => new StubCmd(), new DoubleClick()).on(widget).bind();
+    new NodeBinder(new DoubleClick(), () => new StubCmd()).on(widget).bind();
     widget.click();
     widget.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);

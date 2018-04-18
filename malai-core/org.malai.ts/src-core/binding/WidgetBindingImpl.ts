@@ -69,7 +69,7 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
      */
     private readonly cmdProducer: (i: I) => C;
 
-    protected constructor(/* ins : N,  */ exec: boolean, cmdClass: (i: I) => C, interaction: I) {
+    protected constructor(exec: boolean, interaction: I, cmdClass: (i: I) => C) {
         this.execute = false;
         this.async = false;
         this.cmdProducer = cmdClass;

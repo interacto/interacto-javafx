@@ -16,13 +16,13 @@ import {FSM} from "../../src-core/fsm/FSM";
 import {CommandImpl} from "../../src-core/command/CommandImpl";
 
 export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<Event>, {}>> extends TSWidgetBinding<C, I> {
-    private readonly execInitCmd: (c: C | undefined, i: I) => void;
-    private readonly execUpdateCmd: (c: C | undefined, i: I) => void;
+    private readonly execInitCmd: (i: I, c: C | undefined) => void;
+    private readonly execUpdateCmd: (i: I, c: C | undefined) => void;
     private readonly checkInteraction: (i: I) => boolean;
-    private readonly cancelFct: (c: C | undefined, i: I) => void;
-    private readonly endOrCancelFct: (c: C | undefined, i: I) => void;
+    private readonly cancelFct: (i: I, c: C | undefined) => void;
+    private readonly endOrCancelFct: (i: I, c: C | undefined) => void;
     private readonly feedbackFct: () => void;
-    private readonly onEnd: (c: C | undefined, i: I) => void;
+    private readonly onEnd: (i: I, c: C | undefined) => void;
     private readonly strictStart: boolean;
     /** Used rather than 'cmd' to catch the command during its creation.
      * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
@@ -41,13 +41,13 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<
      * @param updateCmdFct The function that updates the command. Can be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    public constructor(exec: boolean, cmdClass: () => C, interaction: I, initCmdFct: (c: C | undefined, i: I) => void,
-                       updateCmdFct: (c: C | undefined, i: I) => void, check: (i: I) => boolean,
-                       onEndFct: (c: C | undefined, i: I) => void, cancel: (c: C | undefined, i: I) => void,
-                       endOrCancel: (c: C | undefined, i: I) => void, feedback: () => void, widgets: Array<EventTarget>,
+    public constructor(exec: boolean, interaction: I, cmdClass: () => C, initCmdFct: (i: I, c: C | undefined) => void,
+                       updateCmdFct: (i: I, c: C | undefined) => void, check: (i: I) => boolean,
+                       onEndFct: (i: I, c: C | undefined) => void, cancel: (i: I, c: C | undefined) => void,
+                       endOrCancel: (i: I, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
-        super(exec, cmdClass, interaction, widgets);
+        super(exec, interaction, cmdClass, widgets);
         this.execInitCmd = initCmdFct;
         this.execUpdateCmd = updateCmdFct;
         this.cancelFct = cancel;
@@ -76,12 +76,12 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<
 
     public first(): void {
         if (this.currentCmd !== undefined) {
-            this.execInitCmd(this.getCommand(), this.getInteraction());
+            this.execInitCmd(this.getInteraction(), this.getCommand());
         }
     }
 
     public then(): void {
-        this.execUpdateCmd(this.getCommand(), this.getInteraction());
+        this.execUpdateCmd(this.getInteraction(), this.getCommand());
     }
 
     public when(): boolean {
@@ -93,10 +93,10 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<
 
     public fsmCancels(): void {
         if (this.currentCmd !== undefined) {
-            this.endOrCancelFct(this.cmd, this.interaction);
+            this.endOrCancelFct(this.interaction, this.cmd);
         }
         if (this.currentCmd !== undefined) {
-            this.cancelFct(this.cmd, this.interaction);
+            this.cancelFct(this.interaction, this.cmd);
         }
         super.fsmCancels();
         this.currentCmd = undefined;
@@ -112,10 +112,10 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<FSM<
     public fsmStops(): void {
         super.fsmStops();
         if (this.currentCmd !== undefined) {
-            this.endOrCancelFct(this.currentCmd, this.getInteraction());
+            this.endOrCancelFct(this.getInteraction(), this.currentCmd);
         }
         if (this.currentCmd !== undefined) {
-            this.onEnd(this.currentCmd, this.getInteraction());
+            this.onEnd(this.getInteraction(), this.currentCmd);
         }
         this.currentCmd = undefined;
     }
