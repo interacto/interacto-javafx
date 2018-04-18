@@ -43,4 +43,10 @@ export abstract class Transition<E> {
     public abstract isGuardOK(event: E): boolean;
 
     public abstract getAcceptedEvents(): Set<string>;
+
+    /**
+     * Clean the transition when not used anymore.
+     */
+    public uninstall(): void {
+    }
 }

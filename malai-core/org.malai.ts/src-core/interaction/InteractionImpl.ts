@@ -84,4 +84,9 @@ export abstract class InteractionImpl<E, F extends FSM<E>> {
     }
 
     protected abstract reinitData(): void;
+
+    public uninstall(): void {
+        this.setActivated(false);
+        this.logger = undefined;
+    }
 }

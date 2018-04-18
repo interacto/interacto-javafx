@@ -43,4 +43,7 @@ export abstract class StateImpl<E> implements State<E> {
     public getFSM(): FSM<E> {
         return this.fsm;
     }
+
+    public uninstall(): void {
+    }
 }

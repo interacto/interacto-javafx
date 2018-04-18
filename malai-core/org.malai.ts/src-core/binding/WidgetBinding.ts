@@ -82,6 +82,8 @@ export interface WidgetBinding extends FSMHandler {
      */
     feedback(): void;
 
+    uninstallBinding(): void;
+
     // /**
     //  * @return {*} The instrument that contains the widget binding.
     //  */
