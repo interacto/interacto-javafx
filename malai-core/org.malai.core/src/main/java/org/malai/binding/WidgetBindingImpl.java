@@ -413,7 +413,11 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 			loggerBinding.log(Level.INFO, "Binding Activated: " + activ);
 		}
 
-		cmd = null;
+		interaction.setActivated(activ);
+		if(!activ && cmd != null) {
+			cmd.flush();
+			cmd = null;
+		}
 	}
 
 
