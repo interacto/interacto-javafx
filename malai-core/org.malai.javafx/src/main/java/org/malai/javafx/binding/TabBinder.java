@@ -23,6 +23,6 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class TabBinder<C extends CommandImpl> extends Binder<TabPane, C, TabSelected, WidgetData<TabPane>, TabBinder<C>> {
 	public TabBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new TabSelected(), instrument);
+		super(new TabSelected(), cmdClass, instrument);
 	}
 }

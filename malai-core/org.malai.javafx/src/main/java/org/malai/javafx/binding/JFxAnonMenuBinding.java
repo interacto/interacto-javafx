@@ -29,9 +29,9 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>, N extends JfxInstrument>
 			extends JfxMenuItemBinding<C, I, N> {
-	private final BiConsumer<C, WidgetData<MenuItem>> execInitCmd;
+	private final BiConsumer<WidgetData<MenuItem>, C> execInitCmd;
 	private final Predicate<WidgetData<MenuItem>> checkInteraction;
-	private final BiConsumer<C, WidgetData<MenuItem>> onEnd;
+	private final BiConsumer<WidgetData<MenuItem>, C> onEnd;
 	private final Function<WidgetData<MenuItem>, C> cmdProducer;
 	/** Used rather than 'command' to catch the command during its creation.
 	 * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
@@ -51,11 +51,11 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonMenuBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
-							  final BiConsumer<C, WidgetData<MenuItem>> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
-							  final BiConsumer<C, WidgetData<MenuItem>> onEndFct, final Function<WidgetData<MenuItem>, C> cmdFct,
+	public JFxAnonMenuBinding(final N ins, final boolean exec, final I interaction, final Class<C> clazzCmd,
+							  final BiConsumer<WidgetData<MenuItem>, C> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
+							  final BiConsumer<WidgetData<MenuItem>, C> onEndFct, final Function<WidgetData<MenuItem>, C> cmdFct,
 							  final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus) {
-		super(ins, exec, clazzCmd, interaction, menus);
+		super(ins, exec, interaction, clazzCmd, menus);
 		execInitCmd = initCmdFct == null ? (c, i) -> {} : initCmdFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
@@ -69,7 +69,7 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 
 	@Override
 	public void first() {
-		execInitCmd.accept(getCommand(), getInteraction());
+		execInitCmd.accept(getInteraction(), getCommand());
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 	public void fsmStops() {
 		super.fsmStops();
 		if(onEnd != null) {
-			onEnd.accept(currentCmd, getInteraction());
+			onEnd.accept(getInteraction(), currentCmd);
 		}
 		currentCmd = null;
 	}

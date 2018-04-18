@@ -48,6 +48,6 @@ public abstract class ComboBoxBinding<C extends CommandImpl, I extends JfxInstru
 	 */
 	public ComboBoxBinding(I ins, Class<C> cmdClass, List<Node> widgets,
 						   final boolean help, final HelpAnimation animation) {
-		super(ins, false, cmdClass, new ComboBoxSelected(), widgets, help, animation);
+		super(ins, false, new ComboBoxSelected(), cmdClass, widgets, help, animation);
 	}
 }

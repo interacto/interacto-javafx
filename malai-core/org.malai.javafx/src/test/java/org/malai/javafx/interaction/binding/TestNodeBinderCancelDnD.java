@@ -35,13 +35,13 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnD() {
-		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
+		new NodeBinder<>(new DnD(true, true), MoveShape.class, instrument).
 			map(i -> new MoveShape(rec)).
 			on(rec).
-			first((c, i) -> rec.requestFocus()).
-			then((c, i) -> c.setCoord(rec.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
+			first((i, c) -> rec.requestFocus()).
+			then((i, c) -> c.setCoord(rec.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
 				rec.getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
-			end((c, i) -> fail("")).
+			end((i, c) -> fail("")).
 			exec().
 			bind();
 		drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
@@ -50,13 +50,13 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnDWithObsList() {
-		new NodeBinder<>(MoveShape.class, new DnD(true, true), instrument).
+		new NodeBinder<>(new DnD(true, true), MoveShape.class, instrument).
 			map(i -> new MoveShape((Rectangle) i.getSrcObject().get())).
 			on(widget1.getChildren()).
-			first((c, i) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
-			then((c, i) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
+			first((i, c) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
+			then((i, c) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
 				((Rectangle) i.getSrcObject().get()).getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
-			end((c, i) -> fail("")).
+			end((i, c) -> fail("")).
 			exec().
 			bind();
 

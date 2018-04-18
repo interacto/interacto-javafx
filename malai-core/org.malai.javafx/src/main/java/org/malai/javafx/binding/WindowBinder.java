@@ -23,14 +23,13 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class WindowBinder<C extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>>
 				extends UpdateBinder<Window, C, I, WidgetData<Window>, WindowBinder<C, I>> {
-	public WindowBinder(final Class<C> cmdClass, final I interaction, final JfxInstrument instrument) {
-		super(cmdClass, interaction, instrument);
+	public WindowBinder(final I interaction, final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(interaction, cmdClass, instrument);
 	}
 
 	@Override
 	public JfXWidgetBinding<C, I, ?, WidgetData<Window>> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument, WidgetData<Window>> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, cmdClass,
-			interaction, widgets, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct, feedbackFct, async, strictStart,
+		final JFxAnonNodeBinding<C, I, JfxInstrument, WidgetData<Window>> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, interaction, cmdClass, widgets, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct, feedbackFct, async, strictStart,
 			logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);

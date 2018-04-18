@@ -42,7 +42,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testCommandExecutedOnSingleButton() {
 		new MenuItemBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			end((c, i) -> assertEquals(1, c.exec.get())).
+			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID1);
 		assertEquals(1, instrument.exec.get());
@@ -52,7 +52,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testCommandExecutedOnTwoMenus() {
 		new MenuItemBinder<>(StubCmd.class, instrument).
 			on(widget1, widget2).
-			end((c, i) -> assertEquals(1, c.exec.get())).
+			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID2);
 		assertEquals(1, instrument.exec.get());
@@ -65,7 +65,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		new MenuItemBinder<>(StubCmd.class, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
-			end((c, i) -> assertEquals(11, c.exec.get())).
+			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID1);
 		assertEquals(1, instrument.exec.get());
@@ -75,8 +75,8 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	public void testInit2Executed() {
 		new MenuItemBinder<>(StubCmd.class, instrument).
 			on(widget1).
-			first((c, i) -> c.exec.setValue(10)).
-			end((c, i) -> assertEquals(11, c.exec.get())).
+			first((i, c) -> c.exec.setValue(10)).
+			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
 		clickOn("#"+menuID).clickOn("#"+menuitemID1);
 		assertEquals(1, instrument.exec.get());

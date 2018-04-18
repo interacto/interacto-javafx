@@ -28,7 +28,7 @@ public class KeyNodeBinder<C extends CommandImpl> extends KeyBinder<Node, C, Key
 
 	@Override
 	public JfXWidgetBinding<C, KeysPressed, ?, KeysData> bind() {
-		final JFxAnonNodeBinding<C, KeysPressed, JfxInstrument, KeysData> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction,
+		final JFxAnonNodeBinding<C, KeysPressed, JfxInstrument, KeysData> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, cmdClass,
 			initCmd, null, checkCode, onEnd, cmdProducer, null, null, null, widgets, additionalWidgets,
 			async, false, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);

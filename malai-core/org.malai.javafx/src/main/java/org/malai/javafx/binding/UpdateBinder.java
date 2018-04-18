@@ -26,15 +26,15 @@ import org.malai.javafx.interaction.JfxInteraction;
  */
 public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData,
 				B extends UpdateBinder<W, C, I, D, B>> extends Binder<W, C, I, D, B> {
-	protected BiConsumer<C, D> updateFct;
-	protected BiConsumer<C, D> cancelFct;
-	protected BiConsumer<C, D> endOrCancelFct;
+	protected BiConsumer<D, C> updateFct;
+	protected BiConsumer<D, C> cancelFct;
+	protected BiConsumer<D, C> endOrCancelFct;
 	protected Runnable feedbackFct;
 	protected boolean execOnChanges;
 	protected boolean strictStart;
 
-	public UpdateBinder(final Class<C> cmdClass, final I interaction, final JfxInstrument instrument) {
-		super(cmdClass, interaction, instrument);
+	public UpdateBinder(final I interaction, final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(interaction, cmdClass, instrument);
 		updateFct = null;
 		execOnChanges = false;
 	}
@@ -45,7 +45,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	 * This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B then(final BiConsumer<C, D> update) {
+	public B then(final BiConsumer<D, C> update) {
 		updateFct = update;
 		return (B) this;
 	}
@@ -58,7 +58,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	 */
 	public B then(final Consumer<C> update) {
 		if(update != null) {
-			updateFct = (c, i) -> update.accept(c);
+			updateFct = (i, c) -> update.accept(c);
 		}
 		return (B) this;
 	}
@@ -77,7 +77,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	 * The undoable command is autmatically cancelled so that nothing must be done on the command.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B cancel(final BiConsumer<C, D> cancel) {
+	public B cancel(final BiConsumer<D, C> cancel) {
 		cancelFct = cancel;
 		return (B) this;
 	}
@@ -87,7 +87,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	 * The undoable command is autmatically cancelled so that nothing must be done on the command.
 	 * @return The builder to chain the buiding configuration.
 	 */
-	public B endOrCancel(final BiConsumer<C, D> endOrCancel) {
+	public B endOrCancel(final BiConsumer<D, C> endOrCancel) {
 		endOrCancelFct = endOrCancel;
 		return (B) this;
 	}
@@ -113,7 +113,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	@Override
 	public JfXWidgetBinding<C, I, ?, D> bind() {
 		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>
-			(instrument, execOnChanges, cmdClass, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
+			(instrument, execOnChanges, interaction, cmdClass, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
 				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
 				strictStart, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);

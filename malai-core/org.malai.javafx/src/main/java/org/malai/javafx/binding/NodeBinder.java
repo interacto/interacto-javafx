@@ -23,7 +23,7 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud Blouin
  */
 public class NodeBinder<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends UpdateBinder<Node, C, I, D, NodeBinder<C, I, D>> {
-	public NodeBinder(final Class<C> cmdClass, final I interaction, final JfxInstrument instrument) {
-		super(cmdClass, interaction, instrument);
+	public NodeBinder(final I interaction, final Class<C> cmdClass, final JfxInstrument instrument) {
+		super(interaction, cmdClass, instrument);
 	}
 }

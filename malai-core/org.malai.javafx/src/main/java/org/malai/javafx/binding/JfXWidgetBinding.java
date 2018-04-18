@@ -74,14 +74,14 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
+	 * @param interaction The user interaction of the binding.
 	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction,
-							final List<Node> widgets, final boolean help, final HelpAnimation animation) {
+	public JfXWidgetBinding(final N ins, final boolean exec, final I interaction, final Class<C> clazzCmd, final List<Node> widgets, final boolean help,
+							final HelpAnimation animation) {
 		super(ins, exec, clazzCmd, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
 		activation.addListener(activationHandler);
@@ -95,15 +95,15 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
+	 * @param interaction The user interaction of the binding.
 	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param interaction The user interaction of the binding.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final Class<C> clazzCmd, final I interaction, final boolean help,
-							final HelpAnimation animation, final Node... widgets) {
-		this(ins, exec, clazzCmd, interaction, Arrays.asList(widgets), help, animation);
+	public JfXWidgetBinding(final N ins, final boolean exec, final I interaction, final Class<C> clazzCmd, final boolean help, final HelpAnimation animation,
+							final Node... widgets) {
+		this(ins, exec, interaction, clazzCmd, Arrays.asList(widgets), help, animation);
 	}
 
 	/**
@@ -111,14 +111,14 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param windows The windows concerned by the binding. Cannot be null.
+	 * @param interaction The user interaction of the binding.
 	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
-	 * @param interaction The user interaction of the binding.
-	 * @param windows The windows concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final Class<C> clazzCmd,
-							final I interaction, final HelpAnimation animation, final boolean help) {
+	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final I interaction, final Class<C> clazzCmd,
+							final HelpAnimation animation, final boolean help) {
 		super(ins, exec, clazzCmd, interaction);
 		activation = new SimpleBooleanProperty(isActivated());
 		withHelp = help;

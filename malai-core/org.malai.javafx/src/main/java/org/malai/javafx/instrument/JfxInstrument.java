@@ -92,8 +92,8 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @throws NullPointerException If the given class is null.
 	 */
 	protected <D extends InteractionData, W extends Node, I extends JfxInteraction<D, ?, ?>> AnonCmdBinder<W, I, D>
-				anonCmdBinder(final Runnable cmd, final I interaction) {
-		return new AnonCmdBinder<>(cmd, interaction, this);
+				anonCmdBinder(final I interaction, final Runnable cmd) {
+		return new AnonCmdBinder<>(interaction, cmd, this);
 	}
 
 	/**
@@ -239,9 +239,9 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws NullPointerException If the given class is null.
 	 */
-	protected <A extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<A, I> windowBinder(final Class<A> cmdClass,
-																														  final I interaction) {
-		return new WindowBinder<>(cmdClass, interaction, this);
+	protected <A extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<A, I> windowBinder(final I interaction,
+																														  final Class<A> cmdClass) {
+		return new WindowBinder<>(interaction, cmdClass, this);
 	}
 
 	/**
@@ -256,7 +256,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @throws NullPointerException If the given class is null.
 	 */
 	protected <D extends InteractionData, A extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<A, I, D>
-				nodeBinder(final Class<A> cmdClass, final I interaction) {
-		return new NodeBinder<>(cmdClass, interaction, this);
+				nodeBinder(final I interaction, final Class<A> cmdClass) {
+		return new NodeBinder<>(interaction, cmdClass, this);
 	}
 }

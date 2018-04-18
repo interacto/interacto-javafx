@@ -23,6 +23,6 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class ButtonBinder<C extends CommandImpl> extends Binder<Button, C, ButtonPressed, WidgetData<Button>, ButtonBinder<C>> {
 	public ButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new ButtonPressed(), instrument);
+		super(new ButtonPressed(), cmdClass, instrument);
 	}
 }

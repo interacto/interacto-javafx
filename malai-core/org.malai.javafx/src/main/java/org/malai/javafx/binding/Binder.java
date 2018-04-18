@@ -43,7 +43,7 @@ import org.malai.logging.LogLevel;
  * @author Arnaud Blouin
  */
 public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
-	protected BiConsumer<C, D> initCmd;
+	protected BiConsumer<D, C> initCmd;
 	protected Predicate<D> checkConditions;
 	protected Function<D, C> cmdProducer;
 	protected final List<W> widgets;
@@ -51,7 +51,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	protected final I interaction;
 	protected final JfxInstrument instrument;
 	protected boolean async;
-	protected BiConsumer<C, D> onEnd;
+	protected BiConsumer<D, C> onEnd;
 	protected List<ObservableList<? extends Node>> additionalWidgets;
 	protected Set<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
@@ -60,7 +60,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	protected StringProperty msgProp;
 	protected Button cancel;
 
-	public Binder(final Class<C> cmdClass, final I interaction, final JfxInstrument ins) {
+	public Binder(final I interaction, final Class<C> cmdClass, final JfxInstrument ins) {
 		super();
 		this.cmdClass = Objects.requireNonNull(cmdClass);
 		this.interaction = Objects.requireNonNull(interaction);
@@ -126,7 +126,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 */
 	public B first(final Consumer<C> initCmdFct) {
 		if(initCmdFct != null) {
-			initCmd = (c, i) -> initCmdFct.accept(c);
+			initCmd = (i, c) -> initCmdFct.accept(c);
 		}
 		return (B) this;
 	}
@@ -138,7 +138,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * This callback takes as arguments both the command and interaction involved in the binding.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B first(final BiConsumer<C, D> initCmdFct) {
+	public B first(final BiConsumer<D, C> initCmdFct) {
 		initCmd = initCmdFct;
 		return (B) this;
 	}
@@ -183,7 +183,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B end(final BiConsumer<C, D> onEndFct) {
+	public B end(final BiConsumer<D, C> onEndFct) {
 		onEnd = onEndFct;
 		return (B) this;
 	}
@@ -229,7 +229,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * @throws IllegalArgumentException On issues while creating the commands.
 	 */
 	public JfXWidgetBinding<C, I, ?, D> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, cmdClass, interaction, initCmd, null, checkConditions, onEnd, cmdProducer, null, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
+		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, cmdClass, initCmd, null, checkConditions, onEnd, cmdProducer, null, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

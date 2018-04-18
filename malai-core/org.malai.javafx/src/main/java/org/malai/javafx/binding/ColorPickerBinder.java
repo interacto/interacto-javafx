@@ -23,6 +23,6 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class ColorPickerBinder<C extends CommandImpl> extends Binder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>, ColorPickerBinder<C>> {
 	public ColorPickerBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(cmdClass, new ColorPicked(), instrument);
+		super(new ColorPicked(), cmdClass, instrument);
 	}
 }

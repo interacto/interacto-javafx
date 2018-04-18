@@ -23,7 +23,7 @@ public class TestAnonCommandBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testCommandExecutedOnSingleButton() {
-		new AnonCmdBinder<>(() -> a.foo(), new ButtonPressed(), instrument).on(widget1).bind();
+		new AnonCmdBinder<>(new ButtonPressed(), () -> a.foo(), instrument).on(widget1).bind();
 		clickOn(widget1);
 		Mockito.verify(a, Mockito.times(1)).foo();
 	}
