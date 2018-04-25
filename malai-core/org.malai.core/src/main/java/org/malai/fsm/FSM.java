@@ -237,6 +237,12 @@ public class FSM<E> {
 		}
 	}
 
+	/**
+	 * Jobs to do when a timeout transition is executed.
+	 * Because the timeout transition is based on a separated thread, the job
+	 * done by this method must be executed in the UI thread.
+	 * UI Platforms must override this method to do that.
+	 */
 	protected void onTimeout() {
 		if(currentTimeout != null) {
 			if(logger != null) {
