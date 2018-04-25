@@ -109,7 +109,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 			strictStart().
 			help(new MoveRectHelpAnimation(learningPane, canvas)).
 			// Throttling the received events to reduce the number of events to process.
-			// In this specific case, this will cause a lag as a delay of 40 ms (at max) may appear.
+			// In this specific case, this will cause a lag as a delay of 40 ms (at max).
 			throttle(40L).
 			bind();
 
