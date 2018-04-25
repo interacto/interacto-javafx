@@ -385,7 +385,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 
 	@Override
 	protected boolean isEventsOfSameType(final Event evt1, final Event evt2) {
-		return evt1.getEventType() == evt2.getEventType();
+		return evt1 != null && evt2 != null && evt1.getEventType() == evt2.getEventType();
 	}
 
 	@Override
