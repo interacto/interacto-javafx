@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class TestNodeBinder<W extends Node> extends TestBinder<W> {
 	@Override
-	public void start(Stage stage) {
+	public void start(final Stage stage) {
 		instrument = new StubInstrument();
 		instrument.setActivated(true);
 		final VBox parent = new VBox();

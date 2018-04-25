@@ -30,7 +30,7 @@ public class KeyNodeBinder<C extends CommandImpl> extends KeyBinder<Node, C, Key
 	public JfXWidgetBinding<C, KeysPressed, ?, KeysData> bind() {
 		final JFxAnonNodeBinding<C, KeysPressed, JfxInstrument, KeysData> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, cmdClass,
 			initCmd, null, checkCode, onEnd, cmdProducer, null, null, null, widgets, additionalWidgets,
-			async, false, logLevels, withHelp, helpAnimation);
+			async, false, 0L, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

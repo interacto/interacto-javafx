@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -381,6 +382,20 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 	}
 
 	public abstract D getData();
+
+	@Override
+	protected boolean isEventsOfSameType(final Event evt1, final Event evt2) {
+		return evt1.getEventType() == evt2.getEventType();
+	}
+
+	@Override
+	protected void runInUIThread(final Runnable runnable) {
+		if(Platform.isFxApplicationThread()) {
+			runnable.run();
+		}else {
+			Platform.runLater(runnable);
+		}
+	}
 
 	@Override
 	public void uninstall() {

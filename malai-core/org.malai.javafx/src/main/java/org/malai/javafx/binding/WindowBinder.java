@@ -29,7 +29,8 @@ public class WindowBinder<C extends CommandImpl, I extends JfxInteraction<Widget
 
 	@Override
 	public JfXWidgetBinding<C, I, ?, WidgetData<Window>> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument, WidgetData<Window>> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, interaction, cmdClass, widgets, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct, feedbackFct, async, strictStart,
+		final JFxAnonNodeBinding<C, I, JfxInstrument, WidgetData<Window>> binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, interaction, cmdClass,
+			widgets, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct, feedbackFct, async, strictStart, 0L,
 			logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);

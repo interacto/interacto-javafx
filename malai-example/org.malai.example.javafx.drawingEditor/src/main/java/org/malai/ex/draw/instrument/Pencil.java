@@ -108,27 +108,30 @@ public class Pencil extends JfxInstrument implements Initializable {
 			endOrCancel((i, c) -> i.getSrcObject().get().setEffect(null)).
 			strictStart().
 			help(new MoveRectHelpAnimation(learningPane, canvas)).
+			// Throttling the received events to reduce the number of events to process.
+			// In this specific case, this will cause a lag as a delay of 40 ms (at max) may appear.
+			throttle(40L).
 			bind();
 
 
-//		nodeBinder(MoveShape.class, new DnD(true, true)).
+//		nodeBinder(new DnD(true, true), MoveShape.class).
 //			// The binding dynamically registers elements of the given observable list.
 //			// When nodes are added to this list, these nodes register the binding.
 //			// When nodes are removed from this list, their binding is cancelled.
 //			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
 //			on(canvas.getShapesPane().getChildren()).
 //			map(i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
-//			then((a, i) -> a.setCoord(a.getShape().getX() + (i.getEndScenePt().getX() - i.getSrcScenePoint().getX()),
-//									a.getShape().getY() + (i.getEndScenePt().getY() - i.getSrcScenePoint().getY()))).
+//			then((i, c) -> c.setCoord(c.getShape().getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
+//									c.getShape().getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
 //			when(i -> i.getButton() == MouseButton.SECONDARY).
 //			// exec(true): this allows to execute the command each time the interaction updates (and 'when' is true).
 //			exec(true).
-//			first((a, i) -> {
+//			first((i, c) -> {
 //				// Required to grab the focus to get key events
 //				Platform.runLater(() -> i.getSrcObject().get().requestFocus());
 //				i.getSrcObject().get().setEffect(new DropShadow(20d, Color.BLACK));
 //			}).
-//			end((a, i) -> i.getSrcObject().get().setEffect(null)).
+//			end((i, c) -> i.getSrcObject().get().setEffect(null)).
 //		    strictStart().
 //			bind();
 

@@ -65,7 +65,7 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 							  final BiConsumer<D, C> updateCmdFct, final Predicate<D> check, final BiConsumer<D, C> onEndFct, final Function<D, C> cmdFunction,
 							  final BiConsumer<D, C> cancel, final BiConsumer<D, C> endOrCancel, final Runnable feedback, final List<Node> widgets,
 							  final List<ObservableList<? extends Node>> additionalWidgets, final boolean asyncExec, final boolean strict,
-							  final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
+							  final long timeoutThrottle, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, interaction, clazzCmd, widgets, help, animation);
 		execInitCmd = initCmdFct;
 		execUpdateCmd = updateCmdFct;
@@ -78,6 +78,7 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 		onEnd = onEndFct;
 		strictStart = strict;
 		currentCmd = null;
+		interaction.setThrottleTimeout(timeoutThrottle);
 		configureLoggers(loggers);
 
 		if(additionalWidgets != null) {
@@ -101,7 +102,8 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 	public JFxAnonNodeBinding(final N ins, final boolean exec, final I interaction, final Class<C> clazzCmd, final List<Window> widgets,
 							  final BiConsumer<D, C> initCmdFct, final BiConsumer<D, C> updateCmdFct, final Predicate<D> check, final BiConsumer<D, C> onEndFct,
 							  final Function<D, C> cmdFunction, final BiConsumer<D, C> cancel, final BiConsumer<D, C> endOrCancel, final Runnable feedback,
-							  final boolean asyncExec, final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
+							  final boolean asyncExec, final boolean strict, final long timeoutThrottle, final Set<LogLevel> loggers, final boolean help,
+							  final HelpAnimation animation) {
 		super(ins, exec, widgets, interaction, clazzCmd, animation, help);
 		execInitCmd = initCmdFct;
 		execUpdateCmd = updateCmdFct;
@@ -114,6 +116,7 @@ public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<
 		onEnd = onEndFct;
 		strictStart = strict;
 		currentCmd = null;
+		interaction.setThrottleTimeout(timeoutThrottle);
 		configureLoggers(loggers);
 	}
 

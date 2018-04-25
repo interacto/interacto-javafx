@@ -229,7 +229,10 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * @throws IllegalArgumentException On issues while creating the commands.
 	 */
 	public JfXWidgetBinding<C, I, ?, D> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, cmdClass, initCmd, null, checkConditions, onEnd, cmdProducer, null, null, null, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
+		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, cmdClass, initCmd,
+			null, checkConditions, onEnd, cmdProducer, null, null, null,
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, 0L, logLevels,
+			withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

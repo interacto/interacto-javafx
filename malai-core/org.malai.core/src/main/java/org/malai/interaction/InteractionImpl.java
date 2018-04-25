@@ -10,6 +10,10 @@
  */
 package org.malai.interaction;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.malai.fsm.FSM;
@@ -17,14 +21,16 @@ import org.malai.fsm.InitState;
 import org.malai.fsm.OutputState;
 
 public abstract class InteractionImpl<E, F extends FSM<E>> {
-	protected Logger logger;
-
 	protected final F fsm;
-	/**
-	 * Defines if the interaction is activated or not. If not, the interaction will not
-	 * change on events.
-	 */
+	/** Defines whether the interaction is activated. If not, the interaction will not change on events. */
 	protected boolean activated;
+	protected Logger logger;
+	protected long throttleTimeout;
+	protected final AtomicLong throttleCounter;
+	protected E currentThrottledEvent;
+	/** The current throttle thread in progress. */
+	private Future<?> currThrottleTimeoutFuture;
+	private ExecutorService executor;
 
 	protected InteractionImpl(final F fsm) {
 		super();
@@ -33,9 +39,18 @@ public abstract class InteractionImpl<E, F extends FSM<E>> {
 			throw new IllegalArgumentException("null fsm");
 		}
 
+		executor = null;
+		currThrottleTimeoutFuture = null;
+		throttleTimeout = 0L;
 		this.fsm = fsm;
 		fsm.currentStateProp().obs((oldValue, newValue) -> updateEventsRegistered(newValue, oldValue));
 		activated = true;
+		throttleCounter = new AtomicLong();
+		currentThrottledEvent = null;
+	}
+
+	public void setThrottleTimeout(final long timeout) {
+		throttleTimeout = timeout;
 	}
 
 	protected abstract void updateEventsRegistered(final OutputState<E> newState, final OutputState<E> oldState);
@@ -48,9 +63,92 @@ public abstract class InteractionImpl<E, F extends FSM<E>> {
 		fsm.fullReinit();
 	}
 
+	private void directEventProcess(final E event) {
+		fsm.process(event);
+	}
+
+	/**
+	 * Defines whether the two given events are of the same type.
+	 * For example, whether they are both mouse move events.
+	 * This check is platform specific.
+	 * @param evt1 The first event to check.
+	 * @param evt2 The second event to check.
+	 * @return True: the two events are of the same type.
+	 */
+	protected abstract boolean isEventsOfSameType(final E evt1, final E evt2);
+
+	/**
+	 * Throttling: sleeping between events of the same type.
+	 */
+	private void createThrottleTimeout() {
+		if(executor == null) {
+			executor = Executors.newWorkStealingPool();
+		}
+
+		// Cancelling the current task.
+		if(currThrottleTimeoutFuture != null && !currThrottleTimeoutFuture.isDone()) {
+			currThrottleTimeoutFuture.cancel(true);
+		}
+
+		// Executing a new timeout for the throttling operation.
+		currThrottleTimeoutFuture = executor.submit(() -> {
+			try {
+				Thread.sleep(throttleTimeout);
+				E evt = null;
+				synchronized(throttleCounter) {
+					if(throttleCounter.get() > 0L && currentThrottledEvent != null) {
+						evt = currentThrottledEvent;
+					}
+					throttleCounter.set(0L);
+					currentThrottledEvent = null;
+				}
+				if(evt != null) {
+					final E evtToProcess = evt;
+					runInUIThread(() -> directEventProcess(evtToProcess));
+				}
+			}catch(final InterruptedException ex) {
+				Thread.currentThread().interrupt();
+			}
+		});
+	}
+
+	/**
+	 * Runs the given command in the UI thread.
+	 * This is necessary since some created threads (e.g. throttling, timeout transition)
+	 * exit the UI thread but may require some job to be executed in the UI thread.
+	 * @param cmd The job to execute in the UI thread.
+	 */
+	protected abstract void runInUIThread(final Runnable cmd);
+
+	/**
+	 * Throttling processing: the given event is checked to be throttled or not.
+	 * @param event The event to check.
+	 * @return True: the event must be processed by the interaction.
+	 */
+	private boolean checkThrottlingEvent(final E event) {
+		synchronized(throttleCounter) {
+			if(currentThrottledEvent == null || !isEventsOfSameType(currentThrottledEvent, event)) {
+				if(currentThrottledEvent != null && throttleCounter.get() > 0L) {
+					directEventProcess(event);
+				}
+				throttleCounter.set(0L);
+				currentThrottledEvent = event;
+				createThrottleTimeout();
+				return true;
+			}else {
+				// The previous thottled event is ignored
+				throttleCounter.incrementAndGet();
+				currentThrottledEvent = event;
+				return false;
+			}
+		}
+	}
+
 	public void processEvent(final E event) {
 		if(isActivated()) {
-			fsm.process(event);
+			if(throttleTimeout <= 0L || checkThrottlingEvent(event)) {
+				directEventProcess(event);
+			}
 		}
 	}
 
@@ -96,5 +194,8 @@ public abstract class InteractionImpl<E, F extends FSM<E>> {
 	public void uninstall() {
 		setActivated(false);
 		logger = null;
+		if(executor != null) {
+			executor.shutdown();
+		}
 	}
 }
