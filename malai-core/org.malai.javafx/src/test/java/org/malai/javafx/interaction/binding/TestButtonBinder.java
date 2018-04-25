@@ -1,11 +1,13 @@
 package org.malai.javafx.interaction.binding;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.malai.javafx.binding.ButtonBinder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestButtonBinder extends TestNodeBinder<Button> {
 	@Override
@@ -23,6 +25,15 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 			bind();
 		clickOn(widget1);
 		assertEquals(1, instrument.exec.get());
+	}
+
+	@Test
+	public void testIsOnUIThread() {
+		new ButtonBinder<>(StubCmd.class, instrument).
+			on(widget1).
+			end((i, c) -> assertTrue(Platform.isFxApplicationThread())).
+			bind();
+		clickOn(widget1);
 	}
 
 	@Test

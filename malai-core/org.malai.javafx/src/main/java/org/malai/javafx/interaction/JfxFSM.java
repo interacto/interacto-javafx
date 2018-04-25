@@ -10,6 +10,7 @@
  */
 package org.malai.javafx.interaction;
 
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -31,6 +32,15 @@ public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 		super.reinit();
 		if(dataHandler != null && !inner) {
 			dataHandler.reinitData();
+		}
+	}
+
+	@Override
+	protected void onTimeout() {
+		if(Platform.isFxApplicationThread()) {
+			super.onTimeout();
+		}else {
+			Platform.runLater(() -> super.onTimeout());
 		}
 	}
 
