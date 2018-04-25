@@ -28,8 +28,9 @@ public class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends Inter
 
 	@Override
 	public JfXWidgetBinding<AnonCommand, I, ?, D> bind() {
-		final AnonJfxWidgetBinding<I, JfxInstrument, D> binding = new AnonJfxWidgetBinding<>(instrument, false, interaction, cmd, null, null, checkConditions, onEnd, cmdProducer, null, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, logLevels, withHelp, helpAnimation);
+		final AnonJfxWidgetBinding<I, JfxInstrument, D> binding = new AnonJfxWidgetBinding<>(instrument, false, interaction, cmd, null,
+			null, checkConditions, onEnd, cmdProducer, null, null, null,
+			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, 0L, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

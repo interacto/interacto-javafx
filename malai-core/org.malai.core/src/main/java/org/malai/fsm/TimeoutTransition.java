@@ -52,7 +52,7 @@ public class TimeoutTransition<E> extends Transition<E> {
 						timeouted = true;
 						TimeoutTransition.this.src.getFSM().onTimeout();
 					}catch(final InterruptedException ex) {
-						// OK, thread stopped.
+						Thread.currentThread().interrupt();
 					}
 				}
 			});

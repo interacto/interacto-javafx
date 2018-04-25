@@ -32,18 +32,20 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	protected Runnable feedbackFct;
 	protected boolean execOnChanges;
 	protected boolean strictStart;
+	protected long throttleTimeout;
 
 	public UpdateBinder(final I interaction, final Class<C> cmdClass, final JfxInstrument instrument) {
 		super(interaction, cmdClass, instrument);
 		updateFct = null;
 		execOnChanges = false;
+		throttleTimeout = 0L;
 	}
 
 	/**
 	 * Specifies the update of the command on interaction command.
 	 * @param update The callback method that updates the action.
 	 * This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B then(final BiConsumer<D, C> update) {
 		updateFct = update;
@@ -54,7 +56,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	 * Specifies the update of the command on interaction updates.
 	 * @param update The callback method that updates the command.
 	 * This callback takes as arguments the command to update.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B then(final Consumer<C> update) {
 		if(update != null) {
@@ -65,7 +67,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 
 	/**
 	 * Defines whether the command must be executed on each interaction updates (if 'when' predicate is ok).
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B exec() {
 		execOnChanges = true;
@@ -73,9 +75,9 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	}
 
 	/**
-	 * Defines what to do when a command is aborted (because the interaction is abord map).
-	 * The undoable command is autmatically cancelled so that nothing must be done on the command.
-	 * @return The builder to chain the buiding configuration.
+	 * Defines what to do when a command is cancelled (because the interaction is cancelled).
+	 * The undoable command is automatically cancelled so that nothing must be done on the command.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B cancel(final BiConsumer<D, C> cancel) {
 		cancelFct = cancel;
@@ -83,9 +85,9 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	}
 
 	/**
-	 * Defines what to do when ancommand is aborted (because the interaction is abord map).
-	 * The undoable command is autmatically cancelled so that nothing must be done on the command.
-	 * @return The builder to chain the buiding configuration.
+	 * Defines what to do when a command is cancelled (because the interaction is cancelled).
+	 * The undoable command is automatically cancelled so that nothing must be done on the command.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B endOrCancel(final BiConsumer<D, C> endOrCancel) {
 		endOrCancelFct = endOrCancel;
@@ -94,7 +96,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 
 	/**
 	 * Defines interim feedback provided to users on each interaction updates.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B feedback(final Runnable feedback) {
 		feedbackFct = feedback;
@@ -103,10 +105,26 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 
 	/**
 	 * The interaction does not start if the condition of the binding ('when') is not fulfilled.
-	 * @return The builder to chain the buiding configuration.
+	 * @return The builder to chain the building configuration.
 	 */
 	public B strictStart() {
 		strictStart = true;
+		return (B) this;
+	}
+
+	/**
+	 * Backpressure operation. Instead of emitting all the events, successive events of the same type are factorized modulo a timeout.
+	 * The timeout is used to send at max one event of the same type in a given duration (the timeout).
+	 * For example with three mouse moves and a time out of 10ms.
+	 * The first move is received and processed. The timer starts. A second mouse moves is received at T+5ms.
+	 * It is for the moment not processed. A third mouse move is received at T+8ms. The second move is finally ignored and this third one not processed yet.
+	 * At T+10s the third event is finally processed.
+	 * Based on our own experiments, the given timeout value should be greater than 10ms to throttle some UI events.
+	 * @param timeout The timeout used by the throttle operation. In ms.
+	 * @return The builder to chain the building configuration.
+	 */
+	public B throttle(final long timeout) {
+		throttleTimeout = timeout;
 		return (B) this;
 	}
 
@@ -115,7 +133,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>
 			(instrument, execOnChanges, interaction, cmdClass, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
 				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
-				strictStart, logLevels, withHelp, helpAnimation);
+				strictStart, throttleTimeout, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

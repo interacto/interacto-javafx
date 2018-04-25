@@ -35,9 +35,9 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction<D, ?, ?>, N extends J
 								final Function<D, AnonCommand> cmdFunction, final BiConsumer<D, AnonCommand> cancel,
 								final BiConsumer<D, AnonCommand> endOrCancel, final Runnable feedback, final List<Node> widgets,
 								final List<ObservableList<? extends Node>> additionalWidgets, final boolean async, final boolean strict,
-								final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
+								final long throttleTimeout, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, interaction, AnonCommand.class, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel, feedback,
-			widgets, additionalWidgets, async, strict, loggers, help, animation);
+			widgets, additionalWidgets, async, strict, throttleTimeout, loggers, help, animation);
 		anonCmd = Objects.requireNonNull(cmd);
 	}
 
@@ -45,9 +45,9 @@ public class AnonJfxWidgetBinding<I extends JfxInteraction<D, ?, ?>, N extends J
 								final BiConsumer<D, AnonCommand> initCmdFct, final BiConsumer<D, AnonCommand> updateCmdFct, final Predicate<D> check,
 								final BiConsumer<D, AnonCommand> onEndFct, final Function<D, AnonCommand> cmdFunction, final BiConsumer<D, AnonCommand> cancel,
 								final BiConsumer<D, AnonCommand> endOrCancel, final Runnable feedback, final boolean async,
-								final boolean strict, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
+								final boolean strict, final long throttleTimeout, final Set<LogLevel> loggers, final boolean help, final HelpAnimation animation) {
 		super(ins, exec, interaction, AnonCommand.class, widgets, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel,
-			feedback, async, strict, loggers, help, animation);
+			feedback, async, strict, throttleTimeout, loggers, help, animation);
 		anonCmd = Objects.requireNonNull(cmd);
 	}
 
