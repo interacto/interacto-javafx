@@ -13,6 +13,16 @@ public class InteractionMock extends InteractionImpl<Object, FSM<Object>> {
 	}
 
 	@Override
+	protected boolean isEventsOfSameType(final Object evt1, final Object evt2) {
+		return false;
+	}
+
+	@Override
+	protected void runInUIThread(final Runnable cmd) {
+		cmd.run();
+	}
+
+	@Override
 	protected void reinitData() {
 	}
 }
