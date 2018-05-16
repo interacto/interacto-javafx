@@ -27,6 +27,10 @@ export function isKeyPressEvent(event: Event): event is KeyboardEvent {
     return event instanceof KeyboardEvent && event.type === "keypress";
 }
 
+export function isMouseDownEvent(event: Event): event is MouseEvent {
+    return event instanceof MouseEvent && event.type === "mousedown";
+}
+
 export enum KeyCode {
     ESCAPE = 27
 }
