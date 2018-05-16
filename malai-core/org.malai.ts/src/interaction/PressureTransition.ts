@@ -15,7 +15,7 @@ import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken} from "./Events";
 
 export abstract class PressureTransition extends TSTransition {
-    protected constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
+    public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 
