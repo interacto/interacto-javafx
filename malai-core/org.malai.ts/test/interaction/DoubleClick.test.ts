@@ -38,26 +38,32 @@ beforeEach(() => {
 
 test("Double click on a canvas starts and stops the interaction", () => {
     interaction.registerToNodes([canvas]);
-    canvas.click();
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
 });
 
 test("Move between clicks cancels the double click", () => {
     interaction.registerToNodes([canvas]);
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     expect(handler.fsmStarts).not.toHaveBeenCalled();
     expect(handler.fsmStops).not.toHaveBeenCalled();
 });
 
 test("Timout cancels the double click", () => {
     interaction.registerToNodes([canvas]);
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     jest.runOnlyPendingTimers();
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     expect(handler.fsmStarts).not.toHaveBeenCalled();
     expect(handler.fsmStops).not.toHaveBeenCalled();
 });
