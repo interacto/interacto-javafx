@@ -38,21 +38,29 @@ beforeEach(() => {
 
 test("Drag lock is ok", () => {
     interaction.registerToNodes([canvas]);
-    canvas.click();
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
-    canvas.click();
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
 });
 
 test("Drag lock requires a least a move", () => {
     interaction.registerToNodes([canvas]);
-    canvas.click();
-    canvas.click();
-    canvas.click();
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).not.toHaveBeenCalled();
     expect(handler.fsmCancels).toHaveBeenCalledTimes(1);
@@ -60,8 +68,10 @@ test("Drag lock requires a least a move", () => {
 
 test("Drag lock canceled on ESC", () => {
     interaction.registerToNodes([canvas]);
-    canvas.click();
-    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     canvas.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, String(KeyCode.ESCAPE)));
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).not.toHaveBeenCalled();
