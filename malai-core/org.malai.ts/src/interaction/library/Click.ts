@@ -18,12 +18,11 @@ import {OutputState} from "../../../src-core/fsm/OutputState";
 import {PointInteraction} from "./PointInteraction";
 import {PointData} from "./PointData";
 import {CancellingState} from "../../../src-core/fsm/CancellingState";
-import {SubFSMTransition} from "../../../src-core/fsm/SubFSMTransition";
-import {FSM} from "../../../src-core/fsm/FSM";
 import {StdState} from "../../../src-core/fsm/StdState";
 import {MoveTransition} from "../MoveTransition";
 import {ReleaseTransition} from "../ReleaseTransition";
 import {isMouseUpEvent} from "../Events";
+import {PressureTransition} from "../PressureTransition";
 
 export class ClickFSM extends TSFSM<ClickFSMHandler> {
     private checkButton: number | undefined;
@@ -50,18 +49,21 @@ export class ClickFSM extends TSFSM<ClickFSMHandler> {
         this.addState(cancelled);
         this.addState(pressed);
 
-        new class extends SubFSMTransition<Event> { //Press Transition
+        new class extends PressureTransition {
             private readonly _parent: ClickFSM;
 
-            public constructor(parent: ClickFSM, srcState: OutputState<Event>, tgtState: InputState<Event>, fsm: FSM<Event>) {
-                super(srcState, tgtState, fsm);
+            public constructor(parent: ClickFSM, srcState: OutputState<Event>, tgtState: InputState<Event>) {
+                super(srcState, tgtState);
                 this._parent = parent;
             }
 
-            protected action(event: Event): void {
-                this._parent.setCheckButton(this._parent.pressFSM.getCheckButton());
+            public action (event: Event) {
+                if (event instanceof MouseEvent) {
+                    this._parent.setCheckButton(event.button);
+                }
             }
-        }(this, this.initState, pressed, this.pressFSM);
+
+        }(this, this.initState, pressed);
 
         new class extends MoveTransition {
             private readonly _parent: ClickFSM;

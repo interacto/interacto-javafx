@@ -14,6 +14,8 @@ import {NodeBinder} from "../../src/binding/NodeBinder";
 import {DoubleClick} from "../../src/interaction/library/DoubleClick";
 import {StubCmd} from "../command/StubCmd";
 import {PointData} from "../../src/interaction/library/PointData";
+import {EventRegistrationToken} from "../../src/interaction/Events";
+import {createMouseEvent} from "../interaction/StubEvents";
 
 jest.mock("../command/StubCmd");
 
@@ -30,13 +32,16 @@ beforeEach(() => {
 
 test("Node binder ok with click", () => {
     new NodeBinder<StubCmd, Click, PointData>(new Click(), () => new StubCmd()).on(widget).bind();
-    widget.click();
+    widget.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, widget));
+    widget.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, widget));
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
 test("Node binder ok with double-click", () => {
     new NodeBinder<StubCmd, DoubleClick, PointData>(new DoubleClick(), () => new StubCmd()).on(widget).bind();
-    widget.click();
-    widget.click();
+    widget.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, widget));
+    widget.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, widget));
+    widget.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, widget));
+    widget.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, widget));
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
