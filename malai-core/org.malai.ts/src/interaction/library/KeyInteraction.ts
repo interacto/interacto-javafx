@@ -13,29 +13,31 @@ import {KeyData} from "./KeyData";
 import {FSM} from "../../../src-core/fsm/FSM";
 import {TSInteraction} from "../TSInteraction";
 import {Optional} from "../../util/Optional";
+import {KeyDataImpl} from "./KeyDataImpl";
 
 export abstract class KeyInteraction<D extends KeyData, F extends FSM<Event>, T> extends TSInteraction<D, F, T> implements KeyData {
-    protected key: String;
-
-    protected target: EventTarget | undefined;
+    public readonly keyData: KeyDataImpl;
 
     protected constructor(fsm: F) {
         super(fsm);
+        this.keyData = new KeyDataImpl();
     }
 
     public reinitData(): void {
         super.reinitData();
-        this.target = undefined;
-        this.key = "";
+        this.keyData.reinitData();
     }
 
-    protected setKeyData(event: KeyboardEvent): void {
-        this.target = event.target === null ? undefined : event.target;
-        this.key =  event.key;
+    public setKeyData(event: KeyboardEvent): void {
+        this.keyData.setKeyData(event);
     }
 
-    public getTarget(): Optional<EventTarget> {return Optional.ofNullable(this.target); }
+    public getKey(): String {
+        return this.keyData.getKey();
+    }
 
-    public getKey(): String {return this.key; }
+    public getTarget(): Optional<EventTarget> {
+        return this.keyData.getTarget();
+    }
 }
 

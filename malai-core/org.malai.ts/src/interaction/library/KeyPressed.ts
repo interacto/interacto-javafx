@@ -73,7 +73,7 @@ interface KeyPressedFSMHandler  extends FSMDataHandler {
  * @author Gwendal DIDOT
  */
 
-export class KeyPressed extends KeyInteraction<KeyData, KeyPressedFSM, undefined> {
+export class KeyPressed extends KeyInteraction<KeyData, KeyPressedFSM, Node> {
 
     private readonly handler: KeyPressedFSMHandler;
 
