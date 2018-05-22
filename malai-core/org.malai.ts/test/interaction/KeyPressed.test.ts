@@ -38,13 +38,13 @@ beforeEach(() => {
 
 test("Appuyer sur A dans la textarea debute et fini l'interaction", () => {
     interaction.registerToNodes([text]);
-    text.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, "A"));
+    text.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, "a"));
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
 });
 
 test("La touche utiliser est bien la touche enregister", () => {
     interaction.registerToNodes([text]);
-    text.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, "A"));
-    expect(interaction.getData().getKey()).toEqual("A");
+    text.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, "a"));
+    expect(interaction.getData().getKey()).toEqual("a");
 });
