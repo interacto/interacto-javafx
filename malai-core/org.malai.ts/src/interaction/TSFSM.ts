@@ -42,7 +42,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
 
         // Recycling events
         if (processed && isKeyPressEvent(event) && !(this.currentState instanceof InitState) &&
-            this.eventsToProcess.find(evt => isKeyPressEvent(evt) && evt.keyCode === event.keyCode) === undefined) {
+            this.eventsToProcess.find(evt => isKeyPressEvent(evt) && evt.code === event.code) === undefined) {
             // this.addRemaningEventsToProcess((Event) event.clone()); //TODO
         }
 
