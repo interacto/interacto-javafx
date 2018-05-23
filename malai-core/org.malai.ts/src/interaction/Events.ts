@@ -27,6 +27,14 @@ export function isCheckBox(target: EventTarget): target is Element {
     return (<Element>target).tagName === "INPUT" && (<Element>target).getAttribute("type") === "checkbox";
 }
 
+export function isColorChoice(target: EventTarget): target is Element {
+    return (<Element>target).tagName === "INPUT" && (<Element>target).getAttribute("type") === "color";
+}
+
+export function isComboBox(target: EventTarget): target is Element {
+    return (<Element>target).tagName === "INPUT" && (<Element>target).getAttribute("list") !== undefined;
+}
+
 export function isChoiceBox(target: EventTarget): target is Element {
     return (<Element>target).tagName === "SELECT";
 }
