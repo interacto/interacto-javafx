@@ -45,6 +45,14 @@ test("Appuyer sur A dans la textarea debute et fini l'interaction", () => {
 
 test("La touche utiliser est bien la touche enregister", () => {
     interaction.registerToNodes([text]);
+    interaction.getFsm().addHandler(new class extends StubFSMHandler {
+        public constructor() {
+            super();
+        }
+
+        public fsmUpdates(): void {
+            expect(interaction.getData().getKey()).toEqual("a");
+        }
+    }());
     text.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, "a"));
-    expect(interaction.getData().getKey()).toEqual("a");
 });
