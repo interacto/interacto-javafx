@@ -11,39 +11,39 @@
 
 import {TSFSM} from "../TSFSM";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {isChoiceBox} from "../Events";
+import {isColorChoice} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
 import {WidgetData} from "../../../src-core/interaction/WidgetData";
-import {ChoiceBoxTransition} from "../ChoiceBoxTransition";
+import {ColorPickedTransition} from "../ColorPickedTransition";
 
-class ChoiceBoxSelectedSFM extends TSFSM<ChoiceBoxSelectedHandler> {
+class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
     public constructor() {
         super();
     }
 
-    public buildFSM(dataHandler?: ChoiceBoxSelectedHandler): void {
+    public buildFSM(dataHandler?: ColorPickedHandler): void {
         if (this.states.length > 1) {
             return ;
         }
 
         super.buildFSM(dataHandler);
-        const selected: TerminalState<Event> = new TerminalState<Event>(this, "selected");
-        this.addState(selected);
+        const picked: TerminalState<Event> = new TerminalState<Event>(this, "picked");
+        this.addState(picked);
 
-        new class extends ChoiceBoxTransition {
+        new class extends ColorPickedTransition {
             public action(event: Event): void {
-                if (event.target !== null && isChoiceBox(event.target) && dataHandler !== undefined) {
-                    dataHandler.initToSelectedHandler(event);
+                if (event.target !== null && isColorChoice(event.target) && dataHandler !== undefined) {
+                    dataHandler.initToPickHandler(event);
                 }
             }
-        }(this.initState, selected);
+        }(this.initState, picked);
     }
 }
 
 
-interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
-    initToSelectedHandler(event: Event): void;
+interface ColorPickedHandler  extends FSMDataHandler {
+    initToPickHandler(event: Event): void;
 }
 
 /**
@@ -51,21 +51,21 @@ interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
  * @author Gwendal DIDOT
  */
 
-export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, ChoiceBoxSelectedSFM, Element> {
-    private readonly handler: ChoiceBoxSelectedHandler;
+export class ColorPicked extends TSInteraction<WidgetData<Element>, ColorPickedFSM, Element> {
+    private readonly handler: ColorPickedHandler;
 
     public constructor() {
-        super(new ChoiceBoxSelectedSFM());
+        super(new ColorPickedFSM());
 
-        this.handler = new class implements ChoiceBoxSelectedHandler {
-            private readonly _parent: ChoiceBoxSelected;
+        this.handler = new class implements ColorPickedHandler {
+            private readonly _parent: ColorPicked;
 
-            constructor(parent: ChoiceBoxSelected) {
+            constructor(parent: ColorPicked) {
                 this._parent = parent;
             }
 
-            public initToSelectedHandler(event: Event): void {
-                if (event.target !== null && isChoiceBox(event.target)) {
+            public initToPickHandler(event: Event): void {
+                if (event.target !== null && isColorChoice(event.target)) {
                     this._parent._widget = event.currentTarget as Element;
                 }
             }
@@ -80,13 +80,13 @@ export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, Choice
     }
 
     public onNewNodeRegistered(node: EventTarget): void {
-        if (isChoiceBox(node)) {
+        if (isColorChoice(node)) {
             this.registerActionHandler(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
-        if (isChoiceBox(node)) {
+        if (isColorChoice(node)) {
             this.unregisterActionHandler(node);
         }
     }
