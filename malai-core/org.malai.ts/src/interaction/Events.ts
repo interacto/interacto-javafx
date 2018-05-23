@@ -23,6 +23,14 @@ export function isButton(target: EventTarget): target is Element {
     return (<Element>target).tagName === "BUTTON";
 }
 
+export function isCheckBox(target: EventTarget): target is Element {
+    return (<Element>target).tagName === "INPUT" && (<Element>target).getAttribute("type") === "checkbox";
+}
+
+export function isChoiceBox(target: EventTarget): target is Element {
+    return (<Element>target).tagName === "SELECT";
+}
+
 export function isKeyPressEvent(event: Event): event is KeyboardEvent {
     return event instanceof KeyboardEvent && event.type === "keypress";
 }
