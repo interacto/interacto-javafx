@@ -11,18 +11,18 @@
 
 import {TSFSM} from "../TSFSM";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {isChoiceBox} from "../Events";
+import {isComboBox} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
 import {WidgetData} from "../../../src-core/interaction/WidgetData";
-import {ChoiceBoxTransition} from "../ChoiceBoxTransition";
+import {ComboBoxTransition} from "../ComboBoxTransition";
 
-class ChoiceBoxSelectedSFM extends TSFSM<ChoiceBoxSelectedHandler> {
+class ComboBoxSelectedFSM extends TSFSM<ComboBoxSelectedHandler> {
     public constructor() {
         super();
     }
 
-    public buildFSM(dataHandler?: ChoiceBoxSelectedHandler): void {
+    public buildFSM(dataHandler?: ComboBoxSelectedHandler): void {
         if (this.states.length > 1) {
             return ;
         }
@@ -31,9 +31,9 @@ class ChoiceBoxSelectedSFM extends TSFSM<ChoiceBoxSelectedHandler> {
         const selected: TerminalState<Event> = new TerminalState<Event>(this, "selected");
         this.addState(selected);
 
-        new class extends ChoiceBoxTransition {
+        new class extends ComboBoxTransition {
             public action(event: Event): void {
-                if (event.target !== null && isChoiceBox(event.target) && dataHandler !== undefined) {
+                if (event.target !== null && isComboBox(event.target) && dataHandler !== undefined) {
                     dataHandler.initToSelectedHandler(event);
                 }
             }
@@ -42,7 +42,7 @@ class ChoiceBoxSelectedSFM extends TSFSM<ChoiceBoxSelectedHandler> {
 }
 
 
-interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
+interface ComboBoxSelectedHandler  extends FSMDataHandler {
     initToSelectedHandler(event: Event): void;
 }
 
@@ -51,21 +51,21 @@ interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
  * @author Gwendal DIDOT
  */
 
-export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, ChoiceBoxSelectedSFM, Element> {
-    private readonly handler: ChoiceBoxSelectedHandler;
+export class ComboBoxSelected extends TSInteraction<WidgetData<Element>, ComboBoxSelectedFSM, Element> {
+    private readonly handler: ComboBoxSelectedHandler;
 
     public constructor() {
-        super(new ChoiceBoxSelectedSFM());
+        super(new ComboBoxSelectedFSM());
 
-        this.handler = new class implements ChoiceBoxSelectedHandler {
-            private readonly _parent: ChoiceBoxSelected;
+        this.handler = new class implements ComboBoxSelectedHandler {
+            private readonly _parent: ComboBoxSelected;
 
-            constructor(parent: ChoiceBoxSelected) {
+            constructor(parent: ComboBoxSelected) {
                 this._parent = parent;
             }
 
             public initToSelectedHandler(event: Event): void {
-                if (event.target !== null && isChoiceBox(event.target)) {
+                if (event.target !== null && isComboBox(event.target)) {
                     this._parent._widget = event.currentTarget as Element;
                 }
             }
@@ -80,13 +80,13 @@ export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, Choice
     }
 
     public onNewNodeRegistered(node: EventTarget): void {
-        if (isChoiceBox(node)) {
+        if (isComboBox(node)) {
             this.registerActionHandler(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
-        if (isChoiceBox(node)) {
+        if (isComboBox(node)) {
             this.unregisterActionHandler(node);
         }
     }
