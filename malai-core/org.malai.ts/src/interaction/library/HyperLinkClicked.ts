@@ -11,13 +11,13 @@
 
 import {TSFSM} from "../TSFSM";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {isColorChoice} from "../Events";
+import {isHyperLink} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
 import {WidgetData} from "../../../src-core/interaction/WidgetData";
-import {ColorPickedTransition} from "../ColorPickedTransition";
+import {HyperLinkTransition} from "../HyperLinkTransition";
 
-class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
+class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
     public constructor() {
         super();
     }
@@ -28,22 +28,22 @@ class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
         }
 
         super.buildFSM(dataHandler);
-        const picked: TerminalState<Event> = new TerminalState<Event>(this, "picked");
-        this.addState(picked);
+        const clicked: TerminalState<Event> = new TerminalState<Event>(this, "clicked");
+        this.addState(clicked);
 
-        new class extends ColorPickedTransition {
+        new class extends HyperLinkTransition {
             public action(event: Event): void {
-                if (event.target !== null && isColorChoice(event.target) && dataHandler !== undefined) {
-                    dataHandler.initToPickedHandler(event);
+                if (event.target !== null && isHyperLink(event.target) && dataHandler !== undefined) {
+                    dataHandler.initToClickedHandler(event);
                 }
             }
-        }(this.initState, picked);
+        }(this.initState, clicked);
     }
 }
 
 
 interface ColorPickedHandler  extends FSMDataHandler {
-    initToPickedHandler(event: Event): void;
+    initToClickedHandler(event: Event): void;
 }
 
 /**
@@ -51,21 +51,21 @@ interface ColorPickedHandler  extends FSMDataHandler {
  * @author Gwendal DIDOT
  */
 
-export class ColorPicked extends TSInteraction<WidgetData<Element>, ColorPickedFSM, Element> {
+export class HyperLinkClicked extends TSInteraction<WidgetData<Element>, HyperLinkClickedFSM, Element> {
     private readonly handler: ColorPickedHandler;
 
     public constructor() {
-        super(new ColorPickedFSM());
+        super(new HyperLinkClickedFSM());
 
         this.handler = new class implements ColorPickedHandler {
-            private readonly _parent: ColorPicked;
+            private readonly _parent: HyperLinkClicked;
 
-            constructor(parent: ColorPicked) {
+            constructor(parent: HyperLinkClicked) {
                 this._parent = parent;
             }
 
-            public initToPickedHandler(event: Event): void {
-                if (event.target !== null && isColorChoice(event.target)) {
+            public initToClickedHandler(event: Event): void {
+                if (event.target !== null && isHyperLink(event.target)) {
                     this._parent._widget = event.currentTarget as Element;
                 }
             }
@@ -80,13 +80,13 @@ export class ColorPicked extends TSInteraction<WidgetData<Element>, ColorPickedF
     }
 
     public onNewNodeRegistered(node: EventTarget): void {
-        if (isColorChoice(node)) {
+        if (isHyperLink(node)) {
             this.registerActionHandler(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
-        if (isColorChoice(node)) {
+        if (isHyperLink(node)) {
             this.unregisterActionHandler(node);
         }
     }

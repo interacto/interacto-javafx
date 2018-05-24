@@ -108,6 +108,10 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             node.addEventListener(EventRegistrationToken.KeyUp, this.getKeyHandler());
             return;
         }
+        if (EventRegistrationToken.Input === eventType) {
+            node.addEventListener(EventRegistrationToken.Input, this.getMouseHandler());
+            return;
+        }
     }
 
     protected registerActionHandler(node: EventTarget): void {

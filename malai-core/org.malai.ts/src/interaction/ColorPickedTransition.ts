@@ -29,6 +29,6 @@ export abstract class ColorPickedTransition extends TSTransition {
     }
 
     public getAcceptedEvents(): Set<string> {
-        return new Set([EventRegistrationToken.Click]);
+        return new Set([EventRegistrationToken.Input]);
     }
 }
