@@ -11,17 +11,17 @@
 
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
-import {EventRegistrationToken, isCheckBox} from "./Events";
+import {EventRegistrationToken, isDatePicker} from "./Events";
 import {TSTransition} from "./TSTransition";
 
-export abstract class BoxCheckPressedTransition extends TSTransition {
+export abstract class DatePickedTransition extends TSTransition {
 
-    public constructor (srcState: OutputState<Event>, tgtState: InputState<Event>) {
+    public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 
     public accept(event: Event): boolean {
-        return event.target !== null && isCheckBox(event.target);
+        return event.target !== null && isDatePicker(event.target);
     }
 
     public isGuardOK(event: Event): boolean {

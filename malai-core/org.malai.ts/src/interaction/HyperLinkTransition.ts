@@ -11,17 +11,17 @@
 
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
-import {EventRegistrationToken, isCheckBox} from "./Events";
+import {EventRegistrationToken, isHyperLink} from "./Events";
 import {TSTransition} from "./TSTransition";
 
-export abstract class BoxCheckPressedTransition extends TSTransition {
+export abstract class HyperLinkTransition extends TSTransition {
 
-    public constructor (srcState: OutputState<Event>, tgtState: InputState<Event>) {
+    public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }
 
     public accept(event: Event): boolean {
-        return event.target !== null && isCheckBox(event.target);
+        return event.target !== null && isHyperLink(event.target);
     }
 
     public isGuardOK(event: Event): boolean {
@@ -29,6 +29,6 @@ export abstract class BoxCheckPressedTransition extends TSTransition {
     }
 
     public getAcceptedEvents(): Set<string> {
-        return new Set([EventRegistrationToken.Input]);
+        return new Set([EventRegistrationToken.Click]);
     }
 }

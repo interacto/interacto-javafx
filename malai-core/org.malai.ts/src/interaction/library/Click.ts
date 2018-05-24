@@ -12,7 +12,6 @@
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {Press, PressFSM} from "./Press";
 import {InputState} from "../../../src-core/fsm/InputState";
 import {OutputState} from "../../../src-core/fsm/OutputState";
 import {PointInteraction} from "./PointInteraction";
@@ -27,12 +26,6 @@ import {PressureTransition} from "../PressureTransition";
 export class ClickFSM extends TSFSM<ClickFSMHandler> {
     private checkButton: number | undefined;
 
-    public readonly pressFSM: PressFSM;
-
-    public constructor() {
-        super();
-        this.pressFSM = new PressFSM();
-    }
 
     public buildFSM(dataHandler?: ClickFSMHandler): void {
         if (this.states.length > 1) {
@@ -40,7 +33,6 @@ export class ClickFSM extends TSFSM<ClickFSMHandler> {
         }
 
         super.buildFSM(dataHandler);
-        this.pressFSM.buildFSM();
         const clicked = new TerminalState<Event>(this, "clicked");
         const cancelled = new CancellingState<Event>(this, "cancelled");
         const pressed = new StdState<Event>(this, "pressed");
@@ -122,7 +114,6 @@ interface ClickFSMHandler extends FSMDataHandler {
 
 export class Click extends PointInteraction<PointData, ClickFSM, Node> {
     private readonly handler: ClickFSMHandler;
-    public readonly press: Press;
 
     public constructor(fsm?: ClickFSM) {
         super(fsm === undefined ? new ClickFSM() : fsm);
@@ -142,14 +133,11 @@ export class Click extends PointInteraction<PointData, ClickFSM, Node> {
                 this._parent.reinitData();
             }
         }(this);
-
-        this.press = new Press(this.getFsm().pressFSM);
         this.getFsm().buildFSM(this.handler);
     }
 
     public reinitData(): void {
         super.reinitData();
-        this.press.reinitData();
     }
 
     public getData(): PointData {

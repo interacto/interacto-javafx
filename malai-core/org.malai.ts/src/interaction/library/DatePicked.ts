@@ -11,18 +11,18 @@
 
 import {TSFSM} from "../TSFSM";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {isColorChoice} from "../Events";
+import {isDatePicker} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
 import {WidgetData} from "../../../src-core/interaction/WidgetData";
-import {ColorPickedTransition} from "../ColorPickedTransition";
+import {DatePickedTransition} from "../DatePickedTransition";
 
-class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
+class DatePickedFSM extends TSFSM<DatePickedHandler> {
     public constructor() {
         super();
     }
 
-    public buildFSM(dataHandler?: ColorPickedHandler): void {
+    public buildFSM(dataHandler?: DatePickedHandler): void {
         if (this.states.length > 1) {
             return ;
         }
@@ -31,9 +31,9 @@ class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
         const picked: TerminalState<Event> = new TerminalState<Event>(this, "picked");
         this.addState(picked);
 
-        new class extends ColorPickedTransition {
+        new class extends DatePickedTransition {
             public action(event: Event): void {
-                if (event.target !== null && isColorChoice(event.target) && dataHandler !== undefined) {
+                if (event.target !== null && isDatePicker(event.target) && dataHandler !== undefined) {
                     dataHandler.initToPickedHandler(event);
                 }
             }
@@ -42,7 +42,7 @@ class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
 }
 
 
-interface ColorPickedHandler  extends FSMDataHandler {
+interface DatePickedHandler  extends FSMDataHandler {
     initToPickedHandler(event: Event): void;
 }
 
@@ -51,21 +51,21 @@ interface ColorPickedHandler  extends FSMDataHandler {
  * @author Gwendal DIDOT
  */
 
-export class ColorPicked extends TSInteraction<WidgetData<Element>, ColorPickedFSM, Element> {
-    private readonly handler: ColorPickedHandler;
+export class DatePicked extends TSInteraction<WidgetData<Element>, DatePickedFSM, Element> {
+    private readonly handler: DatePickedHandler;
 
     public constructor() {
-        super(new ColorPickedFSM());
+        super(new DatePickedFSM());
 
-        this.handler = new class implements ColorPickedHandler {
-            private readonly _parent: ColorPicked;
+        this.handler = new class implements DatePickedHandler {
+            private readonly _parent: DatePicked;
 
-            constructor(parent: ColorPicked) {
+            constructor(parent: DatePicked) {
                 this._parent = parent;
             }
 
             public initToPickedHandler(event: Event): void {
-                if (event.target !== null && isColorChoice(event.target)) {
+                if (event.target !== null && isDatePicker(event.target)) {
                     this._parent._widget = event.currentTarget as Element;
                 }
             }
@@ -80,13 +80,13 @@ export class ColorPicked extends TSInteraction<WidgetData<Element>, ColorPickedF
     }
 
     public onNewNodeRegistered(node: EventTarget): void {
-        if (isColorChoice(node)) {
+        if (isDatePicker(node)) {
             this.registerActionHandler(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
-        if (isColorChoice(node)) {
+        if (isDatePicker(node)) {
             this.unregisterActionHandler(node);
         }
     }
