@@ -16,7 +16,8 @@ export enum EventRegistrationToken {
     KeyDown = "keydown",
     KeyPress = "keypress",
     KeyUp = "keyup",
-    Click = "click"
+    Click = "click",
+    Input = "input"
 }
 
 export function isButton(target: EventTarget): target is Element {
@@ -33,6 +34,14 @@ export function isColorChoice(target: EventTarget): target is Element {
 
 export function isComboBox(target: EventTarget): target is Element {
     return (<Element>target).tagName === "INPUT" && (<Element>target).getAttribute("list") !== undefined;
+}
+
+export function isDatePicker(target: EventTarget): target is Element {
+    return (<Element>target).tagName === "INPUT" && (<Element>target).getAttribute("type") === "date";
+}
+
+export function isHyperLink(target: EventTarget): target is Element {
+    return (<Element>target).getAttribute("href") !== undefined;
 }
 
 export function isChoiceBox(target: EventTarget): target is Element {
