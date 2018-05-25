@@ -11,18 +11,18 @@
 
 import {TSFSM} from "../TSFSM";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {isDatePicker} from "../Events";
+import {isSpinner} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
 import {WidgetData} from "../../../src-core/interaction/WidgetData";
-import {DatePickedTransition} from "../DatePickedTransition";
+import {SpinnerChangedTransition} from "../SpinnerChangedTransition";
 
-class DatePickedFSM extends TSFSM<DatePickedHandler> {
+class SpinnerChangedFSM extends TSFSM<SpinnerChangedHandler> {
     public constructor() {
         super();
     }
 
-    public buildFSM(dataHandler?: DatePickedHandler): void {
+    public buildFSM(dataHandler?: SpinnerChangedHandler): void {
         if (this.states.length > 1) {
             return ;
         }
@@ -31,10 +31,10 @@ class DatePickedFSM extends TSFSM<DatePickedHandler> {
         const picked: TerminalState<Event> = new TerminalState<Event>(this, "picked");
         this.addState(picked);
 
-        new class extends DatePickedTransition {
+        new class extends SpinnerChangedTransition {
             public action(event: Event): void {
-                if (event.target !== null && isDatePicker(event.target) && dataHandler !== undefined) {
-                    dataHandler.initToPickedHandler(event);
+                if (event.target !== null && isSpinner(event.target) && dataHandler !== undefined) {
+                    dataHandler.initToChangedHandler(event);
                 }
             }
         }(this.initState, picked);
@@ -42,30 +42,30 @@ class DatePickedFSM extends TSFSM<DatePickedHandler> {
 }
 
 
-interface DatePickedHandler  extends FSMDataHandler {
-    initToPickedHandler(event: Event): void;
+interface SpinnerChangedHandler  extends FSMDataHandler {
+    initToChangedHandler(event: Event): void;
 }
 
 /**
- * A user interaction for Date input.
+ * A user interaction for Number input.
  * @author Gwendal DIDOT
  */
 
-export class DatePicked extends TSInteraction<WidgetData<Element>, DatePickedFSM, Element> {
-    private readonly handler: DatePickedHandler;
+export class SpinnerChanged extends TSInteraction<WidgetData<Element>, SpinnerChangedFSM, Element> {
+    private readonly handler: SpinnerChangedHandler;
 
     public constructor() {
-        super(new DatePickedFSM());
+        super(new SpinnerChangedFSM());
 
-        this.handler = new class implements DatePickedHandler {
-            private readonly _parent: DatePicked;
+        this.handler = new class implements SpinnerChangedHandler {
+            private readonly _parent: SpinnerChanged;
 
-            constructor(parent: DatePicked) {
+            constructor(parent: SpinnerChanged) {
                 this._parent = parent;
             }
 
-            public initToPickedHandler(event: Event): void {
-                if (event.target !== null && isDatePicker(event.target)) {
+            public initToChangedHandler(event: Event): void {
+                if (event.target !== null && isSpinner(event.target)) {
                     this._parent._widget = event.currentTarget as Element;
                 }
             }
@@ -80,13 +80,13 @@ export class DatePicked extends TSInteraction<WidgetData<Element>, DatePickedFSM
     }
 
     public onNewNodeRegistered(node: EventTarget): void {
-        if (isDatePicker(node)) {
+        if (isSpinner(node)) {
             this.registerActionHandler(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
-        if (isDatePicker(node)) {
+        if (isSpinner(node)) {
             this.unregisterActionHandler(node);
         }
     }
