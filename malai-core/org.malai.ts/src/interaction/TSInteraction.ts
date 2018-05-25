@@ -1,6 +1,6 @@
 /*
  * This file is part of Malai.
- * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Copyright (c) 2009-2018 Arnaud BLOUIN Gwendal DIDOT
  * Malai is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later version.
@@ -23,6 +23,7 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
     protected _widget: T | undefined;
     private mouseHandler: ((e: MouseEvent) => void) | undefined;
     private keyHandler: ((e: KeyboardEvent) => void) | undefined;
+    private uiHandler: ((e: UIEvent) => void) | undefined;
     private actionHandler: EventListener | undefined;
 
     protected constructor(fsm: F) {
@@ -112,6 +113,10 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             node.addEventListener(EventRegistrationToken.Input, this.getMouseHandler());
             return;
         }
+        if (EventRegistrationToken.Scroll === eventType) {
+            node.addEventListener(EventRegistrationToken.Scroll, this.getUIHandler());
+            return;
+        }
     }
 
     protected registerActionHandler(node: EventTarget): void {
@@ -158,6 +163,10 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             node.removeEventListener(EventRegistrationToken.KeyUp, this.getKeyHandler());
             return;
         }
+        if (EventRegistrationToken.Scroll === eventType) {
+            node.removeEventListener(EventRegistrationToken.Scroll, this.getUIHandler());
+            return;
+        }
     }
 
     protected getMouseHandler(): (e: MouseEvent) => void {
@@ -172,6 +181,13 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             this.keyHandler = evt => this.processEvent(evt);
         }
         return this.keyHandler;
+    }
+
+    protected getUIHandler(): (e: UIEvent) => void {
+        if (this.uiHandler === undefined) {
+            this.uiHandler = evt => this.processEvent(evt);
+        }
+        return this.uiHandler;
     }
 
     public uninstall(): void {
