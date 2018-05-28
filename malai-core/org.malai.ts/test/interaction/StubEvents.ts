@@ -47,3 +47,11 @@ export function createUIEvent(type: string): UIEvent {
         view: window
     });
 }
+
+export function createEvent(type: string): Event {
+    return new Event(type, {
+        bubbles: true,
+        scoped: true,
+        cancelable: false
+    });
+}
