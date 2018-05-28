@@ -11,31 +11,36 @@
 
 import {FSMHandler} from "../../src-core/fsm/FSMHandler";
 import {StubFSMHandler} from "../fsm/StubFSMHandler";
-import {SpinnerChanged} from "../../src/interaction/library/SpinnerChanged";
+import {TextInputChanged} from "../../src/interaction/library/TextInputChanged";
+import {createKeyEvent} from "./StubEvents";
+import {EventRegistrationToken} from "../../src/interaction/Events";
 
 jest.mock("../fsm/StubFSMHandler");
+jest.useFakeTimers();
 
-let interaction: SpinnerChanged;
-let spinner: HTMLElement;
+let interaction: TextInputChanged;
+let textArea: HTMLElement;
 let handler: FSMHandler;
 
 beforeEach(() => {
     jest.clearAllMocks();
     handler = new StubFSMHandler();
-    interaction = new SpinnerChanged();
+    interaction = new TextInputChanged();
     interaction.log(true);
     interaction.getFsm().log(true);
     interaction.getFsm().addHandler(handler);
-    document.documentElement.innerHTML = "<html><div><input id='sp1' type='number'></div></html>";
-    const elt = document.getElementById("sp1");
-    if (elt !== null) {
-        spinner = elt;
+    document.documentElement.innerHTML = "<html><div><input id='inT' type='text'></div><div><textarea id='teA'></textarea></div></html>";
+    const elt2 = document.getElementById("teA");
+    if (elt2 !== null) {
+        textArea = elt2;
     }
 });
 
-test("Click on spinner starts and stops the interaction", () => {
-    interaction.registerToNodes([spinner]);
-    spinner.click();
+test("Type in a text area starts and stops the interaction", () => {
+    interaction.registerToNodes([textArea]);
+    textArea.focus();
+    textArea.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyPress, "a"));
+    jest.runOnlyPendingTimers();
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
 });
