@@ -18,7 +18,7 @@ export enum EventRegistrationToken {
     KeyUp = "keyup",
     Click = "click",
     Input = "input",
-    Scroll = "scroll"
+    Scroll = "scroll",
 }
 
 export function isButton(target: EventTarget): target is Element {
@@ -51,6 +51,11 @@ export function isHyperLink(target: EventTarget): target is Element {
 
 export function isChoiceBox(target: EventTarget): target is Element {
     return (<Element>target).tagName === "SELECT";
+}
+
+export function isTextInput(target: EventTarget): target is Element {
+    return (<Element>target).tagName === "TEXTAREA" || ((<Element>target).tagName === "INPUT"
+        && (<Element>target).getAttribute("type") === "text");
 }
 
 export function isKeyPressEvent(event: Event): event is KeyboardEvent {
