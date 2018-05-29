@@ -14,7 +14,6 @@ export enum EventRegistrationToken {
     MouseUp = "mouseup",
     MouseMove = "mousemove",
     KeyDown = "keydown",
-    KeyPress = "keypress",
     KeyUp = "keyup",
     Click = "click",
     Input = "input",
@@ -58,8 +57,8 @@ export function isTextInput(target: EventTarget): target is Element {
         && (<Element>target).getAttribute("type") === "text");
 }
 
-export function isKeyPressEvent(event: Event): event is KeyboardEvent {
-    return event instanceof KeyboardEvent && event.type === "keypress";
+export function isKeyDownEvent(event: Event): event is KeyboardEvent {
+    return event instanceof KeyboardEvent && event.type === "keydown";
 }
 
 export function isMouseDownEvent(event: Event): event is MouseEvent {
