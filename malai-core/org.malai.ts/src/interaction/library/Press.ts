@@ -17,7 +17,8 @@ import {isMouseDownEvent} from "../Events";
 import {PointInteraction} from "./PointInteraction";
 import {PointData} from "./PointData";
 
-class PressFSM extends TSFSM<PressFSMHandler> {
+export class PressFSM extends TSFSM<PressFSMHandler> {
+    private checkButton: number | undefined;
 
     public constructor() {
         super();
@@ -28,16 +29,26 @@ class PressFSM extends TSFSM<PressFSMHandler> {
             return;
         }
         super.buildFSM(dataHandler);
-        const pressed: TerminalState<Event> = new TerminalState<Event>(this, "pressed");
-        this.addState(pressed);
+        const pressed: TerminalState<Event> = new TerminalState<Event>(this, "pressed"); //1 etat avec juste state
+        this.addState(pressed); //ajout de l'etat dans le fsm
 
-        new class extends PressureTransition {
+        new class extends PressureTransition { //ajout transistion pressure donc fsm = init -> pressureTransition -> terminateState
             public action(event: Event): void {
                 if (event.target !== null && isMouseDownEvent(event) && dataHandler !== undefined) {
                     dataHandler.initToPress(event);
                 }
             }
         }(this.initState, pressed);
+    }
+
+    public setCheckButton(buttonToCheck: number): void {
+        if (this.checkButton === undefined) {
+            this.checkButton = buttonToCheck;
+        }
+    }
+
+    public getCheckButton(): number {
+        return this.checkButton === undefined ? -1 : this.checkButton;
     }
 }
 
@@ -56,7 +67,7 @@ export class Press extends PointInteraction<PointData, PressFSM, Node> {
     private readonly handler : PressFSMHandler;
 
     public constructor(fsm?: PressFSM) {
-        super(fsm === undefined ? new PressFSM() : fsm);
+        super(fsm === undefined ? new PressFSM() : fsm); //on récupère l'fsm du parent, si non existant on en crée un
 
         this.handler = new class implements PressFSMHandler {
             private readonly _parent: Press;
@@ -72,7 +83,7 @@ export class Press extends PointInteraction<PointData, PressFSM, Node> {
             public reinitData(): void {
                 this._parent.reinitData();
             }
-        }(this);
+        }(this); //on créer l'handler locale de l'interaction
         this.getFsm().buildFSM(this.handler);
     }
 
