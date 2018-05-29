@@ -12,8 +12,6 @@
 import {anonCmdBinder, buttonBinder, nodeBinder} from "../../src/binding/Bindings";
 import {Click} from "../../src/interaction/library/Click";
 import {StubCmd} from "../command/StubCmd";
-import {EventRegistrationToken} from "../../src/interaction/Events";
-import {createMouseEvent} from "../interaction/StubEvents";
 
 jest.mock("../command/StubCmd");
 
@@ -41,15 +39,13 @@ test("button binder ok", () => {
 
 test("node binder ok", () => {
     nodeBinder(new Click(), () => new StubCmd()).on(canvas).bind();
-    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
-    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
 test("Anon cmd binder ok", () => {
     const cmd = new StubCmd();
     anonCmdBinder(new Click(), () => cmd.doIt()).on(canvas).bind();
-    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
-    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
