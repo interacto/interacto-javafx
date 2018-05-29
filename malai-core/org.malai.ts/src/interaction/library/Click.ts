@@ -1,6 +1,6 @@
 /*
  * This file is part of Malai.
- * Copyright (c) 2009-2018 Arnaud BLOUIN Gwendal DIDOT
+ * Copyright (c) 2009-2018 Arnaud BLOUIN
  * Malai is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later version.
@@ -12,20 +12,18 @@
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {ClickTransition} from "../ClickTransition";
 import {InputState} from "../../../src-core/fsm/InputState";
 import {OutputState} from "../../../src-core/fsm/OutputState";
 import {PointInteraction} from "./PointInteraction";
 import {PointData} from "./PointData";
-import {CancellingState} from "../../../src-core/fsm/CancellingState";
-import {StdState} from "../../../src-core/fsm/StdState";
-import {MoveTransition} from "../MoveTransition";
-import {ReleaseTransition} from "../ReleaseTransition";
-import {isMouseUpEvent} from "../Events";
-import {PressureTransition} from "../PressureTransition";
 
 export class ClickFSM extends TSFSM<ClickFSMHandler> {
     private checkButton: number | undefined;
 
+    public constructor() {
+        super();
+    }
 
     public buildFSM(dataHandler?: ClickFSMHandler): void {
         if (this.states.length > 1) {
@@ -34,14 +32,9 @@ export class ClickFSM extends TSFSM<ClickFSMHandler> {
 
         super.buildFSM(dataHandler);
         const clicked = new TerminalState<Event>(this, "clicked");
-        const cancelled = new CancellingState<Event>(this, "cancelled");
-        const pressed = new StdState<Event>(this, "pressed");
-
         this.addState(clicked);
-        this.addState(cancelled);
-        this.addState(pressed);
 
-        new class extends PressureTransition {
+        new class extends ClickTransition {
             private readonly _parent: ClickFSM;
 
             public constructor(parent: ClickFSM, srcState: OutputState<Event>, tgtState: InputState<Event>) {
@@ -49,47 +42,21 @@ export class ClickFSM extends TSFSM<ClickFSMHandler> {
                 this._parent = parent;
             }
 
-            public action (event: Event) {
+            public action(event: Event): void {
                 if (event instanceof MouseEvent) {
                     this._parent.setCheckButton(event.button);
+
+                    if (dataHandler !== undefined) {
+                        dataHandler.initToClicked(event);
+                    }
                 }
             }
 
-        }(this, this.initState, pressed);
-
-        new class extends MoveTransition {
-            private readonly _parent: ClickFSM;
-
-            public constructor(parent: ClickFSM, srcState: OutputState<Event>, tgtState: InputState<Event>) {
-                super(srcState, tgtState);
-                this._parent = parent;
-            }
-
             public isGuardOK(event: Event): boolean {
-                return super.isGuardOK(event) && (this._parent.checkButton === undefined || event instanceof MouseEvent &&
-                    event.button === this._parent.checkButton);
+                return super.isGuardOK(event) && this._parent.checkButton === undefined ||
+                    (event instanceof MouseEvent && event.button === this._parent.checkButton);
             }
-        }(this, pressed, cancelled);
-
-        new class extends ReleaseTransition {
-            private readonly _parent: ClickFSM;
-
-            public constructor(parent: ClickFSM, srcState: OutputState<Event>, tgtState: InputState<Event>) {
-                super(srcState, tgtState);
-                this._parent = parent;
-            }
-
-            public isGuardOK(event: Event): boolean {
-                return super.isGuardOK(event) && (this._parent.checkButton === undefined || event instanceof MouseEvent &&
-                    event.button === this._parent.checkButton);
-            }
-
-            protected action(event: Event): void {
-                if (event.target !== null && isMouseUpEvent(event) && dataHandler !== undefined) {
-                    dataHandler.onRelease(event);
-                }
-            }
-        }(this, pressed, clicked);
+        }(this, this.initState, clicked);
     }
 
     public getCheckButton(): number {
@@ -109,7 +76,7 @@ export class ClickFSM extends TSFSM<ClickFSMHandler> {
 }
 
 interface ClickFSMHandler extends FSMDataHandler {
-    onRelease(event: MouseEvent): void;
+    initToClicked(event: MouseEvent): void;
 }
 
 export class Click extends PointInteraction<PointData, ClickFSM, Node> {
@@ -125,7 +92,7 @@ export class Click extends PointInteraction<PointData, ClickFSM, Node> {
                 this._parent = parent;
             }
 
-            public onRelease(event: MouseEvent): void {
+            public initToClicked(event: MouseEvent): void {
                 this._parent.setPointData(event);
             }
 
@@ -133,11 +100,8 @@ export class Click extends PointInteraction<PointData, ClickFSM, Node> {
                 this._parent.reinitData();
             }
         }(this);
-        this.getFsm().buildFSM(this.handler);
-    }
 
-    public reinitData(): void {
-        super.reinitData();
+        this.getFsm().buildFSM(this.handler);
     }
 
     public getData(): PointData {
