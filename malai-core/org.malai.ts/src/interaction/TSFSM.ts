@@ -12,7 +12,7 @@
 import {FSM} from "../../src-core/fsm/FSM";
 import {InitState} from "../../src-core/fsm/InitState";
 import {FSMDataHandler} from "./FSMDataHandler";
-import {isKeyPressEvent} from "./Events";
+import {isKeyDownEvent} from "./Events";
 
 export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
     protected dataHandler: H | undefined;
@@ -33,7 +33,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
 
     public process(event: Event): boolean {
         // Removing the possible corresponding and pending key pressed event
-        if (isKeyPressEvent(event)) {
+        if (isKeyDownEvent(event)) {
             this.removeKeyEvent(event.keyCode);
         }
 
@@ -41,8 +41,8 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
         const processed: boolean = super.process(event);
 
         // Recycling events
-        if (processed && isKeyPressEvent(event) && !(this.currentState instanceof InitState) &&
-            this.eventsToProcess.find(evt => isKeyPressEvent(evt) && evt.keyCode === event.keyCode) === undefined) {
+        if (processed && isKeyDownEvent(event) && !(this.currentState instanceof InitState) &&
+            this.eventsToProcess.find(evt => isKeyDownEvent(evt) && evt.code === event.code) === undefined) {
             // this.addRemaningEventsToProcess((Event) event.clone()); //TODO
         }
 

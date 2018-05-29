@@ -1,6 +1,6 @@
 /*
  * This file is part of Malai.
- * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Copyright (c) 2009-2018 Arnaud BLOUIN Gwendal DIDOT
  * Malai is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later version.
@@ -35,5 +35,23 @@ export function createKeyEvent(type: string, keyCode: string): KeyboardEvent {
         view: window,
         code: keyCode,
         repeat: false
+    });
+}
+
+export function createUIEvent(type: string): UIEvent {
+    return new UIEvent(type, {
+        detail : 0,
+        bubbles: true,
+        cancelable: false,
+        scoped: true,
+        view: window
+    });
+}
+
+export function createEvent(type: string): Event {
+    return new Event(type, {
+        bubbles: true,
+        scoped: true,
+        cancelable: false
     });
 }

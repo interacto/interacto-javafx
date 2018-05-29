@@ -12,6 +12,8 @@
 import {FSMHandler} from "../../src-core/fsm/FSMHandler";
 import {StubFSMHandler} from "../fsm/StubFSMHandler";
 import {Click} from "../../src/interaction/library/Click";
+import {EventRegistrationToken} from "../../src/interaction/Events";
+import {createMouseEvent} from "./StubEvents";
 
 jest.mock("../fsm/StubFSMHandler");
 
@@ -38,4 +40,12 @@ test("Click on a canvas starts and stops the interaction", () => {
     canvas.click();
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
+});
+
+test("Click on a canvas then move cancel the interaction", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    expect(handler.fsmStarts).toHaveBeenCalledTimes(0);
 });
