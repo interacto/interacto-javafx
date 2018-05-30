@@ -18,7 +18,7 @@ import {EventRegistrationToken} from "./Events";
  * This transition corresponds to a pressure of a button of a pointing device.
  * @author Gwedak DIDOT
  */
-export abstract class PressureTransition extends TSTransition {
+export class PressureTransition extends TSTransition {
 
     /**
      * Creates the transition.

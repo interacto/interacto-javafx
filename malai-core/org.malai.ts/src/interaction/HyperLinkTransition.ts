@@ -15,10 +15,10 @@ import {EventRegistrationToken, isHyperLink} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for Hyperlink.
+ * An FSM transition for the Hyperlink.
  * @author Gwendal DIDOT
  */
-export abstract class HyperLinkTransition extends TSTransition {
+export class HyperLinkTransition extends TSTransition {
 
     /**
      * Creates the transition.
