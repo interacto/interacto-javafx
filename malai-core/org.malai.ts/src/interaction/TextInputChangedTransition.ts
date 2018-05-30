@@ -15,9 +15,9 @@ import {EventRegistrationToken, isTextInput} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for text input controls.
+ * An FSM transition for the different text input HTML element.
  */
-export abstract class TextInputChangedTransition extends TSTransition {
+export class TextInputChangedTransition extends TSTransition {
 
     /**
      * Creates the transition.

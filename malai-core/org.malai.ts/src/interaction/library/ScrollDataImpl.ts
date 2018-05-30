@@ -32,16 +32,20 @@ export class ScrollDataImpl implements ScrollData {
     }
 
     public getIncrement(): number {
-        return this.increment === undefined ? 0 : this.increment;   }
+        return this.increment === undefined ? 0 : this.increment;
+    }
 
     public getPx(): number {
-        return this.px === undefined ? 0 : this.px;    }
+        return this.px === undefined ? 0 : this.px;
+    }
 
     public getPy(): number {
-        return this.py === undefined ? 0 : this.py;    }
+        return this.py === undefined ? 0 : this.py;
+    }
 
     public getScrolledNode(): Optional<EventTarget> {
-        return Optional.ofNullable(this.scrolledNode);    }
+        return Optional.ofNullable(this.scrolledNode);
+    }
 
     public setScrollData(event: UIEvent) {
         this.scrolledNode = event.target === null ? undefined : event.target;
