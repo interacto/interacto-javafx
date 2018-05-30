@@ -54,6 +54,9 @@ interface ColorPickedHandler  extends FSMDataHandler {
 export class HyperLinkClicked extends TSInteraction<WidgetData<Element>, HyperLinkClickedFSM, Element> {
     private readonly handler: ColorPickedHandler;
 
+    /**
+     * Creates the interaction.
+     */
     public constructor() {
         super(new HyperLinkClickedFSM());
 

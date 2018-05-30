@@ -14,7 +14,17 @@ import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken} from "./Events";
 
+/**
+ * This transition corresponds to a release of a button of a pointing device.
+ * @author Gwendal DIDOT
+ */
 export class ReleaseTransition extends TSTransition {
+
+    /**
+     * Defines a transition.
+     * @param srcState The source state of the transition.
+     * @param tgtState The srcObject state of the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }

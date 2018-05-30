@@ -14,8 +14,15 @@ import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken, isColorChoice} from "./Events";
 import {TSTransition} from "./TSTransition";
 
+/**
+ * A FSM transition for ColorPicked HTML element.
+ * @author Gwendal DIDOT
+ */
 export abstract class ColorPickedTransition extends TSTransition {
 
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }

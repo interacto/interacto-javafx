@@ -14,7 +14,15 @@ import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken, isButton} from "./Events";
 
+/**
+ * A FSM transition for buttons.
+ * @author Arnaud BLOUIN
+ */
 export abstract class ButtonPressedTransition extends TSTransition {
+
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }

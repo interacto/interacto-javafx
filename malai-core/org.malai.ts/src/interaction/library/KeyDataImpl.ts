@@ -13,8 +13,14 @@ import {Optional} from "../../util/Optional";
 import {KeyData} from "./KeyData";
 
 export class KeyDataImpl implements KeyData {
+    /**
+     * The key involve in the interaction
+     */
     protected key: String | undefined;
 
+    /**
+     * The target of the event that trigger the interaction
+     */
     protected target : EventTarget | undefined;
 
     public constructor() {}
