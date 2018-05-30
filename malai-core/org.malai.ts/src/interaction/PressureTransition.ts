@@ -14,7 +14,15 @@ import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken} from "./Events";
 
+/**
+ * This transition corresponds to a pressure of a button of a pointing device.
+ * @author Gwedak DIDOT
+ */
 export abstract class PressureTransition extends TSTransition {
+
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }

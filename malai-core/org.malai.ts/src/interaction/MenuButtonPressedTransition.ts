@@ -14,7 +14,15 @@ import {OutputState} from "../../src-core/fsm/OutputState";
 import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken, isMenuButton} from "./Events";
 
+/**
+ * A FSM transition for MenuButton HTML element.
+ * @author Gwendal DIDOT
+ */
 export abstract class MenuButtonPressedTransition extends TSTransition {
+
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }

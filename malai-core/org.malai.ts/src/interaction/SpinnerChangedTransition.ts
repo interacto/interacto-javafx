@@ -14,8 +14,15 @@ import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken, isSpinner} from "./Events";
 import {TSTransition} from "./TSTransition";
 
+/**
+ * A FSM transition for Spinner HTML element.
+ * @author Gwendal DIDOT
+ */
 export abstract class SpinnerChangedTransition extends TSTransition {
 
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }

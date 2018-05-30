@@ -54,6 +54,9 @@ interface ColorPickedHandler  extends FSMDataHandler {
 export class ColorPicked extends TSInteraction<WidgetData<Element>, ColorPickedFSM, Element> {
     private readonly handler: ColorPickedHandler;
 
+    /**
+     * Creates the interaction.
+     */
     public constructor() {
         super(new ColorPickedFSM());
 
