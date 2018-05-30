@@ -42,10 +42,9 @@ test("Click on a canvas starts and stops the interaction", () => {
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
 });
 
-test("Click on a canvas then move cancel the interaction", () => {
+test("Press on a canvas then move don't starts the interaction", () => {
     interaction.registerToNodes([canvas]);
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
-    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     expect(handler.fsmStarts).toHaveBeenCalledTimes(0);
 });

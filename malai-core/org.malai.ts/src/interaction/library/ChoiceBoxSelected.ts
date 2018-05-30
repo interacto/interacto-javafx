@@ -54,6 +54,9 @@ interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
 export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, ChoiceBoxSelectedSFM, Element> {
     private readonly handler: ChoiceBoxSelectedHandler;
 
+    /**
+     * Creates the interaction.
+     */
     public constructor() {
         super(new ChoiceBoxSelectedSFM());
 

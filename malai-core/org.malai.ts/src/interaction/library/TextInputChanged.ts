@@ -23,7 +23,7 @@ import {InputState} from "../../../src-core/fsm/InputState";
 
 class TextInputChangedFSM extends TSFSM<TextInputChangedHandler> {
     /** The time gap between the two spinner events. */
-    private static timeGap = 1000;
+    private static readonly timeGap = 1000;
     /** The supplier that provides the time gap. */
     private static readonly SUPPLY_TIME_GAP = () => TextInputChangedFSM.getTimeGap();
 
