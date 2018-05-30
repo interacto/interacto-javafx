@@ -9,7 +9,7 @@
  * General Public License for more details.
  */
 
-// IMPORTANT : this interaction is not support by Web browser because it's not yet implemented,
+// IMPORTANT : this interaction is not fully supported by Web browsers yet.
 // see https://developer.mozilla.org/fr/docs/Web/HTML/Element/menu for more information.
 
 import {FSMDataHandler} from "../FSMDataHandler";
