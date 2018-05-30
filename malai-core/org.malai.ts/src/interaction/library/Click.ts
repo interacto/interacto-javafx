@@ -82,6 +82,9 @@ interface ClickFSMHandler extends FSMDataHandler {
 export class Click extends PointInteraction<PointData, ClickFSM, Node> {
     private readonly handler: ClickFSMHandler;
 
+    /**
+     * Creates the interaction.
+     */
     public constructor(fsm?: ClickFSM) {
         super(fsm === undefined ? new ClickFSM() : fsm);
 

@@ -54,6 +54,9 @@ interface ComboBoxSelectedHandler  extends FSMDataHandler {
 export class ComboBoxSelected extends TSInteraction<WidgetData<Element>, ComboBoxSelectedFSM, Element> {
     private readonly handler: ComboBoxSelectedHandler;
 
+    /**
+     * Creates the interaction.
+     */
     public constructor() {
         super(new ComboBoxSelectedFSM());
 

@@ -14,8 +14,14 @@ import {InputState} from "../../src-core/fsm/InputState";
 import {EventRegistrationToken, isTextInput} from "./Events";
 import {TSTransition} from "./TSTransition";
 
+/**
+ * A FSM transition for text input controls.
+ */
 export abstract class TextInputChangedTransition extends TSTransition {
 
+    /**
+     * Creates the transition.
+     */
     public constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {
         super(srcState, tgtState);
     }

@@ -54,6 +54,9 @@ interface DatePickedHandler  extends FSMDataHandler {
 export class DatePicked extends TSInteraction<WidgetData<Element>, DatePickedFSM, Element> {
     private readonly handler: DatePickedHandler;
 
+    /**
+     * Creates the interaction.
+     */
     public constructor() {
         super(new DatePickedFSM());
 

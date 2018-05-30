@@ -36,14 +36,14 @@ beforeEach(() => {
     }
 });
 
-test("Appuyer sur A dans la textarea debute et fini l'interaction", () => {
+test("Type 'a' in the textarea starts and stops the interaction.", () => {
     interaction.registerToNodes([text]);
     text.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, "a"));
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
 });
 
-test("La touche utiliser est bien la touche enregister", () => {
+test("The key typed in the textarea is the same key in the data of the interaction.", () => {
     interaction.registerToNodes([text]);
     interaction.getFsm().addHandler(new class extends StubFSMHandler {
         public constructor() {

@@ -54,6 +54,9 @@ interface SpinnerChangedHandler  extends FSMDataHandler {
 export class SpinnerChanged extends TSInteraction<WidgetData<Element>, SpinnerChangedFSM, Element> {
     private readonly handler: SpinnerChangedHandler;
 
+    /**
+     * Creates the interaction.
+     */
     public constructor() {
         super(new SpinnerChangedFSM());
 
