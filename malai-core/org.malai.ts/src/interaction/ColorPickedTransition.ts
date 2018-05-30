@@ -15,10 +15,10 @@ import {EventRegistrationToken, isColorChoice} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for ColorPicked HTML element.
+ * An FSM transition for the ColorPicked HTML element.
  * @author Gwendal DIDOT
  */
-export abstract class ColorPickedTransition extends TSTransition {
+export class ColorPickedTransition extends TSTransition {
 
     /**
      * Creates the transition.

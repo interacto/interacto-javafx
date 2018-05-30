@@ -50,7 +50,6 @@ interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
  * A user interaction for CheckBox
  * @author Gwendal DIDOT
  */
-
 export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, ChoiceBoxSelectedSFM, Element> {
     private readonly handler: ChoiceBoxSelectedHandler;
 
@@ -76,7 +75,6 @@ export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, Choice
             public reinitData(): void {
                 this._parent.reinitData();
             }
-
         }(this);
 
         this.fsm.buildFSM(this.handler);

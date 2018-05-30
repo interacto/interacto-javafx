@@ -15,10 +15,10 @@ import {EventRegistrationToken, isChoiceBox} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for ChoiceBox HTML element.
+ * An FSM transition for the ChoiceBox HTML element.
  * @author Gwendal DIDOT
  */
-export abstract class ChoiceBoxTransition extends TSTransition {
+export class ChoiceBoxTransition extends TSTransition {
 
     /**
      * Creates the transition.
