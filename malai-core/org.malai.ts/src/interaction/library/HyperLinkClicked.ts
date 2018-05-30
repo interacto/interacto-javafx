@@ -42,7 +42,7 @@ class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
 }
 
 
-interface ColorPickedHandler  extends FSMDataHandler {
+interface ColorPickedHandler extends FSMDataHandler {
     initToClickedHandler(event: Event): void;
 }
 

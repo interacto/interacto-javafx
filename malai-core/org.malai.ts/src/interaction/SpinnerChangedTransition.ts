@@ -15,10 +15,10 @@ import {EventRegistrationToken, isSpinner} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for Spinner HTML element.
+ * An FSM transition for the Spinner HTML element.
  * @author Gwendal DIDOT
  */
-export abstract class SpinnerChangedTransition extends TSTransition {
+export class SpinnerChangedTransition extends TSTransition {
 
     /**
      * Creates the transition.

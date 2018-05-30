@@ -15,10 +15,10 @@ import {EventRegistrationToken, isCheckBox} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for CheckBox HTML element.
+ * An FSM transition for the CheckBox HTML element.
  * @author Gwendal DIDOT
  */
-export abstract class BoxCheckPressedTransition extends TSTransition {
+export class BoxCheckPressedTransition extends TSTransition {
 
     /**
      * Creates the transition.

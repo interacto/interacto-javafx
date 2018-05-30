@@ -11,7 +11,6 @@
 
 // IMPORTANT : this interaction is not support by Web browser because it's not yet implemented,
 // see https://developer.mozilla.org/fr/docs/Web/HTML/Element/menu for more information.
-// I implement it to follow the features that offer the javaFX version of Malai.
 
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSFSM} from "../TSFSM";

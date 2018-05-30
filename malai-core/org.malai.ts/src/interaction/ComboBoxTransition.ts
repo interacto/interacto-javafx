@@ -15,10 +15,10 @@ import {EventRegistrationToken, isComboBox} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for ComboBox HTML element.
+ * An FSM transition for the ComboBox HTML element.
  * @author Gwendal DIDOT
  */
-export abstract class ComboBoxTransition extends TSTransition {
+export class ComboBoxTransition extends TSTransition {
 
     /**
      * Creates the transition.

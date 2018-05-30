@@ -50,7 +50,6 @@ interface SpinnerChangedHandler  extends FSMDataHandler {
  * A user interaction for Number input.
  * @author Gwendal DIDOT
  */
-
 export class SpinnerChanged extends TSInteraction<WidgetData<Element>, SpinnerChangedFSM, Element> {
     private readonly handler: SpinnerChangedHandler;
 

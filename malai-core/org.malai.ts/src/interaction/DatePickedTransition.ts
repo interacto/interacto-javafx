@@ -15,10 +15,10 @@ import {EventRegistrationToken, isDatePicker} from "./Events";
 import {TSTransition} from "./TSTransition";
 
 /**
- * A FSM transition for DatePicker HTML element.
+ * An FSM transition for the DatePicker HTML element.
  * @author Gwendal DIDOT
  */
-export abstract class DatePickedTransition extends TSTransition {
+export class DatePickedTransition extends TSTransition {
 
     /**
      * Creates the transition.
