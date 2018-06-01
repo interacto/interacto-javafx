@@ -35,7 +35,7 @@ beforeEach(() => {
 
 test("Click on url starts and stops the interaction", () => {
     interaction.registerToNodes([url]);
-    url.click();
+    url.dispatchEvent(new Event("input"));
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
 });

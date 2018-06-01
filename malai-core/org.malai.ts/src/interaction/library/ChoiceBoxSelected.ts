@@ -82,13 +82,13 @@ export class ChoiceBoxSelected extends TSInteraction<WidgetData<Element>, Choice
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isChoiceBox(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerInput(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isChoiceBox(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerInput(node);
         }
     }
 

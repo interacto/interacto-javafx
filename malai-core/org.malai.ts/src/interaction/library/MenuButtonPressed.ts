@@ -84,13 +84,12 @@ export class MenuButtonPressed extends TSInteraction<WidgetData<Element>, MenuBu
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isMenuButton(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerClick(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
-        if (isMenuButton(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerClick(node);
         }
     }
 
