@@ -35,7 +35,7 @@ beforeEach(() => {
 
 test("Click on choiceBox starts and stops the interaction", () => {
     interaction.registerToNodes([choiceBox]);
-    choiceBox.click();
+    choiceBox.dispatchEvent(new Event("input"));
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
 });

@@ -84,13 +84,13 @@ export class BoxChecked extends TSInteraction<WidgetData<Element>, BoxCheckedFSM
 
         public onNewNodeRegistered(node: EventTarget): void {
             if (isCheckBox(node)) {
-                this.registerActionHandler(node);
+                this.registerActionHandlerInput(node);
             }
         }
 
         public onNodeUnregistered(node: EventTarget): void {
             if (isCheckBox(node)) {
-                this.unregisterActionHandler(node);
+                this.unregisterActionHandlerInput(node);
             }
         }
 
