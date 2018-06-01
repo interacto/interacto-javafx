@@ -69,7 +69,7 @@ interface KeyPressedFSMHandler  extends FSMDataHandler {
 }
 
 /**
- * A user interaction for pressing multiple key on a keyboard (shortcut)
+ * A user interaction for pressing a key on a keyboard
  * @author Gwendal DIDOT
  */
 

@@ -18,7 +18,8 @@ export enum EventRegistrationToken {
     Click = "click",
     Input = "input",
     Scroll = "scroll",
-    Change = "change"
+    Change = "change",
+    BeforeUnload = "beforeunload"
 }
 
 export function isButton(target: EventTarget): target is Element {
@@ -56,6 +57,10 @@ export function isChoiceBox(target: EventTarget): target is Element {
 export function isTextInput(target: EventTarget): target is Element {
     return (<Element>target).tagName === "TEXTAREA" || ((<Element>target).tagName === "INPUT"
         && (<Element>target).getAttribute("type") === "text");
+}
+
+export function isWindowClosed(event: Event): boolean {
+    return event.target === window && event.type === "beforeunload";
 }
 
 export function isKeyDownEvent(event: Event): event is KeyboardEvent {
