@@ -81,13 +81,13 @@ export class ButtonPressed extends TSInteraction<WidgetData<Element>, ButtonPres
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isButton(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerClick(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isButton(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerClick(node);
         }
     }
 

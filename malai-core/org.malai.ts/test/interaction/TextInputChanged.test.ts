@@ -36,7 +36,7 @@ beforeEach(() => {
 
 test("Type in a text area starts and stops the interaction", () => {
     interaction.registerToNodes([textArea]);
-    textArea.click(); //Click on the widget produce a Event of type "input", because InputEvent interface is not implemented in Typescript
+    textArea.dispatchEvent(new Event("input"));
     jest.runOnlyPendingTimers();
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);

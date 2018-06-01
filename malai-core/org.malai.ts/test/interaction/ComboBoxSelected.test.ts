@@ -36,7 +36,7 @@ beforeEach(() => {
 
 test("Click on combobox starts and stops the interaction", () => {
     interaction.registerToNodes([comboBox]);
-    comboBox.click();
+    comboBox.dispatchEvent(new Event("input"));
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
 });

@@ -109,22 +109,26 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             node.addEventListener(EventRegistrationToken.KeyUp, this.getKeyHandler());
             return;
         }
-        if (EventRegistrationToken.Input === eventType) {
-            node.addEventListener(EventRegistrationToken.Input, this.getMouseHandler());
-            return;
-        }
         if (EventRegistrationToken.Scroll === eventType) {
             node.addEventListener(EventRegistrationToken.Scroll, this.getUIHandler());
             return;
         }
     }
 
-    protected registerActionHandler(node: EventTarget): void {
+    protected registerActionHandlerClick(node: EventTarget): void {
         node.addEventListener(EventRegistrationToken.Click, this.getActionHandler());
     }
 
-    protected unregisterActionHandler(node: EventTarget): void {
+    protected unregisterActionHandlerClick(node: EventTarget): void {
         node.removeEventListener(EventRegistrationToken.Click, this.getActionHandler());
+    }
+
+    protected registerActionHandlerInput(node: EventTarget): void {
+        node.addEventListener(EventRegistrationToken.Input, this.getActionHandler());
+    }
+
+    protected unregisterActionHandlerInput(node: EventTarget): void {
+        node.removeEventListener(EventRegistrationToken.Input, this.getActionHandler());
     }
 
     protected getActionHandler(): EventListener {

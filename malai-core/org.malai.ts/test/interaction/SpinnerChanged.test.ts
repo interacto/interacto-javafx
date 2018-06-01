@@ -35,7 +35,7 @@ beforeEach(() => {
 
 test("Click on spinner starts and stops the interaction", () => {
     interaction.registerToNodes([spinner]);
-    spinner.click();
+    spinner.dispatchEvent(new Event("input"));
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
 });
