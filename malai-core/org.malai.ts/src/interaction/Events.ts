@@ -18,6 +18,7 @@ export enum EventRegistrationToken {
     Click = "click",
     Input = "input",
     Scroll = "scroll",
+    Change = "change"
 }
 
 export function isButton(target: EventTarget): target is Element {
