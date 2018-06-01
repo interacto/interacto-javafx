@@ -84,13 +84,13 @@ export class ColorPicked extends TSInteraction<WidgetData<Element>, ColorPickedF
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isColorChoice(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerInput(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isColorChoice(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerInput(node);
         }
     }
 

@@ -84,13 +84,13 @@ export class ComboBoxSelected extends TSInteraction<WidgetData<Element>, ComboBo
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isComboBox(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerInput(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isComboBox(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerInput(node);
         }
     }
 

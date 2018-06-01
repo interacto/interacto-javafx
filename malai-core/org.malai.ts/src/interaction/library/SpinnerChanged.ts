@@ -83,13 +83,13 @@ export class SpinnerChanged extends TSInteraction<WidgetData<Element>, SpinnerCh
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isSpinner(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerInput(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isSpinner(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerInput(node);
         }
     }
 

@@ -35,7 +35,7 @@ beforeEach(() => {
 
 test("Click on colorbox starts and stops the interaction", () => {
     interaction.registerToNodes([colorBox]);
-    colorBox.click();
+    colorBox.dispatchEvent(new Event("input"));
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
 });

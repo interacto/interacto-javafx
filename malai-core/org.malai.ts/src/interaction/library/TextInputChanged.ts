@@ -119,13 +119,13 @@ export class TextInputChanged extends TSInteraction<WidgetData<Element>, TextInp
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isTextInput(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerInput(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isTextInput(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerInput(node);
         }
     }
 

@@ -84,13 +84,13 @@ export class HyperLinkClicked extends TSInteraction<WidgetData<Element>, HyperLi
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isHyperLink(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerInput(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isHyperLink(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerInput(node);
         }
     }
 

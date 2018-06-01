@@ -84,13 +84,13 @@ export class DatePicked extends TSInteraction<WidgetData<Element>, DatePickedFSM
 
     public onNewNodeRegistered(node: EventTarget): void {
         if (isDatePicker(node)) {
-            this.registerActionHandler(node);
+            this.registerActionHandlerInput(node);
         }
     }
 
     public onNodeUnregistered(node: EventTarget): void {
         if (isDatePicker(node)) {
-            this.unregisterActionHandler(node);
+            this.unregisterActionHandlerInput(node);
         }
     }
 
