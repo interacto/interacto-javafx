@@ -113,6 +113,9 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             node.addEventListener(EventRegistrationToken.Scroll, this.getUIHandler());
             return;
         }
+        if (EventRegistrationToken.BeforeUnload === eventType) {
+            node.addEventListener(EventRegistrationToken.BeforeUnload, this.getActionHandler());
+        }
     }
 
     protected registerActionHandlerClick(node: EventTarget): void {
@@ -170,6 +173,9 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
         if (EventRegistrationToken.Scroll === eventType) {
             node.removeEventListener(EventRegistrationToken.Scroll, this.getUIHandler());
             return;
+        }
+        if (EventRegistrationToken.BeforeUnload === eventType) {
+            node.removeEventListener(EventRegistrationToken.BeforeUnload, this.getActionHandler());
         }
     }
 
