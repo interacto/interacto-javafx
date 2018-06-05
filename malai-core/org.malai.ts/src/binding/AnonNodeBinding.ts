@@ -36,7 +36,7 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
      * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
      * instrument is (de-)activated.
      * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
-     * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
+     * @param cmdProducer The type of the command that will be created. Used to instantiate the command by reflexivity.
      * The class must be public and must have a constructor with no parameter.
      * @param interaction The user interaction of the binding.
      * @param widgets The widgets used by the binding. Cannot be null.
@@ -44,13 +44,13 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
      * @param updateCmdFct The function that updates the command. Can be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    public constructor(exec: boolean, interaction: I, cmdClass: () => C, initCmdFct: (i: D, c: C | undefined) => void,
+    public constructor(exec: boolean, interaction: I, cmdProducer: (d: D) => C, initCmdFct: (i: D, c: C | undefined) => void,
                        updateCmdFct: (i: D, c: C | undefined) => void, check: (i: D) => boolean,
                        onEndFct: (i: D, c: C | undefined) => void, cancel: (i: D, c: C | undefined) => void,
                        endOrCancel: (i: D, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
-        super(exec, interaction, cmdClass, widgets);
+        super(exec, interaction, cmdProducer, widgets);
         this.execInitCmd = initCmdFct;
         this.execUpdateCmd = updateCmdFct;
         this.cancelFct = cancel;
