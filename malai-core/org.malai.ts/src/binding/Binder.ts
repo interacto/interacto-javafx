@@ -31,7 +31,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     protected initCmd: (i: D, c: C | undefined) => void;
     protected checkConditions: (i: D) => boolean;
     protected readonly widgets: MArray<EventTarget>;
-    protected readonly cmdClass: () => C;
+    protected cmdProducer: (d: D) => C;
     protected readonly interaction: I;
     protected _async: boolean;
     protected onEnd: (i: D, c: C | undefined) => void;
@@ -39,7 +39,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     protected readonly logLevels: Set<LogLevel>;
 
     protected constructor(interaction: I, cmdProducer: () => C) {
-        this.cmdClass = cmdProducer;
+        this.cmdProducer = cmdProducer;
         this.interaction = interaction;
         this.widgets = new MArray();
         this._async = false;
@@ -48,6 +48,20 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
         this.onEnd = () => {};
         this.logLevels = new Set<LogLevel>();
     }
+
+    /**
+     * Specifies how the command is created from the user interaction.
+     * Called a single time per interaction executed (just before 'first' that can still be called to, somehow, configure the command).
+     * Each time the interaction starts, an instance of the command is created and configured by the given callback.
+     * @param cmdFunction The function that creates and initialises the command.
+     * This callback takes as arguments the current user interaction.
+     * @return The builder to chain the building configuration.
+     */
+    public map(cmdFunction: (d: D) => C) : B {
+        this.cmdProducer = cmdFunction;
+        return this as {} as B;
+    }
+
 
     /**
      * Specifies the widgets on which the binding must operate.
@@ -139,7 +153,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
      * @throws InstantiationException On issues while creating the commands.
      */
     public bind(): TSWidgetBinding<C, I, D> {
-        return new AnonNodeBinding<C, I, D>(false, this.interaction, this.cmdClass, this.initCmd, () => {},
+        return new AnonNodeBinding<C, I, D>(false, this.interaction, this.cmdProducer, this.initCmd, (d: D) => {},
             this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
             this.widgets, this._async, false, new Array(...this.logLevels));
     }

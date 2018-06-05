@@ -25,7 +25,7 @@ export class AnonCmdBinder<I extends TSInteraction<D, FSM<Event>, {}>, D extends
     }
 
     public bind(): TSWidgetBinding<AnonCmd, I, D> {
-        return new AnonNodeBinding(false, this.interaction, this.cmdClass, () => {},
+        return new AnonNodeBinding(false, this.interaction, this.cmdProducer, () => {},
             () => {}, this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
             this.widgets, this._async, false, new Array(...this.logLevels));
     }
