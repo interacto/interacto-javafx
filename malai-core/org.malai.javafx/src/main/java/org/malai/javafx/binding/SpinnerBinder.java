@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.control.Spinner;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -22,7 +24,11 @@ import org.malai.javafx.interaction.library.WidgetData;
  * @author Arnaud Blouin
  */
 public class SpinnerBinder<C extends CommandImpl> extends UpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>, SpinnerBinder<C>> {
-	public SpinnerBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new SpinnerChanged(), cmdClass, instrument);
+	public SpinnerBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		this(i -> cmdClass.get(), instrument);
+	}
+
+	public SpinnerBinder(final Function<WidgetData<Spinner<?>>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new SpinnerChanged(), cmdCreation, instrument);
 	}
 }

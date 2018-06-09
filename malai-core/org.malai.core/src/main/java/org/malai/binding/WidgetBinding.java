@@ -43,7 +43,7 @@ public interface WidgetBinding extends FSMHandler {
 	/**
 	 * @return The interaction.
 	 */
-	InteractionImpl<?, ?> getInteraction();
+	InteractionImpl<?, ?, ?> getInteraction();
 
 	/**
 	 * @return The command in progress or null.

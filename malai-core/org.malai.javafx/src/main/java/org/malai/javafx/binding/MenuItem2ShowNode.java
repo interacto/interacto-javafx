@@ -35,7 +35,7 @@ public class MenuItem2ShowNode extends JfxMenuItemBinding<ShowNode, MenuItemPres
 	 * @since 2.0
 	 */
 	public MenuItem2ShowNode(final JfxInstrument ins, final MenuItem menuItem, final Node node, final boolean toshow) {
-		super(ins, false, new MenuItemPressed(), ShowNode.class, Collections.singletonList(menuItem));
+		super(ins, false, new MenuItemPressed(), i -> new ShowNode(), Collections.singletonList(menuItem));
 
 		if(node == null) {
 			throw new IllegalArgumentException();

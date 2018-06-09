@@ -12,11 +12,12 @@ package org.malai.javafx.binding;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import javafx.scene.Node;
 import org.malai.command.CommandImpl;
+import org.malai.interaction.InteractionData;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
@@ -34,8 +35,8 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	protected boolean strictStart;
 	protected long throttleTimeout;
 
-	public UpdateBinder(final I interaction, final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(interaction, cmdClass, instrument);
+	public UpdateBinder(final I interaction, final Function<D, C> cmdCreation, final JfxInstrument instrument) {
+		super(interaction, cmdCreation, instrument);
 		updateFct = null;
 		execOnChanges = false;
 		throttleTimeout = 0L;
@@ -131,7 +132,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	@Override
 	public JfXWidgetBinding<C, I, ?, D> bind() {
 		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>
-			(instrument, execOnChanges, interaction, cmdClass, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
+			(instrument, execOnChanges, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
 				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
 				strictStart, throttleTimeout, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);

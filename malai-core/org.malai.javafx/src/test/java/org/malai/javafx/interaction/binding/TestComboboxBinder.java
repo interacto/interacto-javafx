@@ -21,7 +21,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testCommandExecutedOnSingleButton() {
-		new ComboBoxBinder<>(StubCmd.class, instrument).
+		new ComboBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -31,7 +31,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testCommandExecutedOnTwoComboboxes() {
-		new ComboBoxBinder<>(StubCmd.class, instrument).
+		new ComboBoxBinder<>(StubCmd::new, instrument).
 			on(widget1, widget2).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -43,7 +43,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testInit1Executed() {
-		new ComboBoxBinder<>(StubCmd.class, instrument).
+		new ComboBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -54,7 +54,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testInit2Executed() {
-		new ComboBoxBinder<>(StubCmd.class, instrument).
+		new ComboBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first((i, c) -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -65,7 +65,7 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testCheckFalse() {
-		new ComboBoxBinder<>(StubCmd.class, instrument).
+		new ComboBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();

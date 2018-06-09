@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.List;
+import java.util.function.Function;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import org.malai.command.CommandImpl;
@@ -29,25 +30,23 @@ public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrum
 	/**
 	 * Creates a spinner binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Class<C> cmdClass, final List<Node> widgets) {
-		this(ins, exec, cmdClass, widgets, false, null);
+	public SpinnerBinding(final I ins, final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets) {
+		this(ins, exec, cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a spinner binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Class<C> cmdClass, final List<Node> widgets, final boolean help,
+	public SpinnerBinding(final I ins, final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets, final boolean help,
 						  final HelpAnimation animation) {
-		super(ins, exec, new SpinnerChanged(), cmdClass, widgets, help, animation);
+		super(ins, exec, new SpinnerChanged(), cmdCreation, widgets, help, animation);
 	}
 }

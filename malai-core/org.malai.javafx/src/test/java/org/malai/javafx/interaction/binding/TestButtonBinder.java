@@ -19,7 +19,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testCommandExecutedOnSingleButton() {
-		new ButtonBinder<>(StubCmd.class, instrument).
+		new ButtonBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -29,7 +29,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testIsOnUIThread() {
-		new ButtonBinder<>(StubCmd.class, instrument).
+		new ButtonBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			end((i, c) -> assertTrue(Platform.isFxApplicationThread())).
 			bind();
@@ -38,7 +38,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testCommandExecutedOnTwoButtons() {
-		new ButtonBinder<>(StubCmd.class, instrument).
+		new ButtonBinder<>(StubCmd::new, instrument).
 			on(widget1, widget2).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -50,7 +50,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testInit1Executed() {
-		new ButtonBinder<>(StubCmd.class, instrument).
+		new ButtonBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -61,7 +61,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testInit2Executed() {
-		new ButtonBinder<>(StubCmd.class, instrument).
+		new ButtonBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first((i, c) -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -72,7 +72,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 	@Test
 	public void testCheckFalse() {
-		new ButtonBinder<>(StubCmd.class, instrument).
+		new ButtonBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();

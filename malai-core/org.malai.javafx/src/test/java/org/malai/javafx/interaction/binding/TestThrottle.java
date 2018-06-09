@@ -30,7 +30,7 @@ public class TestThrottle extends TestNodeBinder<Canvas> {
 	@BeforeEach
 	void setUp() {
 		counter = new AtomicInteger();
-		binding = new NodeBinder<>(new DnD(), StubCmd.class, instrument).
+		binding = new NodeBinder<>(new DnD(), StubCmd::new, instrument).
 			throttle(500L).
 			on(widget1).
 			then((i, c) -> counter.incrementAndGet()).

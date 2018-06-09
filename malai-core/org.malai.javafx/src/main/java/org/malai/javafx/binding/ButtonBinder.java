@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.control.Button;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -22,7 +24,11 @@ import org.malai.javafx.interaction.library.WidgetData;
  * @author Arnaud Blouin
  */
 public class ButtonBinder<C extends CommandImpl> extends Binder<Button, C, ButtonPressed, WidgetData<Button>, ButtonBinder<C>> {
-	public ButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new ButtonPressed(), cmdClass, instrument);
+	public ButtonBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		this(i -> cmdClass.get(), instrument);
+	}
+
+	public ButtonBinder(final Function<WidgetData<Button>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new ButtonPressed(), cmdCreation, instrument);
 	}
 }

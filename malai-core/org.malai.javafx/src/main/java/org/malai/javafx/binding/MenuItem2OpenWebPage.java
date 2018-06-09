@@ -35,7 +35,7 @@ public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, Men
 	 * @since 2.0
 	 */
 	public MenuItem2OpenWebPage(final JfxInstrument ins, final MenuItem menuItem, final String uri, final HostServices services) {
-		super(ins, false, new MenuItemPressed(), OpenWebPageJFX.class, Collections.singletonList(menuItem));
+		super(ins, false, new MenuItemPressed(), i -> new OpenWebPageJFX(), Collections.singletonList(menuItem));
 
 		if(uri == null) {
 			throw new IllegalArgumentException();

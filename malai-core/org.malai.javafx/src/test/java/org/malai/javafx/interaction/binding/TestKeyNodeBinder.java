@@ -30,7 +30,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testNoCommandExecutedOnNoKey() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).bind();
 		type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
@@ -39,7 +39,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testCommandExecutedOnKey() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).with(KeyCode.C).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).with(KeyCode.C).bind();
 		type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
@@ -48,7 +48,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testCommandExecutedOnTwoKeys() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
 		press(KeyCode.CONTROL).type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
@@ -57,7 +57,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testCommandExecutedOnThreeKeys() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
 		press(KeyCode.CONTROL).type(KeyCode.C).type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(2, instrument.exec.get());
@@ -65,7 +65,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testNoCommandExecutedOnTwoKeysReleased() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).with(KeyCode.C, KeyCode.CONTROL).bind();
 		type(KeyCode.CONTROL).type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, instrument.exec.get());
@@ -73,7 +73,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testNoCommandExecutedOnBadKey() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).with(KeyCode.C).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).with(KeyCode.C).bind();
 		type(KeyCode.A);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, instrument.exec.get());
@@ -82,7 +82,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testCommandExecutedOnTwoCanvas() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1, widget2).with(KeyCode.C).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1, widget2).with(KeyCode.C).bind();
 		grabFocus(widget2);
 		type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
@@ -99,7 +99,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testInit1Executed() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).first(a -> a.exec.setValue(10)).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).first(a -> a.exec.setValue(10)).bind();
 		type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
@@ -108,7 +108,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testInit2Executed() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).first((i, c) -> c.exec.setValue(20)).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).first((i, c) -> c.exec.setValue(20)).bind();
 		type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());
@@ -117,7 +117,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 
 	@Test
 	public void testCheckFalse() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).when(i -> false).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).when(i -> false).bind();
 		type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, instrument.exec.get());
@@ -126,8 +126,8 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 	@Test
 	@DisplayName("Registering same pane two times does not produce events twice")
 	public void testDoubleRegistration() {
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).with(KeyCode.A, KeyCode.CONTROL).bind();
-		new KeyNodeBinder<>(StubCmd.class, instrument).on(widget1).with(KeyCode.U, KeyCode.CONTROL).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).with(KeyCode.A, KeyCode.CONTROL).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).on(widget1).with(KeyCode.U, KeyCode.CONTROL).bind();
 		press(KeyCode.CONTROL, KeyCode.A).release(KeyCode.A).sleep(10L);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, instrument.exec.get());

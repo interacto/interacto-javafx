@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.List;
+import java.util.function.Function;
 import javafx.scene.control.MenuItem;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -34,7 +35,7 @@ public abstract class JfxMenuItemBinding<C extends CommandImpl, I extends MenuIt
 	 * @param menuItems The menu items concerned by the binding. Can be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemBinding(final N ins, final boolean exec, final I interaction, final Class<C> cmdClass, final List<MenuItem> menuItems) {
+	public JfxMenuItemBinding(final N ins, final boolean exec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdClass, final List<MenuItem> menuItems) {
 		super(ins, exec, interaction, cmdClass, false, null);
 
 		if(menuItems != null) {

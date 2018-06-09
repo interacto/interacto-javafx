@@ -29,8 +29,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import org.malai.command.CommandImpl;
+import org.malai.interaction.InteractionData;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.logging.LogLevel;
@@ -45,9 +45,8 @@ import org.malai.logging.LogLevel;
 public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
 	protected BiConsumer<D, C> initCmd;
 	protected Predicate<D> checkConditions;
-	protected Function<D, C> cmdProducer;
+	protected final Function<D, C> cmdProducer;
 	protected final List<W> widgets;
-	protected final Class<C> cmdClass;
 	protected final I interaction;
 	protected final JfxInstrument instrument;
 	protected boolean async;
@@ -60,9 +59,9 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	protected StringProperty msgProp;
 	protected Button cancel;
 
-	public Binder(final I interaction, final Class<C> cmdClass, final JfxInstrument ins) {
+	public Binder(final I interaction, final Function<D, C> cmdCreation, final JfxInstrument ins) {
 		super();
-		this.cmdClass = Objects.requireNonNull(cmdClass);
+		cmdProducer = Objects.requireNonNull(cmdCreation);
 		this.interaction = Objects.requireNonNull(interaction);
 		widgets = new ArrayList<>();
 		instrument = Objects.requireNonNull(ins);
@@ -70,7 +69,6 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 		checkConditions = null;
 		initCmd = null;
 		onEnd = null;
-		cmdProducer = null;
 		additionalWidgets = null;
 		helpAnimation = null;
 		withHelp = false;
@@ -103,19 +101,6 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 		return (B) this;
 	}
 
-
-	/**
-	 * Specifies how the command is created from the user interaction.
-	 * Called a single time per interaction executed (just before 'first' that can still be called to, somehow, configure the command).
-	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
-	 * @param cmdFunction The function that creates and initialises the command.
-	 * This callback takes as arguments the current user interaction.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B map(final Function<D, C> cmdFunction) {
-		cmdProducer = cmdFunction;
-		return (B) this;
-	}
 
 	/**
 	 * Specifies the initialisation of the command when the interaction starts.
@@ -229,7 +214,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * @throws IllegalArgumentException On issues while creating the commands.
 	 */
 	public JfXWidgetBinding<C, I, ?, D> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, cmdClass, initCmd,
+		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, initCmd,
 			null, checkConditions, onEnd, cmdProducer, null, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, 0L, logLevels,
 			withHelp, helpAnimation);

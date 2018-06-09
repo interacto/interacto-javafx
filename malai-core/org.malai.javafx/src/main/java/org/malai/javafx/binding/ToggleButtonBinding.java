@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.List;
+import java.util.function.Function;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
 import org.malai.command.CommandImpl;
@@ -29,25 +30,23 @@ public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxIn
 	/**
 	 * Creates a toggle button binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces commands.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ToggleButtonBinding(final I ins, final Class<C> cmdClass, final List<Node> widgets,
+	public ToggleButtonBinding(final I ins, final Function<WidgetData<ToggleButton>, C> cmdCreation, final List<Node> widgets,
 							   final boolean help, final HelpAnimation animation) {
-		super(ins, false, new ToggleButtonPressed(), cmdClass, widgets, help, animation);
+		super(ins, false, new ToggleButtonPressed(), cmdCreation, widgets, help, animation);
 	}
 
 	/**
 	 * Creates a toggle button binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces commands.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ToggleButtonBinding(final I ins, final Class<C> cmdClass, final List<Node> widgets) {
-		this(ins, cmdClass, widgets, false, null);
+	public ToggleButtonBinding(final I ins, final Function<WidgetData<ToggleButton>, C> cmdCreation, final List<Node> widgets) {
+		this(ins, cmdCreation, widgets, false, null);
 	}
 }

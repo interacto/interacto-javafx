@@ -61,8 +61,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// A DnD interaction with the left button of the mouse will produce an AddShape command while interacting on the canvas.
 		// A temporary view of the created shape is created and displayed by the canvas.
 		// This view is removed at the end of the interaction.
-		nodeBinder(new DnD(), AddShape.class).on(canvas).
-			map(i -> new AddShape(drawing, new MyRect(i.getSrcLocalPoint().getX(), i.getSrcLocalPoint().getY()))).
+		nodeBinder(new DnD(), i -> new AddShape(drawing, new MyRect(i.getSrcLocalPoint().getX(), i.getSrcLocalPoint().getY()))).on(canvas).
 			first((i, c) -> canvas.setTmpShape(ViewFactory.INSTANCE.createViewShape(c.getShape()))).
 			then((i, c) -> {
 				final MyRect sh = (MyRect) c.getShape();
@@ -83,20 +82,20 @@ public class Pencil extends JfxInstrument implements Initializable {
 		// To incrementally moves the shape, the DnD interaction has its parameter 'updateSrcOnUpdate' set to true:
 		// At each interaction updates, the source point and object take the latest target point and object.
 		// The DnD interaction can be stopped (aborted) by pressing the key 'ESC'. This cancels the ongoing command (that thus needs to be undoable).
-		nodeBinder(new DnD(true, true), MoveShape.class).
-			// The binding dynamically registers elements of the given observable list.
-			// When nodes are added to this list, these nodes register the binding.
-			// When nodes are removed from this list, their binding is cancelled.
-			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
-			on(canvas.getShapesPane().getChildren()).
+		nodeBinder(new DnD(true, true),
 			// The command is created using two double bindings that are automatically updated on changes.
 			// In the command these binding are @autoUnbind to be unbound on their command termination.
-			map(i -> {
+			i -> {
 				final MyShape sh = i.getSrcObject().map(o -> (MyShape) o.getUserData()).get();
 				return new MoveShape(sh,
 					Bindings.createDoubleBinding(() -> sh.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()), i.tgtScenePointProperty(), i.srcScenePointProperty()),
 					Bindings.createDoubleBinding(() -> sh.getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()), i.tgtScenePointProperty(), i.srcScenePointProperty()));
 			}).
+			// The binding dynamically registers elements of the given observable list.
+			// When nodes are added to this list, these nodes register the binding.
+			// When nodes are removed from this list, their binding is cancelled.
+			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
+			on(canvas.getShapesPane().getChildren()).
 			when(i -> i.getButton() == MouseButton.SECONDARY).
 			// exec(true): this allows to execute the action each time the interaction updates (and 'when' is true).
 			exec().
@@ -114,13 +113,12 @@ public class Pencil extends JfxInstrument implements Initializable {
 			bind();
 
 
-//		nodeBinder(new DnD(true, true), MoveShape.class).
+//		nodeBinder(new DnD(true, true), i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
 //			// The binding dynamically registers elements of the given observable list.
 //			// When nodes are added to this list, these nodes register the binding.
 //			// When nodes are removed from this list, their binding is cancelled.
 //			// This permits to interact on nodes (here, shapes) that are dynamically added to/removed from the canvas.
 //			on(canvas.getShapesPane().getChildren()).
-//			map(i -> new MoveShape(i.getSrcObject().map(o ->(MyShape) o.getUserData()).orElse(null))).
 //			then((i, c) -> c.setCoord(c.getShape().getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
 //									c.getShape().getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
 //			when(i -> i.getButton() == MouseButton.SECONDARY).
@@ -141,8 +139,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 		 * Note that the feedback callback is not optimised here as the colour does not change during the DnD. The cursor
 		 * should be changed in 'first'
 		 */
-		nodeBinder(new DnD(), ChangeColour.class).on(lineCol).
-			map(i -> new ChangeColour(lineCol.getValue(), null)).
+		nodeBinder(new DnD(), i -> new ChangeColour(lineCol.getValue(), null)).on(lineCol).
 			then((i, c) -> i.getTgtObject().map(view -> (MyShape) view.getUserData()).ifPresent(sh -> c.setShape(sh))).
 			when(i -> i.getTgtObject().orElse(null) instanceof Shape).
 			feedback(() -> lineCol.getScene().setCursor(new ColorCursor(lineCol.getValue()))).
@@ -159,7 +156,7 @@ public class Pencil extends JfxInstrument implements Initializable {
 		 * Widgets and properties are provided to the binding to:
 		 * show/hide the cancel button, provide widgets with information regarding the progress of the command execution.
 		 */
-		buttonBinder(Save.class).on(save).
+		buttonBinder(Save::new).on(save).
 			async(cancel, progressbar.progressProperty(), textProgress.textProperty()).
 			bind();
 	}

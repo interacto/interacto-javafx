@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.control.ToggleButton;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -22,7 +24,11 @@ import org.malai.javafx.interaction.library.WidgetData;
  * @author Arnaud Blouin
  */
 public class ToggleButtonBinder<C extends CommandImpl> extends Binder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>, ToggleButtonBinder<C>> {
-	public ToggleButtonBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new ToggleButtonPressed(), cmdClass, instrument);
+	public ToggleButtonBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		this(i -> cmdClass.get(), instrument);
+	}
+
+	public ToggleButtonBinder(final Function<WidgetData<ToggleButton>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new ToggleButtonPressed(), cmdCreation, instrument);
 	}
 }

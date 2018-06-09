@@ -12,6 +12,8 @@ package org.malai.javafx.binding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.collections.ObservableList;
 import javafx.scene.control.MenuItem;
 import org.malai.command.CommandImpl;
@@ -27,8 +29,12 @@ import org.malai.javafx.interaction.library.WidgetData;
 public class MenuItemBinder<C extends CommandImpl> extends Binder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>, MenuItemBinder<C>> {
 	protected List<ObservableList<? extends MenuItem>> additionalMenus;
 
-	public MenuItemBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new MenuItemPressed(), cmdClass, instrument);
+	public MenuItemBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		this(i -> cmdClass.get(), instrument);
+	}
+
+	public MenuItemBinder(final Function<WidgetData<MenuItem>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new MenuItemPressed(), cmdCreation, instrument);
 	}
 
 	/**
@@ -48,8 +54,8 @@ public class MenuItemBinder<C extends CommandImpl> extends Binder<MenuItem, C, M
 
 	@Override
 	public JfXWidgetBinding<C, MenuItemPressed, ?, WidgetData<MenuItem>> bind() {
-		final JFxAnonMenuBinding<C, MenuItemPressed, JfxInstrument> binding = new JFxAnonMenuBinding<>(instrument, false, interaction, cmdClass,
-			initCmd, checkConditions, onEnd, cmdProducer, widgets, additionalMenus);
+		final JFxAnonMenuBinding<C, MenuItemPressed, JfxInstrument> binding = new JFxAnonMenuBinding<>(instrument, false, interaction, cmdProducer,
+			initCmd, checkConditions, onEnd, widgets, additionalMenus);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

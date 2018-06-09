@@ -22,7 +22,7 @@ import javafx.collections.SetChangeListener;
 import javafx.event.Event;
 import javafx.scene.control.MenuItem;
 import org.malai.fsm.FSM;
-import org.malai.javafx.interaction.InteractionData;
+import org.malai.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**

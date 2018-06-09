@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.List;
+import java.util.function.Function;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import org.malai.command.CommandImpl;
@@ -29,25 +30,23 @@ public abstract class ComboBoxBinding<C extends CommandImpl, I extends JfxInstru
 	/**
 	 * Creates a combo-box binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ComboBoxBinding(I ins, Class<C> cmdClass, List<Node> widgets) {
-		this(ins, cmdClass, widgets, false, null);
+	public ComboBoxBinding(final I ins, final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final List<Node> widgets) {
+		this(ins, cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a combo-box binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ComboBoxBinding(I ins, Class<C> cmdClass, List<Node> widgets,
+	public ComboBoxBinding(final I ins, final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final List<Node> widgets,
 						   final boolean help, final HelpAnimation animation) {
-		super(ins, false, new ComboBoxSelected(), cmdClass, widgets, help, animation);
+		super(ins, false, new ComboBoxSelected(), cmdCreation, widgets, help, animation);
 	}
 }

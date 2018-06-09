@@ -11,6 +11,7 @@ import org.malai.command.AutoUnbind;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.FSM;
 import org.malai.instrument.Instrument;
+import org.malai.interaction.InteractionData;
 import org.malai.interaction.InteractionImpl;
 import org.mockito.Mockito;
 
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class TestAutoUnbind {
 	DoubleProperty val;
 	Instrument<?> ins;
-	InteractionImpl<Object, FSM<Object>> inter;
+	InteractionImpl<InteractionData, Object, FSM<Object>> inter;
 	FSM<Object> fsm;
 
 	@BeforeEach
@@ -36,13 +37,10 @@ public class TestAutoUnbind {
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
 		final A aCmd = new A(val.multiply(10d), val.add(11d));
-		WidgetBindingImpl<A, InteractionImpl<?,?>, Instrument<?>> binding = new WidgetBindingImpl<A, InteractionImpl<?,?>, Instrument<?>>(ins, false, A.class, inter) {
+		WidgetBindingImpl<A, InteractionImpl<InteractionData,?,?>, Instrument<?>,InteractionData> binding =
+			new WidgetBindingImpl<A, InteractionImpl<InteractionData,?,?>, Instrument<?>,InteractionData>(ins, false, i -> aCmd, inter) {
 			@Override
 			public void first() {
-			}
-			@Override
-			protected A map() {
-				return aCmd;
 			}
 			@Override
 			public boolean when() {
@@ -66,19 +64,15 @@ public class TestAutoUnbind {
 	public void testUnbindSuperClassFields() throws CancelFSMException {
 		final B bCmd = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
-		WidgetBindingImpl<B, InteractionImpl<?,?>, Instrument<?>> binding = new WidgetBindingImpl<B, InteractionImpl<?,?>, Instrument<?>>(ins, false, B.class, inter) {
+		final WidgetBindingImpl<B, InteractionImpl<InteractionData, ?,?>, Instrument<?>, InteractionData> binding =
+			new WidgetBindingImpl<B, InteractionImpl<InteractionData,?,?>, Instrument<?>, InteractionData>(ins, false, i -> bCmd, inter) {
 			@Override
 			public void first() {
-			}
-			@Override
-			protected B map() {
-				return bCmd;
 			}
 			@Override
 			public boolean when() {
 				return true;
 			}
-
 			@Override
 			protected void executeCmdAsync(final Command cmd) {
 
