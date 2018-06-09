@@ -11,6 +11,7 @@
 package org.malai.javafx.binding;
 
 import java.util.List;
+import java.util.function.Function;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import org.malai.command.CommandImpl;
@@ -29,25 +30,23 @@ public abstract class ButtonBinding<C extends CommandImpl, I extends JfxInstrume
 	/**
 	 * Creates a button binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces commands.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ButtonBinding(final I ins, final Class<C> clazzCmd, final List<Node> widgets) {
-		this(ins, clazzCmd, widgets, false, null);
+	public ButtonBinding(final I ins, final Function<WidgetData<Button>, C> cmdCreation, final List<Node> widgets) {
+		this(ins, cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a button binding.
 	 * @param ins The instrument that contains the binding.
-	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function that produces commands.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ButtonBinding(final I ins, final Class<C> clazzCmd, final List<Node> widgets,
+	public ButtonBinding(final I ins, final Function<WidgetData<Button>, C> cmdCreation, final List<Node> widgets,
 						 final boolean help, final HelpAnimation animation) {
-		super(ins, false, new ButtonPressed(), clazzCmd, widgets, help, animation);
+		super(ins, false, new ButtonPressed(), cmdCreation, widgets, help, animation);
 	}
 }

@@ -20,7 +20,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> {
 
 	@Test
 	public void testEndsOnUIThread() {
-		new SpinnerBinder<>(StubCmd.class, instrument).
+		new SpinnerBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			end((i, c) -> assertTrue(Platform.isFxApplicationThread())).
 			bind();
@@ -32,7 +32,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> {
 
 	@Test
 	public void testupdatesOnUIThread() {
-		new SpinnerBinder<>(StubCmd.class, instrument).
+		new SpinnerBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			then((i, c) -> assertTrue(Platform.isFxApplicationThread())).
 			bind();

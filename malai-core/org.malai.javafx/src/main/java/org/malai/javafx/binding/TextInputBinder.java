@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.control.TextInputControl;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -23,7 +25,11 @@ import org.malai.javafx.interaction.library.WidgetData;
  */
 public class TextInputBinder<C extends CommandImpl, W extends TextInputControl> extends UpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>,
 			TextInputBinder<C, W>> {
-	public TextInputBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new TextInputChanged(), cmdClass, instrument);
+	public TextInputBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		this(i -> cmdClass.get(), instrument);
+	}
+
+	public TextInputBinder(final Function<WidgetData<TextInputControl>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new TextInputChanged(), cmdCreation, instrument);
 	}
 }

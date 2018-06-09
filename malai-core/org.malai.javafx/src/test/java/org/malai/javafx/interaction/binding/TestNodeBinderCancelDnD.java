@@ -21,7 +21,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	Rectangle rec;
 
 	@Override
-	public void start(Stage stage) {
+	public void start(final Stage stage) {
 		widget1 = new Pane();
 		widget2 = new Pane();
 		widget1.setPrefWidth(400d);
@@ -35,8 +35,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnD() {
-		new NodeBinder<>(new DnD(true, true), MoveShape.class, instrument).
-			map(i -> new MoveShape(rec)).
+		new NodeBinder<>(new DnD(true, true), i -> new MoveShape(rec), instrument).
 			on(rec).
 			first((i, c) -> rec.requestFocus()).
 			then((i, c) -> c.setCoord(rec.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
@@ -50,8 +49,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnDWithObsList() {
-		new NodeBinder<>(new DnD(true, true), MoveShape.class, instrument).
-			map(i -> new MoveShape((Rectangle) i.getSrcObject().get())).
+		new NodeBinder<>(new DnD(true, true), i -> new MoveShape((Rectangle) i.getSrcObject().get()), instrument).
 			on(widget1.getChildren()).
 			first((i, c) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
 			then((i, c) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
@@ -60,7 +58,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			exec().
 			bind();
 
-		Rectangle rec2 = new Rectangle(200d, 200d, 70d, 50d);
+		final Rectangle rec2 = new Rectangle(200d, 200d, 70d, 50d);
 		Platform.runLater(() -> widget1.getChildren().addAll(rec2));
 		WaitForAsyncUtils.waitForFxEvents();
 		drag(rec2).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);

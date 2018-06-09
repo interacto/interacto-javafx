@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.control.CheckBox;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -22,7 +24,11 @@ import org.malai.javafx.interaction.library.WidgetData;
  * @author Arnaud Blouin
  */
 public class CheckBoxBinder<C extends CommandImpl> extends Binder<CheckBox, C, BoxChecked, WidgetData<CheckBox>, CheckBoxBinder<C>> {
-	public CheckBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new BoxChecked(), cmdClass, instrument);
+	public CheckBoxBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		super(new BoxChecked(), i -> cmdClass.get(), instrument);
+	}
+
+	public CheckBoxBinder(final Function<WidgetData<CheckBox>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new BoxChecked(), cmdCreation, instrument);
 	}
 }

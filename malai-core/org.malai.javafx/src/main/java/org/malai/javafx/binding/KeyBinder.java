@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.scene.input.KeyCode;
 import org.malai.command.CommandImpl;
@@ -31,8 +32,8 @@ public abstract class KeyBinder<W, C extends CommandImpl, B extends KeyBinder<W,
 	final Collection<KeyCode> codes;
 	final Predicate<KeysData> checkCode;
 
-	public KeyBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new KeysPressed(), cmdClass, instrument);
+	public KeyBinder(final Function<KeysData, C> cmdCreation, final JfxInstrument instrument) {
+		super(new KeysPressed(), cmdCreation, instrument);
 		codes = new ArrayList<>();
 
 		checkCode = interaction -> {

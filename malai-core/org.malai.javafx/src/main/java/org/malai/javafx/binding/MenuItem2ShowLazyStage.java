@@ -36,7 +36,7 @@ public class MenuItem2ShowLazyStage extends JfxMenuItemBinding<ShowStage, MenuIt
 	 * @since 2.0
 	 */
 	public MenuItem2ShowLazyStage(final JfxInstrument ins, final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow) {
-		super(ins, false, new MenuItemPressed(), ShowStage.class, Collections.singletonList(menuItem));
+		super(ins, false, new MenuItemPressed(), i -> new ShowStage(), Collections.singletonList(menuItem));
 
 		if(stageLazy == null) {
 			throw new IllegalArgumentException();

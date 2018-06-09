@@ -20,7 +20,7 @@ import org.malai.fsm.FSM;
 import org.malai.fsm.InitState;
 import org.malai.fsm.OutputState;
 
-public abstract class InteractionImpl<E, F extends FSM<E>> {
+public abstract class InteractionImpl<D extends InteractionData, E, F extends FSM<E>> {
 	protected final F fsm;
 	/** Defines whether the interaction is activated. If not, the interaction will not change on events. */
 	protected boolean activated;
@@ -48,6 +48,8 @@ public abstract class InteractionImpl<E, F extends FSM<E>> {
 		throttleCounter = new AtomicLong();
 		currentThrottledEvent = null;
 	}
+
+	public abstract D getData();
 
 	public void setThrottleTimeout(final long timeout) {
 		throttleTimeout = timeout;

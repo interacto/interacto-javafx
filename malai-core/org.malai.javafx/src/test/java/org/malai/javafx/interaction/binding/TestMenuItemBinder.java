@@ -40,7 +40,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 	@Test
 	public void testCommandExecutedOnSingleButton() {
-		new MenuItemBinder<>(StubCmd.class, instrument).
+		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -50,7 +50,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 	@Test
 	public void testCommandExecutedOnTwoMenus() {
-		new MenuItemBinder<>(StubCmd.class, instrument).
+		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1, widget2).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -62,7 +62,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 	@Test
 	public void testInit1Executed() {
-		new MenuItemBinder<>(StubCmd.class, instrument).
+		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -73,7 +73,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 	@Test
 	public void testInit2Executed() {
-		new MenuItemBinder<>(StubCmd.class, instrument).
+		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first((i, c) -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -84,7 +84,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 	@Test
 	public void testCheckFalse() {
-		new MenuItemBinder<>(StubCmd.class, instrument).
+		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();

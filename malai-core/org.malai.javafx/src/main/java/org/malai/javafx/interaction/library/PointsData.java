@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import javafx.geometry.Point3D;
 import javafx.scene.input.MouseButton;
-import org.malai.javafx.interaction.InteractionData;
+import org.malai.interaction.InteractionData;
 
 public interface PointsData extends InteractionData {
 	List<PointData> getPointsData();

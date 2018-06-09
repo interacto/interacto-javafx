@@ -39,7 +39,7 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 	@Override
 	protected void configureBindings() {
 		// Undo and Redo are commands provided by Malai.
-		buttonBinder(Undo.class).on(undoB).bind();
-		buttonBinder(Redo.class).on(redoB).bind();
+		buttonBinder(Undo::new).on(undoB).bind();
+		buttonBinder(Redo::new).on(redoB).bind();
 	}
 }

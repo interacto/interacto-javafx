@@ -32,10 +32,8 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 	private final BiConsumer<WidgetData<MenuItem>, C> execInitCmd;
 	private final Predicate<WidgetData<MenuItem>> checkInteraction;
 	private final BiConsumer<WidgetData<MenuItem>, C> onEnd;
-	private final Function<WidgetData<MenuItem>, C> cmdProducer;
 	/** Used rather than 'command' to catch the command during its creation.
-	 * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it.
-	 */
+	 * Sometimes (eg onInteractionStops) can create the command, execute it, and forget it. */
 	protected C currentCmd;
 
 	/**
@@ -43,23 +41,20 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the binding.
 	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
-	 * @param clazzCmd The type of the command that will be created. Used to instantiate the command by reflexivity.
-	 * The class must be public and must have a constructor with no parameter.
+	 * @param cmdCreation The function for producing commands.
 	 * @param interaction The user interaction to use.
-	 * The class must be public and must have a constructor with no parameter.
 	 * @param menus The menus used by the binding. Cannot be null.
 	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonMenuBinding(final N ins, final boolean exec, final I interaction, final Class<C> clazzCmd,
+	public JFxAnonMenuBinding(final N ins, final boolean exec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdCreation,
 							  final BiConsumer<WidgetData<MenuItem>, C> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
-							  final BiConsumer<WidgetData<MenuItem>, C> onEndFct, final Function<WidgetData<MenuItem>, C> cmdFct,
-							  final List<MenuItem> menus, List<ObservableList<? extends MenuItem>> additionalMenus) {
-		super(ins, exec, interaction, clazzCmd, menus);
+							  final BiConsumer<WidgetData<MenuItem>, C> onEndFct,
+							  final List<MenuItem> menus, final List<ObservableList<? extends MenuItem>> additionalMenus) {
+		super(ins, exec, interaction, cmdCreation, menus);
 		execInitCmd = initCmdFct == null ? (c, i) -> {} : initCmdFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
-		cmdProducer = cmdFct;
 		currentCmd = null;
 
 		if(additionalMenus != null) {
@@ -105,6 +100,6 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 
 	@Override
 	public String toString() {
-		return "JFxAnonMenuBinding in " + instrument + '{' + interaction + " -> " + clazzCmd + '}';
+		return "JFxAnonMenuBinding in " + instrument + '{' + interaction + " -> " + cmdProducer + '}';
 	}
 }

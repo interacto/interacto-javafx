@@ -12,7 +12,7 @@ package org.malai.javafx.interaction.library;
 
 import java.util.List;
 import javafx.scene.input.KeyCode;
-import org.malai.javafx.interaction.InteractionData;
+import org.malai.interaction.InteractionData;
 
 public interface KeysData extends InteractionData {
 	/**

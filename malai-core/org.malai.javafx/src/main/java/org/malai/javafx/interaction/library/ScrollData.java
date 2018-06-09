@@ -10,7 +10,8 @@
  */
 package org.malai.javafx.interaction.library;
 
-import org.malai.javafx.interaction.InteractionData;
+
+import org.malai.interaction.InteractionData;
 
 public interface ScrollData extends InteractionData {
 	/**

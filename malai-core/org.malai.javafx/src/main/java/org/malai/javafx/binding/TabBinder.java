@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.control.TabPane;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -22,7 +24,11 @@ import org.malai.javafx.interaction.library.WidgetData;
  * @author Arnaud Blouin
  */
 public class TabBinder<C extends CommandImpl> extends Binder<TabPane, C, TabSelected, WidgetData<TabPane>, TabBinder<C>> {
-	public TabBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new TabSelected(), cmdClass, instrument);
+	public TabBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		this(i -> cmdClass.get(), instrument);
+	}
+
+	public TabBinder(final Function<WidgetData<TabPane>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new TabSelected(), cmdCreation, instrument);
 	}
 }

@@ -17,7 +17,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 
 	@Test
 	public void testCommandExecutedOnSingleButton() {
-		new CheckBoxBinder<>(StubCmd.class, instrument).
+		new CheckBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -27,7 +27,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 
 	@Test
 	public void testCommandExecutedOnTwoCheckboxes() {
-		new CheckBoxBinder<>(StubCmd.class, instrument).
+		new CheckBoxBinder<>(StubCmd::new, instrument).
 			on(widget1, widget2).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
@@ -39,7 +39,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 
 	@Test
 	public void testInit1Executed() {
-		new CheckBoxBinder<>(StubCmd.class, instrument).
+		new CheckBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -50,7 +50,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 
 	@Test
 	public void testInit2Executed() {
-		new CheckBoxBinder<>(StubCmd.class, instrument).
+		new CheckBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first((i, c) -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
@@ -61,7 +61,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 
 	@Test
 	public void testCheckFalse() {
-		new CheckBoxBinder<>(StubCmd.class, instrument).
+		new CheckBoxBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();

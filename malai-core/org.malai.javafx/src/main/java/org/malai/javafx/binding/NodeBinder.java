@@ -10,10 +10,12 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.Node;
 import org.malai.command.CommandImpl;
+import org.malai.interaction.InteractionData;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.malai.javafx.interaction.InteractionData;
 import org.malai.javafx.interaction.JfxInteraction;
 
 /**
@@ -23,7 +25,11 @@ import org.malai.javafx.interaction.JfxInteraction;
  * @author Arnaud Blouin
  */
 public class NodeBinder<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends UpdateBinder<Node, C, I, D, NodeBinder<C, I, D>> {
-	public NodeBinder(final I interaction, final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(interaction, cmdClass, instrument);
+	public NodeBinder(final I interaction, final Supplier<C> cmdCreation, final JfxInstrument instrument) {
+		this(interaction, i -> cmdCreation.get(), instrument);
+	}
+
+	public NodeBinder(final I interaction, final Function<D, C> cmdCreation, final JfxInstrument instrument) {
+		super(interaction, cmdCreation, instrument);
 	}
 }

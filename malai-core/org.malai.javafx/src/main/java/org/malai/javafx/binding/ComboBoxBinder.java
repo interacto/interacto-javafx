@@ -10,6 +10,8 @@
  */
 package org.malai.javafx.binding;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
 import javafx.scene.control.ComboBox;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.instrument.JfxInstrument;
@@ -22,7 +24,11 @@ import org.malai.javafx.interaction.library.WidgetData;
  * @author Arnaud Blouin
  */
 public class ComboBoxBinder<C extends CommandImpl> extends Binder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>, ComboBoxBinder<C>> {
-	public ComboBoxBinder(final Class<C> cmdClass, final JfxInstrument instrument) {
-		super(new ComboBoxSelected(), cmdClass, instrument);
+	public ComboBoxBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
+		super(new ComboBoxSelected(), i -> cmdClass.get(), instrument);
+	}
+
+	public ComboBoxBinder(final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final JfxInstrument instrument) {
+		super(new ComboBoxSelected(), cmdCreation, instrument);
 	}
 }

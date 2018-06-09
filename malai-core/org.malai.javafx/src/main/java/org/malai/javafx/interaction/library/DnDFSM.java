@@ -32,9 +32,9 @@ public class DnDFSM extends JfxFSM<DnDFSM.DnDFSMHandler> {
 
 		super.buildFSM(dataHandler);
 
-		StdState<Event> pressed = new StdState<>(this, "pressed");
-		StdState<Event> dragged = new StdState<>(this, "dragged");
-		TerminalState<Event> released = new TerminalState<>(this, "released");
+		final StdState<Event> pressed = new StdState<>(this, "pressed");
+		final StdState<Event> dragged = new StdState<>(this, "dragged");
+		final TerminalState<Event> released = new TerminalState<>(this, "released");
 		final CancellingState<Event> cancelled = new CancellingState<>(this, "cancelled");
 
 		addState(pressed);

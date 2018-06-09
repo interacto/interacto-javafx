@@ -46,7 +46,7 @@ public class TestKeyLost extends ApplicationTest {
 		WaitForAsyncUtils.waitForFxEvents();
 		Platform.runLater(() -> canvas.requestFocus());
 		WaitForAsyncUtils.waitForFxEvents();
-		new KeyNodeBinder<>(StubCmd.class, instrument).with(KeyCode.CONTROL, KeyCode.C).on(canvas).bind();
+		new KeyNodeBinder<>(StubCmd::new, instrument).with(KeyCode.CONTROL, KeyCode.C).on(canvas).bind();
 	}
 
 	@Disabled

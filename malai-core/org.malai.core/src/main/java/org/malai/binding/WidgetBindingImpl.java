@@ -11,16 +11,17 @@
 package org.malai.binding;
 
 import java.util.Arrays;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.Property;
+import org.malai.command.AutoUnbind;
 import org.malai.command.Command;
 import org.malai.command.CommandImpl;
 import org.malai.command.CommandsRegistry;
-import org.malai.command.AutoUnbind;
-import org.malai.error.ErrorCatcher;
 import org.malai.fsm.CancelFSMException;
 import org.malai.instrument.Instrument;
+import org.malai.interaction.InteractionData;
 import org.malai.interaction.InteractionImpl;
 import org.malai.undo.Undoable;
 
@@ -31,7 +32,7 @@ import org.malai.undo.Undoable;
  * @param <N> The type of the instrument that will contain this widget binding.
  * @author Arnaud BLOUIN
  */
-public abstract class WidgetBindingImpl<A extends CommandImpl, I extends InteractionImpl<?, ?>, N extends Instrument<?>> implements WidgetBinding {
+public abstract class WidgetBindingImpl<A extends CommandImpl, I extends InteractionImpl<D, ?, ?>, N extends Instrument<?>, D extends InteractionData> implements WidgetBinding {
 	protected Logger loggerBinding;
 
 	protected Logger loggerCmd;
@@ -51,8 +52,8 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 	/** Defines whether the command must be executed in a specific thread. */
 	protected boolean async;
 
-	/** The command class to instantiate. */
-	protected final Class<A> clazzCmd;
+	/** A function that produces commands. */
+	protected final Function<D, A> cmdProducer;
 
 
 	/**
@@ -60,19 +61,19 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 	 * instrument is (de-)activated.
 	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
-	 * @param cmdClass The type of the command that will be created. Used to instantiate the cmd by reflexivity.
+	 * @param cmdCreation The type of the command that will be created. Used to instantiate the cmd by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public WidgetBindingImpl(final N ins, final boolean exec, final Class<A> cmdClass, final I interaction) {
+	public WidgetBindingImpl(final N ins, final boolean exec, final Function<D, A> cmdCreation, final I interaction) {
 		super();
 
-		if(ins == null || cmdClass == null || interaction == null) {
+		if(ins == null || cmdCreation == null || interaction == null) {
 			throw new IllegalArgumentException();
 		}
 
-		clazzCmd = cmdClass;
+		cmdProducer = cmdCreation;
 		this.interaction = interaction;
 		cmd = null;
 		instrument = ins;
@@ -133,12 +134,7 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 	 * @return The created command or null if problems occured.
 	 */
 	protected A map() {
-		try {
-			return clazzCmd.newInstance();
-		}catch(final IllegalAccessException | InstantiationException ex) {
-			ErrorCatcher.INSTANCE.reportError(ex);
-			return null;
-		}
+		return cmdProducer.apply(interaction.getData());
 	}
 
 
