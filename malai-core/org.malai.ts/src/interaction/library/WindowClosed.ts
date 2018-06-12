@@ -57,7 +57,7 @@ export interface WindowClosedFSMHandler extends FSMDataHandler {
 }
 
 /**
- * A user interaction for pressing down the mouse button.
+ * A user interaction for closing the main window
  * @author Gwendal DIDOT
  */
 export class WindowClosed extends TSInteraction<InteractionData, WindowClosedFSM, Node> {
