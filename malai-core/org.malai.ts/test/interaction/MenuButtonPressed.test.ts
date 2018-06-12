@@ -12,7 +12,7 @@
 //This file test the implementation of the MenuButtonPressed interaction, as this interaction is not yet support by Web browser,
 //this interaction and file test are here to follow the feature of the javaFX version of Malai.
 
-import {FSMHandler} from "../../src-core/fsm/FSMHandler";
+import {FSMHandler} from "../../src/src-core/fsm/FSMHandler";
 import {StubFSMHandler} from "../fsm/StubFSMHandler";
 import {MenuButtonPressed} from "../../src/interaction/library/MenuButtonPressed";
 

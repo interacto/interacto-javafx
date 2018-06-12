@@ -10,10 +10,10 @@
  */
 
 import {StubEvent} from "./StubEvent";
-import {FSM} from "../../src-core/fsm/FSM";
-import {InitState} from "../../src-core/fsm/InitState";
+import {FSM} from "../../src/src-core/fsm/FSM";
+import {InitState} from "../../src/src-core/fsm/InitState";
 import "jest";
-import {StdState} from "../../src-core/fsm/StdState";
+import {StdState} from "../../src/src-core/fsm/StdState";
 
 let fsm : FSM<StubEvent>;
 

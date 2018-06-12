@@ -10,14 +10,14 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isColorChoice} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {ColorPickedTransition} from "../ColorPickedTransition";
 
-class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
+export class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
     public constructor() {
         super();
     }
@@ -42,7 +42,7 @@ class ColorPickedFSM extends TSFSM<ColorPickedHandler> {
 }
 
 
-interface ColorPickedHandler  extends FSMDataHandler {
+export interface ColorPickedHandler  extends FSMDataHandler {
     initToPickedHandler(event: Event): void;
 }
 

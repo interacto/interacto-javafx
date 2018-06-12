@@ -9,8 +9,8 @@
  * General Public License for more details.
  */
 
-import {FSM} from "../../src-core/fsm/FSM";
-import {InitState} from "../../src-core/fsm/InitState";
+import {FSM} from "../src-core/fsm/FSM";
+import {InitState} from "../src-core/fsm/InitState";
 import {FSMDataHandler} from "./FSMDataHandler";
 import {isKeyDownEvent} from "./Events";
 

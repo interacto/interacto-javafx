@@ -11,7 +11,7 @@
 
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {PressureTransition} from "../PressureTransition";
 import {isMouseDownEvent} from "../Events";
 import {PointInteraction} from "./PointInteraction";
@@ -52,7 +52,7 @@ export class PressFSM extends TSFSM<PressFSMHandler> {
     }
 }
 
-interface PressFSMHandler extends FSMDataHandler {
+export interface PressFSMHandler extends FSMDataHandler {
     initToPress(event: Event): void;
 }
 

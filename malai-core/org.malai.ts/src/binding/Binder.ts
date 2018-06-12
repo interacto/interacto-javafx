@@ -11,12 +11,12 @@
 
 import {TSInteraction} from "../interaction/TSInteraction";
 import {MArray} from "../util/ArrayUtil";
-import {LogLevel} from "../../src-core/logging/LogLevel";
+import {LogLevel} from "../src-core/logging/LogLevel";
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {AnonNodeBinding} from "./AnonNodeBinding";
-import {FSM} from "../../src-core/fsm/FSM";
-import {CommandImpl} from "../../src-core/command/CommandImpl";
-import {InteractionData} from "../../src-core/interaction/InteractionData";
+import {FSM} from "../src-core/fsm/FSM";
+import {CommandImpl} from "../src-core/command/CommandImpl";
+import {InteractionData} from "../src-core/interaction/InteractionData";
 
 /**
  * The base class that defines the concept of binding builder (called binder).

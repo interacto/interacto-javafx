@@ -1,0 +1,32 @@
+import { UndoHandler } from "./UndoHandler";
+import { Undoable } from "./Undoable";
+import { Optional } from "../../util/Optional";
+export declare class UndoCollector {
+    static readonly INSTANCE: UndoCollector;
+    static readonly EMPTY_REDO: string;
+    static readonly EMPTY_UNDO: string;
+    private static readonly STUB_UNDO_HANDLER;
+    private readonly undoHandlers;
+    private readonly redoHandlers;
+    private readonly undos;
+    private readonly redos;
+    private sizeMax;
+    private readonly handlers;
+    constructor();
+    addHandler(handler: UndoHandler): void;
+    removeHandler(handler: UndoHandler): void;
+    getHandlers(): Array<UndoHandler>;
+    clearHandlers(): void;
+    clear(): void;
+    add(undoable: Undoable, undoHandler?: UndoHandler): void;
+    undo(): void;
+    redo(): void;
+    getLastUndoMessage(): Optional<string>;
+    getLastRedoMessage(): Optional<string>;
+    getLastUndo(): Optional<Undoable>;
+    getLastRedo(): Optional<Undoable>;
+    getSizeMax(): number;
+    setSizeMax(max: number): void;
+    getUndo(): Array<Undoable>;
+    getRedo(): Array<Undoable>;
+}

@@ -9,7 +9,7 @@
  * General Public License for more details.
  */
 
-import {FSMHandler} from "../../src-core/fsm/FSMHandler";
+import {FSMHandler} from "../../src/src-core/fsm/FSMHandler";
 
 export class StubFSMHandler implements FSMHandler {
     public fsmStarts(): void {

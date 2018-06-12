@@ -10,8 +10,8 @@
  */
 
 import {TSTransition} from "./TSTransition";
-import {InputState} from "../../src-core/fsm/InputState";
-import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../src-core/fsm/InputState";
+import {OutputState} from "../src-core/fsm/OutputState";
 import {EventRegistrationToken} from "./Events";
 
 /**

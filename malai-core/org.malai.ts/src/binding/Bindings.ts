@@ -11,11 +11,11 @@
 
 import {ButtonBinder} from "./ButtonBinder";
 import {TSInteraction} from "../interaction/TSInteraction";
-import {FSM} from "../../src-core/fsm/FSM";
+import {FSM} from "../src-core/fsm/FSM";
 import {NodeBinder} from "./NodeBinder";
-import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {CommandImpl} from "../src-core/command/CommandImpl";
 import {AnonCmdBinder} from "./AnonCmdBinder";
-import {InteractionData} from "../../src-core/interaction/InteractionData";
+import {InteractionData} from "../src-core/interaction/InteractionData";
 
 /**
  * Creates binding builder to build a binding between a given interaction and the given command type.

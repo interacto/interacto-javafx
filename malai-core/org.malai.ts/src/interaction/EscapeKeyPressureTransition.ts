@@ -9,8 +9,8 @@
  * General Public License for more details.
  */
 
-import {InputState} from "../../src-core/fsm/InputState";
-import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../src-core/fsm/InputState";
+import {OutputState} from "../src-core/fsm/OutputState";
 import {KeyCode} from "./Events";
 import {KeyPressureTransition} from "./KeyPressureTransition";
 

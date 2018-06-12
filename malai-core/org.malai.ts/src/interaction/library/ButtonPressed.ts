@@ -12,13 +12,13 @@
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSFSM} from "../TSFSM";
 import {ButtonPressedTransition} from "../ButtonPressedTransition";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isButton} from "../Events";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 
 
-class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
+export class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
     public constructor() {
         super();
     }
@@ -41,7 +41,7 @@ class ButtonPressedFSM extends TSFSM<ButtonPressedFSMHandler> {
     }
 }
 
-interface ButtonPressedFSMHandler extends FSMDataHandler {
+export interface ButtonPressedFSMHandler extends FSMDataHandler {
     initToPressedHandler(event: Event): void;
 }
 

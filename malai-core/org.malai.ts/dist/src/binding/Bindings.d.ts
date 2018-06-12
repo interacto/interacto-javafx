@@ -1,0 +1,10 @@
+import { ButtonBinder } from "./ButtonBinder";
+import { TSInteraction } from "../interaction/TSInteraction";
+import { FSM } from "../src-core/fsm/FSM";
+import { NodeBinder } from "./NodeBinder";
+import { CommandImpl } from "../src-core/command/CommandImpl";
+import { AnonCmdBinder } from "./AnonCmdBinder";
+import { InteractionData } from "../src-core/interaction/InteractionData";
+export declare function nodeBinder<D extends InteractionData, C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>>(interaction: I, cmdProducer: () => C): NodeBinder<C, I, D>;
+export declare function buttonBinder<C extends CommandImpl>(cmdProducer: () => C): ButtonBinder<C>;
+export declare function anonCmdBinder<D extends InteractionData, I extends TSInteraction<D, FSM<Event>, {}>>(interaction: I, cmd: () => void): AnonCmdBinder<I, D>;

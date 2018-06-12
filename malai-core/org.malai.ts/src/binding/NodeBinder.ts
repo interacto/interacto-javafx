@@ -10,10 +10,10 @@
  */
 
 import {TSInteraction} from "../interaction/TSInteraction";
-import {FSM} from "../../src-core/fsm/FSM";
+import {FSM} from "../src-core/fsm/FSM";
 import {UpdateBinder} from "./UpdateBinder";
-import {CommandImpl} from "../../src-core/command/CommandImpl";
-import {InteractionData} from "../../src-core/interaction/InteractionData";
+import {CommandImpl} from "../src-core/command/CommandImpl";
+import {InteractionData} from "../src-core/interaction/InteractionData";
 
 /**
  * The binding builder to create bindings between a given user interaction on a node and a given command.

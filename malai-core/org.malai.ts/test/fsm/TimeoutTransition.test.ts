@@ -10,14 +10,14 @@
  */
 
 import {StubEvent} from "./StubEvent";
-import {FSM} from "../../src-core/fsm/FSM";
-import {InputState} from "../../src-core/fsm/InputState";
-import {OutputState} from "../../src-core/fsm/OutputState";
-import {TimeoutTransition} from "../../src-core/fsm/TimeoutTransition";
-import {StdState} from "../../src-core/fsm/StdState";
+import {FSM} from "../../src/src-core/fsm/FSM";
+import {InputState} from "../../src/src-core/fsm/InputState";
+import {OutputState} from "../../src/src-core/fsm/OutputState";
+import {TimeoutTransition} from "../../src/src-core/fsm/TimeoutTransition";
+import {StdState} from "../../src/src-core/fsm/StdState";
 
-jest.mock("../../src-core/fsm/FSM");
-jest.mock("../../src-core/fsm/StdState");
+jest.mock("../../src/src-core/fsm/FSM");
+jest.mock("../../src/src-core/fsm/StdState");
 
 let evt: TimeoutTransition<StubEvent>;
 let src: OutputState<StubEvent>;

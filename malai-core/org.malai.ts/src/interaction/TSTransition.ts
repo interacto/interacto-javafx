@@ -9,9 +9,9 @@
  * General Public License for more details.
  */
 
-import {Transition} from "../../src-core/fsm/Transition";
-import {OutputState} from "../../src-core/fsm/OutputState";
-import {InputState} from "../../src-core/fsm/InputState";
+import {Transition} from "../src-core/fsm/Transition";
+import {OutputState} from "../src-core/fsm/OutputState";
+import {InputState} from "../src-core/fsm/InputState";
 
 export abstract class TSTransition extends Transition<Event> {
     protected constructor(srcState: OutputState<Event>, tgtState: InputState<Event>) {

@@ -10,12 +10,12 @@
  */
 
 import {TSInteraction} from "../interaction/TSInteraction";
-import {FSM} from "../../src-core/fsm/FSM";
+import {FSM} from "../src-core/fsm/FSM";
 import {Binder} from "./Binder";
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {AnonNodeBinding} from "./AnonNodeBinding";
-import {CommandImpl} from "../../src-core/command/CommandImpl";
-import {InteractionData} from "../../src-core/interaction/InteractionData";
+import {CommandImpl} from "../src-core/command/CommandImpl";
+import {InteractionData} from "../src-core/interaction/InteractionData";
 
 /**
  * The base binding builder for bindings where actions can be updated while the user interaction is running.

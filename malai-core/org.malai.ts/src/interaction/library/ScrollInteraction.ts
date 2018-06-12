@@ -9,7 +9,7 @@
  * General Public License for more details.
  */
 
-import {FSM} from "../../../src-core/fsm/FSM";
+import {FSM} from "../../src-core/fsm/FSM";
 import {TSInteraction} from "../TSInteraction";
 import {Optional} from "../../util/Optional";
 import {ScrollData} from "./ScrollData";

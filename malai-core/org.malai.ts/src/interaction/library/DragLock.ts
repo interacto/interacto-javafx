@@ -12,13 +12,13 @@
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSFSM} from "../TSFSM";
 import {DoubleClick, DoubleClickFSM} from "./DoubleClick";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
-import {CancellingState} from "../../../src-core/fsm/CancellingState";
-import {StdState} from "../../../src-core/fsm/StdState";
-import {SubFSMTransition} from "../../../src-core/fsm/SubFSMTransition";
-import {InputState} from "../../../src-core/fsm/InputState";
-import {FSM} from "../../../src-core/fsm/FSM";
-import {OutputState} from "../../../src-core/fsm/OutputState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
+import {CancellingState} from "../../src-core/fsm/CancellingState";
+import {StdState} from "../../src-core/fsm/StdState";
+import {SubFSMTransition} from "../../src-core/fsm/SubFSMTransition";
+import {InputState} from "../../src-core/fsm/InputState";
+import {FSM} from "../../src-core/fsm/FSM";
+import {OutputState} from "../../src-core/fsm/OutputState";
 import {MoveTransition} from "../MoveTransition";
 import {PointInteraction} from "./PointInteraction";
 import {EscapeKeyPressureTransition} from "../EscapeKeyPressureTransition";
@@ -99,7 +99,7 @@ export class DragLockFSM extends TSFSM<DragLockFSMHandler> {
     }
 }
 
-interface DragLockFSMHandler extends FSMDataHandler {
+export interface DragLockFSMHandler extends FSMDataHandler {
     onMove(event: MouseEvent): void;
 }
 

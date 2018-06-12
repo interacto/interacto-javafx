@@ -11,16 +11,16 @@
 
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {KeyPressureTransition} from "../KeyPressureTransition";
 import {KeyData} from "./KeyData";
 import {KeyInteraction} from "./KeyInteraction";
-import {StdState} from "../../../src-core/fsm/StdState";
+import {StdState} from "../../src-core/fsm/StdState";
 import {KeyReleaseTransition} from "../KeyReleaseTransition";
-import {CancellingState} from "../../../src-core/fsm/CancellingState";
-import {TimeoutTransition} from "../../../src-core/fsm/TimeoutTransition";
-import {OutputState} from "../../../src-core/fsm/OutputState";
-import {InputState} from "../../../src-core/fsm/InputState";
+import {CancellingState} from "../../src-core/fsm/CancellingState";
+import {TimeoutTransition} from "../../src-core/fsm/TimeoutTransition";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../../src-core/fsm/InputState";
 
 export class KeyTypedFSM extends TSFSM<KeyTypedFSMHandler> {
     private checkKey: string | undefined;
@@ -105,7 +105,7 @@ export class KeyTypedFSM extends TSFSM<KeyTypedFSMHandler> {
     }
 }
 
-interface KeyTypedFSMHandler  extends FSMDataHandler {
+export interface KeyTypedFSMHandler  extends FSMDataHandler {
     onKeyTyped(event: Event): void;
 }
 

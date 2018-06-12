@@ -10,14 +10,14 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isSpinner} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {SpinnerChangedTransition} from "../SpinnerChangedTransition";
 
-class SpinnerChangedFSM extends TSFSM<SpinnerChangedHandler> {
+export class SpinnerChangedFSM extends TSFSM<SpinnerChangedHandler> {
     public constructor() {
         super();
     }
@@ -41,8 +41,7 @@ class SpinnerChangedFSM extends TSFSM<SpinnerChangedHandler> {
     }
 }
 
-
-interface SpinnerChangedHandler  extends FSMDataHandler {
+export interface SpinnerChangedHandler  extends FSMDataHandler {
     initToChangedHandler(event: Event): void;
 }
 

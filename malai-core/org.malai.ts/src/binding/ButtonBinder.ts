@@ -11,8 +11,8 @@
 
 import {ButtonPressed} from "../interaction/library/ButtonPressed";
 import {Binder} from "./Binder";
-import {CommandImpl} from "../../src-core/command/CommandImpl";
-import {WidgetData} from "../../src-core/interaction/WidgetData";
+import {CommandImpl} from "../src-core/command/CommandImpl";
+import {WidgetData} from "../src-core/interaction/WidgetData";
 
 /**
  * The binding builder to create bindings between a button interaction and a given command.
