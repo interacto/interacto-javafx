@@ -11,10 +11,10 @@
 
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isWindowClosed} from "../Events";
 import {TSInteraction} from "../TSInteraction";
-import {InteractionData} from "../../../src-core/interaction/InteractionData";
+import {InteractionData} from "../../src-core/interaction/InteractionData";
 import {WindowCloseTransition} from "../WindowCloseTransition";
 
 export class WindowClosedFSM extends TSFSM<WindowClosedFSMHandler> {
@@ -52,7 +52,7 @@ export class WindowClosedFSM extends TSFSM<WindowClosedFSMHandler> {
     }
 }
 
-interface WindowClosedFSMHandler extends FSMDataHandler {
+export interface WindowClosedFSMHandler extends FSMDataHandler {
     initToCloseHandler(event: Event): void;
 }
 

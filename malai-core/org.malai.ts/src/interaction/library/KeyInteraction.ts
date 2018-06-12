@@ -10,7 +10,7 @@
  */
 
 import {KeyData} from "./KeyData";
-import {FSM} from "../../../src-core/fsm/FSM";
+import {FSM} from "../../src-core/fsm/FSM";
 import {TSInteraction} from "../TSInteraction";
 import {Optional} from "../../util/Optional";
 import {KeyDataImpl} from "./KeyDataImpl";

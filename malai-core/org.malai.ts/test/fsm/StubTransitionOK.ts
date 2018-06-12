@@ -9,10 +9,10 @@
  * General Public License for more details.
  */
 
-import {Transition} from "../../src-core/fsm/Transition";
+import {Transition} from "../../src/src-core/fsm/Transition";
 import {StubEvent, StubSubEvent1, StubSubEvent2, StubSubEvent3} from "./StubEvent";
-import {InputState} from "../../src-core/fsm/InputState";
-import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../../src/src-core/fsm/InputState";
+import {OutputState} from "../../src/src-core/fsm/OutputState";
 
 export class StubTransitionOK extends Transition<StubEvent> {
     public guard: boolean;

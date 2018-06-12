@@ -9,7 +9,7 @@
  * General Public License for more details.
  */
 
-import {FSMHandler} from "../../src-core/fsm/FSMHandler";
+import {FSMHandler} from "../../src/src-core/fsm/FSMHandler";
 import {StubFSMHandler} from "../fsm/StubFSMHandler";
 import {Click} from "../../src/interaction/library/Click";
 import {EventRegistrationToken} from "../../src/interaction/Events";

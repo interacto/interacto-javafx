@@ -11,10 +11,10 @@
 
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {TSInteraction} from "../interaction/TSInteraction";
-import {LogLevel} from "../../src-core/logging/LogLevel";
-import {FSM} from "../../src-core/fsm/FSM";
-import {CommandImpl} from "../../src-core/command/CommandImpl";
-import {InteractionData} from "../../src-core/interaction/InteractionData";
+import {LogLevel} from "../src-core/logging/LogLevel";
+import {FSM} from "../src-core/fsm/FSM";
+import {CommandImpl} from "../src-core/command/CommandImpl";
+import {InteractionData} from "../src-core/interaction/InteractionData";
 
 export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData>
     extends TSWidgetBinding<C, I, D> {

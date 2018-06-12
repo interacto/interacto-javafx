@@ -10,18 +10,18 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isTextInput} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
-import {StdState} from "../../../src-core/fsm/StdState";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
+import {StdState} from "../../src-core/fsm/StdState";
 import {TextInputChangedTransition} from "../TextInputChangedTransition";
-import {TimeoutTransition} from "../../../src-core/fsm/TimeoutTransition";
-import {OutputState} from "../../../src-core/fsm/OutputState";
-import {InputState} from "../../../src-core/fsm/InputState";
+import {TimeoutTransition} from "../../src-core/fsm/TimeoutTransition";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../../src-core/fsm/InputState";
 
-class TextInputChangedFSM extends TSFSM<TextInputChangedHandler> {
+export class TextInputChangedFSM extends TSFSM<TextInputChangedHandler> {
     /** The time gap between the two spinner events. */
     private static readonly timeGap = 1000;
     /** The supplier that provides the time gap. */
@@ -80,7 +80,7 @@ class TextInputChangedFSM extends TSFSM<TextInputChangedHandler> {
 }
 
 
-interface TextInputChangedHandler  extends FSMDataHandler {
+export interface TextInputChangedHandler  extends FSMDataHandler {
     initToChangedHandler(event: Event): void;
 }
 

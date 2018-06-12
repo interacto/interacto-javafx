@@ -10,14 +10,14 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {BoxCheckPressedTransition} from "../BoxCheckPressedTransition";
 import {isCheckBox} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 
-class BoxCheckedFSM extends TSFSM<BoxCheckedHandler> {
+export class BoxCheckedFSM extends TSFSM<BoxCheckedHandler> {
 
     public constructor() {
         super();
@@ -43,7 +43,7 @@ class BoxCheckedFSM extends TSFSM<BoxCheckedHandler> {
     }
 }
 
-interface BoxCheckedHandler extends FSMDataHandler {
+export interface BoxCheckedHandler extends FSMDataHandler {
     initToCheckHandler(event: Event): void;
 }
 

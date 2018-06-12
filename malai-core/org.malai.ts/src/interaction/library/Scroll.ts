@@ -11,7 +11,7 @@
 
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isScrollEvent} from "../Events";
 import {ScrollInteraction} from "./ScrollInteraction";
 import {ScrollTransition} from "../ScrollTransition";
@@ -42,7 +42,7 @@ export class ScrollFSM extends TSFSM<ScrollFSMHandler> {
 }
 
 
-interface ScrollFSMHandler extends FSMDataHandler {
+export interface ScrollFSMHandler extends FSMDataHandler {
     initToScroll(event: Event): void;
 }
 

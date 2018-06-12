@@ -10,14 +10,14 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isHyperLink} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {HyperLinkTransition} from "../HyperLinkTransition";
 
-class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
+export class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
     public constructor() {
         super();
     }
@@ -42,7 +42,7 @@ class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
 }
 
 
-interface ColorPickedHandler extends FSMDataHandler {
+export interface ColorPickedHandler extends FSMDataHandler {
     initToClickedHandler(event: Event): void;
 }
 

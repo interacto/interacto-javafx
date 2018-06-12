@@ -10,14 +10,14 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isComboBox} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {ComboBoxTransition} from "../ComboBoxTransition";
 
-class ComboBoxSelectedFSM extends TSFSM<ComboBoxSelectedHandler> {
+export class ComboBoxSelectedFSM extends TSFSM<ComboBoxSelectedHandler> {
     public constructor() {
         super();
     }
@@ -42,7 +42,7 @@ class ComboBoxSelectedFSM extends TSFSM<ComboBoxSelectedHandler> {
 }
 
 
-interface ComboBoxSelectedHandler  extends FSMDataHandler {
+export interface ComboBoxSelectedHandler  extends FSMDataHandler {
     initToSelectedHandler(event: Event): void;
 }
 

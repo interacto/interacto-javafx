@@ -9,9 +9,9 @@
  * General Public License for more details.
  */
 
-import {FSM} from "../../src-core/fsm/FSM";
-import {StateImpl} from "../../src-core/fsm/StateImpl";
-import {StdState} from "../../src-core/fsm/StdState";
+import {FSM} from "../../src/src-core/fsm/FSM";
+import {StateImpl} from "../../src/src-core/fsm/StateImpl";
+import {StdState} from "../../src/src-core/fsm/StdState";
 import {StubEvent} from "./StubEvent";
 import "jest";
 

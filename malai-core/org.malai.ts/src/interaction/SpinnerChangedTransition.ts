@@ -9,8 +9,8 @@
  * General Public License for more details.
  */
 
-import {OutputState} from "../../src-core/fsm/OutputState";
-import {InputState} from "../../src-core/fsm/InputState";
+import {OutputState} from "../src-core/fsm/OutputState";
+import {InputState} from "../src-core/fsm/InputState";
 import {EventRegistrationToken, isSpinner} from "./Events";
 import {TSTransition} from "./TSTransition";
 

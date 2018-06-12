@@ -10,14 +10,14 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isChoiceBox} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {ChoiceBoxTransition} from "../ChoiceBoxTransition";
 
-class ChoiceBoxSelectedSFM extends TSFSM<ChoiceBoxSelectedHandler> {
+export class ChoiceBoxSelectedSFM extends TSFSM<ChoiceBoxSelectedHandler> {
     public constructor() {
         super();
     }
@@ -42,7 +42,7 @@ class ChoiceBoxSelectedSFM extends TSFSM<ChoiceBoxSelectedHandler> {
 }
 
 
-interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
+export interface ChoiceBoxSelectedHandler  extends FSMDataHandler {
     initToSelectedHandler(event: Event): void;
 }
 

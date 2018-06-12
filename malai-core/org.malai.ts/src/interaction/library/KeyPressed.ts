@@ -11,10 +11,10 @@
 
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {KeyPressureTransition} from "../KeyPressureTransition";
-import {OutputState} from "../../../src-core/fsm/OutputState";
-import {InputState} from "../../../src-core/fsm/InputState";
+import {OutputState} from "../../src-core/fsm/OutputState";
+import {InputState} from "../../src-core/fsm/InputState";
 import {KeyData} from "./KeyData";
 import {KeyInteraction} from "./KeyInteraction";
 
@@ -64,7 +64,7 @@ export class KeyPressedFSM extends TSFSM<KeyPressedFSMHandler> {
 
 }
 
-interface KeyPressedFSMHandler  extends FSMDataHandler {
+export interface KeyPressedFSMHandler  extends FSMDataHandler {
    onKeyPressed(event: Event): void;
 }
 

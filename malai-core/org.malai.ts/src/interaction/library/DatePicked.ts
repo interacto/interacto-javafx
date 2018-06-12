@@ -10,14 +10,14 @@
  */
 
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isDatePicker} from "../Events";
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {DatePickedTransition} from "../DatePickedTransition";
 
-class DatePickedFSM extends TSFSM<DatePickedHandler> {
+export class DatePickedFSM extends TSFSM<DatePickedHandler> {
     public constructor() {
         super();
     }
@@ -42,7 +42,7 @@ class DatePickedFSM extends TSFSM<DatePickedHandler> {
 }
 
 
-interface DatePickedHandler  extends FSMDataHandler {
+export interface DatePickedHandler  extends FSMDataHandler {
     initToPickedHandler(event: Event): void;
 }
 

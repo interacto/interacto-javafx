@@ -11,10 +11,10 @@
 
 import {TSFSM} from "../TSFSM";
 import {FSMDataHandler} from "../FSMDataHandler";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {ClickTransition} from "../ClickTransition";
-import {InputState} from "../../../src-core/fsm/InputState";
-import {OutputState} from "../../../src-core/fsm/OutputState";
+import {InputState} from "../../src-core/fsm/InputState";
+import {OutputState} from "../../src-core/fsm/OutputState";
 import {PointInteraction} from "./PointInteraction";
 import {PointData} from "./PointData";
 
@@ -75,7 +75,7 @@ export class ClickFSM extends TSFSM<ClickFSMHandler> {
     }
 }
 
-interface ClickFSMHandler extends FSMDataHandler {
+export interface ClickFSMHandler extends FSMDataHandler {
     initToClicked(event: MouseEvent): void;
 }
 

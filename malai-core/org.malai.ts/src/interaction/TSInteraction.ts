@@ -9,12 +9,12 @@
  * General Public License for more details.
  */
 
-import {FSM} from "../../src-core/fsm/FSM";
-import {InteractionImpl} from "../../src-core/interaction/InteractionImpl";
-import {OutputState} from "../../src-core/fsm/OutputState";
+import {FSM} from "../src-core/fsm/FSM";
+import {InteractionImpl} from "../src-core/interaction/InteractionImpl";
+import {OutputState} from "../src-core/fsm/OutputState";
 import {EventRegistrationToken} from "./Events";
-import {InteractionData} from "../../src-core/interaction/InteractionData";
-import {WidgetData} from "../../src-core/interaction/WidgetData";
+import {InteractionData} from "../src-core/interaction/InteractionData";
+import {WidgetData} from "../src-core/interaction/WidgetData";
 
 export abstract class TSInteraction<D extends InteractionData, F extends FSM<Event>, T> extends InteractionImpl<D, Event, F>
         implements WidgetData<T> {

@@ -14,14 +14,14 @@
 
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSFSM} from "../TSFSM";
-import {TerminalState} from "../../../src-core/fsm/TerminalState";
+import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {isMenuButton} from "../Events";
 import {TSInteraction} from "../TSInteraction";
-import {WidgetData} from "../../../src-core/interaction/WidgetData";
+import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {MenuButtonPressedTransition} from "../MenuButtonPressedTransition";
 
 
-class MenuButtonPressedFSM extends TSFSM<MenuButtonPressedFSMHandler> {
+export class MenuButtonPressedFSM extends TSFSM<MenuButtonPressedFSMHandler> {
     public constructor() {
         super();
     }
@@ -44,7 +44,7 @@ class MenuButtonPressedFSM extends TSFSM<MenuButtonPressedFSMHandler> {
     }
 }
 
-interface MenuButtonPressedFSMHandler extends FSMDataHandler {
+export interface MenuButtonPressedFSMHandler extends FSMDataHandler {
     initToPressedHandler(event: Event): void;
 }
 

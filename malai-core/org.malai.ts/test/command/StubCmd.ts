@@ -9,7 +9,7 @@
  * General Public License for more details.
  */
 
-import {CommandImpl} from "../../src-core/command/CommandImpl";
+import {CommandImpl} from "../../src/src-core/command/CommandImpl";
 
 export class StubCmd extends CommandImpl {
     public constructor() {
