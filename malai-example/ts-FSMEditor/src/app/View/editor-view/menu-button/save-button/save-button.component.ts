@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {ButtonBinder} from '../../../../../../../malai-core/org.malai.ts/src';
-import {AnonCmd} from '../../../../../../../malai-core/org.malai.ts/src/src-core/command/AnonCmd';
+import {ButtonBinder} from '../../../../../../../../malai-core/org.malai.ts/src';
+import {AnonCmd} from '../../../../../../../../malai-core/org.malai.ts/src/src-core/command/AnonCmd';
 import {MenuButtonComponent} from '../menu-button.component';
 
 @Component({
