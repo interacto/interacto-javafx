@@ -31,6 +31,7 @@ export * from "./interaction/TSTransition";
 export * from "./interaction/TextInputChangedTransition";
 export * from "./interaction/WindowCloseTransition";
 export * from "./interaction/library/Click";
+export * from "./interaction/library/DnD";
 export * from "./interaction/library/DoubleClick";
 export * from "./interaction/library/DragLock";
 export * from "./interaction/library/KeyData";
