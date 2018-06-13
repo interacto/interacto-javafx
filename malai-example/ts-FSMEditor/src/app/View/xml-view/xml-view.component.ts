@@ -17,7 +17,6 @@ export class XmlViewComponent implements OnInit {
     this.xmlString = parseString('./assets/FSMsave/test.xml', function (err, result) {
       console.dir(result);
     });
-    alert(this.xmlString);
   }
 
 }
