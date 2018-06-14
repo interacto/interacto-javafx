@@ -32,7 +32,7 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
     protected execOnChanges: boolean;
     protected _strictStart: boolean;
 
-    protected constructor(interaction: I, cmdProducer: () => C) {
+    protected constructor(interaction: I, cmdProducer: (i?: D) => C) {
         super(interaction, cmdProducer);
         this.updateFct = () => {
         };

@@ -20,7 +20,7 @@ import {WidgetData} from "../src-core/interaction/WidgetData";
  * @author Arnaud Blouin
  */
 export class ButtonBinder<C extends CommandImpl> extends Binder<C, ButtonPressed, WidgetData<Element>, ButtonBinder<C>> {
-    public constructor(cmd: () => C) {
+    public constructor(cmd: (i?: WidgetData<Element>) => C) {
         super(new ButtonPressed(), cmd);
     }
 }

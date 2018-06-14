@@ -63,18 +63,18 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
     /**
      * The command class to instantiate.
      */
-    private readonly cmdProducer: (i: D) => C;
+    private readonly cmdProducer: (i?: D) => C;
 
-    protected constructor(exec: boolean, interaction: I, cmdClass: (i: D) => C) {
+    protected constructor(exec: boolean, interaction: I, cmdProducer: (i?: D) => C) {
         this.execute = false;
         this.async = false;
-        this.cmdProducer = cmdClass;
+        this.cmdProducer = cmdProducer;
         this.interaction = interaction;
         this.cmd = undefined;
         // this.instrument = ins;
         this.execute = exec;
         this.interaction.getFsm().addHandler(this);
-        this.setActivated(true); //ins.isActivated());
+        this.setActivated(true);
     }
 
     public logBinding(log: boolean): void {
