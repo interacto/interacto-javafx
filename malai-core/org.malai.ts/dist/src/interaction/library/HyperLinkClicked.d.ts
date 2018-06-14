@@ -2,11 +2,11 @@ import { TSFSM } from "../TSFSM";
 import { FSMDataHandler } from "../FSMDataHandler";
 import { TSInteraction } from "../TSInteraction";
 import { WidgetData } from "../../src-core/interaction/WidgetData";
-export declare class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
+export declare class HyperLinkClickedFSM extends TSFSM<HyperLinkClickedFSMHandler> {
     constructor();
-    buildFSM(dataHandler?: ColorPickedHandler): void;
+    buildFSM(dataHandler?: HyperLinkClickedFSMHandler): void;
 }
-export interface ColorPickedHandler extends FSMDataHandler {
+export interface HyperLinkClickedFSMHandler extends FSMDataHandler {
     initToClickedHandler(event: Event): void;
 }
 export declare class HyperLinkClicked extends TSInteraction<WidgetData<Element>, HyperLinkClickedFSM, Element> {

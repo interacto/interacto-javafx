@@ -17,12 +17,12 @@ import {TSInteraction} from "../TSInteraction";
 import {WidgetData} from "../../src-core/interaction/WidgetData";
 import {HyperLinkTransition} from "../HyperLinkTransition";
 
-export class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
+export class HyperLinkClickedFSM extends TSFSM<HyperLinkClickedFSMHandler> {
     public constructor() {
         super();
     }
 
-    public buildFSM(dataHandler?: ColorPickedHandler): void {
+    public buildFSM(dataHandler?: HyperLinkClickedFSMHandler): void {
         if (this.states.length > 1) {
             return ;
         }
@@ -42,7 +42,7 @@ export class HyperLinkClickedFSM extends TSFSM<ColorPickedHandler> {
 }
 
 
-export interface ColorPickedHandler extends FSMDataHandler {
+export interface HyperLinkClickedFSMHandler extends FSMDataHandler {
     initToClickedHandler(event: Event): void;
 }
 
@@ -52,7 +52,7 @@ export interface ColorPickedHandler extends FSMDataHandler {
  */
 
 export class HyperLinkClicked extends TSInteraction<WidgetData<Element>, HyperLinkClickedFSM, Element> {
-    private readonly handler: ColorPickedHandler;
+    private readonly handler: HyperLinkClickedFSMHandler;
 
     /**
      * Creates the interaction.
@@ -60,7 +60,7 @@ export class HyperLinkClicked extends TSInteraction<WidgetData<Element>, HyperLi
     public constructor() {
         super(new HyperLinkClickedFSM());
 
-        this.handler = new class implements ColorPickedHandler {
+        this.handler = new class implements HyperLinkClickedFSMHandler {
             private readonly _parent: HyperLinkClicked;
 
             constructor(parent: HyperLinkClicked) {

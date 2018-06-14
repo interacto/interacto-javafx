@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-fsmpart',
@@ -10,6 +10,8 @@ export class FSMpartComponent implements OnInit {
   @Input () src: string;
 
   @Input () name: string;
+
+  @ViewChild ('Img') img: ElementRef;
 
   constructor() { }
 

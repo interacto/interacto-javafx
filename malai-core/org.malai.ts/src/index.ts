@@ -1,6 +1,6 @@
 /*
  * This file is part of Malai.
- * Copyright (c) 2009-2018 Arnaud BLOUIN
+ * Copyright (c) 2009-2018 Arnaud BLOUIN Gwendal DIDOT
  * Malai is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later version.
@@ -41,13 +41,23 @@ export * from "./interaction/TSInteraction";
 export * from "./interaction/TSTransition";
 export * from "./interaction/TextInputChangedTransition";
 export * from "./interaction/WindowCloseTransition";
+export * from "./interaction/library/BoxChecked";
+export * from "./interaction/library/ButtonPressed";
+export * from "./interaction/library/ChoiceBoxSelected";
 export * from "./interaction/library/Click";
+export * from "./interaction/library/ColorPicked";
+export * from "./interaction/library/ComboBoxSelected";
+export * from "./interaction/library/DatePicked";
 export * from "./interaction/library/DnD";
 export * from "./interaction/library/DoubleClick";
 export * from "./interaction/library/DragLock";
+export * from "./interaction/library/HyperLinkClicked";
 export * from "./interaction/library/KeyData";
 export * from "./interaction/library/KeyDataImpl";
 export * from "./interaction/library/KeyInteraction";
+export * from "./interaction/library/KeyPressed";
+export * from "./interaction/library/KeyTyped";
+export * from "./interaction/library/MenuButtonPressed";
 export * from "./interaction/library/PointData";
 export * from "./interaction/library/PointDataImpl";
 export * from "./interaction/library/PointInteraction";
@@ -56,15 +66,22 @@ export * from "./interaction/library/Scroll";
 export * from "./interaction/library/ScrollData";
 export * from "./interaction/library/ScrollDataImpl";
 export * from "./interaction/library/ScrollInteraction";
+export * from "./interaction/library/SpinnerChanged";
 export * from "./interaction/library/SrcTgtPointsData";
+export * from "./interaction/library/TextInputChanged";
+export * from "./interaction/library/WindowClosed";
 export * from "./src-core/binding/MustBeUndoableCmdException";
 export * from "./src-core/binding/WidgetBinding";
 export * from "./src-core/binding/WidgetBindingImpl";
+export * from "./src-core/command/AnonCmd";
+export * from "./src-core/command/Command";
 export * from "./src-core/command/CommandHandler";
 export * from "./src-core/command/CommandImpl";
 export * from "./src-core/command/CommandsRegistry";
 export * from "./src-core/command/library/ActivateInstrument";
+export * from "./src-core/command/library/AnonymousCmd";
 export * from "./src-core/command/library/InactivateInstrument";
+export * from "./src-core/command/library/InstrumentCommand";
 export * from "./src-core/command/library/ModifyValue";
 export * from "./src-core/command/library/PositionAction";
 export * from "./src-core/command/library/Redo";
