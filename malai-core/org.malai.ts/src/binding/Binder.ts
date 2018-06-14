@@ -31,14 +31,14 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     protected initCmd: (i: D, c: C | undefined) => void;
     protected checkConditions: (i: D) => boolean;
     protected readonly widgets: MArray<EventTarget>;
-    protected cmdProducer: (d: D) => C;
+    protected readonly cmdProducer: (i?: D) => C;
     protected readonly interaction: I;
     protected _async: boolean;
     protected onEnd: (i: D, c: C | undefined) => void;
 // protected List<ObservableList<? extends Node>> additionalWidgets;
     protected readonly logLevels: Set<LogLevel>;
 
-    protected constructor(interaction: I, cmdProducer: () => C) {
+    protected constructor(interaction: I, cmdProducer: (i?: D) => C) {
         this.cmdProducer = cmdProducer;
         this.interaction = interaction;
         this.widgets = new MArray();
@@ -47,19 +47,6 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
         this.initCmd = () => {};
         this.onEnd = () => {};
         this.logLevels = new Set<LogLevel>();
-    }
-
-    /**
-     * Specifies how the command is created from the user interaction.
-     * Called a single time per interaction executed (just before 'first' that can still be called to, somehow, configure the command).
-     * Each time the interaction starts, an instance of the command is created and configured by the given callback.
-     * @param cmdFunction The function that creates and initialises the command.
-     * This callback takes as arguments the current user interaction.
-     * @return The builder to chain the building configuration.
-     */
-    public map(cmdFunction: (d: D) => C) : B {
-        this.cmdProducer = cmdFunction;
-        return this as {} as B;
     }
 
 

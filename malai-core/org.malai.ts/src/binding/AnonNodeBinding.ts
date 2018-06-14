@@ -44,7 +44,7 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
      * @param updateCmdFct The function that updates the command. Can be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    public constructor(exec: boolean, interaction: I, cmdProducer: (d: D) => C, initCmdFct: (i: D, c: C | undefined) => void,
+    public constructor(exec: boolean, interaction: I, cmdProducer: (d?: D) => C, initCmdFct: (i: D, c: C | undefined) => void,
                        updateCmdFct: (i: D, c: C | undefined) => void, check: (i: D) => boolean,
                        onEndFct: (i: D, c: C | undefined) => void, cancel: (i: D, c: C | undefined) => void,
                        endOrCancel: (i: D, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>,

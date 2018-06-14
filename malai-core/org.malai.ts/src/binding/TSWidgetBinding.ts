@@ -28,7 +28,7 @@ export abstract class TSWidgetBinding<C extends CommandImpl, I extends TSInterac
      * @param widgets The widgets concerned by the binding. Cannot be null.
      * @throws IllegalArgumentException If the given interaction or instrument is null.
      */
-    protected constructor(exec: boolean, interaction: I, cmdProducer: (d: D) => C, widgets: Array<EventTarget>) {
+    protected constructor(exec: boolean, interaction: I, cmdProducer: (d?: D) => C, widgets: Array<EventTarget>) {
         super(exec, interaction, cmdProducer);
         interaction.registerToNodes(widgets);
     }
