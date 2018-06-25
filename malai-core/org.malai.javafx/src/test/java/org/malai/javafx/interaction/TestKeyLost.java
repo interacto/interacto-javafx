@@ -26,7 +26,7 @@ public class TestKeyLost extends ApplicationTest {
 	Stage stage;
 
 	@Override
-	public void start(Stage stageToConfigure) {
+	public void start(final Stage stageToConfigure) {
 		canvas = new Canvas();
 		instrument = new StubInstrument();
 		instrument.setActivated(true);

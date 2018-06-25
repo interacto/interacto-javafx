@@ -77,6 +77,6 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 				c.setPx(i.getPx());
 				c.setPy(i.getPy());
 			}).
-			when(i -> i.getKeys().size() == 1 && i.getKeyCodes().get(0) == KeyCode.CONTROL).bind();
+			when(i -> i.getKeyCodes().size() == 1 && i.getKeyCodes().get(0) == KeyCode.CONTROL).bind();
 	}
 }
