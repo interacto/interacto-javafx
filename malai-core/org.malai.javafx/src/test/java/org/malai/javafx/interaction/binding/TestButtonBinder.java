@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestButtonBinder extends TestNodeBinder<Button> {
 	@Override
-	public void start(Stage stage) {
+	public void start(final Stage stage) {
 		widget1 = new Button("button1");
 		widget2 = new Button("button2");
 		super.start(stage);
