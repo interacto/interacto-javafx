@@ -11,7 +11,7 @@ export declare abstract class UpdateBinder<C extends CommandImpl, I extends TSIn
     protected feedbackFct: () => void;
     protected execOnChanges: boolean;
     protected _strictStart: boolean;
-    protected constructor(interaction: I, cmdProducer: () => C);
+    protected constructor(interaction: I, cmdProducer: (i?: D) => C);
     then(update: (i: D, c: C | undefined) => void): B;
     exec(): B;
     cancel(cancel: (i: D, c: C | undefined) => void): B;

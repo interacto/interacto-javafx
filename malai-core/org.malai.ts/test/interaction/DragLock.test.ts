@@ -45,6 +45,7 @@ test("Drag lock is ok", () => {
     canvas.click();
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
+    expect(handler.fsmCancels).not.toHaveBeenCalled();
 });
 
 test("Drag lock requires a least a move", () => {
@@ -66,4 +67,90 @@ test("Drag lock canceled on ESC", () => {
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).not.toHaveBeenCalled();
     expect(handler.fsmCancels).toHaveBeenCalledTimes(1);
+});
+
+test("Check data with a normal execution", () => {
+    //interaction.registerToNodes([canvas]);
+    let srcX = -1;
+    let srcY = -1;
+    let tgtX = -1;
+    let tgtY = -1;
+    interaction.getFsm().addHandler(new class extends StubFSMHandler {
+
+        public fsmStops() {
+            srcX = interaction.getData().getSrcClientX();
+            srcY = interaction.getData().getSrcClientY();
+            tgtX = interaction.getData().getTgtClientX();
+            tgtY = interaction.getData().getTgtClientY();
+        }
+
+    }());
+    interaction.processEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 11, 23));
+    interaction.processEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 11, 23));
+    interaction.processEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas, undefined, undefined, 20, 30));
+    interaction.processEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 22, 33));
+    interaction.processEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 22, 33));
+    expect(srcX).toBe(11);
+    expect(srcY).toBe(23);
+    expect(tgtX).toBe(22);
+    expect(tgtY).toBe(33);
+    expect(handler.fsmCancels).not.toHaveBeenCalled();
+});
+
+test("Check update work during move", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.click();
+    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    expect(handler.fsmUpdates).toHaveBeenCalledTimes(2);
+});
+
+test("Check data update during a move", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 11, 23));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 11, 23));
+    interaction.getFsm().addHandler(new class extends StubFSMHandler {
+
+        public fsmUpdates() {
+            expect(interaction.getData().getTgtClientX()).toBe(30);
+            expect(interaction.getData().getTgtClientY()).toBe(40);
+        }
+    }());
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas, undefined, undefined, 30, 40));
+    expect(handler.fsmCancels).not.toHaveBeenCalled();
+});
+
+test("Check data reinitialisation", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.click();
+    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    canvas.click();
+    canvas.click();
+    expect(interaction.getData().getSrcClientX()).toBe(0);
+    expect(interaction.getData().getSrcClientY()).toBe(0);
+    expect(interaction.getData().getTgtClientX()).toBe(0);
+    expect(interaction.getData().getTgtClientY()).toBe(0);
+});
+
+test("Check if canceled with Esc after a move", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.click();
+    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    canvas.dispatchEvent(createKeyEvent(EventRegistrationToken.KeyDown, "Escape"));
+    expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+    expect(handler.fsmCancels).toHaveBeenCalledTimes(1);
+    expect(handler.fsmStops).not.toHaveBeenCalled();
+});
+
+test("Check if the last DoubleClick with a different button don't stop the interaction", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 11, 23, 1));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 11, 23, 1));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas, undefined, undefined, 20, 30, 1));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 20, 30, 0));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.Click, canvas, undefined, undefined, 20, 30, 0));
+    expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+    expect(handler.fsmStops).not.toHaveBeenCalled();
 });

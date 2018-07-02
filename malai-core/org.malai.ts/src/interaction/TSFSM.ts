@@ -34,7 +34,7 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
     public process(event: Event): boolean {
         // Removing the possible corresponding and pending key pressed event
         if (isKeyDownEvent(event)) {
-            this.removeKeyEvent(event.keyCode);
+            this.removeKeyEvent(event.code);
         }
 
         // Processing the event
@@ -53,13 +53,13 @@ export abstract class TSFSM<H extends FSMDataHandler> extends FSM<Event> {
      * Removes the given KeyPress event from the events 'still in process' list.
      * @param key The key code of the event to remove.
      */
-    private removeKeyEvent(key: number): void {
+    private removeKeyEvent(key: String): void {
         let removed = false;
 
         for (let i = 0, size = this.eventsToProcess.length; i < size && !removed; i++) {
             const event = this.eventsToProcess[i];
 
-            if (event instanceof KeyboardEvent && event.keyCode === key) {
+            if (event instanceof KeyboardEvent && event.code === key) {
                 removed = true;
                 this.eventsToProcess.removeAt(i);
             }

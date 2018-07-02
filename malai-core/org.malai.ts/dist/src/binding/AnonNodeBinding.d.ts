@@ -14,7 +14,7 @@ export declare class AnonNodeBinding<C extends CommandImpl, I extends TSInteract
     private readonly onEnd;
     private readonly strictStart;
     protected currentCmd: C | undefined;
-    constructor(exec: boolean, interaction: I, cmdProducer: (d: D) => C, initCmdFct: (i: D, c: C | undefined) => void, updateCmdFct: (i: D, c: C | undefined) => void, check: (i: D) => boolean, onEndFct: (i: D, c: C | undefined) => void, cancel: (i: D, c: C | undefined) => void, endOrCancel: (i: D, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>, asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>);
+    constructor(exec: boolean, interaction: I, cmdProducer: (d?: D) => C, initCmdFct: (i: D, c: C | undefined) => void, updateCmdFct: (i: D, c: C | undefined) => void, check: (i: D) => boolean, onEndFct: (i: D, c: C | undefined) => void, cancel: (i: D, c: C | undefined) => void, endOrCancel: (i: D, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>, asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>);
     private configureLoggers(loggers);
     isStrictStart(): boolean;
     first(): void;

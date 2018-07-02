@@ -9,18 +9,10 @@
  * General Public License for more details.
  */
 
-import {InteractionData, Optional} from "../..";
+/**
+ * The binding builder to create bindings between a spinner interaction and a given command.
+ * @param <C> The type of the command to produce.
+ * @author Gwendal Didot
+ */
 
-export interface KeyData extends InteractionData {
-    /**
-     *
-     * @returns The component that produce the interaction
-     */
-    getTarget(): Optional<EventTarget>;
-
-    /**
-     *
-     * @returns The key use by the interaction
-     */
-    getKey(): String;
-}
+export default function () : void {}

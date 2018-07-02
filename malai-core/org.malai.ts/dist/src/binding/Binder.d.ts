@@ -9,13 +9,12 @@ export declare abstract class Binder<C extends CommandImpl, I extends TSInteract
     protected initCmd: (i: D, c: C | undefined) => void;
     protected checkConditions: (i: D) => boolean;
     protected readonly widgets: MArray<EventTarget>;
-    protected cmdProducer: (d: D) => C;
+    protected readonly cmdProducer: (i?: D) => C;
     protected readonly interaction: I;
     protected _async: boolean;
     protected onEnd: (i: D, c: C | undefined) => void;
-    protected readonly logLevels: Set<LogLevel>;
-    protected constructor(interaction: I, cmdProducer: () => C);
-    map(cmdFunction: (d: D) => C): B;
+    protected readonly logLevels: Array<LogLevel>;
+    protected constructor(interaction: I, cmdProducer: (i?: D) => C);
     on(widget: EventTarget): B;
     first(initCmdFct: (i: D, c: C) => void): B;
     when(checkCmd: (i: D) => boolean): B;

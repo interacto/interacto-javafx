@@ -1,5 +1,5 @@
-import { Optional } from "../../util/Optional";
-export interface KeyData {
+import { InteractionData, Optional } from "../..";
+export interface KeyData extends InteractionData {
     getTarget(): Optional<EventTarget>;
     getKey(): String;
 }

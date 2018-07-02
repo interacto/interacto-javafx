@@ -165,6 +165,17 @@ export interface DnDFSMHandler extends FSMDataHandler {
  */
 export class DnD extends PointInteraction<SrcTgtPointsData, DnDFSM, Node> implements SrcTgtPointsData {
 
+    /**The object pick at the end of the interaction*/
+    private tgtObject: EventTarget | undefined;
+
+    private tgtClientX: number | undefined;
+
+    private tgtClientY: number | undefined;
+
+    private tgtScreenX: number | undefined;
+
+    private tgtScreenY: number | undefined;
+
     /**
      * Creates the interaction.
      */
@@ -182,16 +193,18 @@ export class DnD extends PointInteraction<SrcTgtPointsData, DnDFSM, Node> implem
 
             public onPress(event: MouseEvent): void {
                 this._parent.setPointData(event);
+                this._parent.setTgtData(event);
             }
 
             public onDrag(event: MouseEvent): void {
                 if (srcOnUpdate) {
                     this._parent.setPointData(event);
                 }
+                this._parent.setTgtData(event);
             }
 
             public onRelease(event: MouseEvent): void {
-                this._parent.setPointData(event);
+                this._parent.setTgtData(event);
             }
 
             public reinitData(): void {
@@ -201,8 +214,21 @@ export class DnD extends PointInteraction<SrcTgtPointsData, DnDFSM, Node> implem
         this.getFsm().buildFSM(this.handler);
     }
 
+    public setTgtData(event: MouseEvent) {
+        this.tgtClientX = event.clientX;
+        this.tgtClientY = event.clientY;
+        this.tgtScreenX = event.screenX;
+        this.tgtScreenY = event.screenY;
+        this.tgtObject = event.target === null ? undefined : event.target;
+    }
+
     public reinitData(): void {
         super.reinitData();
+        this.tgtClientX = undefined;
+        this.tgtClientY = undefined;
+        this.tgtScreenX = undefined;
+        this.tgtScreenY = undefined;
+        this.tgtObject = undefined;
     }
 
     public getData(): SrcTgtPointsData {
@@ -210,23 +236,23 @@ export class DnD extends PointInteraction<SrcTgtPointsData, DnDFSM, Node> implem
     }
 
     public getTgtClientX(): number {
-        return super.getSrcClientX();
+        return this.tgtClientX === undefined ? 0 : this.tgtClientX;
     }
 
     public getTgtClientY(): number {
-        return super.getSrcClientY();
+        return this.tgtClientY === undefined ? 0 : this.tgtClientY;
     }
 
     public getTgtScreenX(): number {
-        return super.getSrcScreenX();
+        return this.tgtScreenX === undefined ? 0 : this.tgtScreenX;
     }
 
     public getTgtScreenY(): number {
-        return super.getSrcClientY();
+        return this.tgtScreenY === undefined ? 0 : this.tgtScreenY;
     }
 
     public getTgtObject(): Optional<EventTarget> {
-        return super.getSrcObject();
+        return Optional.ofNullable(this.tgtObject);
     }
 
 }

@@ -36,7 +36,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     protected _async: boolean;
     protected onEnd: (i: D, c: C | undefined) => void;
 // protected List<ObservableList<? extends Node>> additionalWidgets;
-    protected readonly logLevels: Set<LogLevel>;
+    protected readonly logLevels: Array<LogLevel>;
 
     protected constructor(interaction: I, cmdProducer: (i?: D) => C) {
         this.cmdProducer = cmdProducer;
@@ -46,7 +46,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
         this.checkConditions = () => true;
         this.initCmd = () => {};
         this.onEnd = () => {};
-        this.logLevels = new Set<LogLevel>();
+        this.logLevels = [];
     }
 
 
@@ -130,7 +130,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
      * @return The builder to chain the building configuration.
      */
     public log(level: LogLevel): B {
-        this.logLevels.add(level);
+        this.logLevels.push(level);
         return this as {} as B;
     }
 
@@ -142,6 +142,6 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     public bind(): TSWidgetBinding<C, I, D> {
         return new AnonNodeBinding<C, I, D>(false, this.interaction, this.cmdProducer, this.initCmd, (d: D) => {},
             this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
-            this.widgets, this._async, false, new Array(...this.logLevels));
+            this.widgets, this._async, false, this.logLevels);
     }
 }

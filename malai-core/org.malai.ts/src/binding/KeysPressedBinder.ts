@@ -9,18 +9,12 @@
  * General Public License for more details.
  */
 
-import {InteractionData, Optional} from "../..";
+import {KeysData} from "../interaction/library/KeysData";
+import {CommandImpl} from "../src-core/command/CommandImpl";
+import {KeyBinder} from "./KeyBinder";
 
-export interface KeyData extends InteractionData {
-    /**
-     *
-     * @returns The component that produce the interaction
-     */
-    getTarget(): Optional<EventTarget>;
-
-    /**
-     *
-     * @returns The key use by the interaction
-     */
-    getKey(): String;
+export class KeysPressedBinder<C extends CommandImpl> extends KeyBinder<C, KeysPressedBinder<C>> {
+    public constructor(cmd: (i ?: KeysData) => C) {
+        super(cmd);
+    }
 }
