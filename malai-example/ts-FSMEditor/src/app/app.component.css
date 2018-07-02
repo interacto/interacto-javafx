@@ -32,3 +32,9 @@ app-menu-button {
   margin-top : 20px;
   width: 100%;
 }
+
+.unselectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}

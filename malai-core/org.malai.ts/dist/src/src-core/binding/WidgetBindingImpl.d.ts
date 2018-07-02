@@ -13,7 +13,7 @@ export declare abstract class WidgetBindingImpl<C extends CommandImpl, I extends
     protected execute: boolean;
     protected async: boolean;
     private readonly cmdProducer;
-    protected constructor(exec: boolean, interaction: I, cmdClass: (i: D) => C);
+    protected constructor(exec: boolean, interaction: I, cmdProducer: (i?: D) => C);
     logBinding(log: boolean): void;
     logCmd(log: boolean): void;
     logInteraction(log: boolean): void;

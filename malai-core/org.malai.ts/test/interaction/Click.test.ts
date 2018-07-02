@@ -35,16 +35,42 @@ beforeEach(() => {
     }
 });
 
-test("Click on a canvas starts and stops the interaction", () => {
+test("Click on a element starts and stops the interaction Click", () => {
     interaction.registerToNodes([canvas]);
     canvas.click();
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
 });
 
+test("Other event don't trigger the interaction.", () => {
+    interaction.registerToNodes([canvas]);
+    canvas.dispatchEvent(new Event("input"));
+    expect(handler.fsmStarts).not.toHaveBeenCalled();
+});
+
 test("Press on a canvas then move don't starts the interaction", () => {
     interaction.registerToNodes([canvas]);
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
-    expect(handler.fsmStarts).toHaveBeenCalledTimes(0);
+    expect(handler.fsmStarts).not.toHaveBeenCalled();
 });
+
+// test("Check data of the interaction", () => {
+//     interaction.registerToNodes([canvas]);
+//     const evt = document.createEvent("MouseEvent");
+//     evt.initMouseEvent("click", true, false, window, 0, 0, 0, 15,
+//         20, false, false, false, false, 0, null);
+//     interaction.getFsm().addHandler(new class extends StubFSMHandler {
+//         public constructor() {
+//             super();
+//         }
+//
+//         public fsmStarts() {
+//             expect(interaction.getData().getSrcClientY()).toEqual(15);
+//             expect(interaction.getData().getSrcClientY()).toEqual(20);
+//             expect(interaction.getData().getButton()).toEqual(0);
+//         }
+//     }());
+//     canvas.dispatchEvent(evt);
+//     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+// });

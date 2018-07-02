@@ -79,11 +79,11 @@ export class PointDataImpl implements PointData {
         return this.srcScreenX === undefined ? 0 : this.srcScreenX;
     }
 
-    public getSrcClientY(): number {
+    public getSrcClientX(): number {
         return this.srcClientX === undefined ? 0 : this.srcClientX;
     }
 
-    public getSrcClientX(): number {
+    public getSrcClientY(): number {
         return this.srcClientY === undefined ? 0 : this.srcClientY;
     }
 

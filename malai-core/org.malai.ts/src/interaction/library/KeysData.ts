@@ -11,16 +11,14 @@
 
 import {InteractionData, Optional} from "../..";
 
-export interface KeyData extends InteractionData {
+export interface KeysData extends InteractionData {
     /**
-     *
-     * @returns The component that produce the interaction
+     * @return The component that produce the interaction
      */
     getTarget(): Optional<EventTarget>;
 
     /**
-     *
-     * @returns The key use by the interaction
+     * @return The keys use by the interaction
      */
-    getKey(): String;
+    getKeys(): Array<String>;
 }

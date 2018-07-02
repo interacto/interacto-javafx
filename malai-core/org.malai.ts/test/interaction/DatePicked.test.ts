@@ -33,9 +33,15 @@ beforeEach(() => {
     }
 });
 
-test("Click on date starts and stops the interaction", () => {
+test("Input event starts and stops the interaction DatePicked.", () => {
     interaction.registerToNodes([date]);
     date.dispatchEvent(new Event("input"));
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+});
+
+test("Other event don't trigger the interaction.", () => {
+    interaction.registerToNodes([date]);
+    date.dispatchEvent(new Event("load"));
+    expect(handler.fsmStarts).not.toHaveBeenCalled();
 });

@@ -33,9 +33,17 @@ beforeEach(() => {
     }
 });
 
-test("Click on button starts and stops the interaction", () => {
+test("Click event start and stop the interaction ButtonPressed", () => {
     interaction.registerToNodes([button]);
     button.click();
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+});
+
+
+test("Other event don't trigger the interaction ButtonPressed", () => {
+    interaction.registerToNodes([button]);
+    button.dispatchEvent(new Event("input"));
+    button.dispatchEvent(new Event("change"));
+    expect(handler.fsmStarts).not.toHaveBeenCalled();
 });
