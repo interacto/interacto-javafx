@@ -21,8 +21,8 @@ export declare class PointDataImpl implements PointData {
     getSrcObject(): Optional<EventTarget>;
     getSrcScreenY(): number;
     getSrcScreenX(): number;
-    getSrcClientY(): number;
     getSrcClientX(): number;
+    getSrcClientY(): number;
     setModifiersData(event: MouseEvent): void;
     setPointData(event: MouseEvent): void;
 }

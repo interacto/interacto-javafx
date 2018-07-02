@@ -11,7 +11,7 @@ import {DrawPart} from '../../Command/draw-part';
 })
 export class EditorViewComponent implements OnInit {
 
-  @ViewChild ('DrawBox') canvas: ElementRef;
+  @ViewChild ('DrawBox') drawbox: ElementRef;
   @ViewChild(FSMpartSelectorComponent) fsm_selector: FSMpartSelectorComponent;
 
   dnd: DnD;
@@ -19,10 +19,10 @@ export class EditorViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.dnd = new DnD(false, false);
-    new NodeBinder<DrawPart, DnD, SrcTgtPointsData>(this.dnd, () => new DrawPart(this.dnd.getData()))
+    new NodeBinder<DrawPart, DnD, SrcTgtPointsData>(this.dnd = new DnD(false, false),
+        i => new DrawPart(i))
       .on(this.fsm_selector.init_part.img.nativeElement).on(this.fsm_selector.stnd_part.img.nativeElement)
       .on(this.fsm_selector.term_part.img.nativeElement).on(this.fsm_selector.canc_part.img.nativeElement)
-      .on(this.canvas.nativeElement).bind();
+      .on(this.drawbox.nativeElement).bind();
   }
 }

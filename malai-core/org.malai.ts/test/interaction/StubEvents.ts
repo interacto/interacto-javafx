@@ -9,21 +9,28 @@
  * General Public License for more details.
  */
 
-export function createMouseEvent(type: string, target: EventTarget): MouseEvent {
+export function createMouseEvent(type: string, target: EventTarget, screenX ?: number, screenY ?: number, clientX ?: number,
+                                 clientY?: number, button?: number): MouseEvent {
+
+    const screenXvalue = screenX === undefined ? 0 : screenX;
+    const screenYvalue = screenY === undefined ? 0 : screenY;
+    const clientXvalue = clientX === undefined ? 0 : clientX;
+    const clientYvalue = clientY === undefined ? 0 : clientY;
+    const buttonValue = button === undefined ? 0 : button;
     return new MouseEvent(type, {
         view: window,
         bubbles: true,
         cancelable: false,
         detail: 1,
-        screenX: 20,
-        screenY: 30,
-        clientX: 2,
-        clientY: 3,
+        screenX: screenXvalue,
+        screenY: screenYvalue,
+        clientX: clientXvalue,
+        clientY: clientYvalue,
         ctrlKey: false,
         altKey: false,
         shiftKey: false,
         metaKey: false,
-        button: 0,
+        button: buttonValue,
         relatedTarget: target
     });
 }
@@ -45,13 +52,5 @@ export function createUIEvent(type: string): UIEvent {
         cancelable: false,
         scoped: true,
         view: window
-    });
-}
-
-export function createEvent(type: string): Event {
-    return new Event(type, {
-        bubbles: true,
-        scoped: true,
-        cancelable: false
     });
 }
