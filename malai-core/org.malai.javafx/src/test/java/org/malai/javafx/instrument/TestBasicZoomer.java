@@ -10,6 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.malai.properties.Zoomable;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -53,6 +54,7 @@ public class TestBasicZoomer extends ApplicationTest {
 		assertSame(canvas, zoomer.getZoomable());
 	}
 
+	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testCtrlScrollUp() {
 		clickOn(canvas);
@@ -61,6 +63,7 @@ public class TestBasicZoomer extends ApplicationTest {
 		assertEquals(4d, canvas.getZoom(), 0.00001);
 	}
 
+	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testCtrlScrollDown() {
 		clickOn(canvas);
@@ -69,6 +72,7 @@ public class TestBasicZoomer extends ApplicationTest {
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 
+	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testCtrlBadKey() {
 		clickOn(canvas);
