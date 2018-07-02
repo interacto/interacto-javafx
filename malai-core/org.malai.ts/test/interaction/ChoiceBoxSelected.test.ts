@@ -26,16 +26,31 @@ beforeEach(() => {
     interaction.log(true);
     interaction.getFsm().log(true);
     interaction.getFsm().addHandler(handler);
-    document.documentElement.innerHTML = "<html><div><select id='sel1'><option value='test'>Test</option></div></html>";
+    document.documentElement.innerHTML = "<html><div><select id='sel1'><option value='test'>Test</option>" +
+        "<option value='Test2'>Test2</option></div></html>";
     const elt = document.getElementById("sel1");
     if (elt !== null) {
         choiceBox = elt;
     }
 });
 
-test("Click on choiceBox starts and stops the interaction", () => {
+test("Input event starts and stops the interaction ChoiceBoxSelected", () => {
     interaction.registerToNodes([choiceBox]);
     choiceBox.dispatchEvent(new Event("input"));
     expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+});
+
+test("Other event don't start the interaction ChoiceBoxSelected", () => {
+    interaction.registerToNodes([choiceBox]);
+    choiceBox.click();
+    expect(handler.fsmStarts).toHaveBeenCalledTimes(0);
+});
+
+test("Multiple input event on choiceBox start and stop the interaction each time.", () => {
+   interaction.registerToNodes([choiceBox]);
+   choiceBox.dispatchEvent(new Event("input"));
+   choiceBox.dispatchEvent(new Event("input"));
+   expect(handler.fsmStarts).toHaveBeenCalledTimes(2);
+   expect(handler.fsmStops).toHaveBeenCalledTimes(2);
 });

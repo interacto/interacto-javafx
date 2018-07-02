@@ -11,6 +11,7 @@
 
 import {FSMDataHandler} from "../FSMDataHandler";
 import {TSFSM} from "../TSFSM";
+import {TSInteraction} from "../TSInteraction";
 import {DoubleClick, DoubleClickFSM} from "./DoubleClick";
 import {TerminalState} from "../../src-core/fsm/TerminalState";
 import {CancellingState} from "../../src-core/fsm/CancellingState";
@@ -20,7 +21,6 @@ import {InputState} from "../../src-core/fsm/InputState";
 import {FSM} from "../../src-core/fsm/FSM";
 import {OutputState} from "../../src-core/fsm/OutputState";
 import {MoveTransition} from "../MoveTransition";
-import {PointInteraction} from "./PointInteraction";
 import {EscapeKeyPressureTransition} from "../EscapeKeyPressureTransition";
 import {SrcTgtPointsData} from "./SrcTgtPointsData";
 import {Optional} from "../../util/Optional";
@@ -103,7 +103,7 @@ export interface DragLockFSMHandler extends FSMDataHandler {
     onMove(event: MouseEvent): void;
 }
 
-export class DragLock extends PointInteraction<SrcTgtPointsData, DragLockFSM, Event> implements SrcTgtPointsData {
+export class DragLock extends TSInteraction<SrcTgtPointsData, DragLockFSM, Event> implements SrcTgtPointsData {
     private readonly handler: DragLockFSMHandler;
     private readonly firstClick: DoubleClick;
     private readonly sndClick: DoubleClick;
@@ -134,6 +134,7 @@ export class DragLock extends PointInteraction<SrcTgtPointsData, DragLockFSM, Ev
     }
 
     public reinitData(): void {
+        console.log("ReinitData DragLock");
         super.reinitData();
         this.firstClick.reinitData();
         this.sndClick.reinitData();
@@ -181,5 +182,25 @@ export class DragLock extends PointInteraction<SrcTgtPointsData, DragLockFSM, Ev
 
     public getButton(): number | undefined {
         return this.firstClick.getData().getButton();
+    }
+
+    public getSrcClientX(): number {
+        return this.firstClick.getData().getSrcClientX();
+    }
+
+    public getSrcClientY(): number {
+        return this.firstClick.getData().getSrcClientY();
+    }
+
+    public getSrcObject(): Optional<EventTarget> {
+        return this.firstClick.getData().getSrcObject();
+    }
+
+    public getSrcScreenX(): number {
+        return this.firstClick.getData().getSrcScreenX();
+    }
+
+    public getSrcScreenY(): number {
+        return this.firstClick.getData().getSrcScreenY();
     }
 }

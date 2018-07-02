@@ -16,8 +16,14 @@ export interface DnDFSMHandler extends FSMDataHandler {
     onRelease(event: Event): void;
 }
 export declare class DnD extends PointInteraction<SrcTgtPointsData, DnDFSM, Node> implements SrcTgtPointsData {
+    private tgtObject;
+    private tgtClientX;
+    private tgtClientY;
+    private tgtScreenX;
+    private tgtScreenY;
     private readonly handler;
     constructor(srcOnUpdate: boolean, cancellable: boolean, fsm?: DnDFSM);
+    setTgtData(event: MouseEvent): void;
     reinitData(): void;
     getData(): SrcTgtPointsData;
     getTgtClientX(): number;

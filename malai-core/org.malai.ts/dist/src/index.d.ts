@@ -1,20 +1,15 @@
-/*
- * This file is part of Malai.
- * Copyright (c) 2009-2018 Arnaud BLOUIN Gwendal DIDOT
- * Malai is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later version.
- * Malai is distributed without any warranty; without even the implied
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- */
-
 export * from "./binding/AnonCmdBinder";
 export * from "./binding/AnonNodeBinding";
 export * from "./binding/Binder";
 export * from "./binding/Bindings";
 export * from "./binding/ButtonBinder";
+export * from "./binding/CheckBoxBinder";
+export * from "./binding/ColorPickerBinder";
+export * from "./binding/ComboBoxBinder";
+export * from "./binding/KeyBinder";
+export * from "./binding/KeyNodeBinder";
 export * from "./binding/NodeBinder";
+export * from "./binding/SpinnerBinder";
 export * from "./binding/TSWidgetBinding";
 export * from "./binding/UpdateBinder";
 export * from "./interaction/BoxCheckPressedTransition";
@@ -57,7 +52,11 @@ export * from "./interaction/library/KeyDataImpl";
 export * from "./interaction/library/KeyInteraction";
 export * from "./interaction/library/KeyPressed";
 export * from "./interaction/library/KeyTyped";
+export * from "./interaction/library/KeysData";
+export * from "./interaction/library/KeysDataImpl";
+export * from "./interaction/library/KeysPressed";
 export * from "./interaction/library/MenuButtonPressed";
+export * from "./interaction/library/MultiKeyInteraction";
 export * from "./interaction/library/PointData";
 export * from "./interaction/library/PointDataImpl";
 export * from "./interaction/library/PointInteraction";

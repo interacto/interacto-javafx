@@ -23,19 +23,22 @@ import {InputState} from "../../src-core/fsm/InputState";
 
 export class TextInputChangedFSM extends TSFSM<TextInputChangedHandler> {
     /** The time gap between the two spinner events. */
-    private static readonly timeGap = 1000;
+    private readonly _timeGap: number = 1000;
     /** The supplier that provides the time gap. */
-    private static readonly SUPPLY_TIME_GAP = () => TextInputChangedFSM.getTimeGap();
+    private readonly SUPPLY_TIME_GAP = () => this.getTimeGap();
 
     /**
      * @return The time gap between the two spinner events.
      */
-    public static getTimeGap(): number {
-        return TextInputChangedFSM.timeGap;
+    public getTimeGap(): number {
+        return this._timeGap;
     }
 
-    public constructor() {
+    public constructor(timeSet?: number) {
         super();
+        if (timeSet !== undefined) {
+            this._timeGap = timeSet;
+        }
     }
 
     public buildFSM(dataHandler?: TextInputChangedHandler): void {
@@ -75,7 +78,7 @@ export class TextInputChangedFSM extends TSFSM<TextInputChangedHandler> {
             }
         }(changed, changed);
 
-        new TimeoutTransition(changed, ended, TextInputChangedFSM.SUPPLY_TIME_GAP);
+        new TimeoutTransition(changed, ended, this.SUPPLY_TIME_GAP);
     }
 }
 
@@ -92,8 +95,8 @@ export interface TextInputChangedHandler  extends FSMDataHandler {
 export class TextInputChanged extends TSInteraction<WidgetData<Element>, TextInputChangedFSM, Element> {
     private readonly handler: TextInputChangedHandler;
 
-    public constructor() {
-        super(new TextInputChangedFSM());
+    public constructor(timeGap?: number) {
+        super(new TextInputChangedFSM(timeGap));
 
         this.handler = new class implements TextInputChangedHandler {
             private readonly _parent: TextInputChanged;
