@@ -5,9 +5,9 @@ import typescript from 'rollup-plugin-typescript2';
 export default {
     input: './src/index.ts',
     output: {
-        name: 'WidgetBinder',
-        file : 'dist/widgetbinder.js',
-        format: 'umd'
+        name: 'MalaiTS',
+        file : 'lib/index.js',
+        format: 'cjs'
     },
     plugins: [
         resolve(),
