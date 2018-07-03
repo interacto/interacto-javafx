@@ -2,5 +2,6 @@ node_modules/
 /.idea/
 /org.malai.ts.iml
 /.tscache
-/target
 /coverage
+./rpt2_cache
+lib

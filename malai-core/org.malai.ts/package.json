@@ -1,12 +1,15 @@
 {
-  "name": "org.malai.ts",
-  "description": "The typescript implementation of Malai",
-  "version": "3.1.0-alpha.0",
+  "name": "org.malai.ts-dev",
+  "description": "The typescript implementation of Malai (WIP)",
+  "version": "3.1.0-alpha.1.0.0",
   "author": "Arnaud Blouin",
+  "contributors": [
+    "Gwendal Didot <didotgwendal@gmail.com>"
+  ],
   "repository": "https://github.com/arnobl/Malai.git",
   "license": "GPL2",
-  "main": "./dist/widgetbinder.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "devDependencies": {
     "@types/jest": "^22.2.3",
     "barrelsby": "^1.0.1",
@@ -21,17 +24,20 @@
     "typescript": "^2.8.1"
   },
   "scripts": {
+    "lib-build": "npm run prepare && npm run build && npm run clean_after",
     "build": "rollup -c",
-    "dev": "rollup -c -w",
     "generates-barrels": "barrelsby -c ./barrelsby-config.json --delete",
     "compile": "tsc",
-    "all": "npm run clean && npm run compile && npm run coverage && npm run lint",
-    "lib-buid": "npm run all && npm run build",
-    "clean": "rm -rf target/* coverage/*",
+    "prepare": "npm run clean && npm run compile && npm run coverage && npm run lint",
+    "clean": "rm -rf coverage/* lib/*",
+    "clean_after": "rm -rf compiled_inter",
     "test": "jest",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "coverage": "jest --coverage --collectCoverageFrom=target/src*/**/*.js"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "npm": "^6.1.0",
     "typescript-logging": "^0.5.0"
