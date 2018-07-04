@@ -81,6 +81,7 @@ public class TestBasicZoomer extends ApplicationTest {
 		assertEquals(2d, canvas.getZoom(), 0.00001);
 	}
 
+	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testKeyAdd() {
 		clickOn(canvas);
