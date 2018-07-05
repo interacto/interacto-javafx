@@ -12,6 +12,7 @@
 import {anonCmdBinder, buttonBinder, nodeBinder} from "../../src/binding/Bindings";
 import {Click} from "../../src/interaction/library/Click";
 import {StubCmd} from "../command/StubCmd";
+import {AnonCmd, MArray} from "../../src";
 
 jest.mock("../command/StubCmd");
 
@@ -48,4 +49,14 @@ test("Anon cmd binder ok", () => {
     anonCmdBinder(new Click(), () => cmd.doIt()).on(canvas).bind();
     canvas.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
+});
+
+test("node binder on multiple target", () => {
+    const target = new MArray<EventTarget>();
+    target.push(canvas, button);
+    nodeBinder(new Click(), () => new  AnonCmd(() => {
+        console.log("Test");
+    })).on(target).bind();
+    // canvas.click();
+    button.click();
 });
