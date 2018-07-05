@@ -49,33 +49,15 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
         this.logLevels = [];
     }
 
-
     /**
      * Specifies the widgets on which the binding must operate.
      * @param widget The widgets involve in the bindings.
      * @return The builder to chain the building configuration.
      */
-    public on(widget: EventTarget): B {
-        this.widgets.push(widget);
+    public on(widget: EventTarget | MArray<EventTarget>): B {
+        widget instanceof MArray ? this.widgets.push(...widget) : this.widgets.push(widget);
         return this as {} as B;
     }
-
-
-// /**
-//  * Specifies the observable list that will contain the widgets on which the binding must operate.
-//  * When a widget is added to this list, the added widget is binded to this binding.
-//  * When widget is removed from this list, this widget is unbinded from this binding.
-//  * @param widgets The observable list of the widgets involved in the bindings.
-//  * @return The builder to chain the building configuration.
-//  */
-// public on(final ObservableList<? extends Node> widgets): B {
-//     if(additionalWidgets == null) {
-//         additionalWidgets = new ArrayList<>();
-//     }
-//     additionalWidgets.add(widgets);
-//     return this as {} as B;
-// }
-
 
     /**
      * Specifies the initialisation of the command when the interaction starts.
