@@ -28,12 +28,13 @@
     "build": "rollup -c",
     "generates-barrels": "barrelsby -c ./barrelsby-config.json --delete",
     "compile": "tsc",
-    "pre-build": "npm run clean && npm run compile && npm run coverage && npm run lint",
+    "pre-build": "npm run clean && npm run lint && npm run compile && npm run coverage",
     "clean": "rm -rf coverage/* lib/*",
     "clean_after": "rm -rf compiled_inter",
     "test": "jest",
     "lint": "tslint --project tsconfig.json --config tslint.json",
-    "coverage": "jest --coverage --collectCoverageFrom=target/src*/**/*.js"
+    "coverage": "jest --coverage --collectCoverageFrom=target/src*/**/*.js",
+    "clear-all": "npm run clean && npm run clean_after"
   },
   "files": [
     "lib"
