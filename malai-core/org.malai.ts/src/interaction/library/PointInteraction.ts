@@ -71,4 +71,8 @@ export abstract class PointInteraction<D extends PointData, F extends FSM<Event>
     public isShiftPressed(): boolean {
         return this.pointData.isShiftPressed();
     }
+
+    public getCurrentTarget(): Optional<EventTarget> {
+        return this.pointData.getCurrentTarget();
+    }
 }

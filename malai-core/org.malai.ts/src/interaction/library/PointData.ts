@@ -61,4 +61,6 @@ export interface PointData {
      * @return The object picked at the pressed position.
      */
     getSrcObject(): Optional<EventTarget>;
+
+    getCurrentTarget(): Optional<EventTarget>;
 }
