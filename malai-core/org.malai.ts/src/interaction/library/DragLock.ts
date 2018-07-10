@@ -203,4 +203,8 @@ export class DragLock extends TSInteraction<SrcTgtPointsData, DragLockFSM, Event
     public getSrcScreenY(): number {
         return this.firstClick.getData().getSrcScreenY();
     }
+
+    public getCurrentTarget(): Optional<EventTarget> {
+        return this.firstClick.getData().getCurrentTarget();
+    }
 }

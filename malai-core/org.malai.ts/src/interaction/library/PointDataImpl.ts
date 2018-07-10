@@ -36,6 +36,8 @@ export class PointDataImpl implements PointData {
     /** The object picked at the pressed position. */
     protected srcObject: EventTarget | undefined;
 
+    protected currentTarget: EventTarget | undefined;
+
     public constructor() {
     }
 
@@ -101,6 +103,10 @@ export class PointDataImpl implements PointData {
         this.srcClientY = event.clientY;
         this.button = event.button;
         this.srcObject = event.target === null ? undefined : event.target;
+        this.currentTarget = event.currentTarget === null ? undefined : event.currentTarget;
         this.setModifiersData(event);
+    }
+    public getCurrentTarget(): Optional<EventTarget> {
+        return Optional.ofNullable(this.currentTarget);
     }
 }
