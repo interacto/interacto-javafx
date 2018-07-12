@@ -15,10 +15,13 @@ import {OutputState} from "../src-core/fsm/OutputState";
 import {EventRegistrationToken} from "./Events";
 import {InteractionData} from "../src-core/interaction/InteractionData";
 import {WidgetData} from "../src-core/interaction/WidgetData";
+import {MArray} from "../util/ArrayUtil";
 
 export abstract class TSInteraction<D extends InteractionData, F extends FSM<Event>, T> extends InteractionImpl<D, Event, F>
         implements WidgetData<T> {
     protected readonly _registeredNodes: Set<EventTarget>;
+    public readonly _additionalNodes: MArray<Node>;
+    protected readonly listMutationObserver: MArray<MutationObserver>;
     /** The widget used during the interaction. */
     protected _widget: T | undefined;
     private mouseHandler: ((e: MouseEvent) => void) | undefined;
@@ -29,6 +32,8 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
     protected constructor(fsm: F) {
         super(fsm);
         this._registeredNodes = new Set<EventTarget>();
+        this._additionalNodes = new MArray<Node>();
+        this.listMutationObserver = new MArray<MutationObserver>();
     }
 
     /**
@@ -52,10 +57,17 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
             eventsToAdd.forEach(type => this.registerEventToNode(type, n));
         });
-        // additionalNodes.forEach(nodes -> nodes.forEach(n -> {
-        //     eventsToRemove.forEach(type -> unregisterEventToNode(type, n));
-        //     eventsToAdd.forEach(type -> registerEventToNode(type, n));
-        // }));
+        this._additionalNodes.forEach( n => {
+            eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
+            eventsToAdd.forEach(type => this.registerEventToNode(type, n));
+        });
+    }
+
+    private callBackMutationObserver(mutationList: Array<MutationRecord>) {
+        mutationList.forEach(mutattion => {
+            mutattion.addedNodes.forEach(node => this.onNewNodeRegistered(node));
+            mutattion.removedNodes.forEach(node => this.onNodeUnregistered(node));
+        });
     }
 
     private getEventTypesOf(state: OutputState<Event>): Set<string> {
@@ -82,6 +94,14 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
 
     public onNewNodeRegistered(node: EventTarget): void {
         this.getEventTypesOf(this.fsm.currentState).forEach(type => this.registerEventToNode(type, node));
+    }
+
+    public registerToObservableList(elementToObserve: Node) {
+        if (elementToObserve !== undefined) {
+            const newMutationObserver = new MutationObserver(mutations => this.callBackMutationObserver(mutations));
+            newMutationObserver.observe(elementToObserve, {childList: true});
+            this.listMutationObserver.push(newMutationObserver);
+        }
     }
 
     private registerEventToNode(eventType: string, node: EventTarget): void {

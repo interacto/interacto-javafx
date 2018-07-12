@@ -48,6 +48,7 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
                        updateCmdFct: (i: D, c: C | undefined) => void, check: (i: D) => boolean,
                        onEndFct: (i: D, c: C | undefined) => void, cancel: (i: D, c: C | undefined) => void,
                        endOrCancel: (i: D, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>,
+                       additionalWidgets: Array<Node>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
         super(exec, interaction, cmdProducer, widgets);
@@ -63,8 +64,9 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
         this.currentCmd = undefined;
         this.configureLoggers(loggers);
 
-        // if(additionalWidgets !== undefined) {
-        // additionalWidgets.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableNodeList(elt));
+        if (additionalWidgets !== undefined) {
+            additionalWidgets.filter(value => value !== undefined).forEach(node => interaction.registerToObservableList(node));
+        }
     }
 
     private configureLoggers(loggers: Array<LogLevel>): void {
