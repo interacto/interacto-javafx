@@ -32,6 +32,7 @@ export class KeyNodeBinder<C extends CommandImpl> extends KeyBinder<C, KeyNodeBi
             () => {},
             () => {},
             this.widgets,
+            this.additionalWidgets,
             this._async,
             false,
             this.logLevels);

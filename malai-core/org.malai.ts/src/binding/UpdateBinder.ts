@@ -106,7 +106,8 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
 
     public bind(): TSWidgetBinding<C, I, D> {
         return new AnonNodeBinding(this.execOnChanges, this.interaction, this.cmdProducer, this.initCmd, this.updateFct,
-            this.checkConditions, this.onEnd, this.cancelFct, this.endOrCancelFct, this.feedbackFct, this.widgets, this._async,
+            this.checkConditions, this.onEnd, this.cancelFct, this.endOrCancelFct, this.feedbackFct, this.widgets,
+            this.additionalWidgets, this._async,
             this._strictStart, new Array(...this.logLevels));
     }
 }

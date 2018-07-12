@@ -31,6 +31,7 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     protected initCmd: (i: D, c: C | undefined) => void;
     protected checkConditions: (i: D) => boolean;
     protected readonly widgets: MArray<EventTarget>;
+    protected additionalWidgets: MArray<Node>;
     protected readonly cmdProducer: (i?: D) => C;
     protected readonly interaction: I;
     protected _async: boolean;
@@ -56,6 +57,14 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
      */
     public on(widget: EventTarget | MArray<EventTarget>): B {
         widget instanceof MArray ? this.widgets.push(...widget) : this.widgets.push(widget);
+        return this as {} as B;
+    }
+
+    public onContent(widget: Node): B {
+        if (this.additionalWidgets === undefined) {
+            this.additionalWidgets = new MArray<Node>();
+        }
+        this.additionalWidgets.push(widget);
         return this as {} as B;
     }
 
@@ -124,6 +133,6 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     public bind(): TSWidgetBinding<C, I, D> {
         return new AnonNodeBinding<C, I, D>(false, this.interaction, this.cmdProducer, this.initCmd, (d: D) => {},
             this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
-            this.widgets, this._async, false, this.logLevels);
+            this.widgets, this.additionalWidgets, this._async, false, this.logLevels);
     }
 }
