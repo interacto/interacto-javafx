@@ -9,10 +9,10 @@
  * General Public License for more details.
  */
 
-import {anonCmdBinder, buttonBinder, nodeBinder} from "../../src/binding/Bindings";
+import {anonCmdBinder, buttonBinder, dndBinder, nodeBinder} from "../../src/binding/Bindings";
 import {Click} from "../../src/interaction/library/Click";
 import {StubCmd} from "../command/StubCmd";
-import {AnonCmd, DnD, EventRegistrationToken, MArray} from "../../src";
+import {AnonCmd, EventRegistrationToken, MArray} from "../../src";
 import {createMouseEvent} from "../interaction/StubEvents";
 
 jest.mock("../command/StubCmd");
@@ -62,15 +62,19 @@ test("node binder on multiple target", () => {
     button.click();
 });
 
-test("Node binder with the to() routine", () => {
-    nodeBinder(new Click(), () => new StubCmd()).on(button).to(canvas).bind();
-    button.click();
-    canvas.click();
+test("dndBinder with to() routine", () => {
+    dndBinder(() => new StubCmd(), false, false).on(button).to(canvas).bind();
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, button));
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, button));
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, button));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
 
-test("nodeBinder with to() routine and DnD interaction", () => {
-    nodeBinder(new DnD(false, false), () => new StubCmd()).on(button).to(canvas).bind();
+test("Check if interaction successfully update on 'to' widget unless the interaction is in this InitState", () => {
+    dndBinder(() => new StubCmd(), false, false).on(button).to(canvas).bind();
     button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, button));
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));

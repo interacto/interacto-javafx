@@ -23,6 +23,8 @@ import {ColorPickerBinder} from "./ColorPickerBinder";
 import {ComboBoxBinder} from "./ComboBoxBinder";
 import {KeysData} from "../interaction/library/KeysData";
 import {KeyNodeBinder} from "./KeyNodeBinder";
+import {DnDBinder} from "./DnDBinder";
+import {SrcTgtPointsData} from "../interaction/library/SrcTgtPointsData";
 
 /**
  * Creates binding builder to build a binding between a given interaction and the given command type.
@@ -59,6 +61,11 @@ export function buttonBinder<C extends CommandImpl>(cmdProducer: (i?: WidgetData
 export function anonCmdBinder<D extends InteractionData, I extends TSInteraction<D, FSM<Event>, {}>>
         (interaction: I, cmd: () => void): AnonCmdBinder<I, D> {
     return new AnonCmdBinder(interaction, cmd);
+}
+
+export function dndBinder<D extends SrcTgtPointsData, C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>>
+    (cmdProducer: (i?: D) => C, srcOnUpdate: boolean, cancellable: boolean):  DnDBinder<C> {
+    return new DnDBinder(cmdProducer, srcOnUpdate, cancellable);
 }
 
 /**
