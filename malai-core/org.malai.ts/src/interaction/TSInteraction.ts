@@ -20,6 +20,7 @@ import {MArray} from "../util/ArrayUtil";
 export abstract class TSInteraction<D extends InteractionData, F extends FSM<Event>, T> extends InteractionImpl<D, Event, F>
         implements WidgetData<T> {
     protected readonly _registeredNodes: Set<EventTarget>;
+    protected readonly _registeredTargetNode: MArray<EventTarget>;
     public readonly _additionalNodes: MArray<Node>;
     protected readonly listMutationObserver: MArray<MutationObserver>;
     /** The widget used during the interaction. */
@@ -34,6 +35,7 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
         this._registeredNodes = new Set<EventTarget>();
         this._additionalNodes = new MArray<Node>();
         this.listMutationObserver = new MArray<MutationObserver>();
+        this._registeredTargetNode = new MArray<EventTarget>();
     }
 
     /**
@@ -61,6 +63,14 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
             eventsToAdd.forEach(type => this.registerEventToNode(type, n));
         });
+        this._registeredTargetNode.forEach(n => {
+            eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
+        });
+        if (newState !== this.fsm.initState) {
+            this._registeredTargetNode.forEach(n => {
+                eventsToAdd.forEach(type => this.registerEventToNode(type, n));
+            });
+        }
     }
 
     private callBackMutationObserver(mutationList: Array<MutationRecord>) {
@@ -81,6 +91,13 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
         });
     }
 
+    public registerToTargetNodes(targetWidgets: Array<EventTarget>): void {
+        targetWidgets.forEach(w => {
+            this._registeredTargetNode.push(w);
+            this.onNewNodeTargetRegistered(w);
+        });
+    }
+
     public unregisterFromNodes(widgets: Array<EventTarget>): void {
         widgets.forEach(w => {
             this._registeredNodes.delete(w);
@@ -94,6 +111,12 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
 
     public onNewNodeRegistered(node: EventTarget): void {
         this.getEventTypesOf(this.fsm.currentState).forEach(type => this.registerEventToNode(type, node));
+    }
+
+    public onNewNodeTargetRegistered(node: EventTarget): void {
+        if (this.fsm.currentState !== this.fsm.initState) {
+            this.getEventTypesOf(this.fsm.currentState).forEach(type => this.registerEventToNode(type, node));
+        }
     }
 
     public registerToObservableList(elementToObserve: Node) {
@@ -223,6 +246,8 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
     public uninstall(): void {
         this._widget = undefined;
         this._registeredNodes.clear();
+        this._additionalNodes.clear();
+        this._registeredTargetNode.clear();
         super.uninstall();
     }
 }

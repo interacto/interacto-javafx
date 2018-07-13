@@ -12,7 +12,8 @@
 import {anonCmdBinder, buttonBinder, nodeBinder} from "../../src/binding/Bindings";
 import {Click} from "../../src/interaction/library/Click";
 import {StubCmd} from "../command/StubCmd";
-import {AnonCmd, MArray} from "../../src";
+import {AnonCmd, DnD, EventRegistrationToken, MArray} from "../../src";
+import {createMouseEvent} from "../interaction/StubEvents";
 
 jest.mock("../command/StubCmd");
 
@@ -59,4 +60,22 @@ test("node binder on multiple target", () => {
     })).on(target).bind();
     // canvas.click();
     button.click();
+});
+
+test("Node binder with the to() routine", () => {
+    nodeBinder(new Click(), () => new StubCmd()).on(button).to(canvas).bind();
+    button.click();
+    canvas.click();
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
+});
+
+test("nodeBinder with to() routine and DnD interaction", () => {
+    nodeBinder(new DnD(false, false), () => new StubCmd()).on(button).to(canvas).bind();
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, button));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, canvas));
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, button));
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, button));
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });

@@ -33,7 +33,7 @@
     "clean_after": "rm -rf compiled_inter",
     "test": "jest",
     "lint": "tslint --project tsconfig.json --config tslint.json",
-    "coverage": "jest --coverage --collectCoverageFrom=target/src*/**/*.js",
+    "coverage": "jest --coverage --collectCoverageFrom=src*/**/*.ts",
     "clear-all": "npm run clean && npm run clean_after"
   },
   "files": [
@@ -57,7 +57,7 @@
       "node"
     ],
     "modulePathIgnorePatterns": [
-      "<rootDir>/target"
+      "<rootDir>/compiled_inter"
     ]
   }
 }
