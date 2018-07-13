@@ -15,6 +15,7 @@ import {LogLevel} from "../src-core/logging/LogLevel";
 import {FSM} from "../src-core/fsm/FSM";
 import {CommandImpl} from "../src-core/command/CommandImpl";
 import {InteractionData} from "../src-core/interaction/InteractionData";
+import {MArray} from "../util/ArrayUtil";
 
 export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData>
     extends TSWidgetBinding<C, I, D> {
@@ -48,7 +49,7 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
                        updateCmdFct: (i: D, c: C | undefined) => void, check: (i: D) => boolean,
                        onEndFct: (i: D, c: C | undefined) => void, cancel: (i: D, c: C | undefined) => void,
                        endOrCancel: (i: D, c: C | undefined) => void, feedback: () => void, widgets: Array<EventTarget>,
-                       additionalWidgets: Array<Node>,
+                       additionalWidgets: Array<Node>, targetWidgets: MArray<EventTarget>,
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
         super(exec, interaction, cmdProducer, widgets);
@@ -66,6 +67,9 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
 
         if (additionalWidgets !== undefined) {
             additionalWidgets.filter(value => value !== undefined).forEach(node => interaction.registerToObservableList(node));
+        }
+        if (targetWidgets !== undefined) {
+            interaction.registerToTargetNodes(targetWidgets);
         }
     }
 

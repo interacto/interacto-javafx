@@ -32,11 +32,11 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     protected checkConditions: (i: D) => boolean;
     protected readonly widgets: MArray<EventTarget>;
     protected additionalWidgets: MArray<Node>;
+    protected targetWidgets: MArray<EventTarget>;
     protected readonly cmdProducer: (i?: D) => C;
     protected readonly interaction: I;
     protected _async: boolean;
     protected onEnd: (i: D, c: C | undefined) => void;
-// protected List<ObservableList<? extends Node>> additionalWidgets;
     protected readonly logLevels: Array<LogLevel>;
 
     protected constructor(interaction: I, cmdProducer: (i?: D) => C) {
@@ -65,6 +65,14 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
             this.additionalWidgets = new MArray<Node>();
         }
         this.additionalWidgets.push(widget);
+        return this as {} as B;
+    }
+
+    public to(widget: EventTarget) {
+        if (this.targetWidgets === undefined) {
+            this.targetWidgets = new MArray<EventTarget>();
+        }
+        this.targetWidgets.push(widget);
         return this as {} as B;
     }
 
@@ -133,6 +141,6 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
     public bind(): TSWidgetBinding<C, I, D> {
         return new AnonNodeBinding<C, I, D>(false, this.interaction, this.cmdProducer, this.initCmd, (d: D) => {},
             this.checkConditions, this.onEnd, () => {}, () => {}, () => {},
-            this.widgets, this.additionalWidgets, this._async, false, this.logLevels);
+            this.widgets, this.additionalWidgets, this.targetWidgets, this._async, false, this.logLevels);
     }
 }
