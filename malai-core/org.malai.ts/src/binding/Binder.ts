@@ -68,14 +68,6 @@ export abstract class Binder<C extends CommandImpl, I extends TSInteraction<D, F
         return this as {} as B;
     }
 
-    public to(widget: EventTarget) {
-        if (this.targetWidgets === undefined) {
-            this.targetWidgets = new MArray<EventTarget>();
-        }
-        this.targetWidgets.push(widget);
-        return this as {} as B;
-    }
-
     /**
      * Specifies the initialisation of the command when the interaction starts.
      * Each time the interaction starts, an instance of the command is created and configured by the given callback.
