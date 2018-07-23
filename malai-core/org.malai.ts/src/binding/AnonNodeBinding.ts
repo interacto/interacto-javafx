@@ -66,7 +66,9 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
         this.configureLoggers(loggers);
 
         if (additionalWidgets !== undefined) {
-            additionalWidgets.filter(value => value !== undefined).forEach(node => interaction.registerToObservableList(node));
+            const noUndefinedWidget = additionalWidgets.filter(value => value !== undefined);
+            noUndefinedWidget.forEach(node => interaction.registerToObservableList(node));
+            interaction.addAdditionalNodes(noUndefinedWidget);
         }
         if (targetWidgets !== undefined) {
             interaction.registerToTargetNodes(targetWidgets);

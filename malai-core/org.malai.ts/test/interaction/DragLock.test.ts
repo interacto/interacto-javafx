@@ -70,7 +70,6 @@ test("Drag lock canceled on ESC", () => {
 });
 
 test("Check data with a normal execution", () => {
-    //interaction.registerToNodes([canvas]);
     let srcX = -1;
     let srcY = -1;
     let tgtX = -1;
@@ -94,6 +93,9 @@ test("Check data with a normal execution", () => {
     expect(srcY).toBe(23);
     expect(tgtX).toBe(22);
     expect(tgtY).toBe(33);
+    expect(handler.fsmStarts).toHaveBeenCalledTimes(1);
+    expect(handler.fsmUpdates).toHaveBeenCalledTimes(2);
+    expect(handler.fsmStops).toHaveBeenCalledTimes(1);
     expect(handler.fsmCancels).not.toHaveBeenCalled();
 });
 

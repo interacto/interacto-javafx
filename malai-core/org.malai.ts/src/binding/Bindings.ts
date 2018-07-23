@@ -25,6 +25,7 @@ import {KeysData} from "../interaction/library/KeysData";
 import {KeyNodeBinder} from "./KeyNodeBinder";
 import {DnDBinder} from "./DnDBinder";
 import {SrcTgtPointsData} from "../interaction/library/SrcTgtPointsData";
+import {DragLockBinder} from "./DragLockBinder";
 
 /**
  * Creates binding builder to build a binding between a given interaction and the given command type.
@@ -63,9 +64,14 @@ export function anonCmdBinder<D extends InteractionData, I extends TSInteraction
     return new AnonCmdBinder(interaction, cmd);
 }
 
-export function dndBinder<D extends SrcTgtPointsData, C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>>
-    (cmdProducer: (i?: D) => C, srcOnUpdate: boolean, cancellable: boolean):  DnDBinder<C> {
+export function dndBinder<C extends CommandImpl>
+    (cmdProducer: (i?: SrcTgtPointsData) => C, srcOnUpdate: boolean, cancellable: boolean):  DnDBinder<C> {
     return new DnDBinder(cmdProducer, srcOnUpdate, cancellable);
+}
+
+export function dragLockBinder<C extends CommandImpl>
+    (cmdProducer: (i?: SrcTgtPointsData) => C):  DragLockBinder<C> {
+    return new DragLockBinder(cmdProducer);
 }
 
 /**

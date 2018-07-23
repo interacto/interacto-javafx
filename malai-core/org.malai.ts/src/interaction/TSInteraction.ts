@@ -21,7 +21,7 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
         implements WidgetData<T> {
     protected readonly _registeredNodes: Set<EventTarget>;
     protected readonly _registeredTargetNode: MArray<EventTarget>;
-    public readonly _additionalNodes: MArray<Node>;
+    protected readonly _additionalNodes: MArray<Node>;
     protected readonly listMutationObserver: MArray<MutationObserver>;
     /** The widget used during the interaction. */
     protected _widget: T | undefined;
@@ -60,8 +60,10 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
             eventsToAdd.forEach(type => this.registerEventToNode(type, n));
         });
         this._additionalNodes.forEach( n => {
-            eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
-            eventsToAdd.forEach(type => this.registerEventToNode(type, n));
+            n.childNodes.forEach(child => {// update the content of the additionalNode
+                eventsToRemove.forEach(type => this.unregisterEventToNode(type, child));
+                eventsToAdd.forEach(type => this.registerEventToNode(type, child));
+            });
         });
         this._registeredTargetNode.forEach(n => {
             eventsToRemove.forEach(type => this.unregisterEventToNode(type, n));
@@ -74,9 +76,9 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
     }
 
     private callBackMutationObserver(mutationList: Array<MutationRecord>) {
-        mutationList.forEach(mutattion => {
-            mutattion.addedNodes.forEach(node => this.onNewNodeRegistered(node));
-            mutattion.removedNodes.forEach(node => this.onNodeUnregistered(node));
+        mutationList.forEach(mutation => {
+            mutation.addedNodes.forEach(node => this.onNewNodeRegistered(node));
+            mutation.removedNodes.forEach(node => this.onNodeUnregistered(node));
         });
     }
 
@@ -120,11 +122,16 @@ export abstract class TSInteraction<D extends InteractionData, F extends FSM<Eve
     }
 
     public registerToObservableList(elementToObserve: Node) {
-        if (elementToObserve !== undefined) {
-            const newMutationObserver = new MutationObserver(mutations => this.callBackMutationObserver(mutations));
-            newMutationObserver.observe(elementToObserve, {childList: true});
-            this.listMutationObserver.push(newMutationObserver);
-        }
+        const newMutationObserver = new MutationObserver(mutations => this.callBackMutationObserver(mutations));
+        newMutationObserver.observe(elementToObserve, {childList: true});
+        this.listMutationObserver.push(newMutationObserver);
+    }
+
+    public addAdditionalNodes(additionalNodes: Array<Node>) {
+        additionalNodes.forEach(node => {
+            this._additionalNodes.push(node);
+            node.childNodes.forEach(child => this.onNewNodeRegistered(child)); //register the additional node children
+        });
     }
 
     private registerEventToNode(eventType: string, node: EventTarget): void {
