@@ -9,7 +9,7 @@
  * General Public License for more details.
  */
 
-import {anonCmdBinder, buttonBinder, dndBinder, nodeBinder} from "../../src/binding/Bindings";
+import {anonCmdBinder, buttonBinder, dndBinder, dragLockBinder, nodeBinder} from "../../src/binding/Bindings";
 import {Click} from "../../src/interaction/library/Click";
 import {StubCmd} from "../command/StubCmd";
 import {AnonCmd, EventRegistrationToken, MArray} from "../../src";
@@ -81,5 +81,15 @@ test("Check if interaction successfully update on 'to' widget unless the interac
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
     button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, button));
     button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseUp, button));
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
+});
+
+test("Check DragLockBinder", () => {
+    dragLockBinder(() => new StubCmd()).on(canvas).bind();
+    canvas.click();
+    canvas.click();
+    canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));
+    canvas.click();
+    canvas.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });

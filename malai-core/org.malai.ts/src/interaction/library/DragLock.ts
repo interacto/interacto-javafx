@@ -134,7 +134,6 @@ export class DragLock extends TSInteraction<SrcTgtPointsData, DragLockFSM, Event
     }
 
     public reinitData(): void {
-        console.log("ReinitData DragLock");
         super.reinitData();
         this.firstClick.reinitData();
         this.sndClick.reinitData();
