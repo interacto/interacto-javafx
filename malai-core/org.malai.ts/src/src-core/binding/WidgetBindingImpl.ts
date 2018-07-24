@@ -63,7 +63,7 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
     /**
      * The command class to instantiate.
      */
-    private readonly cmdProducer: (i?: D) => C;
+    protected readonly cmdProducer: (i?: D) => C;
 
     protected constructor(exec: boolean, interaction: I, cmdProducer: (i?: D) => C) {
         this.execute = false;

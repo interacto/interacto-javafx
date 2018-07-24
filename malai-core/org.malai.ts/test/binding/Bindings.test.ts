@@ -93,3 +93,9 @@ test("Check DragLockBinder", () => {
     canvas.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
 });
+
+test("Test the end() routine", () => {
+    buttonBinder(i => new StubCmd()).on(button).end(i => expect(i.getWidget()).not.toBe(undefined)).bind();
+    button.click();
+    expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
+});
