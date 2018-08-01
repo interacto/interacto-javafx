@@ -25,7 +25,7 @@ export class CancellingState<E> extends StateImpl<E> implements InputState<E> {
     }
 
     public enter(): void {
-        this.fsm.onCancelling();
+        this.fsm.onCancelling(this);
     }
 
     public uninstall(): void {

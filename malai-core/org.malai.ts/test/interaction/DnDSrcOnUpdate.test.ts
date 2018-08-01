@@ -63,7 +63,7 @@ test("Check data when pressing", () => {
         23));
 });
 
-test("Click and move and release start and stop the interaction", () => {
+test("Click and move and release start and update the interaction", () => {
     interaction.registerToNodes([canvas]);
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, canvas));
     canvas.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, canvas));

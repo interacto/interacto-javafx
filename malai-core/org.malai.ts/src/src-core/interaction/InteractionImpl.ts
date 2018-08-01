@@ -13,13 +13,15 @@ import {FSM} from "../fsm/FSM";
 import {OutputState} from "../fsm/OutputState";
 import {InitState} from "../fsm/InitState";
 import {Logger} from "typescript-logging";
-import {factory} from "../logging/ConfigLog";
+import {catInteraction} from "../logging/ConfigLog";
 import {InteractionData} from "./InteractionData";
 
 export abstract class InteractionImpl<D extends InteractionData, E, F extends FSM<E>> {
     protected logger: Logger | undefined;
 
     protected readonly fsm: F;
+
+    protected asLog: boolean;
 
     /**
      * Defines if the interaction is activated or not. If not, the interaction will not
@@ -32,6 +34,7 @@ export abstract class InteractionImpl<D extends InteractionData, E, F extends FS
         this.fsm = fsm;
         fsm.currentStateProp().obs((oldValue, newValue) => this.updateEventsRegistered(newValue, oldValue));
         this.activated = true;
+        this.asLog = false;
     }
 
     protected abstract updateEventsRegistered(newState: OutputState<E>, oldState: OutputState<E>): void;
@@ -51,13 +54,7 @@ export abstract class InteractionImpl<D extends InteractionData, E, F extends FS
     }
 
     public log(log: boolean): void {
-        if (log) {
-            if (this.logger === undefined) {
-                this.logger = factory.getLogger("Interaction");
-            }
-        } else {
-            this.logger = undefined;
-        }
+        this.asLog = log;
         this.fsm.log(log);
     }
 
@@ -66,8 +63,8 @@ export abstract class InteractionImpl<D extends InteractionData, E, F extends FS
     }
 
     public setActivated(activated: boolean): void {
-        if (this.logger !== undefined) {
-            this.logger.info("Interaction activation: " + String(activated));
+        if (this.asLog) {
+            catInteraction.info("Interaction activation: " + String(activated));
         }
         this.activated = activated;
         if (!activated) {
@@ -90,6 +87,5 @@ export abstract class InteractionImpl<D extends InteractionData, E, F extends FS
 
     public uninstall(): void {
         this.setActivated(false);
-        this.logger = undefined;
     }
 }

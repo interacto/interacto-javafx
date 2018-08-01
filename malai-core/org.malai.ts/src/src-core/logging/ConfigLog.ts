@@ -9,10 +9,12 @@
  * General Public License for more details.
  */
 
-import {LoggerFactoryOptions, LFService, LogGroupRule, LogLevel, LoggerFactory} from "typescript-logging";
+import {Category, CategoryConfiguration, CategoryServiceFactory, LogLevel} from "typescript-logging";
 
-const options = new LoggerFactoryOptions()
-    .addLogGroupRule(new LogGroupRule(new RegExp("model.+"), LogLevel.Debug))
-    .addLogGroupRule(new LogGroupRule(new RegExp(".+"), LogLevel.Info));
+CategoryServiceFactory.setDefaultConfiguration(new CategoryConfiguration(LogLevel.Info));
 
-export const factory: LoggerFactory = LFService.createNamedLoggerFactory("LoggerFactory", options);
+export const catInteraction = new Category("interaction");
+export const catCommand = new Category("command");
+export const catBinder = new Category("binder");
+export const catFSM = new Category("fsm", catInteraction);
+

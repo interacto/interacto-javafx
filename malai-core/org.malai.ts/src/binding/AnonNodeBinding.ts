@@ -11,11 +11,11 @@
 
 import {TSWidgetBinding} from "./TSWidgetBinding";
 import {TSInteraction} from "../interaction/TSInteraction";
-import {LogLevel} from "../src-core/logging/LogLevel";
 import {FSM} from "../src-core/fsm/FSM";
 import {CommandImpl} from "../src-core/command/CommandImpl";
 import {InteractionData} from "../src-core/interaction/InteractionData";
 import {MArray} from "../util/ArrayUtil";
+import {LogLevel} from "../src-core/logging/LogLevel";
 
 export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, FSM<Event>, {}>, D extends InteractionData>
     extends TSWidgetBinding<C, I, D> {
@@ -62,6 +62,7 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
                        // List<ObservableList<? extends Node>> additionalWidgets, HelpAnimation animation, help : boolean
                        asyncExec: boolean, strict: boolean, loggers: Array<LogLevel>) {
         super(exec, interaction, cmdProducer, widgets);
+        this.configureLoggers(loggers);
         this.execInitCmd = initCmdFct;
         this.execUpdateCmd = updateCmdFct;
         this.cancelFct = cancel;
@@ -71,7 +72,6 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
         this.async = asyncExec;
         this.onEnd = onEndFct;
         this.strictStart = strict;
-        this.configureLoggers(loggers);
 
         this.currentCmd = undefined;
 
@@ -91,9 +91,11 @@ export class AnonNodeBinding<C extends CommandImpl, I extends TSInteraction<D, F
     }
 
     private configureLoggers(loggers: Array<LogLevel>): void {
-        this.logCmd(loggers.indexOf(LogLevel.COMMAND) >= 0);
-        this.logBinding(loggers.indexOf(LogLevel.BINDING) >= 0);
-        this.interaction.log(loggers.indexOf(LogLevel.INTERACTION) >= 0);
+        if (loggers.length !== 0) {
+            this.setLogCmd(loggers.includes(LogLevel.COMMAND.valueOf()));
+            this.setLogBinding(loggers.includes(LogLevel.BINDING.valueOf()));
+            this.interaction.log(loggers.includes(LogLevel.INTERACTION.valueOf()));
+        }
     }
 
     public isStrictStart(): boolean {

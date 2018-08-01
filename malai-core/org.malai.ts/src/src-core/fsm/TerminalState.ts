@@ -26,6 +26,6 @@ export class TerminalState<E> extends StateImpl<E> implements InputState<E> {
 
     public enter(): void {
         this.checkStartingState();
-        this.fsm.onTerminating();
+        this.fsm.onTerminating(this);
     }
 }
