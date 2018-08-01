@@ -12,7 +12,7 @@
 import {anonCmdBinder, buttonBinder, dndBinder, dragLockBinder, nodeBinder} from "../../src/binding/Bindings";
 import {Click} from "../../src/interaction/library/Click";
 import {StubCmd} from "../command/StubCmd";
-import {AnonCmd, EventRegistrationToken, MArray} from "../../src";
+import {AnonCmd, DoubleClick, EventRegistrationToken, LogLevel, MArray} from "../../src";
 import {createMouseEvent} from "../interaction/StubEvents";
 
 jest.mock("../command/StubCmd");
@@ -98,4 +98,11 @@ test("Test the end() routine", () => {
     buttonBinder(i => new StubCmd()).on(button).end(i => expect(i.getWidget()).not.toBe(undefined)).bind();
     button.click();
     expect(StubCmd.prototype.doIt).toHaveBeenCalledTimes(1);
+});
+
+test("Test cancel log message", () => {
+    nodeBinder(new DoubleClick(), () => new StubCmd()).on(button).log(LogLevel.BINDING).bind();
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseDown, button));
+    button.dispatchEvent(createMouseEvent(EventRegistrationToken.MouseMove, button));
+    expect(StubCmd.prototype.doIt).not.toHaveBeenCalled();
 });

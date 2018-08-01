@@ -27,7 +27,7 @@ beforeEach(() => {
     handler = new StubFSMHandler();
     interaction = new DragLock();
     interaction.log(true);
-    interaction.getFsm().log(true);
+    // interaction.getFsm().log(true);
     interaction.getFsm().addHandler(handler);
     document.documentElement.innerHTML = "<html><div><canvas id='canvas1' /></div></html>";
     const elt = document.getElementById("canvas1");

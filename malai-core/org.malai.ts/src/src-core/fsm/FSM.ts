@@ -17,13 +17,12 @@ import {FSMHandler} from "./FSMHandler";
 import {TimeoutTransition} from "./TimeoutTransition";
 import {StdState} from "./StdState";
 import {InputState} from "./InputState";
-import {Logger} from "typescript-logging";
-import {factory} from "../logging/ConfigLog";
 import {MArray} from "../../util/ArrayUtil";
 import {OutputStateImpl} from "./OutputStateImpl";
+import {catFSM} from "../logging/ConfigLog";
 
 export class FSM<E> {
-    protected logger: Logger | undefined;
+    protected asLogFSM: boolean;
 
     protected _inner: boolean;
 
@@ -83,6 +82,7 @@ export class FSM<E> {
         this._currentState = new ObsValue<OutputState<E>>(this.initState);
         this.handlers = new MArray();
         this.eventsToProcess = new MArray();
+        this.asLogFSM = false;
     }
 
     public setCurrentSubFSM(subFSM?: FSM<E>): void {
@@ -137,8 +137,8 @@ export class FSM<E> {
 
             if (event !== undefined) {
                 this.eventsToProcess.removeAt(0);
-                if (this.logger !== undefined) {
-                    this.logger.info("Recycling event: " + String(event));
+                if (this.asLogFSM) {
+                    catFSM.info(`Recycling event: ${event.constructor.name}`);
                 }
                 this.process(event);
             }
@@ -154,12 +154,12 @@ export class FSM<E> {
     /**
      * Terminates the state machine.
      */
-    public onTerminating(): void {
-        if (this.logger !== undefined) {
-            this.logger.info("FSM ended");
-        }
+    public onTerminating(terminalState: InputState<E>): void {
         if (this.started) {
             this.notifyHandlerOnStop();
+        }
+        if (this.asLogFSM) {
+            catFSM.info(`FSM ended on state : ${terminalState.getName()}, type is ${terminalState.constructor.name}`);
         }
         this.reinit();
         this.processRemainingEvents();
@@ -168,9 +168,10 @@ export class FSM<E> {
     /**
      * Cancels the state machine.
      */
-    public onCancelling(): void {
-        if (this.logger !== undefined) {
-            this.logger.info("FSM cancelled");
+    public onCancelling(cancelState?: InputState<E>): void {
+        if (this.asLogFSM) {
+            catFSM.info(`FSM cancelled on state : ${cancelState === undefined ?
+                this.currentState.getName() : cancelState.getName()}`);
         }
         if (this.started) {
             this.notifyHandlerOnCancel();
@@ -182,8 +183,8 @@ export class FSM<E> {
      * Starts the state machine.
      */
     public onStarting(): void {
-        if (this.logger !== undefined) {
-            this.logger.info("FSM started");
+        if (this.asLogFSM) {
+            catFSM.info(`FSM started with state : ${this.currentState.getName()}`);
         }
         this.started = true;
         this.notifyHandlerOnStart();
@@ -194,8 +195,8 @@ export class FSM<E> {
      */
     public onUpdating(): void {
         if (this.started) {
-            if (this.logger !== undefined) {
-                this.logger.info("FSM updated");
+            if (this.asLogFSM) {
+                catFSM.info(`FSM updated to the state :  ${this.currentState.getName()}`);
             }
             this.notifyHandlerOnUpdate();
         }
@@ -210,18 +211,12 @@ export class FSM<E> {
     }
 
     public log(log: boolean): void {
-        if (log) {
-            if (this.logger === undefined) {
-                this.logger = factory.getLogger("FSM");
-            }
-        } else {
-            this.logger = undefined;
-        }
+        this.asLogFSM = log;
     }
 
     public reinit(): void {
-        if (this.logger !== undefined) {
-            this.logger.info("FSM reinitialised");
+        if (this.asLogFSM) {
+            catFSM.info("FSM reinitialised");
         }
         if (this.currentTimeout !== undefined) {
             this.currentTimeout.stopTimeout();
@@ -244,8 +239,8 @@ export class FSM<E> {
 
     public onTimeout() {
         if (this.currentTimeout !== undefined) {
-            if (this.logger !== undefined) {
-                this.logger.info("Timeout");
+            if (this.asLogFSM) {
+                catFSM.info("Timeout");
             }
             const state = this.currentTimeout.execute().get();
             if (state instanceof OutputStateImpl) {
@@ -260,8 +255,8 @@ export class FSM<E> {
      */
     public stopCurrentTimeout(): void {
         if (this.currentTimeout !== undefined) {
-            if (this.logger !== undefined) {
-                this.logger.info("Timeout stopped");
+            if (this.asLogFSM) {
+                catFSM.info("Timeout stopped");
             }
             this.currentTimeout.stopTimeout();
             this.currentTimeout = undefined;
@@ -276,8 +271,8 @@ export class FSM<E> {
         const tr = this._currentState.get().getTransitions().find(t => t instanceof TimeoutTransition) as TimeoutTransition<E> | undefined;
 
         if (tr !== undefined) {
-            if (this.logger !== undefined) {
-                this.logger.info("Timeout starting");
+            if (this.asLogFSM) {
+                catFSM.info("Timeout starting");
             }
             this.currentTimeout = tr;
             this.currentTimeout.startTimeout();
@@ -357,7 +352,7 @@ export class FSM<E> {
 
     public uninstall(): void {
         this.fullReinit();
-        this.logger = undefined;
+        this.asLogFSM = false;
         this._currentState.unobsAll();
         this.currentSubFSM = undefined;
         this.states.forEach(state => state.uninstall());

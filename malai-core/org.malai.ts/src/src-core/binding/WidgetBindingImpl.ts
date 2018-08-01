@@ -13,8 +13,7 @@ import {InteractionImpl} from "../interaction/InteractionImpl";
 import {WidgetBinding} from "./WidgetBinding";
 import {CancelFSMException} from "../fsm/CancelFSMException";
 import {isUndoableType} from "../undo/Undoable";
-import {factory} from "../logging/ConfigLog";
-import {Logger} from "typescript-logging";
+import {catBinder, catCommand} from "../logging/ConfigLog";
 import {FSM} from "../fsm/FSM";
 import {CommandImpl} from "../command/CommandImpl";
 import {MustBeUndoableCmdException} from "./MustBeUndoableCmdException";
@@ -36,9 +35,10 @@ import {InteractionData} from "../interaction/InteractionData";
  */
 export abstract class WidgetBindingImpl<C extends CommandImpl, I extends InteractionImpl<D, {}, FSM<{}>>, D extends InteractionData>
             implements WidgetBinding {
-    protected loggerBinding: Logger | undefined;
 
-    protected loggerCmd: Logger | undefined;
+    protected asLogBinding: boolean;
+
+    protected asLogCmd: boolean;
 
     /**
      * The source interaction.
@@ -66,6 +66,9 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
     protected readonly cmdProducer: (i?: D) => C;
 
     protected constructor(exec: boolean, interaction: I, cmdProducer: (i?: D) => C) {
+        this.asLogBinding = false;
+        this.asLogCmd = false;
+
         this.execute = false;
         this.async = false;
         this.cmdProducer = cmdProducer;
@@ -74,31 +77,8 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
         // this.instrument = ins;
         this.execute = exec;
         this.interaction.getFsm().addHandler(this);
+
         this.setActivated(true);
-    }
-
-    public logBinding(log: boolean): void {
-        if (log) {
-            if (this.loggerBinding === undefined) {
-                this.loggerBinding = factory.getLogger("Binding");
-            }
-        } else {
-            //     this.loggerBinding = undefined;
-        }
-    }
-
-    public logCmd(log: boolean): void {
-        if (log) {
-            if (this.loggerCmd === undefined) {
-                this.loggerCmd = factory.getLogger("Command");
-            }
-        } else {
-            this.loggerCmd = undefined;
-        }
-    }
-
-    public logInteraction(log: boolean): void {
-        this.interaction.log(log);
     }
 
     /**
@@ -178,8 +158,8 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
     protected unbindCmdAttributes(): void {
         if (this.cmd !== undefined) {
             this.unbindCmdAttributesClass(this.cmd.constructor);
-            if (this.loggerCmd !== undefined) {
-                this.loggerCmd.info("Command unbound: " + String(this.cmd));
+            if (this.asLogCmd) {
+                catCommand.info(`Command unbound: ${this.cmd.constructor.name}`);
             }
         }
     }
@@ -210,20 +190,20 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
      */
     public fsmCancels(): void {
         if (this.cmd !== undefined) {
-            if (this.loggerBinding !== undefined) {
-                this.loggerBinding.info("Binding cancelled");
+            if (this.asLogBinding) {
+                catBinder.info("Binding cancelled");
             }
             this.cmd.cancel();
-            if (this.loggerCmd !== undefined) {
-                this.loggerCmd.info("Command cancelled");
+            if (this.asLogCmd) {
+                catCommand.info(`Command ${this.cmd.constructor.name} cancelled`);
             }
             this.unbindCmdAttributes();
             // this.instrument.onCmdCancelled(this.cmd);
             if (this.isExecute() && this.cmd.hadEffect()) {
                 if (isUndoableType(this.cmd)) {
                     this.cmd.undo();
-                    if (this.loggerCmd !== undefined) {
-                        this.loggerCmd.info("Command undone");
+                    if (this.asLogCmd) {
+                        catCommand.info(`Command ${this.cmd.constructor.name} undone`);
                     }
                 } else {
                     throw new MustBeUndoableCmdException(this.cmd);
@@ -239,20 +219,20 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
      */
     public fsmStarts(): void {
         const ok: boolean = this.cmd === undefined && this.isActivated() && this.when();
-        if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Starting binding: " + String(ok));
+        if (this.asLogBinding) {
+            catBinder.info(`Starting binding: ${ok}`);
         }
         if (ok) {
             this.cmd = this.map();
             this.first();
-            if (this.loggerCmd !== undefined) {
-                this.loggerCmd.info("Command created and init: " + String(this.cmd));
+            if (this.asLogCmd) {
+                catCommand.info(`Command created and init: ${this.cmd.constructor.name}`);
             }
             this.feedback();
         } else {
             if (this.isStrictStart()) {
-                if (this.loggerBinding !== undefined) {
-                    this.loggerBinding.info("Cancelling starting interaction: " + String(this.interaction));
+                if (this.asLogBinding) {
+                    catBinder.info(`Cancelling starting interaction: ${this.interaction.constructor.name}`);
                 }
                 throw new CancelFSMException();
             }
@@ -264,21 +244,21 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
      */
     public fsmStops(): void {
         const ok: boolean = this.when();
-        if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Binding stops with condition: " + String(ok));
+        if (this.asLogBinding) {
+            catBinder.info(`Binding stops with condition: ${ok}`);
         }
         if (ok) {
             if (this.cmd === undefined) {
                 this.cmd = this.map();
                 this.first();
-                if (this.loggerCmd !== undefined) {
-                    this.loggerCmd.info("Command created and init: " + String(this.cmd));
+                if (this.asLogCmd) {
+                    catCommand.info(`Command created and init: ${this.cmd.constructor.name}`);
                 }
             }
             if (!this.execute) {
                 this.then();
-                if (this.loggerCmd !== undefined) {
-                    this.loggerCmd.info("Command updated: " + String(this.cmd));
+                if (this.asLogCmd) {
+                    catCommand.info(`Command ${this.cmd.constructor.name} is updated`);
                 }
             }
             this.executeCmd(this.cmd, this.async);
@@ -287,8 +267,8 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
             // this.instrument.interimFeedback();
         } else {
             if (this.cmd !== undefined) {
-                if (this.loggerCmd !== undefined) {
-                    this.loggerCmd.info("Cancelling the command: " + String(this.cmd));
+                if (this.asLogCmd) {
+                    catCommand.info(`Cancelling the command: ${this.cmd.constructor.name}`);
                 }
                 this.cmd.cancel();
                 this.unbindCmdAttributes();
@@ -310,8 +290,8 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
     protected abstract executeCmdAsync(cmd: Command): void;
 
     protected afterCmdExecuted(cmd: Command, ok: boolean): void {
-        if (this.loggerCmd !== undefined) {
-            this.loggerCmd.info("Command execution did it: " + String(ok));
+        if (this.asLogCmd) {
+            catCommand.info(`Command execution did it: ${ok}`);
         }
         if (ok) {
             // this.instrument.onCmdExecuted(cmd);
@@ -319,8 +299,8 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
             // this.instrument.onCmdDone(cmd);
         }
         const hadEffect: boolean = cmd.hadEffect();
-        if (this.loggerCmd !== undefined) {
-            this.loggerCmd.info("Command execution had effect: " + String(hadEffect));
+        if (this.asLogCmd) {
+            catCommand.info(`Command execution had effect: ${hadEffect}`);
         }
         if (hadEffect) {
             if (cmd.getRegistrationPolicy() !== RegistrationPolicy.NONE) {
@@ -335,26 +315,26 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
 
     public fsmUpdates(): void {
         const ok: boolean = this.when();
-        if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Binding updates with condition: " + String(ok));
+        if (this.asLogBinding) {
+            catBinder.info(`Binding updates with condition: ${ok}`);
         }
         if (ok) {
             if (this.cmd === undefined) {
-                if (this.loggerCmd !== undefined) {
-                    this.loggerCmd.info("Command creation");
-                }
                 this.cmd = this.map();
+                if (this.asLogCmd) {
+                    catCommand.info(`Creation of command : ${this.cmd.constructor.name}`);
+                }
                 this.first();
             }
-            if (this.loggerCmd !== undefined) {
-                this.loggerCmd.info("Command update");
+            if (this.asLogCmd) {
+                catCommand.info(`Command ${this.cmd.constructor.name} updated`);
             }
             this.then();
             if (this.execute && this.cmd.canDo()) {
-                if (this.loggerCmd !== undefined) {
-                    this.loggerCmd.info("Command execution");
-                }
                 this.cmd.doIt();
+                if (this.asLogCmd) {
+                    catCommand.info(`Command ${this.cmd.constructor.name} executed`);
+                }
                 // this.instrument.onCmdExecuted(this.cmd);
             }
             this.feedback();
@@ -363,8 +343,8 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
 
     public uninstallBinding(): void {
         this.setActivated(false);
-        this.loggerCmd = undefined;
-        this.loggerBinding = undefined;
+        this.asLogBinding = false;
+        this.asLogCmd = false;
     }
 
     /**
@@ -383,12 +363,21 @@ export abstract class WidgetBindingImpl<C extends CommandImpl, I extends Interac
 
     /**
      *
-     * @param {boolean} activ
+     * @param {boolean} active
      */
-    public setActivated(activ: boolean): void {
-        if (this.loggerBinding !== undefined) {
-            this.loggerBinding.info("Binding Activated: " + String(activ));
+    public setActivated(active: boolean): void {
+        if (this.asLogBinding) {
+            catBinder.info(`Binding Activated: ${active}`);
         }
-        this.interaction.setActivated(activ);
+        this.interaction.setActivated(active);
     }
+
+    public setLogBinding(log: boolean) {
+        this.asLogBinding = log;
+    }
+
+    public setLogCmd(log: boolean) {
+        this.asLogCmd = log;
+    }
+
 }

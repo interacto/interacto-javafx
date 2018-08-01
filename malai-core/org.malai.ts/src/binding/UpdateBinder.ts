@@ -108,6 +108,6 @@ export abstract class UpdateBinder<C extends CommandImpl, I extends TSInteractio
         return new AnonNodeBinding(this.execOnChanges, this.interaction, this.cmdProducer, this.initCmd, this.updateFct,
             this.checkConditions, this.onEnd, this.cancelFct, this.endOrCancelFct, this.feedbackFct, this.widgets,
             this.additionalWidgets, this.targetWidgets, this._async,
-            this._strictStart, new Array(...this.logLevels));
+            this._strictStart, this.logLevels);
     }
 }
