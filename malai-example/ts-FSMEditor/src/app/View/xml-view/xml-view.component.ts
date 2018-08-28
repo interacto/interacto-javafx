@@ -13,10 +13,10 @@ export class XmlViewComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-    this.xmlString = parseString('./assets/FSMsave/test.xml', function (err, result) {
-      console.dir(result);
-    });
-  }
+   ngOnInit() {
+  //   this.xmlString = parseString('./assets/FSMsave/test.xml', function (err, result) {
+  //     // console.dir(result);
+  //   });
+   }
 
 }

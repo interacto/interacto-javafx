@@ -1,7 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {NodeBinder, DnD, SrcTgtPointsData} from '../../../../../../malai-core/org.malai.ts/src';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {FSMpartSelectorComponent} from './fsmpart-selector/fsmpart-selector.component';
-import {DrawPart} from '../../Command/draw-part';
+import {DragLock, nodeBinder, SrcTgtPointsData, dndBinder, LogLevel} from 'org.malai.ts-dev';
+import {DrawboxComponent} from './DrawBox/drawbox/drawbox.component';
+import {DrawPartGroup} from '../../Command/DnD_part_editor/draw-part_group';
+import {DrawOnuUdate} from '../../Command/DnD_part_editor/draw_on_update';
+import {DrawPath} from '../../Command/DnD_part_editor/draw-path';
 
 
 @Component({
@@ -9,20 +12,33 @@ import {DrawPart} from '../../Command/draw-part';
   templateUrl: './editor-view.component.html',
   styleUrls: ['./editor-view.component.css']
 })
-export class EditorViewComponent implements OnInit {
-
-  @ViewChild ('DrawBox') drawbox: ElementRef;
-  @ViewChild(FSMpartSelectorComponent) fsm_selector: FSMpartSelectorComponent;
-
-  dnd: DnD;
-
+export class EditorViewComponent implements OnInit, AfterViewInit {
   constructor() { }
 
-  ngOnInit() {
-    new NodeBinder<DrawPart, DnD, SrcTgtPointsData>(this.dnd = new DnD(false, false),
-        i => new DrawPart(i))
-      .on(this.fsm_selector.init_part.img.nativeElement).on(this.fsm_selector.stnd_part.img.nativeElement)
-      .on(this.fsm_selector.term_part.img.nativeElement).on(this.fsm_selector.canc_part.img.nativeElement)
-      .on(this.drawbox.nativeElement).bind();
+  @ViewChild ('FSMselector') fsmSelector: FSMpartSelectorComponent;
+  @ViewChild ('DrawBox') drawbox: DrawboxComponent;
+
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+
+    dndBinder<DrawPartGroup>( i => new DrawPartGroup(i), false, false)
+      .on(this.fsmSelector.parts).to(this.drawbox.drawbox.nativeElement)
+      .bind();
+
+    dndBinder<DrawOnuUdate>( i => new DrawOnuUdate(i), false, false)
+      .onContent(this.drawbox.drawbox.nativeElement).to(this.drawbox.drawbox.nativeElement).log(LogLevel.INTERACTION).bind();
+
+    let drawPath: DrawPath;
+    nodeBinder<SrcTgtPointsData, DrawPath, DragLock>(new DragLock(), i => {
+      console.log(i.getSrcObject().get());
+      console.log(i.getTgtObject().get());
+      return drawPath =  new DrawPath(i.getSrcClientX(), i.getSrcClientY(), this.drawbox.drawbox.nativeElement);
+    })
+      .on(this.drawbox.drawbox.nativeElement)
+      .log(LogLevel.INTERACTION)
+      .end(i => drawPath.setTargetCoord(i.getTgtClientX(), i.getTgtClientY()))
+      .bind();
   }
 }

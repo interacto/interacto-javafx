@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MenuButtonComponent } from './menu-button.component';
+import {NewButtonComponent} from './new-button/new-button.component';
+import {TitleComponent} from '../title/title.component';
+import {SaveButtonComponent} from './save-button/save-button.component';
 
 describe('MenuButtonComponent', () => {
   let component: MenuButtonComponent;
@@ -8,7 +11,7 @@ describe('MenuButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MenuButtonComponent ]
+      declarations: [ MenuButtonComponent, NewButtonComponent, TitleComponent, SaveButtonComponent ]
     })
     .compileComponents();
   }));
@@ -20,6 +23,6 @@ describe('MenuButtonComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

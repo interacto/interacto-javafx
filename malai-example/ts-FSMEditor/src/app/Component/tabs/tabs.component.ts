@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TabComponent} from './tab/tab.component';
-import {Click, NodeBinder, PointData} from '../../../../../../malai-core/org.malai.ts/src';
-import {AnonCmd} from '../../../../../../malai-core/org.malai.ts/src/src-core/command/AnonCmd';
+import {AnonCmd, Click, NodeBinder, PointData} from 'org.malai.ts-dev';
+
 
 @Component({
   selector: 'app-tabs',
