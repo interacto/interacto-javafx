@@ -10,12 +10,9 @@
  */
 package org.malai.binding;
 
-import java.util.Arrays;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.Property;
-import org.malai.command.AutoUnbind;
 import org.malai.command.Command;
 import org.malai.command.CommandImpl;
 import org.malai.command.CommandsRegistry;
@@ -180,36 +177,10 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 		return false;
 	}
 
-	protected void unbindCmdAttributes() {
-		if(cmd != null) {
-			unbindCmdAttributesClass(cmd.getClass());
-			if(loggerCmd != null) {
-				loggerCmd.log(Level.INFO, "Command unbound: " + cmd);
-			}
-		}
-	}
-
-	private void unbindCmdAttributesClass(final Class<? extends CommandImpl> clazz) {
-		Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(AutoUnbind.class) &&
-			Property.class.isAssignableFrom(field.getType())).forEach(field -> {
-			try {
-				final boolean access = field.isAccessible();
-				field.setAccessible(true);
-				final Object o = field.get(cmd);
-				if(o instanceof Property<?>) {
-					((Property<?>) o).unbind();
-				}
-				field.setAccessible(access);
-			}catch(final IllegalAccessException ex) {
-				ex.printStackTrace();
-			}
-		});
-
-		final Class<?> superClass = clazz.getSuperclass();
-		if(superClass != null && superClass != CommandImpl.class && CommandImpl.class.isAssignableFrom(superClass)) {
-			unbindCmdAttributesClass((Class<? extends CommandImpl>) superClass);
-		}
-	}
+	/**
+	 * Manages to automatically unbind commands' attributes tagged with AutoUnbind
+	 */
+	protected abstract void unbindCmdAttributes();
 
 	@Override
 	public void fsmCancels() {

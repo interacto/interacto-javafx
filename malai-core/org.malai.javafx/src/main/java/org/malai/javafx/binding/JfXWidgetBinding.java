@@ -20,6 +20,7 @@ import java.util.function.Function;
 import java.util.logging.Level;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -29,6 +30,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Window;
 import org.malai.binding.WidgetBindingImpl;
+import org.malai.command.AutoUnbind;
 import org.malai.command.Command;
 import org.malai.command.CommandImpl;
 import org.malai.error.ErrorCatcher;
@@ -123,6 +125,38 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		customAnimation = animation;
 		activation.addListener(activationHandler);
 		interaction.registerToWindows(windows);
+	}
+
+	@Override
+	protected void unbindCmdAttributes() {
+		if(cmd != null) {
+			unbindCmdAttributesClass(cmd.getClass());
+			if(loggerCmd != null) {
+				loggerCmd.log(Level.INFO, "Command unbound: " + cmd);
+			}
+		}
+	}
+
+	private void unbindCmdAttributesClass(final Class<? extends CommandImpl> clazz) {
+		Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(AutoUnbind.class) &&
+			Property.class.isAssignableFrom(field.getType())).forEach(field -> {
+			try {
+				final boolean access = field.isAccessible();
+				field.setAccessible(true);
+				final Object o = field.get(cmd);
+				if(o instanceof Property<?>) {
+					((Property<?>) o).unbind();
+				}
+				field.setAccessible(access);
+			}catch(final IllegalAccessException ex) {
+				ex.printStackTrace();
+			}
+		});
+
+		final Class<?> superClass = clazz.getSuperclass();
+		if(superClass != null && superClass != CommandImpl.class && CommandImpl.class.isAssignableFrom(superClass)) {
+			unbindCmdAttributesClass((Class<? extends CommandImpl>) superClass);
+		}
 	}
 
 	/**
