@@ -26,20 +26,6 @@
         </repository>
     </repositories>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>jsweet-plugins-release</id>
-            <name>plugins-release</name>
-            <url>http://repository.jsweet.org/artifactory/plugins-release-local</url>
-        </pluginRepository>
-        <pluginRepository>
-            <snapshots/>
-            <id>jsweet-plugins-snapshots</id>
-            <name>plugins-snapshot</name>
-            <url>http://repository.jsweet.org/artifactory/plugins-snapshot-local</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <plugins>
             <plugin>
@@ -116,27 +102,6 @@
                     <execution>
                         <goals>
                             <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jsweet</groupId>
-                <artifactId>jsweet-maven-plugin</artifactId>
-                <version>2.0.1</version>
-                <configuration>
-                    <tsOut>target/ts</tsOut>
-                    <targetVersion>ES6</targetVersion>
-                    <tsOnly>true</tsOnly>
-                    <verbose>false</verbose>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>generate-ts</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>jsweet</goal>
                         </goals>
                     </execution>
                 </executions>
