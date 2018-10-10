@@ -5,9 +5,9 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.malai.command.AutoUnbind;
 import org.malai.command.Command;
 import org.malai.command.CommandImpl;
-import org.malai.command.AutoUnbind;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.FSM;
 import org.malai.instrument.Instrument;
@@ -37,8 +37,8 @@ public class TestAutoUnbind {
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
 		final A aCmd = new A(val.multiply(10d), val.add(11d));
-		WidgetBindingImpl<A, InteractionImpl<InteractionData,?,?>, Instrument<?>,InteractionData> binding =
-			new WidgetBindingImpl<A, InteractionImpl<InteractionData,?,?>, Instrument<?>,InteractionData>(ins, false, i -> aCmd, inter) {
+		final WidgetBindingImpl<A, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData> binding =
+			new WidgetBindingImpl<A, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData>(ins, false, i -> aCmd, inter) {
 			@Override
 			public void first() {
 			}
@@ -64,8 +64,8 @@ public class TestAutoUnbind {
 	public void testUnbindSuperClassFields() throws CancelFSMException {
 		final B bCmd = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
-		final WidgetBindingImpl<B, InteractionImpl<InteractionData, ?,?>, Instrument<?>, InteractionData> binding =
-			new WidgetBindingImpl<B, InteractionImpl<InteractionData,?,?>, Instrument<?>, InteractionData>(ins, false, i -> bCmd, inter) {
+		final WidgetBindingImpl<B, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData> binding =
+			new WidgetBindingImpl<B, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData>(ins, false, i -> bCmd, inter) {
 			@Override
 			public void first() {
 			}

@@ -186,8 +186,11 @@ public class TestInteractor {
 		}
 
 		@Override
-		protected void executeCmdAsync(final Command cmd) {
+		protected void unbindCmdAttributes() {
+		}
 
+		@Override
+		protected void executeCmdAsync(final Command cmd) {
 		}
 	}
 }
