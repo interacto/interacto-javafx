@@ -90,7 +90,7 @@
                                 <argument>--module-path=${project.build.directory}/modules:${java.home}/jmods</argument>
                                 <argument>--add-modules=malai.example.drawingEditor</argument>
                                 <argument>--launcher=run=malai.example.drawingEditor/org.malai.ex.draw.Editor</argument>
-                                <argument>--output=dist</argument>
+                                <argument>--output=${project.build.directory}/dist</argument>
                                 <argument>--strip-debug</argument>
                                 <argument>--compress=2</argument>
                                 <argument>--no-man-pages</argument>
