@@ -7,18 +7,23 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.javafx.binding.MenuItemBinder;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	Menu menu;
 	final String menuID = "menu";
 	final String menuitemID1 = "menuitemID1";
 	final String menuitemID2 = "menuitemID2";
 
-	@Override
-	public void start(Stage stage) {
+	@Start
+	public void start(final Stage stage) {
 		widget1 = new MenuItem("menu1");
 		widget2 = new MenuItem("menu2");
 		widget1.setId(menuitemID1);
@@ -39,56 +44,56 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButton() {
+	public void testCommandExecutedOnSingleButton(final FxRobot robot) {
 		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
-		clickOn("#"+menuID).clickOn("#"+menuitemID1);
+		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoMenus() {
+	public void testCommandExecutedOnTwoMenus(final FxRobot robot) {
 		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1, widget2).
 			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
-		clickOn("#"+menuID).clickOn("#"+menuitemID2);
+		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
 		assertEquals(1, instrument.exec.get());
-		clickOn("#"+menuID).clickOn("#"+menuitemID1);
+		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(2, instrument.exec.get());
 	}
 
 	@Test
-	public void testInit1Executed() {
+	public void testInit1Executed(final FxRobot robot) {
 		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
-		clickOn("#"+menuID).clickOn("#"+menuitemID1);
+		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
-	public void testInit2Executed() {
+	public void testInit2Executed(final FxRobot robot) {
 		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			first((i, c) -> c.exec.setValue(10)).
 			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
-		clickOn("#"+menuID).clickOn("#"+menuitemID1);
+		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
-	public void testCheckFalse() {
+	public void testCheckFalse(final FxRobot robot) {
 		new MenuItemBinder<>(StubCmd::new, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();
-		clickOn("#"+menuID).clickOn("#"+menuitemID1);
+		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(0, instrument.exec.get());
 	}
 }

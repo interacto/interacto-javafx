@@ -5,14 +5,17 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.malai.javafx.interaction.JfxFSM;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	@Override
 	DoubleClick createInteraction() {
@@ -53,12 +56,12 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 
 	@Test
 	void testSubDataHandlerNotNull() {
-		assertNotNull(((JfxFSM<?>)((Click) interaction.getData()).getFsm()).getDataHandler());
+		assertNotNull(((JfxFSM<?>) ((Click) interaction.getData()).getFsm()).getDataHandler());
 	}
 
 	@Test
 	void testDbleClickOnWidgetOKOnStarts() {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
@@ -74,7 +77,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 
 	@Test
 	void testDbleClickOnWidgetOkOnStops() {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
@@ -90,7 +93,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 
 	@Test
 	void testDbleClickOnUnregWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, pane));

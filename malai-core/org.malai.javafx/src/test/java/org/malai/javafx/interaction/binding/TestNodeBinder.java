@@ -5,8 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class TestNodeBinder<W extends Node> extends TestBinder<W> {
-	@Override
+abstract class TestNodeBinder<W extends Node> extends TestBinder<W> {
 	public void start(final Stage stage) {
 		instrument = new StubInstrument();
 		instrument.setActivated(true);

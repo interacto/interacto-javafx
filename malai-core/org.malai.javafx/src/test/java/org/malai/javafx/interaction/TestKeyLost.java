@@ -11,21 +11,25 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.command.Command;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.binding.KeyNodeBinder;
 import org.malai.javafx.instrument.JfxInstrument;
-import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestKeyLost extends ApplicationTest {
+@ExtendWith(ApplicationExtension.class)
+public class TestKeyLost {
 	StubInstrument instrument;
 	Canvas canvas;
 	Stage stage;
 
-	@Override
+	@Start
 	public void start(final Stage stageToConfigure) {
 		canvas = new Canvas();
 		instrument = new StubInstrument();
@@ -51,15 +55,15 @@ public class TestKeyLost extends ApplicationTest {
 
 	@Disabled
 	@Test
-	void testLostWindowFocus() {
-		press(KeyCode.ALT);
+	void testLostWindowFocus(final FxRobot robot) {
+		robot.press(KeyCode.ALT);
 		Platform.runLater(() -> stage.setIconified(true));
 		WaitForAsyncUtils.waitForFxEvents(40);
 		Platform.runLater(() -> stage.setIconified(false));
 		WaitForAsyncUtils.waitForFxEvents(40);
 		Platform.runLater(() -> canvas.requestFocus());
 		WaitForAsyncUtils.waitForFxEvents();
-		press(KeyCode.CONTROL).type(KeyCode.C);
+		robot.press(KeyCode.CONTROL).type(KeyCode.C);
 
 		assertEquals(1, instrument.exec.get());
 		assertEquals(1, ((StubCmd) instrument.lastCreatedCmd).exec.get());

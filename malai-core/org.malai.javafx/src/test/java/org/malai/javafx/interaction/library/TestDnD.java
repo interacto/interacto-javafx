@@ -5,11 +5,14 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestDnD extends BaseJfXInteractionTest<DnD> {
 	@Override
 	DnD createInteraction() {
@@ -205,7 +208,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	void testDnDOnRegWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		pane.fireEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
@@ -215,7 +218,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	void testDnDOnUnRegWidgetKO() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
@@ -224,7 +227,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	void testNewKindEventRegistered() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
@@ -233,7 +236,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	void testNewKindEvent2Registered() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
@@ -243,7 +246,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	void testNewKindEventOnTerminalRegistered() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));

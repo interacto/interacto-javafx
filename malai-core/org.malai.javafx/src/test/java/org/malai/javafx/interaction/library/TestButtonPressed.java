@@ -1,7 +1,10 @@
 package org.malai.javafx.interaction.library;
 
 import javafx.scene.control.Button;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.framework.junit5.ApplicationExtension;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestButtonPressed extends BaseWIMPWidgetTest<Button, ButtonPressed> {
 	@Override
 	Button createWidget() {

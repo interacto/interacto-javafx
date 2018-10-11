@@ -5,9 +5,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 	@Override
 	DnD createInteraction() {
@@ -54,7 +57,7 @@ public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	void testNewKindEventCancelRegistered() {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
@@ -64,7 +67,7 @@ public class TestDnDCancellable extends BaseJfXInteractionTest<DnD> {
 
 	@Test
 	void testNewKindEventAfterCancelRegistered() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		pane.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));

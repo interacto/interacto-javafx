@@ -39,9 +39,9 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> 
 	abstract T createInteraction();
 
 	Window createWindow() {
-		Scene scene = new Scene(new Button());
+		final Scene scene = new Scene(new Button());
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
+			final Stage stage = new Stage();
 			stage.setScene(scene);
 		});
 		WaitForAsyncUtils.waitForFxEvents();
@@ -121,15 +121,15 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> 
 
 	static class InteractionHandlerStub implements FSMHandler {
 		@Override
-		public void fsmStarts() throws CancelFSMException {
+		public void fsmStarts() {
 		}
 
 		@Override
-		public void fsmUpdates() throws CancelFSMException {
+		public void fsmUpdates() {
 		}
 
 		@Override
-		public void fsmStops() throws CancelFSMException {
+		public void fsmStops() {
 		}
 
 		@Override

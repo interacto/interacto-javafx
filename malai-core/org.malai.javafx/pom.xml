@@ -9,7 +9,7 @@
     <name>malai.javafx :: Malai JavaFX component</name>
 
     <properties>
-        <argLine>-Dheadless.geometry=1920x1080-32 -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw -Dprism.text=t2k
+        <argLine>-Dheadless.geometry=1920x1080-32 -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw
         </argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.3.1</junit.version>
@@ -105,31 +105,31 @@
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-base</artifactId>
-            <version>${jfx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics</artifactId>
-            <version>${jfx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${jfx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${jfx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-swing</artifactId>
-            <version>${jfx.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.openjfx</groupId>-->
+            <!--<artifactId>javafx-base</artifactId>-->
+            <!--<version>${jfx.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.openjfx</groupId>-->
+            <!--<artifactId>javafx-graphics</artifactId>-->
+            <!--<version>${jfx.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.openjfx</groupId>-->
+            <!--<artifactId>javafx-controls</artifactId>-->
+            <!--<version>${jfx.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.openjfx</groupId>-->
+            <!--<artifactId>javafx-fxml</artifactId>-->
+            <!--<version>${jfx.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.openjfx</groupId>-->
+            <!--<artifactId>javafx-swing</artifactId>-->
+            <!--<version>${jfx.version}</version>-->
+        <!--</dependency>-->
     </dependencies>
 
     <repositories>

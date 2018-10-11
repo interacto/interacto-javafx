@@ -7,14 +7,17 @@ import javafx.scene.control.Spinner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.InitState;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 	Spinner<?> widget;
 

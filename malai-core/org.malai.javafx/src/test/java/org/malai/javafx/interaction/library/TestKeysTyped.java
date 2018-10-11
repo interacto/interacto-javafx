@@ -4,12 +4,15 @@ import java.util.Collections;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 	@Override
 	KeysTyped createInteraction() {
@@ -111,7 +114,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 
 	@Test
 	void testKeyTypedOnRegWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createKeyTypedEvent("A", KeyCode.A));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -119,7 +122,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 
 	@Test
 	void testKeyTypedOnRegUnregWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createKeyTypedEvent("A", KeyCode.A));
