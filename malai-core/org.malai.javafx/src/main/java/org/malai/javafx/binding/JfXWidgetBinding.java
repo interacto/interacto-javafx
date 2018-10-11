@@ -141,7 +141,7 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(AutoUnbind.class) &&
 			Property.class.isAssignableFrom(field.getType())).forEach(field -> {
 			try {
-				final boolean access = field.isAccessible();
+				final boolean access = field.canAccess(cmd);
 				field.setAccessible(true);
 				final Object o = field.get(cmd);
 				if(o instanceof Property<?>) {
