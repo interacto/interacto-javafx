@@ -12,14 +12,19 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.properties.Zoomable;
-import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public class TestBasicZoomer extends ApplicationTest {
+
+@ExtendWith(ApplicationExtension.class)
+public class TestBasicZoomer {
 	BasicZoomer<StubZommable> zoomer;
 	StubZommable canvas;
 
@@ -27,9 +32,8 @@ public class TestBasicZoomer extends ApplicationTest {
 	void setUp() {
 	}
 
-	@Override
-	public void start(final Stage stage) throws Exception {
-		super.start(stage);
+	@Start
+	public void start(final Stage stage) {
 		zoomer = new BasicZoomer<>();
 		canvas = new StubZommable();
 		canvas.setWidth(100);
@@ -56,44 +60,43 @@ public class TestBasicZoomer extends ApplicationTest {
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlScrollUp() {
-		clickOn(canvas);
-		press(KeyCode.CONTROL).scroll(VerticalDirection.UP).scroll(VerticalDirection.UP).release(KeyCode.CONTROL);
+	void testCtrlScrollUp(final FxRobot robot) {
+		robot.clickOn(canvas);
+		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.UP).scroll(VerticalDirection.UP).release(KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(4d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlScrollDown() {
-		clickOn(canvas);
-		press(KeyCode.CONTROL).scroll(VerticalDirection.DOWN).release(KeyCode.CONTROL);
+	void testCtrlScrollDown(final FxRobot robot) {
+		robot.clickOn(canvas);
+		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.DOWN).release(KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlBadKey() {
-		clickOn(canvas);
-		press(KeyCode.CONTROL, KeyCode.S).release(KeyCode.S, KeyCode.CONTROL);
+	void testCtrlBadKey(final FxRobot robot) {
+		robot.clickOn(canvas);
+		robot.press(KeyCode.CONTROL, KeyCode.S).release(KeyCode.S, KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(2d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testKeyAdd() {
-		clickOn(canvas);
-		type(KeyCode.ADD);
+	void testKeyAdd(final FxRobot robot) {
+		robot.clickOn(canvas);
+		robot.type(KeyCode.ADD);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(3d, canvas.getZoom(), 0.00001);
 	}
 
 	@Test
-	void testKeyMinus() {
-		clickOn(canvas);
-		type(KeyCode.MINUS);
+	void testKeyMinus(final FxRobot robot) {
+		robot.clickOn(canvas).type(KeyCode.MINUS);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}

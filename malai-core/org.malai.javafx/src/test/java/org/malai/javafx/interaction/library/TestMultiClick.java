@@ -7,14 +7,17 @@ import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.FSMHandler;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 	@Override
 	MultiClick createInteraction() {
@@ -173,7 +176,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 	@Test
 	void testMultiClickOnRegWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -181,7 +184,7 @@ public class TestMultiClick extends BaseJfXInteractionTest<MultiClick> {
 
 	@Test
 	void testMultiClickOnRegUnregWidgetKO() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));

@@ -8,19 +8,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.command.CommandImpl;
 import org.malai.javafx.binding.NodeBinder;
 import org.malai.javafx.interaction.library.DnD;
 import org.malai.undo.Undoable;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	Rectangle rec;
 
 	@Override
+	@Start
 	public void start(final Stage stage) {
 		widget1 = new Pane();
 		widget2 = new Pane();
@@ -34,7 +40,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	}
 
 	@Test
-	public void testCanCancelDnD() {
+	public void testCanCancelDnD(final FxRobot robot) {
 		new NodeBinder<>(new DnD(true, true), i -> new MoveShape(rec), instrument).
 			on(rec).
 			first((i, c) -> rec.requestFocus()).
@@ -43,12 +49,12 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			end((i, c) -> fail("")).
 			exec().
 			bind();
-		drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
+		robot.drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
 		assertEquals(0, instrument.exec.get());
 	}
 
 	@Test
-	public void testCanCancelDnDWithObsList() {
+	public void testCanCancelDnDWithObsList(final FxRobot robot) {
 		new NodeBinder<>(new DnD(true, true), i -> new MoveShape((Rectangle) i.getSrcObject().get()), instrument).
 			on(widget1.getChildren()).
 			first((i, c) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
@@ -61,7 +67,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 		final Rectangle rec2 = new Rectangle(200d, 200d, 70d, 50d);
 		Platform.runLater(() -> widget1.getChildren().addAll(rec2));
 		WaitForAsyncUtils.waitForFxEvents();
-		drag(rec2).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
+		robot.drag(rec2).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
 		assertEquals(0, instrument.exec.get());
 	}
 }
@@ -73,7 +79,7 @@ class MoveShape extends CommandImpl implements Undoable {
 	private final DoubleProperty newY;
 	private final Rectangle rec;
 
-	public MoveShape(final Rectangle shape) {
+	MoveShape(final Rectangle shape) {
 		super();
 		rec = shape;
 		newX = new SimpleDoubleProperty();

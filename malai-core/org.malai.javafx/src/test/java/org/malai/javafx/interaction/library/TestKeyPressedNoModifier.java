@@ -2,11 +2,14 @@ package org.malai.javafx.interaction.library;
 
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestKeyPressedNoModifier extends BaseJfXInteractionTest<KeyPressed> {
 	@Override
 	KeyPressed createInteraction() {

@@ -7,11 +7,15 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestTextInputChangedUI extends BaseJfXInteractionTest<TextInputChanged> {
 	TextInputControl input;
 
@@ -21,10 +25,11 @@ public class TestTextInputChangedUI extends BaseJfXInteractionTest<TextInputChan
 	}
 
 	@Override
+	@Start
 	public void start(final Stage stage) throws Exception {
 		super.start(stage);
 		input = new TextField();
-		Scene scene = new Scene(input);
+		final Scene scene = new Scene(input);
 		stage.setScene(scene);
 		stage.show();
 		stage.toFront();

@@ -9,13 +9,16 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 	@Override
 	Scroll createInteraction() {
@@ -31,7 +34,7 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testScrollOnRegWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createScrollEvent(1, 2, 5, 0));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -62,7 +65,7 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testRegisterScrolling() throws CancelFSMException {
-		ColorPicker dummyWidget = new ColorPicker();
+		final ColorPicker dummyWidget = new ColorPicker();
 		interaction.registerToNodes(Collections.singletonList(dummyWidget));
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
@@ -71,7 +74,7 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testRegisterScrollingNoActionWhenNotRegistered() throws CancelFSMException {
-		ColorPicker dummyWidget = new ColorPicker();
+		final ColorPicker dummyWidget = new ColorPicker();
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
@@ -79,7 +82,7 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testNoActionWhenNotScrollingRegistered() throws CancelFSMException {
-		ColorPicker dummyWidgetNotRegistered = new ColorPicker();
+		final ColorPicker dummyWidgetNotRegistered = new ColorPicker();
 		interaction.registerToNodes(Collections.singletonList(new CheckBox()));
 		dummyWidgetNotRegistered.fireEvent(createScrollEvent(1, 2, 5, 0));
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -88,7 +91,7 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testScrollingNoActionWhenNullRegistered() throws CancelFSMException {
-		ColorPicker dummyWidget = new ColorPicker();
+		final ColorPicker dummyWidget = new ColorPicker();
 		interaction.registerToNodes(null);
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -97,7 +100,7 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testScrollingNoActionWhenContainsNullRegistered() throws CancelFSMException {
-		ColorPicker dummyWidget = new ColorPicker();
+		final ColorPicker dummyWidget = new ColorPicker();
 		interaction.registerToNodes(Collections.singletonList(null));
 		dummyWidget.fireEvent(createScrollEvent(1, 2, 5, 0));
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -107,9 +110,9 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testRegisterWindowScrolling() throws CancelFSMException {
-		Scene dummyScene = new Scene(new Button());
+		final Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
+			final Stage stage = new Stage();
 			stage.setScene(dummyScene);
 		});
 		WaitForAsyncUtils.waitForFxEvents();
@@ -122,9 +125,9 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testRegisterWindowScrollingNoActionWhenNotRegistered() throws CancelFSMException {
-		Scene dummyScene = new Scene(new Button());
+		final Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
+			final Stage stage = new Stage();
 			stage.setScene(dummyScene);
 		});
 		WaitForAsyncUtils.waitForFxEvents();
@@ -135,12 +138,12 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testNoActionWhenNotScrollingRegisteredWindow() throws CancelFSMException {
-		Scene dummyScene = new Scene(new Button());
-		Scene dummySceneFire = new Scene(new Button());
+		final Scene dummyScene = new Scene(new Button());
+		final Scene dummySceneFire = new Scene(new Button());
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
+			final Stage stage = new Stage();
 			stage.setScene(dummyScene);
-			Stage stageFire = new Stage();
+			final Stage stageFire = new Stage();
 			stageFire.setScene(dummySceneFire);
 		});
 		WaitForAsyncUtils.waitForFxEvents();
@@ -153,9 +156,9 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testScrollingNoActionWhenNullRegisteredWindow() throws CancelFSMException {
-		Scene dummyScene = new Scene(new Button());
+		final Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
+			final Stage stage = new Stage();
 			stage.setScene(dummyScene);
 		});
 		WaitForAsyncUtils.waitForFxEvents();
@@ -168,9 +171,9 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 
 	@Test
 	void testScrollingNoActionWhenContainsNullRegisteredWindow() throws CancelFSMException {
-		Scene dummyScene = new Scene(new Button());
+		final Scene dummyScene = new Scene(new Button());
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
+			final Stage stage = new Stage();
 			stage.setScene(dummyScene);
 		});
 		WaitForAsyncUtils.waitForFxEvents();

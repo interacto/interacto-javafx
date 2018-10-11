@@ -3,14 +3,17 @@ package org.malai.javafx.interaction.library;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.malai.javafx.interaction.JfxFSM;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 	@Override
 	DragLock createInteraction() {

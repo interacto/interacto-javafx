@@ -4,11 +4,14 @@ import java.util.Collections;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestKeyPressed extends BaseJfXInteractionTest<KeyPressed> {
 	@Override
 	KeyPressed createInteraction() {
@@ -36,7 +39,7 @@ public class TestKeyPressed extends BaseJfXInteractionTest<KeyPressed> {
 
 	@Test
 	void testKeyPressOnRegWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createKeyPressEvent("A", KeyCode.A));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -45,7 +48,7 @@ public class TestKeyPressed extends BaseJfXInteractionTest<KeyPressed> {
 
 	@Test
 	void testPressOnRegWidgetData() {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
@@ -59,7 +62,7 @@ public class TestKeyPressed extends BaseJfXInteractionTest<KeyPressed> {
 
 	@Test
 	void testKeyPressOnUnregWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createKeyPressEvent("A", KeyCode.A));

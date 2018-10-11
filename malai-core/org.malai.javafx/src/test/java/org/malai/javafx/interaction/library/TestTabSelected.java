@@ -5,16 +5,20 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.api.FxRobot;
+import org.testfx.framework.junit5.ApplicationExtension;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestTabSelected extends BaseWIMPWidgetTest<TabPane, TabSelected> {
 	Tab tab1;
 	Tab tab2;
 
 	@Override
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		super.setUp();
 		tab1 = new Tab();
 		tab2 = new Tab();
@@ -40,7 +44,7 @@ public class TestTabSelected extends BaseWIMPWidgetTest<TabPane, TabSelected> {
 
 	@Override
 	@Test
-	void testProcessEventGoodState() throws CancelFSMException {
+	void testProcessEventGoodState(final FxRobot robot) throws CancelFSMException {
 		interaction.processEvent(new TabEvent(wimpWidget, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -48,7 +52,7 @@ public class TestTabSelected extends BaseWIMPWidgetTest<TabPane, TabSelected> {
 
 	@Override
 	@Test
-	void testRegister() throws CancelFSMException {
+	void testRegister(final FxRobot robot) throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		wimpWidget.getSelectionModel().select(1);
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();

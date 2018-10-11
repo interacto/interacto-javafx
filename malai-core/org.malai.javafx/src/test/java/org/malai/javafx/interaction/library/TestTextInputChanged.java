@@ -6,9 +6,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestTextInputChanged extends BaseWIMPWidgetTest<TextInputControl, TextInputChanged> {
 	@Override
 	@BeforeEach

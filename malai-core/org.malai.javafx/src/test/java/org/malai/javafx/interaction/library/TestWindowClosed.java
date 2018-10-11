@@ -10,12 +10,15 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestWindowClosed extends BaseJfXInteractionTest<WindowClosed> {
 	Window window;
 
@@ -24,8 +27,8 @@ public class TestWindowClosed extends BaseJfXInteractionTest<WindowClosed> {
 	public void setUp() {
 		super.setUp();
 		Platform.runLater(() -> {
-			Stage stage = new Stage();
-			Scene scene = new Scene(new Button());
+			final Stage stage = new Stage();
+			final Scene scene = new Scene(new Button());
 			stage.setScene(scene);
 			window = stage.getScene().getWindow();
 		});

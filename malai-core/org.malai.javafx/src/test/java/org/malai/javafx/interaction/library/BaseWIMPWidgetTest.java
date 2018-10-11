@@ -9,6 +9,7 @@ import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.InitState;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.mockito.Mockito;
+import org.testfx.api.FxRobot;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,31 +32,31 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 		sleep = 0L;
 	}
 
-	protected void sleep() {
+	protected void sleep(final FxRobot robot) {
 		if(sleep > 0L) {
-			sleep(sleep);
+			robot.sleep(sleep);
 			WaitForAsyncUtils.waitForFxEvents();
 		}
 	}
 
 	@Test
-	void testProcessEventGoodState() throws CancelFSMException {
+	void testProcessEventGoodState(final FxRobot robot) throws CancelFSMException {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
 
 	@Test
-	void testProcessEventGoodStateNULL() throws CancelFSMException {
+	void testProcessEventGoodStateNULL(final FxRobot robot) throws CancelFSMException {
 		interaction.processEvent(null);
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 
 	@Test
-	void testProcessEventGoodDataOnStart() {
+	void testProcessEventGoodDataOnStart(final FxRobot robot) {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStarts() {
@@ -63,11 +64,11 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 			}
 		});
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		sleep();
+		sleep(robot);
 	}
 
 	@Test
-	void testProcessEventGoodDataOnStop() {
+	void testProcessEventGoodDataOnStop(final FxRobot robot) {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
@@ -75,67 +76,67 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 			}
 		});
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		sleep();
+		sleep(robot);
 	}
 
 	@Test
-	void testProcessEventReinit() {
+	void testProcessEventReinit(final FxRobot robot) {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		sleep();
+		sleep(robot);
 		assertNull(interaction.getWidget());
 		assertTrue(interaction.getFsm().getCurrentState() instanceof InitState);
 	}
 
 	@Test
-	void testRegister() throws CancelFSMException {
+	void testRegister(final FxRobot robot) throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
 
 	@Test
-	void testNoActionWhenNotRegistered() throws CancelFSMException {
+	void testNoActionWhenNotRegistered(final FxRobot robot) throws CancelFSMException {
 		triggerWidget();
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 
 	@Test
-	void testNoActionWhenWrongRegistered() throws CancelFSMException {
+	void testNoActionWhenWrongRegistered(final FxRobot robot) throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(createWidget()));
 		triggerWidget();
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 
 	@Test
-	void testNoActionWhenNullRegistered() throws CancelFSMException {
+	void testNoActionWhenNullRegistered(final FxRobot robot) throws CancelFSMException {
 		interaction.registerToNodes(null);
 		triggerWidget();
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 
 	@Test
-	void testNoActionWhenContainsNullRegistered() throws CancelFSMException {
+	void testNoActionWhenContainsNullRegistered(final FxRobot robot) throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		triggerWidget();
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 
 	@Test
-	void testUnRegisterNode() throws CancelFSMException {
+	void testUnRegisterNode(final FxRobot robot) throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		interaction.unregisterFromNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
-		sleep();
+		sleep(robot);
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}

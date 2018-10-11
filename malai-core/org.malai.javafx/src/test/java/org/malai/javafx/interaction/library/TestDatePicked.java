@@ -2,7 +2,10 @@ package org.malai.javafx.interaction.library;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.DatePicker;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.framework.junit5.ApplicationExtension;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestDatePicked extends BaseWIMPWidgetTest<DatePicker, DatePicked> {
 	@Override
 	DatePicker createWidget() {

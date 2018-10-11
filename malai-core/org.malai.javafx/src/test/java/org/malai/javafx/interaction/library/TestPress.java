@@ -4,11 +4,14 @@ import java.util.Collections;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
+import org.testfx.framework.junit5.ApplicationExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(ApplicationExtension.class)
 public class TestPress extends BaseJfXInteractionTest<Press> {
 	@Override
 	Press createInteraction() {
@@ -37,7 +40,7 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 
 	@Test
 	void testPressOnRegWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.MIDDLE));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -46,7 +49,7 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 
 	@Test
 	void testPressOnRegWidgetData() {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
@@ -61,7 +64,7 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 
 	@Test
 	void testPressOnUnregWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.MIDDLE));
