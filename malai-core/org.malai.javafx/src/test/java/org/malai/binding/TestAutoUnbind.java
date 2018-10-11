@@ -1,8 +1,10 @@
 package org.malai.binding;
 
+import java.util.Collections;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.malai.command.AutoUnbind;
@@ -10,24 +12,25 @@ import org.malai.command.Command;
 import org.malai.command.CommandImpl;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.FSM;
-import org.malai.instrument.Instrument;
 import org.malai.interaction.InteractionData;
-import org.malai.interaction.InteractionImpl;
+import org.malai.javafx.binding.JfXWidgetBinding;
+import org.malai.javafx.instrument.JfxInstrument;
+import org.malai.javafx.interaction.JfxInteraction;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestAutoUnbind {
 	DoubleProperty val;
-	Instrument<?> ins;
-	InteractionImpl<InteractionData, Object, FSM<Object>> inter;
-	FSM<Object> fsm;
+	JfxInstrument ins;
+	JfxInteraction<InteractionData, FSM<Event>, Object> inter;
+	FSM<Event> fsm;
 
 	@BeforeEach
 	public void setUp() {
 		val = new SimpleDoubleProperty(2d);
-		ins = Mockito.mock(Instrument.class);
-		inter = Mockito.mock(InteractionImpl.class);
+		ins = Mockito.mock(JfxInstrument.class);
+		inter = Mockito.mock(JfxInteraction.class);
 		fsm = Mockito.mock(FSM.class);
 		Mockito.when(ins.isActivated()).thenReturn(true);
 		Mockito.when(inter.isActivated()).thenReturn(true);
@@ -37,8 +40,8 @@ public class TestAutoUnbind {
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
 		final A aCmd = new A(val.multiply(10d), val.add(11d));
-		final WidgetBindingImpl<A, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData> binding =
-			new WidgetBindingImpl<A, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData>(ins, false, i -> aCmd, inter) {
+		final JfXWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData> binding =
+			new JfXWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> aCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}
@@ -46,10 +49,8 @@ public class TestAutoUnbind {
 			public boolean when() {
 				return true;
 			}
-
 			@Override
 			protected void executeCmdAsync(final Command cmd) {
-
 			}
 		};
 
@@ -64,8 +65,8 @@ public class TestAutoUnbind {
 	public void testUnbindSuperClassFields() throws CancelFSMException {
 		final B bCmd = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
-		final WidgetBindingImpl<B, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData> binding =
-			new WidgetBindingImpl<B, InteractionImpl<InteractionData, ?, ?>, Instrument<?>, InteractionData>(ins, false, i -> bCmd, inter) {
+		final JfXWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData> binding =
+			new JfXWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> bCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}
@@ -75,7 +76,6 @@ public class TestAutoUnbind {
 			}
 			@Override
 			protected void executeCmdAsync(final Command cmd) {
-
 			}
 		};
 
