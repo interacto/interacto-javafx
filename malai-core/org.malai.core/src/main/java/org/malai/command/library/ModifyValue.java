@@ -21,9 +21,9 @@ import org.malai.command.CommandImpl;
  * property will be modified by the current command instance.
  * @author Arnaud Blouin
  */
-public abstract class ModifyValue extends CommandImpl {
+public abstract class ModifyValue<T> extends CommandImpl {
 	/** The new value of the property. */
-	protected Object value;
+	protected T value;
 
 	/**
 	 * Initialises the command.
@@ -36,7 +36,7 @@ public abstract class ModifyValue extends CommandImpl {
 	 * Initialises the command with the value to set.
 	 * @param value The value to set.
 	 */
-	public ModifyValue(final Object value) {
+	public ModifyValue(final T value) {
 		this.value = value;
 	}
 
@@ -57,7 +57,7 @@ public abstract class ModifyValue extends CommandImpl {
 	 * Sets the new value of the parameter to change.
 	 * @param newValue The new value.
 	 */
-	public void setValue(final Object newValue) {
+	public void setValue(final T newValue) {
 		value = newValue;
 	}
 
@@ -67,7 +67,7 @@ public abstract class ModifyValue extends CommandImpl {
 	 * @param obj The value to set. Must not be null.
 	 * @throws NullPointerException If the given value is null.
 	 */
-	protected abstract void applyValue(final Object obj);
+	protected abstract void applyValue(final T obj);
 
 
 	/**
