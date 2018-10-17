@@ -55,7 +55,9 @@
                 <version>2.22.1</version>
                 <configuration>
                     <rerunFailingTestsCount>2</rerunFailingTestsCount>
-                    <argLine>-Dheadless.geometry=1920x1080-32
+                    <argLine>-Xmx4000m
+                        -Dglass.platform=Monocle
+                        -Dheadless.geometry=1280x1024-32
                         -Djava.awt.headless=true
                         -Dtestfx.robot=glass
                         -Dtestfx.headless=true
