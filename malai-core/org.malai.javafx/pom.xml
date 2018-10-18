@@ -80,6 +80,7 @@
                         --add-opens malai.javafx/org.malai.javafx.interaction.binding=ALL-UNNAMED
                         --add-opens malai.javafx/org.malai.javafx.ui=ALL-UNNAMED
                         --add-opens malai.javafx/org.malai.javafx.undo=ALL-UNNAMED
+                        --add-opens malai.javafx/org.malai.javafx.robot=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
