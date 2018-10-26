@@ -1,5 +1,6 @@
 package org.malai.ex.draw.command;
 
+import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
 import org.malai.ex.draw.model.MyShape;
 import org.malai.undo.Undoable;
@@ -44,7 +45,7 @@ public class ChangeColour extends ShapeCmd implements Undoable {
 	}
 
 	@Override
-	public String getUndoName() {
+	public String getUndoName(final ResourceBundle bundle) {
 		return "Color changed";
 	}
 }

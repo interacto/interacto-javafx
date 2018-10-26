@@ -31,9 +31,9 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 		redoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastRedoProperty().isNull().or(activatedProp.not()));
 
 		undoB.tooltipProperty().bind(Bindings.createObjectBinding(() ->
-			UndoCollector.INSTANCE.getLastUndo().map(undo -> new Tooltip(undo.getUndoName())).orElse(null), FXUndoCollector.INSTANCE.lastUndoProperty()));
+			UndoCollector.INSTANCE.getLastUndo().map(undo -> new Tooltip(undo.getUndoName(null))).orElse(null), FXUndoCollector.INSTANCE.lastUndoProperty()));
 		redoB.tooltipProperty().bind(Bindings.createObjectBinding(() ->
-			UndoCollector.INSTANCE.getLastRedo().map(redo -> new Tooltip(redo.getUndoName())).orElse(null), FXUndoCollector.INSTANCE.lastRedoProperty()));
+			UndoCollector.INSTANCE.getLastRedo().map(redo -> new Tooltip(redo.getUndoName(null))).orElse(null), FXUndoCollector.INSTANCE.lastRedoProperty()));
 	}
 
 	@Override

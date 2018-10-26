@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 /**
  * A collector of undone/redone objects.
@@ -45,6 +46,7 @@ public final class UndoCollector {
 	private int sizeMax;
 	/** The handler that handles the collector. */
 	private final List<UndoHandler> handlers;
+	private ResourceBundle bundle;
 
 
 	/**
@@ -178,7 +180,7 @@ public final class UndoCollector {
 	 * @return The last undoable object name or null if there is no last object.
 	 */
 	public Optional<String> getLastUndoMessage() {
-		return undo.isEmpty() ? Optional.empty() : Optional.ofNullable(undo.peek().getUndoName());
+		return undo.isEmpty() ? Optional.empty() : Optional.ofNullable(undo.peek().getUndoName(bundle));
 	}
 
 
@@ -186,7 +188,7 @@ public final class UndoCollector {
 	 * @return The last redoable object name or null if there is no last object.
 	 */
 	public Optional<String> getLastRedoMessage() {
-		return redo.isEmpty() ? Optional.empty() : Optional.ofNullable(redo.peek().getUndoName());
+		return redo.isEmpty() ? Optional.empty() : Optional.ofNullable(redo.peek().getUndoName(bundle));
 	}
 
 
@@ -241,5 +243,13 @@ public final class UndoCollector {
 	 */
 	public Deque<Undoable> getRedo() {
 		return redo;
+	}
+
+	/**
+	 * Sets the language bundle to be used by the undo redo manager.
+	 * @param bundle The language bundle. Can be null.
+	 */
+	public void setBundle(final ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 }

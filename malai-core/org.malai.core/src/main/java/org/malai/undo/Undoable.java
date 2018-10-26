@@ -10,27 +10,26 @@
  */
 package org.malai.undo;
 
+import java.util.ResourceBundle;
+
 /**
  * An interface for undoable objects.
  * @author Arnaud BLOUIN
- * @since 0.1
  */
 public interface Undoable {
 	/**
 	 * Cancels the command.
-	 * @since 0.1
 	 */
 	void undo();
 
 	/**
 	 * Redoes the cancelled command.
-	 * @since 0.1
 	 */
 	void redo();
 
 	/**
 	 * @return The name of the undo command.
-	 * @since 0.1
+	 * @param bundle The language bundle. Can be null.
 	 */
-	String getUndoName();
+	String getUndoName(final ResourceBundle bundle);
 }
