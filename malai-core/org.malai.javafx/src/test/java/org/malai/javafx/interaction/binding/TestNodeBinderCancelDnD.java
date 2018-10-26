@@ -1,5 +1,6 @@
 package org.malai.javafx.interaction.binding;
 
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -115,7 +116,7 @@ class MoveShape extends CommandImpl implements Undoable {
 	}
 
 	@Override
-	public String getUndoName() {
+	public String getUndoName(final ResourceBundle bundle) {
 		return "Shape moved";
 	}
 

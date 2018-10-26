@@ -1,5 +1,6 @@
 package org.malai.ex.draw.command;
 
+import java.util.ResourceBundle;
 import org.malai.ex.draw.model.MyDrawing;
 import org.malai.ex.draw.model.MyShape;
 import org.malai.undo.Undoable;
@@ -61,7 +62,7 @@ public class AddShape extends ShapeCmd implements Undoable {
 	}
 
 	@Override
-	public String getUndoName() {
+	public String getUndoName(final ResourceBundle bundle) {
 		/*
 		 * This string is a message defining the goal of the action.
 		 * It is used by the undo/redo manager to show a tooltip

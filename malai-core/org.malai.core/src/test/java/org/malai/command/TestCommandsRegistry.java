@@ -3,6 +3,7 @@ package org.malai.command;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -299,7 +300,7 @@ public class TestCommandsRegistry {
 		}
 
 		@Override
-		public String getUndoName() {
+		public String getUndoName(final ResourceBundle bundle) {
 			return null;
 		}
 	}

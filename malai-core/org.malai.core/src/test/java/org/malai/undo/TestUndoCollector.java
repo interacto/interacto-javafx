@@ -208,7 +208,7 @@ public class TestUndoCollector {
 
 	@Test
 	void testGetLastUndoMessageOK() {
-		Mockito.when(undoable.getUndoName()).thenReturn("undoredomsg");
+		Mockito.when(undoable.getUndoName(Mockito.any())).thenReturn("undoredomsg");
 		UndoCollector.INSTANCE.add(undoable, null);
 		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastUndoMessage().get());
 	}
@@ -220,7 +220,7 @@ public class TestUndoCollector {
 
 	@Test
 	void testGetLastRedoMessageOK() {
-		Mockito.when(undoable.getUndoName()).thenReturn("undoredomsg");
+		Mockito.when(undoable.getUndoName(Mockito.any())).thenReturn("undoredomsg");
 		UndoCollector.INSTANCE.add(undoable, null);
 		UndoCollector.INSTANCE.undo();
 		assertEquals("undoredomsg", UndoCollector.INSTANCE.getLastRedoMessage().get());

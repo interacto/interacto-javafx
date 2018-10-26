@@ -1,5 +1,6 @@
 package org.malai.ex.draw.command;
 
+import java.util.ResourceBundle;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -45,7 +46,7 @@ public class MoveShape extends ShapeCmd implements Undoable {
 	}
 
 	@Override
-	public String getUndoName() {
+	public String getUndoName(final ResourceBundle bundle) {
 		return "Shape moved";
 	}
 }
