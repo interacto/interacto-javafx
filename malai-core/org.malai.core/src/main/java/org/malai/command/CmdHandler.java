@@ -22,23 +22,27 @@ public interface CmdHandler extends UndoHandler {
 	 * Notifies the handler when the given command is added to the registry.
 	 * @param cmd The added command.
 	 */
-	void onCmdAdded(final Command cmd);
+	default void onCmdAdded(final Command cmd) {
+	}
 
 	/**
 	 * Notifies the handler when the given command is cancelled.
 	 * @param cmd The cancelled command.
 	 */
-	void onCmdCancelled(final Command cmd);
+	default void onCmdCancelled(final Command cmd) {
+	}
 
 	/**
 	 * Notifies the handler when the given command is executed.
 	 * @param cmd The executed command.
 	 */
-	void onCmdExecuted(final Command cmd);
+	default void onCmdExecuted(final Command cmd) {
+	}
 
 	/**
 	 * Notifies the handler when the given command is done.
 	 * @param cmd The command that ends.
 	 */
-	void onCmdDone(final Command cmd);
+	default void onCmdDone(final Command cmd) {
+	}
 }
