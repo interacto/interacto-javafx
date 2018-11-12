@@ -13,33 +13,32 @@ package org.malai.undo;
 /**
  * This handler must help object that want to be aware of undone/redone event (for instance, to update some widgets).
  * @author Arnaud BLOUIN
- * @since 0.1
  */
 public interface UndoHandler {
 	/**
 	 * Notifies the handler that the stored undoable objects have been all removed.
-	 * @since 0.2
 	 */
-	void onUndoableCleared();
+	default void onUndoableCleared() {
+	}
 
 	/**
 	 * Actions to do when an undoable object is added to the undo register.
 	 * @param undoable The undoable object added to the undo register.
-	 * @since 0.2
 	 */
-	void onUndoableAdded(final Undoable undoable);
+	default void onUndoableAdded(final Undoable undoable) {
+	}
 
 	/**
 	 * Actions to do when an undoable object is undone.
 	 * @param undoable The undone object.
-	 * @since 0.2
 	 */
-	void onUndoableUndo(final Undoable undoable);
+	default void onUndoableUndo(final Undoable undoable) {
+	}
 
 	/**
 	 * Actions to do when an undoable object is redone.
 	 * @param undoable The redone object.
-	 * @since 0.2
 	 */
-	void onUndoableRedo(final Undoable undoable);
+	default void onUndoableRedo(final Undoable undoable) {
+	}
 }

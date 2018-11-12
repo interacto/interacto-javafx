@@ -21,24 +21,4 @@ public class EmptyUndoHandler implements UndoHandler {
 	public EmptyUndoHandler() {
 		super();
 	}
-
-	@Override
-	public void onUndoableCleared() {
-		// To override
-	}
-
-	@Override
-	public void onUndoableAdded(final Undoable undoable) {
-		// To override
-	}
-
-	@Override
-	public void onUndoableUndo(final Undoable undoable) {
-		// To override
-	}
-
-	@Override
-	public void onUndoableRedo(final Undoable undoable) {
-		// To override
-	}
 }
