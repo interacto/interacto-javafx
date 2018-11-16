@@ -66,6 +66,10 @@ public abstract class CommandImpl implements Command {
 		return ok;
 	}
 
+	@Override
+	public boolean canDo() {
+		return true;
+	}
 
 	/**
 	 * This method contains the statements to execute the command.
