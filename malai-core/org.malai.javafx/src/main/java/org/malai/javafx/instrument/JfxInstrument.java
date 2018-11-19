@@ -88,6 +88,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 		}
 	}
 
+	@Override
+	public boolean isActivated() {
+		return activatedProp.get();
+	}
+
 	/**
 	 * @return The property corresponding to the activation of the instrument. Cannot be null.
 	 */
