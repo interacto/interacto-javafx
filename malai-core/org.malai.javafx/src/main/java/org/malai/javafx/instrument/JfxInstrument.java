@@ -12,8 +12,6 @@ package org.malai.javafx.instrument;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -52,14 +50,20 @@ import org.malai.javafx.interaction.library.WidgetData;
  * @author Arnaud BLOUIN
  */
 public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction<?, ?, ?>, ? extends JfxInstrument, ?>> {
-	protected final BooleanProperty activatedProp;
+//	protected final BooleanProperty activatedProp;
 
 	/**
 	 * Creates the instrument.
 	 */
 	public JfxInstrument() {
 		super();
-		activatedProp = new SimpleBooleanProperty(activated);
+//		activatedProp = new SimpleBooleanProperty(activated);
+//
+//		activatedProp.addListener((observable, oldValue, newValue) -> {
+//			if(oldValue != newValue) {
+//				JfxInstrument.super.setActivated(newValue);
+//			}
+//		});
 	}
 
 	/**
@@ -74,31 +78,31 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 		setActivated(activ);
 	}
 
-	@Override
-	public void uninstallBindings() {
-		activatedProp.unbind();
-		super.uninstallBindings();
-	}
+//	@Override
+//	public void uninstallBindings() {
+//		activatedProp.unbind();
+//		super.uninstallBindings();
+//	}
+//
+//	@Override
+//	public void setActivated(final boolean toBeActivated) {
+//		super.setActivated(toBeActivated);
+//		if(!activatedProp.isBound()) {
+//			activatedProp.set(activated);
+//		}
+//	}
+//
+//	@Override
+//	public boolean isActivated() {
+//		return activatedProp.isBound() ? activatedProp.get() : super.isActivated();
+//	}
 
-	@Override
-	public void setActivated(final boolean toBeActivated) {
-		super.setActivated(toBeActivated);
-		if(!activatedProp.isBound()) {
-			activatedProp.set(activated);
-		}
-	}
-
-	@Override
-	public boolean isActivated() {
-		return activatedProp.get();
-	}
-
-	/**
-	 * @return The property corresponding to the activation of the instrument. Cannot be null.
-	 */
-	public BooleanProperty activatedProperty() {
-		return activatedProp;
-	}
+//	/**
+//	 * @return The property corresponding to the activation of the instrument. Cannot be null.
+//	 */
+//	public BooleanProperty activatedProperty() {
+//		return activatedProp;
+//	}
 
 	/**
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
