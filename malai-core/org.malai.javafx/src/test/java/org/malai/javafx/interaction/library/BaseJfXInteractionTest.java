@@ -27,7 +27,6 @@ import org.testfx.util.WaitForAsyncUtils;
 public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> extends ApplicationTest {
 	T interaction;
 	FSMHandler handler;
-//	@Mock MouseEvent evt;
 
 	@BeforeEach
 	void setUp() {

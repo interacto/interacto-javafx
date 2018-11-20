@@ -6,11 +6,11 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.malai.javafx.JfxtestHelper;
 import org.malai.javafx.binding.SpinnerBinder;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
-import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,8 +32,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> {
 			bind();
 
 		robot.clickOn(widget1.lookup(".increment-arrow-button"), MouseButton.PRIMARY);
-		robot.sleep(500);
-		WaitForAsyncUtils.waitForFxEvents();
+		JfxtestHelper.waitForTimeoutTransitions();
 	}
 
 	@Test
@@ -46,7 +45,6 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> {
 		robot.clickOn(widget1.lookup(".increment-arrow-button"), MouseButton.PRIMARY);
 		robot.clickOn(widget1.lookup(".increment-arrow-button"), MouseButton.PRIMARY);
 		robot.clickOn(widget1.lookup(".increment-arrow-button"), MouseButton.PRIMARY);
-		robot.sleep(500);
-		WaitForAsyncUtils.waitForFxEvents();
+		JfxtestHelper.waitForTimeoutTransitions();
 	}
 }

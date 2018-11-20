@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
+import org.malai.javafx.JfxtestHelper;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 
@@ -22,7 +23,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 	@Test
 	public void testKeyTypedSleepExecutionOK() throws CancelFSMException {
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -36,13 +37,13 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 			}
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 	}
 
 	@Test
 	public void testKeyTypedSleepCleanOK() {
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 		assertTrue(interaction.getKeyCodes().isEmpty());
 		assertTrue(interaction.getKeys().isEmpty());
 	}
@@ -92,7 +93,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 	public void testTwoKeysTypedSleepExecutionOK() throws CancelFSMException {
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
 		interaction.processEvent(createKeyTypedEvent("B", KeyCode.B));
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
@@ -109,7 +110,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
 		interaction.processEvent(createKeyTypedEvent("B", KeyCode.B));
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 	}
 
 	@Test

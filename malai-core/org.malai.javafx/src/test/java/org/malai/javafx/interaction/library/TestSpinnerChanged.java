@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.malai.fsm.InitState;
+import org.malai.javafx.JfxtestHelper;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 
@@ -43,7 +44,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 		@Test
 		void testSpinnerChangedGoodState() throws CancelFSMException {
 			widget.fireEvent(new ActionEvent(widget, null));
-			sleep(500);
+			JfxtestHelper.waitForTimeoutTransitions();
 			Mockito.verify(handler, Mockito.times(1)).fsmStops();
 			Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -53,7 +54,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 		void testSpinnerChange2TimesGoodState() throws CancelFSMException {
 			widget.fireEvent(new ActionEvent(widget, null));
 			widget.fireEvent(new ActionEvent(widget, null));
-			sleep(500);
+			JfxtestHelper.waitForTimeoutTransitions();
 			Mockito.verify(handler, Mockito.times(1)).fsmStops();
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
@@ -63,7 +64,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 		void testSpinnerChangedGoodStateithTimeGap() throws CancelFSMException {
 			SpinnerChangedFSM.setTimeGap(50L);
 			widget.fireEvent(new ActionEvent(widget, null));
-			sleep(100L);
+			JfxtestHelper.waitForTimeoutTransitions();
 			Mockito.verify(handler, Mockito.times(1)).fsmStops();
 			Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
@@ -72,9 +73,9 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 		@Test
 		void testSpinnerChangeTwoTimesWith500GoodState() throws CancelFSMException {
 			widget.fireEvent(new ActionEvent(widget, null));
-			sleep(500);
+			JfxtestHelper.waitForTimeoutTransitions();
 			widget.fireEvent(new ActionEvent(widget, null));
-			sleep(500);
+			JfxtestHelper.waitForTimeoutTransitions();
 			Mockito.verify(handler, Mockito.times(2)).fsmStops();
 			Mockito.verify(handler, Mockito.times(2)).fsmStarts();
 			Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
@@ -84,7 +85,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 	@Test
 	void testProcessEventGoodState() throws CancelFSMException {
 		interaction.processEvent(new ActionEvent(widget, null));
-		sleep(500);
+		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -110,7 +111,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 	@Test
 	void testProcessEventReinit() {
 		interaction.processEvent(new ActionEvent(widget, null));
-		sleep(500);
+		JfxtestHelper.waitForTimeoutTransitions();
 		assertNull(interaction.getWidget());
 		assertTrue(interaction.getFsm().getCurrentState() instanceof InitState);
 	}
