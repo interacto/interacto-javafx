@@ -4,22 +4,15 @@ import java.util.Collections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
+import org.malai.javafx.JfxtestHelper;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestTextInputChanged extends BaseWIMPWidgetTest<TextInputControl, TextInputChanged> {
-	@Override
-	@BeforeEach
-	void setUp() {
-		super.setUp();
-		sleep = 1300L;
-	}
-
 	@Override
 	TextInputControl createWidget() {
 		return new TextField();
@@ -39,11 +32,9 @@ public class TestTextInputChanged extends BaseWIMPWidgetTest<TextInputControl, T
 	void testTextChangedThreeTimes() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
-		sleep(500L);
 		triggerWidget();
-		sleep(200L);
 		triggerWidget();
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(3)).fsmUpdates();
@@ -53,9 +44,9 @@ public class TestTextInputChanged extends BaseWIMPWidgetTest<TextInputControl, T
 	void testTextChangedButNotFinished() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 		triggerWidget();
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(2)).fsmStops();
 		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();

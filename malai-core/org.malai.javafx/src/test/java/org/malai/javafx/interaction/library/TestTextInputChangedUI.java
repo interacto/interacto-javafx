@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
+import org.malai.javafx.JfxtestHelper;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
@@ -47,7 +48,7 @@ public class TestTextInputChangedUI extends BaseJfXInteractionTest<TextInputChan
 	void testTypeOnInputTextChangedStopped() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(input));
 		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
-		sleep(1200L);
+		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
 

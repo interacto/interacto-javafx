@@ -138,7 +138,7 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 
 	@Test
 	void testKeyPressOnRegWidget() throws CancelFSMException {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createKeyPressEvent("A", KeyCode.A));
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -146,7 +146,7 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 
 	@Test
 	void testKeyTypedOnRegWidgetData() {
-		Pane pane = new Pane();
+		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
