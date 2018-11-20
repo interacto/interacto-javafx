@@ -54,8 +54,7 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 
 
 	/**
-	 * Creates a widget binding. This constructor must initialise the interaction. The widget binding is (de-)activated if the given
-	 * instrument is (de-)activated.
+	 * Creates a widget binding. This constructor must initialise the interaction.
 	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
 	 * @param cmdCreation The type of the command that will be created. Used to instantiate the cmd by reflexivity.
@@ -76,7 +75,6 @@ public abstract class WidgetBindingImpl<A extends CommandImpl, I extends Interac
 		instrument = ins;
 		execute = exec;
 		this.interaction.getFsm().addHandler(this);
-		setActivated(ins.isActivated());
 		async = false;
 	}
 

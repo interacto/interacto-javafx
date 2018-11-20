@@ -18,12 +18,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.logging.Level;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -56,7 +53,7 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		return executorService;
 	}
 
-	protected final BooleanProperty activation;
+//	protected final BooleanProperty activation;
 	protected boolean withHelp;
 	protected HelpAnimation customAnimation;
 	/** The property used to displayed a message while executing a command async. */
@@ -66,11 +63,11 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	/** The button used to stop the command executed async. May be null. */
 	protected Button cancelCmdButton;
 
-	private final ChangeListener<Boolean> activationHandler = (observable, oldValue, newValue) -> {
-		if(oldValue != newValue) {
-			interaction.setActivated(newValue);
-		}
-	};
+//	private final ChangeListener<Boolean> activationHandler = (observable, oldValue, newValue) -> {
+//		if(oldValue != newValue) {
+//			JfXWidgetBinding.super.setActivated(newValue);
+//		}
+//	};
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
@@ -85,8 +82,8 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	public JfXWidgetBinding(final N ins, final boolean exec, final I interaction, final Function<D, C> cmdCreation, final List<Node> widgets, final boolean help,
 							final HelpAnimation animation) {
 		super(ins, exec, cmdCreation, interaction);
-		activation = new SimpleBooleanProperty(isActivated());
-		activation.addListener(activationHandler);
+//		activation = new SimpleBooleanProperty(false);
+//		activation.addListener(activationHandler);
 		withHelp = help;
 		customAnimation = animation;
 		interaction.registerToNodes(widgets);
@@ -120,10 +117,10 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final I interaction, final Function<D, C> cmdCreation,
 							final HelpAnimation animation, final boolean help) {
 		super(ins, exec, cmdCreation, interaction);
-		activation = new SimpleBooleanProperty(isActivated());
+//		activation = new SimpleBooleanProperty(isActivated());
 		withHelp = help;
 		customAnimation = animation;
-		activation.addListener(activationHandler);
+//		activation.addListener(activationHandler);
 		interaction.registerToWindows(windows);
 	}
 
@@ -185,13 +182,14 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 
 	@Override
 	public void setActivated(final boolean activ) {
-		if(activation != null && !activation.isBound()) {
-			activation.set(activ);
-		}
-		if(activation != null && withHelp) {
+		super.setActivated(activ);
+//		if(!activation.isBound()) {
+//			activation.set(activ);
+//		}
+		if(withHelp) {
 			final HelpAnimation anim = customAnimation == null ? interaction.getHelpAnimation().orElse(null) : customAnimation;
 			if(anim != null) {
-				if(activation.get()) {//TODO heuristics
+				if(isActivated()) {//TODO heuristics
 					HelpAnimationPlayer.INSTANCE.add(anim);
 				}else {
 					HelpAnimationPlayer.INSTANCE.stop(anim);
@@ -260,14 +258,14 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		return true;
 	}
 
-	public BooleanProperty activationProperty() {
-		return activation;
-	}
+//	public BooleanProperty activationProperty() {
+//		return activation;
+//	}
 
 	@Override
 	public void uninstallBinding() {
-		activation.unbind();
-		activation.removeListener(activationHandler);
+//		activation.unbind();
+//		activation.removeListener(activationHandler);
 		if(progressBarProp != null) {
 			progressBarProp.unbind();
 			progressBarProp = null;
