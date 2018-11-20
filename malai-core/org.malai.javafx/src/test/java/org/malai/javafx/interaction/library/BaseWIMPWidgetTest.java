@@ -10,7 +10,6 @@ import org.malai.fsm.InitState;
 import org.malai.javafx.JfxtestHelper;
 import org.malai.javafx.interaction.JfxInteraction;
 import org.mockito.Mockito;
-import org.testfx.api.FxRobot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -31,7 +30,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testProcessEventGoodState(final FxRobot robot) throws CancelFSMException {
+	void testProcessEventGoodState() throws CancelFSMException {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
 		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
@@ -39,7 +38,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testProcessEventGoodStateNULL(final FxRobot robot) throws CancelFSMException {
+	void testProcessEventGoodStateNULL() throws CancelFSMException {
 		interaction.processEvent(null);
 		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -47,7 +46,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testProcessEventGoodDataOnStart(final FxRobot robot) {
+	void testProcessEventGoodDataOnStart() {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStarts() {
@@ -59,7 +58,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testProcessEventGoodDataOnStop(final FxRobot robot) {
+	void testProcessEventGoodDataOnStop() {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
@@ -71,7 +70,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testProcessEventReinit(final FxRobot robot) {
+	void testProcessEventReinit() {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
 		JfxtestHelper.waitForTimeoutTransitions();
 		assertNull(interaction.getWidget());
@@ -79,7 +78,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testRegister(final FxRobot robot) throws CancelFSMException {
+	void testRegister() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
 		JfxtestHelper.waitForTimeoutTransitions();
@@ -88,7 +87,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testNoActionWhenNotRegistered(final FxRobot robot) throws CancelFSMException {
+	void testNoActionWhenNotRegistered() throws CancelFSMException {
 		triggerWidget();
 		JfxtestHelper.waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -96,7 +95,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testNoActionWhenWrongRegistered(final FxRobot robot) throws CancelFSMException {
+	void testNoActionWhenWrongRegistered() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(createWidget()));
 		triggerWidget();
 		JfxtestHelper.waitForTimeoutTransitions();
@@ -105,7 +104,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testNoActionWhenNullRegistered(final FxRobot robot) throws CancelFSMException {
+	void testNoActionWhenNullRegistered() throws CancelFSMException {
 		interaction.registerToNodes(null);
 		triggerWidget();
 		JfxtestHelper.waitForTimeoutTransitions();
@@ -114,7 +113,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testNoActionWhenContainsNullRegistered(final FxRobot robot) throws CancelFSMException {
+	void testNoActionWhenContainsNullRegistered() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		triggerWidget();
 		JfxtestHelper.waitForTimeoutTransitions();
@@ -123,7 +122,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	}
 
 	@Test
-	void testUnRegisterNode(final FxRobot robot) throws CancelFSMException {
+	void testUnRegisterNode() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		interaction.unregisterFromNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.fsm.CancelFSMException;
 import org.mockito.Mockito;
-import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 
 @ExtendWith(ApplicationExtension.class)
@@ -44,7 +43,7 @@ public class TestTabSelected extends BaseWIMPWidgetTest<TabPane, TabSelected> {
 
 	@Override
 	@Test
-	void testProcessEventGoodState(final FxRobot robot) throws CancelFSMException {
+	void testProcessEventGoodState() throws CancelFSMException {
 		interaction.processEvent(new TabEvent(wimpWidget, null));
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
@@ -52,7 +51,7 @@ public class TestTabSelected extends BaseWIMPWidgetTest<TabPane, TabSelected> {
 
 	@Override
 	@Test
-	void testRegister(final FxRobot robot) throws CancelFSMException {
+	void testRegister() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		wimpWidget.getSelectionModel().select(1);
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
