@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.function.LongSupplier;
 
 public class TimeoutTransition<E> extends Transition<E> {
+	/** The base name (starts with) of the threads created for the timeout. */
+	public static final String TIMEOUT_THREAD_NAME_BASE = "malai-timeout-transition-";
 	/** The timeoutDuration in ms. */
 	private final LongSupplier timeoutDuration;
 
@@ -55,7 +57,7 @@ public class TimeoutTransition<E> extends Transition<E> {
 						Thread.currentThread().interrupt();
 					}
 				}
-			});
+			}, TIMEOUT_THREAD_NAME_BASE + System.currentTimeMillis());
 			timeoutThread.start();
 		}
 	}
