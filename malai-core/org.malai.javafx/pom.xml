@@ -4,7 +4,7 @@
 
     <groupId>org.malai</groupId>
     <artifactId>malai.javafx</artifactId>
-    <version>3.1-SNAPSHOT</version>
+    <version>3.1</version>
     <packaging>jar</packaging>
     <name>malai.javafx :: Malai JavaFX component</name>
 
@@ -51,36 +51,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
+                <version>3.0.0-M3</version>
                 <configuration>
+                    <useModulePath>false</useModulePath>
                     <argLine>-Xmx4000m
                         -Dglass.platform=Monocle
                         -Dheadless.geometry=1280x1024-32
                         -Djava.awt.headless=true
                         -Dtestfx.robot=glass
                         -Dtestfx.headless=true
-                        -Dprism.order=sw
-                        --add-opens java.base/java.lang=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.glass.utils=ALL-UNNAMED
-                        --add-opens javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
-                        --add-opens malai.core/org.malai.undo=ALL-UNNAMED
-                        --add-opens malai.core/org.malai.command=ALL-UNNAMED
-                        --add-opens malai.core/org.malai.instrument=ALL-UNNAMED
-                        --add-opens malai.core/org.malai.fsm=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.binding=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.command=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.instrument=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.interaction=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.interaction.help=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.interaction.library=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.interaction.binding=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.ui=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.undo=ALL-UNNAMED
-                        --add-opens malai.javafx/org.malai.javafx.robot=ALL-UNNAMED
-                    </argLine>
+                        -Dprism.order=sw</argLine>
                 </configuration>
             </plugin>
         </plugins>
@@ -157,6 +137,12 @@
             <artifactId>openjfx-monocle</artifactId>
             <version>jdk-11+26</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
