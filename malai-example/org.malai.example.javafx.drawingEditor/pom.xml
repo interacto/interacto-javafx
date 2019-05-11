@@ -3,14 +3,33 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.malai</groupId>
     <artifactId>malai.example.javafx.drawingEditor</artifactId>
-    <version>3.1-SNAPSHOT</version>
+    <version>3.1</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jfx.version>11</jfx.version>
+        <jfx.version>11.0.2</jfx.version>
         <java.version>11</java.version>
+        <javafx.platform>linux</javafx.platform>
+        <jmods.path>${java.home}</jmods.path>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>win</id>
+            <properties>
+                <javafx.platform>win</javafx.platform>
+                <jmods.path>/opt/jdk-11-win</jmods.path>
+            </properties>
+        </profile>
+        <profile>
+            <id>mac</id>
+            <properties>
+                <javafx.platform>mac</javafx.platform>
+                <jmods.path>/opt/jdk-11-mac/Contents/Home</jmods.path>
+            </properties>
+        </profile>
+    </profiles>
     
     <build>
         <plugins>
@@ -28,11 +47,9 @@
 
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
                 <configuration>
-                    <outputDirectory>
-                        ${project.build.directory}/modules
-                    </outputDirectory>
+                    <outputDirectory>${project.build.directory}/modules</outputDirectory>
                 </configuration>
             </plugin>
 
@@ -42,11 +59,28 @@
                 <version>3.1.1</version>
                 <executions>
                     <execution>
+                        <id>main deps</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <excludeClassifiers>linux,win,mac</excludeClassifiers>
+                            <outputDirectory>
+                                ${project.build.directory}/modules
+                            </outputDirectory>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>JFX deps</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>${javafx.platform}</classifier>
                             <outputDirectory>
                                 ${project.build.directory}/modules
                             </outputDirectory>
@@ -62,7 +96,7 @@
                 <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <id>module-main-class</id>
+                        <id>main module</id>
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
@@ -87,10 +121,10 @@
                         <configuration>
                             <executable>${java.home}/bin/jlink</executable>
                             <arguments>
-                                <argument>--module-path=${project.build.directory}/modules:${java.home}/jmods</argument>
+                                <argument>--module-path=${project.build.directory}/modules:${jmods.path}/jmods</argument>
                                 <argument>--add-modules=malai.example.drawingEditor</argument>
                                 <argument>--launcher=run=malai.example.drawingEditor/org.malai.ex.draw.Editor</argument>
-                                <argument>--output=${project.build.directory}/dist</argument>
+                                <argument>--output=${project.build.directory}/drawingEditor-${project.version}</argument>
                                 <argument>--strip-debug</argument>
                                 <argument>--compress=2</argument>
                                 <argument>--no-man-pages</argument>

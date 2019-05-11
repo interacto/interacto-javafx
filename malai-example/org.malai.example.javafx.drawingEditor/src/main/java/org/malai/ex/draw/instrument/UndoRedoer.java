@@ -27,8 +27,8 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 		setActivated(true);
 		UndoCollector.INSTANCE.addHandler(this);
 
-		undoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastUndoProperty().isNull().or(activatedProp.not()));
-		redoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastRedoProperty().isNull().or(activatedProp.not()));
+		undoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastUndoProperty().isNull());
+		redoB.disableProperty().bind(FXUndoCollector.INSTANCE.lastRedoProperty().isNull());
 
 		undoB.tooltipProperty().bind(Bindings.createObjectBinding(() ->
 			UndoCollector.INSTANCE.getLastUndo().map(undo -> new Tooltip(undo.getUndoName(null))).orElse(null), FXUndoCollector.INSTANCE.lastUndoProperty()));
@@ -41,5 +41,12 @@ public class UndoRedoer extends JfxInstrument implements Initializable {
 		// Undo and Redo are commands provided by Malai.
 		buttonBinder(Undo::new).on(undoB).bind();
 		buttonBinder(Redo::new).on(redoB).bind();
+	}
+
+	@Override
+	public void setActivated(final boolean act) {
+		super.setActivated(act);
+		undoB.setVisible(act);
+		redoB.setVisible(act);
 	}
 }
