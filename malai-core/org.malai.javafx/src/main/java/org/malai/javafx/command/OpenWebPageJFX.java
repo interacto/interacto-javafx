@@ -60,7 +60,7 @@ public class OpenWebPageJFX extends CommandImpl {
 
 	@Override
 	public boolean hadEffect() {
-		return super.hadEffect() && browsed;
+		return browsed && super.hadEffect();
 	}
 
 	/**

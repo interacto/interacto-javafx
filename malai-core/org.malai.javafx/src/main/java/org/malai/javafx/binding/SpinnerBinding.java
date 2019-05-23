@@ -46,7 +46,7 @@ public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrum
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public SpinnerBinding(final I ins, final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets, final boolean help,
-						  final HelpAnimation animation) {
+						final HelpAnimation animation) {
 		super(ins, exec, new SpinnerChanged(), cmdCreation, widgets, help, animation);
 	}
 }

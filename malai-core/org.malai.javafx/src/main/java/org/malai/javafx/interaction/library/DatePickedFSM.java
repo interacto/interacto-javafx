@@ -24,7 +24,9 @@ public class DatePickedFSM extends JfxFSM<DatePickedFSM.DatePickedFSMHandler> {
 
 	@Override
 	protected void buildFSM(final DatePickedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> picked = new TerminalState<>(this, "picked");
 		addState(picked);

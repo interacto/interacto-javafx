@@ -394,7 +394,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
 	protected <A extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<A, I> windowBinder(final I interaction,
-																														  final Supplier<A> cmdCreation) {
+																														final Supplier<A> cmdCreation) {
 		return new WindowBinder<>(interaction, cmdCreation, this);
 	}
 
@@ -410,7 +410,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
 	protected <A extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<A, I> windowBinder(final I interaction,
-																										  final Function<WidgetData<Window>, A> cmdCreation) {
+																										final Function<WidgetData<Window>, A> cmdCreation) {
 		return new WindowBinder<>(interaction, cmdCreation, this);
 	}
 

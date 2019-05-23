@@ -24,7 +24,9 @@ public class MenuItemPressedFSM extends JfxFSM<MenuItemPressedFSM.MenuItemPresse
 
 	@Override
 	protected void buildFSM(final MenuItemPressedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
 		addState(pressed);

@@ -33,7 +33,8 @@ public class ActivateInactivateInstruments extends CommandImpl {
 	protected boolean hideWidgets;
 
 	public ActivateInactivateInstruments(final List<JfxInstrument> insActivate, final List<JfxInstrument> insInactivate,
-										 final boolean activateFirst, final boolean hideWidgets) {
+										final boolean activateFirst, final boolean hideWidgets) {
+		super();
 		this.insActivate = insActivate;
 		this.insInactivate = insInactivate;
 		this.activateFirst = activateFirst;

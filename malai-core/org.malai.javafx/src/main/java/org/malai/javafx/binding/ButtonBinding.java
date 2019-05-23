@@ -46,7 +46,7 @@ public abstract class ButtonBinding<C extends CommandImpl, I extends JfxInstrume
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ButtonBinding(final I ins, final Function<WidgetData<Button>, C> cmdCreation, final List<Node> widgets,
-						 final boolean help, final HelpAnimation animation) {
+						final boolean help, final HelpAnimation animation) {
 		super(ins, false, new ButtonPressed(), cmdCreation, widgets, help, animation);
 	}
 }

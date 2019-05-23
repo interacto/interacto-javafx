@@ -46,7 +46,7 @@ public abstract class ComboBoxBinding<C extends CommandImpl, I extends JfxInstru
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ComboBoxBinding(final I ins, final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final List<Node> widgets,
-						   final boolean help, final HelpAnimation animation) {
+						final boolean help, final HelpAnimation animation) {
 		super(ins, false, new ComboBoxSelected(), cmdCreation, widgets, help, animation);
 	}
 }

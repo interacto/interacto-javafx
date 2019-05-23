@@ -51,7 +51,9 @@ public class SpinnerChangedFSM extends JfxFSM<SpinnerChangedFSM.SpinnerChangedFS
 
 	@Override
 	protected void buildFSM(final SpinnerChangedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final StdState<Event> changed = new StdState<>(this, "valueChanged");
 		final TerminalState<Event> ended = new TerminalState<>(this, "ended");
@@ -63,7 +65,7 @@ public class SpinnerChangedFSM extends JfxFSM<SpinnerChangedFSM.SpinnerChangedFS
 	}
 
 	private class SpinnerChangedJfxSpinnerChangedTransition extends JfxSpinnerChangedTransition {
-		public SpinnerChangedJfxSpinnerChangedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		SpinnerChangedJfxSpinnerChangedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 			super(srcState, tgtState);
 		}
 

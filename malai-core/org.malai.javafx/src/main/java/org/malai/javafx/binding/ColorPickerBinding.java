@@ -46,7 +46,7 @@ public abstract class ColorPickerBinding<C extends CommandImpl, I extends JfxIns
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ColorPickerBinding(final I ins, final Function<WidgetData<ColorPicker>, C> cmdCreation, final List<Node> widgets,
-							  final boolean help, final HelpAnimation animation) {
+							final boolean help, final HelpAnimation animation) {
 		super(ins, false, new ColorPicked(), cmdCreation, widgets, help, animation);
 	}
 }

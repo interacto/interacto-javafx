@@ -35,7 +35,7 @@ public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxIn
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public ToggleButtonBinding(final I ins, final Function<WidgetData<ToggleButton>, C> cmdCreation, final List<Node> widgets,
-							   final boolean help, final HelpAnimation animation) {
+							final boolean help, final HelpAnimation animation) {
 		super(ins, false, new ToggleButtonPressed(), cmdCreation, widgets, help, animation);
 	}
 

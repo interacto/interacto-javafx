@@ -42,7 +42,7 @@ public final class FXUndoCollector {
 		return lastRedo;
 	}
 
-	private void updateLastUndoRedo() {
+	void updateLastUndoRedo() {
 		lastUndo.set(UndoCollector.INSTANCE.getLastUndo().orElse(null));
 		lastRedo.set(UndoCollector.INSTANCE.getLastRedo().orElse(null));
 	}

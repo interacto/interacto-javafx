@@ -37,7 +37,9 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 
 	@Override
 	protected void buildFSM(final DragLockFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final DoubleClickFSM cancelDbleClick = new DoubleClickFSM();
 		firstDbleClick.buildFSM(null);
@@ -53,7 +55,7 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 		addState(locked);
 		addState(moved);
 
-		new SubFSMTransition<Event>(initState, locked, firstDbleClick) {
+		new SubFSMTransition<>(initState, locked, firstDbleClick) {
 			@Override
 			protected void action(final Event event) {
 				checkButton = firstDbleClick.getCheckButton();
@@ -69,7 +71,7 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 	}
 
 	class DragLockMoveTransition extends MoveTransition {
-		public DragLockMoveTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		DragLockMoveTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 			super(srcState, tgtState);
 		}
 

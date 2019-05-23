@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
@@ -37,14 +36,12 @@ import org.malai.fsm.FSM;
 import org.malai.fsm.OutputState;
 import org.malai.interaction.InteractionData;
 import org.malai.interaction.InteractionImpl;
-import org.malai.javafx.interaction.help.HelpAnimation;
 import org.malai.javafx.interaction.library.WidgetData;
 
 public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Event>, T> extends InteractionImpl<D, Event, F> implements FSMDataHandler, WidgetData<T> {
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
 	protected final List<ObservableList<? extends Node>> additionalNodes;
-	protected HelpAnimation helpAnimation;
 	/** The widget used during the interaction. */
 	protected T widget;
 
@@ -168,10 +165,6 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			// Listener to any changes in the list of registered windows
 			nodes.addListener(addNodesHandler);
 		}
-	}
-
-	public Optional<HelpAnimation> getHelpAnimation() {
-		return Optional.ofNullable(helpAnimation);
 	}
 
 	private void unregisterEventToNode(final EventType<?> eventType, final Node node) {
@@ -400,7 +393,6 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 
 	@Override
 	public void uninstall() {
-		helpAnimation = null;
 		widget = null;
 		scrollHandler = null;
 		mouseHandler = null;

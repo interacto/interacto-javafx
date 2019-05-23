@@ -48,11 +48,11 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
 	public JFxAnonMenuBinding(final N ins, final boolean exec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdCreation,
-							  final BiConsumer<WidgetData<MenuItem>, C> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
-							  final BiConsumer<WidgetData<MenuItem>, C> onEndFct,
-							  final List<MenuItem> menus, final List<ObservableList<? extends MenuItem>> additionalMenus) {
+							final BiConsumer<WidgetData<MenuItem>, C> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
+							final BiConsumer<WidgetData<MenuItem>, C> onEndFct,
+							final List<MenuItem> menus, final List<ObservableList<? extends MenuItem>> additionalMenus) {
 		super(ins, exec, interaction, cmdCreation, menus);
-		execInitCmd = initCmdFct == null ? (c, i) -> {} : initCmdFct;
+		execInitCmd = initCmdFct == null ? (c, i) -> { } : initCmdFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
 		currentCmd = null;

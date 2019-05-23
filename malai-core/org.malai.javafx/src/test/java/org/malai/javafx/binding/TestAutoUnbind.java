@@ -39,8 +39,7 @@ public class TestAutoUnbind {
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
 		final A aCmd = new A(val.multiply(10d), val.add(11d));
-		final JfXWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData> binding =
-			new JfXWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> aCmd, Collections.emptyList(), false, null) {
+		final var binding = new JfXWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> aCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}
@@ -64,8 +63,7 @@ public class TestAutoUnbind {
 	public void testUnbindSuperClassFields() throws CancelFSMException {
 		final B bCmd = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
-		final JfXWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData> binding =
-			new JfXWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> bCmd, Collections.emptyList(), false, null) {
+		final var binding = new JfXWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> bCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}

@@ -24,7 +24,9 @@ public class HyperlinkClickedFSM extends JfxFSM<HyperlinkClickedFSM.HyperlinkCli
 
 	@Override
 	protected void buildFSM(final HyperlinkClickedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> clicked = new TerminalState<>(this, "clicked");
 		addState(clicked);

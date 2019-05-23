@@ -76,7 +76,7 @@ public abstract class IOCommand<B> extends CommandImpl {
 
 	@Override
 	public boolean hadEffect() {
-		return super.hadEffect() && ok;
+		return ok && super.hadEffect();
 	}
 
 	/**

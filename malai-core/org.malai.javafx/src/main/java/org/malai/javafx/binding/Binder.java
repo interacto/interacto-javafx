@@ -12,10 +12,9 @@ package org.malai.javafx.binding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
@@ -52,7 +51,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	protected boolean async;
 	protected BiConsumer<D, C> onEnd;
 	protected List<ObservableList<? extends Node>> additionalWidgets;
-	protected Set<LogLevel> logLevels;
+	protected EnumSet<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
 	protected boolean withHelp;
 	protected DoubleProperty progressProp;
@@ -182,7 +181,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 */
 	public B log(final LogLevel level) {
 		if(logLevels == null) {
-			logLevels = new HashSet<>();
+			logLevels = EnumSet.noneOf(LogLevel.class);
 		}
 		logLevels.add(level);
 		return (B) this;

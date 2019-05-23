@@ -24,7 +24,9 @@ public class ToggleButtonPressedFSM extends JfxFSM<ToggleButtonPressedFSM.Toggle
 
 	@Override
 	protected void buildFSM(final ToggleButtonPressedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
 		addState(pressed);
