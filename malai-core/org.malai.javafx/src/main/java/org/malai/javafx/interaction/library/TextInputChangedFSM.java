@@ -41,7 +41,9 @@ public class TextInputChangedFSM extends JfxFSM<TextInputChangedFSM.TextInputCha
 
 	@Override
 	protected void buildFSM(final TextInputChangedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final StdState<Event> changed = new StdState<>(this, "changed");
 		final TerminalState<Event> ended = new TerminalState<>(this, "ended");
@@ -53,7 +55,7 @@ public class TextInputChangedFSM extends JfxFSM<TextInputChangedFSM.TextInputCha
 	}
 
 	private class TextInputChangedJfxTextInputChangedTransition extends JfxTextInputChangedTransition {
-		public TextInputChangedJfxTextInputChangedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		TextInputChangedJfxTextInputChangedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 			super(srcState, tgtState);
 		}
 

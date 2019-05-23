@@ -46,7 +46,7 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	/** The executor service used to execute command async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;
 
-	private static ExecutorService getCmdExecutor() {
+	private static synchronized ExecutorService getCmdExecutor() {
 		if(executorService == null) {
 			executorService = Executors.newSingleThreadExecutor();
 		}
@@ -135,20 +135,22 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	}
 
 	private void unbindCmdAttributesClass(final Class<? extends CommandImpl> clazz) {
-		Arrays.stream(clazz.getDeclaredFields()).filter(field -> field.isAnnotationPresent(AutoUnbind.class) &&
-			Property.class.isAssignableFrom(field.getType())).forEach(field -> {
-			try {
-				final boolean access = field.canAccess(cmd);
-				field.setAccessible(true);
-				final Object o = field.get(cmd);
-				if(o instanceof Property<?>) {
-					((Property<?>) o).unbind();
+		Arrays
+			.stream(clazz.getDeclaredFields())
+			.filter(field -> field.isAnnotationPresent(AutoUnbind.class) && Property.class.isAssignableFrom(field.getType()))
+			.forEach(field -> {
+				try {
+					final boolean access = field.canAccess(cmd);
+					field.setAccessible(true);
+					final Object o = field.get(cmd);
+					if(o instanceof Property<?>) {
+						((Property<?>) o).unbind();
+					}
+					field.setAccessible(access);
+				}catch(final IllegalAccessException ex) {
+					ErrorCatcher.INSTANCE.reportError(ex);
 				}
-				field.setAccessible(access);
-			}catch(final IllegalAccessException ex) {
-				ex.printStackTrace();
-			}
-		});
+			});
 
 		final Class<?> superClass = clazz.getSuperclass();
 		if(superClass != null && superClass != CommandImpl.class && CommandImpl.class.isAssignableFrom(superClass)) {
@@ -187,12 +189,11 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 //			activation.set(activ);
 //		}
 		if(withHelp) {
-			final HelpAnimation anim = customAnimation == null ? interaction.getHelpAnimation().orElse(null) : customAnimation;
-			if(anim != null) {
-				if(isActivated()) {//TODO heuristics
-					HelpAnimationPlayer.INSTANCE.add(anim);
+			if(customAnimation != null) {
+				if(isActivated()) {
+					HelpAnimationPlayer.INSTANCE.add(customAnimation);
 				}else {
-					HelpAnimationPlayer.INSTANCE.stop(anim);
+					HelpAnimationPlayer.INSTANCE.stop(customAnimation);
 				}
 			}
 		}
@@ -220,7 +221,11 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		}
 
 		getCmdExecutor().submit(task);
+		launchThreadAsync(task, progressBound, msgBound, cancelEvent);
+	}
 
+	private void launchThreadAsync(final BindingTask task, final boolean progressBound, final boolean msgBound,
+								final EventHandler<ActionEvent> cancelEvent) {
 		new Thread(() -> {
 			boolean ok;
 

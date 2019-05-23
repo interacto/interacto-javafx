@@ -1,7 +1,6 @@
 package org.malai.javafx.interaction.library;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.EnumSet;
 import javafx.event.Event;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -19,11 +18,11 @@ import org.malai.javafx.interaction.KeyReleaseTransition;
  * @author Arnaud BLOUIN
  */
 public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler> {
-	private final Set<KeyCode> currentCodes;
+	private final EnumSet<KeyCode> currentCodes;
 
 	public KeysPressedFSM() {
 		super();
-		currentCodes = new HashSet<>();
+		currentCodes = EnumSet.noneOf(KeyCode.class);
 	}
 
 	@Override

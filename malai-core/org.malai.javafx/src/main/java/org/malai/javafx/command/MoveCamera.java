@@ -36,7 +36,7 @@ public class MoveCamera extends PositionCommand {
 
 	@Override
 	public boolean canDo() {
-		return super.canDo() && scrollPane != null;
+		return scrollPane != null && super.canDo();
 	}
 
 	/**

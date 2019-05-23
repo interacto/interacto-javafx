@@ -24,7 +24,9 @@ public class WindowClosedFSM extends JfxFSM<WindowClosedFSM.WindowClosedHandler>
 
 	@Override
 	protected void buildFSM(final WindowClosedHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> closed = new TerminalState<>(this, "closed");
 		addState(closed);

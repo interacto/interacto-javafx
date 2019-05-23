@@ -24,7 +24,9 @@ public class BoxCheckedFSM extends JfxFSM<BoxCheckedFSM.BoxCheckedFSMHandler> {
 
 	@Override
 	protected void buildFSM(final BoxCheckedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> checked = new TerminalState<>(this, "checked");
 		addState(checked);

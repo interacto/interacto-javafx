@@ -24,7 +24,9 @@ public class PressFSM extends JfxFSM<PressFSM.PressFSMHandler> {
 
 	@Override
 	protected void buildFSM(final PressFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> pressed = new TerminalState<>(this, "pressed");
 		addState(pressed);

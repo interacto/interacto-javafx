@@ -78,12 +78,12 @@ public class DnDHelpAnimation extends HelpAnimationImpl {
 			new Timeline(new KeyFrame(duration, new KeyValue(ell.centerYProperty(), y2)))
 		);
 
-		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(text.visibleProperty(), true))));
-		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(ell.visibleProperty(), true))));
+		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(text.visibleProperty(), Boolean.TRUE))));
+		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(ell.visibleProperty(), Boolean.TRUE))));
 		mainTrans.getChildren().add(new PauseTransition(Duration.seconds(1.5)));
 		mainTrans.getChildren().add(new ParallelTransition(
-			new Timeline(new KeyFrame(Duration.millis(400d), new KeyValue(ell.radiusXProperty(), size/2d))),
-			new Timeline(new KeyFrame(Duration.millis(400d), new KeyValue(ell.radiusYProperty(), size/2d)))
+			new Timeline(new KeyFrame(Duration.millis(400d), new KeyValue(ell.radiusXProperty(), size / 2d))),
+			new Timeline(new KeyFrame(Duration.millis(400d), new KeyValue(ell.radiusYProperty(), size / 2d)))
 		));
 		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(100d), new KeyValue(text.textProperty(), textDrag))));
 		mainTrans.getChildren().add(parallelTransition);
@@ -93,8 +93,8 @@ public class DnDHelpAnimation extends HelpAnimationImpl {
 			new Timeline(new KeyFrame(Duration.millis(400d), new KeyValue(ell.radiusYProperty(), size)))
 		));
 		mainTrans.getChildren().add(new PauseTransition(Duration.seconds(1.5)));
-		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(text.visibleProperty(), false))));
-		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(ell.visibleProperty(), false))));
+		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(text.visibleProperty(), Boolean.FALSE))));
+		mainTrans.getChildren().add(new Timeline(new KeyFrame(Duration.millis(10), new KeyValue(ell.visibleProperty(), Boolean.FALSE))));
 		transition = mainTrans;
 		return transition;
 	}

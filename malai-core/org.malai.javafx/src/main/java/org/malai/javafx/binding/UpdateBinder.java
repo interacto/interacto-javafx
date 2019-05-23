@@ -131,8 +131,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 
 	@Override
 	public JfXWidgetBinding<C, I, ?, D> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>
-			(instrument, execOnChanges, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
+		final var binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
 				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
 				strictStart, throttleTimeout, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);

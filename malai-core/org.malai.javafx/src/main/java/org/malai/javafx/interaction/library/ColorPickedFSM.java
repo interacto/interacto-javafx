@@ -24,7 +24,9 @@ public class ColorPickedFSM extends JfxFSM<ColorPickedFSM.ColorPickedFSMFSMHandl
 
 	@Override
 	protected void buildFSM(final ColorPickedFSM.ColorPickedFSMFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> picked = new TerminalState<>(this, "picked");
 		addState(picked);

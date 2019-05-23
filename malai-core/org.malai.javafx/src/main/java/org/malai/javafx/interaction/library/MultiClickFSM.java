@@ -100,7 +100,7 @@ public class MultiClickFSM extends JfxFSM<MultiClickFSM.MultiClickFSMHandler> {
 	}
 
 	class MultiClickClickTransition extends ClickTransition {
-		public MultiClickClickTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
+		MultiClickClickTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 			super(srcState, tgtState);
 		}
 

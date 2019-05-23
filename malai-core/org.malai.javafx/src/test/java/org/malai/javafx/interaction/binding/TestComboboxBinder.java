@@ -2,10 +2,7 @@ package org.malai.javafx.interaction.binding;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.malai.javafx.binding.ComboBoxBinder;

@@ -61,21 +61,21 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> 
 	static MouseEvent createMousePressEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_PRESSED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
+			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
 	static MouseEvent createMouseReleaseEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_RELEASED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
+			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
 	static MouseEvent createMouseMoveEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_MOVED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, new PickResult(null, new Point3D(x, y, 0d),
+			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
@@ -85,7 +85,7 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> 
 		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0d));
 		return new MouseEvent(MouseEvent.MOUSE_DRAGGED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, res);
+			true, false, false, res);
 	}
 
 	static MouseEvent createMouseClickEvent(final double x, final double y, final MouseButton button, final Node srcObj) {
@@ -94,7 +94,7 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> 
 		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0d));
 		return new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
-			true,false, false, res);
+			true, false, false, res);
 	}
 
 	static ScrollEvent createScrollEvent(final double x, final double y, final double dx, final double dy) {

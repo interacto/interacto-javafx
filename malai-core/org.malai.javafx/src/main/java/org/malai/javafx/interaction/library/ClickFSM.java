@@ -27,7 +27,9 @@ public class ClickFSM extends JfxFSM<ClickFSM.ClickFSMHandler> {
 
 	@Override
 	protected void buildFSM(final ClickFSM.ClickFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> clicked = new TerminalState<>(this, "clicked");
 		addState(clicked);

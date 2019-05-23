@@ -14,7 +14,7 @@ import javafx.scene.layout.Pane;
 
 public class CancelDnDHelpAnimation extends DnDHelpAnimation {
 	public CancelDnDHelpAnimation(final Pane learningPane, final Pane widget, final double x1, final double x2, final double y1, final double y2,
-								  final String textPress, final String textDrag, final String textRelease) {
+								final String textPress, final String textDrag, final String textRelease) {
 		super(learningPane, widget, x1, x2, y1, y2, textPress, textDrag, textRelease);
 	}
 

@@ -3,7 +3,6 @@ package org.malai.javafx.robot;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import org.testfx.api.FxRobot;
-import org.testfx.api.FxRobotInterface;
 
 import static org.junit.jupiter.api.Assertions.fail;
 

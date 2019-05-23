@@ -24,7 +24,9 @@ public class ComboBoxSelectedFSM extends JfxFSM<ComboBoxSelectedFSM.ComboBoxSele
 
 	@Override
 	protected void buildFSM(final ComboBoxSelectedFSM.ComboBoxSelectedFSMHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		final TerminalState<Event> selected = new TerminalState<>(this, "selected");
 		addState(selected);

@@ -58,7 +58,9 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 
 	@Override
 	protected void buildFSM(final FSMDataHandler dataHandler) {
-		if(states.size() > 1) return;
+		if(states.size() > 1) {
+			return;
+		}
 		super.buildFSM(dataHandler);
 		firstClickFSM.buildFSM(null);
 		sndClick.buildFSM(null);
@@ -71,7 +73,7 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 		addState(cancelled);
 		startingState = dbleclicked;
 
-		new SubFSMTransition<Event>(initState, clicked, firstClickFSM) {
+		new SubFSMTransition<>(initState, clicked, firstClickFSM) {
 			@Override
 			protected void action(final Event event) {
 				setCheckButton(firstClickFSM.getCheckButton());
