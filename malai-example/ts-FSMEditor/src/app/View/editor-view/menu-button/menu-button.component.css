@@ -1,9 +1,0 @@
-div {
-  width: 99%;
-  height: 80px;
-  border: solid black 2px;
-}
-
-app-menu-button, app-new-button {
-  margin: 5px;
-}

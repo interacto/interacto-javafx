@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<org_malai_instrument:Instrument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org_malai_instrument="http://org.malai.instrument/1_0_0//org/malai/instrument">
-  <clazz name="Hand"/>
-</org_malai_instrument:Instrument>

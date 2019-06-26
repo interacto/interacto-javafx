@@ -1,9 +1,0 @@
-# upstream website has disappeared
-version=3
-
-#opts="dversionmangle=s/\+\d+$//" \
-#http://schmidt.devlib.org/jiu/download.html \
-#    java-imaging-utilities-(.*)\.tar\.bz2   \
-#    debian   \
-#    debian/repackage
-
