@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Build-Jdk: 1.7.0_09
-Main-Class: org.malai.ex.fileBrowser.FileBrowser
-Class-Path: ./ lib/malai.core-0.2-SNAPSHOT.jar lib/malai.swing-0.2-SNAPSHOT.jar

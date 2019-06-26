@@ -1,3 +1,0 @@
-#! /bin/sh
-
-javac -d ./bin/ $(find ./src/org/* | grep .java$)

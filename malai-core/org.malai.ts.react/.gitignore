@@ -1,8 +1,0 @@
-node_modules/
-/.idea/
-/org.malai.ts.iml
-/.tscache
-/coverage
-.rpt2_cache/**/*
-compiled_inter
-lib
