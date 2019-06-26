@@ -267,4 +267,11 @@
             <url>http://maven.inria.fr/artifactory/malai-public-release</url>
         </repository>
     </repositories>
+
+    <scm>
+        <url>https://github.com/interacto/interacto-javafx</url>
+        <connection>scm:git:git@github.com:interacto/interacto-javafx.git</connection>
+        <developerConnection>scm:git:git@github.com:interacto/interacto-javafx.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 </project>
