@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.interacto</groupId>
+    <groupId>io.github.interacto</groupId>
     <artifactId>interacto-javafx</artifactId>
-    <version>3.3</version>
+    <version>3.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -13,6 +13,43 @@
         <jfx.version>11.0.2</jfx.version>
         <java.version>11</java.version>
     </properties>
+
+    <licenses>
+        <license>
+            <name>The GNU GPL3 license</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>DiverSE research group</name>
+        <url>http://www.diverse-team.fr</url>
+    </organization>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/interacto/interacto-javafx/issues</url>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/interacto/interacto-javafx</url>
+        <connection>scm:git:https://github.com/interacto/interacto-javafx.git</connection>
+        <developerConnection>scm:git:git@github.com:interacto/interacto-javafx.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>interacto-public-snapshot</id>
+            <name>Maven Repository for Interacto Snapshots</name>
+            <url>http://maven.inria.fr/artifactory/malai-public-snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <plugins>
@@ -176,7 +213,7 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>io.interacto</groupId>
+            <groupId>io.github.interacto</groupId>
             <artifactId>interacto-java-api</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -267,11 +304,4 @@
             <url>http://maven.inria.fr/artifactory/malai-public-release</url>
         </repository>
     </repositories>
-
-    <scm>
-        <url>https://github.com/interacto/interacto-javafx</url>
-        <connection>scm:git:git@github.com:interacto/interacto-javafx.git</connection>
-        <developerConnection>scm:git:git@github.com:interacto/interacto-javafx.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
 </project>
