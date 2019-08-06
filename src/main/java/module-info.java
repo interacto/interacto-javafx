@@ -5,12 +5,12 @@ module interacto.javafx {
 	requires java.xml;
 	requires interacto.java.api;
 
-	exports io.interacto.jfx.binding;
-	exports io.interacto.jfx.command;
-	exports io.interacto.jfx.instrument;
-	exports io.interacto.jfx.interaction;
-	exports io.interacto.jfx.interaction.help;
-	exports io.interacto.jfx.interaction.library;
-	exports io.interacto.jfx.ui;
-	exports io.interacto.jfx.undo;
+	exports io.github.interacto.jfx.binding;
+	exports io.github.interacto.jfx.command;
+	exports io.github.interacto.jfx.instrument;
+	exports io.github.interacto.jfx.interaction;
+	exports io.github.interacto.jfx.interaction.help;
+	exports io.github.interacto.jfx.interaction.library;
+	exports io.github.interacto.jfx.ui;
+	exports io.github.interacto.jfx.undo;
 }
