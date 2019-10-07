@@ -63,7 +63,9 @@ public class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuI
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);
-		instrument.addBinding(binding);
+		if(instrument != null) {
+			instrument.addBinding(binding);
+		}
 		return binding;
 	}
 }
