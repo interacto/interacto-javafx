@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
@@ -23,11 +23,11 @@ import java.util.function.Supplier;
 import javafx.stage.Window;
 
 /**
- * The binding builder to create bindings between a key interaction (eg shorcuts) on a window and a given command.
+ * The binding builder to create bindings between a key interaction (eg shortcuts) on a window and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class KeyWindowBinder<C extends CommandImpl> extends KeyBinder<Window, C, KeyWindowBinder<C>> {
+public class KeyWindowBinder<C extends Command> extends KeyBinder<Window, C, KeyWindowBinder<C>> {
 	public KeyWindowBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
 		this(i -> cmdClass.get(), instrument);
 	}

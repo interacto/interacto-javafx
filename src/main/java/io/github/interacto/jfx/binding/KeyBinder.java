@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
@@ -32,7 +32,7 @@ import javafx.scene.input.KeyCode;
  * @param <W> The type of the widget to bind.
  * @author Arnaud Blouin
  */
-public abstract class KeyBinder<W, C extends CommandImpl, B extends KeyBinder<W, C, B>> extends Binder<W, C, KeysPressed, KeysData, B> {
+public abstract class KeyBinder<W, C extends Command, B extends KeyBinder<W, C, B>> extends Binder<W, C, KeysPressed, KeysData, B> {
 	final Collection<KeyCode> codes;
 	final Predicate<KeysData> checkCode;
 

@@ -21,7 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 
 /**
- * A wdget binding that opens a URL using a menu item.
+ * A widget binding that opens a URL using a menu item.
  * @author Arnaud BLOUIN
  */
 public class MenuItem2ShowNode extends JfxMenuItemBinding<ShowNode, MenuItemPressed> {

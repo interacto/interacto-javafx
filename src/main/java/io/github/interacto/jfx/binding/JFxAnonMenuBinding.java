@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.interaction.library.MenuItemInteraction;
 import io.github.interacto.jfx.interaction.library.WidgetData;
 import java.util.List;
@@ -31,7 +31,7 @@ import javafx.scene.control.MenuItem;
  * The goal is to avoid the creation of a specific class when the widget binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>>
+public class JFxAnonMenuBinding<C extends Command, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>>
 			extends JfxMenuItemBinding<C, I> {
 	private final BiConsumer<WidgetData<MenuItem>, C> execInitCmd;
 	private final Predicate<WidgetData<MenuItem>> checkInteraction;

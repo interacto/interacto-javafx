@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.SpinnerChanged;
 import io.github.interacto.jfx.interaction.library.WidgetData;
@@ -27,7 +27,7 @@ import javafx.scene.control.Spinner;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class SpinnerBinder<C extends CommandImpl> extends UpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>, SpinnerBinder<C>> {
+public class SpinnerBinder<C extends Command> extends UpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>, SpinnerBinder<C>> {
 	public SpinnerBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
 		this(i -> cmdClass.get(), instrument);
 	}

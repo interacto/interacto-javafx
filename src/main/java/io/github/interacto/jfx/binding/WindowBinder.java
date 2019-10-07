@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.library.WidgetData;
@@ -27,7 +27,7 @@ import javafx.stage.Window;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class WindowBinder<C extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>>
+public class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>>
 				extends UpdateBinder<Window, C, I, WidgetData<Window>, WindowBinder<C, I>> {
 	public WindowBinder(final I interaction, final Supplier<C> cmdClass, final JfxInstrument instrument) {
 		this(interaction, i -> cmdClass.get(), instrument);

@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.ButtonPressed;
 import io.github.interacto.jfx.interaction.library.WidgetData;
@@ -28,7 +28,7 @@ import javafx.scene.control.Button;
  * @param <C> The command to produce.
  * @author Arnaud Blouin
  */
-public abstract class ButtonBinding<C extends CommandImpl> extends JfXWidgetBinding<C, ButtonPressed, WidgetData<Button>> {
+public abstract class ButtonBinding<C extends Command> extends JfXWidgetBinding<C, ButtonPressed, WidgetData<Button>> {
 	/**
 	 * Creates a button binding.
 	 * @param cmdCreation The function that produces commands.

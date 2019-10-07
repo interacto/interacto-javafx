@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
@@ -45,7 +45,7 @@ import javafx.scene.layout.Pane;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
+public abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
 	protected BiConsumer<D, C> initCmd;
 	protected Predicate<D> checkConditions;
 	protected final Function<D, C> cmdProducer;

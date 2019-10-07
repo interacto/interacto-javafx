@@ -21,7 +21,7 @@ import javafx.application.HostServices;
 import javafx.scene.control.MenuItem;
 
 /**
- * A widget binding that opens a URI using a menu item.
+ * A widget binding that opens an URI using a menu item.
  * @author Arnaud BLOUIN
  */
 public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, MenuItemPressed> {

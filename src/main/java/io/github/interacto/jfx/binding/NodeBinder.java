@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
@@ -28,7 +28,7 @@ import javafx.scene.Node;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public class NodeBinder<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends UpdateBinder<Node, C, I, D, NodeBinder<C, I, D>> {
+public class NodeBinder<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends UpdateBinder<Node, C, I, D, NodeBinder<C, I, D>> {
 	public NodeBinder(final I interaction, final Supplier<C> cmdCreation, final JfxInstrument instrument) {
 		this(interaction, i -> cmdCreation.get(), instrument);
 	}

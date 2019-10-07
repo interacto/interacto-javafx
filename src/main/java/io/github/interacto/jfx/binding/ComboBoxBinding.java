@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.ComboBoxSelected;
@@ -30,7 +30,7 @@ import javafx.scene.control.ComboBox;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ComboBoxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ComboBoxSelected, WidgetData<ComboBox<?>>> {
+public abstract class ComboBoxBinding<C extends Command, I extends JfxInstrument> extends JfXWidgetBinding<C, ComboBoxSelected, WidgetData<ComboBox<?>>> {
 	/**
 	 * Creates a combo-box binding.
 	 * @param cmdCreation The function that produces the commands

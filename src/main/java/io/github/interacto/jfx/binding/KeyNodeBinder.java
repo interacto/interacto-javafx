@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
@@ -27,7 +27,7 @@ import javafx.scene.Node;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class KeyNodeBinder<C extends CommandImpl> extends KeyBinder<Node, C, KeyNodeBinder<C>> {
+public class KeyNodeBinder<C extends Command> extends KeyBinder<Node, C, KeyNodeBinder<C>> {
 	public KeyNodeBinder(final Supplier<C> cmdCreation, final JfxInstrument instrument) {
 		this(i -> cmdCreation.get(), instrument);
 	}
