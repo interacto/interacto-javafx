@@ -15,7 +15,6 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.command.OpenWebPageJFX;
-import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
 import java.util.Collections;
 import javafx.application.HostServices;
@@ -25,21 +24,19 @@ import javafx.scene.control.MenuItem;
  * A widget binding that opens a URI using a menu item.
  * @author Arnaud BLOUIN
  */
-public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, MenuItemPressed, JfxInstrument> {
+public class MenuItem2OpenWebPage extends JfxMenuItemBinding<OpenWebPageJFX, MenuItemPressed> {
 	/** The URI to open. */
 	protected String uri;
 	protected HostServices serv;
 
 	/**
 	 * Creates the widget binding.
-	 * @param ins The instrument that will contain the binding.
 	 * @param menuItem he menu item that will be uses to create the command.
 	 * @param uri The URI to open.
 	 * @throws IllegalArgumentException If one of the given parameters is null.
-	 * @since 2.0
 	 */
-	public MenuItem2OpenWebPage(final JfxInstrument ins, final MenuItem menuItem, final String uri, final HostServices services) {
-		super(ins, false, new MenuItemPressed(), i -> new OpenWebPageJFX(), Collections.singletonList(menuItem));
+	public MenuItem2OpenWebPage(final MenuItem menuItem, final String uri, final HostServices services) {
+		super(false, new MenuItemPressed(), i -> new OpenWebPageJFX(), Collections.singletonList(menuItem));
 
 		if(uri == null) {
 			throw new IllegalArgumentException();

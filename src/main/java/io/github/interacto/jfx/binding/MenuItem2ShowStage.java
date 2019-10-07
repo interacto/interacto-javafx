@@ -15,7 +15,6 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.command.ShowStage;
-import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
 import java.util.Collections;
 import javafx.scene.control.MenuItem;
@@ -25,21 +24,19 @@ import javafx.stage.Stage;
  * An widget binding that opens a URL using a menu item.
  * @author Arnaud BLOUIN
  */
-public class MenuItem2ShowStage extends JfxMenuItemBinding<ShowStage, MenuItemPressed, JfxInstrument> {
+public class MenuItem2ShowStage extends JfxMenuItemBinding<ShowStage, MenuItemPressed> {
 	protected Stage stageToShow;
 
 	protected boolean show;
 
 	/**
 	 * Creates the widget binding.
-	 * @param ins The instrument that will contain the widget binding.
 	 * @param menuItem he menu item that will be uses to create the command.
 	 * @param stage The stage to show or hide
 	 * @throws IllegalArgumentException If one of the given parameters is null.
-	 * @since 2.0
 	 */
-	public MenuItem2ShowStage(final JfxInstrument ins, final MenuItem menuItem, final Stage stage, final boolean toshow) {
-		super(ins, false, new MenuItemPressed(), i -> new ShowStage(), Collections.singletonList(menuItem));
+	public MenuItem2ShowStage(final MenuItem menuItem, final Stage stage, final boolean toshow) {
+		super(false, new MenuItemPressed(), i -> new ShowStage(), Collections.singletonList(menuItem));
 
 		if(stage == null) {
 			throw new IllegalArgumentException();

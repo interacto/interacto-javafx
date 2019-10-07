@@ -57,8 +57,8 @@ public class MenuItemBinder<C extends CommandImpl> extends Binder<MenuItem, C, M
 	}
 
 	@Override
-	public JfXWidgetBinding<C, MenuItemPressed, ?, WidgetData<MenuItem>> bind() {
-		final JFxAnonMenuBinding<C, MenuItemPressed, JfxInstrument> binding = new JFxAnonMenuBinding<>(instrument, false, interaction, cmdProducer,
+	public JfXWidgetBinding<C, MenuItemPressed, WidgetData<MenuItem>> bind() {
+		final JFxAnonMenuBinding<C, MenuItemPressed> binding = new JFxAnonMenuBinding<>(false, interaction, cmdProducer,
 			initCmd, checkConditions, onEnd, widgets, additionalMenus);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);

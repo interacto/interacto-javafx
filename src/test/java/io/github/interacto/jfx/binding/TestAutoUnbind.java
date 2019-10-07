@@ -6,7 +6,6 @@ import io.github.interacto.command.CommandImpl;
 import io.github.interacto.fsm.CancelFSMException;
 import io.github.interacto.fsm.FSM;
 import io.github.interacto.interaction.InteractionData;
-import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import java.util.Collections;
 import javafx.beans.binding.DoubleBinding;
@@ -21,17 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestAutoUnbind {
 	DoubleProperty val;
-	JfxInstrument ins;
 	JfxInteraction<InteractionData, FSM<Event>, Object> inter;
 	FSM<Event> fsm;
 
 	@BeforeEach
 	public void setUp() {
 		val = new SimpleDoubleProperty(2d);
-		ins = Mockito.mock(JfxInstrument.class);
 		inter = Mockito.mock(JfxInteraction.class);
 		fsm = Mockito.mock(FSM.class);
-		Mockito.when(ins.isActivated()).thenReturn(true);
 		Mockito.when(inter.isActivated()).thenReturn(true);
 		Mockito.when(inter.getFsm()).thenReturn(fsm);
 	}
@@ -39,7 +35,7 @@ public class TestAutoUnbind {
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
 		final A aCmd = new A(val.multiply(10d), val.add(11d));
-		final var binding = new JfXWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> aCmd, Collections.emptyList(), false, null) {
+		final var binding = new JfXWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, InteractionData>(false, inter, i -> aCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}
@@ -63,7 +59,7 @@ public class TestAutoUnbind {
 	public void testUnbindSuperClassFields() throws CancelFSMException {
 		final B bCmd = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
-		final var binding = new JfXWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, JfxInstrument, InteractionData>(ins, false, inter, i -> bCmd, Collections.emptyList(), false, null) {
+		final var binding = new JfXWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, InteractionData>(false, inter, i -> bCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}

@@ -15,7 +15,6 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.command.ShowStage;
-import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
 import java.util.Collections;
 import java.util.function.Supplier;
@@ -26,21 +25,19 @@ import javafx.stage.Stage;
  * A widget binding that opens a URL using a menu item.
  * @author Arnaud BLOUIN
  */
-public class MenuItem2ShowLazyStage extends JfxMenuItemBinding<ShowStage, MenuItemPressed, JfxInstrument> {
+public class MenuItem2ShowLazyStage extends JfxMenuItemBinding<ShowStage, MenuItemPressed> {
 	protected Supplier<Stage> stageToShowLazy;
 
 	protected boolean show;
 
 	/**
 	 * Creates the binding.
-	 * @param ins The instrument that will contain the binding.
 	 * @param menuItem he menu item that will be uses to create the command.
 	 * @param stageLazy The stage to show or hide (the creation of the stage can be postponed at the execution of the command).
 	 * @throws IllegalArgumentException If one of the given parameters is null.
-	 * @since 2.0
 	 */
-	public MenuItem2ShowLazyStage(final JfxInstrument ins, final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow) {
-		super(ins, false, new MenuItemPressed(), i -> new ShowStage(), Collections.singletonList(menuItem));
+	public MenuItem2ShowLazyStage(final MenuItem menuItem, final Supplier<Stage> stageLazy, final boolean toshow) {
+		super(false, new MenuItemPressed(), i -> new ShowStage(), Collections.singletonList(menuItem));
 
 		if(stageLazy == null) {
 			throw new IllegalArgumentException();

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestThrottle extends TestNodeBinder<Canvas> {
-	JfXWidgetBinding<StubCmd, DnD, ?, SrcTgtPointsData> binding;
+	JfXWidgetBinding<StubCmd, DnD, SrcTgtPointsData> binding;
 	AtomicInteger counter;
 
 	@Override
@@ -33,6 +33,7 @@ public class TestThrottle extends TestNodeBinder<Canvas> {
 		super.start(stage);
 	}
 
+	@Override
 	@BeforeEach
 	void setUp() {
 		counter = new AtomicInteger();

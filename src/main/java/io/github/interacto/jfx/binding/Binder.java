@@ -53,7 +53,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	protected final I interaction;
 	protected final JfxInstrument instrument;
 	protected boolean async;
-	protected BiConsumer<D, C> onEnd;
+	protected Consumer<D> onEnd;
 	protected List<ObservableList<? extends Node>> additionalWidgets;
 	protected EnumSet<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
@@ -171,7 +171,7 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * @param onEndFct The callback method to specify what to do when an interaction ends.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B end(final BiConsumer<D, C> onEndFct) {
+	public B end(final Consumer<D> onEndFct) {
 		onEnd = onEndFct;
 		return (B) this;
 	}
@@ -216,9 +216,9 @@ public abstract class Binder<W, C extends CommandImpl, I extends JfxInteraction<
 	 * Executes the builder to create and install the binding on the instrument.
 	 * @throws IllegalArgumentException On issues while creating the commands.
 	 */
-	public JfXWidgetBinding<C, I, ?, D> bind() {
-		final JFxAnonNodeBinding<C, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, interaction, initCmd,
-			null, checkConditions, onEnd, cmdProducer, null, null, null,
+	public JfXWidgetBinding<C, I, D> bind() {
+		final JFxAnonNodeBinding<C, I, D> binding = new JFxAnonNodeBinding<>(false, interaction, initCmd,
+			null, checkConditions, onEnd, cmdProducer, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, 0L, logLevels,
 			withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);

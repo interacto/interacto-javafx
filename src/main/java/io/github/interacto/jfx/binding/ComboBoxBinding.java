@@ -30,27 +30,25 @@ import javafx.scene.control.ComboBox;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ComboBoxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ComboBoxSelected, I, WidgetData<ComboBox<?>>> {
+public abstract class ComboBoxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ComboBoxSelected, WidgetData<ComboBox<?>>> {
 	/**
 	 * Creates a combo-box binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ComboBoxBinding(final I ins, final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final List<Node> widgets) {
-		this(ins, cmdCreation, widgets, false, null);
+	public ComboBoxBinding(final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final List<Node> widgets) {
+		this(cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a combo-box binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ComboBoxBinding(final I ins, final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final List<Node> widgets,
+	public ComboBoxBinding(final Function<WidgetData<ComboBox<?>>, C> cmdCreation, final List<Node> widgets,
 						final boolean help, final HelpAnimation animation) {
-		super(ins, false, new ComboBoxSelected(), cmdCreation, widgets, help, animation);
+		super(false, new ComboBoxSelected(), cmdCreation, widgets, help, animation);
 	}
 }

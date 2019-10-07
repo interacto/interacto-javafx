@@ -30,9 +30,9 @@ public class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends Inter
 	}
 
 	@Override
-	public JfXWidgetBinding<AnonCommand, I, ?, D> bind() {
-		final JFxAnonNodeBinding<AnonCommand, I, JfxInstrument, D> binding = new JFxAnonNodeBinding<>(instrument, false, interaction,
-			null, null, checkConditions, onEnd, cmdProducer, null, null, null,
+	public JfXWidgetBinding<AnonCommand, I, D> bind() {
+		final JFxAnonNodeBinding<AnonCommand, I, D> binding = new JFxAnonNodeBinding<>(false, interaction,
+			null, null, checkConditions, onEnd, cmdProducer, null, null,
 			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, 0L, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);

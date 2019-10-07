@@ -28,7 +28,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> {
 	public void testEndsOnUIThread(final FxRobot robot) {
 		new SpinnerBinder<>(StubCmd::new, instrument).
 			on(widget1).
-			end((i, c) -> assertTrue(Platform.isFxApplicationThread())).
+			end(i -> assertTrue(Platform.isFxApplicationThread())).
 			bind();
 
 		robot.clickOn(widget1.lookup(".increment-arrow-button"), MouseButton.PRIMARY);
