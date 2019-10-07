@@ -132,7 +132,9 @@ public abstract class UpdateBinder<W, C extends Command, I extends JfxInteractio
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);
-		instrument.addBinding(binding);
+		if(instrument != null) {
+			instrument.addBinding(binding);
+		}
 		return binding;
 	}
 }

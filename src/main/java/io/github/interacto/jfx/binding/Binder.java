@@ -67,7 +67,7 @@ public abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?
 		cmdProducer = Objects.requireNonNull(cmdCreation);
 		this.interaction = Objects.requireNonNull(interaction);
 		widgets = new ArrayList<>();
-		instrument = Objects.requireNonNull(ins);
+		instrument = ins;
 		async = false;
 		checkConditions = null;
 		initCmd = null;
@@ -224,7 +224,9 @@ public abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);
-		instrument.addBinding(binding);
+		if(instrument != null) {
+			instrument.addBinding(binding);
+		}
 		return binding;
 	}
 }

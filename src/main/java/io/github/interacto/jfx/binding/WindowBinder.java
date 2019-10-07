@@ -45,7 +45,9 @@ public class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);
-		instrument.addBinding(binding);
+		if(instrument != null) {
+			instrument.addBinding(binding);
+		}
 		return binding;
 	}
 }

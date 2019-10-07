@@ -37,7 +37,9 @@ public class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends Inter
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);
-		instrument.addBinding(binding);
+		if(instrument != null) {
+			instrument.addBinding(binding);
+		}
 		return binding;
 	}
 }
