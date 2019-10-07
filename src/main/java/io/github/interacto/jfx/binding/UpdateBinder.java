@@ -34,14 +34,14 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	protected BiConsumer<D, C> updateFct;
 	protected Consumer<D> cancelFct;
 	protected Consumer<D> endOrCancelFct;
-	protected boolean execOnChanges;
+	protected boolean continuousCmdExecution;
 	protected boolean strictStart;
 	protected long throttleTimeout;
 
 	public UpdateBinder(final I interaction, final Function<D, C> cmdCreation, final JfxInstrument instrument) {
 		super(interaction, cmdCreation, instrument);
 		updateFct = null;
-		execOnChanges = false;
+		continuousCmdExecution = false;
 		throttleTimeout = 0L;
 	}
 
@@ -70,11 +70,11 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	}
 
 	/**
-	 * Defines whether the command must be executed on each interaction updates (if 'when' predicate is ok).
+	 * Specifies whether the command must be executed on each evolution of the interaction (if 'when' predicate is ok).
 	 * @return The builder to chain the building configuration.
 	 */
-	public B exec() {
-		execOnChanges = true;
+	public B continuousExecution() {
+		continuousCmdExecution = true;
 		return (B) this;
 	}
 
@@ -126,7 +126,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 
 	@Override
 	public JfXWidgetBinding<C, I, D> bind() {
-		final var binding = new JFxAnonNodeBinding<>(execOnChanges, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
+		final var binding = new JFxAnonNodeBinding<>(continuousCmdExecution, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
 				endOrCancelFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
 				strictStart, throttleTimeout, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);

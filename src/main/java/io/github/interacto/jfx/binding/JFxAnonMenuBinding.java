@@ -40,18 +40,18 @@ public class JFxAnonMenuBinding<C extends CommandImpl, I extends MenuItemInterac
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
 	 * @param cmdCreation The function for producing commands.
 	 * @param interaction The user interaction to use.
 	 * @param menus The menus used by the binding. Cannot be null.
 	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonMenuBinding(final boolean exec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdCreation,
+	public JFxAnonMenuBinding(final boolean continuousExec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdCreation,
 							final BiConsumer<WidgetData<MenuItem>, C> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
 							final Consumer<WidgetData<MenuItem>> onEndFct,
 							final List<MenuItem> menus, final List<ObservableList<? extends MenuItem>> additionalMenus) {
-		super(exec, interaction, cmdCreation, menus);
+		super(continuousExec, interaction, cmdCreation, menus);
 		execInitCmd = initCmdFct == null ? (c, i) -> { } : initCmdFct;
 		checkInteraction = check == null ? i -> true : check;
 		onEnd = onEndFct;
