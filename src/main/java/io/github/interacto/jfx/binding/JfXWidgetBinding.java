@@ -17,7 +17,6 @@ package io.github.interacto.jfx.binding;
 import io.github.interacto.binding.WidgetBindingImpl;
 import io.github.interacto.command.AutoUnbind;
 import io.github.interacto.command.Command;
-import io.github.interacto.command.CommandImpl;
 import io.github.interacto.error.ErrorCatcher;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.interaction.JfxInteraction;
@@ -44,7 +43,7 @@ import javafx.stage.Window;
  * Base of a widget binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
 			extends WidgetBindingImpl<C, I, D> {
 	/** The executor service used to execute command async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;
@@ -124,7 +123,7 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		}
 	}
 
-	private void unbindCmdAttributesClass(final Class<? extends CommandImpl> clazz) {
+	private void unbindCmdAttributesClass(final Class<? extends Command> clazz) {
 		Arrays
 			.stream(clazz.getDeclaredFields())
 			.filter(field -> field.isAnnotationPresent(AutoUnbind.class) && Property.class.isAssignableFrom(field.getType()))
@@ -143,8 +142,8 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 			});
 
 		final Class<?> superClass = clazz.getSuperclass();
-		if(superClass != null && superClass != CommandImpl.class && CommandImpl.class.isAssignableFrom(superClass)) {
-			unbindCmdAttributesClass((Class<? extends CommandImpl>) superClass);
+		if(superClass != null && superClass != Command.class && Command.class.isAssignableFrom(superClass)) {
+			unbindCmdAttributesClass((Class<? extends Command>) superClass);
 		}
 	}
 

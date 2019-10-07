@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.SpinnerChanged;
@@ -30,7 +30,7 @@ import javafx.scene.control.Spinner;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, WidgetData<Spinner<?>>> {
+public abstract class SpinnerBinding<C extends Command, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, WidgetData<Spinner<?>>> {
 	/**
 	 * Creates a spinner binding.
 	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.

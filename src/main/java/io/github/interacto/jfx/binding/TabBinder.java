@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.TabSelected;
 import io.github.interacto.jfx.interaction.library.WidgetData;
@@ -27,7 +27,7 @@ import javafx.scene.control.TabPane;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class TabBinder<C extends CommandImpl> extends Binder<TabPane, C, TabSelected, WidgetData<TabPane>, TabBinder<C>> {
+public class TabBinder<C extends Command> extends Binder<TabPane, C, TabSelected, WidgetData<TabPane>, TabBinder<C>> {
 	public TabBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
 		this(i -> cmdClass.get(), instrument);
 	}

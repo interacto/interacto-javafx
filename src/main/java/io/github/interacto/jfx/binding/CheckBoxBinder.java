@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.BoxChecked;
 import io.github.interacto.jfx.interaction.library.WidgetData;
@@ -27,7 +27,7 @@ import javafx.scene.control.CheckBox;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class CheckBoxBinder<C extends CommandImpl> extends Binder<CheckBox, C, BoxChecked, WidgetData<CheckBox>, CheckBoxBinder<C>> {
+public class CheckBoxBinder<C extends Command> extends Binder<CheckBox, C, BoxChecked, WidgetData<CheckBox>, CheckBoxBinder<C>> {
 	public CheckBoxBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
 		super(new BoxChecked(), i -> cmdClass.get(), instrument);
 	}

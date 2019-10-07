@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
@@ -36,7 +36,7 @@ import javafx.stage.Window;
  * The goal is to avoid the creation of a specific class when the binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonNodeBinding<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
 			extends JfXWidgetBinding<C, I, D> {
 	private final BiConsumer<D, C> execInitCmd;
 	private final BiConsumer<D, C> execUpdateCmd;

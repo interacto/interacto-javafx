@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
 import io.github.interacto.jfx.interaction.library.WidgetData;
@@ -30,7 +30,7 @@ import javafx.scene.control.MenuItem;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class MenuItemBinder<C extends CommandImpl> extends Binder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>, MenuItemBinder<C>> {
+public class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>, MenuItemBinder<C>> {
 	protected List<ObservableList<? extends MenuItem>> additionalMenus;
 
 	public MenuItemBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {

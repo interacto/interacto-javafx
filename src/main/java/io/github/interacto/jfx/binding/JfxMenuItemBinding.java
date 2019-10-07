@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.interaction.library.MenuItemInteraction;
 import io.github.interacto.jfx.interaction.library.WidgetData;
 import java.util.List;
@@ -25,7 +25,7 @@ import javafx.scene.control.MenuItem;
  * Base of a menu item binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxMenuItemBinding<C extends CommandImpl, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>>
+public abstract class JfxMenuItemBinding<C extends Command, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>>
 			extends JfXWidgetBinding<C, I, WidgetData<MenuItem>> {
 	/**
 	 * Creates a widget binding for menu items. This constructor must initialise the interaction. The binding is (de-)activated if the given

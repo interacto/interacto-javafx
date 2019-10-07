@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.ToggleButtonPressed;
@@ -30,7 +30,7 @@ import javafx.scene.control.ToggleButton;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ToggleButtonPressed, WidgetData<ToggleButton>> {
+public abstract class ToggleButtonBinding<C extends Command, I extends JfxInstrument> extends JfXWidgetBinding<C, ToggleButtonPressed, WidgetData<ToggleButton>> {
 	/**
 	 * Creates a toggle button binding.
 	 * @param cmdCreation The function that produces commands.

@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.instrument;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.instrument.InstrumentImpl;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.binding.AnonCmdBinder;
@@ -94,7 +94,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> KeyNodeBinder<C> keyNodeBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> KeyNodeBinder<C> keyNodeBinder(final Supplier<C> cmdCreation) {
 		return new KeyNodeBinder<>(cmdCreation, this);
 	}
 
@@ -106,7 +106,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> KeyNodeBinder<C> keyNodeBinder(final Function<KeysData, C> cmdCreation) {
+	protected <C extends Command> KeyNodeBinder<C> keyNodeBinder(final Function<KeysData, C> cmdCreation) {
 		return new KeyNodeBinder<>(cmdCreation, this);
 	}
 
@@ -118,7 +118,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> KeyWindowBinder<C> keyWindowBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> KeyWindowBinder<C> keyWindowBinder(final Supplier<C> cmdCreation) {
 		return new KeyWindowBinder<>(cmdCreation, this);
 	}
 
@@ -130,7 +130,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> KeyWindowBinder<C> keyWindowBinder(final Function<KeysData, C> cmdCreation) {
+	protected <C extends Command> KeyWindowBinder<C> keyWindowBinder(final Function<KeysData, C> cmdCreation) {
 		return new KeyWindowBinder<>(cmdCreation, this);
 	}
 
@@ -142,7 +142,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ButtonBinder<C> buttonBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> ButtonBinder<C> buttonBinder(final Supplier<C> cmdCreation) {
 		return new ButtonBinder<>(cmdCreation, this);
 	}
 
@@ -154,7 +154,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ButtonBinder<C> buttonBinder(final Function<WidgetData<Button>, C> cmdCreation) {
+	protected <C extends Command> ButtonBinder<C> buttonBinder(final Function<WidgetData<Button>, C> cmdCreation) {
 		return new ButtonBinder<>(cmdCreation, this);
 	}
 
@@ -166,7 +166,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ToggleButtonBinder<C> toggleButtonBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> ToggleButtonBinder<C> toggleButtonBinder(final Supplier<C> cmdCreation) {
 		return new ToggleButtonBinder<>(cmdCreation, this);
 	}
 
@@ -178,7 +178,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ToggleButtonBinder<C> toggleButtonBinder(final Function<WidgetData<ToggleButton>, C> cmdCreation) {
+	protected <C extends Command> ToggleButtonBinder<C> toggleButtonBinder(final Function<WidgetData<ToggleButton>, C> cmdCreation) {
 		return new ToggleButtonBinder<>(cmdCreation, this);
 	}
 
@@ -190,7 +190,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> CheckBoxBinder<C> checkboxBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> CheckBoxBinder<C> checkboxBinder(final Supplier<C> cmdCreation) {
 		return new CheckBoxBinder<>(cmdCreation, this);
 	}
 
@@ -202,7 +202,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> CheckBoxBinder<C> checkboxBinder(final Function<WidgetData<CheckBox>, C> cmdCreation) {
+	protected <C extends Command> CheckBoxBinder<C> checkboxBinder(final Function<WidgetData<CheckBox>, C> cmdCreation) {
 		return new CheckBoxBinder<>(cmdCreation, this);
 	}
 
@@ -214,7 +214,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ColorPickerBinder<C> colorPickerBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> ColorPickerBinder<C> colorPickerBinder(final Supplier<C> cmdCreation) {
 		return new ColorPickerBinder<>(cmdCreation, this);
 	}
 
@@ -226,7 +226,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ColorPickerBinder<C> colorPickerBinder(final Function<WidgetData<ColorPicker>, C> cmdCreation) {
+	protected <C extends Command> ColorPickerBinder<C> colorPickerBinder(final Function<WidgetData<ColorPicker>, C> cmdCreation) {
 		return new ColorPickerBinder<>(cmdCreation, this);
 	}
 
@@ -238,7 +238,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> SpinnerBinder<C> spinnerBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> SpinnerBinder<C> spinnerBinder(final Supplier<C> cmdCreation) {
 		return new SpinnerBinder<>(cmdCreation, this);
 	}
 
@@ -251,7 +251,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> SpinnerBinder<C> spinnerBinder(final Function<WidgetData<Spinner<?>>, C> cmdCreation) {
+	protected <C extends Command> SpinnerBinder<C> spinnerBinder(final Function<WidgetData<Spinner<?>>, C> cmdCreation) {
 		return new SpinnerBinder<>(cmdCreation, this);
 	}
 
@@ -263,7 +263,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Supplier<C> cmdCreation) {
 		return new TextInputBinder<>(cmdCreation, this);
 	}
 
@@ -276,7 +276,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Function<WidgetData<TextInputControl>, C> cmdCreation) {
+	protected <C extends Command, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Function<WidgetData<TextInputControl>, C> cmdCreation) {
 		return new TextInputBinder<>(cmdCreation, this);
 	}
 
@@ -288,7 +288,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> MenuItemBinder<C> menuItemBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> MenuItemBinder<C> menuItemBinder(final Supplier<C> cmdCreation) {
 		return new MenuItemBinder<>(cmdCreation, this);
 	}
 
@@ -300,7 +300,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> MenuItemBinder<C> menuItemBinder(final Function<WidgetData<MenuItem>, C> cmdCreation) {
+	protected <C extends Command> MenuItemBinder<C> menuItemBinder(final Function<WidgetData<MenuItem>, C> cmdCreation) {
 		return new MenuItemBinder<>(cmdCreation, this);
 	}
 
@@ -312,7 +312,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ComboBoxBinder<C> comboboxBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> ComboBoxBinder<C> comboboxBinder(final Supplier<C> cmdCreation) {
 		return new ComboBoxBinder<>(cmdCreation, this);
 	}
 
@@ -324,7 +324,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> ComboBoxBinder<C> comboboxBinder(final Function<WidgetData<ComboBox<?>>, C> cmdCreation) {
+	protected <C extends Command> ComboBoxBinder<C> comboboxBinder(final Function<WidgetData<ComboBox<?>>, C> cmdCreation) {
 		return new ComboBoxBinder<>(cmdCreation, this);
 	}
 
@@ -336,7 +336,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> TabBinder<C> tabBinder(final Supplier<C> cmdCreation) {
+	protected <C extends Command> TabBinder<C> tabBinder(final Supplier<C> cmdCreation) {
 		return new TabBinder<>(cmdCreation, this);
 	}
 
@@ -348,7 +348,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl> TabBinder<C> tabBinder(final Function<WidgetData<TabPane>, C> cmdCreation) {
+	protected <C extends Command> TabBinder<C> tabBinder(final Function<WidgetData<TabPane>, C> cmdCreation) {
 		return new TabBinder<>(cmdCreation, this);
 	}
 
@@ -363,7 +363,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
+	protected <C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
 																														final Supplier<C> cmdCreation) {
 		return new WindowBinder<>(interaction, cmdCreation, this);
 	}
@@ -379,7 +379,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <C extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
+	protected <C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
 																										final Function<WidgetData<Window>, C> cmdCreation) {
 		return new WindowBinder<>(interaction, cmdCreation, this);
 	}
@@ -395,7 +395,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <D extends InteractionData, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
+	protected <D extends InteractionData, C extends Command, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
 				nodeBinder(final I interaction, final Supplier<C> cmdCreation) {
 		return new NodeBinder<>(interaction, cmdCreation, this);
 	}
@@ -411,7 +411,7 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <D extends InteractionData, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
+	protected <D extends InteractionData, C extends Command, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
 				nodeBinder(final I interaction, final Function<D, C> cmdCreation) {
 		return new NodeBinder<>(interaction, cmdCreation, this);
 	}

@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
@@ -29,7 +29,7 @@ import javafx.scene.Node;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData,
+public abstract class UpdateBinder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData,
 				B extends UpdateBinder<W, C, I, D, B>> extends Binder<W, C, I, D, B> {
 	protected BiConsumer<D, C> updateFct;
 	protected Consumer<D> cancelFct;

@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.command.CommandImpl;
+import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.ColorPicked;
 import io.github.interacto.jfx.interaction.library.WidgetData;
@@ -27,7 +27,7 @@ import javafx.scene.control.ColorPicker;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class ColorPickerBinder<C extends CommandImpl> extends Binder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>, ColorPickerBinder<C>> {
+public class ColorPickerBinder<C extends Command> extends Binder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>, ColorPickerBinder<C>> {
 	public ColorPickerBinder(final Supplier<C> cmdClass, final JfxInstrument instrument) {
 		super(new ColorPicked(), i -> cmdClass.get(), instrument);
 	}
