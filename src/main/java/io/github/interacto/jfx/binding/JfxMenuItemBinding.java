@@ -30,15 +30,15 @@ public abstract class JfxMenuItemBinding<C extends CommandImpl, I extends MenuIt
 	/**
 	 * Creates a widget binding for menu items. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
 	 * @param cmdClass The type of the command that will be created. Used to instantiate the command by reflexivity.
 	 * The class must be public and must have a constructor with no parameter.
 	 * @param interaction The user interaction of the binding.
 	 * @param menuItems The menu items concerned by the binding. Can be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfxMenuItemBinding(final boolean exec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdClass, final List<MenuItem> menuItems) {
-		super(exec, interaction, cmdClass, false, null);
+	public JfxMenuItemBinding(final boolean continuousExec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdClass, final List<MenuItem> menuItems) {
+		super(continuousExec, interaction, cmdClass, false, null);
 
 		if(menuItems != null) {
 			interaction.registerToMenuItems(menuItems);

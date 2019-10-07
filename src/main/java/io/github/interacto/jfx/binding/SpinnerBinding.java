@@ -33,22 +33,24 @@ import javafx.scene.control.Spinner;
 public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, WidgetData<Spinner<?>>> {
 	/**
 	 * Creates a spinner binding.
+	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
 	 * @param cmdCreation The function that produces commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets) {
-		this(exec, cmdCreation, widgets, false, null);
+	public SpinnerBinding(final boolean continuousExec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets) {
+		this(continuousExec, cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a spinner binding.
+	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
 	 * @param cmdCreation The function that produces commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets, final boolean help,
+	public SpinnerBinding(final boolean continuousExec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets, final boolean help,
 						final HelpAnimation animation) {
-		super(exec, new SpinnerChanged(), cmdCreation, widgets, help, animation);
+		super(continuousExec, new SpinnerChanged(), cmdCreation, widgets, help, animation);
 	}
 }

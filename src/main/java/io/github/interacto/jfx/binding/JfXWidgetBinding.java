@@ -69,15 +69,15 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
+	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
 	 * @param interaction The user interaction of the binding.
 	 * @param cmdCreation The function to call to create a command.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final boolean exec, final I interaction, final Function<D, C> cmdCreation, final List<Node> widgets, final boolean help,
+	public JfXWidgetBinding(final boolean continuousExec, final I interaction, final Function<D, C> cmdCreation, final List<Node> widgets, final boolean help,
 							final HelpAnimation animation) {
-		super(exec, cmdCreation, interaction);
+		super(continuousExec, cmdCreation, interaction);
 		withHelp = help;
 		customAnimation = animation;
 		interaction.registerToNodes(widgets);
@@ -86,29 +86,29 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
+	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
 	 * @param interaction The user interaction of the binding.
 	 * @param cmdCreation The function to call to create a command.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final boolean exec, final I interaction, final Function<D, C> cmdCreation, final boolean help,
+	public JfXWidgetBinding(final boolean continuousExec, final I interaction, final Function<D, C> cmdCreation, final boolean help,
 							final HelpAnimation animation, final Node... widgets) {
-		this(exec, interaction, cmdCreation, Arrays.asList(widgets), help, animation);
+		this(continuousExec, interaction, cmdCreation, Arrays.asList(widgets), help, animation);
 	}
 
 	/**
 	 * Creates a widget binding for windows. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
+	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
 	 * @param windows The windows concerned by the binding. Cannot be null.
 	 * @param interaction The user interaction of the binding.
 	 * @param cmdCreation The function that creates commands.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final boolean exec, final List<Window> windows, final I interaction, final Function<D, C> cmdCreation,
+	public JfXWidgetBinding(final boolean continuousExec, final List<Window> windows, final I interaction, final Function<D, C> cmdCreation,
 							final HelpAnimation animation, final boolean help) {
-		super(exec, cmdCreation, interaction);
+		super(continuousExec, cmdCreation, interaction);
 		withHelp = help;
 		customAnimation = animation;
 		interaction.registerToWindows(windows);
