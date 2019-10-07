@@ -45,7 +45,7 @@ import javafx.scene.layout.Pane;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
+public class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
 	protected BiConsumer<D, C> initCmd;
 	protected Predicate<D> checkConditions;
 	protected final Function<D, C> cmdProducer;
