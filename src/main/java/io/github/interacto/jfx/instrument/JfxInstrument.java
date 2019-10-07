@@ -90,11 +90,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> KeyNodeBinder<A> keyNodeBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> KeyNodeBinder<C> keyNodeBinder(final Supplier<C> cmdCreation) {
 		return new KeyNodeBinder<>(cmdCreation, this);
 	}
 
@@ -102,11 +102,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that creates the commands.
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> KeyNodeBinder<A> keyNodeBinder(final Function<KeysData, A> cmdCreation) {
+	protected <C extends CommandImpl> KeyNodeBinder<C> keyNodeBinder(final Function<KeysData, C> cmdCreation) {
 		return new KeyNodeBinder<>(cmdCreation, this);
 	}
 
@@ -114,11 +114,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> KeyWindowBinder<A> keyWindowBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> KeyWindowBinder<C> keyWindowBinder(final Supplier<C> cmdCreation) {
 		return new KeyWindowBinder<>(cmdCreation, this);
 	}
 
@@ -126,11 +126,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> KeyWindowBinder<A> keyWindowBinder(final Function<KeysData, A> cmdCreation) {
+	protected <C extends CommandImpl> KeyWindowBinder<C> keyWindowBinder(final Function<KeysData, C> cmdCreation) {
 		return new KeyWindowBinder<>(cmdCreation, this);
 	}
 
@@ -138,11 +138,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ButtonBinder<A> buttonBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> ButtonBinder<C> buttonBinder(final Supplier<C> cmdCreation) {
 		return new ButtonBinder<>(cmdCreation, this);
 	}
 
@@ -150,11 +150,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ButtonBinder<A> buttonBinder(final Function<WidgetData<Button>, A> cmdCreation) {
+	protected <C extends CommandImpl> ButtonBinder<C> buttonBinder(final Function<WidgetData<Button>, C> cmdCreation) {
 		return new ButtonBinder<>(cmdCreation, this);
 	}
 
@@ -162,11 +162,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ToggleButtonBinder<A> toggleButtonBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> ToggleButtonBinder<C> toggleButtonBinder(final Supplier<C> cmdCreation) {
 		return new ToggleButtonBinder<>(cmdCreation, this);
 	}
 
@@ -174,11 +174,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ToggleButtonBinder<A> toggleButtonBinder(final Function<WidgetData<ToggleButton>, A> cmdCreation) {
+	protected <C extends CommandImpl> ToggleButtonBinder<C> toggleButtonBinder(final Function<WidgetData<ToggleButton>, C> cmdCreation) {
 		return new ToggleButtonBinder<>(cmdCreation, this);
 	}
 
@@ -186,11 +186,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> CheckBoxBinder<A> checkboxBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> CheckBoxBinder<C> checkboxBinder(final Supplier<C> cmdCreation) {
 		return new CheckBoxBinder<>(cmdCreation, this);
 	}
 
@@ -198,11 +198,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> CheckBoxBinder<A> checkboxBinder(final Function<WidgetData<CheckBox>, A> cmdCreation) {
+	protected <C extends CommandImpl> CheckBoxBinder<C> checkboxBinder(final Function<WidgetData<CheckBox>, C> cmdCreation) {
 		return new CheckBoxBinder<>(cmdCreation, this);
 	}
 
@@ -210,11 +210,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ColorPickerBinder<A> colorPickerBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> ColorPickerBinder<C> colorPickerBinder(final Supplier<C> cmdCreation) {
 		return new ColorPickerBinder<>(cmdCreation, this);
 	}
 
@@ -222,11 +222,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ColorPickerBinder<A> colorPickerBinder(final Function<WidgetData<ColorPicker>, A> cmdCreation) {
+	protected <C extends CommandImpl> ColorPickerBinder<C> colorPickerBinder(final Function<WidgetData<ColorPicker>, C> cmdCreation) {
 		return new ColorPickerBinder<>(cmdCreation, this);
 	}
 
@@ -234,11 +234,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> SpinnerBinder<A> spinnerBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> SpinnerBinder<C> spinnerBinder(final Supplier<C> cmdCreation) {
 		return new SpinnerBinder<>(cmdCreation, this);
 	}
 
@@ -247,11 +247,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> SpinnerBinder<A> spinnerBinder(final Function<WidgetData<Spinner<?>>, A> cmdCreation) {
+	protected <C extends CommandImpl> SpinnerBinder<C> spinnerBinder(final Function<WidgetData<Spinner<?>>, C> cmdCreation) {
 		return new SpinnerBinder<>(cmdCreation, this);
 	}
 
@@ -259,11 +259,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a text input interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl, W extends TextInputControl> TextInputBinder<A, W> textInputBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Supplier<C> cmdCreation) {
 		return new TextInputBinder<>(cmdCreation, this);
 	}
 
@@ -272,11 +272,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a text input interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl, W extends TextInputControl> TextInputBinder<A, W> textInputBinder(final Function<WidgetData<TextInputControl>, A> cmdCreation) {
+	protected <C extends CommandImpl, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Function<WidgetData<TextInputControl>, C> cmdCreation) {
 		return new TextInputBinder<>(cmdCreation, this);
 	}
 
@@ -284,11 +284,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> MenuItemBinder<A> menuItemBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> MenuItemBinder<C> menuItemBinder(final Supplier<C> cmdCreation) {
 		return new MenuItemBinder<>(cmdCreation, this);
 	}
 
@@ -296,11 +296,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> MenuItemBinder<A> menuItemBinder(final Function<WidgetData<MenuItem>, A> cmdCreation) {
+	protected <C extends CommandImpl> MenuItemBinder<C> menuItemBinder(final Function<WidgetData<MenuItem>, C> cmdCreation) {
 		return new MenuItemBinder<>(cmdCreation, this);
 	}
 
@@ -308,11 +308,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ComboBoxBinder<A> comboboxBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> ComboBoxBinder<C> comboboxBinder(final Supplier<C> cmdCreation) {
 		return new ComboBoxBinder<>(cmdCreation, this);
 	}
 
@@ -320,11 +320,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> ComboBoxBinder<A> comboboxBinder(final Function<WidgetData<ComboBox<?>>, A> cmdCreation) {
+	protected <C extends CommandImpl> ComboBoxBinder<C> comboboxBinder(final Function<WidgetData<ComboBox<?>>, C> cmdCreation) {
 		return new ComboBoxBinder<>(cmdCreation, this);
 	}
 
@@ -332,11 +332,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> TabBinder<A> tabBinder(final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl> TabBinder<C> tabBinder(final Supplier<C> cmdCreation) {
 		return new TabBinder<>(cmdCreation, this);
 	}
 
@@ -344,11 +344,11 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl> TabBinder<A> tabBinder(final Function<WidgetData<TabPane>, A> cmdCreation) {
+	protected <C extends CommandImpl> TabBinder<C> tabBinder(final Function<WidgetData<TabPane>, C> cmdCreation) {
 		return new TabBinder<>(cmdCreation, this);
 	}
 
@@ -358,13 +358,13 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
 	 * @param interaction The user interaction to perform on windows
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<A, I> windowBinder(final I interaction,
-																														final Supplier<A> cmdCreation) {
+	protected <C extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
+																														final Supplier<C> cmdCreation) {
 		return new WindowBinder<>(interaction, cmdCreation, this);
 	}
 
@@ -374,13 +374,13 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
 	 * @param interaction The user interaction to perform on windows
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <A extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<A, I> windowBinder(final I interaction,
-																										final Function<WidgetData<Window>, A> cmdCreation) {
+	protected <C extends CommandImpl, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
+																										final Function<WidgetData<Window>, C> cmdCreation) {
 		return new WindowBinder<>(interaction, cmdCreation, this);
 	}
 
@@ -390,13 +390,13 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
 	 * @param interaction The user interaction to perform on nodes
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <D extends InteractionData, A extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<A, I, D>
-				nodeBinder(final I interaction, final Supplier<A> cmdCreation) {
+	protected <D extends InteractionData, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
+				nodeBinder(final I interaction, final Supplier<C> cmdCreation) {
 		return new NodeBinder<>(interaction, cmdCreation, this);
 	}
 
@@ -406,13 +406,13 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmdCreation The function that produces the commands
 	 * @param interaction The user interaction to perform on nodes
-	 * @param <A> The type of the command.
+	 * @param <C> The type of the command.
 	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
 	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	protected <D extends InteractionData, A extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<A, I, D>
-				nodeBinder(final I interaction, final Function<D, A> cmdCreation) {
+	protected <D extends InteractionData, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
+				nodeBinder(final I interaction, final Function<D, C> cmdCreation) {
 		return new NodeBinder<>(interaction, cmdCreation, this);
 	}
 }
