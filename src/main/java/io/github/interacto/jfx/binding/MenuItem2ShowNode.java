@@ -15,7 +15,6 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.command.ShowNode;
-import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
 import java.util.Collections;
 import javafx.scene.Node;
@@ -25,21 +24,19 @@ import javafx.scene.control.MenuItem;
  * A wdget binding that opens a URL using a menu item.
  * @author Arnaud BLOUIN
  */
-public class MenuItem2ShowNode extends JfxMenuItemBinding<ShowNode, MenuItemPressed, JfxInstrument> {
+public class MenuItem2ShowNode extends JfxMenuItemBinding<ShowNode, MenuItemPressed> {
 	protected Node nodeToShow;
 
 	protected boolean show;
 
 	/**
 	 * Creates the widget binding.
-	 * @param ins The instrument that will contain the binding.
 	 * @param menuItem he menu item that will be uses to create the command.
 	 * @param node The node to show or hide
 	 * @throws IllegalArgumentException If one of the given parameters is null.
-	 * @since 2.0
 	 */
-	public MenuItem2ShowNode(final JfxInstrument ins, final MenuItem menuItem, final Node node, final boolean toshow) {
-		super(ins, false, new MenuItemPressed(), i -> new ShowNode(), Collections.singletonList(menuItem));
+	public MenuItem2ShowNode(final MenuItem menuItem, final Node node, final boolean toshow) {
+		super(false, new MenuItemPressed(), i -> new ShowNode(), Collections.singletonList(menuItem));
 
 		if(node == null) {
 			throw new IllegalArgumentException();

@@ -42,28 +42,28 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnD(final FxRobot robot) {
-		new NodeBinder<>(new DnD(true, true), i -> new MoveShape(rec), instrument).
-			on(rec).
-			first((i, c) -> rec.requestFocus()).
-			then((i, c) -> c.setCoord(rec.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
-				rec.getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
-			end((i, c) -> fail("")).
-			exec().
-			bind();
+		new NodeBinder<>(new DnD(true, true), i -> new MoveShape(rec), instrument)
+			.on(rec)
+			.first((i, c) -> rec.requestFocus())
+			.then((i, c) -> c.setCoord(rec.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
+				rec.getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY())))
+			.end(i -> fail(""))
+			.exec()
+			.bind();
 		robot.drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
 		assertEquals(0, instrument.exec.get());
 	}
 
 	@Test
 	public void testCanCancelDnDWithObsList(final FxRobot robot) {
-		new NodeBinder<>(new DnD(true, true), i -> new MoveShape((Rectangle) i.getSrcObject().get()), instrument).
-			on(widget1.getChildren()).
-			first((i, c) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus())).
-			then((i, c) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
-				((Rectangle) i.getSrcObject().get()).getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY()))).
-			end((i, c) -> fail("")).
-			exec().
-			bind();
+		new NodeBinder<>(new DnD(true, true), i -> new MoveShape((Rectangle) i.getSrcObject().get()), instrument)
+			.on(widget1.getChildren())
+			.first((i, c) -> Platform.runLater(() -> i.getSrcObject().get().requestFocus()))
+			.then((i, c) -> c.setCoord(((Rectangle) i.getSrcObject().get()).getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
+				((Rectangle) i.getSrcObject().get()).getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY())))
+			.end(i -> fail(""))
+			.exec()
+			.bind();
 
 		final Rectangle rec2 = new Rectangle(200d, 200d, 70d, 50d);
 		Platform.runLater(() -> widget1.getChildren().addAll(rec2));

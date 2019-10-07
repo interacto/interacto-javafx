@@ -32,9 +32,8 @@ import javafx.scene.Node;
 public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData,
 				B extends UpdateBinder<W, C, I, D, B>> extends Binder<W, C, I, D, B> {
 	protected BiConsumer<D, C> updateFct;
-	protected BiConsumer<D, C> cancelFct;
-	protected BiConsumer<D, C> endOrCancelFct;
-	protected Runnable feedbackFct;
+	protected Consumer<D> cancelFct;
+	protected Consumer<D> endOrCancelFct;
 	protected boolean execOnChanges;
 	protected boolean strictStart;
 	protected long throttleTimeout;
@@ -84,7 +83,7 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	 * The undoable command is automatically cancelled so that nothing must be done on the command.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B cancel(final BiConsumer<D, C> cancel) {
+	public B cancel(final Consumer<D> cancel) {
 		cancelFct = cancel;
 		return (B) this;
 	}
@@ -94,19 +93,11 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	 * The undoable command is automatically cancelled so that nothing must be done on the command.
 	 * @return The builder to chain the building configuration.
 	 */
-	public B endOrCancel(final BiConsumer<D, C> endOrCancel) {
+	public B endOrCancel(final Consumer<D> endOrCancel) {
 		endOrCancelFct = endOrCancel;
 		return (B) this;
 	}
 
-	/**
-	 * Defines interim feedback provided to users on each interaction updates.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B feedback(final Runnable feedback) {
-		feedbackFct = feedback;
-		return (B) this;
-	}
 
 	/**
 	 * The interaction does not start if the condition of the binding ('when') is not fulfilled.
@@ -134,9 +125,9 @@ public abstract class UpdateBinder<W, C extends CommandImpl, I extends JfxIntera
 	}
 
 	@Override
-	public JfXWidgetBinding<C, I, ?, D> bind() {
-		final var binding = new JFxAnonNodeBinding<>(instrument, execOnChanges, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
-				endOrCancelFct, feedbackFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
+	public JfXWidgetBinding<C, I, D> bind() {
+		final var binding = new JFxAnonNodeBinding<>(execOnChanges, interaction, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct,
+				endOrCancelFct, widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async,
 				strictStart, throttleTimeout, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);

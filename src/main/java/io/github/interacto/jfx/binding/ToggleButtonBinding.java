@@ -30,27 +30,25 @@ import javafx.scene.control.ToggleButton;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ToggleButtonPressed, I, WidgetData<ToggleButton>> {
+public abstract class ToggleButtonBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ToggleButtonPressed, WidgetData<ToggleButton>> {
 	/**
 	 * Creates a toggle button binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces commands.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ToggleButtonBinding(final I ins, final Function<WidgetData<ToggleButton>, C> cmdCreation, final List<Node> widgets,
+	public ToggleButtonBinding(final Function<WidgetData<ToggleButton>, C> cmdCreation, final List<Node> widgets,
 							final boolean help, final HelpAnimation animation) {
-		super(ins, false, new ToggleButtonPressed(), cmdCreation, widgets, help, animation);
+		super(false, new ToggleButtonPressed(), cmdCreation, widgets, help, animation);
 	}
 
 	/**
 	 * Creates a toggle button binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces commands.
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ToggleButtonBinding(final I ins, final Function<WidgetData<ToggleButton>, C> cmdCreation, final List<Node> widgets) {
-		this(ins, cmdCreation, widgets, false, null);
+	public ToggleButtonBinding(final Function<WidgetData<ToggleButton>, C> cmdCreation, final List<Node> widgets) {
+		this(cmdCreation, widgets, false, null);
 	}
 }

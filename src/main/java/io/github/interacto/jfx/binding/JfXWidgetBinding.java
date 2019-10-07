@@ -20,7 +20,6 @@ import io.github.interacto.command.Command;
 import io.github.interacto.command.CommandImpl;
 import io.github.interacto.error.ErrorCatcher;
 import io.github.interacto.interaction.InteractionData;
-import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.help.HelpAnimationPlayer;
@@ -45,8 +44,8 @@ import javafx.stage.Window;
  * Base of a widget binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, N extends JfxInstrument, D extends InteractionData>
-			extends WidgetBindingImpl<C, I, N, D> {
+public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+			extends WidgetBindingImpl<C, I, D> {
 	/** The executor service used to execute command async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;
 
@@ -57,7 +56,6 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		return executorService;
 	}
 
-//	protected final BooleanProperty activation;
 	protected boolean withHelp;
 	protected HelpAnimation customAnimation;
 	/** The property used to displayed a message while executing a command async. */
@@ -67,27 +65,19 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	/** The button used to stop the command executed async. May be null. */
 	protected Button cancelCmdButton;
 
-//	private final ChangeListener<Boolean> activationHandler = (observable, oldValue, newValue) -> {
-//		if(oldValue != newValue) {
-//			JfXWidgetBinding.super.setActivated(newValue);
-//		}
-//	};
 
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
 	 * @param interaction The user interaction of the binding.
 	 * @param cmdCreation The function to call to create a command.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final I interaction, final Function<D, C> cmdCreation, final List<Node> widgets, final boolean help,
+	public JfXWidgetBinding(final boolean exec, final I interaction, final Function<D, C> cmdCreation, final List<Node> widgets, final boolean help,
 							final HelpAnimation animation) {
-		super(ins, exec, cmdCreation, interaction);
-//		activation = new SimpleBooleanProperty(false);
-//		activation.addListener(activationHandler);
+		super(exec, cmdCreation, interaction);
 		withHelp = help;
 		customAnimation = animation;
 		interaction.registerToNodes(widgets);
@@ -96,35 +86,31 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies whether the command must be execute or update on each evolution of the interaction.
 	 * @param interaction The user interaction of the binding.
 	 * @param cmdCreation The function to call to create a command.
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final I interaction, final Function<D, C> cmdCreation, final boolean help,
+	public JfXWidgetBinding(final boolean exec, final I interaction, final Function<D, C> cmdCreation, final boolean help,
 							final HelpAnimation animation, final Node... widgets) {
-		this(ins, exec, interaction, cmdCreation, Arrays.asList(widgets), help, animation);
+		this(exec, interaction, cmdCreation, Arrays.asList(widgets), help, animation);
 	}
 
 	/**
 	 * Creates a widget binding for windows. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param ins The instrument that contains the widget binding.
 	 * @param exec Specifies if the command must be execute or update on each evolution of the interaction.
 	 * @param windows The windows concerned by the binding. Cannot be null.
 	 * @param interaction The user interaction of the binding.
 	 * @param cmdCreation The function that creates commands.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final N ins, final boolean exec, final List<Window> windows, final I interaction, final Function<D, C> cmdCreation,
+	public JfXWidgetBinding(final boolean exec, final List<Window> windows, final I interaction, final Function<D, C> cmdCreation,
 							final HelpAnimation animation, final boolean help) {
-		super(ins, exec, cmdCreation, interaction);
-//		activation = new SimpleBooleanProperty(isActivated());
+		super(exec, cmdCreation, interaction);
 		withHelp = help;
 		customAnimation = animation;
-//		activation.addListener(activationHandler);
 		interaction.registerToWindows(windows);
 	}
 
@@ -189,9 +175,6 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 	@Override
 	public void setActivated(final boolean activ) {
 		super.setActivated(activ);
-//		if(!activation.isBound()) {
-//			activation.set(activ);
-//		}
 		if(withHelp) {
 			if(customAnimation != null) {
 				if(isActivated()) {
@@ -267,14 +250,9 @@ public abstract class JfXWidgetBinding<C extends CommandImpl, I extends JfxInter
 		return true;
 	}
 
-//	public BooleanProperty activationProperty() {
-//		return activation;
-//	}
 
 	@Override
 	public void uninstallBinding() {
-//		activation.unbind();
-//		activation.removeListener(activationHandler);
 		if(progressBarProp != null) {
 			progressBarProp.unbind();
 			progressBarProp = null;

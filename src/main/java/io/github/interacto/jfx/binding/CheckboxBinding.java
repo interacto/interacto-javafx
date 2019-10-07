@@ -30,27 +30,25 @@ import javafx.scene.control.CheckBox;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class CheckboxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, BoxChecked, I, WidgetData<CheckBox>> {
+public abstract class CheckboxBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, BoxChecked, WidgetData<CheckBox>> {
 	/**
 	 * Creates a checkbox binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public CheckboxBinding(final I ins, final Function<WidgetData<CheckBox>, C>  cmdCreation, final List<Node> widgets) {
-		this(ins, cmdCreation, widgets, false, null);
+	public CheckboxBinding(final Function<WidgetData<CheckBox>, C>  cmdCreation, final List<Node> widgets) {
+		this(cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a checkbox binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public CheckboxBinding(final I ins, final Function<WidgetData<CheckBox>, C> cmdCreation, final List<Node> widgets,
+	public CheckboxBinding(final Function<WidgetData<CheckBox>, C> cmdCreation, final List<Node> widgets,
 						final boolean help, final HelpAnimation animation) {
-		super(ins, false, new BoxChecked(), cmdCreation, widgets, help, animation);
+		super(false, new BoxChecked(), cmdCreation, widgets, help, animation);
 	}
 }

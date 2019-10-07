@@ -28,6 +28,7 @@ public class TestKeyNodeBinder extends TestNodeBinder<Canvas> {
 		super.start(stage);
 	}
 
+	@Override
 	@BeforeEach
 	void setUp() {
 		WaitForAsyncUtils.waitForFxEvents();

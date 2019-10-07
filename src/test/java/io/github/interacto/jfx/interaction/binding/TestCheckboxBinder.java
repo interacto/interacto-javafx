@@ -23,54 +23,55 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 
 	@Test
 	public void testCommandExecutedOnSingleButton(final FxRobot robot) {
-		new CheckBoxBinder<>(StubCmd::new, instrument).
-			on(widget1).
-			end((i, c) -> assertEquals(1, c.exec.get())).
-			bind();
+		new CheckBoxBinder<>(i -> cmd, instrument)
+			.on(widget1)
+			.bind();
 		robot.clickOn(widget1);
+		assertEquals(1, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
 	public void testCommandExecutedOnTwoCheckboxes(final FxRobot robot) {
-		new CheckBoxBinder<>(StubCmd::new, instrument).
-			on(widget1, widget2).
-			end((i, c) -> assertEquals(1, c.exec.get())).
-			bind();
+		new CheckBoxBinder<>(i -> cmd, instrument)
+			.on(widget1, widget2)
+			.bind();
 		robot.clickOn(widget2);
+		assertEquals(1, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
+		cmd = new StubCmd();
 		robot.clickOn(widget1);
 		assertEquals(2, instrument.exec.get());
 	}
 
 	@Test
 	public void testInit1Executed(final FxRobot robot) {
-		new CheckBoxBinder<>(StubCmd::new, instrument).
-			on(widget1).
-			first(c -> c.exec.setValue(10)).
-			end((i, c) -> assertEquals(11, c.exec.get())).
-			bind();
+		new CheckBoxBinder<>(i -> cmd, instrument)
+			.on(widget1)
+			.first(c -> c.exec.setValue(10))
+			.bind();
 		robot.clickOn(widget1);
+		assertEquals(11, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
 	public void testInit2Executed(final FxRobot robot) {
-		new CheckBoxBinder<>(StubCmd::new, instrument).
-			on(widget1).
-			first((i, c) -> c.exec.setValue(10)).
-			end((i, c) -> assertEquals(11, c.exec.get())).
-			bind();
+		new CheckBoxBinder<>(i -> cmd, instrument)
+			.on(widget1)
+			.first((i, c) -> c.exec.setValue(10))
+			.bind();
 		robot.clickOn(widget1);
+		assertEquals(11, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
 	public void testCheckFalse(final FxRobot robot) {
-		new CheckBoxBinder<>(StubCmd::new, instrument).
-			on(widget1).
-			when(i -> false).
-			bind();
+		new CheckBoxBinder<>(i -> cmd, instrument)
+			.on(widget1)
+			.when(i -> false)
+			.bind();
 		robot.clickOn(widget1);
 		assertEquals(0, instrument.exec.get());
 	}

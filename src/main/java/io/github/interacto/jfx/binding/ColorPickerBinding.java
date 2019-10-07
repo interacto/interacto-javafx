@@ -30,27 +30,25 @@ import javafx.scene.control.ColorPicker;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class ColorPickerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ColorPicked, I, WidgetData<ColorPicker>> {
+public abstract class ColorPickerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, ColorPicked, WidgetData<ColorPicker>> {
 	/**
 	 * Creates a color picker binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ColorPickerBinding(final I ins, final Function<WidgetData<ColorPicker>, C> cmdCreation, final List<Node> widgets) {
-		this(ins, cmdCreation, widgets, false, null);
+	public ColorPickerBinding(final Function<WidgetData<ColorPicker>, C> cmdCreation, final List<Node> widgets) {
+		this(cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a color picker binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces the commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public ColorPickerBinding(final I ins, final Function<WidgetData<ColorPicker>, C> cmdCreation, final List<Node> widgets,
+	public ColorPickerBinding(final Function<WidgetData<ColorPicker>, C> cmdCreation, final List<Node> widgets,
 							final boolean help, final HelpAnimation animation) {
-		super(ins, false, new ColorPicked(), cmdCreation, widgets, help, animation);
+		super(false, new ColorPicked(), cmdCreation, widgets, help, animation);
 	}
 }

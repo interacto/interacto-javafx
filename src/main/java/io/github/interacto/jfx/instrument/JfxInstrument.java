@@ -53,21 +53,12 @@ import javafx.stage.Window;
  * Base of an instrument for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction<?, ?, ?>, ? extends JfxInstrument, ?>> {
-//	protected final BooleanProperty activatedProp;
-
+public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction<?, ?, ?>, ?>> {
 	/**
 	 * Creates the instrument.
 	 */
 	public JfxInstrument() {
 		super();
-//		activatedProp = new SimpleBooleanProperty(activated);
-//
-//		activatedProp.addListener((observable, oldValue, newValue) -> {
-//			if(oldValue != newValue) {
-//				JfxInstrument.super.setActivated(newValue);
-//			}
-//		});
 	}
 
 	/**
@@ -82,31 +73,6 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 		setActivated(activ);
 	}
 
-//	@Override
-//	public void uninstallBindings() {
-//		activatedProp.unbind();
-//		super.uninstallBindings();
-//	}
-//
-//	@Override
-//	public void setActivated(final boolean toBeActivated) {
-//		super.setActivated(toBeActivated);
-//		if(!activatedProp.isBound()) {
-//			activatedProp.set(activated);
-//		}
-//	}
-//
-//	@Override
-//	public boolean isActivated() {
-//		return activatedProp.isBound() ? activatedProp.get() : super.isActivated();
-//	}
-
-//	/**
-//	 * @return The property corresponding to the activation of the instrument. Cannot be null.
-//	 */
-//	public BooleanProperty activatedProperty() {
-//		return activatedProp;
-//	}
 
 	/**
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.

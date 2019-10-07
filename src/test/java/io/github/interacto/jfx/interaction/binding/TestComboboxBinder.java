@@ -28,24 +28,25 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testCommandExecutedOnSingleButton(final FxRobot robot) {
-		new ComboBoxBinder<>(StubCmd::new, instrument).
+		new ComboBoxBinder<>(i -> cmd, instrument).
 			on(widget1).
-			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
+		assertEquals(1, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
 	public void testCommandExecutedOnTwoComboboxes(final FxRobot robot) {
-		new ComboBoxBinder<>(StubCmd::new, instrument).
+		new ComboBoxBinder<>(i -> cmd, instrument).
 			on(widget1, widget2).
-			end((i, c) -> assertEquals(1, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(robot, widget2, "d");
 		WaitForAsyncUtils.waitForFxEvents();
+		assertEquals(1, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
+		cmd = new StubCmd();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(2, instrument.exec.get());
@@ -53,31 +54,31 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testInit1Executed(final FxRobot robot) {
-		new ComboBoxBinder<>(StubCmd::new, instrument).
+		new ComboBoxBinder<>(i -> cmd, instrument).
 			on(widget1).
 			first(c -> c.exec.setValue(10)).
-			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
+		assertEquals(11, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
 	public void testInit2Executed(final FxRobot robot) {
-		new ComboBoxBinder<>(StubCmd::new, instrument).
+		new ComboBoxBinder<>(i -> cmd, instrument).
 			on(widget1).
 			first((i, c) -> c.exec.setValue(10)).
-			end((i, c) -> assertEquals(11, c.exec.get())).
 			bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
+		assertEquals(11, cmd.exec.get());
 		assertEquals(1, instrument.exec.get());
 	}
 
 	@Test
 	public void testCheckFalse(final FxRobot robot) {
-		new ComboBoxBinder<>(StubCmd::new, instrument).
+		new ComboBoxBinder<>(i -> cmd, instrument).
 			on(widget1).
 			when(i -> false).
 			bind();

@@ -30,27 +30,25 @@ import javafx.scene.control.Spinner;
  * @param <I> The instrument.
  * @author Arnaud Blouin
  */
-public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, I, WidgetData<Spinner<?>>> {
+public abstract class SpinnerBinding<C extends CommandImpl, I extends JfxInstrument> extends JfXWidgetBinding<C, SpinnerChanged, WidgetData<Spinner<?>>> {
 	/**
 	 * Creates a spinner binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets) {
-		this(ins, exec, cmdCreation, widgets, false, null);
+	public SpinnerBinding(final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets) {
+		this(exec, cmdCreation, widgets, false, null);
 	}
 
 	/**
 	 * Creates a spinner binding.
-	 * @param ins The instrument that contains the binding.
 	 * @param cmdCreation The function that produces commands
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public SpinnerBinding(final I ins, final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets, final boolean help,
+	public SpinnerBinding(final boolean exec, final Function<WidgetData<Spinner<?>>, C> cmdCreation, final List<Node> widgets, final boolean help,
 						final HelpAnimation animation) {
-		super(ins, exec, new SpinnerChanged(), cmdCreation, widgets, help, animation);
+		super(exec, new SpinnerChanged(), cmdCreation, widgets, help, animation);
 	}
 }

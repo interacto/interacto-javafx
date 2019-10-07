@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.testfx.api.FxRobot;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -17,6 +18,12 @@ public abstract class TestBinder<W> {
 	W widget1;
 	W widget2;
 	StubInstrument instrument;
+	StubCmd cmd;
+
+	@BeforeEach
+	void setUp() {
+		cmd = new StubCmd();
+	}
 
 	@AfterEach
 	void afterEach(final FxRobot robot) {
