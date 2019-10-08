@@ -80,6 +80,7 @@ public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteracti
 		withHelp = help;
 		customAnimation = animation;
 		interaction.registerToNodes(widgets);
+		setActivated(true);
 	}
 
 	/**
@@ -111,6 +112,7 @@ public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteracti
 		withHelp = help;
 		customAnimation = animation;
 		interaction.registerToWindows(windows);
+		setActivated(true);
 	}
 
 	@Override
