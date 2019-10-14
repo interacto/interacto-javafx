@@ -172,6 +172,10 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 	}
 
 	private void unregisterEventToNode(final EventType<?> eventType, final Node node) {
+		if(eventType == ActionEvent.ACTION) {
+			unregisterActionHandler(node);
+			return;
+		}
 		if(eventType == MouseEvent.MOUSE_PRESSED) {
 			node.removeEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
 			return;
@@ -198,6 +202,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			node.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
+			return;
 		}
 		if(eventType == KeyEvent.KEY_TYPED) {
 			node.removeEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
@@ -205,6 +210,10 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 	}
 
 	private void registerEventToNode(final EventType<?> eventType, final Node node) {
+		if(eventType == ActionEvent.ACTION) {
+			registerActionHandler(node);
+			return;
+		}
 		if(eventType == MouseEvent.MOUSE_PRESSED) {
 			node.addEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
 			return;
@@ -235,6 +244,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			node.addEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
+			return;
 		}
 		if(eventType == KeyEvent.KEY_TYPED) {
 			node.addEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
@@ -242,6 +252,10 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 	}
 
 	private void unregisterEventToWindow(final EventType<?> eventType, final Window window) {
+		if(eventType == ActionEvent.ACTION) {
+			window.removeEventHandler(ActionEvent.ACTION, getActionHandler());
+			return;
+		}
 		if(eventType == MouseEvent.MOUSE_PRESSED) {
 			window.removeEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
 			return;
@@ -268,6 +282,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			window.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
+			return;
 		}
 		if(eventType == KeyEvent.KEY_TYPED) {
 			window.removeEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
@@ -275,6 +290,10 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 	}
 
 	private void registerEventToWindow(final EventType<?> eventType, final Window window) {
+		if(eventType == ActionEvent.ACTION) {
+			window.addEventHandler(ActionEvent.ACTION, getActionHandler());
+			return;
+		}
 		if(eventType == MouseEvent.MOUSE_PRESSED) {
 			window.addEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
 			return;
@@ -305,6 +324,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 		if(eventType == KeyEvent.KEY_RELEASED) {
 			window.addEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
+			return;
 		}
 		if(eventType == KeyEvent.KEY_TYPED) {
 			window.addEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
