@@ -9,7 +9,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.4.2</junit.version>
+        <junit.version>5.5.2</junit.version>
         <jfx.version>11.0.2</jfx.version>
         <java.version>11</java.version>
     </properties>
@@ -55,7 +55,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/assemblySrc.xml</descriptor>
@@ -75,7 +75,7 @@
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -126,7 +126,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.3</version>
+                <version>0.8.4</version>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
@@ -147,7 +147,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <configuration>
                     <sourceDirectories>
                         <sourceDirectory>src/main/java</sourceDirectory>
@@ -170,7 +170,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.20</version>
+                        <version>8.24</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -178,7 +178,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.11</version>
+                <version>3.1.12.2</version>
                 <configuration>
                     <includeTests>false</includeTests>
                     <effort>Max</effort>
@@ -204,7 +204,7 @@
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs</artifactId>
-                        <version>4.0.0-beta1</version>
+                        <version>4.0.0-beta4</version>
                         <scope>compile</scope>
                     </dependency>
                 </dependencies>
@@ -232,18 +232,18 @@
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-core</artifactId>
-            <version>4.0.15-alpha</version>
+            <version>4.0.16-alpha</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit5</artifactId>
-            <version>4.0.15-alpha</version>
+            <version>4.0.16-alpha</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <version>2.27.0</version>
+            <version>3.0.0</version>
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
