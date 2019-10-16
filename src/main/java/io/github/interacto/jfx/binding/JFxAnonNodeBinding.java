@@ -36,7 +36,7 @@ import javafx.stage.Window;
  * The goal is to avoid the creation of a specific class when the binding is quite simple.
  * @author Arnaud Blouin
  */
-public class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
 			extends JfXWidgetBinding<C, I, D> {
 	private final BiConsumer<D, C> execInitCmd;
 	private final BiConsumer<D, C> execUpdateCmd;
@@ -57,7 +57,7 @@ public class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?
 	 * @param widgets The widgets used by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonNodeBinding(final boolean continuousExec, final I interaction, final BiConsumer<D, C> initCmdFct,
+	JFxAnonNodeBinding(final boolean continuousExec, final I interaction, final BiConsumer<D, C> initCmdFct,
 							final BiConsumer<D, C> updateCmdFct, final Predicate<D> check, final Consumer<D> onEndFct, final Function<D, C> cmdFunction,
 							final Consumer<D> cancel, final Consumer<D> endOrCancel, final List<Node> widgets,
 							final List<ObservableList<? extends Node>> additionalWidgets, final boolean asyncExec, final boolean strict,
@@ -89,7 +89,7 @@ public class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?
 	 * @param updateCmdFct The function that updates the command. Can be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JFxAnonNodeBinding(final boolean continuousExec, final I interaction, final List<Window> widgets,
+	JFxAnonNodeBinding(final boolean continuousExec, final I interaction, final List<Window> widgets,
 							final BiConsumer<D, C> initCmdFct, final BiConsumer<D, C> updateCmdFct, final Predicate<D> check, final Consumer<D> onEndFct,
 							final Function<D, C> cmdFunction, final Consumer<D> cancel, final Consumer<D> endOrCancel,
 							final boolean asyncExec, final boolean strict, final long timeoutThrottle, final Set<LogLevel> loggers, final boolean help,

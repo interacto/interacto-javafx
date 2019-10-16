@@ -6,6 +6,7 @@ module interacto.javafx {
 	requires interacto.java.api;
 
 	exports io.github.interacto.jfx.binding;
+	exports io.github.interacto.jfx.binding.api;
 	exports io.github.interacto.jfx.command;
 	exports io.github.interacto.jfx.instrument;
 	exports io.github.interacto.jfx.interaction;

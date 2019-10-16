@@ -16,6 +16,10 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
+import io.github.interacto.jfx.binding.api.BaseBinder;
+import io.github.interacto.jfx.binding.api.CmdBinder;
+import io.github.interacto.jfx.binding.api.InteractionBinder;
+import io.github.interacto.jfx.binding.api.InteractionCmdBinder;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
@@ -24,17 +28,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.function.Supplier;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
@@ -45,16 +47,17 @@ import javafx.scene.layout.Pane;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-public abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData, B extends Binder<W, C, I, D, B>> {
+abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+		implements CmdBinder<W, C>, InteractionBinder<W, I, D>, InteractionCmdBinder<W, C, I, D>, BaseBinder<W> {
 	protected BiConsumer<D, C> initCmd;
 	protected Predicate<D> checkConditions;
-	protected final Function<D, C> cmdProducer;
-	protected final List<W> widgets;
-	protected final I interaction;
-	protected final JfxInstrument instrument;
+	protected Function<D, C> cmdProducer;
+	protected List<W> widgets;
+	protected Supplier<I> interactionSupplier;
+	protected JfxInstrument instrument;
 	protected boolean async;
 	protected Consumer<D> onEnd;
-	protected List<ObservableList<? extends Node>> additionalWidgets;
+	protected List<ObservableList<? extends W>> additionalWidgets;
 	protected EnumSet<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
 	protected boolean withHelp;
@@ -62,10 +65,8 @@ public abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?
 	protected StringProperty msgProp;
 	protected Button cancel;
 
-	public Binder(final I interaction, final Function<D, C> cmdCreation, final JfxInstrument ins) {
+	Binder(final JfxInstrument ins) {
 		super();
-		cmdProducer = Objects.requireNonNull(cmdCreation);
-		this.interaction = Objects.requireNonNull(interaction);
 		widgets = new ArrayList<>();
 		instrument = ins;
 		async = false;
@@ -77,156 +78,102 @@ public abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?
 		withHelp = false;
 	}
 
-	/**
-	 * Specifies the widgets on which the binding must operate.
-	 * @param widget The widgets involve in the bindings.
-	 * @return The builder to chain the building configuration.
-	 */
-	@SafeVarargs
-	public final B on(final W... widget) {
+	@Override
+	public Binder<W, C, I, D> on(final W... widget) {
 		widgets.addAll(Arrays.asList(widget));
-		return (B) this;
+		return this;
 	}
 
 
-	/**
-	 * Specifies the observable list that will contain the widgets on which the binding must operate.
-	 * When a widget is added to this list, the added widget is binded to this binding.
-	 * When widget is removed from this list, this widget is unbinded from this binding.
-	 * @param widgets The observable list of the widgets involved in the bindings.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B on(final ObservableList<? extends Node> widgets) {
+	@Override
+	public Binder<W, C, I, D> on(final ObservableList<? extends W> widgets) {
 		if(additionalWidgets == null) {
 			additionalWidgets = new ArrayList<>();
 		}
 		additionalWidgets.add(widgets);
-		return (B) this;
+		return this;
 	}
 
 
-	/**
-	 * Specifies the initialisation of the command when the interaction starts.
-	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
-	 * @param initCmdFct The callback method that initialises the command.
-	 * This callback takes as arguments the command to configure.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B first(final Consumer<C> initCmdFct) {
+	@Override
+	public Binder<W, C, I, D> first(final Consumer<C> initCmdFct) {
 		if(initCmdFct != null) {
 			initCmd = (i, c) -> initCmdFct.accept(c);
 		}
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Specifies the initialisation of the command when the interaction starts.
-	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
-	 * @param initCmdFct The callback method that initialises the command.
-	 * This callback takes as arguments both the command and interaction involved in the binding.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B first(final BiConsumer<D, C> initCmdFct) {
+	@Override
+	public Binder<W, C, I, D> first(final BiConsumer<D, C> initCmdFct) {
 		initCmd = initCmdFct;
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
-	 * @param checkCmd The predicate that checks whether the command can be initialised, updated, or executed.
-	 * This predicate takes as arguments the ongoing user interaction involved in the binding.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B when(final Predicate<D> checkCmd) {
+	@Override
+	public Binder<W, C, I, D> when(final Predicate<D> checkCmd) {
 		checkConditions = checkCmd;
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
-	 * @param checkCmd The predicate that checks whether the command can be initialised, updated, or executed.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B when(final BooleanSupplier checkCmd) {
+	@Override
+	public Binder<W, C, I, D> when(final BooleanSupplier checkCmd) {
 		checkConditions = i -> checkCmd.getAsBoolean();
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Specifies that the command will be executed in a separated threads.
-	 * Beware of UI modifications: UI changes must be done in the JFX UI thread.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp) {
+	@Override
+	public Binder<W, C, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp) {
 		async = true;
 		this.progressProp = progressProp;
 		this.msgProp = msgProp;
 		this.cancel = cancel;
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
-	 * the interaction is reinitialised and the command finally executed and discarded / saved).
-	 * @param onEndFct The callback method to specify what to do when an interaction ends.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B end(final Consumer<D> onEndFct) {
+	@Override
+	public Binder<W, C, I, D> end(final Consumer<D> onEndFct) {
 		onEnd = onEndFct;
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Specifies the loggings to use.
-	 * Several call to 'log' can be done to log different parts:
-	 * log(LogLevel.INTERACTION).log(LogLevel.COMMAND)
-	 * @param level The logging level to use.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B log(final LogLevel level) {
+	@Override
+	public Binder<W, C, I, D> log(final LogLevel level) {
 		if(logLevels == null) {
 			logLevels = EnumSet.noneOf(LogLevel.class);
 		}
 		logLevels.add(level);
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Uses the given animation to explain how the binding works.
-	 * @param animation The animation to play. If null, the default animation of the user interaction is used (if defined).
-	 * @return The builder to chain the building configuration.
-	 */
-	public B help(final HelpAnimation animation) {
+	@Override
+	public Binder<W, C, I, D> help(final HelpAnimation animation) {
 		helpAnimation = animation;
 		withHelp = animation != null;
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Uses the default help animation of the user interaction to explain how the binding works.
-	 * @param helpPane The pane where the animation will be played.
-	 * @return The builder to chain the building configuration.
-	 */
-	public B help(final Pane helpPane) {
+	@Override
+	public Binder<W, C, I, D> help(final Pane helpPane) {
 		withHelp = true;
-		return (B) this;
+		return this;
 	}
 
-	/**
-	 * Executes the builder to create and install the binding on the instrument.
-	 * @throws IllegalArgumentException On issues while creating the commands.
-	 */
-	public JfXWidgetBinding<C, I, D> bind() {
-		final JFxAnonNodeBinding<C, I, D> binding = new JFxAnonNodeBinding<>(false, interaction, initCmd,
-			null, checkConditions, onEnd, cmdProducer, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, 0L, logLevels,
-			withHelp, helpAnimation);
-		binding.setProgressBarProp(progressProp);
-		binding.setProgressMsgProp(msgProp);
-		binding.setCancelCmdButton(cancel);
-		if(instrument != null) {
-			instrument.addBinding(binding);
-		}
-		return binding;
+	@Override
+	public <I2 extends JfxInteraction<D2, ?, ?>, D2 extends InteractionData> Binder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
+		this.interactionSupplier = (Supplier<I>) interactionSupplier;
+		return (Binder<W, C, I2, D2>) this;
+	}
+
+	@Override
+	public <C2 extends Command> Binder<W, C2, I, D> toProduce(final Supplier<C2> cmdCreation) {
+		cmdProducer = i -> (C) cmdCreation.get();
+		return (Binder<W, C2, I, D>) this;
+	}
+
+
+	@Override
+	public <C2 extends Command> Binder<W, C2, I, D> toProduce(final Function<D, C2> cmdCreation) {
+		cmdProducer = (Function<D, C>) cmdCreation;
+		return (Binder<W, C2, I, D>) this;
 	}
 }

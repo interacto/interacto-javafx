@@ -2,7 +2,7 @@ package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
 import io.github.interacto.fsm.InitState;
-import io.github.interacto.jfx.JfxtestHelper;
+import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import java.util.Collections;
 import javafx.event.ActionEvent;
@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<?, ?, W>> extends BaseJfXInteractionTest<I> {
+public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<?, ?, W>> extends BaseJfXInteractionTest<I>
+		implements TimeoutWaiter {
 	W wimpWidget;
 
 	abstract void triggerWidget();
@@ -32,7 +33,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	@Test
 	void testProcessEventGoodState() throws CancelFSMException {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -40,7 +41,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	@Test
 	void testProcessEventGoodStateNULL() throws CancelFSMException {
 		interaction.processEvent(null);
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -54,7 +55,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 			}
 		});
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 	}
 
 	@Test
@@ -66,13 +67,13 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 			}
 		});
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 	}
 
 	@Test
 	void testProcessEventReinit() {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		assertNull(interaction.getWidget());
 		assertTrue(interaction.getFsm().getCurrentState() instanceof InitState);
 	}
@@ -81,7 +82,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testRegister() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -89,7 +90,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	@Test
 	void testNoActionWhenNotRegistered() throws CancelFSMException {
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -98,7 +99,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testNoActionWhenWrongRegistered() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(createWidget()));
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -107,7 +108,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testNoActionWhenNullRegistered() throws CancelFSMException {
 		interaction.registerToNodes(null);
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -116,7 +117,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testNoActionWhenContainsNullRegistered() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(null));
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
@@ -126,7 +127,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		interaction.unregisterFromNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}

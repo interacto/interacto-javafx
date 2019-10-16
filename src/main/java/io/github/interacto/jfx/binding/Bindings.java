@@ -14,13 +14,33 @@
  */
 package io.github.interacto.jfx.binding;
 
+import io.github.interacto.command.AnonCommand;
 import io.github.interacto.command.Command;
-import io.github.interacto.interaction.InteractionData;
-import io.github.interacto.jfx.interaction.JfxInteraction;
+import io.github.interacto.jfx.binding.api.BaseBinder;
+import io.github.interacto.jfx.binding.api.BaseUpdateBinder;
+import io.github.interacto.jfx.binding.api.CmdBinder;
+import io.github.interacto.jfx.binding.api.InteractionBinder;
+import io.github.interacto.jfx.binding.api.InteractionCmdBinder;
+import io.github.interacto.jfx.binding.api.InteractionUpdateBinder;
+import io.github.interacto.jfx.binding.api.KeyInteractionBinder;
+import io.github.interacto.jfx.command.OpenWebPageJFX;
+import io.github.interacto.jfx.command.ShowNode;
+import io.github.interacto.jfx.command.ShowStage;
+import io.github.interacto.jfx.instrument.JfxInstrument;
+import io.github.interacto.jfx.interaction.library.BoxChecked;
+import io.github.interacto.jfx.interaction.library.ButtonPressed;
+import io.github.interacto.jfx.interaction.library.ColorPicked;
+import io.github.interacto.jfx.interaction.library.ComboBoxSelected;
 import io.github.interacto.jfx.interaction.library.KeysData;
+import io.github.interacto.jfx.interaction.library.KeysPressed;
+import io.github.interacto.jfx.interaction.library.MenuItemPressed;
+import io.github.interacto.jfx.interaction.library.SpinnerChanged;
+import io.github.interacto.jfx.interaction.library.TabSelected;
+import io.github.interacto.jfx.interaction.library.TextInputChanged;
+import io.github.interacto.jfx.interaction.library.ToggleButtonPressed;
 import io.github.interacto.jfx.interaction.library.WidgetData;
-import java.util.function.Function;
 import java.util.function.Supplier;
+import javafx.application.HostServices;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -31,6 +51,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleButton;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 /**
@@ -41,346 +62,434 @@ public final class Bindings {
 		super();
 	}
 
-
 	/**
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
 	 * @param cmd The anonymous command to produce.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given class is null.
+	 * @throws IllegalArgumentException If the given cmd is null.
 	 */
-	public static <D extends InteractionData, W extends Node, I extends JfxInteraction<D, ?, ?>> AnonCmdBinder<W, I, D>
-	anonCmdBinder(final I interaction, final Runnable cmd) {
-		return new AnonCmdBinder<>(interaction, cmd, null);
+	public static <W extends Node> CmdBinder<W, AnonCommand> anonCmdBinder(final Runnable cmd) {
+		return anonCmdBinder(cmd, null);
 	}
 
 	/**
 	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
+	 * @param cmd The anonymous command to produce.
+	 * @param ins The instrument that uses the bindings. May be null.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
+	 * @throws IllegalArgumentException If the given cmd is null.
 	 */
-	public static <C extends Command> KeyNodeBinder<C> keyNodeBinder(final Supplier<C> cmdCreation) {
-		return new KeyNodeBinder<>(cmdCreation, null);
+	public static <W extends Node> CmdBinder<W, AnonCommand> anonCmdBinder(final Runnable cmd, final JfxInstrument ins) {
+		return new AnonCmdBinder<>(cmd, ins);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Node) and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that creates the commands.
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> KeyNodeBinder<C> keyNodeBinder(final Function<KeysData, C> cmdCreation) {
-		return new KeyNodeBinder<>(cmdCreation, null);
-	}
-
-	/**
-	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> KeyWindowBinder<C> keyWindowBinder(final Supplier<C> cmdCreation) {
-		return new KeyWindowBinder<>(cmdCreation, null);
-	}
-
-	/**
-	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> KeyWindowBinder<C> keyWindowBinder(final Function<KeysData, C> cmdCreation) {
-		return new KeyWindowBinder<>(cmdCreation, null);
-	}
+//	/**
+//	 * Creates binding builder to build a binding between a button interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<Button, C, ButtonPressed, WidgetData<Button>> buttonBinder(final Supplier<C> cmdCreation) {
+//		return baseButtonBinder(null).toProduce(cmdCreation);
+//	}
+//
+//	/**
+//	 * Creates binding builder to build a binding between a button interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<Button, C, ButtonPressed, WidgetData<Button>> buttonBinder(final Function<WidgetData<Button>, C> cmdCreation) {
+//		return baseButtonBinder(null).toProduce(cmdCreation);
+//	}
 
 	/**
 	 * Creates binding builder to build a binding between a button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	public static <C extends Command> ButtonBinder<C> buttonBinder(final Supplier<C> cmdCreation) {
-		return new ButtonBinder<>(cmdCreation, null);
+	public static InteractionBinder<Button, ButtonPressed, WidgetData<Button>> buttonBinder() {
+		return buttonBinder(null);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a button interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> ButtonBinder<C> buttonBinder(final Function<WidgetData<Button>, C> cmdCreation) {
-		return new ButtonBinder<>(cmdCreation, null);
+	public static <C extends Command> InteractionBinder<Button, ButtonPressed, WidgetData<Button>> buttonBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<Button, C, ButtonPressed, WidgetData<Button>>(ins)
+			.usingInteraction(ButtonPressed::new);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> ToggleButtonBinder<C> toggleButtonBinder(final Supplier<C> cmdCreation) {
-		return new ToggleButtonBinder<>(cmdCreation, null);
+//	/**
+//	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder(final Supplier<C> cmdCreation) {
+//		return baseToggleButtonBinder(null).toProduce(cmdCreation);
+//	}
+//
+//	/**
+//	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder(final Function<WidgetData<ToggleButton>, C> cmdCreation) {
+//		return baseToggleButtonBinder(null).toProduce(cmdCreation);
+//	}
+
+	public static InteractionBinder<ToggleButton, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder() {
+		return toggleButtonBinder(null);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> ToggleButtonBinder<C> toggleButtonBinder(final Function<WidgetData<ToggleButton>, C> cmdCreation) {
-		return new ToggleButtonBinder<>(cmdCreation, null);
+	public static <C extends Command> InteractionBinder<ToggleButton, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>>(ins)
+			.usingInteraction(ToggleButtonPressed::new);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> CheckBoxBinder<C> checkboxBinder(final Supplier<C> cmdCreation) {
-		return new CheckBoxBinder<>(cmdCreation, null);
+//	/**
+//	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<CheckBox, C, BoxChecked, WidgetData<CheckBox>> checkboxBinder(final Supplier<C> cmdCreation) {
+//		return baseCheckboxBinder(null).toProduce(cmdCreation);
+//	}
+//
+//	/**
+//	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<CheckBox, C, BoxChecked, WidgetData<CheckBox>> checkboxBinder(final Function<WidgetData<CheckBox>, C> cmdCreation) {
+//		return baseCheckboxBinder(null).toProduce(cmdCreation);
+//	}
+
+	public static InteractionBinder<CheckBox, BoxChecked, WidgetData<CheckBox>> checkboxBinder() {
+		return checkboxBinder(null);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> CheckBoxBinder<C> checkboxBinder(final Function<WidgetData<CheckBox>, C> cmdCreation) {
-		return new CheckBoxBinder<>(cmdCreation, null);
+	public static <C extends Command> InteractionBinder<CheckBox, BoxChecked, WidgetData<CheckBox>> checkboxBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<CheckBox, C, BoxChecked, WidgetData<CheckBox>>(ins)
+			.usingInteraction(BoxChecked::new);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> ColorPickerBinder<C> colorPickerBinder(final Supplier<C> cmdCreation) {
-		return new ColorPickerBinder<>(cmdCreation, null);
+//	/**
+//	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder(final Supplier<C> cmdCreation) {
+//		return baseColorPickerBinder(null).toProduce(cmdCreation);
+//	}
+//
+//	/**
+//	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder(final Function<WidgetData<ColorPicker>, C> cmdCreation) {
+//		return baseColorPickerBinder(null).toProduce(cmdCreation);
+//	}
+
+
+	public static InteractionBinder<ColorPicker, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder() {
+		return colorPickerBinder(null);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> ColorPickerBinder<C> colorPickerBinder(final Function<WidgetData<ColorPicker>, C> cmdCreation) {
-		return new ColorPickerBinder<>(cmdCreation, null);
+	public static <C extends Command> InteractionBinder<ColorPicker, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>>(ins)
+			.usingInteraction(ColorPicked::new);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> SpinnerBinder<C> spinnerBinder(final Supplier<C> cmdCreation) {
-		return new SpinnerBinder<>(cmdCreation, null);
+//	/**
+//	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdUpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder(final Supplier<C> cmdCreation) {
+//		return baseSpinnerBinder(null).toProduce(cmdCreation);
+//	}
+//
+//
+//	/**
+//	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdUpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder(final Function<WidgetData<Spinner<?>>, C> cmdCreation) {
+//		return baseSpinnerBinder(null).toProduce(cmdCreation);
+//	}
+
+	public static InteractionUpdateBinder<Spinner<?>, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder() {
+		return spinnerBinder(null);
 	}
 
-
-	/**
-	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> SpinnerBinder<C> spinnerBinder(final Function<WidgetData<Spinner<?>>, C> cmdCreation) {
-		return new SpinnerBinder<>(cmdCreation, null);
+	public static <C extends Command> InteractionUpdateBinder<Spinner<?>, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>>(ins)
+			.usingInteraction(SpinnerChanged::new);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a text input interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Supplier<C> cmdCreation) {
-		return new TextInputBinder<>(cmdCreation, null);
+//	/**
+//	 * Creates binding builder to build a binding between a text input interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdUpdateBinder<TextInputControl, C, TextInputChanged, WidgetData<TextInputControl>>
+//			textInputBinder(final Supplier<C> cmdCreation) {
+//		return baseTextInputBinder(null)
+//			.toProduce(cmdCreation);
+//	}
+//
+//	/**
+//	 * Creates binding builder to build a binding between a text input interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdUpdateBinder<TextInputControl, C, TextInputChanged, WidgetData<TextInputControl>>
+//			textInputBinder(final Function<WidgetData<TextInputControl>, C> cmdCreation) {
+//		return baseTextInputBinder(null)
+//			.toProduce(cmdCreation);
+//	}
+
+	public static <W extends TextInputControl> InteractionUpdateBinder<W, TextInputChanged, WidgetData<TextInputControl>> textInputBinder() {
+		return textInputBinder(null);
 	}
 
+	public static <C extends Command, W extends TextInputControl> InteractionUpdateBinder<W, TextInputChanged, WidgetData<TextInputControl>> textInputBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>>(ins)
+			.usingInteraction(TextInputChanged::new);
+	}
+
+//	/**
+//	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>> menuItemBinder(final Supplier<C> cmdCreation) {
+//		return new MenuItemBinder<C>(null).toProduce(cmdCreation);
+//	}
 
 	/**
-	 * Creates binding builder to build a binding between a text input interaction and the given command type.
+	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	public static <C extends Command, W extends TextInputControl> TextInputBinder<C, W> textInputBinder(final Function<WidgetData<TextInputControl>, C> cmdCreation) {
-		return new TextInputBinder<>(cmdCreation, null);
+	public static InteractionBinder<MenuItem, MenuItemPressed, WidgetData<MenuItem>> menuItemBinder() {
+		return menuItemBinder(null);
 	}
 
 	/**
 	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	public static <C extends Command> MenuItemBinder<C> menuItemBinder(final Supplier<C> cmdCreation) {
-		return new MenuItemBinder<>(cmdCreation, null);
+	public static InteractionBinder<MenuItem, MenuItemPressed, WidgetData<MenuItem>> menuItemBinder(final JfxInstrument ins) {
+		return new MenuItemBinder<>(ins);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> MenuItemBinder<C> menuItemBinder(final Function<WidgetData<MenuItem>, C> cmdCreation) {
-		return new MenuItemBinder<>(cmdCreation, null);
+//	/**
+//	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder(final Supplier<C> cmdCreation) {
+//		return baseComboBoxBinder(null).toProduce(cmdCreation);
+//	}
+//
+//	/**
+//	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder(final Function<WidgetData<ComboBox<?>>, C> cmdCreation) {
+//		return baseComboBoxBinder(null).toProduce(cmdCreation);
+//	}
+
+	public static InteractionBinder<ComboBox<?>, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder() {
+		return comboboxBinder(null);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> ComboBoxBinder<C> comboboxBinder(final Supplier<C> cmdCreation) {
-		return new ComboBoxBinder<>(cmdCreation, null);
+	public static <C extends Command> InteractionBinder<ComboBox<?>, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>>(ins)
+			.usingInteraction(ComboBoxSelected::new);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> ComboBoxBinder<C> comboboxBinder(final Function<WidgetData<ComboBox<?>>, C> cmdCreation) {
-		return new ComboBoxBinder<>(cmdCreation, null);
+//	/**
+//	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<TabPane, C, TabSelected, WidgetData<TabPane>> tabBinder(final Supplier<C> cmdCreation) {
+//		return baseTabBinder(null).toProduce(cmdCreation);
+//	}
+//
+//	/**
+//	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
+//	 * Do not forget to call bind() at the end of the build to execute the builder.
+//	 * @param cmdCreation The function that produces the commands
+//	 * @param <C> The type of the command.
+//	 * @return The binding builder. Cannot be null.
+//	 */
+//	public static <C extends Command> InteractionCmdBinder<TabPane, C, TabSelected, WidgetData<TabPane>> tabBinder(final Function<WidgetData<TabPane>, C> cmdCreation) {
+//		return baseTabBinder(null).toProduce(cmdCreation);
+//	}
+
+	public static InteractionBinder<TabPane, TabSelected, WidgetData<TabPane>> tabBinder() {
+		return tabBinder(null);
 	}
 
-	/**
-	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> TabBinder<C> tabBinder(final Supplier<C> cmdCreation) {
-		return new TabBinder<>(cmdCreation, null);
-	}
-
-	/**
-	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
-	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param <C> The type of the command.
-	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
-	 */
-	public static <C extends Command> TabBinder<C> tabBinder(final Function<WidgetData<TabPane>, C> cmdCreation) {
-		return new TabBinder<>(cmdCreation, null);
+	public static <C extends Command> InteractionBinder<TabPane, TabSelected, WidgetData<TabPane>> tabBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<TabPane, C, TabSelected, WidgetData<TabPane>>(ins)
+			.usingInteraction(TabSelected::new);
 	}
 
 	/**
 	 * Creates binding builder to build a binding between a given interaction and the given command type.
 	 * This builder is dedicated to bind window interactions to commands.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param interaction The user interaction to perform on windows
-	 * @param <C> The type of the command.
-	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	public static <C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
-		final Supplier<C> cmdCreation) {
-		return new WindowBinder<>(interaction, cmdCreation, null);
+	public static BaseBinder<Window> windowBinder() {
+		return windowBinder(null);
 	}
 
 	/**
 	 * Creates binding builder to build a binding between a given interaction and the given command type.
 	 * This builder is dedicated to bind window interactions to commands.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param interaction The user interaction to perform on windows
-	 * @param <C> The type of the command.
-	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	public static <C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>> WindowBinder<C, I> windowBinder(final I interaction,
-		final Function<WidgetData<Window>, C> cmdCreation) {
-		return new WindowBinder<>(interaction, cmdCreation, null);
+	public static BaseBinder<Window> windowBinder(final JfxInstrument ins) {
+		return new WindowBinder<>(ins);
 	}
 
 	/**
 	 * Creates binding builder to build a binding between a given interaction and the given command type.
 	 * This builder is dedicated to bind node interactions to commands.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param interaction The user interaction to perform on nodes
-	 * @param <C> The type of the command.
-	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	public static <D extends InteractionData, C extends Command, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
-	nodeBinder(final I interaction, final Supplier<C> cmdCreation) {
-		return new NodeBinder<>(interaction, cmdCreation, null);
+	public static <W extends Node> BaseUpdateBinder<W> nodeBinder() {
+		return nodeBinder(null);
 	}
 
 	/**
 	 * Creates binding builder to build a binding between a given interaction and the given command type.
 	 * This builder is dedicated to bind node interactions to commands.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
-	 * @param cmdCreation The function that produces the commands
-	 * @param interaction The user interaction to perform on nodes
-	 * @param <C> The type of the command.
-	 * @param <I> The type of the user interaction.
 	 * @return The binding builder. Cannot be null.
-	 * @throws IllegalArgumentException If the given lambda is null.
 	 */
-	public static <D extends InteractionData, C extends Command, I extends JfxInteraction<D, ?, ?>> NodeBinder<C, I, D>
-	nodeBinder(final I interaction, final Function<D, C> cmdCreation) {
-		return new NodeBinder<>(interaction, cmdCreation, null);
+	public static <W extends Node> BaseUpdateBinder<W> nodeBinder(final JfxInstrument ins) {
+		return new NodeUpdateBinder<>(ins);
+	}
+
+	/**
+	 * Creates binding builder to build a binding between a given interaction and the given command type.
+	 * This builder is dedicated to bind node interactions to commands.
+	 * Do not forget to call bind() at the end of the build to execute the builder.
+	 * @return The binding builder. Cannot be null.
+	 */
+	public static KeyInteractionBinder<Node, KeysPressed, KeysData> shortcutBinder() {
+		return shortcutBinder(null);
+	}
+
+	/**
+	 * Creates binding builder to build a binding between a given interaction and the given command type.
+	 * This builder is dedicated to bind node interactions to commands.
+	 * Do not forget to call bind() at the end of the build to execute the builder.
+	 * @return The binding builder. Cannot be null.
+	 */
+	public static KeyInteractionBinder<Node, KeysPressed, KeysData> shortcutBinder(final JfxInstrument ins) {
+		return new KeysNodeBinder<>(ins);
+	}
+
+	/**
+	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given command type.
+	 * Do not forget to call bind() at the end of the build to execute the builder.
+	 * @return The binding builder. Cannot be null.
+	 */
+	public static KeyInteractionBinder<Window, KeysPressed, KeysData> shortcutWinBinder() {
+		return shortcutWinBinder(null);
+	}
+
+	/**
+	 * Creates binding builder to build a binding between a KeysPressure interaction (done on a Window) and the given command type.
+	 * Do not forget to call bind() at the end of the build to execute the builder.
+	 * @return The binding builder. Cannot be null.
+	 */
+	public static KeyInteractionBinder<Window, KeysPressed, KeysData> shortcutWinBinder(final JfxInstrument ins) {
+		return new KeysWindowBinder<>(ins);
+	}
+
+	/**
+	 * A widget binding that opens a URL using a menu item.
+	 * @return The binding builder. Cannot be null.
+	 */
+	public static InteractionCmdBinder<MenuItem, OpenWebPageJFX, MenuItemPressed, WidgetData<MenuItem>>
+			menuItem2OpenWebPage(final String uri, final HostServices services, final JfxInstrument ins) {
+		return new MenuItemBinder<>(ins)
+			.toProduce(() -> new OpenWebPageJFX())
+			.first((i, c) -> {
+				c.setUri(uri);
+				c.setServices(services);
+			});
+	}
+
+	/**
+	 * A widget binding that opens a stage using a menu item.
+	 * @return The binding builder. Cannot be null.
+	 */
+	public static InteractionCmdBinder<MenuItem, ShowStage, MenuItemPressed, WidgetData<MenuItem>>
+			menuItem2OpenStage(final Supplier<Stage> stageLazy, final boolean toshow, final JfxInstrument ins) {
+		return new MenuItemBinder<>(ins)
+			.toProduce(() -> new ShowStage())
+			.first((i, c) -> {
+				c.setWidget(stageLazy.get());
+				c.setVisible(toshow);
+			});
+	}
+
+	/**
+	 * A widget binding that shows a node using a menu item.
+	 * @return The binding builder. Cannot be null.
+	 */
+	public static InteractionCmdBinder<MenuItem, ShowNode, MenuItemPressed, WidgetData<MenuItem>>
+			menuItem2ShowNode(final Node node, final boolean toshow, final JfxInstrument ins) {
+		return new MenuItemBinder<>(ins)
+			.toProduce(() -> new ShowNode())
+			.first((i, c) -> {
+				c.setWidget(node);
+				c.setVisible(toshow);
+			});
 	}
 }

@@ -18,8 +18,6 @@ import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.library.WidgetData;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import javafx.stage.Window;
 
 /**
@@ -27,21 +25,16 @@ import javafx.stage.Window;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-public class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>>
-				extends UpdateBinder<Window, C, I, WidgetData<Window>, WindowBinder<C, I>> {
-	public WindowBinder(final I interaction, final Supplier<C> cmdClass, final JfxInstrument instrument) {
-		this(interaction, i -> cmdClass.get(), instrument);
-	}
-
-	public WindowBinder(final I interaction, final Function<WidgetData<Window>, C> cmdCreation, final JfxInstrument instrument) {
-		super(interaction, cmdCreation, instrument);
+class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>> extends Binder<Window, C, I, WidgetData<Window>> {
+	WindowBinder(final JfxInstrument instrument) {
+		super(instrument);
 	}
 
 	@Override
 	public JfXWidgetBinding<C, I, WidgetData<Window>> bind() {
-		final JFxAnonNodeBinding<C, I, WidgetData<Window>> binding = new JFxAnonNodeBinding<>(continuousCmdExecution, interaction,
-			widgets, initCmd, updateFct, checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct, async, strictStart, 0L,
-			logLevels, withHelp, helpAnimation);
+		final JFxAnonNodeBinding<C, I, WidgetData<Window>> binding = new JFxAnonNodeBinding<>(false, interactionSupplier.get(),
+			widgets, initCmd, null, checkConditions, onEnd, cmdProducer, null, null, async,
+			false, 0L, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);
