@@ -21,6 +21,7 @@ public abstract class TestBinder<W> {
 	StubInstrument instrument;
 	StubCmd cmd;
 	AtomicInteger cpt;
+	JfXWidgetBinding<?, ?, ?> binding;
 
 	@BeforeEach
 	void setUp() {
@@ -33,6 +34,10 @@ public abstract class TestBinder<W> {
 		robot.release(new KeyCode[] {});
 		robot.release(new MouseButton[] {});
 		WaitForAsyncUtils.waitForFxEvents();
+
+		if(binding != null) {
+			binding.setActivated(false);
+		}
 	}
 
 	public static class StubCmd extends CommandImpl {
