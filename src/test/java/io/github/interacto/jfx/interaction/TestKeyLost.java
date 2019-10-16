@@ -1,9 +1,10 @@
 package io.github.interacto.jfx.interaction;
 
-import io.github.interacto.jfx.binding.KeyNodeBinder;
 import io.github.interacto.command.Command;
 import io.github.interacto.command.CommandImpl;
+import io.github.interacto.jfx.binding.Bindings;
 import io.github.interacto.jfx.instrument.JfxInstrument;
+import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -25,15 +26,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestKeyLost {
-	StubInstrument instrument;
 	Canvas canvas;
 	Stage stage;
+	AtomicInteger cpt;
 
 	@Start
 	public void start(final Stage stageToConfigure) {
 		canvas = new Canvas();
-		instrument = new StubInstrument();
-		instrument.setActivated(true);
 		final VBox parent = new VBox();
 		parent.getChildren().add(canvas);
 		final Scene scene = new Scene(parent);
@@ -47,10 +46,17 @@ public class TestKeyLost {
 
 	@BeforeEach
 	void setUp() {
+		cpt = new AtomicInteger();
 		WaitForAsyncUtils.waitForFxEvents();
 		Platform.runLater(() -> canvas.requestFocus());
 		WaitForAsyncUtils.waitForFxEvents();
-		new KeyNodeBinder<>(StubCmd::new, instrument).with(KeyCode.CONTROL, KeyCode.C).on(canvas).bind();
+
+		Bindings.shortcutBinder()
+			.toProduce(StubCmd::new)
+			.with(KeyCode.CONTROL, KeyCode.C)
+			.on(canvas)
+			.end(i -> cpt.incrementAndGet())
+			.bind();
 	}
 
 	@Disabled
@@ -65,8 +71,7 @@ public class TestKeyLost {
 		WaitForAsyncUtils.waitForFxEvents();
 		robot.press(KeyCode.CONTROL).type(KeyCode.C);
 
-		assertEquals(1, instrument.exec.get());
-		assertEquals(1, ((StubCmd) instrument.lastCreatedCmd).exec.get());
+		assertEquals(1, cpt.get());
 	}
 
 

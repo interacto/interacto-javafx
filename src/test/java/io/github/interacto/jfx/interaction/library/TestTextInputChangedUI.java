@@ -1,7 +1,7 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
-import io.github.interacto.jfx.JfxtestHelper;
+import io.github.interacto.jfx.TimeoutWaiter;
 import java.util.Collections;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -16,7 +16,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestTextInputChangedUI extends BaseJfXInteractionTest<TextInputChanged> {
+public class TestTextInputChangedUI extends BaseJfXInteractionTest<TextInputChanged> implements TimeoutWaiter {
 	TextInputControl input;
 
 	@Override
@@ -47,7 +47,7 @@ public class TestTextInputChangedUI extends BaseJfXInteractionTest<TextInputChan
 	void testTypeOnInputTextChangedStopped() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(input));
 		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
 

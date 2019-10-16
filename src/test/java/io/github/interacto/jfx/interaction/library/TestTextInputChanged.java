@@ -1,7 +1,6 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
-import io.github.interacto.jfx.JfxtestHelper;
 import java.util.Collections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
@@ -34,7 +33,7 @@ public class TestTextInputChanged extends BaseWIMPWidgetTest<TextInputControl, T
 		triggerWidget();
 		triggerWidget();
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(3)).fsmUpdates();
@@ -44,9 +43,9 @@ public class TestTextInputChanged extends BaseWIMPWidgetTest<TextInputControl, T
 	void testTextChangedButNotFinished() throws CancelFSMException {
 		interaction.registerToNodes(Collections.singletonList(wimpWidget));
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		triggerWidget();
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(2)).fsmStops();
 		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();

@@ -18,22 +18,29 @@ import io.github.interacto.command.AnonCommand;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
+import java.util.List;
 import java.util.stream.Collectors;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
-public class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D, AnonCmdBinder<W, I, D>> {
-	public AnonCmdBinder(final I interaction, final Runnable anonCmd, final JfxInstrument ins) {
-		super(interaction, i -> new AnonCommand(anonCmd), ins);
+class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D> {
+	AnonCmdBinder(final Runnable anonCmd, final JfxInstrument ins) {
+		super(ins);
 		if(anonCmd == null) {
 			throw new IllegalArgumentException();
 		}
+		cmdProducer = i -> new AnonCommand(anonCmd);
 	}
 
 	@Override
 	public JfXWidgetBinding<AnonCommand, I, D> bind() {
-		final JFxAnonNodeBinding<AnonCommand, I, D> binding = new JFxAnonNodeBinding<>(false, interaction,
+		final List<ObservableList<? extends Node>> adds = additionalWidgets == null ? null :
+			additionalWidgets.stream().map(l -> (ObservableList<? extends Node>) l).collect(Collectors.toList());
+
+		final JFxAnonNodeBinding<AnonCommand, I, D> binding = new JFxAnonNodeBinding<>(false, interactionSupplier.get(),
 			null, null, checkConditions, onEnd, cmdProducer, null, null,
-			widgets.stream().map(w -> (Node) w).collect(Collectors.toList()), additionalWidgets, async, false, 0L, logLevels, withHelp, helpAnimation);
+			widgets.stream().map(elt -> (Node) elt).collect(Collectors.toList()), adds,
+			async, false, 0L, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

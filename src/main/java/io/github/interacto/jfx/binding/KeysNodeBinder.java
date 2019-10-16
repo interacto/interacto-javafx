@@ -16,25 +16,25 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
-import io.github.interacto.jfx.interaction.library.MenuItemPressed;
-import io.github.interacto.jfx.interaction.library.WidgetData;
-import javafx.scene.control.MenuItem;
+import io.github.interacto.jfx.interaction.library.KeysData;
+import io.github.interacto.jfx.interaction.library.KeysPressed;
+import javafx.scene.Node;
 
 /**
- * The binding builder to create bindings between a menu item interaction and a given command.
+ * The binding builder to create bindings between a key interaction (eg shortcuts) on a node and a given command.
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>> {
-	MenuItemBinder(final JfxInstrument instrument) {
+class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
+	KeysNodeBinder(final JfxInstrument instrument) {
 		super(instrument);
-		interactionSupplier = MenuItemPressed::new;
 	}
 
 	@Override
-	public JfXWidgetBinding<C, MenuItemPressed, WidgetData<MenuItem>> bind() {
-		final JFxAnonMenuItemBinding<C, MenuItemPressed> binding = new JFxAnonMenuItemBinding<>(false, interactionSupplier.get(),
-			cmdProducer, initCmd, checkConditions, onEnd, widgets, additionalWidgets);
+	public JfXWidgetBinding<C, KeysPressed, KeysData> bind() {
+		final JFxAnonNodeBinding<C, KeysPressed, KeysData> binding = new JFxAnonNodeBinding<>(false, interactionSupplier.get(),
+			initCmd, null, checkCode, onEnd, cmdProducer, null, null, widgets, additionalWidgets,
+			async, false, 0L, logLevels, withHelp, helpAnimation);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

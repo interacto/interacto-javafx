@@ -1,7 +1,7 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
-import io.github.interacto.jfx.JfxtestHelper;
+import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxFSM;
 import java.util.Collections;
 import javafx.scene.input.MouseButton;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
+public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> implements TimeoutWaiter {
 	@Override
 	DoubleClick createInteraction() {
 		return new DoubleClick();
@@ -116,7 +116,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	@Test
 	void testDbleClickKOWithDelay() throws CancelFSMException {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -127,7 +127,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	void testDbleClickKOWithCustomDelay() throws CancelFSMException {
 		DoubleClickFSM.setTimeGap(50L);
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
@@ -138,7 +138,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
 	void testDbleClickKOWithCustomDelayButRecycled() throws CancelFSMException {
 		DoubleClickFSM.setTimeGap(50L);
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseClickEvent(12, 24, MouseButton.MIDDLE, null));
 		Mockito.verify(handler, Mockito.never()).fsmCancels();

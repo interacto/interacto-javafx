@@ -1,6 +1,6 @@
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.jfx.JfxtestHelper;
+import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.fsm.CancelFSMException;
 import java.util.Collections;
 import javafx.scene.input.KeyCode;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
+public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> implements TimeoutWaiter {
 	@Override
 	KeysTyped createInteraction() {
 		return new KeysTyped();
@@ -23,7 +23,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 	@Test
 	public void testKeyTypedSleepExecutionOK() throws CancelFSMException {
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 	}
@@ -37,13 +37,13 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 			}
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 	}
 
 	@Test
 	public void testKeyTypedSleepCleanOK() {
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		assertTrue(interaction.getKeyCodes().isEmpty());
 		assertTrue(interaction.getKeys().isEmpty());
 	}
@@ -93,7 +93,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 	public void testTwoKeysTypedSleepExecutionOK() throws CancelFSMException {
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
 		interaction.processEvent(createKeyTypedEvent("B", KeyCode.B));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
 		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
@@ -110,7 +110,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
 		interaction.processEvent(createKeyTypedEvent("B", KeyCode.B));
-		JfxtestHelper.waitForTimeoutTransitions();
+		waitForTimeoutTransitions();
 	}
 
 	@Test

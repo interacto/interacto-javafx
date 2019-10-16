@@ -59,8 +59,11 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 	@Override
 	protected void configureBindings() {
 		if(withKeys) {
-			nodeBinder(new KeyPressed(false), Zoom::new).on(zoomable).
-				first((i, c) -> {
+			nodeBinder()
+				.usingInteraction(() -> new KeyPressed(false))
+				.toProduce(Zoom::new)
+				.on(zoomable)
+				.first((i, c) -> {
 					final String key = i.getKey();
 					c.setZoomable(getZoomable());
 					if("+".equals(key)) {
@@ -70,17 +73,22 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 					}
 					c.setPx(-1d);
 					c.setPy(-1d);
-				}).
-				when(i -> "+".equals(i.getKey()) || "-".equals(i.getKey())).bind();
+				})
+				.when(i -> "+".equals(i.getKey()) || "-".equals(i.getKey()))
+				.bind();
 		}
 
-		nodeBinder(new KeysScroll(), Zoom::new).on(zoomable).
-			first(c -> c.setZoomable(zoomable)).
-			then((i, c) -> {
+		nodeBinder()
+			.usingInteraction(KeysScroll::new)
+			.toProduce(Zoom::new)
+			.on(zoomable)
+			.first(c -> c.setZoomable(zoomable))
+			.then((i, c) -> {
 				c.setZoomLevel(zoomable.getZoom() + (i.getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
 				c.setPx(i.getPx());
 				c.setPy(i.getPy());
-			}).
-			when(i -> i.getKeyCodes().size() == 1 && i.getKeyCodes().get(0) == KeyCode.CONTROL).bind();
+			})
+			.when(i -> i.getKeyCodes().size() == 1 && i.getKeyCodes().get(0) == KeyCode.CONTROL)
+			.bind();
 	}
 }
