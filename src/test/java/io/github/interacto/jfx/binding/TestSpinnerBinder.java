@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -19,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implements FxRobotSpinner, TimeoutWaiter {
+	long timeout;
+
 	@Override
 	@Start
 	public void start(final Stage stage) {
@@ -27,9 +30,17 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		super.start(stage);
 	}
 
+	@Override
+	@BeforeEach
+	void setUp() {
+		super.setUp();
+		timeout = SpinnerChangedFSM.getTimeGap();
+	}
+
+
 	@Test
 	public void testCommandExecutedOnSingleSpinnerConsumer(final FxRobot robot) {
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.bind();
@@ -44,7 +55,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 	public void testEndsOnEnd(final FxRobot robot) {
 		final AtomicInteger cpt = new AtomicInteger();
 
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
 			.end(i -> cpt.incrementAndGet())
@@ -59,7 +70,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 	public void testEndsOnFirst(final FxRobot robot) {
 		final AtomicInteger cpt = new AtomicInteger();
 
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
 			.first(i -> cpt.incrementAndGet())
@@ -74,7 +85,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 	public void testEndsOnThen(final FxRobot robot) {
 		final AtomicInteger cpt = new AtomicInteger();
 
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
 			.then(i -> cpt.incrementAndGet())
@@ -89,7 +100,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 	public void testContinuousThen(final FxRobot robot) {
 		final AtomicInteger cpt = new AtomicInteger();
 
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
 			.then(i -> cpt.incrementAndGet())
@@ -108,7 +119,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		final AtomicInteger cpt = new AtomicInteger();
 		final AtomicInteger cpt2 = new AtomicInteger();
 
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.first(i -> cpt.incrementAndGet())
@@ -117,7 +128,8 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 
 		incrementSpinner(robot, widget1);
 		incrementSpinner(robot, widget1);
-		robot.sleep(SpinnerChangedFSM.getTimeGap() + 100);
+		waitForTimeoutTransitions();
+
 		decrementSpinner(robot, widget1);
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
@@ -128,7 +140,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 
 	@Test
 	public void testEndsOnUIThread(final FxRobot robot) {
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
 			.end(i -> assertTrue(Platform.isFxApplicationThread()))
@@ -140,7 +152,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 
 	@Test
 	public void testupdatesOnUIThread(final FxRobot robot) {
-		Bindings.spinnerBinder()
+		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
 			.then((i, c) -> assertTrue(Platform.isFxApplicationThread()))
