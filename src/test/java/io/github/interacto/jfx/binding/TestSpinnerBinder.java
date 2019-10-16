@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +17,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
@@ -37,6 +39,10 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		timeout = SpinnerChangedFSM.getTimeGap();
 	}
 
+	@AfterEach
+	void tearDown() {
+		SpinnerChangedFSM.setTimeGap(timeout);
+	}
 
 	@Test
 	public void testCommandExecutedOnSingleSpinnerConsumer(final FxRobot robot) {
@@ -48,6 +54,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
 
+		assertNotNull(binding);
 		assertEquals(1, cmd.exec.get());
 	}
 
@@ -63,6 +70,8 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
+
+		assertNotNull(binding);
 		assertEquals(1, cpt.get());
 	}
 
@@ -78,6 +87,8 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
+
+		assertNotNull(binding);
 		assertEquals(1, cpt.get());
 	}
 
@@ -93,12 +104,15 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
+
+		assertNotNull(binding);
 		assertEquals(2, cpt.get());
 	}
 
 	@Test
 	public void testContinuousThen(final FxRobot robot) {
 		final AtomicInteger cpt = new AtomicInteger();
+		SpinnerChangedFSM.setTimeGap(2000L);
 
 		binding = Bindings.spinnerBinder()
 			.on(widget1)
@@ -111,6 +125,8 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		decrementSpinner(robot, widget1);
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
+
+		assertNotNull(binding);
 		assertEquals(5, cpt.get());
 	}
 
@@ -118,6 +134,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 	public void testContinuousThenTimeOut(final FxRobot robot) {
 		final AtomicInteger cpt = new AtomicInteger();
 		final AtomicInteger cpt2 = new AtomicInteger();
+		SpinnerChangedFSM.setTimeGap(2000L);
 
 		binding = Bindings.spinnerBinder()
 			.toProduce(i -> new StubCmd())
@@ -134,6 +151,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
 
+		assertNotNull(binding);
 		assertEquals(2, cpt.get());
 		assertEquals(2, cpt2.get());
 	}
@@ -148,6 +166,8 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
+
+		assertNotNull(binding);
 	}
 
 	@Test
@@ -162,5 +182,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		incrementSpinner(robot, widget1);
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
+
+		assertNotNull(binding);
 	}
 }
