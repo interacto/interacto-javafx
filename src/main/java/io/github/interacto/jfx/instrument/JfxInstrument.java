@@ -19,6 +19,7 @@ import io.github.interacto.command.Command;
 import io.github.interacto.instrument.InstrumentImpl;
 import io.github.interacto.jfx.binding.Bindings;
 import io.github.interacto.jfx.binding.JfXWidgetBinding;
+import io.github.interacto.jfx.binding.api.BaseBinder;
 import io.github.interacto.jfx.binding.api.BaseUpdateBinder;
 import io.github.interacto.jfx.binding.api.CmdBinder;
 import io.github.interacto.jfx.binding.api.InteractionBinder;
@@ -377,6 +378,16 @@ public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ?
 	 */
 	protected BaseUpdateBinder<Node> nodeBinder() {
 		return Bindings.nodeBinder(this);
+	}
+
+	/**
+	 * Creates binding builder to build a binding between a given interaction and the given command type.
+	 * This builder is dedicated to bind window interactions to commands.
+	 * Do not forget to call bind() at the end of the build to execute the builder.
+	 * @return The binding builder. Cannot be null.
+	 */
+	protected BaseBinder<Window> windowBinder() {
+		return Bindings.windowBinder(this);
 	}
 
 //	/**
