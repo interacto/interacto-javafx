@@ -46,7 +46,7 @@ public interface KeyInteractionBinderBuilder<W, I extends JfxInteraction<D, ?, ?
 	KeyInteractionBinderBuilder<W, I, D> when(final BooleanSupplier whenPredicate);
 
 	@Override
-	KeyInteractionBinderBuilder<W, I, D> log(final LogLevel level);
+	KeyInteractionBinderBuilder<W, I, D> log(final LogLevel... level);
 
 	@Override
 	KeyInteractionBinderBuilder<W, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);

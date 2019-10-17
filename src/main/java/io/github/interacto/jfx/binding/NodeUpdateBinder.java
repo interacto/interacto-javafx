@@ -24,6 +24,8 @@ import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.logging.LogLevel;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
@@ -56,55 +58,75 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	private long throttleTimeout;
 
 	NodeUpdateBinder(final JfxInstrument instrument) {
-		super(instrument);
-		updateFct = null;
-		continuousCmdExecution = false;
-		throttleTimeout = 0L;
+		this(null, null, null, Collections.emptyList(), null, instrument, false, null,
+			Collections.emptyList(), EnumSet.noneOf(LogLevel.class), null, false, null, null, null, null,
+			null, null, false, false, 0L);
+	}
+
+	NodeUpdateBinder(final BiConsumer<D, C> initCmd, final Predicate<D> checkConditions, final Function<D, C> cmdProducer, final List<W> widgets,
+			final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final Consumer<D> onEnd,
+			final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
+			final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel, final BiConsumer<D, C> updateFct,
+			final Consumer<D> cancelFct, final Consumer<D> endOrCancelFct, final boolean continuousCmdExecution, final boolean strictStart,
+			final long throttleTimeout) {
+		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
+			withHelp, progressProp, msgProp, cancel);
+		this.updateFct = updateFct;
+		this.cancelFct = cancelFct;
+		this.endOrCancelFct = endOrCancelFct;
+		this.continuousCmdExecution = continuousCmdExecution;
+		this.strictStart = strictStart;
+		this.throttleTimeout = throttleTimeout;
 	}
 
 	@Override
 	public NodeUpdateBinder<W, C, I, D> then(final BiConsumer<D, C> update) {
-		updateFct = update;
-		return this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.updateFct = update;
+		return dup;
 	}
 
 	@Override
 	public NodeUpdateBinder<W, C, I, D> then(final Consumer<C> update) {
-		if(update != null) {
-			updateFct = (i, c) -> update.accept(c);
-		}
-		return this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.updateFct = (i, c) -> update.accept(c);
+		return dup;
 	}
 
 	@Override
 	public NodeUpdateBinder<W, C, I, D> continuousExecution() {
-		continuousCmdExecution = true;
-		return this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.continuousCmdExecution = true;
+		return dup;
 	}
 
 	@Override
 	public NodeUpdateBinder<W, C, I, D> cancel(final Consumer<D> cancel) {
-		cancelFct = cancel;
-		return this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.cancelFct = cancel;
+		return dup;
 	}
 
 	@Override
 	public NodeUpdateBinder<W, C, I, D> endOrCancel(final Consumer<D> endOrCancel) {
-		endOrCancelFct = endOrCancel;
-		return this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.endOrCancelFct = endOrCancel;
+		return dup;
 	}
 
 
 	@Override
 	public NodeUpdateBinder<W, C, I, D> strictStart() {
-		strictStart = true;
-		return this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.strictStart = true;
+		return dup;
 	}
 
 	@Override
 	public NodeUpdateBinder<W, C, I, D> throttle(final long timeout) {
-		throttleTimeout = timeout;
-		return this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.throttleTimeout = timeout;
+		return dup;
 	}
 
 	@Override
@@ -148,7 +170,7 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	}
 
 	@Override
-	public NodeUpdateBinder<W, C, I, D> log(final LogLevel level) {
+	public NodeUpdateBinder<W, C, I, D> log(final LogLevel... level) {
 		return (NodeUpdateBinder<W, C, I, D>) super.log(level);
 	}
 
@@ -164,20 +186,30 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 
 	@Override
 	public <I2 extends JfxInteraction<D2, ?, ?>, D2 extends InteractionData> NodeUpdateBinder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
-		this.interactionSupplier = (Supplier<I>) interactionSupplier;
-		return (NodeUpdateBinder<W, C, I2, D2>) this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.interactionSupplier = (Supplier<I>) interactionSupplier;
+		return (NodeUpdateBinder<W, C, I2, D2>) dup;
 	}
 
 	@Override
 	public <C2 extends Command> NodeUpdateBinder<W, C2, I, D> toProduce(final Supplier<C2> cmdSupplier) {
-		cmdProducer = i -> (C) cmdSupplier.get();
-		return (NodeUpdateBinder<W, C2, I, D>) this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.cmdProducer = i -> (C) cmdSupplier.get();
+		return (NodeUpdateBinder<W, C2, I, D>) dup;
 	}
 
 	@Override
 	public <C2 extends Command> NodeUpdateBinder<W, C2, I, D> toProduce(final Function<D, C2> cmdCreation) {
-		cmdProducer = (Function<D, C>) cmdCreation;
-		return (NodeUpdateBinder<W, C2, I, D>) this;
+		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
+		dup.cmdProducer = (Function<D, C>) cmdCreation;
+		return (NodeUpdateBinder<W, C2, I, D>) dup;
+	}
+
+	@Override
+	protected NodeUpdateBinder<W, C, I, D> duplicate() {
+		return new NodeUpdateBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, updateFct, cancelFct,
+			endOrCancelFct, continuousCmdExecution, strictStart, throttleTimeout);
 	}
 
 	@Override

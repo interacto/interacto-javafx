@@ -1,14 +1,12 @@
 package io.github.interacto.jfx.binding;
 
+import io.github.interacto.jfx.interaction.library.DnD;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.interacto.jfx.interaction.library.DnD;
-import io.github.interacto.jfx.interaction.library.SrcTgtPointsData;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
@@ -18,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestThrottle extends TestNodeBinder<Canvas> {
-	JfXWidgetBinding<StubCmd, DnD, SrcTgtPointsData> binding;
 	AtomicInteger counter;
 
 	@Override
@@ -44,10 +41,6 @@ public class TestThrottle extends TestNodeBinder<Canvas> {
 			.bind();
 	}
 
-	@AfterEach
-	void tearDown() {
-		binding.uninstallBinding();
-	}
 
 	@Test
 	void testMoveTriggered(final FxRobot robot) {

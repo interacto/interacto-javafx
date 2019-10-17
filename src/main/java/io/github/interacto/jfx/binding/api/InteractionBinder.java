@@ -47,7 +47,7 @@ public interface InteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D exten
 	InteractionBinder<W, I, D> when(final BooleanSupplier whenPredicate);
 
 	@Override
-	InteractionBinder<W, I, D> log(final LogLevel level);
+	InteractionBinder<W, I, D> log(final LogLevel... level);
 
 	@Override
 	InteractionBinder<W, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);

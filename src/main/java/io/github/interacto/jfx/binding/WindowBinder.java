@@ -17,7 +17,20 @@ package io.github.interacto.jfx.binding;
 import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
+import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.WidgetData;
+import io.github.interacto.logging.LogLevel;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.stage.Window;
 
 /**
@@ -28,6 +41,21 @@ import javafx.stage.Window;
 class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>> extends Binder<Window, C, I, WidgetData<Window>> {
 	WindowBinder(final JfxInstrument instrument) {
 		super(instrument);
+	}
+
+	WindowBinder(final BiConsumer<WidgetData<Window>, C> initCmd, final Predicate<WidgetData<Window>> checkConditions,
+		final Function<WidgetData<Window>, C> cmdProducer, final List<Window> widgets, final Supplier<I> interactionSupplier, final JfxInstrument instrument,
+		final boolean async, final Consumer<WidgetData<Window>> onEnd, final List<ObservableList<? extends Window>> additionalWidgets,
+		final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp,
+		final StringProperty msgProp, final Button cancel) {
+		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
+			withHelp, progressProp, msgProp, cancel);
+	}
+
+	@Override
+	protected WindowBinder<C, I> duplicate() {
+		return new WindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel);
 	}
 
 	@Override

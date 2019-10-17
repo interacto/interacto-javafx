@@ -56,7 +56,7 @@ public interface CmdUpdateBinderBuilder<W, C extends Command> extends CmdBinderB
 	CmdUpdateBinderBuilder<W, C> when(final BooleanSupplier whenPredicate);
 
 	@Override
-	CmdUpdateBinderBuilder<W, C> log(final LogLevel level);
+	CmdUpdateBinderBuilder<W, C> log(final LogLevel... level);
 
 	@Override
 	CmdUpdateBinderBuilder<W, C> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);

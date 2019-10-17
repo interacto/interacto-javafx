@@ -19,6 +19,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
@@ -40,7 +41,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 
 	@Test
 	public void testCanCancelDnD(final FxRobot robot) {
-		Bindings.nodeBinder()
+		binding = Bindings.nodeBinder()
 			.usingInteraction(() -> new DnD(true, true))
 			.toProduce(() -> new MoveShape(rec))
 			.on(rec)
@@ -52,11 +53,12 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			.bind();
 		robot.drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
 		assertEquals(0, cpt.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCanCancelDnDWithObsList(final FxRobot robot) {
-		Bindings.nodeBinder()
+		binding = Bindings.nodeBinder()
 			.usingInteraction(() -> new DnD(true, true))
 			.toProduce(i -> new MoveShape((Rectangle) i.getSrcObject().orElseThrow()))
 			.on(widget1.getChildren())
@@ -72,6 +74,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 		WaitForAsyncUtils.waitForFxEvents();
 		robot.drag(rec2).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
 		assertEquals(0, cpt.get());
+		assertNotNull(binding);
 	}
 }
 

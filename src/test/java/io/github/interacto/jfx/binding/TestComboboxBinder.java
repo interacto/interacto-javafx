@@ -12,6 +12,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> implements FxRobotListSelection {
@@ -27,29 +28,31 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 
 	@Test
 	public void testCommandExecutedOnSingleComboBoxFunction(final FxRobot robot) {
-		Bindings.comboboxBinder()
+		binding = Bindings.comboboxBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnSingleComboBoxSupplier(final FxRobot robot) {
-		Bindings.comboboxBinder()
+		binding = Bindings.comboboxBinder()
 			.toProduce(() -> cmd)
 			.on(widget1)
 			.bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnTwoComboboxes(final FxRobot robot) {
-		Bindings.comboboxBinder()
+		binding = Bindings.comboboxBinder()
 			.toProduce(i -> cmd)
 			.on(widget1, widget2)
 			.bind();
@@ -60,11 +63,12 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit1Executed(final FxRobot robot) {
-		Bindings.comboboxBinder()
+		binding = Bindings.comboboxBinder()
 			.on(widget1)
 			.toProduce(i -> cmd)
 			.first(c -> c.exec.setValue(10))
@@ -72,11 +76,12 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit2Executed(final FxRobot robot) {
-		Bindings.comboboxBinder()
+		binding = Bindings.comboboxBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.first((i, c) -> c.exec.setValue(10))
@@ -84,11 +89,12 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCheckFalse(final FxRobot robot) {
-		Bindings.comboboxBinder()
+		binding = Bindings.comboboxBinder()
 			.on(widget1)
 			.toProduce(i -> cmd)
 			.when(i -> false)
@@ -96,5 +102,6 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, cmd.exec.get());
+		assertNotNull(binding);
 	}
 }
