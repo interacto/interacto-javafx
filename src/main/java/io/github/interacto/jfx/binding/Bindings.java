@@ -85,28 +85,6 @@ public final class Bindings {
 		return new AnonCmdBinder<>(cmd, ins);
 	}
 
-//	/**
-//	 * Creates binding builder to build a binding between a button interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<Button, C, ButtonPressed, WidgetData<Button>> buttonBinder(final Supplier<C> cmdCreation) {
-//		return baseButtonBinder(null).toProduce(cmdCreation);
-//	}
-//
-//	/**
-//	 * Creates binding builder to build a binding between a button interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<Button, C, ButtonPressed, WidgetData<Button>> buttonBinder(final Function<WidgetData<Button>, C> cmdCreation) {
-//		return baseButtonBinder(null).toProduce(cmdCreation);
-//	}
-
 	/**
 	 * Creates binding builder to build a binding between a button interaction and the given command type.
 	 * Do not forget to call bind() at the end of the build to execute the builder.
@@ -121,28 +99,6 @@ public final class Bindings {
 			.usingInteraction(ButtonPressed::new);
 	}
 
-//	/**
-//	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder(final Supplier<C> cmdCreation) {
-//		return baseToggleButtonBinder(null).toProduce(cmdCreation);
-//	}
-//
-//	/**
-//	 * Creates binding builder to build a binding between a toggle button interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder(final Function<WidgetData<ToggleButton>, C> cmdCreation) {
-//		return baseToggleButtonBinder(null).toProduce(cmdCreation);
-//	}
-
 	public static InteractionBinder<ToggleButton, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder() {
 		return toggleButtonBinder(null);
 	}
@@ -151,28 +107,6 @@ public final class Bindings {
 		return new NodeUpdateBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>>(ins)
 			.usingInteraction(ToggleButtonPressed::new);
 	}
-
-//	/**
-//	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<CheckBox, C, BoxChecked, WidgetData<CheckBox>> checkboxBinder(final Supplier<C> cmdCreation) {
-//		return baseCheckboxBinder(null).toProduce(cmdCreation);
-//	}
-//
-//	/**
-//	 * Creates binding builder to build a binding between a checkbox interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<CheckBox, C, BoxChecked, WidgetData<CheckBox>> checkboxBinder(final Function<WidgetData<CheckBox>, C> cmdCreation) {
-//		return baseCheckboxBinder(null).toProduce(cmdCreation);
-//	}
 
 	public static InteractionBinder<CheckBox, BoxChecked, WidgetData<CheckBox>> checkboxBinder() {
 		return checkboxBinder(null);
@@ -183,29 +117,6 @@ public final class Bindings {
 			.usingInteraction(BoxChecked::new);
 	}
 
-//	/**
-//	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder(final Supplier<C> cmdCreation) {
-//		return baseColorPickerBinder(null).toProduce(cmdCreation);
-//	}
-//
-//	/**
-//	 * Creates binding builder to build a binding between a color picker interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder(final Function<WidgetData<ColorPicker>, C> cmdCreation) {
-//		return baseColorPickerBinder(null).toProduce(cmdCreation);
-//	}
-
-
 	public static InteractionBinder<ColorPicker, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder() {
 		return colorPickerBinder(null);
 	}
@@ -214,29 +125,6 @@ public final class Bindings {
 		return new NodeUpdateBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>>(ins)
 			.usingInteraction(ColorPicked::new);
 	}
-
-//	/**
-//	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdUpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder(final Supplier<C> cmdCreation) {
-//		return baseSpinnerBinder(null).toProduce(cmdCreation);
-//	}
-//
-//
-//	/**
-//	 * Creates binding builder to build a binding between a spinner interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdUpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder(final Function<WidgetData<Spinner<?>>, C> cmdCreation) {
-//		return baseSpinnerBinder(null).toProduce(cmdCreation);
-//	}
 
 	public static InteractionUpdateBinder<Spinner<?>, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder() {
 		return spinnerBinder(null);
@@ -247,32 +135,6 @@ public final class Bindings {
 			.usingInteraction(SpinnerChanged::new);
 	}
 
-//	/**
-//	 * Creates binding builder to build a binding between a text input interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdUpdateBinder<TextInputControl, C, TextInputChanged, WidgetData<TextInputControl>>
-//			textInputBinder(final Supplier<C> cmdCreation) {
-//		return baseTextInputBinder(null)
-//			.toProduce(cmdCreation);
-//	}
-//
-//	/**
-//	 * Creates binding builder to build a binding between a text input interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdUpdateBinder<TextInputControl, C, TextInputChanged, WidgetData<TextInputControl>>
-//			textInputBinder(final Function<WidgetData<TextInputControl>, C> cmdCreation) {
-//		return baseTextInputBinder(null)
-//			.toProduce(cmdCreation);
-//	}
-
 	public static <W extends TextInputControl> InteractionUpdateBinder<W, TextInputChanged, WidgetData<TextInputControl>> textInputBinder() {
 		return textInputBinder(null);
 	}
@@ -281,17 +143,6 @@ public final class Bindings {
 		return new NodeUpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>>(ins)
 			.usingInteraction(TextInputChanged::new);
 	}
-
-//	/**
-//	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>> menuItemBinder(final Supplier<C> cmdCreation) {
-//		return new MenuItemBinder<C>(null).toProduce(cmdCreation);
-//	}
 
 	/**
 	 * Creates binding builder to build a binding between a menu item interaction and the given command type.
@@ -311,28 +162,6 @@ public final class Bindings {
 		return new MenuItemBinder<>(ins);
 	}
 
-//	/**
-//	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder(final Supplier<C> cmdCreation) {
-//		return baseComboBoxBinder(null).toProduce(cmdCreation);
-//	}
-//
-//	/**
-//	 * Creates binding builder to build a binding between a combobox interaction and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder(final Function<WidgetData<ComboBox<?>>, C> cmdCreation) {
-//		return baseComboBoxBinder(null).toProduce(cmdCreation);
-//	}
-
 	public static InteractionBinder<ComboBox<?>, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder() {
 		return comboboxBinder(null);
 	}
@@ -341,28 +170,6 @@ public final class Bindings {
 		return new NodeUpdateBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>>(ins)
 			.usingInteraction(ComboBoxSelected::new);
 	}
-
-//	/**
-//	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<TabPane, C, TabSelected, WidgetData<TabPane>> tabBinder(final Supplier<C> cmdCreation) {
-//		return baseTabBinder(null).toProduce(cmdCreation);
-//	}
-//
-//	/**
-//	 * Creates binding builder to build a binding between a tab interaction (on tabs of a TabPane) and the given command type.
-//	 * Do not forget to call bind() at the end of the build to execute the builder.
-//	 * @param cmdCreation The function that produces the commands
-//	 * @param <C> The type of the command.
-//	 * @return The binding builder. Cannot be null.
-//	 */
-//	public static <C extends Command> InteractionCmdBinder<TabPane, C, TabSelected, WidgetData<TabPane>> tabBinder(final Function<WidgetData<TabPane>, C> cmdCreation) {
-//		return baseTabBinder(null).toProduce(cmdCreation);
-//	}
 
 	public static InteractionBinder<TabPane, TabSelected, WidgetData<TabPane>> tabBinder() {
 		return tabBinder(null);
