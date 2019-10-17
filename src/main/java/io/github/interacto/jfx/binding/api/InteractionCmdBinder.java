@@ -54,7 +54,7 @@ public interface InteractionCmdBinder<W, C extends Command, I extends JfxInterac
 	InteractionCmdBinder<W, C, I, D> when(final BooleanSupplier whenPredicate);
 
 	@Override
-	InteractionCmdBinder<W, C, I, D> log(final LogLevel level);
+	InteractionCmdBinder<W, C, I, D> log(final LogLevel... level);
 
 	@Override
 	InteractionCmdBinder<W, C, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);

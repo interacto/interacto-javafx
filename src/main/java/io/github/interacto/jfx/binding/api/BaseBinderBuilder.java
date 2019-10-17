@@ -49,7 +49,7 @@ public interface BaseBinderBuilder<W> {
 	 * @param level The logging level to use.
 	 * @return The builder to chain the building configuration.
 	 */
-	BaseBinderBuilder<W> log(final LogLevel level);
+	BaseBinderBuilder<W> log(final LogLevel... level);
 
 	/**
 	 * Specifies that the command will be executed in a separated threads.

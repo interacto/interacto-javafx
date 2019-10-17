@@ -12,6 +12,7 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implements FxRobotColourPicker {
@@ -25,29 +26,31 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 
 	@Test
 	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot) {
-		Bindings.colorPickerBinder()
+		binding = Bindings.colorPickerBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnSingleButtonSupplier(final FxRobot robot) {
-		Bindings.colorPickerBinder()
+		binding = Bindings.colorPickerBinder()
 			.toProduce(() -> cmd)
 			.on(widget1)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnTwoComboboxes(final FxRobot robot) {
-		Bindings.colorPickerBinder()
+		binding = Bindings.colorPickerBinder()
 			.on(widget1, widget2)
 			.toProduce(i -> cmd)
 			.bind();
@@ -58,11 +61,12 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 		pickColour(robot, widget2);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit1Executed(final FxRobot robot) {
-		Bindings.colorPickerBinder()
+		binding = Bindings.colorPickerBinder()
 			.on(widget1)
 			.toProduce(i -> cmd)
 			.first(c -> c.exec.setValue(10))
@@ -70,11 +74,12 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit2Executed(final FxRobot robot) {
-		Bindings.colorPickerBinder()
+		binding = Bindings.colorPickerBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.first((i, c) -> c.exec.setValue(10))
@@ -82,11 +87,12 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCheckFalse(final FxRobot robot) {
-		Bindings.colorPickerBinder()
+		binding = Bindings.colorPickerBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.when(i -> false)
@@ -94,5 +100,6 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, cmd.exec.get());
+		assertNotNull(binding);
 	}
 }

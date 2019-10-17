@@ -18,10 +18,21 @@ import io.github.interacto.command.AnonCommand;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
+import io.github.interacto.jfx.interaction.help.HelpAnimation;
+import io.github.interacto.logging.LogLevel;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 
 class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D> {
 	AnonCmdBinder(final Runnable anonCmd, final JfxInstrument ins) {
@@ -30,6 +41,20 @@ class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionD
 			throw new IllegalArgumentException();
 		}
 		cmdProducer = i -> new AnonCommand(anonCmd);
+	}
+
+	AnonCmdBinder(final BiConsumer<D, AnonCommand> initCmd, final Predicate<D> checkConditions, final Function<D, AnonCommand> cmdProducer,
+		final List<W> widgets, final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final Consumer<D> onEnd,
+		final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
+		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel) {
+		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
+			withHelp, progressProp, msgProp, cancel);
+	}
+
+	@Override
+	protected AnonCmdBinder<W, I, D> duplicate() {
+		return new AnonCmdBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel);
 	}
 
 	@Override

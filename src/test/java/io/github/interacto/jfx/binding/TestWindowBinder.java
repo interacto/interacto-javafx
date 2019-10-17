@@ -14,6 +14,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestWindowBinder extends TestBinder<Window> {
@@ -33,7 +34,7 @@ public class TestWindowBinder extends TestBinder<Window> {
 
 	@Test
 	public void testCommandExecutedOnSingleWinFunction(final FxRobot robot) {
-		Bindings.windowBinder()
+		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
 			.toProduce(i -> cmd)
 			.on(widget1)
@@ -41,11 +42,12 @@ public class TestWindowBinder extends TestBinder<Window> {
 
 		robot.clickOn(widget1).type(KeyCode.C);
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnSingleWinSupplier(final FxRobot robot) {
-		Bindings.windowBinder()
+		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
 			.toProduce(() -> cmd)
 			.on(widget1)
@@ -53,11 +55,12 @@ public class TestWindowBinder extends TestBinder<Window> {
 
 		robot.clickOn(widget1).type(KeyCode.C);
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit1Executed(final FxRobot robot) {
-		Bindings.windowBinder()
+		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
 			.toProduce(i -> cmd)
 			.first(c -> c.exec.setValue(10))
@@ -65,11 +68,12 @@ public class TestWindowBinder extends TestBinder<Window> {
 			.bind();
 		robot.clickOn(widget1).type(KeyCode.C);
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit2Executed(final FxRobot robot) {
-		Bindings.windowBinder()
+		binding = Bindings.windowBinder()
 			.usingInteraction(KeysPressed::new)
 			.toProduce(() -> cmd)
 			.on(widget1)
@@ -77,11 +81,12 @@ public class TestWindowBinder extends TestBinder<Window> {
 			.bind();
 		robot.clickOn(widget1).type(KeyCode.C);
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCheckFalse(final FxRobot robot) {
-		Bindings.windowBinder()
+		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
 			.on(widget1)
 			.when(i -> false)
@@ -89,5 +94,6 @@ public class TestWindowBinder extends TestBinder<Window> {
 			.bind();
 		robot.clickOn(widget1).type(KeyCode.A);
 		assertEquals(0, cmd.exec.get());
+		assertNotNull(binding);
 	}
 }

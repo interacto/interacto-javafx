@@ -16,8 +16,21 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
+import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
 import io.github.interacto.jfx.interaction.library.WidgetData;
+import io.github.interacto.logging.LogLevel;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 
 /**
@@ -29,6 +42,21 @@ class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPres
 	MenuItemBinder(final JfxInstrument instrument) {
 		super(instrument);
 		interactionSupplier = MenuItemPressed::new;
+	}
+
+	MenuItemBinder(final BiConsumer<WidgetData<MenuItem>, C> initCmd, final Predicate<WidgetData<MenuItem>> checkConditions,
+		final Function<WidgetData<MenuItem>, C> cmdProducer, final List<MenuItem> widgets, final Supplier<MenuItemPressed> interactionSupplier,
+		final JfxInstrument instrument, final boolean async, final Consumer<WidgetData<MenuItem>> onEnd,
+		final List<ObservableList<? extends MenuItem>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
+		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel) {
+		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
+			withHelp, progressProp, msgProp, cancel);
+	}
+
+	@Override
+	protected MenuItemBinder<C> duplicate() {
+		return new MenuItemBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel);
 	}
 
 	@Override

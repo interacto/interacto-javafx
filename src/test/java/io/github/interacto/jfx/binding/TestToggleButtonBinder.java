@@ -9,6 +9,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
@@ -22,27 +23,29 @@ public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
 
 	@Test
 	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot) {
-		Bindings.toggleButtonBinder()
+		binding = Bindings.toggleButtonBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1);
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnSingleButtonSupplier(final FxRobot robot) {
-		Bindings.toggleButtonBinder()
+		binding = Bindings.toggleButtonBinder()
 			.on(widget1)
 			.toProduce(i -> cmd)
 			.bind();
 		robot.clickOn(widget1);
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnTwoButtons(final FxRobot robot) {
-		Bindings.toggleButtonBinder()
+		binding = Bindings.toggleButtonBinder()
 			.toProduce(i -> cmd)
 			.on(widget1, widget2)
 			.bind();
@@ -51,38 +54,42 @@ public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
 		cmd = new StubCmd();
 		robot.clickOn(widget1);
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit1Executed(final FxRobot robot) {
-		Bindings.toggleButtonBinder()
+		binding = Bindings.toggleButtonBinder()
 			.on(widget1)
 			.toProduce(i -> cmd)
 			.first(c -> c.exec.setValue(10))
 			.bind();
 		robot.clickOn(widget1);
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit2Executed(final FxRobot robot) {
-		Bindings.toggleButtonBinder()
+		binding = Bindings.toggleButtonBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.first((i, c) -> c.exec.setValue(10))
 			.bind();
 		robot.clickOn(widget1);
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCheckFalse(final FxRobot robot) {
-		Bindings.toggleButtonBinder()
+		binding = Bindings.toggleButtonBinder()
 			.on(widget1)
 			.when(i -> false)
 			.toProduce(i -> cmd)
 			.bind();
 		robot.clickOn(widget1);
 		assertEquals(0, cmd.exec.get());
+		assertNotNull(binding);
 	}
 }

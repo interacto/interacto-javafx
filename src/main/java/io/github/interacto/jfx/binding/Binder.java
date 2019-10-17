@@ -26,6 +26,7 @@ import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.logging.LogLevel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -66,114 +67,149 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	protected Button cancel;
 
 	Binder(final JfxInstrument ins) {
-		super();
-		widgets = new ArrayList<>();
-		instrument = ins;
-		async = false;
-		checkConditions = null;
-		initCmd = null;
-		onEnd = null;
-		additionalWidgets = null;
-		helpAnimation = null;
-		withHelp = false;
+		this(null, null, null, Collections.emptyList(), null,
+			ins, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
+			null, false, null, null, null);
 	}
+
+	Binder(final BiConsumer<D, C> initCmd, final Predicate<D> checkConditions, final Function<D, C> cmdProducer, final List<W> widgets,
+		final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final Consumer<D> onEnd,
+		final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
+		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel) {
+		super();
+		this.initCmd = initCmd;
+		this.checkConditions = checkConditions;
+		this.cmdProducer = cmdProducer;
+		this.widgets = widgets;
+		this.interactionSupplier = interactionSupplier;
+		this.instrument = instrument;
+		this.async = async;
+		this.onEnd = onEnd;
+		this.additionalWidgets = additionalWidgets;
+		this.logLevels = logLevels;
+		this.helpAnimation = helpAnimation;
+		this.withHelp = withHelp;
+		this.progressProp = progressProp;
+		this.msgProp = msgProp;
+		this.cancel = cancel;
+	}
+
+	protected abstract Binder<W, C, I, D> duplicate();
 
 	@Override
 	public Binder<W, C, I, D> on(final W... widget) {
-		widgets.addAll(Arrays.asList(widget));
-		return this;
+		final List<W> w;
+
+		if(widgets.isEmpty()) {
+			w = List.of(widget);
+		}else {
+			w = new ArrayList<>(widgets);
+			w.addAll(Arrays.asList(widget));
+		}
+
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.widgets = w;
+		return dup;
 	}
 
 
 	@Override
 	public Binder<W, C, I, D> on(final ObservableList<? extends W> widgets) {
+		final List<ObservableList<? extends W>> adds;
+
 		if(additionalWidgets == null) {
-			additionalWidgets = new ArrayList<>();
+			adds = List.of(widgets);
+		}else {
+			adds = new ArrayList<>(additionalWidgets);
+			adds.add(widgets);
 		}
-		additionalWidgets.add(widgets);
-		return this;
+
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.additionalWidgets = adds;
+		return dup;
 	}
 
 
 	@Override
 	public Binder<W, C, I, D> first(final Consumer<C> initCmdFct) {
-		if(initCmdFct != null) {
-			initCmd = (i, c) -> initCmdFct.accept(c);
-		}
-		return this;
+		return first((i, c) -> initCmdFct.accept(c));
 	}
 
 	@Override
 	public Binder<W, C, I, D> first(final BiConsumer<D, C> initCmdFct) {
-		initCmd = initCmdFct;
-		return this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.initCmd = initCmdFct;
+		return dup;
 	}
 
 	@Override
 	public Binder<W, C, I, D> when(final Predicate<D> checkCmd) {
-		checkConditions = checkCmd;
-		return this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.checkConditions = checkCmd;
+		return dup;
 	}
 
 	@Override
 	public Binder<W, C, I, D> when(final BooleanSupplier checkCmd) {
-		checkConditions = i -> checkCmd.getAsBoolean();
-		return this;
+		return when(i -> checkCmd.getAsBoolean());
 	}
 
 	@Override
 	public Binder<W, C, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp) {
-		async = true;
-		this.progressProp = progressProp;
-		this.msgProp = msgProp;
-		this.cancel = cancel;
-		return this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.async = true;
+		dup.progressProp = progressProp;
+		dup.msgProp = msgProp;
+		dup.cancel = cancel;
+		return dup;
 	}
 
 	@Override
 	public Binder<W, C, I, D> end(final Consumer<D> onEndFct) {
-		onEnd = onEndFct;
-		return this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.onEnd = onEndFct;
+		return dup;
 	}
 
 	@Override
-	public Binder<W, C, I, D> log(final LogLevel level) {
-		if(logLevels == null) {
-			logLevels = EnumSet.noneOf(LogLevel.class);
-		}
-		logLevels.add(level);
-		return this;
+	public Binder<W, C, I, D> log(final LogLevel... level) {
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.logLevels = EnumSet.copyOf(Arrays.asList(level));
+		return dup;
 	}
 
 	@Override
 	public Binder<W, C, I, D> help(final HelpAnimation animation) {
-		helpAnimation = animation;
-		withHelp = animation != null;
-		return this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.helpAnimation = animation;
+		dup.withHelp = animation != null;
+		return dup;
 	}
 
 	@Override
 	public Binder<W, C, I, D> help(final Pane helpPane) {
-		withHelp = true;
-		return this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.withHelp = true;
+		return dup;
 	}
 
 	@Override
 	public <I2 extends JfxInteraction<D2, ?, ?>, D2 extends InteractionData> Binder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
-		this.interactionSupplier = (Supplier<I>) interactionSupplier;
-		return (Binder<W, C, I2, D2>) this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.interactionSupplier = (Supplier<I>) interactionSupplier;
+		return (Binder<W, C, I2, D2>) dup;
 	}
 
 	@Override
 	public <C2 extends Command> Binder<W, C2, I, D> toProduce(final Supplier<C2> cmdCreation) {
-		cmdProducer = i -> (C) cmdCreation.get();
-		return (Binder<W, C2, I, D>) this;
+		return toProduce(i -> cmdCreation.get());
 	}
 
 
 	@Override
 	public <C2 extends Command> Binder<W, C2, I, D> toProduce(final Function<D, C2> cmdCreation) {
-		cmdProducer = (Function<D, C>) cmdCreation;
-		return (Binder<W, C2, I, D>) this;
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.cmdProducer = (Function<D, C>) cmdCreation;
+		return (Binder<W, C2, I, D>) dup;
 	}
 }

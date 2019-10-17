@@ -16,8 +16,22 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
 import io.github.interacto.jfx.instrument.JfxInstrument;
+import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
+import io.github.interacto.logging.LogLevel;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Window;
 
 /**
@@ -28,6 +42,21 @@ import javafx.stage.Window;
 class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
 	KeysWindowBinder(final JfxInstrument instrument) {
 		super(instrument);
+	}
+
+	KeysWindowBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> checkConditions, final Function<KeysData, C> cmdProducer,
+		final List<Window> widgets, final JfxInstrument instrument, final boolean async,
+		final Consumer<KeysData> onEnd, final List<ObservableList<? extends Window>> additionalWidgets, final EnumSet<LogLevel> logLevels,
+		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
+		final Collection<KeyCode> codes) {
+		super(initCmd, checkConditions, cmdProducer, widgets, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
+			withHelp, progressProp, msgProp, cancel, codes);
+	}
+
+	@Override
+	protected KeysWindowBinder<C> duplicate() {
+		return new KeysWindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, codes);
 	}
 
 	@Override

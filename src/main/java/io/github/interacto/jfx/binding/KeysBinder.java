@@ -22,9 +22,10 @@ import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
 import io.github.interacto.logging.LogLevel;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
@@ -47,14 +48,23 @@ import javafx.scene.layout.Pane;
  */
 abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed, KeysData> implements
 				KeyInteractionBinder<W, KeysPressed, KeysData>, KeyInteractionCmdBinder<W, C, KeysPressed, KeysData> {
-	final Collection<KeyCode> codes;
+	Collection<KeyCode> codes;
 	final Predicate<KeysData> checkCode;
 
 	KeysBinder(final JfxInstrument instrument) {
-		super(instrument);
-		interactionSupplier = KeysPressed::new;
-		codes = new ArrayList<>();
+		this(null, null, null, Collections.emptyList(),
+			instrument, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
+			null, false, null, null, null, Collections.emptyList());
+	}
 
+	KeysBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> whenPredicate, final Function<KeysData, C> cmdProducer,
+		final List<W> widgets, final JfxInstrument instrument, final boolean async,
+		final Consumer<KeysData> onEnd, final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels,
+		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
+		final Collection<KeyCode> keyCodes) {
+		super(initCmd, whenPredicate, cmdProducer, widgets, KeysPressed::new, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
+			withHelp, progressProp, msgProp, cancel);
+		codes = keyCodes;
 		checkCode = i -> {
 			final List<KeyCode> keys = i.getKeyCodes();
 			return (codes.isEmpty() || codes.size() == keys.size() && keys.containsAll(codes)) && (checkConditions == null || checkConditions.test(i));
@@ -62,9 +72,13 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	}
 
 	@Override
+	protected abstract KeysBinder<W, C> duplicate();
+
+	@Override
 	public KeysBinder<W, C> with(final KeyCode... keyCodes) {
-		this.codes.addAll(Arrays.asList(keyCodes));
-		return this;
+		final KeysBinder<W, C> dup = duplicate();
+		dup.codes = Arrays.asList(keyCodes);
+		return dup;
 	}
 
 	@Override
@@ -108,7 +122,7 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	}
 
 	@Override
-	public KeysBinder<W, C> log(final LogLevel level) {
+	public KeysBinder<W, C> log(final LogLevel... level) {
 		return (KeysBinder<W, C>) super.log(level);
 	}
 

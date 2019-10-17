@@ -16,6 +16,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestMenuItemBinder extends TestBinder<MenuItem> {
@@ -47,17 +48,18 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 	@Test
 	public void testCommandExecutedOnSingleButton(final FxRobot robot) {
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCommandExecutedOnTwoMenus(final FxRobot robot) {
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.toProduce(i -> cmd)
 			.on(widget1, widget2)
 			.bind();
@@ -66,6 +68,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		cmd = new StubCmd();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(1, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
@@ -73,7 +76,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1, widget2);
 		final AtomicInteger cpt = new AtomicInteger();
 
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.on(menus)
 			.end(i -> cpt.incrementAndGet())
 			.toProduce(StubCmd::new)
@@ -82,6 +85,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(2, cpt.get());
+		assertNotNull(binding);
 	}
 
 	@Test
@@ -89,7 +93,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1, widget2);
 		final AtomicInteger cpt = new AtomicInteger();
 
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.on(menus)
 			.toProduce(StubCmd::new)
 			.end(i -> cpt.incrementAndGet())
@@ -100,6 +104,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(1, cpt.get());
+		assertNotNull(binding);
 	}
 
 	@Test
@@ -107,7 +112,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1);
 		final AtomicInteger cpt = new AtomicInteger();
 
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.toProduce(StubCmd::new)
 			.on(menus)
 			.end(i -> cpt.incrementAndGet())
@@ -117,39 +122,43 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
 		assertEquals(1, cpt.get());
+		assertNotNull(binding);
 	}
 
 
 	@Test
 	public void testInit1Executed(final FxRobot robot) {
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.on(widget1)
 			.toProduce(i -> cmd)
 			.first(c -> c.exec.setValue(10))
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testInit2Executed(final FxRobot robot) {
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
 			.first((i, c) -> c.exec.setValue(10))
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(11, cmd.exec.get());
+		assertNotNull(binding);
 	}
 
 	@Test
 	public void testCheckFalse(final FxRobot robot) {
-		Bindings.menuItemBinder()
+		binding = Bindings.menuItemBinder()
 			.on(widget1)
 			.when(i -> false)
 			.toProduce(i -> cmd)
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
 		assertEquals(0, instrument.exec.get());
+		assertNotNull(binding);
 	}
 }

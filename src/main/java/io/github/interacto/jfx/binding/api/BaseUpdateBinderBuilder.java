@@ -53,7 +53,7 @@ public interface BaseUpdateBinderBuilder<W> extends BaseBinderBuilder<W>  {
 	BaseUpdateBinderBuilder<W> when(final BooleanSupplier whenPredicate);
 
 	@Override
-	BaseUpdateBinderBuilder<W> log(final LogLevel level);
+	BaseUpdateBinderBuilder<W> log(final LogLevel... level);
 
 	@Override
 	BaseUpdateBinderBuilder<W> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);

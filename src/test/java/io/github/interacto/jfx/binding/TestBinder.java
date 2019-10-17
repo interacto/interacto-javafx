@@ -36,7 +36,7 @@ public abstract class TestBinder<W> {
 		WaitForAsyncUtils.waitForFxEvents();
 
 		if(binding != null) {
-			binding.setActivated(false);
+			binding.uninstallBinding();
 		}
 	}
 

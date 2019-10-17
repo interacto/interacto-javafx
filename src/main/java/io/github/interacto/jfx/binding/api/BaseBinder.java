@@ -38,7 +38,7 @@ public interface BaseBinder<W> extends BaseBinderBuilder<W> {
 	BaseBinder<W> when(final BooleanSupplier whenPredicate);
 
 	@Override
-	BaseBinder<W> log(final LogLevel level);
+	BaseBinder<W> log(final LogLevel... level);
 
 	@Override
 	BaseBinder<W> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
