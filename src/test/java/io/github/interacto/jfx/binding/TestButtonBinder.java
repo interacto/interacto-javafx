@@ -36,9 +36,13 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 			.toProduce(() -> cmd)
 			.on(widget1)
 			.bind();
+		disposable = binding.produces().subscribe(producedCmds::add);
+
 		robot.clickOn(widget1);
 		assertEquals(1, cmd.exec.get());
 		assertNotNull(binding);
+		assertEquals(1, producedCmds.size());
+		assertEquals(cmd, producedCmds.get(0));
 	}
 
 	@Test
@@ -56,8 +60,8 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	public void testIsOnUIThread(final FxRobot robot) {
 		binding = Bindings.buttonBinder()
 			.on(widget1)
-			.end(i -> assertTrue(Platform.isFxApplicationThread()))
 			.toProduce(() -> cmd)
+			.end(c -> assertTrue(Platform.isFxApplicationThread()))
 			.bind();
 		robot.clickOn(widget1);
 		assertNotNull(binding);
@@ -69,6 +73,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 			.toProduce(() -> cmd)
 			.on(widget1, widget2)
 			.bind();
+		disposable = binding.produces().subscribe(producedCmds::add);
 
 		robot.clickOn(widget2);
 		assertEquals(1, cmd.exec.get());
@@ -76,6 +81,8 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		robot.clickOn(widget1);
 		assertEquals(1, cmd.exec.get());
 		assertNotNull(binding);
+		assertEquals(2, producedCmds.size());
+		assertNotSame(producedCmds.get(0), producedCmds.get(1));
 	}
 
 	@Test
@@ -198,7 +205,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		assertNotSame(binder, Bindings.buttonBinder().on(FXCollections.observableArrayList(widget1)));
 		assertNotSame(binder, Bindings.buttonBinder().when(() -> false));
 		assertNotSame(binder, Bindings.buttonBinder().when(i -> false));
-		assertNotSame(binder, Bindings.buttonBinder().end(i -> { }));
+		assertNotSame(binder, Bindings.buttonBinder().toProduce(i -> cmd).end(c -> { }));
 		assertNotSame(binder, Bindings.buttonBinder().help((Pane) null));
 		assertNotSame(binder, Bindings.buttonBinder().help((HelpAnimation) null));
 		assertNotSame(binder, Bindings.buttonBinder().async(widget1, null, null));

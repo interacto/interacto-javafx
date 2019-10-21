@@ -208,7 +208,7 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		assertNotSame(binder, Bindings.spinnerBinder().on(FXCollections.observableArrayList(widget1)));
 		assertNotSame(binder, Bindings.spinnerBinder().when(() -> false));
 		assertNotSame(binder, Bindings.spinnerBinder().when(i -> false));
-		assertNotSame(binder, Bindings.spinnerBinder().end(i -> { }));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).end(i -> { }));
 		assertNotSame(binder, Bindings.spinnerBinder().help((Pane) null));
 		assertNotSame(binder, Bindings.spinnerBinder().help((HelpAnimation) null));
 		assertNotSame(binder, Bindings.spinnerBinder().async(null, null, null));

@@ -2,7 +2,9 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
 import io.github.interacto.command.CommandImpl;
-import io.github.interacto.jfx.instrument.JfxInstrument;
+import io.reactivex.disposables.Disposable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -18,13 +20,15 @@ import org.testfx.util.WaitForAsyncUtils;
 public abstract class TestBinder<W> {
 	W widget1;
 	W widget2;
-	StubInstrument instrument;
 	StubCmd cmd;
 	AtomicInteger cpt;
-	JfXWidgetBinding<?, ?, ?> binding;
+	JfXWidgetBinding<? extends Command, ?, ?> binding;
+	List<Command> producedCmds;
+	Disposable disposable;
 
 	@BeforeEach
 	void setUp() {
+		producedCmds = new ArrayList<>();
 		cmd = new StubCmd();
 		cpt = new AtomicInteger();
 	}
@@ -37,6 +41,10 @@ public abstract class TestBinder<W> {
 
 		if(binding != null) {
 			binding.uninstallBinding();
+		}
+
+		if(disposable != null && !disposable.isDisposed()) {
+			disposable.dispose();
 		}
 	}
 
@@ -58,23 +66,6 @@ public abstract class TestBinder<W> {
 		@Override
 		public RegistrationPolicy getRegistrationPolicy() {
 			return RegistrationPolicy.NONE;
-		}
-	}
-
-	static class StubInstrument extends JfxInstrument {
-		final IntegerProperty exec = new SimpleIntegerProperty(0);
-		Command lastCreatedCmd = null;
-
-		@Override
-		protected void configureBindings() {
-		}
-
-		@Override
-		public void onCmdDone(final Command cmd) {
-			synchronized(exec) {
-				exec.setValue(exec.getValue() + 1);
-				lastCreatedCmd = cmd;
-			}
 		}
 	}
 

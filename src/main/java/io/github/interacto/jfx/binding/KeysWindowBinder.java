@@ -20,11 +20,12 @@ import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
 import io.github.interacto.logging.LogLevel;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import javafx.beans.property.DoubleProperty;
@@ -46,24 +47,26 @@ class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
 
 	KeysWindowBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> checkConditions, final Function<KeysData, C> cmdProducer,
 		final List<Window> widgets, final JfxInstrument instrument, final boolean async,
-		final Consumer<KeysData> onEnd, final List<ObservableList<? extends Window>> additionalWidgets, final EnumSet<LogLevel> logLevels,
+		final BiConsumer<KeysData, C> onEnd, final List<ObservableList<? extends Window>> additionalWidgets, final EnumSet<LogLevel> logLevels,
 		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
-		final Collection<KeyCode> codes) {
+		final Collection<KeyCode> codes, final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct,
+		final BiConsumer<KeysData, C> cannotExecFct) {
 		super(initCmd, checkConditions, cmdProducer, widgets, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, codes);
+			withHelp, progressProp, msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 	}
 
 	@Override
 	protected KeysWindowBinder<C> duplicate() {
 		return new KeysWindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
-			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, codes);
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes),
+			hadNoEffectFct, hadEffectsFct, cannotExecFct);
 	}
 
 	@Override
 	public JfXWidgetBinding<C, KeysPressed, KeysData> bind() {
-		final JFxAnonNodeBinding<C, KeysPressed, KeysData> binding = new JFxAnonNodeBinding<>(false, interactionSupplier.get(),
-			widgets, initCmd, null, checkCode, onEnd, cmdProducer, null, null, async, false, 0L,
-			logLevels, withHelp, helpAnimation);
+		final JFxAnonWindowBinding<C, KeysPressed, KeysData> binding = new JFxAnonWindowBinding<>(false, interactionSupplier.get(),
+			initCmd, null, checkConditions, onEnd, cmdProducer, null, null, widgets, false, false,
+			10L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

@@ -54,16 +54,17 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	KeysBinder(final JfxInstrument instrument) {
 		this(null, null, null, Collections.emptyList(),
 			instrument, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
-			null, false, null, null, null, Collections.emptyList());
+			null, false, null, null, null, Collections.emptyList(), null, null, null);
 	}
 
 	KeysBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> whenPredicate, final Function<KeysData, C> cmdProducer,
 		final List<W> widgets, final JfxInstrument instrument, final boolean async,
-		final Consumer<KeysData> onEnd, final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels,
+		final BiConsumer<KeysData, C> onEnd, final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels,
 		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
-		final Collection<KeyCode> keyCodes) {
+		final Collection<KeyCode> keyCodes, final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct,
+		final BiConsumer<KeysData, C> cannotExecFct) {
 		super(initCmd, whenPredicate, cmdProducer, widgets, KeysPressed::new, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		codes = keyCodes;
 		checkCode = i -> {
 			final List<KeyCode> keys = i.getKeyCodes();
@@ -108,7 +109,7 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 
 	@Override
 	public KeysBinder<W, C> when(final BooleanSupplier checkCmd) {
-		return (KeysBinder<W, C>) super.when(checkCmd);
+		return when(i -> checkCmd.getAsBoolean());
 	}
 
 	@Override
@@ -117,7 +118,27 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	}
 
 	@Override
-	public KeysBinder<W, C> end(final Consumer<KeysData> onEndFct) {
+	public KeysBinder<W, C> ifHadEffects(final BiConsumer<KeysData, C> hadEffectFct) {
+		return (KeysBinder<W, C>) super.ifHadEffects(hadEffectFct);
+	}
+
+	@Override
+	public KeysBinder<W, C> ifHadNoEffect(final BiConsumer<KeysData, C> noEffectFct) {
+		return (KeysBinder<W, C>) super.ifHadNoEffect(noEffectFct);
+	}
+
+	@Override
+	public KeysBinder<W, C> end(final Consumer<C> onEnd) {
+		return (KeysBinder<W, C>) super.end(onEnd);
+	}
+
+	@Override
+	public KeysBinder<W, C> end(final Runnable endFct) {
+		return (KeysBinder<W, C>) super.end(endFct);
+	}
+
+	@Override
+	public KeysBinder<W, C> end(final BiConsumer<KeysData, C> onEndFct) {
 		return (KeysBinder<W, C>) super.end(onEndFct);
 	}
 

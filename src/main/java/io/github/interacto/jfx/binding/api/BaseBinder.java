@@ -38,6 +38,9 @@ public interface BaseBinder<W> extends BaseBinderBuilder<W> {
 	BaseBinder<W> when(final BooleanSupplier whenPredicate);
 
 	@Override
+	BaseBinder<W> end(final Runnable endFct);
+
+	@Override
 	BaseBinder<W> log(final LogLevel... level);
 
 	@Override

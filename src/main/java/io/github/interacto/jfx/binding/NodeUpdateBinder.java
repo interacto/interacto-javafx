@@ -60,17 +60,18 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	NodeUpdateBinder(final JfxInstrument instrument) {
 		this(null, null, null, Collections.emptyList(), null, instrument, false, null,
 			Collections.emptyList(), EnumSet.noneOf(LogLevel.class), null, false, null, null, null, null,
-			null, null, false, false, 0L);
+			null, null, false, false, 0L, null, null, null);
 	}
 
 	NodeUpdateBinder(final BiConsumer<D, C> initCmd, final Predicate<D> checkConditions, final Function<D, C> cmdProducer, final List<W> widgets,
-			final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final Consumer<D> onEnd,
+			final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final BiConsumer<D, C> onEnd,
 			final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
 			final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel, final BiConsumer<D, C> updateFct,
 			final Consumer<D> cancelFct, final Consumer<D> endOrCancelFct, final boolean continuousCmdExecution, final boolean strictStart,
-			final long throttleTimeout) {
+			final long throttleTimeout, final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct,
+			final BiConsumer<D, C> cannotExecFct) {
 		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		this.updateFct = updateFct;
 		this.cancelFct = cancelFct;
 		this.endOrCancelFct = endOrCancelFct;
@@ -165,7 +166,27 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	}
 
 	@Override
-	public NodeUpdateBinder<W, C, I, D> end(final Consumer<D> onEndFct) {
+	public NodeUpdateBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct) {
+		return (NodeUpdateBinder<W, C, I, D>) super.ifHadEffects(hadEffectFct);
+	}
+
+	@Override
+	public NodeUpdateBinder<W, C, I, D> ifHadNoEffect(final BiConsumer<D, C> noEffectFct) {
+		return (NodeUpdateBinder<W, C, I, D>) super.ifHadNoEffect(noEffectFct);
+	}
+
+	@Override
+	public NodeUpdateBinder<W, C, I, D> end(final Consumer<C> onEnd) {
+		return (NodeUpdateBinder<W, C, I, D>) super.end(onEnd);
+	}
+
+	@Override
+	public NodeUpdateBinder<W, C, I, D> end(final Runnable endFct) {
+		return (NodeUpdateBinder<W, C, I, D>) super.end(endFct);
+	}
+
+	@Override
+	public NodeUpdateBinder<W, C, I, D> end(final BiConsumer<D, C> onEndFct) {
 		return (NodeUpdateBinder<W, C, I, D>) super.end(onEndFct);
 	}
 
@@ -209,7 +230,7 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	protected NodeUpdateBinder<W, C, I, D> duplicate() {
 		return new NodeUpdateBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, updateFct, cancelFct,
-			endOrCancelFct, continuousCmdExecution, strictStart, throttleTimeout);
+			endOrCancelFct, continuousCmdExecution, strictStart, throttleTimeout, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 	}
 
 	@Override
@@ -220,7 +241,7 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 		final var binding = new JFxAnonNodeBinding<>(continuousCmdExecution, interactionSupplier.get(), initCmd, updateFct,
 				checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct,
 				widgets.stream().map(elt -> (Node) elt).collect(Collectors.toList()), adds,
-				async, strictStart, throttleTimeout, logLevels, withHelp, helpAnimation);
+				async, strictStart, throttleTimeout, logLevels, withHelp, helpAnimation, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

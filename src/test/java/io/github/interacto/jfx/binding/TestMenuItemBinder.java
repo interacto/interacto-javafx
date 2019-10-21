@@ -17,6 +17,7 @@ import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
 public class TestMenuItemBinder extends TestBinder<MenuItem> {
@@ -31,8 +32,6 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		widget2 = new MenuItem("menu2");
 		widget1.setId(menuitemID1);
 		widget2.setId(menuitemID2);
-		instrument = new StubInstrument();
-		instrument.setActivated(true);
 		final VBox parent = new VBox();
 		menu = new Menu("menu");
 		menu.setId(menuID);
@@ -78,8 +77,8 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 
 		binding = Bindings.menuItemBinder()
 			.on(menus)
-			.end(i -> cpt.incrementAndGet())
 			.toProduce(StubCmd::new)
+			.end(c -> cpt.incrementAndGet())
 			.bind();
 
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
@@ -155,10 +154,12 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 		binding = Bindings.menuItemBinder()
 			.on(widget1)
 			.when(i -> false)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.bind();
+		disposable = binding.produces().subscribe(producedCmds::add);
+
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertEquals(0, instrument.exec.get());
+		assertTrue(producedCmds.isEmpty());
 		assertNotNull(binding);
 	}
 }

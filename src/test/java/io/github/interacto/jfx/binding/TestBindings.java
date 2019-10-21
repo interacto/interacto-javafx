@@ -30,10 +30,10 @@ public class TestBindings {
 				.when(() -> true)
 				.usingInteraction(DnD::new)
 				.cancel(i -> { })
-				.end(i -> { })
 				.endOrCancel(i -> { })
 				.when(i -> true)
 				.toProduce(ActivateInactivateInstruments::new)
+				.end(c -> { })
 				.then(c -> { })
 				.bind();
 
@@ -41,5 +41,6 @@ public class TestBindings {
 		assertThat(binding.isContinuousCmdExec()).isTrue();
 		assertThat(binding.isActivated()).isTrue();
 		assertThat(binding.getInteraction()).isInstanceOf(DnD.class);
+		assertThat(binding.produces()).isNotNull();
 	}
 }

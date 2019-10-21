@@ -42,6 +42,8 @@ public interface BaseBinderBuilder<W> {
 	 */
 	BaseBinderBuilder<W> when(final BooleanSupplier whenPredicate);
 
+	BaseBinderBuilder<W> end(final Runnable endFct);
+
 	/**
 	 * Specifies the loggings to use.
 	 * Several call to 'log' can be done to log different parts:

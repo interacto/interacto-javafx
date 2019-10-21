@@ -86,10 +86,22 @@ public interface InteractionCmdUpdateBinder<W, C extends Command, I extends JfxI
 	InteractionCmdUpdateBinder<W, C, I, D> endOrCancel(final Consumer<D> endOrCancel);
 
 	@Override
+	InteractionCmdUpdateBinder<W, C, I, D> end(final Runnable endFct);
+
+	@Override
 	InteractionCmdUpdateBinder<W, C, I, D> when(final Predicate<D> whenPredicate);
 
 	@Override
-	InteractionCmdUpdateBinder<W, C, I, D> end(final Consumer<D> onEnd);
+	InteractionCmdUpdateBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct);
+
+	@Override
+	InteractionCmdUpdateBinder<W, C, I, D> ifHadNoEffect(final BiConsumer<D, C> noEffectFct);
+
+	@Override
+	InteractionCmdUpdateBinder<W, C, I, D> end(final BiConsumer<D, C> onEnd);
+
+	@Override
+	InteractionCmdUpdateBinder<W, C, I, D> end(final Consumer<C> onEnd);
 
 	@Override
 	JfXWidgetBinding<C, I, D> bind();

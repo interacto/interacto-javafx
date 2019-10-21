@@ -15,10 +15,13 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
+import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.MenuItemInteraction;
 import io.github.interacto.jfx.interaction.library.WidgetData;
+import io.github.interacto.logging.LogLevel;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -31,72 +34,74 @@ import javafx.scene.control.MenuItem;
  * The goal is to avoid the creation of a specific class when the widget binding is quite simple.
  * @author Arnaud Blouin
  */
-class JFxAnonMenuItemBinding<C extends Command, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>> extends JfXWidgetBinding<C, I, WidgetData<MenuItem>> {
-	private final BiConsumer<WidgetData<MenuItem>, C> execInitCmd;
-	private final Predicate<WidgetData<MenuItem>> checkInteraction;
-	private final Consumer<WidgetData<MenuItem>> onEnd;
+class JFxAnonMenuItemBinding<C extends Command, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>> extends JfxAnonBinding<C, I, WidgetData<MenuItem>> {
+//	private final BiConsumer<WidgetData<MenuItem>, C> execInitCmd;
+//	private final Predicate<WidgetData<MenuItem>> checkInteraction;
+//	private final Consumer<WidgetData<MenuItem>> onEnd;
 
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
-	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
-	 * @param cmdCreation The function for producing commands.
-	 * @param interaction The user interaction to use.
-	 * @param menus The menus used by the binding. Cannot be null.
-	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
-	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	JFxAnonMenuItemBinding(final boolean continuousExec, final I interaction, final Function<WidgetData<MenuItem>, C> cmdCreation,
-							final BiConsumer<WidgetData<MenuItem>, C> initCmdFct, final Predicate<WidgetData<MenuItem>> check,
-							final Consumer<WidgetData<MenuItem>> onEndFct,
-							final List<MenuItem> menus, final List<ObservableList<? extends MenuItem>> additionalMenus) {
-		super(continuousExec, interaction, cmdCreation, false, null);
+	JFxAnonMenuItemBinding(final boolean continuousExec, final I interaction, final BiConsumer<WidgetData<MenuItem>, C> initCmdFct, final BiConsumer<WidgetData<MenuItem>, C> updateCmdFct,
+			final Predicate<WidgetData<MenuItem>> check, final BiConsumer<WidgetData<MenuItem>, C> onEndFct, final Function<WidgetData<MenuItem>, C> cmdFunction, final Consumer<WidgetData<MenuItem>> cancel,
+			final Consumer<WidgetData<MenuItem>> endOrCancel, final List<MenuItem> widgets, final List<ObservableList<? extends MenuItem>> additionalWidgets,
+			final boolean asyncExec, final boolean strict, final long timeoutThrottle, final Set<LogLevel> loggers,
+			final boolean help, final HelpAnimation animation, final BiConsumer<WidgetData<MenuItem>, C> hadNoEffectFct, final BiConsumer<WidgetData<MenuItem>, C> hadEffectsFct,
+			final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct) {
+		super(continuousExec, interaction, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel,
+			endOrCancel, asyncExec, strict, timeoutThrottle, loggers, help, animation, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 
-		if(menus != null) {
-			interaction.registerToMenuItems(menus);
+		interaction.registerToMenuItems(widgets);
+
+		if(additionalWidgets != null) {
+			additionalWidgets.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableMenuList(elt));
 		}
-
-		execInitCmd = initCmdFct == null ? (c, i) -> { } : initCmdFct;
-		checkInteraction = check == null ? i -> true : check;
-		onEnd = onEndFct;
-
-		if(additionalMenus != null) {
-			additionalMenus.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableMenuList(elt));
-		}
+//		if(menus != null) {
+//			interaction.registerToMenuItems(menus);
+//		}
+//
+//		execInitCmd = initCmdFct == null ? (c, i) -> { } : initCmdFct;
+//		checkInteraction = check == null ? i -> true : check;
+//		onEnd = onEndFct;
+//
+//		if(additionalMenus != null) {
+//			additionalMenus.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableMenuList(elt));
+//		}
 	}
 
-	@Override
-	public void first() {
-		execInitCmd.accept(getInteraction(), getCommand());
-	}
-
-	@Override
-	public void end() {
-		if(onEnd != null) {
-			onEnd.accept(getInteraction().getData());
-		}
-	}
-
-	@Override
-	public boolean when() {
-		return checkInteraction == null || checkInteraction.test(getInteraction());
-	}
-
-	@Override
-	protected C createCommand() {
-		final C currentCmd;
-
-		if(cmdProducer == null) {
-			currentCmd = super.createCommand();
-		}else {
-			currentCmd = cmdProducer.apply(getInteraction());
-		}
-
-		return currentCmd;
-	}
-
-	@Override
-	public String toString() {
-		return "JFxAnonMenuBinding {" + interaction + " -> " + cmdProducer + '}';
-	}
+//	@Override
+//	public void first() {
+//		execInitCmd.accept(getInteraction(), getCommand());
+//	}
+//
+//	@Override
+//	public void end() {
+//		if(onEnd != null) {
+//			onEnd.accept(getInteraction().getData());
+//		}
+//	}
+//
+//	@Override
+//	public boolean when() {
+//		return checkInteraction == null || checkInteraction.test(getInteraction());
+//	}
+//
+//	@Override
+//	protected C createCommand() {
+//		final C currentCmd;
+//
+//		if(cmdProducer == null) {
+//			currentCmd = super.createCommand();
+//		}else {
+//			currentCmd = cmdProducer.apply(getInteraction());
+//		}
+//
+//		return currentCmd;
+//	}
+//
+//	@Override
+//	public String toString() {
+//		return "JFxAnonMenuBinding {" + interaction + " -> " + cmdProducer + '}';
+//	}
 }

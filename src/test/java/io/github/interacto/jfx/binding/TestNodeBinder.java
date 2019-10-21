@@ -7,8 +7,6 @@ import javafx.stage.Stage;
 
 abstract class TestNodeBinder<W extends Node> extends TestBinder<W> {
 	void start(final Stage stage) {
-		instrument = new StubInstrument();
-		instrument.setActivated(true);
 		final VBox parent = new VBox();
 		parent.getChildren().add(widget1);
 		parent.getChildren().add(widget2);

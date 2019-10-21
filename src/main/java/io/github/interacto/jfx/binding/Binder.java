@@ -57,7 +57,10 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	protected Supplier<I> interactionSupplier;
 	protected JfxInstrument instrument;
 	protected boolean async;
-	protected Consumer<D> onEnd;
+	protected BiConsumer<D, C> hadEffectsFct;
+	protected BiConsumer<D, C> hadNoEffectFct;
+	protected BiConsumer<D, C> cannotExecFct;
+	protected BiConsumer<D, C> onEnd;
 	protected List<ObservableList<? extends W>> additionalWidgets;
 	protected EnumSet<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
@@ -69,13 +72,14 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	Binder(final JfxInstrument ins) {
 		this(null, null, null, Collections.emptyList(), null,
 			ins, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
-			null, false, null, null, null);
+			null, false, null, null, null, null, null, null);
 	}
 
 	Binder(final BiConsumer<D, C> initCmd, final Predicate<D> checkConditions, final Function<D, C> cmdProducer, final List<W> widgets,
-		final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final Consumer<D> onEnd,
-		final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
-		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel) {
+			final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final BiConsumer<D, C> onEnd,
+			final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
+			final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
+			final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct, final BiConsumer<D, C> cannotExecFct) {
 		super();
 		this.initCmd = initCmd;
 		this.checkConditions = checkConditions;
@@ -85,6 +89,9 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 		this.instrument = instrument;
 		this.async = async;
 		this.onEnd = onEnd;
+		this.hadEffectsFct = hadEffectsFct;
+		this.hadNoEffectFct = hadNoEffectFct;
+		this.cannotExecFct = cannotExecFct;
 		this.additionalWidgets = additionalWidgets;
 		this.logLevels = logLevels;
 		this.helpAnimation = helpAnimation;
@@ -165,7 +172,31 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	}
 
 	@Override
-	public Binder<W, C, I, D> end(final Consumer<D> onEndFct) {
+	public InteractionCmdBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct) {
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.hadEffectsFct = hadEffectsFct;
+		return dup;
+	}
+
+	@Override
+	public InteractionCmdBinder<W, C, I, D> ifHadNoEffect(final BiConsumer<D, C> noEffectFct) {
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.hadNoEffectFct = noEffectFct;
+		return dup;
+	}
+
+	@Override
+	public InteractionCmdBinder<W, C, I, D> end(final Consumer<C> onEnd) {
+		return end((i, c) -> onEnd.accept(c));
+	}
+
+	@Override
+	public Binder<W, C, I, D> end(final Runnable endFct) {
+		return end((i, c) -> endFct.run());
+	}
+
+	@Override
+	public Binder<W, C, I, D> end(final BiConsumer<D, C> onEndFct) {
 		final Binder<W, C, I, D> dup = duplicate();
 		dup.onEnd = onEndFct;
 		return dup;

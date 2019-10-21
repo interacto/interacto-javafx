@@ -41,11 +41,26 @@ public interface InteractionCmdBinder<W, C extends Command, I extends JfxInterac
 	 */
 	InteractionCmdBinder<W, C, I, D> first(final BiConsumer<D, C> initCmdFct);
 
+	InteractionCmdBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct);
+
+	InteractionCmdBinder<W, C, I, D> ifHadNoEffect(final BiConsumer<D, C> noEffectFct);
+
+	/**
+	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
+	 * the interaction is reinitialised and the command finally executed and discarded / saved).
+	 * @param onEnd The callback method to specify what to do when an interaction ends.
+	 * @return The builder to chain the building configuration.
+	 */
+	InteractionCmdBinder<W, C, I, D> end(final BiConsumer<D, C> onEnd);
+
 	@Override
 	InteractionCmdBinder<W, C, I, D> first(final Consumer<C> initCmdFct);
 
 	@Override
 	InteractionCmdBinder<W, C, I, D> on(final W... widgets);
+
+	@Override
+	InteractionCmdBinder<W, C, I, D> end(final Runnable endFct);
 
 	@Override
 	InteractionCmdBinder<W, C, I, D> on(final ObservableList<? extends W> widgets);
@@ -69,7 +84,7 @@ public interface InteractionCmdBinder<W, C extends Command, I extends JfxInterac
 	InteractionCmdBinder<W, C, I, D> when(final Predicate<D> whenPredicate);
 
 	@Override
-	InteractionCmdBinder<W, C, I, D> end(final Consumer<D> onEnd);
+	InteractionCmdBinder<W, C, I, D> end(final Consumer<C> onEnd);
 
 	/**
 	 * Executes the builder to create and install the binding on the instrument.
