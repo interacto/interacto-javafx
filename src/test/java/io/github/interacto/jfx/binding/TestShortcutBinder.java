@@ -1,5 +1,6 @@
 package io.github.interacto.jfx.binding;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
@@ -200,5 +201,35 @@ public class TestShortcutBinder extends TestNodeBinder<Canvas> {
 		binding2.uninstallBinding();
 		assertEquals(1, cmd.exec.get());
 		assertNotNull(binding);
+	}
+
+	@Test
+	public void testTwoShortcutsWithWhen(final FxRobot robot) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(StubCmd::new)
+			.on(widget1)
+			.with(KeyCode.X)
+			.when(() -> true)
+			.bind();
+
+		final var binding2 = Bindings.shortcutBinder()
+			.on(widget1)
+			.with(KeyCode.C)
+			.toProduce(StubCmd::new)
+			.when(() -> true)
+			.bind();
+
+		final var producedCmds2 = new ArrayList<>();
+		final var disposable2 = binding2.produces().subscribe(producedCmds2::add);
+		disposable = binding.produces().subscribe(producedCmds::add);
+
+		robot.type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
+		robot.type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
+		binding2.uninstallBinding();
+		disposable2.dispose();
+		assertEquals(0, producedCmds.size());
+		assertEquals(2, producedCmds2.size());
 	}
 }

@@ -20,7 +20,6 @@ import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.logging.LogLevel;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -35,9 +34,6 @@ public interface InteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D exten
 	InteractionBinder<W, I, D> when(final Predicate<D> whenPredicate);
 
 	@Override
-	InteractionBinder<W, I, D> end(final Consumer<D> onEnd);
-
-	@Override
 	InteractionBinder<W, I, D> on(final W... widgets);
 
 	@Override
@@ -48,6 +44,9 @@ public interface InteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D exten
 
 	@Override
 	InteractionBinder<W, I, D> log(final LogLevel... level);
+
+	@Override
+	InteractionBinder<W, I, D> end(final Runnable endFct);
 
 	@Override
 	InteractionBinder<W, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);

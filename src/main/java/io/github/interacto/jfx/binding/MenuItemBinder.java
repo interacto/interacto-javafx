@@ -20,10 +20,10 @@ import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
 import io.github.interacto.jfx.interaction.library.WidgetData;
 import io.github.interacto.logging.LogLevel;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -46,23 +46,25 @@ class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPres
 
 	MenuItemBinder(final BiConsumer<WidgetData<MenuItem>, C> initCmd, final Predicate<WidgetData<MenuItem>> checkConditions,
 		final Function<WidgetData<MenuItem>, C> cmdProducer, final List<MenuItem> widgets, final Supplier<MenuItemPressed> interactionSupplier,
-		final JfxInstrument instrument, final boolean async, final Consumer<WidgetData<MenuItem>> onEnd,
+		final JfxInstrument instrument, final boolean async, final BiConsumer<WidgetData<MenuItem>, C> onEnd,
 		final List<ObservableList<? extends MenuItem>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
-		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel) {
+		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
+		final BiConsumer<WidgetData<MenuItem>, C> hadNoEffectFct, final BiConsumer<WidgetData<MenuItem>, C> hadEffectsFct, final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct) {
 		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 	}
 
 	@Override
 	protected MenuItemBinder<C> duplicate() {
 		return new MenuItemBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
-			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel);
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 	}
 
 	@Override
 	public JfXWidgetBinding<C, MenuItemPressed, WidgetData<MenuItem>> bind() {
 		final JFxAnonMenuItemBinding<C, MenuItemPressed> binding = new JFxAnonMenuItemBinding<>(false, interactionSupplier.get(),
-			cmdProducer, initCmd, checkConditions, onEnd, widgets, additionalWidgets);
+			initCmd, null, checkConditions, onEnd, cmdProducer, null, null, widgets, additionalWidgets,
+			false, false, 0L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

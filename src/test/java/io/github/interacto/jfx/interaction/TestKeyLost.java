@@ -1,9 +1,7 @@
 package io.github.interacto.jfx.interaction;
 
-import io.github.interacto.command.Command;
 import io.github.interacto.command.CommandImpl;
 import io.github.interacto.jfx.binding.Bindings;
-import io.github.interacto.jfx.instrument.JfxInstrument;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -93,23 +91,6 @@ public class TestKeyLost {
 		@Override
 		public RegistrationPolicy getRegistrationPolicy() {
 			return RegistrationPolicy.NONE;
-		}
-	}
-
-	static class StubInstrument extends JfxInstrument {
-		final IntegerProperty exec = new SimpleIntegerProperty(0);
-		Command lastCreatedCmd = null;
-
-		@Override
-		protected void configureBindings() {
-		}
-
-		@Override
-		public void onCmdDone(final Command cmd) {
-			synchronized(exec) {
-				exec.setValue(exec.getValue() + 1);
-				lastCreatedCmd = cmd;
-			}
 		}
 	}
 }

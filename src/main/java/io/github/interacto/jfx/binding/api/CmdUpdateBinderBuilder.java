@@ -50,6 +50,12 @@ public interface CmdUpdateBinderBuilder<W, C extends Command> extends CmdBinderB
 	CmdUpdateBinderBuilder<W, C> on(final W... widgets);
 
 	@Override
+	CmdUpdateBinderBuilder<W, C> end(final Consumer<C> onEnd);
+
+	@Override
+	CmdUpdateBinderBuilder<W, C> end(final Runnable endFct);
+
+	@Override
 	CmdUpdateBinderBuilder<W, C> on(final ObservableList<? extends W> widgets);
 
 	@Override

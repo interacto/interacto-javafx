@@ -19,7 +19,6 @@ import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.logging.LogLevel;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
@@ -36,15 +35,6 @@ public interface InteractionBinderBuilder<W, I extends JfxInteraction<D, ?, ?>, 
 	 */
 	InteractionBinderBuilder<W, I, D> when(final Predicate<D> whenPredicate);
 
-
-	/**
-	 * Specifies what to do end when an interaction ends (when the last event of the interaction has occured, but just after
-	 * the interaction is reinitialised and the command finally executed and discarded / saved).
-	 * @param onEnd The callback method to specify what to do when an interaction ends.
-	 * @return The builder to chain the building configuration.
-	 */
-	InteractionBinderBuilder<W, I, D> end(final Consumer<D> onEnd);
-
 	@Override
 	InteractionBinderBuilder<W, I, D> on(final W... widgets);
 
@@ -53,6 +43,9 @@ public interface InteractionBinderBuilder<W, I extends JfxInteraction<D, ?, ?>, 
 
 	@Override
 	InteractionBinderBuilder<W, I, D> when(final BooleanSupplier whenPredicate);
+
+	@Override
+	InteractionBinderBuilder<W, I, D> end(final Runnable endFct);
 
 	@Override
 	InteractionBinderBuilder<W, I, D> log(final LogLevel... level);

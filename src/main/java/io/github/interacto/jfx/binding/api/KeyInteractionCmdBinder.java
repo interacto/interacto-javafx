@@ -55,6 +55,9 @@ public interface KeyInteractionCmdBinder<W, C extends Command, I extends JfxInte
 	KeyInteractionCmdBinder<W, C, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
 
 	@Override
+	KeyInteractionCmdBinder<W, C, I, D> end(final Runnable endFct);
+
+	@Override
 	KeyInteractionCmdBinder<W, C, I, D> help(final HelpAnimation animation);
 
 	@Override
@@ -64,14 +67,20 @@ public interface KeyInteractionCmdBinder<W, C extends Command, I extends JfxInte
 	KeyInteractionCmdBinder<W, C, I, D> when(final Predicate<D> whenPredicate);
 
 	@Override
-	KeyInteractionCmdBinder<W, C, I, D> end(final Consumer<D> onEnd);
+	KeyInteractionCmdBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct);
+
+	@Override
+	KeyInteractionCmdBinder<W, C, I, D> ifHadNoEffect(final BiConsumer<D, C> noEffectFct);
+
+	@Override
+	KeyInteractionCmdBinder<W, C, I, D> end(final BiConsumer<D, C> onEnd);
+
+	@Override
+	KeyInteractionCmdBinder<W, C, I, D> end(final Consumer<C> onEnd);
 
 	@Override
 	KeyInteractionCmdBinder<W, C, I, D> with(final KeyCode... codes);
 
-	/**
-	 * Executes the builder to create and install the binding on the instrument.
-	 * @throws IllegalArgumentException On issues while creating the binding.
-	 */
+	@Override
 	JfXWidgetBinding<C, I, D> bind();
 }

@@ -35,6 +35,11 @@ public interface CmdBinderBuilder<W, C extends Command> extends BaseBinderBuilde
 	 */
 	CmdBinderBuilder<W, C> first(final Consumer<C> initCmdFct);
 
+	CmdBinderBuilder<W, C> end(final Consumer<C> onEnd);
+
+	@Override
+	CmdBinderBuilder<W, C> end(final Runnable endFct);
+
 	@Override
 	CmdBinderBuilder<W, C> on(final W... widgets);
 

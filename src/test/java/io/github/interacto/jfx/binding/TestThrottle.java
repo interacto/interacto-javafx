@@ -32,7 +32,7 @@ public class TestThrottle extends TestNodeBinder<Canvas> {
 	@BeforeEach
 	void setUp() {
 		counter = new AtomicInteger();
-		binding = new NodeUpdateBinder<>(instrument)
+		binding = Bindings.nodeBinder()
 			.usingInteraction(DnD::new)
 			.toProduce(StubCmd::new)
 			.throttle(500L)

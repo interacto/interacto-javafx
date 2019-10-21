@@ -47,7 +47,7 @@ public interface InteractionUpdateBinderBuilder<W, I extends JfxInteraction<D, ?
 	InteractionUpdateBinderBuilder<W, I, D> when(final Predicate<D> whenPredicate);
 
 	@Override
-	InteractionUpdateBinderBuilder<W, I, D> end(final Consumer<D> onEnd);
+	InteractionUpdateBinderBuilder<W, I, D> end(final Runnable endFct);
 
 	@Override
 	InteractionUpdateBinderBuilder<W, I, D> on(final W... widgets);

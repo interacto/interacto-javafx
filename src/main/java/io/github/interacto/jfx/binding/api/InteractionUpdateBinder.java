@@ -57,7 +57,7 @@ public interface InteractionUpdateBinder<W, I extends JfxInteraction<D, ?, ?>, D
 	InteractionUpdateBinder<W, I, D> when(final Predicate<D> whenPredicate);
 
 	@Override
-	InteractionUpdateBinder<W, I, D> end(final Consumer<D> onEnd);
+	InteractionUpdateBinder<W, I, D> end(final Runnable endFct);
 
 	@Override
 	InteractionUpdateBinder<W, I, D> cancel(final Consumer<D> cancel);

@@ -20,7 +20,6 @@ import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.logging.LogLevel;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -36,9 +35,6 @@ public interface KeyInteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D ex
 	KeyInteractionBinder<W, I, D> when(final Predicate<D> whenPredicate);
 
 	@Override
-	KeyInteractionBinder<W, I, D> end(final Consumer<D> onEnd);
-
-	@Override
 	KeyInteractionBinder<W, I, D> on(final W... widgets);
 
 	@Override
@@ -49,6 +45,9 @@ public interface KeyInteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D ex
 
 	@Override
 	KeyInteractionBinder<W, I, D> log(final LogLevel... level);
+
+	@Override
+	KeyInteractionBinder<W, I, D> end(final Runnable endFct);
 
 	@Override
 	KeyInteractionBinder<W, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);

@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class TestWindowBinder extends TestBinder<Window> {
 	@Start
 	public void start(final Stage stage) {
-		instrument = new StubInstrument();
-		instrument.setActivated(true);
 		final VBox parent = new VBox();
 		final Scene scene = new Scene(parent);
 		stage.setScene(scene);
