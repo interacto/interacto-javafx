@@ -13,5 +13,4 @@ module interacto.javafx {
 	exports io.github.interacto.jfx.interaction.help;
 	exports io.github.interacto.jfx.interaction.library;
 	exports io.github.interacto.jfx.ui;
-	exports io.github.interacto.jfx.undo;
 }
