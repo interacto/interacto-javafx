@@ -41,9 +41,9 @@ public class Save<B> extends IOCommand<B> {
 	protected void doCmdBody() {
 		try {
 			ok = openSaveManager.save(file.getPath(), progressBar, statusWidget).get();
-		}catch(InterruptedException | ExecutionException ex) {
+		}catch(final InterruptedException | ExecutionException ex) {
 			ok = false;
-			ErrorCatcher.INSTANCE.reportError(ex);
+			ErrorCatcher.getInstance().reportError(ex);
 		}
 		ui.setModified(false);
 	}

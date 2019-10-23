@@ -139,7 +139,7 @@ public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteracti
 					}
 					field.setAccessible(access);
 				}catch(final IllegalAccessException ex) {
-					ErrorCatcher.INSTANCE.reportError(ex);
+					ErrorCatcher.getInstance().reportError(ex);
 				}
 			});
 
@@ -225,7 +225,7 @@ public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteracti
 				}
 				ok = false;
 			}catch(final ExecutionException ex2) {
-				ErrorCatcher.INSTANCE.reportError(ex2);
+				ErrorCatcher.getInstance().reportError(ex2);
 				ok = false;
 			}
 
