@@ -42,9 +42,9 @@ public class Load<B> extends IOCommand<B> {
 		ui.reinit();
 		try {
 			ok = openSaveManager.open(file.getPath(), progressBar, statusWidget).get();
-		}catch(InterruptedException | ExecutionException ex) {
+		}catch(final InterruptedException | ExecutionException ex) {
 			ok = false;
-			ErrorCatcher.INSTANCE.reportError(ex);
+			ErrorCatcher.getInstance().reportError(ex);
 		}
 		ui.setModified(false);
 	}
