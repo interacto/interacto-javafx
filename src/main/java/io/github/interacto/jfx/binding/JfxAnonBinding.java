@@ -26,7 +26,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
-abstract class JfxAnonBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends JfXWidgetBinding<C, I, D> {
+abstract class JfxAnonBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends JfxWidgetBinding<C, I, D> {
 	private final BiConsumer<D, C> execInitCmd;
 	private final BiConsumer<D, C> execUpdateCmd;
 	private final Predicate<D> checkInteraction;

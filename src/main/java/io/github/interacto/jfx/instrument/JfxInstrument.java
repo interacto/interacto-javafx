@@ -18,7 +18,7 @@ import io.github.interacto.command.AnonCommand;
 import io.github.interacto.command.Command;
 import io.github.interacto.instrument.InstrumentImpl;
 import io.github.interacto.jfx.binding.Bindings;
-import io.github.interacto.jfx.binding.JfXWidgetBinding;
+import io.github.interacto.jfx.binding.JfxWidgetBinding;
 import io.github.interacto.jfx.binding.api.BaseBinder;
 import io.github.interacto.jfx.binding.api.BaseUpdateBinder;
 import io.github.interacto.jfx.binding.api.CmdBinder;
@@ -54,7 +54,7 @@ import javafx.stage.Window;
  * Base of an instrument for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxInstrument extends InstrumentImpl<JfXWidgetBinding<?, ? extends JfxInteraction<?, ?, ?>, ?>> {
+public abstract class JfxInstrument extends InstrumentImpl<JfxWidgetBinding<?, ? extends JfxInteraction<?, ?, ?>, ?>> {
 	/**
 	 * Creates the instrument.
 	 */

@@ -43,7 +43,7 @@ import javafx.stage.Window;
  * Base of a widget binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public abstract class JfxWidgetBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
 			extends WidgetBindingImpl<C, I, D> {
 	/** The executor service used to execute command async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;
@@ -74,7 +74,7 @@ public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteracti
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final boolean continuousExec, final I interaction, final Function<D, C> cmdCreation, final List<Node> widgets, final boolean help,
+	public JfxWidgetBinding(final boolean continuousExec, final I interaction, final Function<D, C> cmdCreation, final List<Node> widgets, final boolean help,
 							final HelpAnimation animation) {
 		super(continuousExec, cmdCreation, interaction);
 		withHelp = help;
@@ -92,7 +92,7 @@ public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteracti
 	 * @param widgets The widgets concerned by the binding. Cannot be null.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final boolean continuousExec, final I interaction, final Function<D, C> cmdCreation, final boolean help,
+	public JfxWidgetBinding(final boolean continuousExec, final I interaction, final Function<D, C> cmdCreation, final boolean help,
 							final HelpAnimation animation, final Node... widgets) {
 		this(continuousExec, interaction, cmdCreation, Arrays.asList(widgets), help, animation);
 	}
@@ -106,7 +106,7 @@ public abstract class JfXWidgetBinding<C extends Command, I extends JfxInteracti
 	 * @param cmdCreation The function that creates commands.
 	 * @throws IllegalArgumentException If the given interaction or instrument is null.
 	 */
-	public JfXWidgetBinding(final boolean continuousExec, final List<Window> windows, final I interaction, final Function<D, C> cmdCreation,
+	public JfxWidgetBinding(final boolean continuousExec, final List<Window> windows, final I interaction, final Function<D, C> cmdCreation,
 							final HelpAnimation animation, final boolean help) {
 		super(continuousExec, cmdCreation, interaction);
 		withHelp = help;

@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestBindings {
 	@Test
 	void testBinder() {
-		final JfXWidgetBinding<ActivateInactivateInstruments, DnD, SrcTgtPointsData> binding =
+		final JfxWidgetBinding<ActivateInactivateInstruments, DnD, SrcTgtPointsData> binding =
 			Bindings.nodeBinder()
 				.continuousExecution()
 				.on(new Button())

@@ -36,7 +36,7 @@ public abstract class TestBinder<W> {
 	W widget2;
 	StubCmd cmd;
 	AtomicInteger cpt;
-	JfXWidgetBinding<? extends Command, ?, ?> binding;
+	JfxWidgetBinding<? extends Command, ?, ?> binding;
 	List<Command> producedCmds;
 	Disposable disposable;
 

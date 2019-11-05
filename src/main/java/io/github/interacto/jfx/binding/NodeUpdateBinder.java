@@ -46,7 +46,6 @@ import javafx.scene.layout.Pane;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-
 class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
 			extends Binder<W, C, I, D> implements InteractionUpdateBinder<W, I, D>, CmdUpdateBinder<W, C>,
 				InteractionCmdUpdateBinder<W, C, I, D>, BaseUpdateBinder<W> {
@@ -234,11 +233,11 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	}
 
 	@Override
-	public JfXWidgetBinding<C, I, D> bind() {
+	public JfxWidgetBinding<C, I, D> bind() {
 		final List<ObservableList<? extends Node>> adds = additionalWidgets == null ? null :
 			additionalWidgets.stream().map(l -> (ObservableList<? extends Node>) l).collect(Collectors.toList());
 
-		final var binding = new JFxAnonNodeBinding<>(continuousCmdExecution, interactionSupplier.get(), initCmd, updateFct,
+		final var binding = new JfxAnonNodeBinding<>(continuousCmdExecution, interactionSupplier.get(), initCmd, updateFct,
 				checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct,
 				widgets.stream().map(elt -> (Node) elt).collect(Collectors.toList()), adds,
 				async, strictStart, throttleTimeout, logLevels, withHelp, helpAnimation, hadNoEffectFct, hadEffectsFct, cannotExecFct);

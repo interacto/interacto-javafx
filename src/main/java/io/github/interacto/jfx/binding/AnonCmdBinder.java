@@ -58,11 +58,11 @@ class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionD
 	}
 
 	@Override
-	public JfXWidgetBinding<AnonCommand, I, D> bind() {
+	public JfxWidgetBinding<AnonCommand, I, D> bind() {
 		final List<ObservableList<? extends Node>> adds = additionalWidgets == null ? null :
 			additionalWidgets.stream().map(l -> (ObservableList<? extends Node>) l).collect(Collectors.toList());
 
-		final JFxAnonNodeBinding<AnonCommand, I, D> binding = new JFxAnonNodeBinding<>(false, interactionSupplier.get(),
+		final JfxAnonNodeBinding<AnonCommand, I, D> binding = new JfxAnonNodeBinding<>(false, interactionSupplier.get(),
 			null, null, checkConditions, onEnd, cmdProducer, null, null,
 			widgets.stream().map(elt -> (Node) elt).collect(Collectors.toList()), adds,
 			async, false, 0L, logLevels, withHelp, helpAnimation, hadNoEffectFct, hadEffectsFct, cannotExecFct);
