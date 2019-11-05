@@ -83,19 +83,6 @@ abstract class JfxAnonBinding<C extends Command, I extends JfxInteraction<D, ?, 
 	}
 
 	@Override
-	protected C createCommand() {
-		final C currentCmd;
-
-		if(cmdProducer == null) {
-			currentCmd = super.createCommand();
-		}else {
-			currentCmd = cmdProducer.apply(getInteraction().getData());
-		}
-
-		return currentCmd;
-	}
-
-	@Override
 	public void first() {
 		if(execInitCmd != null) {
 			execInitCmd.accept(getInteraction().getData(), getCommand());
