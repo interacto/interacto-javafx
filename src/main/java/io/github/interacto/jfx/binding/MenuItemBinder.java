@@ -61,8 +61,8 @@ class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPres
 	}
 
 	@Override
-	public JfXWidgetBinding<C, MenuItemPressed, WidgetData<MenuItem>> bind() {
-		final JFxAnonMenuItemBinding<C, MenuItemPressed> binding = new JFxAnonMenuItemBinding<>(false, interactionSupplier.get(),
+	public JfxWidgetBinding<C, MenuItemPressed, WidgetData<MenuItem>> bind() {
+		final JfxAnonMenuItemBinding<C, MenuItemPressed> binding = new JfxAnonMenuItemBinding<>(false, interactionSupplier.get(),
 			initCmd, null, checkConditions, onEnd, cmdProducer, null, null, widgets, additionalWidgets,
 			false, false, 0L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		binding.setProgressBarProp(progressProp);

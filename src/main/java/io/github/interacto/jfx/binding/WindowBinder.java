@@ -60,8 +60,8 @@ class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window
 	}
 
 	@Override
-	public JfXWidgetBinding<C, I, WidgetData<Window>> bind() {
-		final JFxAnonWindowBinding<C, I, WidgetData<Window>> binding = new JFxAnonWindowBinding<>(false, interactionSupplier.get(),
+	public JfxWidgetBinding<C, I, WidgetData<Window>> bind() {
+		final JfxAnonWindowBinding<C, I, WidgetData<Window>> binding = new JfxAnonWindowBinding<>(false, interactionSupplier.get(),
 			initCmd, null, checkConditions, onEnd, cmdProducer, null, null, widgets, false, false,
 			10L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		binding.setProgressBarProp(progressProp);

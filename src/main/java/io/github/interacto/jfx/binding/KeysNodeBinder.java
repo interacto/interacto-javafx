@@ -64,8 +64,8 @@ class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
 	}
 
 	@Override
-	public JfXWidgetBinding<C, KeysPressed, KeysData> bind() {
-		final JFxAnonNodeBinding<C, KeysPressed, KeysData> binding = new JFxAnonNodeBinding<>(false, interactionSupplier.get(),
+	public JfxWidgetBinding<C, KeysPressed, KeysData> bind() {
+		final JfxAnonNodeBinding<C, KeysPressed, KeysData> binding = new JfxAnonNodeBinding<>(false, interactionSupplier.get(),
 			initCmd, null, checkCode, onEnd, cmdProducer, null, null, widgets, additionalWidgets,
 			async, false, 0L, logLevels, withHelp, helpAnimation, hadNoEffectFct, hadEffectsFct,
 			cannotExecFct);

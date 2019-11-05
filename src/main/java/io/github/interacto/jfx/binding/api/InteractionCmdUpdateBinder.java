@@ -16,7 +16,7 @@ package io.github.interacto.jfx.binding.api;
 
 import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
-import io.github.interacto.jfx.binding.JfXWidgetBinding;
+import io.github.interacto.jfx.binding.JfxWidgetBinding;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.logging.LogLevel;
@@ -104,5 +104,5 @@ public interface InteractionCmdUpdateBinder<W, C extends Command, I extends JfxI
 	InteractionCmdUpdateBinder<W, C, I, D> end(final Consumer<C> onEnd);
 
 	@Override
-	JfXWidgetBinding<C, I, D> bind();
+	JfxWidgetBinding<C, I, D> bind();
 }

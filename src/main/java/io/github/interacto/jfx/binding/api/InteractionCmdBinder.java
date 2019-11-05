@@ -16,7 +16,7 @@ package io.github.interacto.jfx.binding.api;
 
 import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
-import io.github.interacto.jfx.binding.JfXWidgetBinding;
+import io.github.interacto.jfx.binding.JfxWidgetBinding;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.logging.LogLevel;
@@ -90,5 +90,5 @@ public interface InteractionCmdBinder<W, C extends Command, I extends JfxInterac
 	 * Executes the builder to create and install the binding on the instrument.
 	 * @throws IllegalArgumentException On issues while creating the binding.
 	 */
-	JfXWidgetBinding<C, I, D> bind();
+	JfxWidgetBinding<C, I, D> bind();
 }
