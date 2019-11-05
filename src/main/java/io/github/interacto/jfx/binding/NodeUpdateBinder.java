@@ -206,23 +206,17 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 
 	@Override
 	public <I2 extends JfxInteraction<D2, ?, ?>, D2 extends InteractionData> NodeUpdateBinder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
-		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
-		dup.interactionSupplier = (Supplier<I>) interactionSupplier;
-		return (NodeUpdateBinder<W, C, I2, D2>) dup;
+		return (NodeUpdateBinder<W, C, I2, D2>) super.usingInteraction(interactionSupplier);
 	}
 
 	@Override
 	public <C2 extends Command> NodeUpdateBinder<W, C2, I, D> toProduce(final Supplier<C2> cmdSupplier) {
-		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
-		dup.cmdProducer = i -> (C) cmdSupplier.get();
-		return (NodeUpdateBinder<W, C2, I, D>) dup;
+		return (NodeUpdateBinder<W, C2, I, D>) super.toProduce(cmdSupplier);
 	}
 
 	@Override
 	public <C2 extends Command> NodeUpdateBinder<W, C2, I, D> toProduce(final Function<D, C2> cmdCreation) {
-		final NodeUpdateBinder<W, C, I, D> dup = duplicate();
-		dup.cmdProducer = (Function<D, C>) cmdCreation;
-		return (NodeUpdateBinder<W, C2, I, D>) dup;
+		return (NodeUpdateBinder<W, C2, I, D>) super.toProduce(cmdCreation);
 	}
 
 	@Override
