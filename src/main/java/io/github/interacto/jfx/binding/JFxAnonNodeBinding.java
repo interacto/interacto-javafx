@@ -35,17 +35,6 @@ import javafx.scene.Node;
  * @author Arnaud Blouin
  */
 class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends JfxAnonBinding<C, I, D> {
-//	private final BiConsumer<D, C> execInitCmd;
-//	private final BiConsumer<D, C> execUpdateCmd;
-//	private final Predicate<D> checkInteraction;
-//	private final Consumer<D> cancelFct;
-//	private final Consumer<D> endOrCancelFct;
-//	private final BiConsumer<D, C> hadEffectsFct;
-//	private final BiConsumer<D, C> hadNoEffectFct;
-//	private final BiConsumer<D, C> cannotExecFct;
-//	private final BiConsumer<D, C> onEnd;
-//	private final boolean strictStart;
-
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.
@@ -65,19 +54,6 @@ class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D
 						final BiConsumer<D, C> cannotExecFct) {
 		super(continuousExec, interaction, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel,
 			endOrCancel, asyncExec, strict, timeoutThrottle, loggers, help, animation, hadNoEffectFct, hadEffectsFct, cannotExecFct);
-//		execInitCmd = initCmdFct;
-//		execUpdateCmd = updateCmdFct;
-//		cancelFct = cancel;
-//		endOrCancelFct = endOrCancel;
-//		checkInteraction = check == null ? i -> true : check;
-//		this.hadNoEffectFct = hadNoEffectFct;
-//		this.hadEffectsFct = hadEffectsFct;
-//		this.cannotExecFct = cannotExecFct;
-//		async = asyncExec;
-//		onEnd = onEndFct;
-//		strictStart = strict;
-//		interaction.setThrottleTimeout(timeoutThrottle);
-//		configureLoggers(loggers);
 
 		interaction.registerToNodes(widgets);
 
@@ -85,36 +61,4 @@ class JFxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D
 			additionalWidgets.stream().filter(Objects::nonNull).forEach(elt -> interaction.registerToObservableNodeList(elt));
 		}
 	}
-
-//	/**
-//	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
-//	 * instrument is (de-)activated.
-//	 * @param continuousExec Specifies whether the command must be executed on each evolution of the interaction.
-//	 * @param interaction The user interaction of the binding.
-//	 * @param widgets The windows used by the binding. Cannot be null.
-//	 * @param initCmdFct The function that initialises the command to execute. Cannot be null.
-//	 * @param updateCmdFct The function that updates the command. Can be null.
-//	 * @throws IllegalArgumentException If the given interaction or instrument is null.
-//	 */
-//	JFxAnonNodeBinding(final boolean continuousExec, final I interaction, final List<Window> widgets, final BiConsumer<D, C> initCmdFct,
-//						final BiConsumer<D, C> updateCmdFct, final Predicate<D> check, final BiConsumer<D, C> onEndFct,
-//						final Function<D, C> cmdFunction, final Consumer<D> cancel, final Consumer<D> endOrCancel, final boolean asyncExec,
-//						final boolean strict, final long timeoutThrottle, final Set<LogLevel> loggers, final boolean help,
-//						final HelpAnimation animation, final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct,
-//						final BiConsumer<D, C> cannotExecFct) {
-//		super(continuousExec, widgets, interaction, cmdFunction, animation, help);
-//		execInitCmd = initCmdFct;
-//		execUpdateCmd = updateCmdFct;
-//		cancelFct = cancel;
-//		endOrCancelFct = endOrCancel;
-//		checkInteraction = check == null ? i -> true : check;
-//		this.hadNoEffectFct = hadNoEffectFct;
-//		this.hadEffectsFct = hadEffectsFct;
-//		this.cannotExecFct = cannotExecFct;
-//		async = asyncExec;
-//		onEnd = onEndFct;
-//		strictStart = strict;
-//		interaction.setThrottleTimeout(timeoutThrottle);
-//		configureLoggers(loggers);
-//	}
 }
