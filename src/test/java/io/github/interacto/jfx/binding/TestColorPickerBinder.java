@@ -39,7 +39,7 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot) {
+	public void testCommandExecutedOnSinglePickerFunction(final FxRobot robot) {
 		binding = Bindings.colorPickerBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
@@ -51,7 +51,7 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonSupplier(final FxRobot robot) {
+	public void testCommandExecutedOnSinglePickerSupplier(final FxRobot robot) {
 		binding = Bindings.colorPickerBinder()
 			.toProduce(() -> cmd)
 			.on(widget1)
@@ -63,7 +63,7 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoComboboxes(final FxRobot robot) {
+	public void testCommandExecutedOnTwoPickers(final FxRobot robot) {
 		binding = Bindings.colorPickerBinder()
 			.on(widget1, widget2)
 			.toProduce(i -> cmd)

@@ -36,7 +36,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot) {
+	public void testCommandExecutedOnSingleCBFunction(final FxRobot robot) {
 		binding = Bindings.checkboxBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
@@ -47,7 +47,7 @@ public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonSupplier(final FxRobot robot) {
+	public void testCommandExecutedOnSingleCBSupplier(final FxRobot robot) {
 		binding = Bindings.checkboxBinder()
 			.toProduce(() -> cmd)
 			.on(widget1)
