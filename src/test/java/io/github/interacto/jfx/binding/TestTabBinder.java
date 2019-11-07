@@ -85,7 +85,7 @@ public class TestTabBinder extends TestNodeBinder<TabPane> {
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoButtons(final FxRobot robot) {
+	public void testCommandExecutedOnTwoTabs(final FxRobot robot) {
 		binding = Bindings.tabBinder()
 			.on(widget1, widget2)
 			.toProduce(() -> cmd)
@@ -101,7 +101,7 @@ public class TestTabBinder extends TestNodeBinder<TabPane> {
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoButtonsTwoOn(final FxRobot robot) {
+	public void testCommandExecutedOnTwoTabsTwoOn(final FxRobot robot) {
 		binding = Bindings.tabBinder()
 			.on(widget1)
 			.toProduce(() -> cmd)

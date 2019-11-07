@@ -60,7 +60,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButton(final FxRobot robot) {
+	public void testCommandExecutedOnSinglMenu(final FxRobot robot) {
 		binding = Bindings.menuItemBinder()
 			.toProduce(i -> cmd)
 			.on(widget1)
@@ -85,7 +85,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testCollectionButtons(final FxRobot robot) {
+	public void testCollectionMenus(final FxRobot robot) {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1, widget2);
 		final AtomicInteger cpt = new AtomicInteger();
 
@@ -102,7 +102,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testCollectionButtonsRemove(final FxRobot robot) {
+	public void testCollectionMenusRemove(final FxRobot robot) {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1, widget2);
 		final AtomicInteger cpt = new AtomicInteger();
 
@@ -121,7 +121,7 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testCollectionButtonsAdd(final FxRobot robot) {
+	public void testCollectionMenusAdd(final FxRobot robot) {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1);
 		final AtomicInteger cpt = new AtomicInteger();
 
