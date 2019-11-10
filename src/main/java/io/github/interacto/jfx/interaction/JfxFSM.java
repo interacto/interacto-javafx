@@ -59,8 +59,9 @@ public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 		final boolean processed = super.process(event);
 
 		// Recycling events
-		if(processed && event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_PRESSED && !(getCurrentState() instanceof InitState) &&
-			(eventsToProcess == null || eventsToProcess.stream().noneMatch(evt -> ((KeyEvent) evt).getCode() == ((KeyEvent) event).getCode()))) {
+		if(processed && event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_PRESSED
+			&& !(getCurrentState() instanceof InitState)
+			&& eventsToProcess.stream().noneMatch(evt -> ((KeyEvent) evt).getCode() == ((KeyEvent) event).getCode())) {
 			addRemaningEventsToProcess((Event) event.clone());
 		}
 
