@@ -20,6 +20,7 @@ import io.github.interacto.jfx.TimeoutWaiter;
 import java.util.Collections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Spinner;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -34,12 +35,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(ApplicationExtension.class)
 public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> implements TimeoutWaiter {
 	Spinner<?> widget;
+	long timer;
 
 	@Override
 	@BeforeEach
 	void setUp() {
 		super.setUp();
 		widget = new Spinner<>();
+		timer = SpinnerChangedFSM.getTimeGap();
+	}
+
+	@AfterEach
+	void tearDown() {
+		SpinnerChangedFSM.setTimeGap(timer);
 	}
 
 	@Override
@@ -74,7 +82,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> i
 		}
 
 		@Test
-		void testSpinnerChangedGoodStateithTimeGap() throws CancelFSMException {
+		void testSpinnerChangedGoodStateWithTimeGap() throws CancelFSMException {
 			SpinnerChangedFSM.setTimeGap(50L);
 			widget.fireEvent(new ActionEvent(widget, null));
 			waitForTimeoutTransitions();
