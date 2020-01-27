@@ -29,7 +29,6 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -226,7 +225,8 @@ public class TestShortcutBinder extends TestNodeBinder<Canvas> {
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		bindingsAssert
-			.cmdsProduced(cmds -> assertThat(cmds).hasSize(2))
+			.cmdsProduced(2)
+			.listAssert()
 			.allSatisfy(cmd -> cmd
 				.producedBy(binding2)
 				.ofType(StubCmd.class));
