@@ -51,10 +51,10 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	Collection<KeyCode> codes;
 	final Predicate<KeysData> checkCode;
 
-	KeysBinder(final JfxInstrument instrument) {
+	KeysBinder(final JfxInstrument instrument, final BindingsObserver observer) {
 		this(null, null, null, Collections.emptyList(),
 			instrument, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
-			null, false, null, null, null, Collections.emptyList(), null, null, null);
+			null, false, null, null, null, Collections.emptyList(), null, null, null, observer);
 	}
 
 	KeysBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> whenPredicate, final Function<KeysData, C> cmdProducer,
@@ -62,9 +62,9 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 		final BiConsumer<KeysData, C> onEnd, final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels,
 		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
 		final Collection<KeyCode> keyCodes, final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct,
-		final BiConsumer<KeysData, C> cannotExecFct) {
+		final BiConsumer<KeysData, C> cannotExecFct, final BindingsObserver observer) {
 		super(initCmd, whenPredicate, cmdProducer, widgets, KeysPressed::new, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 		codes = keyCodes;
 		checkCode = i -> {
 			final List<KeyCode> keys = i.getKeyCodes();

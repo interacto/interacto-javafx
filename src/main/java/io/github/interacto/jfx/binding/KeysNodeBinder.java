@@ -41,26 +41,28 @@ import javafx.scene.input.KeyCode;
  * @author Arnaud Blouin
  */
 class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
-	KeysNodeBinder(final JfxInstrument instrument) {
+	KeysNodeBinder(final JfxInstrument instrument, final BindingsObserver observer) {
 		this(null, null, null, Collections.emptyList(),
 			instrument, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
-			null, false, null, null, null, Collections.emptyList(), null, null, null);
+			null, false, null, null, null, Collections.emptyList(), null, null,
+			null, observer);
 	}
 
 	KeysNodeBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> checkConditions, final Function<KeysData, C> cmdProducer,
 		final List<Node> widgets, final JfxInstrument instrument, final boolean async, final BiConsumer<KeysData, C> onEnd, final List<ObservableList<?
 		extends Node>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation, final boolean withHelp,
 		final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel, final Collection<KeyCode> codes,
-		final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct, final BiConsumer<KeysData, C> cannotExecFct) {
+		final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct, final BiConsumer<KeysData, C> cannotExecFct,
+		final BindingsObserver observer) {
 		super(initCmd, checkConditions, cmdProducer, widgets, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp,
-			msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 	}
 
 	@Override
 	protected KeysNodeBinder<C> duplicate() {
 		return new KeysNodeBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes),
-			hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 	}
 
 	@Override
@@ -74,6 +76,9 @@ class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
 		binding.setCancelCmdButton(cancel);
 		if(instrument != null) {
 			instrument.addBinding(binding);
+		}
+		if(observer != null) {
+			observer.observeBinding(binding);
 		}
 		return binding;
 	}

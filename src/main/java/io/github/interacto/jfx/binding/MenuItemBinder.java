@@ -39,8 +39,8 @@ import javafx.scene.control.MenuItem;
  * @author Arnaud Blouin
  */
 class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPressed, WidgetData<MenuItem>> {
-	MenuItemBinder(final JfxInstrument instrument) {
-		super(instrument);
+	MenuItemBinder(final JfxInstrument instrument, final BindingsObserver observer) {
+		super(instrument, observer);
 		interactionSupplier = MenuItemPressed::new;
 	}
 
@@ -49,15 +49,17 @@ class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPres
 		final JfxInstrument instrument, final boolean async, final BiConsumer<WidgetData<MenuItem>, C> onEnd,
 		final List<ObservableList<? extends MenuItem>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
 		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
-		final BiConsumer<WidgetData<MenuItem>, C> hadNoEffectFct, final BiConsumer<WidgetData<MenuItem>, C> hadEffectsFct, final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct) {
+		final BiConsumer<WidgetData<MenuItem>, C> hadNoEffectFct, final BiConsumer<WidgetData<MenuItem>, C> hadEffectsFct,
+		final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct, final BindingsObserver observer) {
 		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 	}
 
 	@Override
 	protected MenuItemBinder<C> duplicate() {
 		return new MenuItemBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
-			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct,
+			cannotExecFct, observer);
 	}
 
 	@Override
@@ -70,6 +72,9 @@ class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPres
 		binding.setCancelCmdButton(cancel);
 		if(instrument != null) {
 			instrument.addBinding(binding);
+		}
+		if(observer != null) {
+			observer.observeBinding(binding);
 		}
 		return binding;
 	}
