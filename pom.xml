@@ -326,24 +326,24 @@
             <artifactId>javafx-swing</artifactId>
             <version>${jfx.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.testfx</groupId>-->
-<!--            <artifactId>openjfx-monocle</artifactId>-->
-<!--            <version>jdk-11+26</version>-->
-<!--            <scope>test</scope>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.openjfx</groupId>-->
-<!--                    <artifactId>*</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.github.interacto</groupId>-->
-<!--            <artifactId>interacto-javafx-test</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>openjfx-monocle</artifactId>
+            <version>jdk-11+26</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.interacto</groupId>
+            <artifactId>interacto-javafx-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
