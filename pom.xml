@@ -105,13 +105,7 @@
                         --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                         --add-exports javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
                         --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                        -Xmx4000m
-                        -Dglass.platform=Monocle
-                        -Dheadless.geometry=1280x1024-32
-                        -Djava.awt.headless=true
-                        -Dtestfx.robot=glass
-                        -Dtestfx.headless=true
-                        -Dprism.order=sw</argLine>
+                    </argLine>
                 </configuration>
             </plugin>
 
@@ -332,24 +326,24 @@
             <artifactId>javafx-swing</artifactId>
             <version>${jfx.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>openjfx-monocle</artifactId>
-            <version>jdk-11+26</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.openjfx</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.github.interacto</groupId>
-            <artifactId>interacto-javafx-test</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.testfx</groupId>-->
+<!--            <artifactId>openjfx-monocle</artifactId>-->
+<!--            <version>jdk-11+26</version>-->
+<!--            <scope>test</scope>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.openjfx</groupId>-->
+<!--                    <artifactId>*</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.github.interacto</groupId>-->
+<!--            <artifactId>interacto-javafx-test</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
     </dependencies>
 
     <repositories>
