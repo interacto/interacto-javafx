@@ -30,7 +30,6 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -95,11 +94,11 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		robot.clickOn(widget2);
 		robot.clickOn(widget1);
 
-		bindingsAssert.cmdsProduced(cmds -> assertThat(cmds)
-			.hasSize(2)
+		bindingsAssert.cmdsProduced(2)
+			.listAssert()
+			.extracting(elt -> elt.getCommand())
 			.allMatch(cmd -> cmd.isDone())
-			.doesNotHaveDuplicates()
-		);
+			.doesNotHaveDuplicates();
 	}
 
 	@Test
@@ -232,6 +231,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		assertNotSame(binding1, binding2);
 		bindingsAssert
 			.cmdsProduced(2)
+			.listAssert()
 			.extracting(cmd -> cmd.getBinding())
 			.doesNotHaveDuplicates();
 	}
