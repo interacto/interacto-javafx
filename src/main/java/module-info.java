@@ -4,6 +4,7 @@ module interacto.javafx {
 	requires java.logging;
 	requires java.xml;
 	requires interacto.java.api;
+	requires io.reactivex.rxjava2;
 
 	exports io.github.interacto.jfx.binding;
 	exports io.github.interacto.jfx.binding.api;
