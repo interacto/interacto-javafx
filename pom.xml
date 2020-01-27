@@ -4,7 +4,7 @@
     <name>Interacto JavaFX</name>
     <groupId>io.github.interacto</groupId>
     <artifactId>interacto-javafx</artifactId>
-    <version>4.0</version>
+    <version>4.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>The JavaFX implementation of the Interacto library</description>
     <url>https://interacto.github.io</url>
@@ -101,6 +101,10 @@
                 <configuration>
                     <useModulePath>false</useModulePath>
                     <argLine>@{argLine}
+                        --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                        --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+                        --add-exports javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
+                        --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                         -Xmx4000m
                         -Dglass.platform=Monocle
                         -Dheadless.geometry=1280x1024-32
@@ -339,6 +343,12 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.interacto</groupId>
+            <artifactId>interacto-javafx-test</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
