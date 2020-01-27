@@ -15,6 +15,8 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.TimeoutWaiter;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
@@ -29,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implements TimeoutWaiter {
 	@Override
 	@Start
@@ -39,81 +42,74 @@ public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implem
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleWidgetFunction(final FxRobot robot) {
+	public void testCommandExecutedOnSingleWidgetFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.textInputBinder()
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1).write("foo");
 		waitForTimeoutTransitions();
-		assertEquals(1, cmd.exec.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleWidgetSupplier(final FxRobot robot) {
+	public void testCommandExecutedOnSingleWidgetSupplier(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.textInputBinder()
-			.toProduce(() -> cmd)
+			.toProduce(() -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1).write("barrr");
 		waitForTimeoutTransitions();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoWidgets(final FxRobot robot) {
+	public void testCommandExecutedOnTwoWidgets(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.textInputBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1, widget2)
 			.bind();
 		robot.clickOn(widget2).write("barrr");
 		waitForTimeoutTransitions();
-		assertEquals(1, cmd.exec.get());
-		cmd = new StubCmd();
 		robot.clickOn(widget1).write("barrddddr");
 		waitForTimeoutTransitions();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot) {
+	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.textInputBinder()
-			.toProduce(i -> cmd)
-			.first(c -> c.exec.setValue(10))
+			.toProduce(StubCmd::new)
+			.first(c -> c.exec.set(10))
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1).write("aaaa");
 		waitForTimeoutTransitions();
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot) {
+	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.textInputBinder()
-			.toProduce(() -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
-			.first((i, c) -> c.exec.setValue(10))
+			.first((i, c) -> c.exec.set(10))
 			.bind();
 		robot.clickOn(widget1).write("f");
 		waitForTimeoutTransitions();
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot) {
+	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.textInputBinder()
 			.on(widget1)
 			.when(i -> false)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.bind();
 		robot.clickOn(widget1).write("a");
 		waitForTimeoutTransitions();
-		assertEquals(0, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
 	}
 }

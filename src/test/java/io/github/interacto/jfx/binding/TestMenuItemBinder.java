@@ -14,7 +14,8 @@
  */
 package io.github.interacto.jfx.binding;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -31,9 +32,9 @@ import org.testfx.framework.junit5.Start;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	Menu menu;
 	final String menuID = "menu";
@@ -60,120 +61,106 @@ public class TestMenuItemBinder extends TestBinder<MenuItem> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSinglMenu(final FxRobot robot) {
+	public void testCommandExecutedOnSinglMenu(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.menuItemBinder()
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertEquals(1, cmd.exec.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoMenus(final FxRobot robot) {
+	public void testCommandExecutedOnTwoMenus(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.menuItemBinder()
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1, widget2)
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
-		assertEquals(1, cmd.exec.get());
-		cmd = new StubCmd();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		assertEquals(2, binding.getTimesEnded());
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testCollectionMenus(final FxRobot robot) {
-		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1, widget2);
-		final AtomicInteger cpt = new AtomicInteger();
-
+	public void testCollectionMenus(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.menuItemBinder()
-			.on(menus)
+			.on(FXCollections.observableArrayList(widget1, widget2))
 			.toProduce(StubCmd::new)
-			.end(c -> cpt.incrementAndGet())
 			.bind();
 
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertEquals(2, cpt.get());
-		assertNotNull(binding);
+		assertEquals(2, binding.getTimesEnded());
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testCollectionMenusRemove(final FxRobot robot) {
+	public void testCollectionMenusRemove(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1, widget2);
-		final AtomicInteger cpt = new AtomicInteger();
 
 		binding = Bindings.menuItemBinder()
 			.on(menus)
 			.toProduce(StubCmd::new)
-			.end(i -> cpt.incrementAndGet())
 			.bind();
 
 		menus.remove(widget1);
 
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertEquals(1, cpt.get());
-		assertNotNull(binding);
+		assertEquals(1, binding.getTimesEnded());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCollectionMenusAdd(final FxRobot robot) {
+	public void testCollectionMenusAdd(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		final ObservableList<MenuItem> menus = FXCollections.observableArrayList(widget1);
-		final AtomicInteger cpt = new AtomicInteger();
 
 		binding = Bindings.menuItemBinder()
 			.toProduce(StubCmd::new)
 			.on(menus)
-			.end(i -> cpt.incrementAndGet())
 			.bind();
 
 		menus.add(widget2);
 
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID2);
-		assertEquals(1, cpt.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 
 	@Test
-	public void testInit1Executed(final FxRobot robot) {
+	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.menuItemBinder()
 			.on(widget1)
-			.toProduce(i -> cmd)
-			.first(c -> c.exec.setValue(10))
+			.toProduce(StubCmd::new)
+			.first(c -> c.exec.set(10))
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot) {
+	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.menuItemBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
-			.first((i, c) -> c.exec.setValue(10))
+			.first((i, c) -> c.exec.set(10))
 			.bind();
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot) {
+	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.menuItemBinder()
 			.on(widget1)
 			.when(i -> false)
 			.toProduce(StubCmd::new)
 			.bind();
-		disposable = binding.produces().subscribe(producedCmds::add);
 
 		robot.clickOn("#" + menuID).clickOn("#" + menuitemID1);
-		assertTrue(producedCmds.isEmpty());
-		assertNotNull(binding);
+		assertEquals(0, binding.getTimesEnded());
+		bindingsAssert.noCmdProduced();
 	}
 }

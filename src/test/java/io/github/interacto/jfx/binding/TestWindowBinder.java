@@ -16,6 +16,8 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.interaction.library.KeyPressed;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
@@ -31,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestWindowBinder extends TestBinder<Window> {
 	@Start
 	public void start(final Stage stage) {
@@ -45,67 +48,63 @@ public class TestWindowBinder extends TestBinder<Window> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleWinFunction(final FxRobot robot) {
+	public void testCommandExecutedOnSingleWinFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 
 		robot.clickOn(widget1).type(KeyCode.C);
-		assertEquals(1, cmd.exec.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleWinSupplier(final FxRobot robot) {
+	public void testCommandExecutedOnSingleWinSupplier(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
-			.toProduce(() -> cmd)
+			.toProduce(() -> new StubCmd())
 			.on(widget1)
 			.bind();
 
 		robot.clickOn(widget1).type(KeyCode.C);
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot) {
+	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
-			.toProduce(i -> cmd)
-			.first(c -> c.exec.setValue(10))
+			.toProduce(StubCmd::new)
+			.first(c -> c.exec.set(10))
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1).type(KeyCode.C);
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot) {
+	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.windowBinder()
 			.usingInteraction(KeysPressed::new)
-			.toProduce(() -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
-			.first((i, c) -> c.exec.setValue(10))
+			.first((i, c) -> c.exec.set(10))
 			.bind();
 		robot.clickOn(widget1).type(KeyCode.C);
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot) {
+	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.windowBinder()
 			.usingInteraction(KeyPressed::new)
 			.on(widget1)
 			.when(i -> false)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.bind();
 		robot.clickOn(widget1).type(KeyCode.A);
-		assertEquals(0, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
 	}
 }

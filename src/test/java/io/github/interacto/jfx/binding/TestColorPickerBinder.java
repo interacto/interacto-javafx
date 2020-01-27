@@ -15,6 +15,8 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.robot.FxRobotColourPicker;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -29,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implements FxRobotColourPicker {
 	@Override
 	@Start
@@ -39,81 +42,75 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 	}
 
 	@Test
-	public void testCommandExecutedOnSinglePickerFunction(final FxRobot robot) {
+	public void testCommandExecutedOnSinglePickerFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.colorPickerBinder()
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSinglePickerSupplier(final FxRobot robot) {
+	public void testCommandExecutedOnSinglePickerSupplier(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.colorPickerBinder()
-			.toProduce(() -> cmd)
+			.toProduce(() -> new StubCmd())
 			.on(widget1)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoPickers(final FxRobot robot) {
+	public void testCommandExecutedOnTwoPickers(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.colorPickerBinder()
 			.on(widget1, widget2)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
-		cmd = new StubCmd();
 		pickColour(robot, widget2);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		assertEquals(2, binding.getTimesEnded());
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot) {
+	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.colorPickerBinder()
 			.on(widget1)
-			.toProduce(i -> cmd)
-			.first(c -> c.exec.setValue(10))
+			.toProduce(StubCmd::new)
+			.first(c -> c.exec.set(10))
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot) {
+	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.colorPickerBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
-			.first((i, c) -> c.exec.setValue(10))
+			.first((i, c) -> c.exec.set(10))
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot) {
+	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.colorPickerBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
 			.when(i -> false)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(0, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
 	}
 }
