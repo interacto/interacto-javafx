@@ -41,8 +41,8 @@ import javafx.stage.Window;
  * @author Arnaud Blouin
  */
 class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
-	KeysWindowBinder(final JfxInstrument instrument) {
-		super(instrument);
+	KeysWindowBinder(final JfxInstrument instrument, final BindingsObserver observer) {
+		super(instrument, observer);
 	}
 
 	KeysWindowBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> checkConditions, final Function<KeysData, C> cmdProducer,
@@ -50,16 +50,16 @@ class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
 		final BiConsumer<KeysData, C> onEnd, final List<ObservableList<? extends Window>> additionalWidgets, final EnumSet<LogLevel> logLevels,
 		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
 		final Collection<KeyCode> codes, final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct,
-		final BiConsumer<KeysData, C> cannotExecFct) {
+		final BiConsumer<KeysData, C> cannotExecFct, final BindingsObserver observer) {
 		super(initCmd, checkConditions, cmdProducer, widgets, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			withHelp, progressProp, msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 	}
 
 	@Override
 	protected KeysWindowBinder<C> duplicate() {
 		return new KeysWindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes),
-			hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 	}
 
 	@Override
@@ -72,6 +72,9 @@ class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
 		binding.setCancelCmdButton(cancel);
 		if(instrument != null) {
 			instrument.addBinding(binding);
+		}
+		if(observer != null) {
+			observer.observeBinding(binding);
 		}
 		return binding;
 	}

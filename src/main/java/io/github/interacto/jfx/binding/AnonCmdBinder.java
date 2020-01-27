@@ -34,8 +34,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D> {
-	AnonCmdBinder(final Runnable anonCmd, final JfxInstrument ins) {
-		super(ins);
+	AnonCmdBinder(final Runnable anonCmd, final JfxInstrument ins, final BindingsObserver observer) {
+		super(ins, observer);
 		if(anonCmd == null) {
 			throw new IllegalArgumentException();
 		}
@@ -46,15 +46,16 @@ class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionD
 		final List<W> widgets, final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final BiConsumer<D, AnonCommand> onEnd,
 		final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
 		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
-		final BiConsumer<D, AnonCommand> hadNoEffectFct, final BiConsumer<D, AnonCommand> hadEffectsFct, final BiConsumer<D, AnonCommand> cannotExecFct) {
+		final BiConsumer<D, AnonCommand> hadNoEffectFct, final BiConsumer<D, AnonCommand> hadEffectsFct, final BiConsumer<D, AnonCommand> cannotExecFct,
+		final BindingsObserver observer) {
 		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 	}
 
 	@Override
 	protected AnonCmdBinder<W, I, D> duplicate() {
 		return new AnonCmdBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
-			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
 	}
 
 	@Override
@@ -71,6 +72,9 @@ class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionD
 		binding.setCancelCmdButton(cancel);
 		if(instrument != null) {
 			instrument.addBinding(binding);
+		}
+		if(observer != null) {
+			observer.observeBinding(binding);
 		}
 		return binding;
 	}

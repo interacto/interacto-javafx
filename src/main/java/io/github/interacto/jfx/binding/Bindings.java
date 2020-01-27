@@ -58,6 +58,12 @@ import javafx.stage.Window;
  * Utility class for building widget bindings.
  */
 public final class Bindings {
+	private static BindingsObserver observer = null;
+
+	public static void setBindingObserver(final BindingsObserver obs) {
+		observer = obs;
+	}
+
 	private Bindings() {
 		super();
 	}
@@ -82,7 +88,7 @@ public final class Bindings {
 	 * @throws IllegalArgumentException If the given cmd is null.
 	 */
 	public static <W extends Node> CmdBinder<W, AnonCommand> anonCmdBinder(final Runnable cmd, final JfxInstrument ins) {
-		return new AnonCmdBinder<>(cmd, ins);
+		return new AnonCmdBinder<>(cmd, ins, observer);
 	}
 
 	/**
@@ -95,7 +101,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command> InteractionBinder<Button, ButtonPressed, WidgetData<Button>> buttonBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<Button, C, ButtonPressed, WidgetData<Button>>(ins)
+		return new NodeUpdateBinder<Button, C, ButtonPressed, WidgetData<Button>>(ins, observer)
 			.usingInteraction(ButtonPressed::new);
 	}
 
@@ -104,7 +110,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command> InteractionBinder<ToggleButton, ToggleButtonPressed, WidgetData<ToggleButton>> toggleButtonBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>>(ins)
+		return new NodeUpdateBinder<ToggleButton, C, ToggleButtonPressed, WidgetData<ToggleButton>>(ins, observer)
 			.usingInteraction(ToggleButtonPressed::new);
 	}
 
@@ -113,7 +119,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command> InteractionBinder<CheckBox, BoxChecked, WidgetData<CheckBox>> checkboxBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<CheckBox, C, BoxChecked, WidgetData<CheckBox>>(ins)
+		return new NodeUpdateBinder<CheckBox, C, BoxChecked, WidgetData<CheckBox>>(ins, observer)
 			.usingInteraction(BoxChecked::new);
 	}
 
@@ -122,7 +128,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command> InteractionBinder<ColorPicker, ColorPicked, WidgetData<ColorPicker>> colorPickerBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>>(ins)
+		return new NodeUpdateBinder<ColorPicker, C, ColorPicked, WidgetData<ColorPicker>>(ins, observer)
 			.usingInteraction(ColorPicked::new);
 	}
 
@@ -131,7 +137,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command> InteractionUpdateBinder<Spinner<?>, SpinnerChanged, WidgetData<Spinner<?>>> spinnerBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>>(ins)
+		return new NodeUpdateBinder<Spinner<?>, C, SpinnerChanged, WidgetData<Spinner<?>>>(ins, observer)
 			.usingInteraction(SpinnerChanged::new);
 	}
 
@@ -140,7 +146,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command, W extends TextInputControl> InteractionUpdateBinder<W, TextInputChanged, WidgetData<TextInputControl>> textInputBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>>(ins)
+		return new NodeUpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>>(ins, observer)
 			.usingInteraction(TextInputChanged::new);
 	}
 
@@ -159,7 +165,7 @@ public final class Bindings {
 	 * @return The binding builder. Cannot be null.
 	 */
 	public static InteractionBinder<MenuItem, MenuItemPressed, WidgetData<MenuItem>> menuItemBinder(final JfxInstrument ins) {
-		return new MenuItemBinder<>(ins);
+		return new MenuItemBinder<>(ins, observer);
 	}
 
 	public static InteractionBinder<ComboBox<?>, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder() {
@@ -167,7 +173,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command> InteractionBinder<ComboBox<?>, ComboBoxSelected, WidgetData<ComboBox<?>>> comboboxBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>>(ins)
+		return new NodeUpdateBinder<ComboBox<?>, C, ComboBoxSelected, WidgetData<ComboBox<?>>>(ins, observer)
 			.usingInteraction(ComboBoxSelected::new);
 	}
 
@@ -176,7 +182,7 @@ public final class Bindings {
 	}
 
 	public static <C extends Command> InteractionBinder<TabPane, TabSelected, WidgetData<TabPane>> tabBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<TabPane, C, TabSelected, WidgetData<TabPane>>(ins)
+		return new NodeUpdateBinder<TabPane, C, TabSelected, WidgetData<TabPane>>(ins, observer)
 			.usingInteraction(TabSelected::new);
 	}
 
@@ -197,7 +203,7 @@ public final class Bindings {
 	 * @return The binding builder. Cannot be null.
 	 */
 	public static BaseBinder<Window> windowBinder(final JfxInstrument ins) {
-		return new WindowBinder<>(ins);
+		return new WindowBinder<>(ins, observer);
 	}
 
 	/**
@@ -217,7 +223,7 @@ public final class Bindings {
 	 * @return The binding builder. Cannot be null.
 	 */
 	public static <W extends Node> BaseUpdateBinder<W> nodeBinder(final JfxInstrument ins) {
-		return new NodeUpdateBinder<>(ins);
+		return new NodeUpdateBinder<>(ins, observer);
 	}
 
 	/**
@@ -237,7 +243,7 @@ public final class Bindings {
 	 * @return The binding builder. Cannot be null.
 	 */
 	public static KeyInteractionBinder<Node, KeysPressed, KeysData> shortcutBinder(final JfxInstrument ins) {
-		return new KeysNodeBinder<>(ins);
+		return new KeysNodeBinder<>(ins, observer);
 	}
 
 	/**
@@ -255,7 +261,7 @@ public final class Bindings {
 	 * @return The binding builder. Cannot be null.
 	 */
 	public static KeyInteractionBinder<Window, KeysPressed, KeysData> shortcutWinBinder(final JfxInstrument ins) {
-		return new KeysWindowBinder<>(ins);
+		return new KeysWindowBinder<>(ins, observer);
 	}
 
 	/**
@@ -264,7 +270,7 @@ public final class Bindings {
 	 */
 	public static InteractionCmdBinder<MenuItem, OpenWebPageJFX, MenuItemPressed, WidgetData<MenuItem>>
 			menuItem2OpenWebPage(final String uri, final HostServices services, final JfxInstrument ins) {
-		return new MenuItemBinder<>(ins)
+		return new MenuItemBinder<>(ins, observer)
 			.toProduce(() -> new OpenWebPageJFX())
 			.first((i, c) -> {
 				c.setUri(uri);
@@ -278,7 +284,7 @@ public final class Bindings {
 	 */
 	public static InteractionCmdBinder<MenuItem, ShowStage, MenuItemPressed, WidgetData<MenuItem>>
 			menuItem2OpenStage(final Supplier<Stage> stageLazy, final boolean toshow, final JfxInstrument ins) {
-		return new MenuItemBinder<>(ins)
+		return new MenuItemBinder<>(ins, observer)
 			.toProduce(() -> new ShowStage())
 			.first((i, c) -> {
 				c.setWidget(stageLazy.get());
@@ -292,7 +298,7 @@ public final class Bindings {
 	 */
 	public static InteractionCmdBinder<MenuItem, ShowNode, MenuItemPressed, WidgetData<MenuItem>>
 			menuItem2ShowNode(final Node node, final boolean toshow, final JfxInstrument ins) {
-		return new MenuItemBinder<>(ins)
+		return new MenuItemBinder<>(ins, observer)
 			.toProduce(() -> new ShowNode())
 			.first((i, c) -> {
 				c.setWidget(node);

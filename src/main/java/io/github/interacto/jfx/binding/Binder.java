@@ -68,18 +68,20 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	protected DoubleProperty progressProp;
 	protected StringProperty msgProp;
 	protected Button cancel;
+	protected BindingsObserver observer;
 
-	Binder(final JfxInstrument ins) {
+	Binder(final JfxInstrument ins, final BindingsObserver observer) {
 		this(null, null, null, Collections.emptyList(), null,
 			ins, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
-			null, false, null, null, null, null, null, null);
+			null, false, null, null, null, null, null, null, observer);
 	}
 
 	Binder(final BiConsumer<D, C> initCmd, final Predicate<D> checkConditions, final Function<D, C> cmdProducer, final List<W> widgets,
 			final Supplier<I> interactionSupplier, final JfxInstrument instrument, final boolean async, final BiConsumer<D, C> onEnd,
 			final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
 			final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
-			final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct, final BiConsumer<D, C> cannotExecFct) {
+			final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct, final BiConsumer<D, C> cannotExecFct,
+			final BindingsObserver observer) {
 		super();
 		this.initCmd = initCmd;
 		this.checkConditions = checkConditions;
@@ -99,6 +101,7 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 		this.progressProp = progressProp;
 		this.msgProp = msgProp;
 		this.cancel = cancel;
+		this.observer = observer;
 	}
 
 	protected abstract Binder<W, C, I, D> duplicate();
