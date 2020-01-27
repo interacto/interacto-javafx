@@ -16,6 +16,8 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.CommandImpl;
 import io.github.interacto.jfx.interaction.library.DnD;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import io.github.interacto.undo.Undoable;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -33,9 +35,9 @@ import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	Rectangle rec;
 
@@ -54,7 +56,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	}
 
 	@Test
-	public void testCanCancelDnD(final FxRobot robot) {
+	public void testCanCancelDnD(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.nodeBinder()
 			.usingInteraction(() -> new DnD(true, true))
 			.toProduce(() -> new MoveShape(rec))
@@ -62,16 +64,15 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			.first((i, c) -> rec.requestFocus())
 			.then((i, c) -> c.setCoord(rec.getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
 				rec.getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY())))
-			.end(i -> cpt.incrementAndGet())
 			.continuousExecution()
 			.bind();
 		robot.drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
-		assertEquals(0, cpt.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
+		assertEquals(1, binding.getTimesCancelled());
 	}
 
 	@Test
-	public void testCanCancelDnDWithObsList(final FxRobot robot) {
+	public void testCanCancelDnDWithObsList(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.nodeBinder()
 			.usingInteraction(() -> new DnD(true, true))
 			.toProduce(i -> new MoveShape((Rectangle) i.getSrcObject().orElseThrow()))
@@ -79,7 +80,6 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			.first((i, c) -> Platform.runLater(() -> i.getSrcObject().orElseThrow().requestFocus()))
 			.then((i, c) -> c.setCoord(((Rectangle) i.getSrcObject().orElseThrow()).getX() + (i.getTgtScenePoint().getX() - i.getSrcScenePoint().getX()),
 				((Rectangle) i.getSrcObject().get()).getY() + (i.getTgtScenePoint().getY() - i.getSrcScenePoint().getY())))
-			.end(i -> cpt.incrementAndGet())
 			.continuousExecution()
 			.bind();
 
@@ -87,8 +87,8 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 		Platform.runLater(() -> widget1.getChildren().addAll(rec2));
 		WaitForAsyncUtils.waitForFxEvents();
 		robot.drag(rec2).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
-		assertEquals(0, cpt.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
+		assertEquals(1, binding.getTimesCancelled());
 	}
 }
 

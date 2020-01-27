@@ -14,6 +14,8 @@
  */
 package io.github.interacto.jfx.binding;
 
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.application.Platform;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -23,12 +25,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestTabBinder extends TestNodeBinder<TabPane> {
 	Tab tab1;
 	Tab tab2;
@@ -52,104 +56,95 @@ public class TestTabBinder extends TestNodeBinder<TabPane> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleTabConsumer(final FxRobot robot) {
+	public void testCommandExecutedOnSingleTabConsumer(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
-			.toProduce(() -> cmd)
+			.toProduce(() -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1.lookup("#t2"));
-		assertEquals(1, cmd.exec.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleTabFunction(final FxRobot robot) {
+	public void testCommandExecutedOnSingleTabFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1.lookup("#t2"));
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testIsOnUIThread(final FxRobot robot) {
+	public void testIsOnUIThread(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
-			.toProduce(() -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
 			.end(i -> assertTrue(Platform.isFxApplicationThread()))
 			.bind();
-		robot.clickOn(widget1.lookup("#t1"));
-		assertNotNull(binding);
+		robot.clickOn(widget1.lookup("#t2"));
+		WaitForAsyncUtils.waitForFxEvents();
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoTabs(final FxRobot robot) {
+	public void testCommandExecutedOnTwoTabs(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
 			.on(widget1, widget2)
-			.toProduce(() -> cmd)
+			.toProduce(StubCmd::new)
 			.bind();
 
 		robot.clickOn(widget2.lookup("#t4"));
-		assertEquals(1, cmd.exec.get());
-		cmd = new StubCmd();
 		widget1.getSelectionModel().select(1);
-		robot.clickOn(widget1.lookup("#t1"));
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		robot.clickOn(widget1.lookup("#t2"));
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoTabsTwoOn(final FxRobot robot) {
+	public void testCommandExecutedOnTwoTabsTwoOn(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
 			.on(widget1)
-			.toProduce(() -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget2)
 			.bind();
 
 		robot.clickOn(widget2.lookup("#t4"));
-		assertEquals(1, cmd.exec.get());
-		cmd = new StubCmd();
 		widget1.getSelectionModel().select(1);
-		robot.clickOn(widget1.lookup("#t1"));
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		robot.clickOn(widget1.lookup("#t2"));
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot) {
+	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
-			.toProduce(() -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
-			.first(c -> c.exec.setValue(10))
+			.first(c -> c.exec.set(10))
 			.bind();
 		robot.clickOn(widget1.lookup("#t2"));
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot) {
+	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
-			.toProduce(i -> cmd)
-			.first((i, c) -> c.exec.setValue(10))
+			.toProduce(StubCmd::new)
+			.first((i, c) -> c.exec.set(10))
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1.lookup("#t2"));
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot) {
+	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.tabBinder()
 			.when(i -> false)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1.lookup("#t1"));
-		assertEquals(0, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
 	}
 }

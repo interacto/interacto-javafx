@@ -18,9 +18,10 @@ import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.SpinnerChangedFSM;
 import io.github.interacto.jfx.robot.FxRobotSpinner;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import io.github.interacto.jfx.ui.SpinnerFixed;
 import io.github.interacto.logging.LogLevel;
-import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Spinner;
@@ -40,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implements FxRobotSpinner, TimeoutWaiter {
 	long timeout;
 
@@ -51,10 +53,8 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		super.start(stage);
 	}
 
-	@Override
 	@BeforeEach
 	void setUp() {
-		super.setUp();
 		timeout = SpinnerChangedFSM.getTimeGap();
 	}
 
@@ -64,9 +64,9 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleSpinnerConsumer(final FxRobot robot) {
+	public void testCommandExecutedOnSingleSpinnerConsumer(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.spinnerBinder()
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 
@@ -74,69 +74,55 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		waitForTimeoutTransitions();
 
 		assertNotNull(binding);
-		assertEquals(1, cmd.exec.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testEndsOnEnd(final FxRobot robot) {
-		final AtomicInteger cpt = new AtomicInteger();
-
+	public void testEndsOnEnd(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
-			.end(i -> cpt.incrementAndGet())
 			.bind();
 
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
-
-		assertNotNull(binding);
-		assertEquals(1, cpt.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testEndsOnFirst(final FxRobot robot) {
-		final AtomicInteger cpt = new AtomicInteger();
-
+	public void testEndsOnFirst(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
-			.first(i -> cpt.incrementAndGet())
+			.first((i, c) -> c.exec.set(10))
 			.bind();
 
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
-
-		assertNotNull(binding);
-		assertEquals(1, cpt.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testEndsOnThen(final FxRobot robot) {
-		final AtomicInteger cpt = new AtomicInteger();
-
+	public void testEndsOnThen(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
-			.then(i -> cpt.incrementAndGet())
+			.then((i, c) -> c.exec.incrementAndGet())
 			.bind();
 
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
-
-		assertNotNull(binding);
-		assertEquals(2, cpt.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(3, cmd.exec.get()));
 	}
 
 	@Test
-	public void testContinuousThen(final FxRobot robot) {
-		final AtomicInteger cpt = new AtomicInteger();
+	public void testContinuousThen(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		SpinnerChangedFSM.setTimeGap(2000L);
 
 		binding = Bindings.spinnerBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
-			.then(i -> cpt.incrementAndGet())
+			.then((i, c) -> c.exec.incrementAndGet())
 			.bind();
 
 		incrementSpinner(robot, widget1);
@@ -144,22 +130,16 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		decrementSpinner(robot, widget1);
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
-
-		assertNotNull(binding);
-		assertEquals(5, cpt.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(6, cmd.exec.get()));
 	}
 
 	@Test
-	public void testContinuousThenTimeOut(final FxRobot robot) {
-		final AtomicInteger cpt = new AtomicInteger();
-		final AtomicInteger cpt2 = new AtomicInteger();
+	public void testContinuousThenTimeOut(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		SpinnerChangedFSM.setTimeGap(2000L);
 
 		binding = Bindings.spinnerBinder()
 			.toProduce(i -> new StubCmd())
 			.on(widget1)
-			.first(i -> cpt.incrementAndGet())
-			.end(i -> cpt2.incrementAndGet())
 			.bind();
 
 		incrementSpinner(robot, widget1);
@@ -170,13 +150,11 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
 
-		assertNotNull(binding);
-		assertEquals(2, cpt.get());
-		assertEquals(2, cpt2.get());
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testEndsOnUIThread(final FxRobot robot) {
+	public void testEndsOnUIThread(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.spinnerBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
@@ -186,11 +164,11 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
 
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testupdatesOnUIThread(final FxRobot robot) {
+	public void testupdatesOnUIThread(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.spinnerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
@@ -202,27 +180,27 @@ public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implement
 		incrementSpinner(robot, widget1);
 		waitForTimeoutTransitions();
 
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
 	public void testBuilderCloned() {
 		final var binder = Bindings.spinnerBinder();
 		assertNotSame(binder, Bindings.spinnerBinder());
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd));
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).first(c -> { }));
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).first((i, c) -> { }));
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).then(i -> { }));
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).then((i, c) -> { }));
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).strictStart());
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).throttle(10L));
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).continuousExecution());
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(() -> cmd));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).first(c -> { }));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).first((i, c) -> { }));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).then(i -> { }));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).then((i, c) -> { }));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).strictStart());
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).throttle(10L));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).continuousExecution());
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(() -> new StubCmd()));
 		assertNotSame(binder, Bindings.spinnerBinder().on(widget1));
 		assertNotSame(binder, Bindings.spinnerBinder().on(FXCollections.observableArrayList(widget1)));
 		assertNotSame(binder, Bindings.spinnerBinder().when(() -> false));
 		assertNotSame(binder, Bindings.spinnerBinder().when(i -> false));
-		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> cmd).end(i -> { }));
+		assertNotSame(binder, Bindings.spinnerBinder().toProduce(i -> new StubCmd()).end(i -> { }));
 		assertNotSame(binder, Bindings.spinnerBinder().help((Pane) null));
 		assertNotSame(binder, Bindings.spinnerBinder().help((HelpAnimation) null));
 		assertNotSame(binder, Bindings.spinnerBinder().async(null, null, null));

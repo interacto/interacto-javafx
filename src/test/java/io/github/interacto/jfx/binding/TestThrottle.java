@@ -42,7 +42,6 @@ public class TestThrottle extends TestNodeBinder<Canvas> {
 		super.start(stage);
 	}
 
-	@Override
 	@BeforeEach
 	void setUp() {
 		counter = new AtomicInteger();

@@ -14,7 +14,8 @@
  */
 package io.github.interacto.jfx.binding;
 
-import java.util.ArrayList;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
@@ -28,10 +29,12 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestShortcutBinder extends TestNodeBinder<Canvas> {
 	@Override
 	@Start
@@ -41,56 +44,52 @@ public class TestShortcutBinder extends TestNodeBinder<Canvas> {
 		super.start(stage);
 	}
 
-	@Override
 	@BeforeEach
 	void setUp() {
-		super.setUp();
 		WaitForAsyncUtils.waitForFxEvents();
 		grabFocus(widget1);
 	}
 
 	@Test
-	public void testNoCommandExecutedOnNoKey(final FxRobot robot) {
+	public void testNoCommandExecutedOnNoKey(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
 			.on(widget1)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.bind();
 
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnKey(final FxRobot robot) {
+	public void testCommandExecutedOnKey(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
 			.with(KeyCode.C)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
 			.bind();
 
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoKeys(final FxRobot robot) {
+	public void testCommandExecutedOnTwoKeys(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
 			.with(KeyCode.C, KeyCode.CONTROL)
 			.bind();
 		robot.press(KeyCode.CONTROL).type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnThreeKeys(final FxRobot robot) {
+	public void testCommandExecutedOnThreeKeys(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		final AtomicInteger cpt = new AtomicInteger();
 
 		binding = Bindings.shortcutBinder()
@@ -101,42 +100,39 @@ public class TestShortcutBinder extends TestNodeBinder<Canvas> {
 			.bind();
 		robot.press(KeyCode.CONTROL).type(KeyCode.C).type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(2, cpt.get());
-		assertNotNull(binding);
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testNoCommandExecutedOnTwoKeysReleased(final FxRobot robot) {
+	public void testNoCommandExecutedOnTwoKeysReleased(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.with(KeyCode.C, KeyCode.CONTROL)
 			.bind();
 
 		robot.type(KeyCode.CONTROL).type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(0, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
 	}
 
 	@Test
-	public void testNoCommandExecutedOnBadKey(final FxRobot robot) {
+	public void testNoCommandExecutedOnBadKey(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
 			.with(KeyCode.C)
 			.bind();
 
 		robot.type(KeyCode.A);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(0, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoCanvas(final FxRobot robot) {
+	public void testCommandExecutedOnTwoCanvas(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.with(KeyCode.C)
 			.on(widget1, widget2)
 			.bind();
@@ -144,81 +140,73 @@ public class TestShortcutBinder extends TestNodeBinder<Canvas> {
 		grabFocus(widget2);
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
-		cmd = new StubCmd();
 		grabFocus(widget1);
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot) {
+	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
-			.toProduce(i -> cmd)
+			.toProduce(() -> new StubCmd())
 			.on(widget1)
-			.first(c -> c.exec.setValue(10))
+			.first(c -> c.exec.set(10))
 			.bind();
 
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(11, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot) {
+	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
-			.toProduce(i -> cmd)
-			.first((i, c) -> c.exec.setValue(20))
+			.toProduce(StubCmd::new)
+			.first((i, c) -> c.exec.set(20))
 			.on(widget1)
 			.bind();
 
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(21, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(21, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot) {
+	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
 			.on(widget1)
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.when(i -> false)
 			.bind();
 
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		assertEquals(0, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.noCmdProduced();
 	}
 
 	@Test
 	@DisplayName("Registering same pane two times does not produce events twice")
-	public void testDoubleRegistration(final FxRobot robot) {
+	public void testDoubleRegistration(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
-			.toProduce(i -> cmd)
+			.toProduce(StubCmd::new)
 			.on(widget1)
 			.with(KeyCode.A, KeyCode.CONTROL)
 			.bind();
 
-		final var binding2 = Bindings.shortcutBinder()
+		Bindings.shortcutBinder()
 			.on(widget1)
 			.with(KeyCode.U, KeyCode.CONTROL)
-			.toProduce(i -> cmd)
+			.toProduce(i -> new StubCmd())
 			.bind();
 
 		robot.press(KeyCode.CONTROL, KeyCode.A).release(KeyCode.A).sleep(10L);
 		WaitForAsyncUtils.waitForFxEvents();
-		binding2.uninstallBinding();
-		assertEquals(1, cmd.exec.get());
-		assertNotNull(binding);
+		bindingsAssert.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testTwoShortcutsWithWhen(final FxRobot robot) {
+	public void testTwoShortcutsWithWhen(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		binding = Bindings.shortcutBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
@@ -233,17 +221,14 @@ public class TestShortcutBinder extends TestNodeBinder<Canvas> {
 			.when(() -> true)
 			.bind();
 
-		final var producedCmds2 = new ArrayList<>();
-		final var disposable2 = binding2.produces().subscribe(producedCmds2::add);
-		disposable = binding.produces().subscribe(producedCmds::add);
-
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
 		robot.type(KeyCode.C);
 		WaitForAsyncUtils.waitForFxEvents();
-		binding2.uninstallBinding();
-		disposable2.dispose();
-		assertEquals(0, producedCmds.size());
-		assertEquals(2, producedCmds2.size());
+		bindingsAssert
+			.cmdsProduced(cmds -> assertThat(cmds).hasSize(2))
+			.allSatisfy(cmd -> cmd
+				.producedBy(binding2)
+				.ofType(StubCmd.class));
 	}
 }
