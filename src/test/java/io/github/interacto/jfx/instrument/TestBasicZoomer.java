@@ -14,6 +14,9 @@
  */
 package io.github.interacto.jfx.instrument;
 
+import io.github.interacto.command.library.Zoom;
+import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import io.github.interacto.properties.Zoomable;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -37,22 +40,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestBasicZoomer {
-	BasicZoomer<StubZommable> zoomer;
-	StubZommable canvas;
-
-	@BeforeEach
-	void setUp() {
-	}
+	BasicZoomer<StubZoomable> zoomer;
+	StubZoomable canvas;
 
 	@Start
 	public void start(final Stage stage) {
-		zoomer = new BasicZoomer<>();
-		canvas = new StubZommable();
+		canvas = new StubZoomable();
 		canvas.setWidth(100);
 		canvas.setHeight(100);
-		zoomer.setWithKeys(true);
-		zoomer.setZoomable(canvas);
 		final VBox parent = new VBox();
 		parent.getChildren().add(canvas);
 		final Scene scene = new Scene(parent);
@@ -61,6 +58,13 @@ public class TestBasicZoomer {
 		stage.toFront();
 		stage.centerOnScreen();
 		stage.requestFocus();
+	}
+
+	@BeforeEach
+	void setUp() {
+		zoomer = new BasicZoomer<>();
+		zoomer.setWithKeys(true);
+		zoomer.setZoomable(canvas);
 		zoomer.setActivated(true);
 		Platform.runLater(() -> canvas.requestFocus());
 		WaitForAsyncUtils.waitForFxEvents();
@@ -73,48 +77,58 @@ public class TestBasicZoomer {
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlScrollUp(final FxRobot robot) {
+	void testCtrlScrollUp(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		robot.clickOn(canvas);
 		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.UP).scroll(VerticalDirection.UP).release(KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
+
+		bindingsAssert.cmdsProduced(2);
 		assertEquals(4d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlScrollDown(final FxRobot robot) {
+	void testCtrlScrollDown(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		robot.clickOn(canvas);
 		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.DOWN).release(KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
+
+		bindingsAssert.oneCmdProduced(Zoom.class);
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlBadKey(final FxRobot robot) {
+	void testCtrlBadKey(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		robot.clickOn(canvas);
 		robot.press(KeyCode.CONTROL, KeyCode.S).release(KeyCode.S, KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
+
+		bindingsAssert.noCmdProduced();
 		assertEquals(2d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testKeyAdd(final FxRobot robot) {
+	void testKeyAdd(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		robot.clickOn(canvas);
 		robot.type(KeyCode.ADD);
 		WaitForAsyncUtils.waitForFxEvents();
+
+		bindingsAssert.oneCmdProduced(Zoom.class);
 		assertEquals(3d, canvas.getZoom(), 0.00001);
 	}
 
 	@Test
-	void testKeyMinus(final FxRobot robot) {
+	void testKeyMinus(final FxRobot robot, final BindingsAssert bindingsAssert) {
 		robot.clickOn(canvas).type(KeyCode.MINUS);
 		WaitForAsyncUtils.waitForFxEvents();
+
+		bindingsAssert.oneCmdProduced(Zoom.class);
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 
-	public static class StubZommable extends Canvas implements Zoomable {
+	public static class StubZoomable extends Canvas implements Zoomable {
 		double zoom = 2;
 
 		@Override

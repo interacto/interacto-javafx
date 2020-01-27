@@ -14,12 +14,11 @@
  */
 package io.github.interacto.jfx.interaction;
 
-import io.github.interacto.command.CommandImpl;
 import io.github.interacto.jfx.binding.Bindings;
+import io.github.interacto.jfx.binding.TestBinder;
+import io.github.interacto.jfx.test.WidgetBindingExtension;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
@@ -37,6 +36,7 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(WidgetBindingExtension.class)
 public class TestKeyLost {
 	Canvas canvas;
 	Stage stage;
@@ -64,7 +64,7 @@ public class TestKeyLost {
 		WaitForAsyncUtils.waitForFxEvents();
 
 		Bindings.shortcutBinder()
-			.toProduce(StubCmd::new)
+			.toProduce(TestBinder.StubCmd::new)
 			.with(KeyCode.CONTROL, KeyCode.C)
 			.on(canvas)
 			.end(i -> cpt.incrementAndGet())
@@ -84,27 +84,5 @@ public class TestKeyLost {
 		robot.press(KeyCode.CONTROL).type(KeyCode.C);
 
 		assertEquals(1, cpt.get());
-	}
-
-
-	public static class StubCmd extends CommandImpl {
-		final IntegerProperty exec = new SimpleIntegerProperty(0);
-
-		@Override
-		protected void doCmdBody() {
-			synchronized(exec) {
-				exec.setValue(exec.getValue() + 1);
-			}
-		}
-
-		@Override
-		public boolean canDo() {
-			return true;
-		}
-
-		@Override
-		public RegistrationPolicy getRegistrationPolicy() {
-			return RegistrationPolicy.NONE;
-		}
 	}
 }
