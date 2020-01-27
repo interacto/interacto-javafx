@@ -105,7 +105,13 @@
                         --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                         --add-exports javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
                         --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
-                    </argLine>
+                        -Xmx4000m
+                        -Dglass.platform=Monocle
+                        -Dheadless.geometry=1280x1024-32
+                        -Djava.awt.headless=true
+                        -Dtestfx.robot=glass
+                        -Dtestfx.headless=true
+                        -Dprism.order=sw</argLine>
                 </configuration>
             </plugin>
 
