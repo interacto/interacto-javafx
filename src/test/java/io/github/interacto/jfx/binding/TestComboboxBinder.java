@@ -15,7 +15,7 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.robot.FxRobotListSelection;
-import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
@@ -44,30 +44,30 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleComboBoxFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleComboBoxFunction(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.comboboxBinder()
 			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleComboBoxSupplier(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleComboBoxSupplier(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.comboboxBinder()
 			.toProduce(() -> new StubCmd())
 			.on(widget1)
 			.bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoComboboxes(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnTwoComboboxes(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.comboboxBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1, widget2)
@@ -77,11 +77,11 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(2, binding.getTimesEnded());
-		bindingsAssert.cmdsProduced(2);
+		ctx.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit1Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.comboboxBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
@@ -89,11 +89,11 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 			.bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit2Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.comboboxBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
@@ -101,11 +101,11 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 			.bind();
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCheckFalse(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.comboboxBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
@@ -114,6 +114,6 @@ public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> impleme
 		selectGivenComboBoxItem(robot, widget1, "b");
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(0, binding.getTimesEnded());
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 	}
 }

@@ -15,7 +15,7 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
-import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import io.github.interacto.logging.LogLevel;
 import javafx.application.Platform;
@@ -47,7 +47,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonConsumer(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleButtonConsumer(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
@@ -55,12 +55,12 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 		robot.clickOn(widget1);
 
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.on(widget1)
 			.toProduce(i -> new StubCmd())
@@ -68,11 +68,11 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 		robot.clickOn(widget1);
 
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testIsOnUIThread(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testIsOnUIThread(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
@@ -81,11 +81,11 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 		robot.clickOn(widget1);
 
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoButtons(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnTwoButtons(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1, widget2)
@@ -94,7 +94,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		robot.clickOn(widget2);
 		robot.clickOn(widget1);
 
-		bindingsAssert.cmdsProduced(2)
+		ctx.cmdsProduced(2)
 			.listAssert()
 			.extracting(elt -> elt.getCommand())
 			.allMatch(cmd -> cmd.isDone())
@@ -102,7 +102,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	public void testCollectionButtons(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCollectionButtons(final FxRobot robot, final BindingsContext ctx) {
 		final ObservableList<Button> buttons = FXCollections.observableArrayList(widget1, widget2);
 
 		binding = Bindings.buttonBinder()
@@ -112,12 +112,12 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 		robot.clickOn(widget2);
 		robot.clickOn(widget1);
-		bindingsAssert.cmdsProduced(2);
+		ctx.cmdsProduced(2);
 		assertEquals(2, binding.getTimesEnded());
 	}
 
 	@Test
-	public void testCollectionButtonsRemove(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCollectionButtonsRemove(final FxRobot robot, final BindingsContext ctx) {
 		final ObservableList<Button> buttons = FXCollections.observableArrayList(widget1, widget2);
 
 		binding = Bindings.buttonBinder()
@@ -129,12 +129,12 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 		robot.clickOn(widget2);
 		robot.clickOn(widget1);
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 		assertEquals(1, binding.getTimesEnded());
 	}
 
 	@Test
-	public void testCollectionButtonsAdd(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCollectionButtonsAdd(final FxRobot robot, final BindingsContext ctx) {
 		final ObservableList<Button> buttons = FXCollections.observableArrayList(widget1);
 
 		binding = Bindings.buttonBinder()
@@ -145,35 +145,35 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		buttons.add(widget2);
 
 		robot.clickOn(widget2);
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 		assertEquals(1, binding.getTimesEnded());
 	}
 
 
 	@Test
-	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit1Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
 			.first(c -> c.exec.set(10))
 			.bind();
 		robot.clickOn(widget1);
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit2Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.toProduce(StubCmd::new)
 			.first((i, c) -> c.exec.set(10))
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1);
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCheckFalse(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.toProduce(StubCmd::new)
 			.when(i -> false)
@@ -182,11 +182,11 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 		robot.clickOn(widget1);
 		assertEquals(0, binding.getTimesEnded());
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoButtonsSame(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnTwoButtonsSame(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.buttonBinder()
 			.on(widget1, widget1)
 			.toProduce(StubCmd::new)
@@ -194,7 +194,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 
 		robot.clickOn(widget1);
 		assertEquals(1, binding.getTimesEnded());
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 	}
 
 
@@ -218,7 +218,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	void testClonedBuildersSameWidgetCmdOK(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	void testClonedBuildersSameWidgetCmdOK(final FxRobot robot, final BindingsContext ctx) {
 		final var binder = Bindings
 			.buttonBinder()
 			.toProduce(StubCmd::new)
@@ -229,7 +229,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		robot.clickOn(widget1);
 
 		assertNotSame(binding1, binding2);
-		bindingsAssert
+		ctx
 			.cmdsProduced(2)
 			.listAssert()
 			.extracting(cmd -> cmd.getBinding())
@@ -237,7 +237,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 	}
 
 	@Test
-	void testClonedBuildersDiffWidgetsCmdOK(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	void testClonedBuildersDiffWidgetsCmdOK(final FxRobot robot, final BindingsContext ctx) {
 		final var binder = Bindings
 			.buttonBinder()
 			.toProduce(StubCmd::new);
@@ -251,7 +251,7 @@ public class TestButtonBinder extends TestNodeBinder<Button> {
 		robot.clickOn(widget1);
 
 		assertNotSame(binding1, binding2);
-		bindingsAssert
+		ctx
 			.oneCmdProduced(StubCmd.class)
 			.producedBy(binding1);
 	}

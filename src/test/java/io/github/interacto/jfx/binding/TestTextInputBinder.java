@@ -15,7 +15,7 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.TimeoutWaiter;
-import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -42,30 +42,30 @@ public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implem
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleWidgetFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleWidgetFunction(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.textInputBinder()
 			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1).write("foo");
 		waitForTimeoutTransitions();
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleWidgetSupplier(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleWidgetSupplier(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.textInputBinder()
 			.toProduce(() -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1).write("barrr");
 		waitForTimeoutTransitions();
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoWidgets(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnTwoWidgets(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.textInputBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1, widget2)
@@ -74,11 +74,11 @@ public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implem
 		waitForTimeoutTransitions();
 		robot.clickOn(widget1).write("barrddddr");
 		waitForTimeoutTransitions();
-		bindingsAssert.cmdsProduced(2);
+		ctx.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit1Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.textInputBinder()
 			.toProduce(StubCmd::new)
 			.first(c -> c.exec.set(10))
@@ -86,11 +86,11 @@ public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implem
 			.bind();
 		robot.clickOn(widget1).write("aaaa");
 		waitForTimeoutTransitions();
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit2Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.textInputBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
@@ -98,11 +98,11 @@ public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implem
 			.bind();
 		robot.clickOn(widget1).write("f");
 		waitForTimeoutTransitions();
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCheckFalse(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.textInputBinder()
 			.on(widget1)
 			.when(i -> false)
@@ -110,6 +110,6 @@ public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implem
 			.bind();
 		robot.clickOn(widget1).write("a");
 		waitForTimeoutTransitions();
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 	}
 }

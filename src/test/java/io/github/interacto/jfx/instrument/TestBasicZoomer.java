@@ -15,7 +15,7 @@
 package io.github.interacto.jfx.instrument;
 
 import io.github.interacto.command.library.Zoom;
-import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import io.github.interacto.properties.Zoomable;
 import java.awt.Point;
@@ -77,54 +77,54 @@ public class TestBasicZoomer {
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlScrollUp(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	void testCtrlScrollUp(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
 		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.UP).scroll(VerticalDirection.UP).release(KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
 
-		bindingsAssert.cmdsProduced(2);
+		ctx.cmdsProduced(2);
 		assertEquals(4d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlScrollDown(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	void testCtrlScrollDown(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
 		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.DOWN).release(KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
 
-		bindingsAssert.oneCmdProduced(Zoom.class);
+		ctx.oneCmdProduced(Zoom.class);
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testCtrlBadKey(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	void testCtrlBadKey(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
 		robot.press(KeyCode.CONTROL, KeyCode.S).release(KeyCode.S, KeyCode.CONTROL);
 		WaitForAsyncUtils.waitForFxEvents();
 
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 		assertEquals(2d, canvas.getZoom(), 0.00001);
 	}
 
 	@Disabled("headless server does not support key modifiers yet")
 	@Test
-	void testKeyAdd(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	void testKeyAdd(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
 		robot.type(KeyCode.ADD);
 		WaitForAsyncUtils.waitForFxEvents();
 
-		bindingsAssert.oneCmdProduced(Zoom.class);
+		ctx.oneCmdProduced(Zoom.class);
 		assertEquals(3d, canvas.getZoom(), 0.00001);
 	}
 
 	@Test
-	void testKeyMinus(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	void testKeyMinus(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas).type(KeyCode.MINUS);
 		WaitForAsyncUtils.waitForFxEvents();
 
-		bindingsAssert.oneCmdProduced(Zoom.class);
+		ctx.oneCmdProduced(Zoom.class);
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 

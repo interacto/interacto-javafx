@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.binding;
 
-import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
@@ -39,28 +39,28 @@ public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleButtonFunction(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.toggleButtonBinder()
 			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		robot.clickOn(widget1);
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSingleButtonSupplier(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSingleButtonSupplier(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.toggleButtonBinder()
 			.on(widget1)
 			.toProduce(() -> new StubCmd())
 			.bind();
 		robot.clickOn(widget1);
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoButtons(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnTwoButtons(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.toggleButtonBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1, widget2)
@@ -68,33 +68,33 @@ public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
 		robot.clickOn(widget2);
 		robot.clickOn(widget1);
 		assertEquals(2, binding.getTimesEnded());
-		bindingsAssert.cmdsProduced(2);
+		ctx.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit1Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.toggleButtonBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
 			.first(c -> c.exec.set(10))
 			.bind();
 		robot.clickOn(widget1);
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit2Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.toggleButtonBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
 			.first((i, c) -> c.exec.set(10))
 			.bind();
 		robot.clickOn(widget1);
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCheckFalse(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.toggleButtonBinder()
 			.on(widget1)
 			.when(i -> false)
@@ -102,6 +102,6 @@ public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
 			.bind();
 		robot.clickOn(widget1);
 		assertEquals(0, binding.getTimesEnded());
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 	}
 }

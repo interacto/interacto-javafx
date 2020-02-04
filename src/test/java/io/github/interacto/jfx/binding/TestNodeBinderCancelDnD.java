@@ -16,7 +16,7 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.CommandImpl;
 import io.github.interacto.jfx.interaction.library.DnD;
-import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import io.github.interacto.undo.Undoable;
 import java.util.ResourceBundle;
@@ -56,7 +56,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 	}
 
 	@Test
-	public void testCanCancelDnD(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCanCancelDnD(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.nodeBinder()
 			.usingInteraction(() -> new DnD(true, true))
 			.toProduce(() -> new MoveShape(rec))
@@ -67,12 +67,12 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 			.continuousExecution()
 			.bind();
 		robot.drag(rec).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 		assertEquals(1, binding.getTimesCancelled());
 	}
 
 	@Test
-	public void testCanCancelDnDWithObsList(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCanCancelDnDWithObsList(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.nodeBinder()
 			.usingInteraction(() -> new DnD(true, true))
 			.toProduce(i -> new MoveShape((Rectangle) i.getSrcObject().orElseThrow()))
@@ -87,7 +87,7 @@ public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
 		Platform.runLater(() -> widget1.getChildren().addAll(rec2));
 		WaitForAsyncUtils.waitForFxEvents();
 		robot.drag(rec2).moveBy(100, 100).type(KeyCode.ESCAPE).sleep(50L);
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 		assertEquals(1, binding.getTimesCancelled());
 	}
 }

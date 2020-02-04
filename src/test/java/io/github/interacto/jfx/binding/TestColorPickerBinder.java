@@ -15,7 +15,7 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.robot.FxRobotColourPicker;
-import io.github.interacto.jfx.test.BindingsAssert;
+import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
@@ -42,30 +42,30 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 	}
 
 	@Test
-	public void testCommandExecutedOnSinglePickerFunction(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSinglePickerFunction(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.colorPickerBinder()
 			.toProduce(i -> new StubCmd())
 			.on(widget1)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 		assertNotNull(binding);
 	}
 
 	@Test
-	public void testCommandExecutedOnSinglePickerSupplier(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnSinglePickerSupplier(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.colorPickerBinder()
 			.toProduce(() -> new StubCmd())
 			.on(widget1)
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class);
+		ctx.oneCmdProduced(StubCmd.class);
 	}
 
 	@Test
-	public void testCommandExecutedOnTwoPickers(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCommandExecutedOnTwoPickers(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.colorPickerBinder()
 			.on(widget1, widget2)
 			.toProduce(StubCmd::new)
@@ -75,11 +75,11 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 		pickColour(robot, widget2);
 		WaitForAsyncUtils.waitForFxEvents();
 		assertEquals(2, binding.getTimesEnded());
-		bindingsAssert.cmdsProduced(2);
+		ctx.cmdsProduced(2);
 	}
 
 	@Test
-	public void testInit1Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit1Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.colorPickerBinder()
 			.on(widget1)
 			.toProduce(StubCmd::new)
@@ -87,11 +87,11 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testInit2Executed(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testInit2Executed(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.colorPickerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
@@ -99,11 +99,11 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
+		ctx.oneCmdProduced(StubCmd.class, cmd -> assertEquals(11, cmd.exec.get()));
 	}
 
 	@Test
-	public void testCheckFalse(final FxRobot robot, final BindingsAssert bindingsAssert) {
+	public void testCheckFalse(final FxRobot robot, final BindingsContext ctx) {
 		binding = Bindings.colorPickerBinder()
 			.toProduce(StubCmd::new)
 			.on(widget1)
@@ -111,6 +111,6 @@ public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implement
 			.bind();
 		pickColour(robot, widget1);
 		WaitForAsyncUtils.waitForFxEvents();
-		bindingsAssert.noCmdProduced();
+		ctx.noCmdProduced();
 	}
 }
