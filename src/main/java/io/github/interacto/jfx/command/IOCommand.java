@@ -45,19 +45,13 @@ public abstract class IOCommand<B> extends CommandImpl {
 
 
 	public IOCommand(final File file, final OpenSaver<B> openSaveManager, final ProgressBar progressBar, final B statusWidget, final JfxUI ui) {
+		super();
 		this.file = file;
 		this.openSaveManager = openSaveManager;
 		this.progressBar = progressBar;
 		this.statusWidget = statusWidget;
 		this.ui = ui;
 		ok = false;
-	}
-
-	/**
-	 * Creates an IO command.
-	 */
-	public IOCommand() {
-		this(null, null, null, null, null);
 	}
 
 
@@ -74,7 +68,7 @@ public abstract class IOCommand<B> extends CommandImpl {
 
 	@Override
 	public boolean canDo() {
-		return file != null && openSaveManager != null && ui != null;
+		return openSaveManager != null && ui != null;
 	}
 
 
@@ -88,37 +82,5 @@ public abstract class IOCommand<B> extends CommandImpl {
 	 */
 	public File getFile() {
 		return file;
-	}
-
-	/**
-	 * @param file the file to set.
-	 */
-	public void setFile(final File file) {
-		this.file = file;
-	}
-
-	/**
-	 * @param bar The progress bar used to show the progress of the saving.
-	 */
-	public void setProgressBar(final ProgressBar bar) {
-		progressBar = bar;
-	}
-
-	/**
-	 * @param saver the saver to set.
-	 */
-	public void setOpenSaveManager(final OpenSaver<B> saver) {
-		openSaveManager = saver;
-	}
-
-	/**
-	 * @param status the widget that will be used to display I/O messages.
-	 */
-	public void setStatusWidget(final B status) {
-		statusWidget = status;
-	}
-
-	public void setUi(final JfxUI jfxUI) {
-		this.ui = jfxUI;
 	}
 }

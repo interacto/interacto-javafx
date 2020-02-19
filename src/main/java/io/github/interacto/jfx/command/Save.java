@@ -30,13 +30,6 @@ public class Save<B> extends IOCommand<B> {
 		super(file, openSaveManager, progressBar, statusWidget, ui);
 	}
 
-	/**
-	 * Creates a save command.
-	 */
-	public Save() {
-		super();
-	}
-
 	@Override
 	protected void doCmdBody() {
 		try {

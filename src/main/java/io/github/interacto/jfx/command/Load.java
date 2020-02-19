@@ -30,13 +30,6 @@ public class Load<B> extends IOCommand<B> {
 		super(file, openSaveManager, progressBar, statusWidget, ui);
 	}
 
-	/**
-	 * Creates a save command.
-	 */
-	public Load() {
-		super();
-	}
-
 	@Override
 	protected void doCmdBody() {
 		ui.reinit();
