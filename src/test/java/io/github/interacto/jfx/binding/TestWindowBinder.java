@@ -28,6 +28,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.util.WaitForAsyncUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -106,5 +107,30 @@ public class TestWindowBinder extends TestBinder<Window> {
 			.bind();
 		robot.clickOn(widget1).type(KeyCode.A);
 		ctx.noCmdProduced();
+	}
+
+
+	@Test
+	public void testTwoShortcutsProducesOneCmd(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutWinBinder()
+			.on(widget1)
+			.toProduce(StubCmd::new)
+			.with(KeyCode.X)
+			.bind();
+
+		final var binding2 = Bindings.shortcutWinBinder()
+			.on(widget1)
+			.with(KeyCode.C)
+			.toProduce(StubCmd::new)
+			.bind();
+
+		robot.type(KeyCode.C);
+		WaitForAsyncUtils.waitForFxEvents();
+		ctx
+			.cmdsProduced(1)
+			.listAssert()
+			.allSatisfy(cmd -> cmd
+				.producedBy(binding2)
+				.ofType(StubCmd.class));
 	}
 }

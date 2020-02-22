@@ -65,7 +65,7 @@ class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
 	@Override
 	public JfxWidgetBinding<C, KeysPressed, KeysData> bind() {
 		final JfxAnonWindowBinding<C, KeysPressed, KeysData> binding = new JfxAnonWindowBinding<>(false, interactionSupplier.get(),
-			initCmd, null, checkConditions, onEnd, cmdProducer, null, null, widgets, false, false,
+			initCmd, null, checkCode, onEnd, cmdProducer, null, null, widgets, false, false,
 			10L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
