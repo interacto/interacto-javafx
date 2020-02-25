@@ -44,6 +44,9 @@ public interface BaseUpdateBinder<W> extends BaseUpdateBinderBuilder<W> {
 	BaseUpdateBinder<W> log(final LogLevel... level);
 
 	@Override
+	BaseUpdateBinder<W> consume();
+
+	@Override
 	BaseUpdateBinder<W> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
 
 	@Override

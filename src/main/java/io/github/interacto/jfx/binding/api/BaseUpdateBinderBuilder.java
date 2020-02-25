@@ -53,6 +53,9 @@ public interface BaseUpdateBinderBuilder<W> extends BaseBinderBuilder<W>  {
 	BaseUpdateBinderBuilder<W> when(final BooleanSupplier whenPredicate);
 
 	@Override
+	BaseUpdateBinderBuilder<W> consume();
+
+	@Override
 	BaseUpdateBinderBuilder<W> end(final Runnable endFct);
 
 	@Override

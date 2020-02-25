@@ -19,7 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-abstract class TestNodeBinder<W extends Node> extends TestBinder<W> {
+abstract class BaseNodeBinderTest<W extends Node> extends TestBinder<W> {
 	void start(final Stage stage) {
 		final VBox parent = new VBox();
 		parent.getChildren().add(widget1);

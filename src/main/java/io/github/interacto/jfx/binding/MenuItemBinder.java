@@ -50,23 +50,24 @@ class MenuItemBinder<C extends Command> extends Binder<MenuItem, C, MenuItemPres
 		final List<ObservableList<? extends MenuItem>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
 		final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
 		final BiConsumer<WidgetData<MenuItem>, C> hadNoEffectFct, final BiConsumer<WidgetData<MenuItem>, C> hadEffectsFct,
-		final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct, final BindingsObserver observer) {
+		final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct, final BindingsObserver observer, final boolean consumeEvents) {
 		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
 	protected MenuItemBinder<C> duplicate() {
 		return new MenuItemBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct,
-			cannotExecFct, observer);
+			cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
 	public JfxWidgetBinding<C, MenuItemPressed, WidgetData<MenuItem>> bind() {
 		final JfxAnonMenuItemBinding<C, MenuItemPressed> binding = new JfxAnonMenuItemBinding<>(false, interactionSupplier.get(),
 			initCmd, null, checkConditions, onEnd, cmdProducer, null, null, widgets, additionalWidgets,
-			false, false, 0L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			false, false, 0L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct,
+			cannotExecFct, consumeEvents);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

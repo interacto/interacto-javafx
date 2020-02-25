@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestCheckboxBinder extends TestNodeBinder<CheckBox> {
+public class TestCheckboxBinder extends BaseNodeBinderTest<CheckBox> {
 	@Override
 	@Start
 	public void start(final Stage stage) {

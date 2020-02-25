@@ -59,7 +59,8 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	NodeUpdateBinder(final JfxInstrument instrument, final BindingsObserver observer) {
 		this(null, null, null, Collections.emptyList(), null, instrument, false, null,
 			Collections.emptyList(), EnumSet.noneOf(LogLevel.class), null, false, null, null, null, null,
-			null, null, false, false, 0L, null, null, null, observer);
+			null, null, false, false, 0L, null, null, null,
+			observer, false);
 	}
 
 	NodeUpdateBinder(final BiConsumer<D, C> initCmd, final Predicate<D> checkConditions, final Function<D, C> cmdProducer, final List<W> widgets,
@@ -68,9 +69,9 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 			final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel, final BiConsumer<D, C> updateFct,
 			final Consumer<D> cancelFct, final Consumer<D> endOrCancelFct, final boolean continuousCmdExecution, final boolean strictStart,
 			final long throttleTimeout, final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct,
-			final BiConsumer<D, C> cannotExecFct, final BindingsObserver observer) {
+			final BiConsumer<D, C> cannotExecFct, final BindingsObserver observer, final boolean consumeEvents) {
 		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 		this.updateFct = updateFct;
 		this.cancelFct = cancelFct;
 		this.endOrCancelFct = endOrCancelFct;
@@ -190,6 +191,11 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	}
 
 	@Override
+	public NodeUpdateBinder<W, C, I, D> consume() {
+		return (NodeUpdateBinder<W, C, I, D>) super.consume();
+	}
+
+	@Override
 	public NodeUpdateBinder<W, C, I, D> log(final LogLevel... level) {
 		return (NodeUpdateBinder<W, C, I, D>) super.log(level);
 	}
@@ -223,7 +229,7 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	protected NodeUpdateBinder<W, C, I, D> duplicate() {
 		return new NodeUpdateBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, updateFct, cancelFct,
-			endOrCancelFct, continuousCmdExecution, strictStart, throttleTimeout, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			endOrCancelFct, continuousCmdExecution, strictStart, throttleTimeout, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
@@ -234,7 +240,7 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 		final var binding = new JfxAnonNodeBinding<>(continuousCmdExecution, interactionSupplier.get(), initCmd, updateFct,
 				checkConditions, onEnd, cmdProducer, cancelFct, endOrCancelFct,
 				widgets.stream().map(elt -> (Node) elt).collect(Collectors.toList()), adds,
-				async, strictStart, throttleTimeout, logLevels, withHelp, helpAnimation, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+				async, strictStart, throttleTimeout, logLevels, withHelp, helpAnimation, hadNoEffectFct, hadEffectsFct, cannotExecFct, consumeEvents);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

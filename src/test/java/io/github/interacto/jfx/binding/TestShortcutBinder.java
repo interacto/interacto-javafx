@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestShortcutBinder extends TestNodeBinder<Canvas> {
+public class TestShortcutBinder extends BaseNodeBinderTest<Canvas> {
 	@Override
 	@Start
 	public void start(final Stage stage) {

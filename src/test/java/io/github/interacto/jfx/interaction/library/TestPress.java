@@ -15,7 +15,9 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
+import io.github.interacto.fsm.FSMHandler;
 import java.util.Collections;
+import java.util.List;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import org.junit.jupiter.api.Test;
@@ -82,6 +84,27 @@ public class TestPress extends BaseJfXInteractionTest<Press> {
 		interaction.registerToNodes(Collections.singletonList(pane));
 		interaction.unregisterFromNodes(Collections.singletonList(pane));
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.MIDDLE));
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
+	}
+
+	@Test
+	void testEventConsumed() throws CancelFSMException {
+		final Pane pane1 = new Pane();
+		final Pane pane2 = new Pane();
+		pane1.getChildren().add(pane2);
+
+		final FSMHandler handler2 = Mockito.mock(FSMHandler.class);
+		final Press i2 = createInteraction();
+		i2.getFsm().addHandler(handler2);
+
+		interaction.registerToNodes(List.of(pane1));
+		i2.registerToNodes(List.of(pane2));
+		i2.setConsumeEvents(true);
+		pane2.fireEvent(createMousePressEvent(11, 23, MouseButton.MIDDLE));
+
+		Mockito.verify(handler2, Mockito.times(1)).fsmStops();
+		Mockito.verify(handler2, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 }

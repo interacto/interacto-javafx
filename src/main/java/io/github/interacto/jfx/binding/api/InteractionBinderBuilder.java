@@ -51,6 +51,9 @@ public interface InteractionBinderBuilder<W, I extends JfxInteraction<D, ?, ?>, 
 	InteractionBinderBuilder<W, I, D> log(final LogLevel... level);
 
 	@Override
+	InteractionBinderBuilder<W, I, D> consume();
+
+	@Override
 	InteractionBinderBuilder<W, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
 
 	@Override

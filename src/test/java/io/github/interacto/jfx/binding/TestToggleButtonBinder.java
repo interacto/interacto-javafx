@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestToggleButtonBinder extends TestNodeBinder<ToggleButton> {
+public class TestToggleButtonBinder extends BaseNodeBinderTest<ToggleButton> {
 	@Override
 	@Start
 	public void start(final Stage stage) {

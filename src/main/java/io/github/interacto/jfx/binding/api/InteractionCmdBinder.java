@@ -63,6 +63,9 @@ public interface InteractionCmdBinder<W, C extends Command, I extends JfxInterac
 	InteractionCmdBinder<W, C, I, D> end(final Runnable endFct);
 
 	@Override
+	InteractionCmdBinder<W, C, I, D> consume();
+
+	@Override
 	InteractionCmdBinder<W, C, I, D> on(final ObservableList<? extends W> widgets);
 
 	@Override

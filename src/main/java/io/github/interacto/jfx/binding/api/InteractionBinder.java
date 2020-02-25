@@ -49,6 +49,9 @@ public interface InteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D exten
 	InteractionBinder<W, I, D> end(final Runnable endFct);
 
 	@Override
+	InteractionBinder<W, I, D> consume();
+
+	@Override
 	InteractionBinder<W, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
 
 	@Override

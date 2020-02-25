@@ -41,6 +41,9 @@ public interface BaseBinder<W> extends BaseBinderBuilder<W> {
 	BaseBinder<W> end(final Runnable endFct);
 
 	@Override
+	BaseBinder<W> consume();
+
+	@Override
 	BaseBinder<W> log(final LogLevel... level);
 
 	@Override

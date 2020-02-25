@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestTabBinder extends TestNodeBinder<TabPane> {
+public class TestTabBinder extends BaseNodeBinderTest<TabPane> {
 	Tab tab1;
 	Tab tab2;
 	Tab tab3;

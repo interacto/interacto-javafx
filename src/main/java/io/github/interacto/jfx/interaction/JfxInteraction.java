@@ -157,6 +157,11 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		getEventTypesOf(fsm.getCurrentState()).forEach(type -> registerEventToWindow(type, window));
 	}
 
+	@Override
+	protected void consumeEvent(final Event event) {
+		event.consume();
+	}
+
 	public void registerToObservableNodeList(final ObservableList<? extends Node> nodes) {
 		if(nodes != null) {
 			additionalNodes.add(nodes);

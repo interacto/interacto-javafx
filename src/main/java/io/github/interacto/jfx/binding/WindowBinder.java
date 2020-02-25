@@ -48,23 +48,24 @@ class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window
 		final boolean async, final BiConsumer<WidgetData<Window>, C> onEnd, final List<ObservableList<? extends Window>> additionalWidgets,
 		final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp,
 		final StringProperty msgProp, final Button cancel, final BiConsumer<WidgetData<Window>, C> hadNoEffectFct,
-		final BiConsumer<WidgetData<Window>, C> hadEffectsFct, final BiConsumer<WidgetData<Window>, C> cannotExecFct, final BindingsObserver observer) {
+		final BiConsumer<WidgetData<Window>, C> hadEffectsFct, final BiConsumer<WidgetData<Window>, C> cannotExecFct, final BindingsObserver observer,
+		final boolean consumeEvents) {
 		super(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
 	protected WindowBinder<C, I> duplicate() {
 		return new WindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, interactionSupplier, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, hadNoEffectFct,
-			hadEffectsFct, cannotExecFct, observer);
+			hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
 	public JfxWidgetBinding<C, I, WidgetData<Window>> bind() {
 		final JfxAnonWindowBinding<C, I, WidgetData<Window>> binding = new JfxAnonWindowBinding<>(false, interactionSupplier.get(),
 			initCmd, null, checkConditions, onEnd, cmdProducer, null, null, widgets, false, false,
-			10L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			10L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct, consumeEvents);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

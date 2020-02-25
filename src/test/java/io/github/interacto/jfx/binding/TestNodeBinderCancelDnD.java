@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestNodeBinderCancelDnD extends TestNodeBinder<Pane> {
+public class TestNodeBinderCancelDnD extends BaseNodeBinderTest<Pane> {
 	Rectangle rec;
 
 	@Override

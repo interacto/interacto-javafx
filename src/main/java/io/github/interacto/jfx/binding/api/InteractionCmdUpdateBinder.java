@@ -50,6 +50,9 @@ public interface InteractionCmdUpdateBinder<W, C extends Command, I extends JfxI
 	InteractionCmdUpdateBinder<W, C, I, D> strictStart();
 
 	@Override
+	InteractionCmdUpdateBinder<W, C, I, D> consume();
+
+	@Override
 	InteractionCmdUpdateBinder<W, C, I, D> throttle(final long timeout);
 
 	@Override

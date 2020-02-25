@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestSpinnerBinder extends TestNodeBinder<Spinner<Double>> implements FxRobotSpinner, TimeoutWaiter {
+public class TestSpinnerBinder extends BaseNodeBinderTest<Spinner<Double>> implements FxRobotSpinner, TimeoutWaiter {
 	long timeout;
 
 	@Override

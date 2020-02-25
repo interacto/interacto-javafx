@@ -51,6 +51,9 @@ public interface CmdUpdateBinder<W, C extends Command> extends CmdUpdateBinderBu
 	CmdUpdateBinder<W, C> on(final ObservableList<? extends W> widgets);
 
 	@Override
+	CmdUpdateBinder<W, C> consume();
+
+	@Override
 	CmdUpdateBinder<W, C> when(final BooleanSupplier whenPredicate);
 
 	@Override

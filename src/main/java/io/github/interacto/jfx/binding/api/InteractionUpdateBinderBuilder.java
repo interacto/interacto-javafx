@@ -53,6 +53,9 @@ public interface InteractionUpdateBinderBuilder<W, I extends JfxInteraction<D, ?
 	InteractionUpdateBinderBuilder<W, I, D> on(final W... widgets);
 
 	@Override
+	InteractionUpdateBinderBuilder<W, I, D> consume();
+
+	@Override
 	InteractionUpdateBinderBuilder<W, I, D> on(final ObservableList<? extends W> widgets);
 
 	@Override

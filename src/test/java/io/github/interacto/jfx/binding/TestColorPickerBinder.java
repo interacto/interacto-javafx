@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestColorPickerBinder extends TestNodeBinder<ColorPicker> implements FxRobotColourPicker {
+public class TestColorPickerBinder extends BaseNodeBinderTest<ColorPicker> implements FxRobotColourPicker {
 	@Override
 	@Start
 	public void start(final Stage stage) {

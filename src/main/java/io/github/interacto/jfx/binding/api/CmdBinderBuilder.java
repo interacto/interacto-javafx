@@ -47,6 +47,9 @@ public interface CmdBinderBuilder<W, C extends Command> extends BaseBinderBuilde
 	CmdBinderBuilder<W, C> on(final ObservableList<? extends W> widgets);
 
 	@Override
+	CmdBinderBuilder<W, C> consume();
+
+	@Override
 	CmdBinderBuilder<W, C> when(final BooleanSupplier whenPredicate);
 
 	@Override

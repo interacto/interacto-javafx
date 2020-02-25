@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestComboboxBinder extends TestNodeBinder<ComboBox<String>> implements FxRobotListSelection {
+public class TestComboboxBinder extends BaseNodeBinderTest<ComboBox<String>> implements FxRobotListSelection {
 	@Override
 	@Start
 	public void start(final Stage stage) {

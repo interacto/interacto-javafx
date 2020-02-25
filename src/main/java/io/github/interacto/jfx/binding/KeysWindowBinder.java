@@ -50,23 +50,23 @@ class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
 		final BiConsumer<KeysData, C> onEnd, final List<ObservableList<? extends Window>> additionalWidgets, final EnumSet<LogLevel> logLevels,
 		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
 		final Collection<KeyCode> codes, final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct,
-		final BiConsumer<KeysData, C> cannotExecFct, final BindingsObserver observer) {
+		final BiConsumer<KeysData, C> cannotExecFct, final BindingsObserver observer, final boolean consumeEvents) {
 		super(initCmd, checkConditions, cmdProducer, widgets, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			withHelp, progressProp, msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
 	protected KeysWindowBinder<C> duplicate() {
 		return new KeysWindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes),
-			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
 	public JfxWidgetBinding<C, KeysPressed, KeysData> bind() {
 		final JfxAnonWindowBinding<C, KeysPressed, KeysData> binding = new JfxAnonWindowBinding<>(false, interactionSupplier.get(),
 			initCmd, null, checkCode, onEnd, cmdProducer, null, null, widgets, false, false,
-			10L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			10L, Collections.emptySet(), false, null, hadNoEffectFct, hadEffectsFct, cannotExecFct, consumeEvents);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

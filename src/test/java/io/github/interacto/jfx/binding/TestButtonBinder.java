@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestButtonBinder extends TestNodeBinder<Button> {
+public class TestButtonBinder extends BaseNodeBinderTest<Button> {
 	@Override
 	@Start
 	public void start(final Stage stage) {

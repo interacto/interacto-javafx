@@ -15,7 +15,9 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
+import io.github.interacto.fsm.FSMHandler;
 import java.util.Collections;
+import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
@@ -268,5 +270,28 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		pane.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
 		pane.fireEvent(createMouseDragEvent(11, 23, MouseButton.PRIMARY, null));
 		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
+	}
+
+	@Test
+	void testEventConsumed() throws CancelFSMException {
+		final Pane pane1 = new Pane();
+		final Pane pane2 = new Pane();
+		pane1.getChildren().add(pane2);
+
+		final FSMHandler handler2 = Mockito.mock(FSMHandler.class);
+		final DnD i2 = createInteraction();
+		i2.getFsm().addHandler(handler2);
+
+		interaction.registerToNodes(List.of(pane1));
+		i2.registerToNodes(List.of(pane2));
+		i2.setConsumeEvents(true);
+		pane2.fireEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
+		pane2.fireEvent(createMouseDragEvent(12, 25, MouseButton.PRIMARY, null));
+		pane2.fireEvent(createMouseReleaseEvent(12, 25, MouseButton.PRIMARY));
+
+		Mockito.verify(handler2, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler2, Mockito.times(1)).fsmStops();
+		Mockito.verify(handler, Mockito.never()).fsmStops();
+		Mockito.verify(handler, Mockito.never()).fsmStarts();
 	}
 }

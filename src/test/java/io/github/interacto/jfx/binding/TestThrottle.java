@@ -29,7 +29,7 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestThrottle extends TestNodeBinder<Canvas> {
+public class TestThrottle extends BaseNodeBinderTest<Canvas> {
 	AtomicInteger counter;
 
 	@Override

@@ -52,6 +52,9 @@ public interface KeyInteractionCmdBinder<W, C extends Command, I extends JfxInte
 	KeyInteractionCmdBinder<W, C, I, D> log(final LogLevel... level);
 
 	@Override
+	KeyInteractionCmdBinder<W, C, I, D> consume();
+
+	@Override
 	KeyInteractionCmdBinder<W, C, I, D> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
 
 	@Override

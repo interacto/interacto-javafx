@@ -54,7 +54,7 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	KeysBinder(final JfxInstrument instrument, final BindingsObserver observer) {
 		this(null, null, null, Collections.emptyList(),
 			instrument, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
-			null, false, null, null, null, Collections.emptyList(), null, null, null, observer);
+			null, false, null, null, null, Collections.emptyList(), null, null, null, observer, false);
 	}
 
 	KeysBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> whenPredicate, final Function<KeysData, C> cmdProducer,
@@ -62,9 +62,9 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 		final BiConsumer<KeysData, C> onEnd, final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels,
 		final HelpAnimation helpAnimation, final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
 		final Collection<KeyCode> keyCodes, final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct,
-		final BiConsumer<KeysData, C> cannotExecFct, final BindingsObserver observer) {
+		final BiConsumer<KeysData, C> cannotExecFct, final BindingsObserver observer, final boolean consumeEvents) {
 		super(initCmd, whenPredicate, cmdProducer, widgets, KeysPressed::new, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
-			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 		codes = keyCodes;
 		checkCode = i -> {
 			final List<KeyCode> keys = i.getKeyCodes();
@@ -110,6 +110,11 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	@Override
 	public KeysBinder<W, C> when(final BooleanSupplier checkCmd) {
 		return when(i -> checkCmd.getAsBoolean());
+	}
+
+	@Override
+	public KeysBinder<W, C> consume() {
+		return (KeysBinder<W, C>) super.consume();
 	}
 
 	@Override

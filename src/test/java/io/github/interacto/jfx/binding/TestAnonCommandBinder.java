@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(ApplicationExtension.class)
-public class TestAnonCommandBinder extends TestNodeBinder<Button> {
+public class TestAnonCommandBinder extends BaseNodeBinderTest<Button> {
 	@Mock A a;
 
 	@Override

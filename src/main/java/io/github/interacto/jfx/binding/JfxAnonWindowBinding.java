@@ -36,9 +36,9 @@ class JfxAnonWindowBinding<C extends Command, I extends JfxInteraction<D, ?, ?>,
 						final Consumer<D> endOrCancel, final List<Window> widgets,
 						final boolean asyncExec, final boolean strict, final long timeoutThrottle, final Set<LogLevel> loggers,
 						final boolean help, final HelpAnimation animation, final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct,
-						final BiConsumer<D, C> cannotExecFct) {
+						final BiConsumer<D, C> cannotExecFct, final boolean consumeEvents) {
 		super(continuousExec, interaction, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel,
-			endOrCancel, asyncExec, strict, timeoutThrottle, loggers, help, animation, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			endOrCancel, asyncExec, strict, timeoutThrottle, loggers, help, animation, hadNoEffectFct, hadEffectsFct, cannotExecFct, consumeEvents);
 
 		interaction.registerToWindows(widgets);
 	}

@@ -44,8 +44,9 @@ class JfxAnonMenuItemBinding<C extends Command, I extends MenuItemInteraction<Wi
 			final Consumer<WidgetData<MenuItem>> endOrCancel, final List<MenuItem> widgets, final List<ObservableList<? extends MenuItem>> additionalWidgets,
 			final boolean asyncExec, final boolean strict, final long timeoutThrottle, final Set<LogLevel> loggers,
 			final boolean help, final HelpAnimation animation, final BiConsumer<WidgetData<MenuItem>, C> hadNoEffectFct, final BiConsumer<WidgetData<MenuItem>, C> hadEffectsFct,
-			final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct) {
-		super(continuousExec, interaction, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel, asyncExec, strict, timeoutThrottle, loggers, help, animation, hadNoEffectFct, hadEffectsFct, cannotExecFct);
+			final BiConsumer<WidgetData<MenuItem>, C> cannotExecFct, final boolean consumeEvents) {
+		super(continuousExec, interaction, initCmdFct, updateCmdFct, check, onEndFct, cmdFunction, cancel, endOrCancel, asyncExec, strict, timeoutThrottle,
+			loggers, help, animation, hadNoEffectFct, hadEffectsFct, cannotExecFct, consumeEvents);
 
 		interaction.registerToMenuItems(widgets);
 

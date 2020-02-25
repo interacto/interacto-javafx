@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestTextInputBinder extends TestNodeBinder<TextInputControl> implements TimeoutWaiter {
+public class TestTextInputBinder extends BaseNodeBinderTest<TextInputControl> implements TimeoutWaiter {
 	@Override
 	@Start
 	public void start(final Stage stage) {

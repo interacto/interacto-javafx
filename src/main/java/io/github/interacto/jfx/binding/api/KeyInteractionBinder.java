@@ -47,6 +47,9 @@ public interface KeyInteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D ex
 	KeyInteractionBinder<W, I, D> log(final LogLevel... level);
 
 	@Override
+	KeyInteractionBinder<W, I, D> consume();
+
+	@Override
 	KeyInteractionBinder<W, I, D> end(final Runnable endFct);
 
 	@Override

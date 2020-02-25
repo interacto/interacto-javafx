@@ -52,7 +52,7 @@ abstract class JfxAnonBinding<C extends Command, I extends JfxInteraction<D, ?, 
 		final Predicate<D> check, final BiConsumer<D, C> onEndFct, final Function<D, C> cmdFunction, final Consumer<D> cancel,
 		final Consumer<D> endOrCancel, final boolean asyncExec, final boolean strict, final long timeoutThrottle, final Set<LogLevel> loggers,
 		final boolean help, final HelpAnimation animation, final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct,
-		final BiConsumer<D, C> cannotExecFct) {
+		final BiConsumer<D, C> cannotExecFct, final boolean consumeEvents) {
 		super(continuousExec, interaction, cmdFunction, help, animation);
 		execInitCmd = initCmdFct;
 		execUpdateCmd = updateCmdFct;
@@ -66,6 +66,7 @@ abstract class JfxAnonBinding<C extends Command, I extends JfxInteraction<D, ?, 
 		onEnd = onEndFct;
 		strictStart = strict;
 		interaction.setThrottleTimeout(timeoutThrottle);
+		interaction.setConsumeEvents(consumeEvents);
 		configureLoggers(loggers);
 	}
 

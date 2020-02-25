@@ -45,6 +45,12 @@ public interface BaseBinderBuilder<W> {
 	BaseBinderBuilder<W> end(final Runnable endFct);
 
 	/**
+	 * If called, all the events the interaction will process will be consumed.
+	 * @return The builder to chain the building configuration.
+	 */
+	BaseBinderBuilder<W> consume();
+
+	/**
 	 * Specifies the loggings to use.
 	 * Several call to 'log' can be done to log different parts:
 	 * log(LogLevel.INTERACTION).log(LogLevel.COMMAND)

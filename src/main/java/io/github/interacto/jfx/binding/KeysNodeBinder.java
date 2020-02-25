@@ -45,7 +45,7 @@ class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
 		this(null, null, null, Collections.emptyList(),
 			instrument, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
 			null, false, null, null, null, Collections.emptyList(), null, null,
-			null, observer);
+			null, observer, false);
 	}
 
 	KeysNodeBinder(final BiConsumer<KeysData, C> initCmd, final Predicate<KeysData> checkConditions, final Function<KeysData, C> cmdProducer,
@@ -53,16 +53,16 @@ class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
 		extends Node>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation, final boolean withHelp,
 		final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel, final Collection<KeyCode> codes,
 		final BiConsumer<KeysData, C> hadNoEffectFct, final BiConsumer<KeysData, C> hadEffectsFct, final BiConsumer<KeysData, C> cannotExecFct,
-		final BindingsObserver observer) {
+		final BindingsObserver observer, final boolean consumeEvents) {
 		super(initCmd, checkConditions, cmdProducer, widgets, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp,
-			msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			msgProp, cancel, codes, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
 	protected KeysNodeBinder<C> duplicate() {
 		return new KeysNodeBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes),
-			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer);
+			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
 		final JfxAnonNodeBinding<C, KeysPressed, KeysData> binding = new JfxAnonNodeBinding<>(false, interactionSupplier.get(),
 			initCmd, null, checkCode, onEnd, cmdProducer, null, null, widgets, additionalWidgets,
 			async, false, 0L, logLevels, withHelp, helpAnimation, hadNoEffectFct, hadEffectsFct,
-			cannotExecFct);
+			cannotExecFct, consumeEvents);
 		binding.setProgressBarProp(progressProp);
 		binding.setProgressMsgProp(msgProp);
 		binding.setCancelCmdButton(cancel);

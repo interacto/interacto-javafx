@@ -61,6 +61,7 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	protected BiConsumer<D, C> hadNoEffectFct;
 	protected BiConsumer<D, C> cannotExecFct;
 	protected BiConsumer<D, C> onEnd;
+	protected boolean consumeEvents;
 	protected List<ObservableList<? extends W>> additionalWidgets;
 	protected EnumSet<LogLevel> logLevels;
 	protected HelpAnimation helpAnimation;
@@ -73,7 +74,7 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	Binder(final JfxInstrument ins, final BindingsObserver observer) {
 		this(null, null, null, Collections.emptyList(), null,
 			ins, false, null, Collections.emptyList(), EnumSet.noneOf(LogLevel.class),
-			null, false, null, null, null, null, null, null, observer);
+			null, false, null, null, null, null, null, null, observer, false);
 	}
 
 	Binder(final BiConsumer<D, C> initCmd, final Predicate<D> checkConditions, final Function<D, C> cmdProducer, final List<W> widgets,
@@ -81,7 +82,7 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 			final List<ObservableList<? extends W>> additionalWidgets, final EnumSet<LogLevel> logLevels, final HelpAnimation helpAnimation,
 			final boolean withHelp, final DoubleProperty progressProp, final StringProperty msgProp, final Button cancel,
 			final BiConsumer<D, C> hadNoEffectFct, final BiConsumer<D, C> hadEffectsFct, final BiConsumer<D, C> cannotExecFct,
-			final BindingsObserver observer) {
+			final BindingsObserver observer, final boolean consumeEvents) {
 		super();
 		this.initCmd = initCmd;
 		this.checkConditions = checkConditions;
@@ -102,6 +103,7 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 		this.msgProp = msgProp;
 		this.cancel = cancel;
 		this.observer = observer;
+		this.consumeEvents = consumeEvents;
 	}
 
 	protected abstract Binder<W, C, I, D> duplicate();
@@ -196,6 +198,13 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	@Override
 	public Binder<W, C, I, D> end(final Runnable endFct) {
 		return end((i, c) -> endFct.run());
+	}
+
+	@Override
+	public Binder<W, C, I, D> consume() {
+		final Binder<W, C, I, D> dup = duplicate();
+		dup.consumeEvents = true;
+		return dup;
 	}
 
 	@Override
