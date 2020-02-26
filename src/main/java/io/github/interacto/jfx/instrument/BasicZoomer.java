@@ -61,11 +61,10 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 		if(withKeys) {
 			nodeBinder()
 				.usingInteraction(() -> new KeyPressed(false))
-				.toProduce(Zoom::new)
+				.toProduce(() -> new Zoom(getZoomable()))
 				.on(zoomable)
 				.first((i, c) -> {
 					final String key = i.getKey();
-					c.setZoomable(getZoomable());
 					if("+".equals(key)) {
 						c.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
 					}else {
@@ -80,9 +79,8 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 
 		nodeBinder()
 			.usingInteraction(KeysScroll::new)
-			.toProduce(Zoom::new)
+			.toProduce(() -> new Zoom(getZoomable()))
 			.on(zoomable)
-			.first(c -> c.setZoomable(zoomable))
 			.then((i, c) -> {
 				c.setZoomLevel(zoomable.getZoom() + (i.getIncrement() > 0 ? zoomable.getZoomIncrement() : -zoomable.getZoomIncrement()));
 				c.setPx(i.getPx());
