@@ -15,6 +15,7 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
+import io.github.interacto.error.ErrorCatcher;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
@@ -86,66 +87,103 @@ abstract class JfxAnonBinding<C extends Command, I extends JfxInteraction<D, ?, 
 	@Override
 	public void first() {
 		if(execInitCmd != null) {
-			execInitCmd.accept(getInteraction().getData(), getCommand());
+			try {
+				execInitCmd.accept(getInteraction().getData(), getCommand());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public void then() {
 		if(execUpdateCmd != null) {
-			execUpdateCmd.accept(getInteraction().getData(), getCommand());
+			try {
+				execUpdateCmd.accept(getInteraction().getData(), getCommand());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public void end() {
 		if(onEnd != null) {
-			onEnd.accept(getInteraction().getData(), getCommand());
+			try {
+				onEnd.accept(getInteraction().getData(), getCommand());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public void cancel() {
 		if(cancelFct != null) {
-			cancelFct.accept(getInteraction().getData());
+			try {
+				cancelFct.accept(getInteraction().getData());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public void endOrCancel() {
 		if(endOrCancelFct != null) {
-			endOrCancelFct.accept(getInteraction().getData());
+			try {
+				endOrCancelFct.accept(getInteraction().getData());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public void ifCmdHadNoEffect() {
 		if(hadNoEffectFct != null) {
-			hadNoEffectFct.accept(getInteraction().getData(), getCommand());
+			try {
+				hadNoEffectFct.accept(getInteraction().getData(), getCommand());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public void ifCmdHadEffects() {
 		if(hadEffectsFct != null) {
-			hadEffectsFct.accept(getInteraction().getData(), getCommand());
+			try {
+				hadEffectsFct.accept(getInteraction().getData(), getCommand());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public void ifCannotExecuteCmd() {
 		if(cannotExecFct != null) {
-			cannotExecFct.accept(getInteraction().getData(), getCommand());
+			try {
+				cannotExecFct.accept(getInteraction().getData(), getCommand());
+			}catch(final Exception ex) {
+				ErrorCatcher.getInstance().reportError(ex);
+			}
 		}
 	}
 
 	@Override
 	public boolean when() {
-		final boolean ok = checkInteraction == null || checkInteraction.test(getInteraction().getData());
-		if(loggerBinding != null) {
-			loggerBinding.log(Level.INFO, "Checking condition: " + ok);
+		try {
+			final boolean ok = checkInteraction == null || checkInteraction.test(getInteraction().getData());
+			if(loggerBinding != null) {
+				loggerBinding.log(Level.INFO, "Checking condition: " + ok);
+			}
+			return ok;
+		}catch(final Exception ex) {
+			ErrorCatcher.getInstance().reportError(ex);
+			return false;
 		}
-		return ok;
 	}
 
 	@Override
