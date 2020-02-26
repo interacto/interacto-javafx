@@ -177,21 +177,21 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	}
 
 	@Override
-	public InteractionCmdBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct) {
+	public Binder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct) {
 		final Binder<W, C, I, D> dup = duplicate();
 		dup.hadEffectsFct = hadEffectsFct;
 		return dup;
 	}
 
 	@Override
-	public InteractionCmdBinder<W, C, I, D> ifHadNoEffect(final BiConsumer<D, C> noEffectFct) {
+	public Binder<W, C, I, D> ifHadNoEffect(final BiConsumer<D, C> noEffectFct) {
 		final Binder<W, C, I, D> dup = duplicate();
 		dup.hadNoEffectFct = noEffectFct;
 		return dup;
 	}
 
 	@Override
-	public InteractionCmdBinder<W, C, I, D> end(final Consumer<C> onEnd) {
+	public Binder<W, C, I, D> end(final Consumer<C> onEnd) {
 		return end((i, c) -> onEnd.accept(c));
 	}
 

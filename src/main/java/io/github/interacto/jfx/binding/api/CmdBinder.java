@@ -17,8 +17,50 @@ package io.github.interacto.jfx.binding.api;
 import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.interaction.JfxInteraction;
+import io.github.interacto.jfx.interaction.help.HelpAnimation;
+import io.github.interacto.logging.LogLevel;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
 public interface CmdBinder<W, C extends Command> extends CmdBinderBuilder<W, C> {
+	@Override
+	CmdBinder<W, C> first(final Consumer<C> initCmdFct);
+
+	@Override
+	CmdBinder<W, C> end(final Consumer<C> onEnd);
+
+	@Override
+	CmdBinder<W, C> end(final Runnable endFct);
+
+	@Override
+	CmdBinder<W, C> on(final W... widgets);
+
+	@Override
+	CmdBinder<W, C> on(final ObservableList<? extends W> widgets);
+
+	@Override
+	CmdBinder<W, C> consume();
+
+	@Override
+	CmdBinder<W, C> when(final BooleanSupplier whenPredicate);
+
+	@Override
+	CmdBinder<W, C> log(final LogLevel... level);
+
+	@Override
+	CmdBinder<W, C> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
+
+	@Override
+	CmdBinder<W, C> help(final HelpAnimation animation);
+
+	@Override
+	CmdBinder<W, C> help(final Pane helpPane);
+
 	<I extends JfxInteraction<D, ?, ?>, D extends InteractionData> InteractionCmdBinder<W, C, I, D> usingInteraction(final Supplier<I> interactionSupplier);
 }

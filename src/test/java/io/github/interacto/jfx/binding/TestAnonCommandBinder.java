@@ -14,18 +14,21 @@
  */
 package io.github.interacto.jfx.binding;
 
+import io.github.interacto.jfx.interaction.library.ButtonPressed;
+import java.util.concurrent.atomic.AtomicInteger;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.interacto.jfx.interaction.library.ButtonPressed;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.util.WaitForAsyncUtils;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
@@ -68,6 +71,21 @@ public class TestAnonCommandBinder extends BaseNodeBinderTest<Button> {
 	@Test
 	void testExceptionNullCmd() {
 		assertThrows(IllegalArgumentException.class, () -> Bindings.anonCmdBinder(null));
+	}
+
+	@Test
+	void testDifferentOrderBuilder(final FxRobot robot) {
+		final AtomicInteger cpt = new AtomicInteger();
+
+		Bindings.anonCmdBinder(() -> cpt.incrementAndGet())
+			.on(widget1, widget2)
+			.usingInteraction(ButtonPressed::new)
+			.bind();
+
+		robot.clickOn(widget1);
+		WaitForAsyncUtils.waitForFxEvents();
+
+		assertEquals(1, cpt.get());
 	}
 
 	static class A {
