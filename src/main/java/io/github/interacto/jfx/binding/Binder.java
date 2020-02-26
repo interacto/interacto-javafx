@@ -177,7 +177,7 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	}
 
 	@Override
-	public Binder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct) {
+	public Binder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectsFct) {
 		final Binder<W, C, I, D> dup = duplicate();
 		dup.hadEffectsFct = hadEffectsFct;
 		return dup;

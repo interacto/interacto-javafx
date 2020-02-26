@@ -166,8 +166,8 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	}
 
 	@Override
-	public NodeUpdateBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectFct) {
-		return (NodeUpdateBinder<W, C, I, D>) super.ifHadEffects(hadEffectFct);
+	public NodeUpdateBinder<W, C, I, D> ifHadEffects(final BiConsumer<D, C> hadEffectsFct) {
+		return (NodeUpdateBinder<W, C, I, D>) super.ifHadEffects(hadEffectsFct);
 	}
 
 	@Override

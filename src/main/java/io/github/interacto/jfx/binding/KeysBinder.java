@@ -123,8 +123,8 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	}
 
 	@Override
-	public KeysBinder<W, C> ifHadEffects(final BiConsumer<KeysData, C> hadEffectFct) {
-		return (KeysBinder<W, C>) super.ifHadEffects(hadEffectFct);
+	public KeysBinder<W, C> ifHadEffects(final BiConsumer<KeysData, C> hadEffectsFct) {
+		return (KeysBinder<W, C>) super.ifHadEffects(hadEffectsFct);
 	}
 
 	@Override
