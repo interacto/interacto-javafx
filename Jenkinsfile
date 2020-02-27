@@ -59,7 +59,7 @@ pipeline {
             steps {
                 rtMavenRun (
                     pom: 'pom.xml',
-                    goals: 'clean package jacoco:report',
+                    goals: 'clean install jacoco:report',
                     deployerId: 'MAVEN_DEPLOYER'
                 )
 
