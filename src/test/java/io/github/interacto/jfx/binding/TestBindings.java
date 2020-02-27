@@ -14,10 +14,10 @@
  */
 package io.github.interacto.jfx.binding;
 
+import io.github.interacto.jfx.binding.api.LogLevel;
 import io.github.interacto.jfx.command.ActivateInactivateInstruments;
 import io.github.interacto.jfx.interaction.library.DnD;
 import io.github.interacto.jfx.interaction.library.SrcTgtPointsData;
-import io.github.interacto.logging.LogLevel;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;

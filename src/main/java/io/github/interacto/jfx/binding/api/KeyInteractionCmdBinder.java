@@ -19,7 +19,6 @@ import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.binding.JfxWidgetBinding;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
-import io.github.interacto.logging.LogLevel;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;

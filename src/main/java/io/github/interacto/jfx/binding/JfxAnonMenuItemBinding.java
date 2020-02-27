@@ -15,10 +15,10 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
+import io.github.interacto.jfx.binding.api.LogLevel;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.MenuItemInteraction;
 import io.github.interacto.jfx.interaction.library.WidgetData;
-import io.github.interacto.logging.LogLevel;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;

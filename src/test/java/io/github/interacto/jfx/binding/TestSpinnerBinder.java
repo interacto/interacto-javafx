@@ -15,13 +15,13 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.TimeoutWaiter;
+import io.github.interacto.jfx.binding.api.LogLevel;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.SpinnerChangedFSM;
 import io.github.interacto.jfx.robot.FxRobotSpinner;
 import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import io.github.interacto.jfx.ui.SpinnerFixed;
-import io.github.interacto.logging.LogLevel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Spinner;

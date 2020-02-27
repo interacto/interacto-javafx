@@ -14,10 +14,11 @@
  */
 package io.github.interacto.jfx.binding;
 
+import io.github.interacto.command.Command;
+import io.github.interacto.jfx.binding.api.LogLevel;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
-import io.github.interacto.logging.LogLevel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,10 +95,12 @@ public class TestButtonBinder extends BaseNodeBinderTest<Button> {
 		robot.clickOn(widget2);
 		robot.clickOn(widget1);
 
+		assertEquals(2, binding.getTimesEnded());
 		ctx.cmdsProduced(2)
 			.listAssert()
 			.extracting(elt -> elt.getCommand())
-			.allMatch(cmd -> cmd.isDone())
+			// Flushed because the command policy is NONE
+			.allSatisfy(cmd -> assertEquals(Command.CmdStatus.FLUSHED, cmd.getStatus()))
 			.doesNotHaveDuplicates();
 	}
 

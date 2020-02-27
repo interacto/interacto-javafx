@@ -15,11 +15,11 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.Command;
+import io.github.interacto.jfx.binding.api.LogLevel;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
-import io.github.interacto.logging.LogLevel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

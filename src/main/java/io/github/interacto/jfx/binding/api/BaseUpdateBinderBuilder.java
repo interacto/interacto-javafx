@@ -15,7 +15,6 @@
 package io.github.interacto.jfx.binding.api;
 
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
-import io.github.interacto.logging.LogLevel;
 import java.util.function.BooleanSupplier;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;

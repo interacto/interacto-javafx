@@ -17,7 +17,6 @@ package io.github.interacto.jfx.binding.api;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
-import io.github.interacto.logging.LogLevel;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;

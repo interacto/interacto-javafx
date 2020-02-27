@@ -18,7 +18,6 @@ import io.github.interacto.command.Command;
 import io.github.interacto.interaction.InteractionData;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
-import io.github.interacto.logging.LogLevel;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import javafx.beans.property.DoubleProperty;

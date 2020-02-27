@@ -16,10 +16,10 @@ package io.github.interacto.jfx.binding;
 
 import io.github.interacto.command.AnonCommand;
 import io.github.interacto.interaction.InteractionData;
+import io.github.interacto.jfx.binding.api.LogLevel;
 import io.github.interacto.jfx.instrument.JfxInstrument;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import io.github.interacto.jfx.interaction.help.HelpAnimation;
-import io.github.interacto.logging.LogLevel;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.BiConsumer;
