@@ -189,6 +189,14 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			node.removeEventHandler(MouseEvent.MOUSE_RELEASED, getMouseHandler());
 			return;
 		}
+		if(eventType == MouseEvent.MOUSE_ENTERED) {
+			node.removeEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_EXITED) {
+			node.removeEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
+			return;
+		}
 		if(eventType == MouseEvent.MOUSE_DRAGGED) {
 			node.removeEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseHandler());
 			return;
@@ -235,6 +243,14 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			node.addEventHandler(MouseEvent.MOUSE_MOVED, getMouseHandler());
 			return;
 		}
+		if(eventType == MouseEvent.MOUSE_ENTERED) {
+			node.addEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_EXITED) {
+			node.addEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
+			return;
+		}
 		if(eventType == ScrollEvent.SCROLL) {
 			node.addEventHandler(ScrollEvent.SCROLL, getScrolledHandler());
 			return;
@@ -271,6 +287,14 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 		if(eventType == MouseEvent.MOUSE_DRAGGED) {
 			window.removeEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_ENTERED) {
+			window.removeEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_EXITED) {
+			window.removeEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
 			return;
 		}
 		if(eventType == ScrollEvent.SCROLL) {
@@ -313,6 +337,14 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 		if(eventType == MouseEvent.MOUSE_MOVED) {
 			window.addEventHandler(MouseEvent.MOUSE_MOVED, getMouseHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_ENTERED) {
+			window.addEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
+			return;
+		}
+		if(eventType == MouseEvent.MOUSE_EXITED) {
+			window.addEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
 			return;
 		}
 		if(eventType == ScrollEvent.SCROLL) {
