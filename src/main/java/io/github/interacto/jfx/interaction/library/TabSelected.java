@@ -24,7 +24,7 @@ import javafx.scene.control.TabPane;
  * A user interaction for tabs.
  * @author Arnaud BLOUIN
  */
-public class TabSelected extends JfxInteraction<WidgetData<TabPane>, TabSelectedFSM, TabPane> {
+public class TabSelected extends JfxInteraction<WidgetData<TabPane>, TabSelectedFSM> {
 	private final ChangeListener<Tab> event;
 	private final TabSelectedFSM.TabSelectedFSMHandler handler;
 
@@ -38,7 +38,7 @@ public class TabSelected extends JfxInteraction<WidgetData<TabPane>, TabSelected
 			@Override
 			public void initToSelectedHandler(final TabEvent event) {
 				if(event.getSource() instanceof TabPane) {
-					widget = (TabPane) event.getSource();
+					((WidgetDataImpl<TabPane>) data).setWidget((TabPane) event.getSource());
 				}
 			}
 
@@ -60,8 +60,8 @@ public class TabSelected extends JfxInteraction<WidgetData<TabPane>, TabSelected
 	}
 
 	@Override
-	public WidgetData<TabPane> getData() {
-		return this;
+	protected WidgetDataImpl<TabPane> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

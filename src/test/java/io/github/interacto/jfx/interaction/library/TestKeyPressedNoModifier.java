@@ -42,8 +42,8 @@ public class TestKeyPressedNoModifier extends BaseJfXInteractionTest<KeyPressed>
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals("A", interaction.getKey());
-				assertEquals(KeyCode.A, interaction.getKeyCode());
+				assertEquals("A", interaction.getData().getKey());
+				assertEquals(KeyCode.A, interaction.getData().getKeyCode());
 			}
 		});
 		interaction.processEvent(createKeyPressEvent("A", KeyCode.A));

@@ -14,9 +14,10 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
+import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.scene.input.KeyEvent;
 
-public class KeysTyped extends MultiKeyInteraction<KeysData, KeysTypedFSM> {
+public class KeysTyped extends JfxInteraction<KeysData, KeysTypedFSM> {
 	private final KeysTypedFSM.KeysTypedFSMHandler handler;
 
 	public KeysTyped() {
@@ -25,7 +26,7 @@ public class KeysTyped extends MultiKeyInteraction<KeysData, KeysTypedFSM> {
 		handler = new KeysTypedFSM.KeysTypedFSMHandler() {
 			@Override
 			public void onKeyTyped(final KeyEvent event) {
-				addKeysData(event);
+				((KeysDataImpl) data).addKeysData(event);
 			}
 
 			@Override
@@ -38,7 +39,7 @@ public class KeysTyped extends MultiKeyInteraction<KeysData, KeysTypedFSM> {
 	}
 
 	@Override
-	public KeysData getData() {
-		return this;
+	protected KeysData createDataObject() {
+		return new KeysDataImpl();
 	}
 }

@@ -14,15 +14,17 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
+import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.scene.input.KeyEvent;
 
-public class KeysScroll extends MultiKeyInteraction<KeysScrollData, KeysScrollFSM> implements KeysScrollData {
+public class KeysScroll extends JfxInteraction<KeysScrollData, KeysScrollFSM> {
 	private final Scroll scroll;
 	private final KeysScrollFSM.KeysScrollFSMHandler handler;
 
 	public KeysScroll() {
 		super(new KeysScrollFSM());
 		scroll = new Scroll(fsm.scrollFSM);
+		((KeysScrollDataImpl) data).setScrollData(scroll.getData());
 
 		handler = new KeysScrollFSM.KeysScrollFSMHandler() {
 			@Override
@@ -32,12 +34,12 @@ public class KeysScroll extends MultiKeyInteraction<KeysScrollData, KeysScrollFS
 
 			@Override
 			public void onKeyPressed(final KeyEvent event) {
-				addKeysData(event);
+				((KeysScrollDataImpl) data).addKeysData(event);
 			}
 
 			@Override
 			public void onKeyReleased(final KeyEvent event) {
-				removeKeysData(event);
+				((KeysScrollDataImpl) data).removeKeysData(event);
 			}
 		};
 
@@ -45,33 +47,13 @@ public class KeysScroll extends MultiKeyInteraction<KeysScrollData, KeysScrollFS
 	}
 
 	@Override
+	protected KeysScrollData createDataObject() {
+		return new KeysScrollDataImpl();
+	}
+
+	@Override
 	public void reinitData() {
 		super.reinitData();
 		scroll.reinitData();
-	}
-
-	@Override
-	public KeysScrollData getData() {
-		return this;
-	}
-
-	@Override
-	public Object getScrolledNode() {
-		return scroll.getData().getScrolledNode();
-	}
-
-	@Override
-	public double getPx() {
-		return scroll.getData().getPx();
-	}
-
-	@Override
-	public double getPy() {
-		return scroll.getData().getPy();
-	}
-
-	@Override
-	public double getIncrement() {
-		return scroll.getData().getIncrement();
 	}
 }

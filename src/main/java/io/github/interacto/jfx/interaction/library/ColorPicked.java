@@ -23,7 +23,7 @@ import javafx.scene.control.ColorPicker;
  * A user interaction for colour pickers.
  * @author Arnaud BLOUIN
  */
-public class ColorPicked extends JfxInteraction<WidgetData<ColorPicker>, ColorPickedFSM, ColorPicker> {
+public class ColorPicked extends JfxInteraction<WidgetData<ColorPicker>, ColorPickedFSM> {
 	private final ColorPickedFSM.ColorPickedFSMFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class ColorPicked extends JfxInteraction<WidgetData<ColorPicker>, ColorPi
 			@Override
 			public void initToPickedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof ColorPicker) {
-					widget = (ColorPicker) event.getSource();
+					((WidgetDataImpl<ColorPicker>) data).setWidget((ColorPicker) event.getSource());
 				}
 			}
 
@@ -57,8 +57,8 @@ public class ColorPicked extends JfxInteraction<WidgetData<ColorPicker>, ColorPi
 	}
 
 	@Override
-	public WidgetData<ColorPicker> getData() {
-		return this;
+	protected WidgetData<ColorPicker> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

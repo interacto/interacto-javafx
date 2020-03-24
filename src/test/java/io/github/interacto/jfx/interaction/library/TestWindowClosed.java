@@ -92,7 +92,7 @@ public class TestWindowClosed extends BaseJfXInteractionTest<WindowClosed> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				Assertions.assertEquals(window, interaction.getWidget());
+				Assertions.assertEquals(window, interaction.getData().getWidget());
 			}
 		});
 		interaction.processEvent(new ActionEvent(window, null));

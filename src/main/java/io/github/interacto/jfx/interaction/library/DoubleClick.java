@@ -15,9 +15,8 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.jfx.interaction.JfxInteraction;
-import javafx.scene.Node;
 
-public class DoubleClick extends JfxInteraction<FullPointData, DoubleClickFSM, Node> {
+public class DoubleClick extends JfxInteraction<PointData, DoubleClickFSM> {
 	protected final Click firstClick;
 
 	public DoubleClick() {
@@ -31,13 +30,18 @@ public class DoubleClick extends JfxInteraction<FullPointData, DoubleClickFSM, N
 	}
 
 	@Override
+	protected PointData createDataObject() {
+		return new PointDataImpl();
+	}
+
+	@Override
 	public void reinitData() {
 		super.reinitData();
 		firstClick.reinitData();
 	}
 
 	@Override
-	public FullPointData getData() {
+	public PointData getData() {
 		return firstClick.getData();
 	}
 }

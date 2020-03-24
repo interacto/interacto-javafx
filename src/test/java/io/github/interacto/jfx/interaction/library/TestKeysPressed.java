@@ -44,8 +44,8 @@ public class TestKeysPressed extends BaseJfXInteractionTest<KeysPressed> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(1, interaction.getKeys().size());
-				assertEquals("A", interaction.getKeys().get(0));
+				assertEquals(1, interaction.getData().getKeys().size());
+				assertEquals("A", interaction.getData().getKeys().get(0));
 			}
 		});
 		interaction.processEvent(createKeyPressEvent("A", KeyCode.A));
@@ -66,9 +66,9 @@ public class TestKeysPressed extends BaseJfXInteractionTest<KeysPressed> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(2, interaction.getKeys().size());
-				assertEquals("A", interaction.getKeys().get(0));
-				assertEquals("B", interaction.getKeys().get(1));
+				assertEquals(2, interaction.getData().getKeys().size());
+				assertEquals("A", interaction.getData().getKeys().get(0));
+				assertEquals("B", interaction.getData().getKeys().get(1));
 			}
 		});
 		interaction.processEvent(createKeyPressEvent("B", KeyCode.B));
@@ -90,8 +90,8 @@ public class TestKeysPressed extends BaseJfXInteractionTest<KeysPressed> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(1, interaction.getKeys().size());
-				assertEquals("A", interaction.getKeys().get(0));
+				assertEquals(1, interaction.getData().getKeys().size());
+				assertEquals("A", interaction.getData().getKeys().get(0));
 			}
 		});
 		interaction.processEvent(createKeyReleaseEvent("B", KeyCode.B));
@@ -130,7 +130,7 @@ public class TestKeysPressed extends BaseJfXInteractionTest<KeysPressed> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals("A", interaction.getKeys().get(0));
+				assertEquals("A", interaction.getData().getKeys().get(0));
 			}
 		});
 		pane.fireEvent(createKeyPressEvent("A", KeyCode.A));

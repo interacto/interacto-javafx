@@ -54,7 +54,7 @@ import javafx.stage.Window;
  * Base of an instrument for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxInstrument extends InstrumentImpl<JfxWidgetBinding<?, ? extends JfxInteraction<?, ?, ?>, ?>> {
+public abstract class JfxInstrument extends InstrumentImpl<JfxWidgetBinding<?, ? extends JfxInteraction<?, ?>, ?>> {
 	/**
 	 * Creates the instrument.
 	 */

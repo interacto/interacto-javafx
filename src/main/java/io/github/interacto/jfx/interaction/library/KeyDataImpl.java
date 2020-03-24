@@ -14,30 +14,42 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import java.util.Optional;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.geometry.Point3D;
-import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
-public interface FullPointData extends PointData {
-	ReadOnlyObjectProperty<Point3D> srcLocalPointProperty();
-
-	ReadOnlyObjectProperty<Point3D> srcScenePointProperty();
-
-	ReadOnlyObjectProperty<Node> srcObjectProperty();
+public class KeyDataImpl implements KeyData {
+	/** The key pressed. */
+	protected String key;
+	/** The code of the key. */
+	protected KeyCode keyCode;
+	/** The object that produced the interaction. */
+	protected Object object;
 
 	@Override
-	default Point3D getSrcLocalPoint() {
-		return srcLocalPointProperty().get();
+	public Object getObject() {
+		return object;
 	}
 
 	@Override
-	default Point3D getSrcScenePoint() {
-		return srcScenePointProperty().get();
+	public String getKey() {
+		return key;
 	}
 
 	@Override
-	default Optional<Node> getSrcObject() {
-		return Optional.ofNullable(srcObjectProperty().get());
+	public KeyCode getKeyCode() {
+		return keyCode;
+	}
+
+	protected void setKeyData(final KeyEvent event) {
+		object = event.getSource();
+		key = KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter();
+		keyCode = event.getCode();
+	}
+
+	@Override
+	public void flush() {
+		object = null;
+		key = null;
+		keyCode = null;
 	}
 }

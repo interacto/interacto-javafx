@@ -29,7 +29,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-public interface InteractionUpdateBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public interface InteractionUpdateBinder<W, I extends JfxInteraction<D, ?>, D extends InteractionData>
 		extends InteractionUpdateBinderBuilder<W, I, D> {
 	@Override
 	InteractionUpdateBinder<W, I, D> on(final W... widgets);

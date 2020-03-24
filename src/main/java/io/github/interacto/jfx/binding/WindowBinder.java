@@ -38,7 +38,7 @@ import javafx.stage.Window;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window>, ?, ?>> extends Binder<Window, C, I, WidgetData<Window>> {
+class WindowBinder<C extends Command, I extends JfxInteraction<WidgetData<Window>, ?>> extends Binder<Window, C, I, WidgetData<Window>> {
 	WindowBinder(final JfxInstrument instrument, final BindingsObserver observer) {
 		super(instrument, observer);
 	}

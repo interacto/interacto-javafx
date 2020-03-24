@@ -48,7 +48,7 @@ import javafx.scene.layout.Pane;
  * @param <I> The type of the user interaction to bind.
  * @author Arnaud Blouin
  */
-abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?>, D extends InteractionData>
 		implements CmdBinder<W, C>, InteractionBinder<W, I, D>, InteractionCmdBinder<W, C, I, D>, BaseBinder<W> {
 	protected BiConsumer<D, C> initCmd;
 	protected Predicate<D> checkConditions;
@@ -237,7 +237,7 @@ abstract class Binder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D
 	}
 
 	@Override
-	public <I2 extends JfxInteraction<D2, ?, ?>, D2 extends InteractionData> Binder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
+	public <I2 extends JfxInteraction<D2, ?>, D2 extends InteractionData> Binder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
 		final Binder<W, C, I, D> dup = duplicate();
 		dup.interactionSupplier = (Supplier<I>) interactionSupplier;
 		return (Binder<W, C, I2, D2>) dup;

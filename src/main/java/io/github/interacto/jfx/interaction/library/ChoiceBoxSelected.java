@@ -23,7 +23,7 @@ import javafx.scene.control.ChoiceBox;
  * A user interaction for combo boxes.
  * @author Arnaud BLOUIN
  */
-public class ChoiceBoxSelected extends JfxInteraction<WidgetData<ChoiceBox<?>>, ChoiceBoxSelectedFSM, ChoiceBox<?>> {
+public class ChoiceBoxSelected extends JfxInteraction<WidgetData<ChoiceBox<?>>, ChoiceBoxSelectedFSM> {
 	private final ChoiceBoxSelectedFSM.ChoiceBoxSelectedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class ChoiceBoxSelected extends JfxInteraction<WidgetData<ChoiceBox<?>>, 
 			@Override
 			public void initToSelectedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof ChoiceBox) {
-					widget = (ChoiceBox<?>) event.getSource();
+					((WidgetDataImpl<ChoiceBox<?>>) data).setWidget((ChoiceBox<?>) event.getSource());
 				}
 			}
 
@@ -57,8 +57,8 @@ public class ChoiceBoxSelected extends JfxInteraction<WidgetData<ChoiceBox<?>>, 
 	}
 
 	@Override
-	public WidgetData<ChoiceBox<?>> getData() {
-		return this;
+	protected WidgetDataImpl<ChoiceBox<?>> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

@@ -73,5 +73,5 @@ public interface CmdUpdateBinder<W, C extends Command> extends CmdUpdateBinderBu
 	@Override
 	CmdUpdateBinder<W, C> end(final Runnable endFct);
 
-	<I extends JfxInteraction<D, ?, ?>, D extends InteractionData> InteractionCmdUpdateBinder<W, C, I, D> usingInteraction(final Supplier<I> interactionSupplier);
+	<I extends JfxInteraction<D, ?>, D extends InteractionData> InteractionCmdUpdateBinder<W, C, I, D> usingInteraction(final Supplier<I> interactionSupplier);
 }

@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<?, ?, W>> extends BaseJfXInteractionTest<I>
+public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<? extends WidgetData<?>, ?>> extends BaseJfXInteractionTest<I>
 		implements TimeoutWaiter {
 	W wimpWidget;
 
@@ -65,7 +65,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStarts() {
-				assertEquals(wimpWidget, interaction.getWidget());
+				assertEquals(wimpWidget, interaction.getData().getWidget());
 			}
 		});
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
@@ -77,7 +77,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(wimpWidget, interaction.getWidget());
+				assertEquals(wimpWidget, interaction.getData().getWidget());
 			}
 		});
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
@@ -88,7 +88,7 @@ public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteractio
 	void testProcessEventReinit() {
 		interaction.processEvent(new ActionEvent(wimpWidget, null));
 		waitForTimeoutTransitions();
-		assertNull(interaction.getWidget());
+		assertNull(interaction.getData().getWidget());
 		assertTrue(interaction.getFsm().getCurrentState() instanceof InitState);
 	}
 

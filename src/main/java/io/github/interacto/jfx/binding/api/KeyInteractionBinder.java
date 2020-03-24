@@ -29,7 +29,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
-public interface KeyInteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends KeyInteractionBinderBuilder<W, I, D> {
+public interface KeyInteractionBinder<W, I extends JfxInteraction<D, ?>, D extends InteractionData> extends KeyInteractionBinderBuilder<W, I, D> {
 	@Override
 	KeyInteractionBinder<W, I, D> when(final Predicate<D> whenPredicate);
 

@@ -23,7 +23,7 @@ import javafx.scene.control.MenuButton;
  * A user interaction for menu buttons.
  * @author Arnaud BLOUIN
  */
-public class MenuButtonPressed extends JfxInteraction<WidgetData<MenuButton>, MenuButtonPressedFSM, MenuButton> {
+public class MenuButtonPressed extends JfxInteraction<WidgetData<MenuButton>, MenuButtonPressedFSM> {
 	private final MenuButtonPressedFSM.MenuButtonPressedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class MenuButtonPressed extends JfxInteraction<WidgetData<MenuButton>, Me
 			@Override
 			public void initToPressedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof MenuButton) {
-					widget = (MenuButton) event.getSource();
+					((WidgetDataImpl<MenuButton>) data).setWidget((MenuButton) event.getSource());
 				}
 			}
 
@@ -57,8 +57,8 @@ public class MenuButtonPressed extends JfxInteraction<WidgetData<MenuButton>, Me
 	}
 
 	@Override
-	public WidgetData<MenuButton> getData() {
-		return this;
+	protected WidgetDataImpl<MenuButton> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

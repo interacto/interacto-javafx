@@ -14,33 +14,35 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.jfx.interaction.JfxInteraction;
-import javafx.scene.input.MouseEvent;
+public class KeysScrollDataImpl extends KeysDataImpl implements KeysScrollData {
+	private ScrollData scrollData;
 
-public class MouseExited extends JfxInteraction<PointData, MouseExitedFSM> {
-	private final MouseExitedFSM.ExitFSMHandler handler;
-
-	public MouseExited() {
-		super(new MouseExitedFSM());
-
-		handler = new MouseExitedFSM.ExitFSMHandler() {
-			@Override
-			public void initToExit(final MouseEvent evt) {
-				((PointDataImpl) data).setPointData(evt.getX(), evt.getY(), evt.getZ(), evt.getSceneX(), evt.getSceneY(),
-					evt.getButton(), evt.getPickResult().getIntersectedNode());
-			}
-
-			@Override
-			public void reinitData() {
-				MouseExited.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
+	public KeysScrollDataImpl() {
+		super();
+		scrollData = new ScrollDataImpl();
 	}
 
 	@Override
-	protected PointData createDataObject() {
-		return new PointDataImpl();
+	public Object getScrolledNode() {
+		return scrollData.getScrolledNode();
+	}
+
+	@Override
+	public double getPx() {
+		return scrollData.getPx();
+	}
+
+	@Override
+	public double getPy() {
+		return scrollData.getPy();
+	}
+
+	@Override
+	public double getIncrement() {
+		return scrollData.getIncrement();
+	}
+
+	public void setScrollData(final ScrollData scrollData) {
+		this.scrollData = scrollData;
 	}
 }

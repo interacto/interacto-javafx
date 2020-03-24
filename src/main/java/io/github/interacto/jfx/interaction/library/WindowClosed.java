@@ -23,7 +23,7 @@ import javafx.stage.WindowEvent;
  * A user interaction for windows to be closed.
  * @author Arnaud BLOUIN
  */
-public class WindowClosed extends JfxInteraction<WidgetData<Window>, WindowClosedFSM, Window> {
+public class WindowClosed extends JfxInteraction<WidgetData<Window>, WindowClosedFSM> {
 	private final EventHandler<WindowEvent> winClose;
 	private final WindowClosedFSM.WindowClosedHandler handler;
 
@@ -37,7 +37,7 @@ public class WindowClosed extends JfxInteraction<WidgetData<Window>, WindowClose
 			@Override
 			public void initToClosedHandler(final WindowEvent event) {
 				if(event.getSource() instanceof Window) {
-					widget = (Window) event.getSource();
+					((WidgetDataImpl<Window>) data).setWidget((Window) event.getSource());
 				}
 			}
 
@@ -60,7 +60,12 @@ public class WindowClosed extends JfxInteraction<WidgetData<Window>, WindowClose
 
 	@Override
 	public WidgetData<Window> getData() {
-		return this;
+		return super.getData();
+	}
+
+	@Override
+	protected WidgetDataImpl<Window> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

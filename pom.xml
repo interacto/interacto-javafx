@@ -104,6 +104,8 @@
                         --add-exports javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
                         --add-exports javafx.graphics/com.sun.glass.ui.delegate=ALL-UNNAMED
                         --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+                        --add-opens interacto.javafx/io.github.interacto.jfx.instrument=ALL-UNNAMED
+                        --add-opens interacto.javafx/io.github.interacto.jfx.interaction.library=ALL-UNNAMED
                         -Xmx4000m
                         -Dglass.platform=Monocle
                         -Dheadless.geometry=1280x1024-32

@@ -23,7 +23,7 @@ import javafx.scene.control.Spinner;
  * A user interaction for spinners.
  * @author Arnaud BLOUIN
  */
-public class SpinnerChanged extends JfxInteraction<WidgetData<Spinner<?>>, SpinnerChangedFSM, Spinner<?>> {
+public class SpinnerChanged extends JfxInteraction<WidgetData<Spinner<?>>, SpinnerChangedFSM> {
 	final SpinnerChangedFSM.SpinnerChangedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class SpinnerChanged extends JfxInteraction<WidgetData<Spinner<?>>, Spinn
 			@Override
 			public void initToChangedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof Spinner<?>) {
-					widget = (Spinner<?>) event.getSource();
+					((WidgetDataImpl<Spinner<?>>) data).setWidget((Spinner<?>) event.getSource());
 				}
 			}
 
@@ -57,8 +57,8 @@ public class SpinnerChanged extends JfxInteraction<WidgetData<Spinner<?>>, Spinn
 	}
 
 	@Override
-	public WidgetData<Spinner<?>> getData() {
-		return this;
+	protected WidgetDataImpl<Spinner<?>> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

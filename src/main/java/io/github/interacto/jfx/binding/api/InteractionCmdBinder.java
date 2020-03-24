@@ -29,7 +29,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-public interface InteractionCmdBinder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public interface InteractionCmdBinder<W, C extends Command, I extends JfxInteraction<D, ?>, D extends InteractionData>
 		extends CmdBinderBuilder<W, C>, InteractionBinderBuilder<W, I, D> {
 	/**
 	 * Specifies the initialisation of the command when the interaction starts.

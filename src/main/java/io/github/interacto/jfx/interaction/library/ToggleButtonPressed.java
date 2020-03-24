@@ -23,7 +23,7 @@ import javafx.scene.control.ToggleButton;
  * A user interaction for toggle buttons.
  * @author Arnaud BLOUIN
  */
-public class ToggleButtonPressed extends JfxInteraction<WidgetData<ToggleButton>, ToggleButtonPressedFSM, ToggleButton> {
+public class ToggleButtonPressed extends JfxInteraction<WidgetData<ToggleButton>, ToggleButtonPressedFSM> {
 	private final ToggleButtonPressedFSM.ToggleButtonPressedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class ToggleButtonPressed extends JfxInteraction<WidgetData<ToggleButton>
 			@Override
 			public void initToPressedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof ToggleButton) {
-					widget = (ToggleButton) event.getSource();
+					((WidgetDataImpl<ToggleButton>) data).setWidget((ToggleButton) event.getSource());
 				}
 			}
 
@@ -58,7 +58,12 @@ public class ToggleButtonPressed extends JfxInteraction<WidgetData<ToggleButton>
 
 	@Override
 	public WidgetData<ToggleButton> getData() {
-		return this;
+		return super.getData();
+	}
+
+	@Override
+	protected WidgetDataImpl<ToggleButton> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

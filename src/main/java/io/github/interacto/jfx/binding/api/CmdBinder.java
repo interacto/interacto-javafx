@@ -61,5 +61,5 @@ public interface CmdBinder<W, C extends Command> extends CmdBinderBuilder<W, C> 
 	@Override
 	CmdBinder<W, C> help(final Pane helpPane);
 
-	<I extends JfxInteraction<D, ?, ?>, D extends InteractionData> InteractionCmdBinder<W, C, I, D> usingInteraction(final Supplier<I> interactionSupplier);
+	<I extends JfxInteraction<D, ?>, D extends InteractionData> InteractionCmdBinder<W, C, I, D> usingInteraction(final Supplier<I> interactionSupplier);
 }

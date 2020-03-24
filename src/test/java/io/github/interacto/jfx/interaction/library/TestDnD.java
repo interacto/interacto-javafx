@@ -48,11 +48,11 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStarts() {
-				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(11, interaction.getTgtLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getTgtLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.PRIMARY, interaction.getButton());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(11, interaction.getData().getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getTgtLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.PRIMARY, interaction.getData().getButton());
 			}
 		});
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
@@ -70,7 +70,7 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 	@Test
 	void testPressReleaseKOExecution() throws CancelFSMException {
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseReleaseEvent(11, 23, MouseButton.SECONDARY));
+		interaction.processEvent(createMouseDragEvent(11, 23, MouseButton.SECONDARY, null));
 		Mockito.verify(handler, Mockito.never()).fsmStarts();
 		Mockito.verify(handler, Mockito.never()).fsmStops();
 		Mockito.verify(handler, Mockito.never()).fsmCancels();
@@ -93,12 +93,12 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(12, interaction.getTgtLocalPoint().getX(), 0.0001d);
-				assertEquals(24, interaction.getTgtLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.SECONDARY, interaction.getButton());
-				assertEquals(button, interaction.getTgtObject().get());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(12, interaction.getData().getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(24, interaction.getData().getTgtLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.SECONDARY, interaction.getData().getButton());
+				assertEquals(button, interaction.getData().getTgtObject().get());
 			}
 		});
 		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.SECONDARY, button));
@@ -144,11 +144,11 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(12, interaction.getTgtLocalPoint().getX(), 0.0001d);
-				assertEquals(24, interaction.getTgtLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.MIDDLE, interaction.getButton());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(12, interaction.getData().getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(24, interaction.getData().getTgtLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.MIDDLE, interaction.getData().getButton());
 			}
 		});
 		interaction.processEvent(createMouseDragEvent(12, 24, MouseButton.MIDDLE, null));
@@ -170,11 +170,11 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(15, interaction.getTgtLocalPoint().getX(), 0.0001d);
-				assertEquals(25, interaction.getTgtLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.PRIMARY, interaction.getButton());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(15, interaction.getData().getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(25, interaction.getData().getTgtLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.PRIMARY, interaction.getData().getButton());
 			}
 		});
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));
@@ -210,11 +210,11 @@ public class TestDnD extends BaseJfXInteractionTest<DnD> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(11, interaction.getSrcLocalPoint().getX(), 0.0001d);
-				assertEquals(23, interaction.getSrcLocalPoint().getY(), 0.0001d);
-				assertEquals(15, interaction.getTgtLocalPoint().getX(), 0.0001d);
-				assertEquals(25, interaction.getTgtLocalPoint().getY(), 0.0001d);
-				assertEquals(MouseButton.PRIMARY, interaction.getButton());
+				assertEquals(11, interaction.getData().getSrcLocalPoint().getX(), 0.0001d);
+				assertEquals(23, interaction.getData().getSrcLocalPoint().getY(), 0.0001d);
+				assertEquals(15, interaction.getData().getTgtLocalPoint().getX(), 0.0001d);
+				assertEquals(25, interaction.getData().getTgtLocalPoint().getY(), 0.0001d);
+				assertEquals(MouseButton.PRIMARY, interaction.getData().getButton());
 			}
 		});
 		interaction.processEvent(createMousePressEvent(11, 23, MouseButton.PRIMARY));

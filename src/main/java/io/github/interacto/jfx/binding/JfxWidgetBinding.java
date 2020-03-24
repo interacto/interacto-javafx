@@ -43,7 +43,7 @@ import javafx.stage.Window;
  * Base of a widget binding for JavaFX applications.
  * @author Arnaud BLOUIN
  */
-public abstract class JfxWidgetBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public abstract class JfxWidgetBinding<C extends Command, I extends JfxInteraction<D, ?>, D extends InteractionData>
 			extends WidgetBindingImpl<C, I, D> {
 	/** The executor service used to execute command async. Do not access directly (lazy instantiation). Use its private getter instead. */
 	private static ExecutorService executorService = null;

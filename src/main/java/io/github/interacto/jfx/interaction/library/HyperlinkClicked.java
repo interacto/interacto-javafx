@@ -23,7 +23,7 @@ import javafx.scene.control.Hyperlink;
  * A user interaction for hyperlinks.
  * @author Arnaud BLOUIN
  */
-public class HyperlinkClicked extends JfxInteraction<WidgetData<Hyperlink>, HyperlinkClickedFSM, Hyperlink> {
+public class HyperlinkClicked extends JfxInteraction<WidgetData<Hyperlink>, HyperlinkClickedFSM> {
 	private final HyperlinkClickedFSM.HyperlinkClickedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class HyperlinkClicked extends JfxInteraction<WidgetData<Hyperlink>, Hype
 			@Override
 			public void initToClickedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof Hyperlink) {
-					widget = (Hyperlink) event.getSource();
+					((WidgetDataImpl<Hyperlink>) data).setWidget((Hyperlink) event.getSource());
 				}
 			}
 
@@ -57,8 +57,8 @@ public class HyperlinkClicked extends JfxInteraction<WidgetData<Hyperlink>, Hype
 	}
 
 	@Override
-	public WidgetData<Hyperlink> getData() {
-		return this;
+	protected WidgetDataImpl<Hyperlink> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

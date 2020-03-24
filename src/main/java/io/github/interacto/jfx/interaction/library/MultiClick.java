@@ -15,37 +15,28 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.jfx.interaction.JfxInteraction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import javafx.event.Event;
 import javafx.geometry.Point3D;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-public class MultiClick extends JfxInteraction<PointsData, MultiClickFSM, Event> implements PointsData {
+public class MultiClick extends JfxInteraction<PointsData, MultiClickFSM> {
 	private final MultiClickFSM.MultiClickFSMHandler handler;
-	/** The current position of the pointing device. */
-	protected Point3D currentPosition;
-	protected final List<PointData> pointsData;
 
 	public MultiClick(final int minPts) {
 		super(new MultiClickFSM(minPts));
-		pointsData = new ArrayList<>();
 
 		handler = new MultiClickFSM.MultiClickFSMHandler() {
 			@Override
-			public void onClick(final MouseEvent event) {
-				final PointDataImpl data = new PointDataImpl();
-				data.setPointData(event);
-				pointsData.add(data);
-				currentPosition = new Point3D(event.getX(), event.getY(), event.getZ());
+			public void onClick(final MouseEvent evt) {
+				final PointDataImpl ptData = new PointDataImpl();
+				ptData.setPointData(evt.getX(), evt.getY(), evt.getZ(), evt.getSceneX(), evt.getSceneY(),
+					evt.getButton(), evt.getPickResult().getIntersectedNode());
+				((PointsDataImpl) data).addPoint(ptData);
+				((PointsDataImpl) data).setCurrentPosition(new Point3D(evt.getX(), evt.getY(), evt.getZ()));
 			}
 
 			@Override
 			public void onMove(final MouseEvent event) {
-				currentPosition = new Point3D(event.getX(), event.getY(), event.getZ());
+				((PointsDataImpl) data).setCurrentPosition(new Point3D(event.getX(), event.getY(), event.getZ()));
 			}
 
 			@Override
@@ -62,34 +53,7 @@ public class MultiClick extends JfxInteraction<PointsData, MultiClickFSM, Event>
 	}
 
 	@Override
-	public MultiClickFSM getFsm() {
-		return super.getFsm();
-	}
-
-	@Override
-	public List<PointData> getPointsData() {
-		return Collections.unmodifiableList(pointsData);
-	}
-
-	@Override
-	public Point3D getCurrentPosition() {
-		return currentPosition;
-	}
-
-	@Override
-	public Optional<MouseButton> getLastButton() {
-		return pointsData.isEmpty() ? Optional.empty() : Optional.of(pointsData.get(pointsData.size() - 1).getButton());
-	}
-
-	@Override
-	public void reinitData() {
-		super.reinitData();
-		pointsData.clear();
-		currentPosition = null;
-	}
-
-	@Override
-	public PointsData getData() {
-		return this;
+	protected PointsData createDataObject() {
+		return new PointsDataImpl();
 	}
 }

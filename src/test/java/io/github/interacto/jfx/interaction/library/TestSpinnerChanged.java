@@ -123,7 +123,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> i
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				Assertions.assertEquals(widget, interaction.getWidget());
+				Assertions.assertEquals(widget, interaction.getData().getWidget());
 			}
 		});
 		interaction.processEvent(new ActionEvent(widget, null));
@@ -133,7 +133,7 @@ public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> i
 	void testProcessEventReinit() {
 		interaction.processEvent(new ActionEvent(widget, null));
 		waitForTimeoutTransitions();
-		assertNull(interaction.getWidget());
+		assertNull(interaction.getData().getWidget());
 		assertTrue(interaction.getFsm().getCurrentState() instanceof InitState);
 	}
 

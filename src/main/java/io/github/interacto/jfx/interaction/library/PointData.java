@@ -16,6 +16,7 @@ package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.interaction.InteractionData;
 import java.util.Optional;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -44,12 +45,16 @@ public interface PointData extends InteractionData {
 	/**
 	 * @return The pressed local position.
 	 */
-	Point3D getSrcLocalPoint();
+	default Point3D getSrcLocalPoint() {
+		return srcLocalPointProperty().get();
+	}
 
 	/**
 	 * @return The pressed scene position.
 	 */
-	Point3D getSrcScenePoint();
+	default Point3D getSrcScenePoint() {
+		return srcScenePointProperty().get();
+	}
 
 	/**
 	 * @return The button used for the pressure.
@@ -59,5 +64,13 @@ public interface PointData extends InteractionData {
 	/**
 	 * @return The object picked at the pressed position.
 	 */
-	Optional<Node> getSrcObject();
+	default Optional<Node> getSrcObject() {
+		return Optional.ofNullable(srcObjectProperty().get());
+	}
+
+	ReadOnlyObjectProperty<Node> srcObjectProperty();
+
+	ReadOnlyObjectProperty<Point3D> srcLocalPointProperty();
+
+	ReadOnlyObjectProperty<Point3D> srcScenePointProperty();
 }

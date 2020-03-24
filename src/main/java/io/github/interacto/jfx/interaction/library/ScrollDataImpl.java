@@ -14,36 +14,53 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.scene.input.ScrollEvent;
 
-public class Scroll extends JfxInteraction<ScrollData, ScrollFSM> {
-	private final ScrollFSM.ScrollFSMHandler handler;
+public class ScrollDataImpl implements ScrollData {
+	/** The scrolled node. */
+	protected Object scrolledNode;
 
-	public Scroll() {
-		this(new ScrollFSM());
-	}
+	/** The X-coordinate of the scroll position. */
+	protected double px;
 
-	protected Scroll(final ScrollFSM fsm) {
-		super(fsm);
+	/** The Y-coordinate of the scroll position. */
+	protected double py;
 
-		handler = new ScrollFSM.ScrollFSMHandler() {
-			@Override
-			public void onScroll(final ScrollEvent event) {
-				((ScrollDataImpl) data).setData(event);
-			}
+	/** The total increment of the scrolling. */
+	protected double increment;
 
-			@Override
-			public void reinitData() {
-				Scroll.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
+	@Override
+	public Object getScrolledNode() {
+		return scrolledNode;
 	}
 
 	@Override
-	protected ScrollData createDataObject() {
-		return new ScrollDataImpl();
+	public double getPx() {
+		return px;
+	}
+
+	@Override
+	public double getPy() {
+		return py;
+	}
+
+	@Override
+	public double getIncrement() {
+		return increment;
+	}
+
+	public void setData(final ScrollEvent event) {
+		increment += event.getDeltaY();
+		px = event.getX();
+		py = event.getY();
+		scrolledNode = event.getSource();
+	}
+
+	@Override
+	public void flush() {
+		px = 0d;
+		py = 0d;
+		increment = 0d;
+		scrolledNode = null;
 	}
 }

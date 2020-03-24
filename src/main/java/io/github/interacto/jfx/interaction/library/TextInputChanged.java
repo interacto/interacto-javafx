@@ -26,7 +26,7 @@ import javafx.scene.input.KeyEvent;
  * A user interaction for text input controls.
  * @author Arnaud BLOUIN
  */
-public class TextInputChanged extends JfxInteraction<WidgetData<TextInputControl>, TextInputChangedFSM, TextInputControl> {
+public class TextInputChanged extends JfxInteraction<WidgetData<TextInputControl>, TextInputChangedFSM> {
 	private static final EventHandler<? super KeyEvent> HANDLER_KEY_ACTION = evt -> {
 		final KeyCode code = evt.getCode();
 		if(!code.isFunctionKey() && !code.isMediaKey() && !code.isModifierKey() && !code.isArrowKey() && !code.isNavigationKey() && evt.getSource() instanceof
@@ -47,7 +47,7 @@ public class TextInputChanged extends JfxInteraction<WidgetData<TextInputControl
 			@Override
 			public void initToChangedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof TextInputControl) {
-					widget = (TextInputControl) event.getSource();
+					((WidgetDataImpl<TextInputControl>) data).setWidget((TextInputControl) event.getSource());
 				}
 			}
 
@@ -70,8 +70,13 @@ public class TextInputChanged extends JfxInteraction<WidgetData<TextInputControl
 	}
 
 	@Override
+	protected WidgetDataImpl<TextInputControl> createDataObject() {
+		return new WidgetDataImpl<>();
+	}
+
+	@Override
 	public WidgetData<TextInputControl> getData() {
-		return this;
+		return super.getData();
 	}
 
 	@Override

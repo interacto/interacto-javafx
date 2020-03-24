@@ -14,7 +14,8 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import java.util.Optional;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -33,23 +34,31 @@ class PointDataImpl implements PointData {
 	protected boolean metaPressed;
 
 	/** The object picked at the pressed position. */
-	protected Node srcObject;
+	protected final ObjectProperty<Node> srcObject;
 
 	/** The pressed local position. */
-	protected Point3D srcLocalPoint;
+	protected final ObjectProperty<Point3D> srcLocalPoint;
 	/** The pressed scene position. */
-	protected Point3D srcScenePoint;
+	protected final ObjectProperty<Point3D> srcScenePoint;
 
 
 	protected PointDataImpl() {
+		super();
+		srcObject = new SimpleObjectProperty<>();
+		srcLocalPoint = new SimpleObjectProperty<>();
+		srcScenePoint = new SimpleObjectProperty<>();
 	}
 
-	protected void reinitData() {
+	@Override
+	public void flush() {
 		button = null;
 		altPressed = false;
 		ctrlPressed = false;
 		shiftPressed = false;
 		metaPressed = false;
+		srcObject.set(null);
+		srcLocalPoint.set(null);
+		srcScenePoint.set(null);
 	}
 
 	@Override
@@ -84,26 +93,42 @@ class PointDataImpl implements PointData {
 		metaPressed = event.isMetaDown();
 	}
 
-	protected void setPointData(final MouseEvent event) {
-		srcLocalPoint = new Point3D(event.getX(), event.getY(), event.getZ());
-		srcScenePoint = new Point3D(event.getSceneX(), event.getSceneY(), event.getZ());
-		button = event.getButton();
-		srcObject = event.getPickResult().getIntersectedNode();
-		setModifiersData(event);
+	protected void setPointData(final double x, final double y, final double z, final double sx, final double sy,
+		final MouseButton b, final Node obj) {
+		srcLocalPoint.set(new Point3D(x, y, z));
+		srcScenePoint.set(new Point3D(sx, sy, z));
+		button = b;
+		srcObject.set(obj);
 	}
 
 	@Override
-	public Point3D getSrcLocalPoint() {
+	public ObjectProperty<Node> srcObjectProperty() {
+		return srcObject;
+	}
+
+	@Override
+	public ObjectProperty<Point3D> srcLocalPointProperty() {
 		return srcLocalPoint;
 	}
 
 	@Override
-	public Point3D getSrcScenePoint() {
+	public ObjectProperty<Point3D> srcScenePointProperty() {
 		return srcScenePoint;
 	}
 
-	@Override
-	public Optional<Node> getSrcObject() {
-		return Optional.ofNullable(srcObject);
+	public void setButton(final MouseButton button) {
+		this.button = button;
+	}
+
+	public void setSrcObject(final Node srcObject) {
+		this.srcObject.set(srcObject);
+	}
+
+	public void setSrcLocalPoint(final Point3D srcLocalPoint) {
+		this.srcLocalPoint.set(srcLocalPoint);
+	}
+
+	public void setSrcScenePoint(final Point3D srcScenePoint) {
+		this.srcScenePoint.set(srcScenePoint);
 	}
 }

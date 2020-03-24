@@ -26,7 +26,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-public interface InteractionUpdateBinderBuilder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public interface InteractionUpdateBinderBuilder<W, I extends JfxInteraction<D, ?>, D extends InteractionData>
 		extends InteractionBinderBuilder<W, I, D> {
 	/**
 	 * Defines what to do when a command is cancelled (because the interaction is cancelled).

@@ -25,7 +25,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-public interface InteractionBinderBuilder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends BaseBinderBuilder<W> {
+public interface InteractionBinderBuilder<W, I extends JfxInteraction<D, ?>, D extends InteractionData> extends BaseBinderBuilder<W> {
 	/**
 	 * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
 	 * @param whenPredicate The predicate that checks whether the command can be initialised, updated, or executed.

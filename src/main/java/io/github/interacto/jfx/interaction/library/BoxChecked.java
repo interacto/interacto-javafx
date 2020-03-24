@@ -23,7 +23,7 @@ import javafx.scene.control.CheckBox;
  * A user interaction for checkboxes.
  * @author Arnaud BLOUIN
  */
-public class BoxChecked extends JfxInteraction<WidgetData<CheckBox>, BoxCheckedFSM, CheckBox> {
+public class BoxChecked extends JfxInteraction<WidgetData<CheckBox>, BoxCheckedFSM> {
 	private final BoxCheckedFSM.BoxCheckedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class BoxChecked extends JfxInteraction<WidgetData<CheckBox>, BoxCheckedF
 			@Override
 			public void initToCheckedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof CheckBox) {
-					widget = (CheckBox) event.getSource();
+					((WidgetDataImpl<CheckBox>) data).setWidget((CheckBox) event.getSource());
 				}
 			}
 
@@ -57,8 +57,13 @@ public class BoxChecked extends JfxInteraction<WidgetData<CheckBox>, BoxCheckedF
 	}
 
 	@Override
+	protected WidgetData<CheckBox> createDataObject() {
+		return new WidgetDataImpl<>();
+	}
+
+	@Override
 	public WidgetData<CheckBox> getData() {
-		return this;
+		return super.getData();
 	}
 
 	@Override

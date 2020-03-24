@@ -23,7 +23,7 @@ import javafx.scene.control.Button;
  * A user interaction for buttons.
  * @author Arnaud BLOUIN
  */
-public class ButtonPressed extends JfxInteraction<WidgetData<Button>, ButtonPressedFSM, Button> {
+public class ButtonPressed extends JfxInteraction<WidgetData<Button>, ButtonPressedFSM> {
 	private final ButtonPressedFSM.ButtonPressedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class ButtonPressed extends JfxInteraction<WidgetData<Button>, ButtonPres
 			@Override
 			public void initToPressedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof Button) {
-					widget = (Button) event.getSource();
+					((WidgetDataImpl<Button>) data).setWidget((Button) event.getSource());
 				}
 			}
 
@@ -57,9 +57,10 @@ public class ButtonPressed extends JfxInteraction<WidgetData<Button>, ButtonPres
 	}
 
 	@Override
-	public WidgetData<Button> getData() {
-		return this;
+	protected WidgetDataImpl<Button> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
+
 
 	@Override
 	protected void onNodeUnregistered(final Node node) {

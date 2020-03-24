@@ -34,7 +34,7 @@ import javafx.scene.control.MenuItem;
  * The goal is to avoid the creation of a specific class when the widget binding is quite simple.
  * @author Arnaud Blouin
  */
-class JfxAnonMenuItemBinding<C extends Command, I extends MenuItemInteraction<WidgetData<MenuItem>, ?, MenuItem>> extends JfxAnonBinding<C, I, WidgetData<MenuItem>> {
+class JfxAnonMenuItemBinding<C extends Command, I extends MenuItemInteraction<WidgetData<MenuItem>, ?>> extends JfxAnonBinding<C, I, WidgetData<MenuItem>> {
 	/**
 	 * Creates a menu item binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.

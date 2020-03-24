@@ -60,9 +60,9 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(5d, interaction.getIncrement(), 0.00001);
-				assertEquals(1d, interaction.px, 0.00001);
-				assertEquals(2d, interaction.py, 0.00001);
+				assertEquals(5d, interaction.getData().getIncrement(), 0.00001);
+				assertEquals(1d, interaction.getData().getPx(), 0.00001);
+				assertEquals(2d, interaction.getData().getPy(), 0.00001);
 			}
 		});
 		interaction.processEvent(createScrollEvent(1, 2, 0, 5));
@@ -71,10 +71,10 @@ public class TestScroll extends BaseJfXInteractionTest<Scroll> {
 	@Test
 	void testScrollingReinit() {
 		interaction.processEvent(createScrollEvent(1, 2, 5, 0));
-		assertNull(interaction.getScrolledNode());
-		assertEquals(0d, interaction.getIncrement(), 0.00001);
-		assertEquals(0d, interaction.px, 0.00001);
-		assertEquals(0d, interaction.py, 0.00001);
+		assertNull(interaction.getData().getScrolledNode());
+		assertEquals(0d, interaction.getData().getIncrement(), 0.00001);
+		assertEquals(0d, interaction.getData().getPx(), 0.00001);
+		assertEquals(0d, interaction.getData().getPy(), 0.00001);
 	}
 
 	@Test

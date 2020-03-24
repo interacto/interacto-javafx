@@ -30,7 +30,7 @@ import javafx.stage.Window;
 /**
  * @author Arnaud Blouin
  */
-class JfxAnonWindowBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends JfxAnonBinding<C, I, D> {
+class JfxAnonWindowBinding<C extends Command, I extends JfxInteraction<D, ?>, D extends InteractionData> extends JfxAnonBinding<C, I, D> {
 	JfxAnonWindowBinding(final boolean continuousExec, final I interaction, final BiConsumer<D, C> initCmdFct, final BiConsumer<D, C> updateCmdFct,
 						final Predicate<D> check, final BiConsumer<D, C> onEndFct, final Function<D, C> cmdFunction, final Consumer<D> cancel,
 						final Consumer<D> endOrCancel, final List<Window> widgets,

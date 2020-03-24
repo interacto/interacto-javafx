@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TestAutoUnbind {
 	DoubleProperty val;
-	JfxInteraction<InteractionData, FSM<Event>, Object> inter;
+	JfxInteraction<InteractionData, FSM<Event>> inter;
 	FSM<Event> fsm;
 
 	@BeforeEach
@@ -49,7 +49,7 @@ public class TestAutoUnbind {
 	@Test
 	public void testUnbindClassFields() throws CancelFSMException {
 		final A aCmd = new A(val.multiply(10d), val.add(11d));
-		final var binding = new JfxWidgetBinding<A, JfxInteraction<InteractionData, ?, ?>, InteractionData>(false, inter, i -> aCmd, Collections.emptyList(), false, null) {
+		final var binding = new JfxWidgetBinding<A, JfxInteraction<InteractionData, ?>, InteractionData>(false, inter, i -> aCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}
@@ -73,7 +73,7 @@ public class TestAutoUnbind {
 	public void testUnbindSuperClassFields() throws CancelFSMException {
 		final B bCmd = new B(val.multiply(10d), val.add(11d), val.add(20d));
 
-		final var binding = new JfxWidgetBinding<B, JfxInteraction<InteractionData, ?, ?>, InteractionData>(false, inter, i -> bCmd, Collections.emptyList(), false, null) {
+		final var binding = new JfxWidgetBinding<B, JfxInteraction<InteractionData, ?>, InteractionData>(false, inter, i -> bCmd, Collections.emptyList(), false, null) {
 			@Override
 			public void first() {
 			}

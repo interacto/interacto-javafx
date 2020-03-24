@@ -56,5 +56,5 @@ public interface BaseBinder<W> extends BaseBinderBuilder<W> {
 
 	<C extends Command> CmdBinder<W, C> toProduce(final Supplier<C> cmdSupplier);
 
-	<I extends JfxInteraction<D, ?, ?>, D extends InteractionData> InteractionBinder<W, I, D> usingInteraction(final Supplier<I> interactionSupplier);
+	<I extends JfxInteraction<D, ?>, D extends InteractionData> InteractionBinder<W, I, D> usingInteraction(final Supplier<I> interactionSupplier);
 }

@@ -46,7 +46,7 @@ import javafx.scene.layout.Pane;
  * @param <C> The type of the command to produce.
  * @author Arnaud Blouin
  */
-class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteraction<D, ?>, D extends InteractionData>
 			extends Binder<W, C, I, D> implements InteractionUpdateBinder<W, I, D>, CmdUpdateBinder<W, C>,
 				InteractionCmdUpdateBinder<W, C, I, D>, BaseUpdateBinder<W> {
 	private BiConsumer<D, C> updateFct;
@@ -211,7 +211,7 @@ class NodeUpdateBinder<W extends Node, C extends Command, I extends JfxInteracti
 	}
 
 	@Override
-	public <I2 extends JfxInteraction<D2, ?, ?>, D2 extends InteractionData> NodeUpdateBinder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
+	public <I2 extends JfxInteraction<D2, ?>, D2 extends InteractionData> NodeUpdateBinder<W, C, I2, D2> usingInteraction(final Supplier<I2> interactionSupplier) {
 		return (NodeUpdateBinder<W, C, I2, D2>) super.usingInteraction(interactionSupplier);
 	}
 

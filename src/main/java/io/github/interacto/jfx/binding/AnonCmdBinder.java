@@ -33,7 +33,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
-class AnonCmdBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D> {
+class AnonCmdBinder<W, I extends JfxInteraction<D, ?>, D extends InteractionData> extends Binder<W, AnonCommand, I, D> {
 	AnonCmdBinder(final Runnable anonCmd, final JfxInstrument ins, final BindingsObserver observer) {
 		super(ins, observer);
 		if(anonCmd == null) {

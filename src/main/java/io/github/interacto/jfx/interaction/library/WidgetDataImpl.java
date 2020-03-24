@@ -14,33 +14,20 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.jfx.interaction.JfxInteraction;
-import javafx.scene.input.MouseEvent;
+public class WidgetDataImpl<T> implements WidgetData<T> {
+	T widget;
 
-public class MouseExited extends JfxInteraction<PointData, MouseExitedFSM> {
-	private final MouseExitedFSM.ExitFSMHandler handler;
+	@Override
+	public T getWidget() {
+		return widget;
+	}
 
-	public MouseExited() {
-		super(new MouseExitedFSM());
-
-		handler = new MouseExitedFSM.ExitFSMHandler() {
-			@Override
-			public void initToExit(final MouseEvent evt) {
-				((PointDataImpl) data).setPointData(evt.getX(), evt.getY(), evt.getZ(), evt.getSceneX(), evt.getSceneY(),
-					evt.getButton(), evt.getPickResult().getIntersectedNode());
-			}
-
-			@Override
-			public void reinitData() {
-				MouseExited.this.reinitData();
-			}
-		};
-
-		fsm.buildFSM(handler);
+	public void setWidget(final T widget) {
+		this.widget = widget;
 	}
 
 	@Override
-	protected PointData createDataObject() {
-		return new PointDataImpl();
+	public void flush() {
+		widget = null;
 	}
 }

@@ -45,8 +45,8 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(1, interaction.getKeys().size());
-				assertEquals("A", interaction.getKeys().get(0));
+				assertEquals(1, interaction.getData().getKeys().size());
+				assertEquals("A", interaction.getData().getKeys().get(0));
 			}
 		});
 		interaction.processEvent(createKeyPressEvent("A", KeyCode.A));
@@ -67,9 +67,9 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals(2, interaction.getKeys().size());
-				assertEquals("A", interaction.getKeys().get(0));
-				assertEquals("B", interaction.getKeys().get(1));
+				assertEquals(2, interaction.getData().getKeys().size());
+				assertEquals("A", interaction.getData().getKeys().get(0));
+				assertEquals("B", interaction.getData().getKeys().get(1));
 			}
 		});
 		interaction.processEvent(createKeyPressEvent("B", KeyCode.B));
@@ -87,8 +87,8 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 	public void testTwoKeyPressReleaseDataCleaned() {
 		interaction.processEvent(createKeyPressEvent("B", KeyCode.B));
 		interaction.processEvent(createKeyReleaseEvent("B", KeyCode.B));
-		assertTrue(interaction.getKeyCodes().isEmpty());
-		assertTrue(interaction.getKeys().isEmpty());
+		assertTrue(interaction.getData().getKeyCodes().isEmpty());
+		assertTrue(interaction.getData().getKeys().isEmpty());
 	}
 
 	@Test
@@ -123,9 +123,9 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals(1, interaction.getIncrement(), 0.0001);
-				assertEquals(10, interaction.getPx(), 0.0001);
-				assertEquals(20, interaction.getPy(), 0.0001);
+				assertEquals(1, interaction.getData().getIncrement(), 0.0001);
+				assertEquals(10, interaction.getData().getPx(), 0.0001);
+				assertEquals(20, interaction.getData().getPy(), 0.0001);
 			}
 		});
 		interaction.processEvent(createKeyPressEvent("B", KeyCode.B));
@@ -137,7 +137,7 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 		interaction.processEvent(createKeyPressEvent("B", KeyCode.B));
 		interaction.processEvent(createScrollEvent(10, 20, 1, 0));
 		Mockito.verify(handler, Mockito.times(2)).fsmStarts();
-		assertEquals(1, interaction.getKeyCodes().size());
+		assertEquals(1, interaction.getData().getKeyCodes().size());
 	}
 
 	@Test
@@ -165,7 +165,7 @@ public class TestKeysScroll extends BaseJfXInteractionTest<KeysScroll> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals("A", interaction.getKeys().get(0));
+				assertEquals("A", interaction.getData().getKeys().get(0));
 			}
 		});
 		pane.fireEvent(createKeyPressEvent("A", KeyCode.A));

@@ -47,7 +47,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> implements 
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals("A", interaction.getKeys().get(0));
+				assertEquals("A", interaction.getData().getKeys().get(0));
 			}
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
@@ -58,8 +58,8 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> implements 
 	public void testKeyTypedSleepCleanOK() {
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
 		waitForTimeoutTransitions();
-		assertTrue(interaction.getKeyCodes().isEmpty());
-		assertTrue(interaction.getKeys().isEmpty());
+		assertTrue(interaction.getData().getKeyCodes().isEmpty());
+		assertTrue(interaction.getData().getKeys().isEmpty());
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> implements 
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals("A", interaction.getKeys().get(0));
+				assertEquals("A", interaction.getData().getKeys().get(0));
 			}
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));
@@ -96,8 +96,8 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> implements 
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmUpdates() {
-				assertEquals("A", interaction.getKeys().get(0));
-				assertEquals("B", interaction.getKeys().get(1));
+				assertEquals("A", interaction.getData().getKeys().get(0));
+				assertEquals("B", interaction.getData().getKeys().get(1));
 			}
 		});
 		interaction.processEvent(createKeyTypedEvent("B", KeyCode.B));
@@ -118,8 +118,8 @@ public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> implements 
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals("A", interaction.getKeys().get(0));
-				assertEquals("B", interaction.getKeys().get(1));
+				assertEquals("A", interaction.getData().getKeys().get(0));
+				assertEquals("B", interaction.getData().getKeys().get(1));
 			}
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));

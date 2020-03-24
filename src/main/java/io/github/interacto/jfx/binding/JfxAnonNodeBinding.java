@@ -34,7 +34,7 @@ import javafx.scene.Node;
  * The goal is to avoid the creation of a specific class when the binding is quite simple.
  * @author Arnaud Blouin
  */
-class JfxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends JfxAnonBinding<C, I, D> {
+class JfxAnonNodeBinding<C extends Command, I extends JfxInteraction<D, ?>, D extends InteractionData> extends JfxAnonBinding<C, I, D> {
 	/**
 	 * Creates a widget binding. This constructor must initialise the interaction. The binding is (de-)activated if the given
 	 * instrument is (de-)activated.

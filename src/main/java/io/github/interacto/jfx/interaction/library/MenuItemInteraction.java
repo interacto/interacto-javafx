@@ -33,7 +33,7 @@ import javafx.scene.control.MenuItem;
  * A JavaFX interaction that uses a single menu item.
  * @author Arnaud BLOUIN
  */
-public abstract class MenuItemInteraction<D extends InteractionData, F extends FSM<Event>, T extends MenuItem> extends JfxInteraction<D, F, T> {
+public abstract class MenuItemInteraction<D extends InteractionData, F extends FSM<Event>> extends JfxInteraction<D, F> {
 	protected final ObservableSet<MenuItem> registeredItems;
 	protected List<ObservableList<? extends MenuItem>> additionalMenus;
 

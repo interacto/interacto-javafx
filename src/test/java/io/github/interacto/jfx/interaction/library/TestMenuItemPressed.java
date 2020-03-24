@@ -57,7 +57,7 @@ public class TestMenuItemPressed extends BaseJfXInteractionTest<MenuItemPressed>
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				Assertions.assertEquals(menuitem, interaction.getWidget());
+				Assertions.assertEquals(menuitem, interaction.getData().getWidget());
 			}
 		});
 		interaction.processEvent(new ActionEvent(menuitem, null));
@@ -66,7 +66,7 @@ public class TestMenuItemPressed extends BaseJfXInteractionTest<MenuItemPressed>
 	@Test
 	void testProcessEventReinit() {
 		interaction.processEvent(new ActionEvent(menuitem, null));
-		assertNull(interaction.getWidget());
+		assertNull(interaction.getData().getWidget());
 		assertTrue(interaction.getFsm().getCurrentState() instanceof InitState);
 	}
 

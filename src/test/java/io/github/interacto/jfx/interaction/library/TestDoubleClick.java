@@ -65,7 +65,7 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> impleme
 
 	@Test
 	void testSubDataHandlerNotNull() {
-		assertNotNull(((JfxFSM<?>) ((Click) interaction.getData()).getFsm()).getDataHandler());
+		assertNotNull(((JfxFSM<?>) interaction.firstClick.getFsm()).getDataHandler());
 	}
 
 	@Test

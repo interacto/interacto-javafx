@@ -30,7 +30,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
-public interface KeyInteractionCmdBinder<W, C extends Command, I extends JfxInteraction<D, ?, ?>, D extends InteractionData>
+public interface KeyInteractionCmdBinder<W, C extends Command, I extends JfxInteraction<D, ?>, D extends InteractionData>
 	extends KeyInteractionBinderBuilder<W, I, D>, InteractionCmdBinder<W, C, I, D> {
 	@Override
 	KeyInteractionCmdBinder<W, C, I, D> first(final Consumer<C> initCmdFct);

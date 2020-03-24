@@ -44,7 +44,7 @@ public class TestKeyTyped extends BaseJfXInteractionTest<KeyTyped> {
 		interaction.getFsm().addHandler(new InteractionHandlerStub() {
 			@Override
 			public void fsmStops() {
-				assertEquals("A", interaction.getKey());
+				assertEquals("A", interaction.getData().getKey());
 			}
 		});
 		interaction.processEvent(createKeyTypedEvent("A", KeyCode.A));

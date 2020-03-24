@@ -28,7 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
-public interface InteractionBinder<W, I extends JfxInteraction<D, ?, ?>, D extends InteractionData> extends InteractionBinderBuilder<W, I, D> {
+public interface InteractionBinder<W, I extends JfxInteraction<D, ?>, D extends InteractionData> extends InteractionBinderBuilder<W, I, D> {
 	@Override
 	InteractionBinder<W, I, D> when(final Predicate<D> whenPredicate);
 

@@ -14,37 +14,40 @@
  */
 package io.github.interacto.jfx.interaction;
 
-import io.github.interacto.fsm.InputState;
-import io.github.interacto.fsm.OutputState;
-import java.util.Collections;
+import io.github.interacto.fsm.ConcurrentFSM;
+import io.github.interacto.fsm.FSM;
 import java.util.Set;
 import javafx.event.Event;
-import javafx.scene.input.MouseEvent;
 
-/**
- * This transition corresponds to a move of a pointing device.
- * @author Arnaud BLOUIN
- */
-public class MoveTransition extends InputEventTransition<MouseEvent> {
-	/**
-	 * Creates the transition.
-	 */
-	public MoveTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
-		super(srcState, tgtState);
+public abstract class JfxConcurrFSM<H extends FSMDataHandler, F extends FSM<Event>> extends ConcurrentFSM<Event, F> {
+	protected H dataHandler;
+
+	public JfxConcurrFSM(final Set<F> fsms) {
+		super(fsms);
+	}
+
+	protected void buildFSM(final H dataHandler) {
+		if(states.size() > 1) {
+			return;
+		}
+		this.dataHandler = dataHandler;
 	}
 
 	@Override
-	protected boolean accept(final Event event) {
-		return event != null && event.getEventType() == MouseEvent.MOUSE_MOVED;
+	public void reinit() {
+		super.reinit();
+		if(dataHandler != null && !inner) {
+			dataHandler.reinitData();
+		}
+	}
+
+	public H getDataHandler() {
+		return dataHandler;
 	}
 
 	@Override
-	protected boolean isGuardOK(final Event event) {
-		return true;
-	}
-
-	@Override
-	public Set<Object> getAcceptedEvents() {
-		return Collections.singleton(MouseEvent.MOUSE_MOVED);
+	public void uninstall() {
+		super.uninstall();
+		dataHandler = null;
 	}
 }

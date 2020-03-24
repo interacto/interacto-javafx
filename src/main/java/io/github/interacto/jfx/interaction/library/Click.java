@@ -14,10 +14,10 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import javafx.scene.Node;
+import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.scene.input.MouseEvent;
 
-public class Click extends PointInteraction<FullPointData, ClickFSM, Node> {
+public class Click extends JfxInteraction<PointData, ClickFSM> {
 	private final ClickFSM.ClickFSMHandler handler;
 
 	protected Click(final ClickFSM fsm) {
@@ -25,8 +25,10 @@ public class Click extends PointInteraction<FullPointData, ClickFSM, Node> {
 
 		handler = new ClickFSM.ClickFSMHandler() {
 			@Override
-			public void initToClicked(final MouseEvent event) {
-				setPointData(event);
+			public void initToClicked(final MouseEvent evt) {
+				((PointDataImpl) data).setPointData(evt.getX(), evt.getY(), evt.getZ(), evt.getSceneX(), evt.getSceneY(),
+					evt.getButton(), evt.getPickResult().getIntersectedNode());
+				((PointDataImpl) data).setModifiersData(evt);
 			}
 
 			@Override
@@ -39,8 +41,8 @@ public class Click extends PointInteraction<FullPointData, ClickFSM, Node> {
 	}
 
 	@Override
-	public FullPointData getData() {
-		return this;
+	protected PointData createDataObject() {
+		return new PointDataImpl();
 	}
 
 	public Click() {

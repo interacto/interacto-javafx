@@ -14,7 +14,6 @@
  */
 package io.github.interacto.jfx.interaction;
 
-import io.github.interacto.jfx.interaction.library.WidgetData;
 import io.github.interacto.fsm.FSM;
 import io.github.interacto.fsm.OutputState;
 import io.github.interacto.interaction.InteractionData;
@@ -40,19 +39,26 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.stage.Window;
 
-public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Event>, T> extends InteractionImpl<D, Event, F> implements FSMDataHandler, WidgetData<T> {
+/**
+ * The base class for JavaFX interactions.
+ * @param <D> The type of interaction data exposed by the interaction
+ * @param <F> The type of the interaction FSM
+ */
+public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Event>> extends InteractionImpl<D, Event, F> implements FSMDataHandler {
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
 	protected final List<ObservableList<? extends Node>> additionalNodes;
 	/** The widget used during the interaction. */
-	protected T widget;
+	protected final D data;
 
 	private EventHandler<ScrollEvent> scrollHandler;
 	private EventHandler<MouseEvent> mouseHandler;
 	private EventHandler<KeyEvent> keyHandler;
 	private EventHandler<ActionEvent> actionHandler;
+	private EventHandler<TouchEvent> touchHandler;
 
 	private final SetChangeListener<Node> nodesHandler = change -> {
 		if(change.wasAdded()) {
@@ -85,6 +91,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 
 	protected JfxInteraction(final F fsm) {
 		super(fsm);
+		data = createDataObject();
 		registeredNodes = FXCollections.observableSet();
 		registeredWindows = FXCollections.observableSet();
 		additionalNodes = new ArrayList<>();
@@ -96,15 +103,16 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		registeredWindows.addListener(windowsHandler);
 	}
 
-
-	@Override
-	public T getWidget() {
-		return widget;
-	}
+	protected abstract D createDataObject();
 
 	@Override
 	public void reinitData() {
-		widget = null;
+		data.flush();
+	}
+
+	@Override
+	public D getData() {
+		return data;
 	}
 
 	@Override
@@ -181,44 +189,20 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			unregisterActionHandler(node);
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_PRESSED) {
-			node.removeEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_RELEASED) {
-			node.removeEventHandler(MouseEvent.MOUSE_RELEASED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_ENTERED) {
-			node.removeEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_EXITED) {
-			node.removeEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_DRAGGED) {
-			node.removeEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseHandler());
+		if(eventType.getSuperType() == MouseEvent.ANY) {
+			node.removeEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}
 		if(eventType == ScrollEvent.SCROLL) {
 			node.removeEventHandler(ScrollEvent.SCROLL, getScrolledHandler());
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_CLICKED) {
-			node.removeEventHandler(MouseEvent.MOUSE_CLICKED, getMouseHandler());
+		if(eventType.getSuperType() == KeyEvent.ANY) {
+			node.removeEventHandler((EventType<KeyEvent>) eventType, getKeyHandler());
 			return;
 		}
-		if(eventType == KeyEvent.KEY_PRESSED) {
-			node.removeEventHandler(KeyEvent.KEY_PRESSED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_RELEASED) {
-			node.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_TYPED) {
-			node.removeEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
+		if(eventType.getSuperType() == TouchEvent.ANY) {
+			node.removeEventHandler((EventType<TouchEvent>) eventType, getTouchHandler());
 		}
 	}
 
@@ -227,48 +211,20 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			registerActionHandler(node);
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_PRESSED) {
-			node.addEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_RELEASED) {
-			node.addEventHandler(MouseEvent.MOUSE_RELEASED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_DRAGGED) {
-			node.addEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_MOVED) {
-			node.addEventHandler(MouseEvent.MOUSE_MOVED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_ENTERED) {
-			node.addEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_EXITED) {
-			node.addEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
+		if(eventType.getSuperType() == MouseEvent.ANY) {
+			node.addEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}
 		if(eventType == ScrollEvent.SCROLL) {
 			node.addEventHandler(ScrollEvent.SCROLL, getScrolledHandler());
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_CLICKED) {
-			node.addEventHandler(MouseEvent.MOUSE_CLICKED, getMouseHandler());
+		if(eventType.getSuperType() == KeyEvent.ANY) {
+			node.addEventHandler((EventType<KeyEvent>) eventType, getKeyHandler());
 			return;
 		}
-		if(eventType == KeyEvent.KEY_PRESSED) {
-			node.addEventHandler(KeyEvent.KEY_PRESSED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_RELEASED) {
-			node.addEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_TYPED) {
-			node.addEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
+		if(eventType.getSuperType() == TouchEvent.ANY) {
+			node.addEventHandler((EventType<TouchEvent>) eventType, getTouchHandler());
 		}
 	}
 
@@ -277,44 +233,20 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			window.removeEventHandler(ActionEvent.ACTION, getActionHandler());
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_PRESSED) {
-			window.removeEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_RELEASED) {
-			window.removeEventHandler(MouseEvent.MOUSE_RELEASED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_DRAGGED) {
-			window.removeEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_ENTERED) {
-			window.removeEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_EXITED) {
-			window.removeEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
+		if(eventType.getSuperType() == MouseEvent.ANY) {
+			window.removeEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}
 		if(eventType == ScrollEvent.SCROLL) {
 			window.removeEventHandler(ScrollEvent.SCROLL, getScrolledHandler());
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_CLICKED) {
-			window.removeEventHandler(MouseEvent.MOUSE_CLICKED, getMouseHandler());
+		if(eventType.getSuperType() == KeyEvent.ANY) {
+			window.removeEventHandler((EventType<KeyEvent>) eventType, getKeyHandler());
 			return;
 		}
-		if(eventType == KeyEvent.KEY_PRESSED) {
-			window.removeEventHandler(KeyEvent.KEY_PRESSED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_RELEASED) {
-			window.removeEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_TYPED) {
-			window.removeEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
+		if(eventType.getSuperType() == TouchEvent.ANY) {
+			window.removeEventHandler((EventType<TouchEvent>) eventType, getTouchHandler());
 		}
 	}
 
@@ -323,48 +255,20 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			window.addEventHandler(ActionEvent.ACTION, getActionHandler());
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_PRESSED) {
-			window.addEventHandler(MouseEvent.MOUSE_PRESSED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_RELEASED) {
-			window.addEventHandler(MouseEvent.MOUSE_RELEASED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_DRAGGED) {
-			window.addEventHandler(MouseEvent.MOUSE_DRAGGED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_MOVED) {
-			window.addEventHandler(MouseEvent.MOUSE_MOVED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_ENTERED) {
-			window.addEventHandler(MouseEvent.MOUSE_ENTERED, getMouseHandler());
-			return;
-		}
-		if(eventType == MouseEvent.MOUSE_EXITED) {
-			window.addEventHandler(MouseEvent.MOUSE_EXITED, getMouseHandler());
+		if(eventType.getSuperType() == MouseEvent.ANY) {
+			window.addEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}
 		if(eventType == ScrollEvent.SCROLL) {
 			window.addEventHandler(ScrollEvent.SCROLL, getScrolledHandler());
 			return;
 		}
-		if(eventType == MouseEvent.MOUSE_CLICKED) {
-			window.addEventHandler(MouseEvent.MOUSE_CLICKED, getMouseHandler());
+		if(eventType.getSuperType() == KeyEvent.ANY) {
+			window.addEventHandler((EventType<KeyEvent>) eventType, getKeyHandler());
 			return;
 		}
-		if(eventType == KeyEvent.KEY_PRESSED) {
-			window.addEventHandler(KeyEvent.KEY_PRESSED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_RELEASED) {
-			window.addEventHandler(KeyEvent.KEY_RELEASED, getKeyHandler());
-			return;
-		}
-		if(eventType == KeyEvent.KEY_TYPED) {
-			window.addEventHandler(KeyEvent.KEY_TYPED, getKeyHandler());
+		if(eventType.getSuperType() == TouchEvent.ANY) {
+			window.addEventHandler((EventType<TouchEvent>) eventType, getTouchHandler());
 		}
 	}
 
@@ -388,6 +292,13 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			mouseHandler = evt -> processEvent(evt);
 		}
 		return mouseHandler;
+	}
+
+	protected EventHandler<TouchEvent> getTouchHandler() {
+		if(touchHandler == null) {
+			touchHandler = evt -> processEvent(evt);
+		}
+		return touchHandler;
 	}
 
 	protected EventHandler<KeyEvent> getKeyHandler() {
@@ -436,8 +347,6 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		return Collections.unmodifiableSet(registeredWindows);
 	}
 
-	public abstract D getData();
-
 	@Override
 	protected boolean isEventsOfSameType(final Event evt1, final Event evt2) {
 		return evt1 != null && evt2 != null && evt1.getEventType() == evt2.getEventType();
@@ -454,7 +363,6 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 
 	@Override
 	public void uninstall() {
-		widget = null;
 		scrollHandler = null;
 		mouseHandler = null;
 		keyHandler = null;

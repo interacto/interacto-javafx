@@ -69,6 +69,6 @@ public class TestTextInputChangedUI extends BaseJfXInteractionTest<TextInputChan
 	void testTextTypedTextChanged() {
 		interaction.registerToNodes(Collections.singletonList(input));
 		clickOn(input).type(KeyCode.A, KeyCode.B, KeyCode.C);
-		Assertions.assertEquals("abc", interaction.getWidget().getText());
+		Assertions.assertEquals("abc", interaction.getData().getWidget().getText());
 	}
 }

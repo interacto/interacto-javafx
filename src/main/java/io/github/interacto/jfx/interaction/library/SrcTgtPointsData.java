@@ -19,7 +19,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 
-public interface SrcTgtPointsData extends FullPointData {
+public interface SrcTgtPointsData extends PointData {
 	/**
 	 * @return The object picked at the target location.
 	 */

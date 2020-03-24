@@ -14,31 +14,28 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.fsm.CancelFSMException;
 import io.github.interacto.fsm.FSMHandler;
 import io.github.interacto.jfx.interaction.JfxInteraction;
-import javafx.application.Platform;
+import java.util.List;
 import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.input.ScrollEvent;
-import javafx.stage.Stage;
+import javafx.scene.input.TouchEvent;
+import javafx.scene.input.TouchPoint;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.util.WaitForAsyncUtils;
 
-public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> extends ApplicationTest {
+public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> extends ApplicationTest {
 	T interaction;
 	FSMHandler handler;
 
@@ -50,23 +47,6 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> 
 	}
 
 	abstract T createInteraction();
-
-	Window createWindow() {
-		final Scene scene = new Scene(new Button());
-		Platform.runLater(() -> {
-			final Stage stage = new Stage();
-			stage.setScene(scene);
-		});
-		WaitForAsyncUtils.waitForFxEvents();
-		return scene.getWindow();
-	}
-
-	void checkNoUseOfHandler() throws CancelFSMException {
-		Mockito.verify(handler, Mockito.never()).fsmStarts();
-		Mockito.verify(handler, Mockito.never()).fsmUpdates();
-		Mockito.verify(handler, Mockito.never()).fsmStops();
-		Mockito.verify(handler, Mockito.never()).fsmCancels();
-	}
 
 	static WindowEvent createWindowEvent(final Window window, final EventType<?> eventType) {
 		return new WindowEvent(window, eventType);
@@ -91,6 +71,31 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?, ?>> 
 			false, false, false, false, false, false,
 			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
+	}
+
+	static TouchEvent createTouchPressEvent(final double x, final double y, final int touchID, final Node tgt) {
+		final PickResult res = Mockito.mock(PickResult.class);
+		Mockito.when(res.getIntersectedNode()).thenReturn(tgt);
+		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0));
+		return new TouchEvent(TouchEvent.TOUCH_PRESSED, new TouchPoint(touchID, null, x, y, 0d, 0d, tgt, res),
+			List.of(), -1, false, false, false, false);
+	}
+
+	static TouchEvent createTouchReleaseEvent(final double x, final double y, final int touchID, final Node tgt) {
+		final PickResult res = Mockito.mock(PickResult.class);
+		Mockito.when(res.getIntersectedNode()).thenReturn(tgt);
+		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0));
+		return new TouchEvent(TouchEvent.TOUCH_RELEASED, new TouchPoint(touchID, null, x, y, 0d, 0d, tgt, res),
+			List.of(), -1, false, false, false, false);
+	}
+
+	static TouchEvent createTouchMoveEvent(final double x, final double y, final int touchID, final Node tgt) {
+		final PickResult res = Mockito.mock(PickResult.class);
+		Mockito.when(res.getIntersectedNode()).thenReturn(tgt);
+		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0d));
+		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0));
+		return new TouchEvent(TouchEvent.TOUCH_MOVED, new TouchPoint(touchID, null, x, y, 0d, 0d, tgt, res),
+			List.of(), -1, false, false, false, false);
 	}
 
 	static MouseEvent createMouseDragEvent(final double x, final double y, final MouseButton button, final Node srcObj) {

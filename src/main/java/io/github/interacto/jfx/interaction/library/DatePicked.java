@@ -23,7 +23,7 @@ import javafx.scene.control.DatePicker;
  * A user interaction for date pickers.
  * @author Arnaud BLOUIN
  */
-public class DatePicked extends JfxInteraction<WidgetData<DatePicker>, DatePickedFSM, DatePicker> {
+public class DatePicked extends JfxInteraction<WidgetData<DatePicker>, DatePickedFSM> {
 	private final DatePickedFSM.DatePickedFSMHandler handler;
 
 	/**
@@ -36,7 +36,7 @@ public class DatePicked extends JfxInteraction<WidgetData<DatePicker>, DatePicke
 			@Override
 			public void initToPickedHandler(final ActionEvent event) {
 				if(event.getSource() instanceof DatePicker) {
-					widget = (DatePicker) event.getSource();
+					((WidgetDataImpl<DatePicker>) data).setWidget((DatePicker) event.getSource());
 				}
 			}
 
@@ -57,8 +57,8 @@ public class DatePicked extends JfxInteraction<WidgetData<DatePicker>, DatePicke
 	}
 
 	@Override
-	public WidgetData<DatePicker> getData() {
-		return this;
+	protected WidgetDataImpl<DatePicker> createDataObject() {
+		return new WidgetDataImpl<>();
 	}
 
 	@Override

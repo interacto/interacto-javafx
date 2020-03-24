@@ -14,36 +14,33 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.fsm.FSM;
-import io.github.interacto.jfx.interaction.JfxInteraction;
-import javafx.event.Event;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public abstract class KeyInteraction<D extends KeyData, F extends FSM<Event>, T> extends JfxInteraction<D, F, T> implements KeyData {
+public class KeysDataImpl implements KeysData {
 	/** The key pressed. */
-	protected String key;
+	protected final List<String> keys;
 	/** The code of the key. */
-	protected KeyCode keyCode;
+	protected final List<KeyCode> keyCodes;
 	/** The object that produced the interaction. */
 	protected Object object;
 
-	protected KeyInteraction(final F fsm) {
-		super(fsm);
+	protected KeysDataImpl() {
+		super();
+		keys = new ArrayList<>();
+		keyCodes = new ArrayList<>();
 	}
 
 	@Override
-	public void reinitData() {
-		super.reinitData();
-		object = null;
-		key = null;
-		keyCode = null;
+	public List<KeyCode> getKeyCodes() {
+		return keyCodes;
 	}
 
-	protected void setKeyData(final KeyEvent event) {
-		object = event.getSource();
-		key = KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter();
-		keyCode = event.getCode();
+	@Override
+	public List<String> getKeys() {
+		return keys;
 	}
 
 	@Override
@@ -51,13 +48,21 @@ public abstract class KeyInteraction<D extends KeyData, F extends FSM<Event>, T>
 		return object;
 	}
 
-	@Override
-	public String getKey() {
-		return key;
+	protected void addKeysData(final KeyEvent event) {
+		keys.add(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
+		keyCodes.add(event.getCode());
+		object = event.getSource();
+	}
+
+	protected void removeKeysData(final KeyEvent event) {
+		keys.remove(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
+		keyCodes.remove(event.getCode());
 	}
 
 	@Override
-	public KeyCode getKeyCode() {
-		return keyCode;
+	public void flush() {
+		keys.clear();
+		keyCodes.clear();
+		object = null;
 	}
 }
