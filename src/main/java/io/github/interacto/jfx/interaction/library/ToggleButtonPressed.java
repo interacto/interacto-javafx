@@ -57,11 +57,6 @@ public class ToggleButtonPressed extends JfxInteraction<WidgetData<ToggleButton>
 	}
 
 	@Override
-	public WidgetData<ToggleButton> getData() {
-		return super.getData();
-	}
-
-	@Override
 	protected WidgetDataImpl<ToggleButton> createDataObject() {
 		return new WidgetDataImpl<>();
 	}

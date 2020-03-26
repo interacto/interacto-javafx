@@ -75,11 +75,6 @@ public class TextInputChanged extends JfxInteraction<WidgetData<TextInputControl
 	}
 
 	@Override
-	public WidgetData<TextInputControl> getData() {
-		return super.getData();
-	}
-
-	@Override
 	protected void onNodeUnregistered(final Node node) {
 		if(node instanceof TextInputControl) {
 			unregisterActionHandler(node);

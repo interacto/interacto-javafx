@@ -62,11 +62,6 @@ public class BoxChecked extends JfxInteraction<WidgetData<CheckBox>, BoxCheckedF
 	}
 
 	@Override
-	public WidgetData<CheckBox> getData() {
-		return super.getData();
-	}
-
-	@Override
 	protected void onNodeUnregistered(final Node node) {
 		if(node instanceof CheckBox) {
 			unregisterActionHandler(node);

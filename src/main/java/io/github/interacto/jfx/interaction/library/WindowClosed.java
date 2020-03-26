@@ -59,11 +59,6 @@ public class WindowClosed extends JfxInteraction<WidgetData<Window>, WindowClose
 	}
 
 	@Override
-	public WidgetData<Window> getData() {
-		return super.getData();
-	}
-
-	@Override
 	protected WidgetDataImpl<Window> createDataObject() {
 		return new WidgetDataImpl<>();
 	}
