@@ -51,7 +51,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 	protected final ObservableSet<Node> registeredNodes;
 	protected final ObservableSet<Window> registeredWindows;
 	protected final List<ObservableList<? extends Node>> additionalNodes;
-	/** The widget used during the interaction. */
+	/** The interaction data */
 	protected final D data;
 
 	private EventHandler<ScrollEvent> scrollHandler;
