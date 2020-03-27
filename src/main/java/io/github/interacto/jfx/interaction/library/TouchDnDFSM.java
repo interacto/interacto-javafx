@@ -14,8 +14,6 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.fsm.InputState;
-import io.github.interacto.fsm.OutputState;
 import io.github.interacto.fsm.StdState;
 import io.github.interacto.fsm.TerminalState;
 import io.github.interacto.jfx.interaction.FSMDataHandler;
@@ -51,7 +49,6 @@ public class TouchDnDFSM extends JfxFSM<TouchDnDFSM.TouchDnDFSMHandler> {
 		final StdState<Event> touched = new StdState<>(this, "touched");
 		final TerminalState<Event> released = new TerminalState<>(this, "released");
 
-
 		addState(touched);
 		addState(released);
 
@@ -66,7 +63,21 @@ public class TouchDnDFSM extends JfxFSM<TouchDnDFSM.TouchDnDFSMHandler> {
 				}
 			}
 		};
-		new TouchDnDFSMMoveTransition(touched, touched);
+
+		new TouchMoveTransition(touched, touched) {
+			@Override
+			protected boolean isGuardOK(final Event event) {
+				return event instanceof TouchEvent && ((TouchEvent) event).getTouchPoint().getId() == touchID;
+			}
+
+			@Override
+			protected void action(final Event event) {
+				if(dataHandler != null && event instanceof TouchEvent) {
+					dataHandler.onMove((TouchEvent) event);
+				}
+			}
+		};
+
 		new TouchReleaseTransition(touched, released) {
 			@Override
 			protected boolean isGuardOK(final Event event) {
@@ -88,24 +99,6 @@ public class TouchDnDFSM extends JfxFSM<TouchDnDFSM.TouchDnDFSMHandler> {
 	public void reinit() {
 		super.reinit();
 		touchID = -1;
-	}
-
-	class TouchDnDFSMMoveTransition extends TouchMoveTransition {
-		TouchDnDFSMMoveTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
-			super(srcState, tgtState);
-		}
-
-		@Override
-		protected boolean isGuardOK(final Event event) {
-			return event instanceof TouchEvent && ((TouchEvent) event).getTouchPoint().getId() == touchID;
-		}
-
-		@Override
-		protected void action(final Event event) {
-			if(dataHandler != null && event instanceof TouchEvent) {
-				dataHandler.onMove((TouchEvent) event);
-			}
-		}
 	}
 
 	interface TouchDnDFSMHandler extends FSMDataHandler {
