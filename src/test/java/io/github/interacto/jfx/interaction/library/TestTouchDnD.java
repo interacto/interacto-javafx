@@ -230,26 +230,7 @@ public class TestTouchDnD extends BaseJfXInteractionTest<TouchDnD> {
 	}
 
 	@Test
-	void testNewKindEventRegistered() throws CancelFSMException {
-		final Pane pane = new Pane();
-		interaction.registerToNodes(Collections.singletonList(pane));
-		pane.fireEvent(createTouchPressEvent(11, 23, 1, null));
-		pane.fireEvent(createTouchMoveEvent(12, 25, 1, null));
-		Mockito.verify(handler, Mockito.times(2)).fsmUpdates();
-	}
-
-	@Test
-	void testNewKindEvent2Registered() throws CancelFSMException {
-		final Pane pane = new Pane();
-		interaction.registerToNodes(Collections.singletonList(pane));
-		pane.fireEvent(createTouchPressEvent(11, 23, 1, null));
-		pane.fireEvent(createTouchMoveEvent(12, 25, 1, null));
-		pane.fireEvent(createTouchReleaseEvent(12, 25, 1, null));
-		Mockito.verify(handler, Mockito.times(1)).fsmStops();
-	}
-
-	@Test
-	void testNewKindEventOnTerminalRegistered() throws CancelFSMException {
+	void testTouchRestart() throws CancelFSMException {
 		final Pane pane = new Pane();
 		interaction.registerToNodes(Collections.singletonList(pane));
 		pane.fireEvent(createTouchPressEvent(11, 23, 1, null));
