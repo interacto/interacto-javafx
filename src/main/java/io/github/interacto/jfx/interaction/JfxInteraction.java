@@ -189,7 +189,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			unregisterActionHandler(node);
 			return;
 		}
-		if(eventType.getSuperType() == MouseEvent.ANY) {
+		if(eventType.getSuperType() == MouseEvent.ANY || eventType.getSuperType().getSuperType() == MouseEvent.ANY) {
 			node.removeEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}
@@ -211,7 +211,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			registerActionHandler(node);
 			return;
 		}
-		if(eventType.getSuperType() == MouseEvent.ANY) {
+		if(eventType.getSuperType() == MouseEvent.ANY || eventType.getSuperType().getSuperType() == MouseEvent.ANY) {
 			node.addEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}
@@ -233,7 +233,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			window.removeEventHandler(ActionEvent.ACTION, getActionHandler());
 			return;
 		}
-		if(eventType.getSuperType() == MouseEvent.ANY) {
+		if(eventType.getSuperType() == MouseEvent.ANY || eventType.getSuperType().getSuperType() == MouseEvent.ANY) {
 			window.removeEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}
@@ -255,7 +255,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			window.addEventHandler(ActionEvent.ACTION, getActionHandler());
 			return;
 		}
-		if(eventType.getSuperType() == MouseEvent.ANY) {
+		if(eventType.getSuperType() == MouseEvent.ANY || eventType.getSuperType().getSuperType() == MouseEvent.ANY) {
 			window.addEventHandler((EventType<MouseEvent>) eventType, getMouseHandler());
 			return;
 		}

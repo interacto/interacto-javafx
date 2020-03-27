@@ -52,6 +52,20 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 		return new WindowEvent(window, eventType);
 	}
 
+	static MouseEvent createMouseEnterEvent(final double x, final double y, final MouseButton button) {
+		return new MouseEvent(MouseEvent.MOUSE_ENTERED, x, y, 0d, 0d, button, 1, false,
+			false, false, false, false, false, false,
+			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
+			0d, 0, new Point2D(0d, 0d)));
+	}
+
+	static MouseEvent createMouseExitEvent(final double x, final double y, final MouseButton button) {
+		return new MouseEvent(MouseEvent.MOUSE_EXITED, x, y, 0d, 0d, button, 1, false,
+			false, false, false, false, false, false,
+			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
+			0d, 0, new Point2D(0d, 0d)));
+	}
+
 	static MouseEvent createMousePressEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_PRESSED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
