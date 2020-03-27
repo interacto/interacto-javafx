@@ -47,6 +47,12 @@ public class TouchDataImpl extends SrcTgtPointsDataImpl implements TouchData {
 	}
 
 	@Override
+	public void flush() {
+		super.flush();
+		touchID = -1;
+	}
+
+	@Override
 	public MouseButton getButton() {
 		return MouseButton.NONE;
 	}
