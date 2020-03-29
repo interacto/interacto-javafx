@@ -22,11 +22,17 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * The drag-lock user interaction
+ */
 public class DragLock extends JfxInteraction<SrcTgtPointsData, DragLockFSM> {
 	private final DragLockFSM.DragLockFSMHandler handler;
 	protected final DoubleClick firstClick;
 	protected final DoubleClick sndClick;
 
+	/**
+	 * Creates a drag lock.
+	 */
 	public DragLock() {
 		super(new DragLockFSM());
 

@@ -20,7 +20,13 @@ import java.util.Optional;
 import javafx.geometry.Point3D;
 import javafx.scene.input.MouseButton;
 
+/**
+ * Interaction data that contains a serie of points.
+ */
 public interface PointsData extends InteractionData {
+	/**
+	 * @return The series of points.
+	 */
 	List<PointData> getPointsData();
 
 	/**
@@ -28,5 +34,8 @@ public interface PointsData extends InteractionData {
 	 */
 	Point3D getCurrentPosition();
 
+	/**
+	 * @return The last button used to produce the points.
+	 */
 	Optional<MouseButton> getLastButton();
 }

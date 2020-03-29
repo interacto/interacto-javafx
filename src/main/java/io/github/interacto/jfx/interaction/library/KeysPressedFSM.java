@@ -34,6 +34,9 @@ import javafx.scene.input.KeyEvent;
 public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler> {
 	private final EnumSet<KeyCode> currentCodes;
 
+	/**
+	 * Creates the FSM.
+	 */
 	public KeysPressedFSM() {
 		super();
 		currentCodes = EnumSet.noneOf(KeyCode.class);

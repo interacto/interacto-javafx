@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.SequentialTransition;
 
+/**
+ * A player for running help animations.
+ */
 public final class HelpAnimationPlayer {
 	public static final HelpAnimationPlayer INSTANCE = new HelpAnimationPlayer();
 
@@ -30,6 +33,10 @@ public final class HelpAnimationPlayer {
 		currentAnimations = null;
 	}
 
+	/**
+	 * Adds an animation to run.
+	 * @param animation The animation to run.
+	 */
 	public void add(final HelpAnimation animation) {
 		if(animation != null) {
 			if(mainAnimation == null) {

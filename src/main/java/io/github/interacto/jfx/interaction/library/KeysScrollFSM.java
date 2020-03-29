@@ -30,10 +30,16 @@ import javafx.event.Event;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * An FSM that defines how to scroll using keys
+ */
 public class KeysScrollFSM extends JfxFSM<KeysScrollFSM.KeysScrollFSMHandler> {
 	protected final ScrollFSM scrollFSM;
 	private final Set<KeyCode> currentCodes;
 
+	/**
+	 * Creates the FSM.
+	 */
 	public KeysScrollFSM() {
 		super();
 		scrollFSM = new ScrollFSM();

@@ -17,9 +17,16 @@ package io.github.interacto.jfx.interaction.library;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * Several keys pressed at the same time.
+ * Starts on a key pressure. Ends as soon as one of the pressed keys is released.
+ */
 public class KeysPressed extends JfxInteraction<KeysData, KeysPressedFSM> {
 	private final KeysPressedFSM.KeysPressedFSMHandler handler;
 
+	/**
+	 * Creates the user interaction.
+	 */
 	public KeysPressed() {
 		super(new KeysPressedFSM());
 

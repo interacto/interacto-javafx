@@ -21,6 +21,9 @@ import javafx.geometry.Point3D;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 
+/**
+ * Interaction data for a single pointing device at a single position.
+ */
 public interface PointData extends InteractionData {
 	/**
 	 * @return True: the alt key is pressed.
@@ -68,9 +71,18 @@ public interface PointData extends InteractionData {
 		return Optional.ofNullable(srcObjectProperty().get());
 	}
 
+	/**
+	 * @return An observable property for the source object.
+	 */
 	ReadOnlyObjectProperty<Node> srcObjectProperty();
 
+	/**
+	 * @return An observable property for the source local position.
+	 */
 	ReadOnlyObjectProperty<Point3D> srcLocalPointProperty();
 
+	/**
+	 * @return An observable property for the source scene position.
+	 */
 	ReadOnlyObjectProperty<Point3D> srcScenePointProperty();
 }

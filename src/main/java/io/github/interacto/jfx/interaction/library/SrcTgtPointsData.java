@@ -19,16 +19,29 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
 
+/**
+ * Interaction data for a single pointing device that moves from a source
+ * position to a target position.
+ */
 public interface SrcTgtPointsData extends PointData {
 	/**
 	 * @return The object picked at the target location.
 	 */
 	Optional<Node> getTgtObject();
 
+	/**
+	 * @return An observable property for the target local position.
+	 */
 	ReadOnlyObjectProperty<Point3D> tgtLocalPointProperty();
 
+	/**
+	 * @return An observable property for the target scene position.
+	 */
 	ReadOnlyObjectProperty<Point3D> tgtScenePointProperty();
 
+	/**
+	 * @return An observable property for the target object.
+	 */
 	ReadOnlyObjectProperty<Node> tgtObjectProperty();
 
 	/**

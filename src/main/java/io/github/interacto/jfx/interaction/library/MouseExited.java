@@ -17,9 +17,15 @@ package io.github.interacto.jfx.interaction.library;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * A user interaction just composed of a mouse exit transition.
+ */
 public class MouseExited extends JfxInteraction<PointData, MouseExitedFSM> {
 	private final MouseExitedFSM.ExitFSMHandler handler;
 
+	/**
+	 * Creates the user interaction.
+	 */
 	public MouseExited() {
 		super(new MouseExitedFSM());
 

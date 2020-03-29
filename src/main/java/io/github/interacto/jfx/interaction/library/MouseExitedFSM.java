@@ -21,7 +21,13 @@ import io.github.interacto.jfx.interaction.JfxFSM;
 import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * The FSM for mouse exiting interactions
+ */
 public class MouseExitedFSM extends JfxFSM<MouseExitedFSM.ExitFSMHandler> {
+	/**
+	 * Creates the FSM
+	 */
 	public MouseExitedFSM() {
 		super();
 	}

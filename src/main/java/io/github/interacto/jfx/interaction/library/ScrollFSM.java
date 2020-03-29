@@ -21,7 +21,13 @@ import io.github.interacto.jfx.interaction.ScrollTransition;
 import javafx.event.Event;
 import javafx.scene.input.ScrollEvent;
 
+/**
+ * An FSM for scrolling.
+ */
 public class ScrollFSM extends JfxFSM<ScrollFSM.ScrollFSMHandler> {
+	/**
+	 * Creates the FSM
+	 */
 	public ScrollFSM() {
 		super();
 	}

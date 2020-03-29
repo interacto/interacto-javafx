@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
+    <module name="SuppressionFilter">
+        <property name="file" value="checkstyle-supp.xml" />
+    </module>
+
     <module name="Header">
         <property name="headerFile" value="header.txt"/>
         <property name="fileExtensions" value="java"/>
@@ -26,6 +30,9 @@
 
     <module name="TreeWalker">
 <!--        <module name="MissingJavadocType" />-->
+<!--        <module name="MissingJavadocMethod">-->
+<!--            <property name="scope" value="public"/>-->
+<!--        </module>-->
         <module name="SingleLineJavadoc"/>
         <module name="InvalidJavadocPosition"/>
         <module name="JavadocBlockTagLocation"/>
@@ -116,5 +123,8 @@
         <module name="NoWhitespaceAfter">
             <property name="tokens" value="BNOT, DEC, INC, LNOT, UNARY_MINUS, UNARY_PLUS"/>
         </module>
+        <module name="NoEnumTrailingComma" />
+        <module name="NoArrayTrailingComma" />
+        <module name="AvoidDoubleBraceInitialization"/>
     </module>
 </module>

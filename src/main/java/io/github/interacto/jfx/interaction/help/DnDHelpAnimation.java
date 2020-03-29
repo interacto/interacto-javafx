@@ -28,6 +28,9 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+/**
+ * A DnD help animation.
+ */
 public class DnDHelpAnimation extends HelpAnimationImpl {
 	protected final Duration duration = Duration.millis(2500);
 	protected final double size = 15;
@@ -41,10 +44,20 @@ public class DnDHelpAnimation extends HelpAnimationImpl {
 	protected final String textDrag;
 	protected final String textRelease;
 
+	/**
+	 * Creates the animation.
+	 * @param learningPane The pane that will contain the animations.
+	 * @param widget The pane targeted by the animations.
+	 */
 	public DnDHelpAnimation(final Pane learningPane, final Pane widget) {
 		this(learningPane, widget, 150, 500, 150, 350, "Press", "Drag", "Release");
 	}
 
+	/**
+	 * Creates the animation.
+	 * @param learningPane The pane that will contain the animations.
+	 * @param widget The pane targeted by the animations.
+	 */
 	public DnDHelpAnimation(final Pane learningPane, final Pane widget, final double x1, final double x2, final double y1, final double y2,
 							final String textPress, final String textDrag, final String textRelease) {
 		super(learningPane, widget);

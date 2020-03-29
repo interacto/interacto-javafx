@@ -21,9 +21,16 @@ import io.github.interacto.jfx.interaction.KeyPressureTransition;
 import javafx.event.Event;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * An FSM for a single key pressure.
+ */
 public class KeyPressedFSM extends JfxFSM<KeyPressedFSM.KeyPressedFSMHandler> {
 	private final boolean modifiersAccepted;
 
+	/**
+	 * Creates the FSM.
+	 * @param modifiersAccepted True: the FSM will consider key modifiers.
+	 */
 	public KeyPressedFSM(final boolean modifiersAccepted) {
 		super();
 		this.modifiersAccepted = modifiersAccepted;

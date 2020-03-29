@@ -26,6 +26,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+/**
+ * The base interface for building widget bindings with routines
+ * for defining the UI command and the user interaction to use.
+ * @param <W> The type of accepted widgets.
+ */
 public interface BaseBinder<W> extends BaseBinderBuilder<W> {
 	@Override
 	BaseBinder<W> on(final W... widgets);
@@ -54,7 +59,20 @@ public interface BaseBinder<W> extends BaseBinderBuilder<W> {
 	@Override
 	BaseBinder<W> help(final Pane helpPane);
 
+	/**
+	 * Defines how to create the UI command that will produce the widget binding.
+	 * @param cmdSupplier The supplier that will return a new UI command on each call.
+	 * @param <C> The type of the UI command
+	 * @return A clone of the current builder to chain the building configuration.
+	 */
 	<C extends Command> CmdBinder<W, C> toProduce(final Supplier<C> cmdSupplier);
 
+	/**
+	 * Defines how to create the user interaction that the widget binding will use to create UI commands.
+	 * @param interactionSupplier The supplier that will return a new user interaction.
+	 * @param <D> The user interaction data type
+	 * @param <I> The user interaction type
+	 * @return A clone of the current builder to chain the building configuration.
+	 */
 	<I extends JfxInteraction<D, ?>, D extends InteractionData> InteractionBinder<W, I, D> usingInteraction(final Supplier<I> interactionSupplier);
 }

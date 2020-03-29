@@ -16,12 +16,25 @@ package io.github.interacto.jfx.interaction.help;
 
 import javafx.scene.layout.Pane;
 
+/**
+ * A cancellable DnD animation.
+ */
 public class CancelDnDHelpAnimation extends DnDHelpAnimation {
+	/**
+	 * Creates the animation.
+	 * @param learningPane The pane that will contain the animations.
+	 * @param widget The pane targeted by the animations.
+	 */
 	public CancelDnDHelpAnimation(final Pane learningPane, final Pane widget, final double x1, final double x2, final double y1, final double y2,
 								final String textPress, final String textDrag, final String textRelease) {
 		super(learningPane, widget, x1, x2, y1, y2, textPress, textDrag, textRelease);
 	}
 
+	/**
+	 * Creates the animation.
+	 * @param learningPane The pane that will contain the animations.
+	 * @param widget The pane targeted by the animations.
+	 */
 	public CancelDnDHelpAnimation(final Pane learningPane, final Pane widget) {
 		this(learningPane, widget, 150, 500, 150, 350, "Press", "Drag or press 'ESC' to cancel", "Release");
 	}

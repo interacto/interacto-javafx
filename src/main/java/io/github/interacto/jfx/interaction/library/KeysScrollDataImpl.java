@@ -14,9 +14,15 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
+/**
+ * Keys + scroll interaction data implementation with write access.
+ */
 public class KeysScrollDataImpl extends KeysDataImpl implements KeysScrollData {
 	private ScrollData scrollData;
 
+	/**
+	 * Creates the interaction data.
+	 */
 	public KeysScrollDataImpl() {
 		super();
 		scrollData = new ScrollDataImpl();

@@ -16,6 +16,10 @@ package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.interaction.InteractionData;
 
+/**
+ * Interaction data that contains a widget.
+ * @param <T> The type of the widget.
+ */
 public interface WidgetData<T> extends InteractionData {
 	/**
 	 * @return The widget used during the interaction.

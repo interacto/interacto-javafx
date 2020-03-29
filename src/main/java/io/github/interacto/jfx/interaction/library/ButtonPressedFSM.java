@@ -21,7 +21,13 @@ import io.github.interacto.jfx.interaction.JfxFSM;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 
+/**
+ * The FSM for button pressures.
+ */
 public class ButtonPressedFSM extends JfxFSM<ButtonPressedFSM.ButtonPressedFSMHandler> {
+	/**
+	 * Creates the FSM
+	 */
 	public ButtonPressedFSM() {
 		super();
 	}

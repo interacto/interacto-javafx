@@ -20,6 +20,10 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+/**
+ * The base class for defining help animations.
+ * Help animations aim at helping users in learning how to interact with the user interface.
+ */
 public abstract class HelpAnimationImpl implements HelpAnimation {
 	protected Transition transition;
 	protected boolean installed;
@@ -27,7 +31,11 @@ public abstract class HelpAnimationImpl implements HelpAnimation {
 	protected final Pane zonePane;
 	private EventHandler<MouseEvent> handlerStop;
 
-
+	/**
+	 * Creates the animation.
+	 * @param learningPane The pane that will contain the animations.
+	 * @param zonePane The pane targeted by the animations.
+	 */
 	public HelpAnimationImpl(final Pane learningPane, final Pane zonePane) {
 		super();
 		installed = false;

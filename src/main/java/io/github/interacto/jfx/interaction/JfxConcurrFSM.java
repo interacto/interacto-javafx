@@ -19,6 +19,11 @@ import io.github.interacto.fsm.FSM;
 import java.util.Set;
 import javafx.event.Event;
 
+/**
+ * The base class for concurrent JavaFX FSMs.
+ * @param <H> The type of handler notified during the running of the FSM
+ * @param <F> The type of concurrent FSMs this FSM will contain.
+ */
 public abstract class JfxConcurrFSM<H extends FSMDataHandler, F extends FSM<Event>> extends ConcurrentFSM<Event, F> {
 	protected H dataHandler;
 

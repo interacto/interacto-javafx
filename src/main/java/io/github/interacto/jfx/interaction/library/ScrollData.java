@@ -16,6 +16,9 @@ package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.interaction.InteractionData;
 
+/**
+ * Scrolling interaction data
+ */
 public interface ScrollData extends InteractionData {
 	/**
 	 * @return The object on which the scroll is performed.

@@ -24,6 +24,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+/**
+ * The widget binding builder API already knows the type of UI command
+ * the widget bindings will produce
+ * @param <W> The type of accepted widgets.
+ * @param <C> The type of the produced UI Commands
+ */
 public interface CmdBinderBuilder<W, C extends Command> extends BaseBinderBuilder<W> {
 	/**
 	 * Specifies the initialisation of the command when the interaction starts.

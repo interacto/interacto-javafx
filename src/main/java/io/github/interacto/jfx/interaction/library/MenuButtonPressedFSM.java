@@ -21,7 +21,13 @@ import io.github.interacto.jfx.interaction.JfxMenuButtonPressedTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 
+/**
+ * The FSM for menu button interactions
+ */
 public class MenuButtonPressedFSM extends JfxFSM<MenuButtonPressedFSM.MenuButtonPressedFSMHandler> {
+	/**
+	 * Creates the FSM
+	 */
 	public MenuButtonPressedFSM() {
 		super();
 	}

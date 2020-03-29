@@ -21,7 +21,13 @@ import io.github.interacto.jfx.interaction.JfxFSM;
 import javafx.event.Event;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * The FSM for mouse entering interactions
+ */
 public class MouseEnteredFSM extends JfxFSM<MouseEnteredFSM.EnterFSMHandler> {
+	/**
+	 * Creates the FSM
+	 */
 	public MouseEnteredFSM() {
 		super();
 	}

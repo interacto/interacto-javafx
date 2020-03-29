@@ -17,9 +17,28 @@ package io.github.interacto.jfx.interaction.help;
 import javafx.animation.Transition;
 import javafx.scene.layout.Pane;
 
+/**
+ * Defines help animations.
+ * Help animations aim at helping users in learning how to interact with the user interface.
+ */
 public interface HelpAnimation {
+	/**
+	 * @return The help animation.
+	 */
 	Transition getAnimation();
+
+	/**
+	 * @return True: the animation is installed in the zone pane.
+	 */
 	boolean isInstalled();
+
+	/**
+	 * @return The pane targeted by the animation.
+	 */
 	Pane getZonePane();
+
+	/**
+	 * @return The pane that will contain the animation.
+	 */
 	Pane getHelpPane();
 }

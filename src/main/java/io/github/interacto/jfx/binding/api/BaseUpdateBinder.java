@@ -26,6 +26,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+/**
+ * The base interface for building widget bindings based on non-trivial user interactions (eg DnD) with routines
+ * for defining the UI command and the user interaction to use.
+ * @param <W> The type of accepted widgets.
+ */
 public interface BaseUpdateBinder<W> extends BaseUpdateBinderBuilder<W> {
 	@Override
 	BaseUpdateBinder<W> on(final W... widgets);

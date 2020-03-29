@@ -14,5 +14,8 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
+/**
+ * Keys + scroll interaction data.
+ */
 public interface KeysScrollData extends KeysData, ScrollData {
 }

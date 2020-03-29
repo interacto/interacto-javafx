@@ -22,7 +22,18 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+/**
+ * The base interface for building widget bindings.
+ * @param <W> The type of accepted widgets.
+ */
 public interface BaseBinderBuilder<W> {
+	/**
+	 * Specifies the widgets on which the binding must operate.
+	 * When a widget is added to this list, the added widget is binded to this binding.
+	 * When widget is removed from this list, this widget is unbinded from this binding.
+	 * @param widgets The observable list of the widgets involved in the bindings.
+	 * @return A clone of the current builder to chain the building configuration.
+	 */
 	BaseBinderBuilder<W> on(final W... widgets);
 
 	/**
@@ -30,22 +41,27 @@ public interface BaseBinderBuilder<W> {
 	 * When a widget is added to this list, the added widget is binded to this binding.
 	 * When widget is removed from this list, this widget is unbinded from this binding.
 	 * @param widgets The observable list of the widgets involved in the bindings.
-	 * @return The builder to chain the building configuration.
+	 * @return A clone of the current builder to chain the building configuration.
 	 */
 	BaseBinderBuilder<W> on(final ObservableList<? extends W> widgets);
 
 	/**
 	 * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
 	 * @param whenPredicate The predicate that checks whether the command can be initialised, updated, or executed.
-	 * @return The builder to chain the building configuration.
+	 * @return A clone of the current builder to chain the building configuration.
 	 */
 	BaseBinderBuilder<W> when(final BooleanSupplier whenPredicate);
 
+	/**
+	 * Defines actions to perform with a widget binding ends.
+	 * @param endFct The command to execute on each widget binding end.
+	 * @return A clone of the current builder to chain the building configuration.
+	 */
 	BaseBinderBuilder<W> end(final Runnable endFct);
 
 	/**
 	 * If called, all the events the interaction will process will be consumed.
-	 * @return The builder to chain the building configuration.
+	 * @return A clone of the current builder to chain the building configuration.
 	 */
 	BaseBinderBuilder<W> consume();
 
@@ -54,28 +70,28 @@ public interface BaseBinderBuilder<W> {
 	 * Several call to 'log' can be done to log different parts:
 	 * log(LogLevel.INTERACTION).log(LogLevel.COMMAND)
 	 * @param level The logging level to use.
-	 * @return The builder to chain the building configuration.
+	 * @return A clone of the current builder to chain the building configuration.
 	 */
 	BaseBinderBuilder<W> log(final LogLevel... level);
 
 	/**
 	 * Specifies that the command will be executed in a separated threads.
 	 * Beware of UI modifications: UI changes must be done in the JFX UI thread.
-	 * @return The builder to chain the building configuration.
+	 * @return A clone of the current builder to chain the building configuration.
 	 */
 	BaseBinderBuilder<W> async(final Button cancel, final DoubleProperty progressProp, final StringProperty msgProp);
 
 	/**
 	 * Uses the given animation to explain how the binding works.
 	 * @param animation The animation to play. If null, the default animation of the user interaction is used (if defined).
-	 * @return The builder to chain the building configuration.
+	 * @return A clone of the current builder to chain the building configuration.
 	 */
 	BaseBinderBuilder<W> help(final HelpAnimation animation);
 
 	/**
 	 * Uses the default help animation of the user interaction to explain how the binding works.
 	 * @param helpPane The pane where the animation will be played.
-	 * @return The builder to chain the building configuration.
+	 * @return A clone of the current builder to chain the building configuration.
 	 */
 	BaseBinderBuilder<W> help(final Pane helpPane);
 }

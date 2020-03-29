@@ -14,6 +14,12 @@
  */
 package io.github.interacto.jfx.interaction;
 
+/**
+ * The base interface for listening FSMs behavior.
+ */
 public interface FSMDataHandler {
+	/**
+	 * Notifies the concrete handler that the interaction data must be flushed
+	 */
 	void reinitData();
 }

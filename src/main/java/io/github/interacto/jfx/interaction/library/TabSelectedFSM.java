@@ -20,7 +20,13 @@ import io.github.interacto.jfx.interaction.JfxFSM;
 import io.github.interacto.jfx.interaction.JfxTabSelectedTransition;
 import javafx.event.Event;
 
+/**
+ * The FSM for tab interactions
+ */
 public class TabSelectedFSM extends JfxFSM<TabSelectedFSM.TabSelectedFSMHandler> {
+	/**
+	 * Creates the FSM
+	 */
 	public TabSelectedFSM() {
 		super();
 	}

@@ -153,7 +153,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>checkstyle</goal>
                         </goals>
@@ -163,7 +163,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.29</version>
+                        <version>8.30</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -171,7 +171,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>3.1.12.2</version>
+                <version>4.0.0</version>
                 <configuration>
                     <includeTests>false</includeTests>
                     <effort>Max</effort>
@@ -180,14 +180,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>findbugs-test-compile</id>
-                        <phase>test-compile</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
@@ -197,7 +190,7 @@
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs</artifactId>
-                        <version>4.0.0</version>
+                        <version>4.0.1</version>
                         <scope>compile</scope>
                     </dependency>
                 </dependencies>
@@ -206,7 +199,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.2.0</version>
                 <configuration>
                     <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                 </configuration>

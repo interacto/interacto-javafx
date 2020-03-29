@@ -27,6 +27,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
+/**
+ * The widget binding builder API already knows the type of UI command
+ * the widget bindings will produce, with routines
+ * for defining the UI command and the user interaction to use.
+ * @param <W> The type of accepted widgets.
+ * @param <C> The type of the produced UI Commands
+ */
 public interface CmdBinder<W, C extends Command> extends CmdBinderBuilder<W, C> {
 	@Override
 	CmdBinder<W, C> first(final Consumer<C> initCmdFct);
@@ -61,5 +68,12 @@ public interface CmdBinder<W, C extends Command> extends CmdBinderBuilder<W, C> 
 	@Override
 	CmdBinder<W, C> help(final Pane helpPane);
 
+	/**
+	 * Defines how to create the user interaction that the widget binding will use to create UI commands.
+	 * @param interactionSupplier The supplier that will return a new user interaction.
+	 * @param <D> The user interaction data type
+	 * @param <I> The user interaction type
+	 * @return A clone of the current builder to chain the building configuration.
+	 */
 	<I extends JfxInteraction<D, ?>, D extends InteractionData> InteractionCmdBinder<W, C, I, D> usingInteraction(final Supplier<I> interactionSupplier);
 }

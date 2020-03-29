@@ -29,10 +29,17 @@ import javafx.event.Event;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * The FSM for DnD interactions.
+ */
 public class DnDFSM extends JfxFSM<DnDFSM.DnDFSMHandler> {
 	private final boolean cancellable;
 	private MouseButton buttonToCheck;
 
+	/**
+	 * Creates the FSM
+	 * @param cancellable True: the FSM can be cancelled using the ESC key.
+	 */
 	public DnDFSM(final boolean cancellable) {
 		super();
 		this.cancellable = cancellable;

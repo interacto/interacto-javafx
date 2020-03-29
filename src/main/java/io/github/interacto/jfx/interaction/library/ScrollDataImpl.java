@@ -16,6 +16,9 @@ package io.github.interacto.jfx.interaction.library;
 
 import javafx.scene.input.ScrollEvent;
 
+/**
+ * Scrolling interaction data implementation with write access.
+ */
 public class ScrollDataImpl implements ScrollData {
 	/** The scrolled node. */
 	protected Object scrolledNode;

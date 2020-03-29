@@ -22,9 +22,15 @@ import javafx.event.Event;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * The FSM for click interactions
+ */
 public class ClickFSM extends JfxFSM<ClickFSM.ClickFSMHandler> {
 	private MouseButton checkButton;
 
+	/**
+	 * Creates the FSM
+	 */
 	public ClickFSM() {
 		super();
 	}

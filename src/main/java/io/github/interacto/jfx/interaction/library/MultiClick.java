@@ -18,9 +18,18 @@ import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.geometry.Point3D;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * The multi-click user interaction.
+ * A user can click at several positions with the primary button
+ * of a mouse. Ends by clicking with a different mouse button.
+ */
 public class MultiClick extends JfxInteraction<PointsData, MultiClickFSM> {
 	private final MultiClickFSM.MultiClickFSMHandler handler;
 
+	/**
+	 * Creates the user interaction
+	 * @param minPts The minimal number of clicks for ending normally the user interaction.
+	 */
 	public MultiClick(final int minPts) {
 		super(new MultiClickFSM(minPts));
 

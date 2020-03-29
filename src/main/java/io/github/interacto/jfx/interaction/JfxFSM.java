@@ -21,6 +21,10 @@ import javafx.event.Event;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The base class for JavaFX FSMs.
+ * @param <H> The type of handler notified during the running of the FSM
+ */
 public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 	protected H dataHandler;
 
