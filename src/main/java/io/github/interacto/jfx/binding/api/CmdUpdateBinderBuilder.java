@@ -28,7 +28,7 @@ public interface CmdUpdateBinderBuilder<W, C extends Command> extends CmdBinderB
 	/**
 	 * Specifies the update of the command on interaction updates.
 	 * @param update The callback method that updates the command.
-	 * This callback takes as arguments the command to update.
+	 * 				This callback takes as arguments the command to update.
 	 * @return The builder to chain the building configuration.
 	 */
 	CmdUpdateBinderBuilder<W, C> then(final Consumer<C> update);

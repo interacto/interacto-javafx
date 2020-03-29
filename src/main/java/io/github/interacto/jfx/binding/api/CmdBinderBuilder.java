@@ -29,7 +29,7 @@ public interface CmdBinderBuilder<W, C extends Command> extends BaseBinderBuilde
 	 * Specifies the initialisation of the command when the interaction starts.
 	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
 	 * @param initCmdFct The callback method that initialises the command.
-	 * This callback takes as arguments the command to configure.
+	 * 				This callback takes as arguments the command to configure.
 	 * @return The builder to chain the building configuration.
 	 */
 	CmdBinderBuilder<W, C> first(final Consumer<C> initCmdFct);

@@ -35,7 +35,7 @@ public interface InteractionCmdBinder<W, C extends Command, I extends JfxInterac
 	 * Specifies the initialisation of the command when the interaction starts.
 	 * Each time the interaction starts, an instance of the command is created and configured by the given callback.
 	 * @param initCmdFct The callback method that initialises the command.
-	 * This callback takes as arguments both the command and interaction involved in the binding.
+	 * 				This callback takes as arguments both the command and interaction involved in the binding.
 	 * @return The builder to chain the building configuration.
 	 */
 	InteractionCmdBinder<W, C, I, D> first(final BiConsumer<D, C> initCmdFct);

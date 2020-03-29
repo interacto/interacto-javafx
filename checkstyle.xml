@@ -25,9 +25,15 @@
     </module>
 
     <module name="TreeWalker">
+<!--        <module name="MissingJavadocType" />-->
+        <module name="SingleLineJavadoc"/>
+        <module name="InvalidJavadocPosition"/>
+        <module name="JavadocBlockTagLocation"/>
+        <module name="JavadocContentLocationCheck"/>
+        <module name="JavadocTagContinuationIndentation"/>
+
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
         <module name="OneStatementPerLineCheck" />
-        <!--        <module name="SummaryJavadoc" />-->
         <module name="UnnecessarySemicolonInTryWithResources" />
 
         <module name="Indentation">

@@ -34,7 +34,7 @@ public interface InteractionCmdUpdateBinder<W, C extends Command, I extends JfxI
 	/**
 	 * Specifies the update of the command on interaction command.
 	 * @param update The callback method that updates the action.
-	 * This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
+	 * 				This callback takes as arguments the command to update and the ongoing interactions (and its parameters).
 	 * @return The builder to chain the building configuration.
 	 */
 	InteractionCmdUpdateBinder<W, C, I, D> then(final BiConsumer<D, C> update);

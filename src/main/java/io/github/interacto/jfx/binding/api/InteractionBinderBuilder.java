@@ -29,7 +29,7 @@ public interface InteractionBinderBuilder<W, I extends JfxInteraction<D, ?>, D e
 	/**
 	 * Specifies the conditions to fulfill to initialise, update, or execute the command while the interaction is running.
 	 * @param whenPredicate The predicate that checks whether the command can be initialised, updated, or executed.
-	 * This predicate takes as arguments the ongoing user interaction involved in the binding.
+	 * 				This predicate takes as arguments the ongoing user interaction involved in the binding.
 	 * @return The builder to chain the building configuration.
 	 */
 	InteractionBinderBuilder<W, I, D> when(final Predicate<D> whenPredicate);
