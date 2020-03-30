@@ -15,6 +15,7 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.jfx.interaction.JfxInteraction;
+import javafx.geometry.Point3D;
 import javafx.scene.input.MouseEvent;
 
 public class DnD extends JfxInteraction<SrcTgtPointsData, DnDFSM> {
@@ -35,9 +36,10 @@ public class DnD extends JfxInteraction<SrcTgtPointsData, DnDFSM> {
 			public void onDrag(final MouseEvent evt) {
 				if(updateSrcOnUpdate) {
 					final SrcTgtPointsDataImpl d = (SrcTgtPointsDataImpl) data;
-					d.setSrcLocalPoint(data.getTgtLocalPoint());
-					d.setSrcScenePoint(data.getTgtScenePoint());
-					d.setSrcObject(data.getTgtObject().orElse(null));
+					final Point3D tgtlocal = data.getTgtLocalPoint();
+					final Point3D tgtScene = data.getTgtScenePoint();
+					d.setPointData(tgtlocal.getX(), tgtlocal.getY(), tgtlocal.getZ(),
+						tgtScene.getX(), tgtScene.getY(), data.getButton(), data.getTgtObject().orElse(null));
 				}
 
 				setTgt(evt);

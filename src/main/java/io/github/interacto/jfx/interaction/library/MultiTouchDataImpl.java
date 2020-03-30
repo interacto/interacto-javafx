@@ -20,9 +20,15 @@ import java.util.List;
 import java.util.Map;
 import javafx.scene.input.TouchPoint;
 
+/**
+ * Multi-touch interaction data implementation
+ */
 public class MultiTouchDataImpl implements MultiTouchData {
 	private final Map<Integer, TouchDataImpl> touchData;
 
+	/**
+	 * Creates the interaction data
+	 */
 	public MultiTouchDataImpl() {
 		super();
 		touchData = new HashMap<>();
@@ -33,6 +39,10 @@ public class MultiTouchDataImpl implements MultiTouchData {
 		return new ArrayList<>(touchData.values());
 	}
 
+	/**
+	 * Adds a touch data to this multi-touch data
+	 * @param data The touch data to add
+	 */
 	public void addTouchData(final TouchDataImpl data) {
 		touchData.put(data.getTouchId(), data);
 	}
@@ -42,6 +52,12 @@ public class MultiTouchDataImpl implements MultiTouchData {
 		touchData.clear();
 	}
 
+	/**
+	 * Sets new value for the given touch point.
+	 * The id of the given touch point is used to find the corresponding
+	 * touch data.
+	 * @param tp The touch point to use.
+	 */
 	public void setTouch(final TouchPoint tp) {
 		final TouchDataImpl data = this.touchData.get(tp.getId());
 		if(data != null) {

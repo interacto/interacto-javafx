@@ -21,6 +21,9 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Single point interaction data implementation with write accesses.
+ */
 class PointDataImpl implements PointData {
 	/** The button used for the pressure. */
 	protected MouseButton button;
@@ -41,7 +44,9 @@ class PointDataImpl implements PointData {
 	/** The pressed scene position. */
 	protected final ObjectProperty<Point3D> srcScenePoint;
 
-
+	/**
+	 * Creates the interaction data with no value.
+	 */
 	protected PointDataImpl() {
 		super();
 		srcObject = new SimpleObjectProperty<>();
@@ -86,6 +91,10 @@ class PointDataImpl implements PointData {
 		return button;
 	}
 
+	/**
+	 * Sets the possible modifiers of this point data used in the mouse event.
+	 * @param event The mouse event to use to set this interaction data.
+	 */
 	protected void setModifiersData(final MouseEvent event) {
 		altPressed = event.isAltDown();
 		shiftPressed = event.isShiftDown();
@@ -93,6 +102,17 @@ class PointDataImpl implements PointData {
 		metaPressed = event.isMetaDown();
 	}
 
+	/**
+	 * Sets the point data (the coordinates, the mouse button and the targeted node).
+	 * Key modifiers are not set here.
+	 * @param x The x local position
+	 * @param y The y local position
+	 * @param z The z local position
+	 * @param sx The x scene position
+	 * @param sy The y scene position
+	 * @param b The mouse button
+	 * @param obj The targeted object
+	 */
 	protected void setPointData(final double x, final double y, final double z, final double sx, final double sy,
 		final MouseButton b, final Node obj) {
 		srcLocalPoint.set(new Point3D(x, y, z));
@@ -114,21 +134,5 @@ class PointDataImpl implements PointData {
 	@Override
 	public ObjectProperty<Point3D> srcScenePointProperty() {
 		return srcScenePoint;
-	}
-
-	public void setButton(final MouseButton button) {
-		this.button = button;
-	}
-
-	public void setSrcObject(final Node srcObject) {
-		this.srcObject.set(srcObject);
-	}
-
-	public void setSrcLocalPoint(final Point3D srcLocalPoint) {
-		this.srcLocalPoint.set(srcLocalPoint);
-	}
-
-	public void setSrcScenePoint(final Point3D srcScenePoint) {
-		this.srcScenePoint.set(srcScenePoint);
 	}
 }
