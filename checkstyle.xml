@@ -126,5 +126,6 @@
         <module name="NoEnumTrailingComma" />
         <module name="NoArrayTrailingComma" />
         <module name="AvoidDoubleBraceInitialization"/>
+        <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
     </module>
 </module>
