@@ -34,6 +34,8 @@ import io.github.interacto.jfx.interaction.library.ComboBoxSelected;
 import io.github.interacto.jfx.interaction.library.KeysData;
 import io.github.interacto.jfx.interaction.library.KeysPressed;
 import io.github.interacto.jfx.interaction.library.MenuItemPressed;
+import io.github.interacto.jfx.interaction.library.MultiTouch;
+import io.github.interacto.jfx.interaction.library.MultiTouchData;
 import io.github.interacto.jfx.interaction.library.SpinnerChanged;
 import io.github.interacto.jfx.interaction.library.TabSelected;
 import io.github.interacto.jfx.interaction.library.TextInputChanged;
@@ -148,6 +150,16 @@ public final class Bindings {
 	public static <C extends Command, W extends TextInputControl> InteractionUpdateBinder<W, TextInputChanged, WidgetData<TextInputControl>> textInputBinder(final JfxInstrument ins) {
 		return new NodeUpdateBinder<W, C, TextInputChanged, WidgetData<TextInputControl>>(ins, observer)
 			.usingInteraction(TextInputChanged::new);
+	}
+
+	public static <W extends Node> InteractionUpdateBinder<W, MultiTouch, MultiTouchData> multiTouchBinder(final int nbTouches) {
+		return multiTouchBinder(null, nbTouches);
+	}
+
+	public static <C extends Command, W extends Node>
+		InteractionUpdateBinder<W, MultiTouch, MultiTouchData> multiTouchBinder(final JfxInstrument ins, final int nbTouches) {
+		return new NodeUpdateBinder<W, C, MultiTouch, MultiTouchData>(ins, observer)
+			.usingInteraction(() -> new MultiTouch(nbTouches));
 	}
 
 	/**
