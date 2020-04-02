@@ -26,6 +26,11 @@ import java.util.function.LongSupplier;
 import javafx.event.Event;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * An FSM for typing several keyboard touches.
+ * One can type on multiple keys. The FSM ends after a timeout (a delay after the latest
+ * typed key).
+ */
 public class KeysTypedFSM extends JfxFSM<KeysTypedFSM.KeysTypedFSMHandler> {
 	/** The time gap to wait after the latest key event. */
 	private static long timeGap = 1000L;
@@ -49,6 +54,9 @@ public class KeysTypedFSM extends JfxFSM<KeysTypedFSM.KeysTypedFSMHandler> {
 		}
 	}
 
+	/**
+	 * Creates the FSM
+	 */
 	public KeysTypedFSM() {
 		super();
 	}

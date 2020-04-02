@@ -19,9 +19,18 @@ import javafx.geometry.Point3D;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.input.TouchPoint;
 
+/**
+ * A multi-touch user interaction.
+ * A multi-touch starts when all its touches have started.
+ * A multi-touch ends when the number of required touches is greater than the number of touches.
+ */
 public class MultiTouch extends JfxInteraction<MultiTouchData, MultiTouchFSM> {
 	private final TouchDnDFSM.TouchDnDFSMHandler handler;
 
+	/**
+	 * Creates the multi-touch interaction
+	 * @param nbTouches The number of touches.
+	 */
 	public MultiTouch(final int nbTouches) {
 		super(new MultiTouchFSM(nbTouches));
 

@@ -17,9 +17,17 @@ package io.github.interacto.jfx.interaction.library;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * A user interaction for typing several keyboard touches.
+ * One can type on multiple keys. The interaction ends after a timeout (a delay after the latest
+ * typed key).
+ */
 public class KeysTyped extends JfxInteraction<KeysData, KeysTypedFSM> {
 	private final KeysTypedFSM.KeysTypedFSMHandler handler;
 
+	/**
+	 * Creates the user interaction.
+	 */
 	public KeysTyped() {
 		super(new KeysTypedFSM());
 
