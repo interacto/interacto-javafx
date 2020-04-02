@@ -14,7 +14,7 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.jfx.interaction.JfxInteraction;
+import io.github.interacto.jfx.interaction.ConcurrentInteraction;
 import javafx.geometry.Point3D;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.input.TouchPoint;
@@ -24,7 +24,7 @@ import javafx.scene.input.TouchPoint;
  * A multi-touch starts when all its touches have started.
  * A multi-touch ends when the number of required touches is greater than the number of touches.
  */
-public class MultiTouch extends JfxInteraction<MultiTouchData, MultiTouchFSM> {
+public class MultiTouch extends ConcurrentInteraction<MultiTouchData, MultiTouchFSM> {
 	private final TouchDnDFSM.TouchDnDFSMHandler handler;
 
 	/**
@@ -61,11 +61,6 @@ public class MultiTouch extends JfxInteraction<MultiTouchData, MultiTouchFSM> {
 		};
 
 		fsm.buildFSM(handler);
-	}
-
-	@Override
-	public boolean isRunning() {
-		return isActivated() && fsm.isStarted();
 	}
 
 	@Override

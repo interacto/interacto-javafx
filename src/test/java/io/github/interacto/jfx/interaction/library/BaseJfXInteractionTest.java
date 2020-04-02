@@ -48,46 +48,46 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 
 	abstract T createInteraction();
 
-	static WindowEvent createWindowEvent(final Window window, final EventType<?> eventType) {
+	public static WindowEvent createWindowEvent(final Window window, final EventType<?> eventType) {
 		return new WindowEvent(window, eventType);
 	}
 
-	static MouseEvent createMouseEnterEvent(final double x, final double y, final MouseButton button) {
+	public static MouseEvent createMouseEnterEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_ENTERED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
 			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
-	static MouseEvent createMouseExitEvent(final double x, final double y, final MouseButton button) {
+	public static MouseEvent createMouseExitEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_EXITED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
 			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
-	static MouseEvent createMousePressEvent(final double x, final double y, final MouseButton button) {
+	public static MouseEvent createMousePressEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_PRESSED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
 			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
-	static MouseEvent createMouseReleaseEvent(final double x, final double y, final MouseButton button) {
+	public static MouseEvent createMouseReleaseEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_RELEASED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
 			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
-	static MouseEvent createMouseMoveEvent(final double x, final double y, final MouseButton button) {
+	public static MouseEvent createMouseMoveEvent(final double x, final double y, final MouseButton button) {
 		return new MouseEvent(MouseEvent.MOUSE_MOVED, x, y, 0d, 0d, button, 1, false,
 			false, false, false, false, false, false,
 			true, false, false, new PickResult(null, new Point3D(x, y, 0d),
 			0d, 0, new Point2D(0d, 0d)));
 	}
 
-	static TouchEvent createTouchPressEvent(final double x, final double y, final int touchID, final Node tgt) {
+	public static TouchEvent createTouchPressEvent(final double x, final double y, final int touchID, final Node tgt) {
 		final PickResult res = Mockito.mock(PickResult.class);
 		Mockito.when(res.getIntersectedNode()).thenReturn(tgt);
 		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0));
@@ -95,7 +95,7 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			List.of(), -1, false, false, false, false);
 	}
 
-	static TouchEvent createTouchReleaseEvent(final double x, final double y, final int touchID, final Node tgt) {
+	public static TouchEvent createTouchReleaseEvent(final double x, final double y, final int touchID, final Node tgt) {
 		final PickResult res = Mockito.mock(PickResult.class);
 		Mockito.when(res.getIntersectedNode()).thenReturn(tgt);
 		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0));
@@ -103,7 +103,7 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			List.of(), -1, false, false, false, false);
 	}
 
-	static TouchEvent createTouchMoveEvent(final double x, final double y, final int touchID, final Node tgt) {
+	public static TouchEvent createTouchMoveEvent(final double x, final double y, final int touchID, final Node tgt) {
 		final PickResult res = Mockito.mock(PickResult.class);
 		Mockito.when(res.getIntersectedNode()).thenReturn(tgt);
 		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0d));
@@ -112,7 +112,7 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			List.of(), -1, false, false, false, false);
 	}
 
-	static MouseEvent createMouseDragEvent(final double x, final double y, final MouseButton button, final Node srcObj) {
+	public static MouseEvent createMouseDragEvent(final double x, final double y, final MouseButton button, final Node srcObj) {
 		final PickResult res = Mockito.mock(PickResult.class);
 		Mockito.when(res.getIntersectedNode()).thenReturn(srcObj);
 		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0d));
@@ -121,7 +121,7 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			true, false, false, res);
 	}
 
-	static MouseEvent createMouseClickEvent(final double x, final double y, final MouseButton button, final Node srcObj) {
+	public static MouseEvent createMouseClickEvent(final double x, final double y, final MouseButton button, final Node srcObj) {
 		final PickResult res = Mockito.mock(PickResult.class);
 		Mockito.when(res.getIntersectedNode()).thenReturn(srcObj);
 		Mockito.when(res.getIntersectedPoint()).thenReturn(new Point3D(x, y, 0d));
@@ -130,23 +130,23 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 			true, false, false, res);
 	}
 
-	static ScrollEvent createScrollEvent(final double x, final double y, final double dx, final double dy) {
+	public static ScrollEvent createScrollEvent(final double x, final double y, final double dx, final double dy) {
 		return new ScrollEvent(ScrollEvent.SCROLL, x, y, x, y, false, false, false, false, false, false, dx, dy, dx, dy,
 				null, 0d, null, 0d, 0, new PickResult(null, new Point3D(x, y, 0d),
 				0d, 0, new Point2D(0d, 0d)));
 	}
 
-	static KeyEvent createKeyPressEvent(final String str, final KeyCode code) {
+	public static KeyEvent createKeyPressEvent(final String str, final KeyCode code) {
 		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_PRESSED, str, str, code, false,
 			false, false, false);
 	}
 
-	static KeyEvent createKeyReleaseEvent(final String str, final KeyCode code) {
+	public static KeyEvent createKeyReleaseEvent(final String str, final KeyCode code) {
 		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_RELEASED, str, str, code, false,
 			false, false, false);
 	}
 
-	static KeyEvent createKeyTypedEvent(final String str, final KeyCode code) {
+	public static KeyEvent createKeyTypedEvent(final String str, final KeyCode code) {
 		return new KeyEvent(new Object(), tail -> null, KeyEvent.KEY_TYPED, str, str, code, false,
 			false, false, false);
 	}

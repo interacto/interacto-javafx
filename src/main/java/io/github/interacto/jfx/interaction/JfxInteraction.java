@@ -122,7 +122,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 			return;
 		}
 
-		final List<EventType<?>> currEvents = getEventTypesOf(newState);
+		final List<EventType<?>> currEvents = getCurrentAcceptedEvents(newState);
 		final List<EventType<?>> events = getEventTypesOf(oldState);
 		final List<EventType<?>> eventsToRemove = new ArrayList<>(events);
 		final List<EventType<?>> eventsToAdd = new ArrayList<>(currEvents);
@@ -144,7 +144,11 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}));
 	}
 
-	private List<EventType<?>> getEventTypesOf(final OutputState<Event> state) {
+	protected List<EventType<?>> getCurrentAcceptedEvents(final OutputState<Event> state) {
+		return this.getEventTypesOf(state);
+	}
+
+	protected List<EventType<?>> getEventTypesOf(final OutputState<Event> state) {
 		return state.getTransitions().stream().map(t -> t.getAcceptedEvents()).flatMap(s -> s.stream()).distinct().map(o -> (EventType<?>) o).
 			collect(Collectors.toList());
 	}
@@ -184,7 +188,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 	}
 
-	private void unregisterEventToNode(final EventType<?> eventType, final Node node) {
+	protected void unregisterEventToNode(final EventType<?> eventType, final Node node) {
 		if(eventType == ActionEvent.ACTION) {
 			unregisterActionHandler(node);
 			return;
@@ -206,7 +210,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 	}
 
-	private void registerEventToNode(final EventType<?> eventType, final Node node) {
+	protected void registerEventToNode(final EventType<?> eventType, final Node node) {
 		if(eventType == ActionEvent.ACTION) {
 			registerActionHandler(node);
 			return;
@@ -228,7 +232,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 	}
 
-	private void unregisterEventToWindow(final EventType<?> eventType, final Window window) {
+	protected void unregisterEventToWindow(final EventType<?> eventType, final Window window) {
 		if(eventType == ActionEvent.ACTION) {
 			window.removeEventHandler(ActionEvent.ACTION, getActionHandler());
 			return;
@@ -250,7 +254,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		}
 	}
 
-	private void registerEventToWindow(final EventType<?> eventType, final Window window) {
+	protected void registerEventToWindow(final EventType<?> eventType, final Window window) {
 		if(eventType == ActionEvent.ACTION) {
 			window.addEventHandler(ActionEvent.ACTION, getActionHandler());
 			return;

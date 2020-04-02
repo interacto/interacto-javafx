@@ -158,6 +158,10 @@
         <Class name="~.*interaction\.library\..*" />
     </Match>
     <Match>
+        <Bug pattern="BC_UNCONFIRMED_CAST" />
+        <Class name="~.*interaction\.ConcurrentInteraction" />
+    </Match>
+    <Match>
         <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
         <Class name="~.*interaction\.library\..*" />
     </Match>
