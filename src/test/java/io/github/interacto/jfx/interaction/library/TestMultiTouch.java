@@ -203,4 +203,19 @@ public class TestMultiTouch extends BaseJfXInteractionTest<MultiTouch> {
 		});
 		interaction.processEvent(createTouchReleaseEvent(11, 23, 2, button));
 	}
+
+
+	@Test
+	void test4TouchReleaseData() throws CancelFSMException {
+		final Button button = new Button();
+		interaction.processEvent(createTouchPressEvent(11, 23, 1, button));
+		interaction.processEvent(createTouchPressEvent(110, 230, 2, button));
+		interaction.processEvent(createTouchPressEvent(111, 231, 3, button));
+		interaction.processEvent(createTouchPressEvent(111, 231, 4, button));
+
+		interaction.processEvent(createTouchReleaseEvent(11, 23, 4, button));
+
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmStops();
+	}
 }
