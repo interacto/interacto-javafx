@@ -66,7 +66,7 @@ public interface BaseBinderBuilder<W> {
 	BaseBinderBuilder<W> consume();
 
 	/**
-	 * Specifies the loggings to use.
+	 * Specifies the logging level to use.
 	 * Several call to 'log' can be done to log different parts:
 	 * log(LogLevel.INTERACTION).log(LogLevel.COMMAND)
 	 * @param level The logging level to use.
