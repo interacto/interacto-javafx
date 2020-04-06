@@ -174,6 +174,12 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		event.consume();
 	}
 
+	/**
+	 * Permits to listen any change in the content of the given list.
+	 * This is dynamic: on new child nodes, the interaction registers to them.
+	 * On child removals, the interaction unregisters to them.
+	 * @param nodes The list of nodes that will be observed by the interaction.
+	 */
 	public void registerToObservableNodeList(final ObservableList<? extends Node> nodes) {
 		if(nodes != null) {
 			additionalNodes.add(nodes);
@@ -373,7 +379,7 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		actionHandler = null;
 		registeredNodes.clear();
 		registeredWindows.clear();
-		additionalNodes.forEach(adds -> adds.addListener(addNodesHandler));
+		additionalNodes.forEach(adds -> adds.removeListener(addNodesHandler));
 		additionalNodes.clear();
 		registeredNodes.removeListener(nodesHandler);
 		registeredWindows.removeListener(windowsHandler);
