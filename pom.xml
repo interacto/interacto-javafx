@@ -340,7 +340,7 @@
         <dependency>
             <groupId>io.github.interacto</groupId>
             <artifactId>interacto-javafx-test</artifactId>
-            <version>4.1</version>
+            <version>4.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
