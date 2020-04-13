@@ -377,7 +377,9 @@ public abstract class JfxInteraction<D extends InteractionData, F extends FSM<Ev
 		mouseHandler = null;
 		keyHandler = null;
 		actionHandler = null;
+		registeredNodes.forEach(n -> onNodeUnregistered(n));
 		registeredNodes.clear();
+		registeredWindows.forEach(n -> onWindowUnregistered(n));
 		registeredWindows.clear();
 		additionalNodes.forEach(adds -> adds.removeListener(addNodesHandler));
 		additionalNodes.clear();
