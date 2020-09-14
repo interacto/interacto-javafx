@@ -161,15 +161,14 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 	}
 
 	@Test
-	void testWrongButtonNoEnds() throws CancelFSMException {
+	void testMultipleMoves() throws CancelFSMException {
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
-		interaction.processEvent(createMouseMoveEvent(20, 30, MouseButton.PRIMARY));
-		interaction.processEvent(createMouseClickEvent(20, 30, MouseButton.MIDDLE, null));
-		interaction.processEvent(createMouseClickEvent(20, 30, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseMoveEvent(20, 30, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseMoveEvent(20, 30, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseMoveEvent(20, 30, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseMoveEvent(20, 30, MouseButton.MIDDLE));
 
-		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
-		Mockito.verify(handler, Mockito.times(1)).fsmCancels();
-		Mockito.verify(handler, Mockito.never()).fsmStops();
+		Mockito.verify(handler, Mockito.times(5)).fsmUpdates();
 	}
 }

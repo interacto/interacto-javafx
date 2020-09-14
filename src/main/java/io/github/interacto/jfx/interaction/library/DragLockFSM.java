@@ -29,6 +29,22 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
+	private static class DragLockMoveTransition extends MoveTransition {
+		final DragLockFSMHandler dataHandler;
+
+		DragLockMoveTransition(final OutputState<Event> srcState, final InputState<Event> tgtState, final DragLockFSMHandler dataHandler) {
+			super(srcState, tgtState);
+			this.dataHandler = dataHandler;
+		}
+
+		@Override
+		protected void action(final Event event) {
+			if(dataHandler != null && event instanceof MouseEvent) {
+				dataHandler.onMove((MouseEvent) event);
+			}
+		}
+	}
+
 	protected final DoubleClickFSM firstDbleClick;
 	protected final DoubleClickFSM sndDbleClick;
 	protected MouseButton checkButton;
@@ -68,29 +84,14 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 			}
 		};
 		new SubFSMTransition<>(locked, cancelled, cancelDbleClick);
-		new DragLockMoveTransition(locked, moved);
+		new DragLockMoveTransition(locked, moved, dataHandler);
+		new DragLockMoveTransition(moved, moved, dataHandler);
 		new EscapeKeyPressureTransition(locked, cancelled);
 		new EscapeKeyPressureTransition(moved, cancelled);
 		new SubFSMTransition<>(moved, dropped, sndDbleClick);
 	}
 
-	class DragLockMoveTransition extends MoveTransition {
-		DragLockMoveTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
-			super(srcState, tgtState);
-		}
 
-		@Override
-		protected boolean isGuardOK(final Event event) {
-			return super.isGuardOK(event) && (checkButton == null || event instanceof MouseEvent && ((MouseEvent) event).getButton() == checkButton);
-		}
-
-		@Override
-		protected void action(final Event event) {
-			if(dataHandler != null && event instanceof MouseEvent) {
-				dataHandler.onMove((MouseEvent) event);
-			}
-		}
-	}
 
 	interface DragLockFSMHandler extends FSMDataHandler {
 		void onMove(final MouseEvent event);

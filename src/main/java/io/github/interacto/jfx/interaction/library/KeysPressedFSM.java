@@ -76,9 +76,25 @@ public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler>
 		@Override
 		protected void action(final Event event) {
 			if(event instanceof KeyEvent) {
-				currentCodes.add(((KeyEvent) event).getCode());
+				final KeyEvent ke = (KeyEvent) event;
+				currentCodes.add(ke.getCode());
+				if(ke.isMetaDown()) {
+					currentCodes.add(KeyCode.META);
+				}
+				if(ke.isAltDown()) {
+					currentCodes.add(KeyCode.ALT);
+				}
+				if(ke.isControlDown()) {
+					currentCodes.add(KeyCode.CONTROL);
+				}
+				if(ke.isShiftDown()) {
+					currentCodes.add(KeyCode.SHIFT);
+				}
+				if(ke.isShortcutDown()) {
+					currentCodes.add(KeyCode.SHORTCUT);
+				}
 				if(dataHandler != null) {
-					dataHandler.onKeyPressed((KeyEvent) event);
+					dataHandler.onKeyPressed(ke);
 				}
 			}
 		}
