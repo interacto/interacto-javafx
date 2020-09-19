@@ -105,6 +105,18 @@ public class KeysScrollFSM extends JfxFSM<KeysScrollFSM.KeysScrollFSMHandler> {
 		}
 	}
 
+	@Override
+	public void reinit() {
+		super.reinit();
+		scrollFSM.reinit();
+	}
+
+	@Override
+	public void fullReinit() {
+		super.fullReinit();
+		scrollFSM.fullReinit();
+	}
+
 	interface KeysScrollFSMHandler extends FSMDataHandler {
 		void onKeyPressed(final KeyEvent event);
 

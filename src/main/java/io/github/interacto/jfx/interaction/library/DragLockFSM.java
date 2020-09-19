@@ -91,7 +91,20 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 		new SubFSMTransition<>(moved, dropped, sndDbleClick);
 	}
 
+	@Override
+	public void reinit() {
+		super.reinit();
+		firstDbleClick.reinit();
+		sndDbleClick.reinit();
+		checkButton = null;
+	}
 
+	@Override
+	public void fullReinit() {
+		super.fullReinit();
+		firstDbleClick.fullReinit();
+		sndDbleClick.fullReinit();
+	}
 
 	interface DragLockFSMHandler extends FSMDataHandler {
 		void onMove(final MouseEvent event);

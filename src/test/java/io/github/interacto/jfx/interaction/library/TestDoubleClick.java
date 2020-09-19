@@ -138,6 +138,16 @@ public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> impleme
 	}
 
 	@Test
+	void testDbleClickOKAfterDelay() throws CancelFSMException {
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		waitForTimeoutTransitions();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
+	}
+
+	@Test
 	void testDbleClickKOWithCustomDelay() throws CancelFSMException {
 		DoubleClickFSM.setTimeGap(50L);
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));

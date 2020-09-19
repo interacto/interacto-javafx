@@ -15,6 +15,7 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
+import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxFSM;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -28,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
+public class TestDragLock extends BaseJfXInteractionTest<DragLock> implements TimeoutWaiter {
 	@Override
 	DragLock createInteraction() {
 		return new DragLock();
@@ -170,5 +171,40 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 		interaction.processEvent(createMouseMoveEvent(20, 30, MouseButton.MIDDLE));
 
 		Mockito.verify(handler, Mockito.times(5)).fsmUpdates();
+	}
+
+	@Test
+	void testTimeoutFirstClick() throws CancelFSMException {
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		waitForTimeoutTransitions();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+	}
+
+	@Test
+	void testTimeoutSecondClickKO() throws CancelFSMException {
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		waitForTimeoutTransitions();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+
+		Mockito.verify(handler, Mockito.never()).fsmStops();
+	}
+
+	@Test
+	void testTimeoutSecondClickOK() throws CancelFSMException {
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		waitForTimeoutTransitions();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
 	}
 }

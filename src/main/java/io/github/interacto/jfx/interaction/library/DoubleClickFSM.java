@@ -105,8 +105,17 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 	}
 
 	@Override
+	public void fullReinit() {
+		super.fullReinit();
+		firstClickFSM.fullReinit();
+		sndClick.fullReinit();
+	}
+
+	@Override
 	public void reinit() {
 		super.reinit();
+		firstClickFSM.reinit();
+		sndClick.reinit();
 		checkButton = null;
 	}
 }
