@@ -51,13 +51,20 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 	}
 
 	protected final ClickFSM firstClickFSM;
-	private final ClickFSM sndClick;
+	private final ClickFSM sndClickFSM;
 	private MouseButton checkButton;
 
 	public DoubleClickFSM() {
 		super();
 		firstClickFSM = new ClickFSM();
-		sndClick = new ClickFSM();
+		sndClickFSM = new ClickFSM();
+	}
+
+	@Override
+	public void log(final boolean log) {
+		super.log(log);
+		firstClickFSM.log(log);
+		sndClickFSM.log(log);
 	}
 
 	@Override
@@ -67,7 +74,7 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 		}
 		super.buildFSM(dataHandler);
 		firstClickFSM.buildFSM(null);
-		sndClick.buildFSM(null);
+		sndClickFSM.buildFSM(null);
 		final TerminalState<Event> dbleclicked = new TerminalState<>(this, "dbleclicked");
 		final CancellingState<Event> cancelled = new CancellingState<>(this, "cancelled");
 		final StdState<Event> clicked = new StdState<>(this, "clicked");
@@ -90,14 +97,14 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 			}
 		};
 		new TimeoutTransition<>(clicked, cancelled, SUPPLY_TIME_GAP);
-		new SubFSMTransition<>(clicked, dbleclicked, sndClick);
+		new SubFSMTransition<>(clicked, dbleclicked, sndClickFSM);
 	}
 
 	protected void setCheckButton(final MouseButton buttonToCheck) {
 		if(checkButton == null) {
 			checkButton = buttonToCheck;
 		}
-		sndClick.setCheckButton(buttonToCheck);
+		sndClickFSM.setCheckButton(buttonToCheck);
 	}
 
 	protected MouseButton getCheckButton() {
@@ -108,14 +115,14 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 	public void fullReinit() {
 		super.fullReinit();
 		firstClickFSM.fullReinit();
-		sndClick.fullReinit();
+		sndClickFSM.fullReinit();
 	}
 
 	@Override
 	public void reinit() {
 		super.reinit();
 		firstClickFSM.reinit();
-		sndClick.reinit();
+		sndClickFSM.reinit();
 		checkButton = null;
 	}
 }
