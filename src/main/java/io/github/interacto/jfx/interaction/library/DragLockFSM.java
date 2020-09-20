@@ -81,6 +81,9 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 				checkButton = firstDbleClick.getCheckButton();
 				sndDbleClick.setCheckButton(checkButton);
 				cancelDbleClick.setCheckButton(checkButton);
+				if(dataHandler != null) {
+					dataHandler.onLock();
+				}
 			}
 		};
 		new SubFSMTransition<>(locked, cancelled, cancelDbleClick);
@@ -88,7 +91,21 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 		new DragLockMoveTransition(moved, moved, dataHandler);
 		new EscapeKeyPressureTransition(locked, cancelled);
 		new EscapeKeyPressureTransition(moved, cancelled);
-		new SubFSMTransition<>(moved, dropped, sndDbleClick);
+		new SubFSMTransition<>(moved, dropped, sndDbleClick) {
+			@Override
+			protected void action(final Event event) {
+				if(dataHandler != null) {
+					dataHandler.onUnlock();
+				}
+			}
+		};
+	}
+
+	@Override
+	public void log(final boolean log) {
+		super.log(log);
+		firstDbleClick.log(log);
+		sndDbleClick.log(log);
 	}
 
 	@Override
@@ -107,6 +124,8 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 	}
 
 	interface DragLockFSMHandler extends FSMDataHandler {
+		void onLock();
 		void onMove(final MouseEvent event);
+		void onUnlock();
 	}
 }

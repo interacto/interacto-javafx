@@ -17,13 +17,16 @@ package io.github.interacto.jfx.interaction.library;
 import io.github.interacto.fsm.CancelFSMException;
 import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxFSM;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -181,6 +184,42 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> implements Ti
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 
 		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmStops();
+		Mockito.verify(handler, Mockito.times(1)).fsmUpdates();
+	}
+
+	@Test
+	void testTimeoutFirstClickUpdateStillOK() throws CancelFSMException {
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		waitForTimeoutTransitions();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.MIDDLE));
+
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(3)).fsmUpdates();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
+		Mockito.verify(handler, Mockito.never()).fsmStops();
+	}
+
+	@Test
+	void testTimeoutFirstClickEndStillOK() throws CancelFSMException {
+		interaction.log(true);
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.PRIMARY, null));
+		waitForTimeoutTransitions();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
+
+		Mockito.verify(handler, Mockito.times(1)).fsmStarts();
+		Mockito.verify(handler, Mockito.times(3)).fsmUpdates();
+		Mockito.verify(handler, Mockito.times(1)).fsmStops();
+		Mockito.verify(handler, Mockito.never()).fsmCancels();
 	}
 
 	@Test
@@ -206,5 +245,16 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> implements Ti
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, null));
 
 		Mockito.verify(handler, Mockito.times(1)).fsmStops();
+	}
+
+	@Test
+	void testFirstClickHasTargetObject() {
+		final Button foo = new Button();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, foo));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, foo));
+		assertThat(interaction.getData().getTgtObject().orElse(null)).isSameAs(foo);
+		assertThat(interaction.getData().getTgtLocalPoint().getX()).isEqualTo(11d, Offset.offset(0.001));
+		assertThat(interaction.getData().getTgtLocalPoint().getY()).isEqualTo(23d, Offset.offset(0.001));
+		assertThat(interaction.getData().getButton()).isSameAs(MouseButton.MIDDLE);
 	}
 }
