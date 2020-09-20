@@ -15,6 +15,11 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.jfx.interaction.JfxInteraction;
+import java.util.Optional;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.geometry.Point3D;
+import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -33,48 +38,15 @@ public class DragLock extends JfxInteraction<SrcTgtPointsData, DragLockFSM> {
 
 		handler = new DragLockFSM.DragLockFSMHandler() {
 			@Override
-			public void onLock() {
-				final PointData pdata = firstClick.getData();
-				((SrcTgtPointsDataImpl) DragLock.this.data).setPointData(pdata.getSrcLocalPoint().getX(),
-					pdata.getSrcLocalPoint().getY(),
-					pdata.getSrcLocalPoint().getZ(),
-					pdata.getSrcScenePoint().getX(),
-					pdata.getSrcScenePoint().getY(),
-					pdata.getButton(),
-					pdata.getSrcObject().orElse(null));
-				setTgtData(pdata);
-			}
-
-			@Override
 			public void onMove(final MouseEvent evt) {
 				((PointDataImpl) sndClick.firstClick.getData()).setPointData(evt.getX(), evt.getY(), evt.getZ(), evt.getSceneX(),
 					evt.getSceneY(), evt.getButton(), evt.getPickResult().getIntersectedNode());
 				((PointDataImpl) sndClick.firstClick.getData()).setModifiersData(evt);
-				setTgtData(sndClick.getData());
-			}
-
-			@Override
-			public void onUnlock() {
-				setTgtData(sndClick.getData());
 			}
 
 			@Override
 			public void reinitData() {
 				DragLock.this.reinitData();
-			}
-
-			private void setTgtData(final PointData pdata) {
-				((SrcTgtPointsDataImpl) data).setTgtData(pdata.getSrcLocalPoint().getX(),
-					pdata.getSrcLocalPoint().getY(),
-					pdata.getSrcLocalPoint().getZ(),
-					pdata.getSrcScenePoint().getX(),
-					pdata.getSrcScenePoint().getY(),
-					pdata.getSrcObject().orElse(null));
-
-				((SrcTgtPointsDataImpl) data).altPressed = pdata.isAltPressed();
-				((SrcTgtPointsDataImpl) data).ctrlPressed = pdata.isCtrlPressed();
-				((SrcTgtPointsDataImpl) data).metaPressed = pdata.isMetaPressed();
-				((SrcTgtPointsDataImpl) data).shiftPressed = pdata.isShiftPressed();
 			}
 		};
 
@@ -85,7 +57,7 @@ public class DragLock extends JfxInteraction<SrcTgtPointsData, DragLockFSM> {
 
 	@Override
 	protected SrcTgtPointsData createDataObject() {
-		return new SrcTgtPointsDataImpl();
+		return new DragLockData();
 	}
 
 	@Override
@@ -93,5 +65,83 @@ public class DragLock extends JfxInteraction<SrcTgtPointsData, DragLockFSM> {
 		super.reinitData();
 		firstClick.reinitData();
 		sndClick.reinitData();
+	}
+
+	class DragLockData implements SrcTgtPointsData {
+		@Override
+		public Optional<Node> getTgtObject() {
+			return sndClick.getData().getSrcObject().isEmpty() ? getSrcObject() : sndClick.getData().getSrcObject();
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<Point3D> tgtLocalPointProperty() {
+			return sndClick.getData().srcLocalPointProperty();
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<Point3D> tgtScenePointProperty() {
+			return sndClick.getData().srcScenePointProperty();
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<Node> tgtObjectProperty() {
+			return sndClick.getData().srcObjectProperty();
+		}
+
+		@Override
+		public Point3D getTgtLocalPoint() {
+			return sndClick.getData().getSrcLocalPoint() == null ? getSrcLocalPoint() : sndClick.getData().getSrcLocalPoint();
+		}
+
+		@Override
+		public Point3D getTgtScenePoint() {
+			return sndClick.getData().getSrcScenePoint() == null ? getSrcScenePoint() : sndClick.getData().getSrcScenePoint();
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<Point3D> srcLocalPointProperty() {
+			return firstClick.getData().srcLocalPointProperty();
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<Point3D> srcScenePointProperty() {
+			return firstClick.getData().srcScenePointProperty();
+		}
+
+		@Override
+		public ReadOnlyObjectProperty<Node> srcObjectProperty() {
+			return firstClick.getData().srcObjectProperty();
+		}
+
+		@Override
+		public boolean isAltPressed() {
+			return firstClick.getData().isAltPressed();
+		}
+
+		@Override
+		public boolean isCtrlPressed() {
+			return firstClick.getData().isCtrlPressed();
+		}
+
+		@Override
+		public boolean isShiftPressed() {
+			return firstClick.getData().isShiftPressed();
+		}
+
+		@Override
+		public boolean isMetaPressed() {
+			return firstClick.getData().isMetaPressed();
+		}
+
+		@Override
+		public MouseButton getButton() {
+			return firstClick.getData().getButton();
+		}
+
+		@Override
+		public void flush() {
+			firstClick.getData().flush();
+			sndClick.getData().flush();
+		}
 	}
 }

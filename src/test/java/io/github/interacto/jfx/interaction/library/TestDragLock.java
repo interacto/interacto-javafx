@@ -248,7 +248,7 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> implements Ti
 	}
 
 	@Test
-	void testFirstClickHasTargetObject() {
+	void testFirstClickHasTargetValues() {
 		final Button foo = new Button();
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, foo));
 		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, foo));
@@ -256,5 +256,17 @@ public class TestDragLock extends BaseJfXInteractionTest<DragLock> implements Ti
 		assertThat(interaction.getData().getTgtLocalPoint().getX()).isEqualTo(11d, Offset.offset(0.001));
 		assertThat(interaction.getData().getTgtLocalPoint().getY()).isEqualTo(23d, Offset.offset(0.001));
 		assertThat(interaction.getData().getButton()).isSameAs(MouseButton.MIDDLE);
+	}
+
+	@Test
+	void testMoveHasStillSrcValues() {
+		final Button foo = new Button();
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, foo));
+		interaction.processEvent(createMouseClickEvent(11, 23, MouseButton.MIDDLE, foo));
+		interaction.processEvent(createMouseMoveEvent(11, 23, MouseButton.MIDDLE));
+		interaction.processEvent(createMouseClickEvent(111, 123, MouseButton.MIDDLE, new Button()));
+		assertThat(interaction.getData().getSrcObject().orElse(null)).isSameAs(foo);
+		assertThat(interaction.getData().getSrcLocalPoint().getX()).isEqualTo(11d, Offset.offset(0.001));
+		assertThat(interaction.getData().getSrcLocalPoint().getY()).isEqualTo(23d, Offset.offset(0.001));
 	}
 }
