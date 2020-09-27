@@ -38,9 +38,9 @@ public class DragLockFSM extends JfxFSM<DragLockFSM.DragLockFSMHandler> {
 		}
 
 		@Override
-		protected void action(final Event event) {
-			if(dataHandler != null && event instanceof MouseEvent) {
-				dataHandler.onMove((MouseEvent) event);
+		protected void action(final MouseEvent event) {
+			if(dataHandler != null) {
+				dataHandler.onMove(event);
 			}
 		}
 	}

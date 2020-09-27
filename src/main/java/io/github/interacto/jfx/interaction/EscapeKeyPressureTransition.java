@@ -30,7 +30,7 @@ public class EscapeKeyPressureTransition extends KeyPressureTransition {
 	}
 
 	@Override
-	public boolean isGuardOK(final Event event) {
-		return event instanceof KeyEvent && ((KeyEvent) event).getCode() == KeyCode.ESCAPE;
+	public boolean isGuardOK(final KeyEvent event) {
+		return event != null && event.getCode() == KeyCode.ESCAPE;
 	}
 }

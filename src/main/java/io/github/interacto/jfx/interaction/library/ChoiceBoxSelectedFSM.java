@@ -36,9 +36,9 @@ public class ChoiceBoxSelectedFSM extends JfxFSM<ChoiceBoxSelectedFSM.ChoiceBoxS
 		addState(selected);
 		new JfxChoiceBoxTransition(initState, selected) {
 			@Override
-			public void action(final Event event) {
-				if(ChoiceBoxSelectedFSM.this.dataHandler != null && event instanceof ActionEvent) {
-					ChoiceBoxSelectedFSM.this.dataHandler.initToSelectedHandler((ActionEvent) event);
+			public void action(final ActionEvent event) {
+				if(ChoiceBoxSelectedFSM.this.dataHandler != null) {
+					ChoiceBoxSelectedFSM.this.dataHandler.initToSelectedHandler(event);
 				}
 			}
 		};

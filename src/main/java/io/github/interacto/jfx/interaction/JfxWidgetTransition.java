@@ -27,14 +27,14 @@ import javafx.event.Event;
  * @param <T> The type of the widget.
  * @author Arnaud Blouin
  */
-public abstract class JfxWidgetTransition<T> extends WidgetTransition<Event, T> {
+public abstract class JfxWidgetTransition<T> extends WidgetTransition<ActionEvent, Event, T> {
 	public JfxWidgetTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 		super(srcState, tgtState);
 	}
 
 	@Override
-	protected boolean accept(final Event e) {
-		return e != null && e.getEventType() == ActionEvent.ACTION;
+	protected ActionEvent accept(final Event evt) {
+		return evt instanceof ActionEvent && evt.getEventType() == ActionEvent.ACTION ? (ActionEvent) evt : null;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public abstract class JfxWidgetTransition<T> extends WidgetTransition<Event, T> 
 	}
 
 	@Override
-	protected boolean isGuardOK(final Event event) {
+	protected boolean isGuardOK(final ActionEvent event) {
 		return true;
 	}
 }

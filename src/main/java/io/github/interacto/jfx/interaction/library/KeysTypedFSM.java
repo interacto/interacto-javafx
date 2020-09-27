@@ -82,9 +82,9 @@ public class KeysTypedFSM extends JfxFSM<KeysTypedFSM.KeysTypedFSMHandler> {
 		}
 
 		@Override
-		protected void action(final Event event) {
-			if(dataHandler != null && event instanceof KeyEvent) {
-				dataHandler.onKeyTyped((KeyEvent) event);
+		protected void action(final KeyEvent event) {
+			if(dataHandler != null) {
+				dataHandler.onKeyTyped(event);
 			}
 		}
 	}

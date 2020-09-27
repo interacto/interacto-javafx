@@ -14,26 +14,31 @@
  */
 package io.github.interacto.jfx.interaction;
 
-import io.github.interacto.jfx.interaction.library.TabEvent;
 import io.github.interacto.fsm.InputState;
 import io.github.interacto.fsm.OutputState;
+import io.github.interacto.fsm.Transition;
+import io.github.interacto.jfx.interaction.library.TabEvent;
 import java.util.Collections;
 import java.util.Set;
 import javafx.event.Event;
-import javafx.scene.control.TabPane;
 
 /**
  * An FSM transition for tabs.
  * @author Arnaud BLOUIN
  */
-public class JfxTabSelectedTransition extends JfxWidgetTransition<TabPane> {
+public class JfxTabSelectedTransition extends Transition<TabEvent, Event> {
 	public JfxTabSelectedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 		super(srcState, tgtState);
 	}
 
 	@Override
-	public boolean accept(final Event e) {
-		return e != null && e.getEventType() == TabEvent.SELECTED;
+	public TabEvent accept(final Event evt) {
+		return evt instanceof TabEvent && evt.getEventType() == TabEvent.SELECTED ? (TabEvent) evt : null;
+	}
+
+	@Override
+	protected boolean isGuardOK(final TabEvent tabEvent) {
+		return true;
 	}
 
 	@Override

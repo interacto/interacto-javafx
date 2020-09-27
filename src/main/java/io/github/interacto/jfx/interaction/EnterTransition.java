@@ -34,13 +34,8 @@ public class EnterTransition extends InputEventTransition<MouseEvent> {
 	}
 
 	@Override
-	protected boolean accept(final Event event) {
-		return event != null && event.getEventType() == MouseEvent.MOUSE_ENTERED;
-	}
-
-	@Override
-	protected boolean isGuardOK(final Event event) {
-		return true;
+	protected MouseEvent accept(final Event event) {
+		return event instanceof MouseEvent && event.getEventType() == MouseEvent.MOUSE_ENTERED ? (MouseEvent) event : null;
 	}
 
 	@Override

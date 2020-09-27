@@ -36,9 +36,9 @@ public class PressFSM extends JfxFSM<PressFSM.PressFSMHandler> {
 		addState(pressed);
 		new PressureTransition(initState, pressed) {
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof MouseEvent) {
-					dataHandler.initToPress((MouseEvent) event);
+			protected void action(final MouseEvent event) {
+				if(dataHandler != null) {
+					dataHandler.initToPress(event);
 				}
 			}
 		};

@@ -56,8 +56,8 @@ public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler>
 		new KeysPressedKeyPressureTransition(pressed, pressed);
 		new KeyReleaseTransition(pressed, ended) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return event instanceof KeyEvent && currentCodes.contains(((KeyEvent) event).getCode());
+			protected boolean isGuardOK(final KeyEvent event) {
+				return currentCodes.contains(event.getCode());
 			}
 		};
 	}
@@ -74,28 +74,25 @@ public class KeysPressedFSM extends JfxFSM<KeysPressedFSM.KeysPressedFSMHandler>
 		}
 
 		@Override
-		protected void action(final Event event) {
-			if(event instanceof KeyEvent) {
-				final KeyEvent ke = (KeyEvent) event;
-				currentCodes.add(ke.getCode());
-				if(ke.isMetaDown()) {
-					currentCodes.add(KeyCode.META);
-				}
-				if(ke.isAltDown()) {
-					currentCodes.add(KeyCode.ALT);
-				}
-				if(ke.isControlDown()) {
-					currentCodes.add(KeyCode.CONTROL);
-				}
-				if(ke.isShiftDown()) {
-					currentCodes.add(KeyCode.SHIFT);
-				}
-				if(ke.isShortcutDown()) {
-					currentCodes.add(KeyCode.SHORTCUT);
-				}
-				if(dataHandler != null) {
-					dataHandler.onKeyPressed(ke);
-				}
+		protected void action(final KeyEvent evt) {
+			currentCodes.add(evt.getCode());
+			if(evt.isMetaDown()) {
+				currentCodes.add(KeyCode.META);
+			}
+			if(evt.isAltDown()) {
+				currentCodes.add(KeyCode.ALT);
+			}
+			if(evt.isControlDown()) {
+				currentCodes.add(KeyCode.CONTROL);
+			}
+			if(evt.isShiftDown()) {
+				currentCodes.add(KeyCode.SHIFT);
+			}
+			if(evt.isShortcutDown()) {
+				currentCodes.add(KeyCode.SHORTCUT);
+			}
+			if(dataHandler != null) {
+				dataHandler.onKeyPressed(evt);
 			}
 		}
 	}

@@ -16,24 +16,29 @@ package io.github.interacto.jfx.interaction;
 
 import io.github.interacto.fsm.InputState;
 import io.github.interacto.fsm.OutputState;
+import io.github.interacto.fsm.Transition;
 import java.util.Collections;
 import java.util.Set;
 import javafx.event.Event;
-import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 
 /**
  * An FSM transition for windows to be closed.
  * @author Arnaud BLOUIN
  */
-public class JfxWindowClosedTransition extends JfxWidgetTransition<Window> {
+public class JfxWindowClosedTransition extends Transition<WindowEvent, Event> {
 	public JfxWindowClosedTransition(final OutputState<Event> srcState, final InputState<Event> tgtState) {
 		super(srcState, tgtState);
 	}
 
 	@Override
-	protected boolean accept(final Event e) {
-		return e != null && e.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST;
+	protected WindowEvent accept(final Event evt) {
+		return evt instanceof WindowEvent && evt.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST ? (WindowEvent) evt : null;
+	}
+
+	@Override
+	protected boolean isGuardOK(final WindowEvent windowEvent) {
+		return true;
 	}
 
 	@Override

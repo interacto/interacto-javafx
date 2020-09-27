@@ -42,9 +42,9 @@ public class MouseEnteredFSM extends JfxFSM<MouseEnteredFSM.EnterFSMHandler> {
 		addState(entered);
 		new EnterTransition(initState, entered) {
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof MouseEvent) {
-					dataHandler.initToEnter((MouseEvent) event);
+			protected void action(final MouseEvent event) {
+				if(dataHandler != null) {
+					dataHandler.initToEnter(event);
 				}
 			}
 		};

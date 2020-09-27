@@ -92,8 +92,8 @@ public class DoubleClickFSM extends JfxFSM<FSMDataHandler> {
 		};
 		new MoveTransition(clicked, cancelled) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return super.isGuardOK(event) && (checkButton == null || event instanceof MouseEvent && ((MouseEvent) event).getButton() == checkButton);
+			protected boolean isGuardOK(final MouseEvent event) {
+				return super.isGuardOK(event) && (checkButton == null || event.getButton() == checkButton);
 			}
 		};
 		new TimeoutTransition<>(clicked, cancelled, SUPPLY_TIME_GAP);

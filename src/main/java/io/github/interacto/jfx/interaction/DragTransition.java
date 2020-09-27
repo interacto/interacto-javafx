@@ -34,13 +34,8 @@ public class DragTransition extends InputEventTransition<MouseEvent> {
 	}
 
 	@Override
-	protected boolean accept(final Event event) {
-		return event != null && event.getEventType() == MouseEvent.MOUSE_DRAGGED;
-	}
-
-	@Override
-	protected boolean isGuardOK(final Event event) {
-		return true;
+	protected MouseEvent accept(final Event event) {
+		return event instanceof MouseEvent && event.getEventType() == MouseEvent.MOUSE_DRAGGED ? (MouseEvent) event : null;
 	}
 
 	@Override

@@ -36,9 +36,9 @@ public class DatePickedFSM extends JfxFSM<DatePickedFSM.DatePickedFSMHandler> {
 		addState(picked);
 		new JfxDatePickedTransition(initState, picked) {
 			@Override
-			public void action(final Event event) {
-				if(dataHandler != null && event instanceof ActionEvent) {
-					dataHandler.initToPickedHandler((ActionEvent) event);
+			public void action(final ActionEvent event) {
+				if(dataHandler != null) {
+					dataHandler.initToPickedHandler(event);
 				}
 			}
 		};

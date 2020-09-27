@@ -67,24 +67,22 @@ public class KeysScrollFSM extends JfxFSM<KeysScrollFSM.KeysScrollFSMHandler> {
 		new KeysScrollFSMKeyPressureTransition(keyPressed, keyPressed);
 		new KeyReleaseTransition(keyPressed, keyPressed) {
 			@Override
-			protected void action(final Event event) {
-				if(event instanceof KeyEvent) {
-					currentCodes.remove(((KeyEvent) event).getCode());
-					if(dataHandler != null) {
-						dataHandler.onKeyReleased((KeyEvent) event);
-					}
+			protected void action(final KeyEvent event) {
+				currentCodes.remove(event.getCode());
+				if(dataHandler != null) {
+					dataHandler.onKeyReleased(event);
 				}
 			}
 
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return event instanceof KeyEvent && currentCodes.contains(((KeyEvent) event).getCode()) && currentCodes.size() > 1;
+			protected boolean isGuardOK(final KeyEvent event) {
+				return currentCodes.contains(event.getCode()) && currentCodes.size() > 1;
 			}
 		};
 		new KeyReleaseTransition(keyPressed, keyReleased) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return event instanceof KeyEvent && currentCodes.contains(((KeyEvent) event).getCode()) && currentCodes.size() == 1;
+			protected boolean isGuardOK(final KeyEvent event) {
+				return currentCodes.contains(event.getCode()) && currentCodes.size() == 1;
 			}
 		};
 	}
@@ -95,12 +93,10 @@ public class KeysScrollFSM extends JfxFSM<KeysScrollFSM.KeysScrollFSMHandler> {
 		}
 
 		@Override
-		protected void action(final Event event) {
-			if(event instanceof KeyEvent) {
-				currentCodes.add(((KeyEvent) event).getCode());
-				if(dataHandler != null) {
-					dataHandler.onKeyPressed((KeyEvent) event);
-				}
+		protected void action(final KeyEvent event) {
+			currentCodes.add(event.getCode());
+			if(dataHandler != null) {
+				dataHandler.onKeyPressed(event);
 			}
 		}
 	}

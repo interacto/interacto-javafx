@@ -54,40 +54,38 @@ public class TouchDnDFSM extends JfxFSM<TouchDnDFSM.TouchDnDFSMHandler> {
 
 		new TouchPressureTransition(initState, touched) {
 			@Override
-			protected void action(final Event event) {
-				if(event instanceof TouchEvent) {
-					touchID = ((TouchEvent) event).getTouchPoint().getId();
-					if(dataHandler != null) {
-						dataHandler.onTouch((TouchEvent) event);
-					}
+			protected void action(final TouchEvent event) {
+				touchID = event.getTouchPoint().getId();
+				if(dataHandler != null) {
+					dataHandler.onTouch(event);
 				}
 			}
 		};
 
 		new TouchMoveTransition(touched, touched) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return event instanceof TouchEvent && ((TouchEvent) event).getTouchPoint().getId() == touchID;
+			protected boolean isGuardOK(final TouchEvent event) {
+				return event.getTouchPoint().getId() == touchID;
 			}
 
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof TouchEvent) {
-					dataHandler.onMove((TouchEvent) event);
+			protected void action(final TouchEvent event) {
+				if(dataHandler != null) {
+					dataHandler.onMove(event);
 				}
 			}
 		};
 
 		new TouchReleaseTransition(touched, released) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return event instanceof TouchEvent && ((TouchEvent) event).getTouchPoint().getId() == touchID;
+			protected boolean isGuardOK(final TouchEvent event) {
+				return event.getTouchPoint().getId() == touchID;
 			}
 
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof TouchEvent) {
-					dataHandler.onRelease((TouchEvent) event);
+			protected void action(final TouchEvent event) {
+				if(dataHandler != null) {
+					dataHandler.onRelease(event);
 				}
 			}
 		};

@@ -67,33 +67,31 @@ public class DnDFSM extends JfxFSM<DnDFSM.DnDFSMHandler> {
 
 		new PressureTransition(initState, pressed) {
 			@Override
-			protected void action(final Event event) {
-				if(event instanceof MouseEvent) {
-					buttonToCheck = ((MouseEvent) event).getButton();
-					if(dataHandler != null) {
-						dataHandler.onPress((MouseEvent) event);
-					}
+			protected void action(final MouseEvent event) {
+				buttonToCheck = event.getButton();
+				if(dataHandler != null) {
+					dataHandler.onPress(event);
 				}
 			}
 		};
 		new ReleaseTransition(pressed, cancelled) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return event instanceof MouseEvent && ((MouseEvent) event).getButton() == buttonToCheck;
+			protected boolean isGuardOK(final MouseEvent event) {
+				return event.getButton() == buttonToCheck;
 			}
 		};
 		new DnDFSMDragTransition(pressed, dragged);
 		new DnDFSMDragTransition(dragged, dragged);
 		new ReleaseTransition(dragged, released) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return event instanceof MouseEvent && ((MouseEvent) event).getButton() == buttonToCheck;
+			protected boolean isGuardOK(final MouseEvent event) {
+				return event.getButton() == buttonToCheck;
 			}
 
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof MouseEvent) {
-					dataHandler.onRelease((MouseEvent) event);
+			protected void action(final MouseEvent event) {
+				if(dataHandler != null) {
+					dataHandler.onRelease(event);
 				}
 			}
 		};
@@ -118,14 +116,14 @@ public class DnDFSM extends JfxFSM<DnDFSM.DnDFSMHandler> {
 		}
 
 		@Override
-		protected boolean isGuardOK(final Event event) {
-			return event instanceof MouseEvent && ((MouseEvent) event).getButton() == buttonToCheck;
+		protected boolean isGuardOK(final MouseEvent event) {
+			return event.getButton() == buttonToCheck;
 		}
 
 		@Override
-		protected void action(final Event event) {
-			if(dataHandler != null && event instanceof MouseEvent) {
-				dataHandler.onDrag((MouseEvent) event);
+		protected void action(final MouseEvent event) {
+			if(dataHandler != null) {
+				dataHandler.onDrag(event);
 			}
 		}
 	}

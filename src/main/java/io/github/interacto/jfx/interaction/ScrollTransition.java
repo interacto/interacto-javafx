@@ -31,13 +31,8 @@ public class ScrollTransition extends InputEventTransition<ScrollEvent> {
 	}
 
 	@Override
-	protected boolean accept(final Event event) {
-		return event != null && event.getEventType() == ScrollEvent.SCROLL;
-	}
-
-	@Override
-	protected boolean isGuardOK(final Event event) {
-		return true;
+	protected ScrollEvent accept(final Event event) {
+		return event instanceof ScrollEvent && event.getEventType() == ScrollEvent.SCROLL ? (ScrollEvent) event : null;
 	}
 
 	@Override

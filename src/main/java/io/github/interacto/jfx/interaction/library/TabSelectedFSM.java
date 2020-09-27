@@ -41,9 +41,9 @@ public class TabSelectedFSM extends JfxFSM<TabSelectedFSM.TabSelectedFSMHandler>
 		addState(selected);
 		new JfxTabSelectedTransition(initState, selected) {
 			@Override
-			public void action(final Event event) {
-				if(dataHandler != null && event instanceof TabEvent) {
-					dataHandler.initToSelectedHandler((TabEvent) event);
+			public void action(final TabEvent event) {
+				if(dataHandler != null) {
+					dataHandler.initToSelectedHandler(event);
 				}
 			}
 		};

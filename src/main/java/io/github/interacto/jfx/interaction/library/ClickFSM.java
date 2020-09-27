@@ -45,19 +45,17 @@ public class ClickFSM extends JfxFSM<ClickFSM.ClickFSMHandler> {
 		addState(clicked);
 		new ClickTransition(initState, clicked) {
 			@Override
-			public void action(final Event event) {
-				if(event instanceof MouseEvent) {
-					setCheckButton(((MouseEvent) event).getButton());
+			public void action(final MouseEvent event) {
+				setCheckButton(event.getButton());
 
-					if(dataHandler != null) {
-						dataHandler.initToClicked((MouseEvent) event);
-					}
+				if(dataHandler != null) {
+					dataHandler.initToClicked(event);
 				}
 			}
 
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return super.isGuardOK(event) && checkButton == null || (event instanceof MouseEvent && ((MouseEvent) event).getButton() == checkButton);
+			protected boolean isGuardOK(final MouseEvent event) {
+				return super.isGuardOK(event) && checkButton == null || event.getButton() == checkButton;
 			}
 		};
 	}

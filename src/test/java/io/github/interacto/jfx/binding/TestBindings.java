@@ -66,6 +66,7 @@ public class TestBindings implements TimeoutWaiter {
 		if(binding != null) {
 			binding.uninstallBinding();
 		}
+		waitForTimeoutTransitions();
 	}
 
 	@Test

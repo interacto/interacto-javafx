@@ -19,14 +19,13 @@ import io.github.interacto.fsm.OutputState;
 import java.util.Collections;
 import java.util.Set;
 import javafx.event.Event;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 
 /**
  * This transition corresponds to a release of a touch.
  * @author Arnaud BLOUIN
  */
-public class TouchReleaseTransition extends InputEventTransition<MouseEvent> {
+public class TouchReleaseTransition extends InputEventTransition<TouchEvent> {
 	/**
 	 * Defines a transition.
 	 * @param srcState The source state of the transition.
@@ -38,13 +37,8 @@ public class TouchReleaseTransition extends InputEventTransition<MouseEvent> {
 	}
 
 	@Override
-	protected boolean accept(final Event event) {
-		return event != null && event.getEventType() == TouchEvent.TOUCH_RELEASED;
-	}
-
-	@Override
-	protected boolean isGuardOK(final Event event) {
-		return true;
+	protected TouchEvent accept(final Event event) {
+		return event instanceof TouchEvent && event.getEventType() == TouchEvent.TOUCH_RELEASED ? (TouchEvent) event : null;
 	}
 
 	@Override

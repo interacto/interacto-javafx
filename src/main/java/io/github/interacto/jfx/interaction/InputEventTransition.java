@@ -24,7 +24,7 @@ import javafx.scene.input.InputEvent;
  * This abstract transition defines a model for transitions based on input events.
  * @author Arnaud Blouin
  */
-public abstract class InputEventTransition<T extends InputEvent> extends Transition<Event> {
+public abstract class InputEventTransition<T extends InputEvent> extends Transition<T, Event> {
 	protected T event;
 
 	/**
@@ -52,5 +52,10 @@ public abstract class InputEventTransition<T extends InputEvent> extends Transit
 		if(evt != null) {
 			event = evt;
 		}
+	}
+
+	@Override
+	protected boolean isGuardOK(final T t) {
+		return true;
 	}
 }

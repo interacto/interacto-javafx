@@ -36,9 +36,9 @@ public class ComboBoxSelectedFSM extends JfxFSM<ComboBoxSelectedFSM.ComboBoxSele
 		addState(selected);
 		new JfxComboBoxTransition(initState, selected) {
 			@Override
-			public void action(final Event event) {
-				if(dataHandler != null && event instanceof ActionEvent) {
-					dataHandler.initToSelectedHandler((ActionEvent) event);
+			public void action(final ActionEvent event) {
+				if(dataHandler != null) {
+					dataHandler.initToSelectedHandler(event);
 				}
 			}
 		};

@@ -58,9 +58,9 @@ public class MultiClickFSM extends JfxFSM<MultiClickFSM.MultiClickFSMHandler> {
 		new MultiClickClickTransition(initState, clicked);
 		new MoveTransition(clicked, clicked) {
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof MouseEvent) {
-					dataHandler.onMove((MouseEvent) event);
+			protected void action(final MouseEvent event) {
+				if(dataHandler != null) {
+					dataHandler.onMove(event);
 				}
 			}
 		};
@@ -68,14 +68,14 @@ public class MultiClickFSM extends JfxFSM<MultiClickFSM.MultiClickFSMHandler> {
 		new EscapeKeyPressureTransition(clicked, cancelled);
 		new ClickTransition(clicked, ended) {
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return (counterPts + 1) >= minPoints && event instanceof MouseEvent && ((MouseEvent) event).getButton() != MouseButton.PRIMARY;
+			protected boolean isGuardOK(final MouseEvent event) {
+				return (counterPts + 1) >= minPoints && event.getButton() != MouseButton.PRIMARY;
 			}
 
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof MouseEvent) {
-					dataHandler.onClick((MouseEvent) event);
+			protected void action(final MouseEvent event) {
+				if(dataHandler != null) {
+					dataHandler.onClick(event);
 				}
 			}
 		};
@@ -109,16 +109,16 @@ public class MultiClickFSM extends JfxFSM<MultiClickFSM.MultiClickFSMHandler> {
 		}
 
 		@Override
-		protected void action(final Event event) {
+		protected void action(final MouseEvent event) {
 			counterPts++;
-			if(dataHandler != null && event instanceof MouseEvent) {
-				dataHandler.onClick((MouseEvent) event);
+			if(dataHandler != null) {
+				dataHandler.onClick(event);
 			}
 		}
 
 		@Override
-		protected boolean isGuardOK(final Event event) {
-			return super.isGuardOK(event) && event instanceof MouseEvent && ((MouseEvent) event).getButton() == MouseButton.PRIMARY;
+		protected boolean isGuardOK(final MouseEvent event) {
+			return super.isGuardOK(event) && event.getButton() == MouseButton.PRIMARY;
 		}
 	}
 

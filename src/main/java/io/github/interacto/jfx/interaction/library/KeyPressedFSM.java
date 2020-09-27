@@ -46,16 +46,16 @@ public class KeyPressedFSM extends JfxFSM<KeyPressedFSM.KeyPressedFSMHandler> {
 		addState(pressed);
 		new KeyPressureTransition(initState, pressed) {
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof KeyEvent) {
-					dataHandler.onKeyPressure((KeyEvent) event);
+			protected void action(final KeyEvent event) {
+				if(dataHandler != null) {
+					dataHandler.onKeyPressure(event);
 				}
 			}
 
 			@Override
-			protected boolean isGuardOK(final Event event) {
-				return modifiersAccepted || (event instanceof KeyEvent && !((KeyEvent) event).getCode().isModifierKey() &&
-					!((KeyEvent) event).getCode().isFunctionKey() && !((KeyEvent) event).getCode().isMediaKey());
+			protected boolean isGuardOK(final KeyEvent event) {
+				return modifiersAccepted || (!event.getCode().isModifierKey() &&
+					!event.getCode().isFunctionKey() && !event.getCode().isMediaKey());
 			}
 		};
 	}

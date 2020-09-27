@@ -19,14 +19,13 @@ import io.github.interacto.fsm.OutputState;
 import java.util.Collections;
 import java.util.Set;
 import javafx.event.Event;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 
 /**
  * This transition corresponds to a touch move.
  * @author Arnaud BLOUIN
  */
-public class TouchMoveTransition extends InputEventTransition<MouseEvent> {
+public class TouchMoveTransition extends InputEventTransition<TouchEvent> {
 	/**
 	 * Creates the transition.
 	 */
@@ -35,13 +34,8 @@ public class TouchMoveTransition extends InputEventTransition<MouseEvent> {
 	}
 
 	@Override
-	protected boolean accept(final Event event) {
-		return event != null && event.getEventType() == TouchEvent.TOUCH_MOVED;
-	}
-
-	@Override
-	protected boolean isGuardOK(final Event event) {
-		return true;
+	protected TouchEvent accept(final Event event) {
+		return event instanceof TouchEvent && event.getEventType() == TouchEvent.TOUCH_MOVED ? (TouchEvent) event : null;
 	}
 
 	@Override

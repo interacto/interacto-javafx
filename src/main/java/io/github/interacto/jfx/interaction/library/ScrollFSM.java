@@ -42,9 +42,9 @@ public class ScrollFSM extends JfxFSM<ScrollFSM.ScrollFSMHandler> {
 		addState(scrolled);
 		new ScrollTransition(initState, scrolled) {
 			@Override
-			protected void action(final Event event) {
-				if(dataHandler != null && event instanceof ScrollEvent) {
-					dataHandler.onScroll((ScrollEvent) event);
+			protected void action(final ScrollEvent event) {
+				if(dataHandler != null) {
+					dataHandler.onScroll(event);
 				}
 			}
 		};

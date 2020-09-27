@@ -24,7 +24,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestTouchReleaseTransition {
@@ -37,19 +38,19 @@ public class TestTouchReleaseTransition {
 
 	@Test
 	void testAcceptEventKONULL() {
-		assertFalse(tr.accept(null));
+		assertNull(tr.accept(null));
 	}
 
 	@Test
 	void testAcceptEventKO() {
-		assertFalse(tr.accept(Mockito.mock(Event.class)));
+		assertNull(tr.accept(Mockito.mock(Event.class)));
 	}
 
 	@Test
 	void testAcceptEventOK() {
 		final TouchEvent mock = Mockito.mock(TouchEvent.class);
 		Mockito.when(mock.getEventType()).thenReturn(TouchEvent.TOUCH_RELEASED);
-		assertTrue(tr.accept(mock));
+		assertNotNull(tr.accept(mock));
 	}
 
 	@Test

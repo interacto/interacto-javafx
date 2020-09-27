@@ -64,9 +64,9 @@ public class TextInputChangedFSM extends JfxFSM<TextInputChangedFSM.TextInputCha
 		}
 
 		@Override
-		public void action(final Event event) {
-			if(dataHandler != null && event instanceof ActionEvent) {
-				dataHandler.initToChangedHandler((ActionEvent) event);
+		public void action(final ActionEvent event) {
+			if(dataHandler != null) {
+				dataHandler.initToChangedHandler(event);
 			}
 		}
 	}

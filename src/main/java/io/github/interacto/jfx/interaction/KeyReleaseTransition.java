@@ -34,13 +34,8 @@ public class KeyReleaseTransition extends InputEventTransition<KeyEvent> {
 	}
 
 	@Override
-	protected boolean accept(final Event event) {
-		return event != null && event.getEventType() == KeyEvent.KEY_RELEASED;
-	}
-
-	@Override
-	protected boolean isGuardOK(final Event event) {
-		return true;
+	protected KeyEvent accept(final Event event) {
+		return event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_RELEASED ? (KeyEvent) event : null;
 	}
 
 	@Override
