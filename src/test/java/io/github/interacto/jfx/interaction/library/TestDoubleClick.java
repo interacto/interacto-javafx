@@ -15,11 +15,12 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
-import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxFSM;
 import java.util.Collections;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -30,7 +31,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> implements TimeoutWaiter {
+public class TestDoubleClick extends BaseJfXInteractionTest<DoubleClick> {
+	long timeout;
+
+
+	@BeforeEach
+	void setUpDoubleClick() {
+		timeout = DoubleClickFSM.getTimeGap();
+	}
+
+	@AfterEach
+	void tearDown() {
+		DoubleClickFSM.setTimeGap(timeout);
+	}
+
 	@Override
 	DoubleClick createInteraction() {
 		return new DoubleClick();

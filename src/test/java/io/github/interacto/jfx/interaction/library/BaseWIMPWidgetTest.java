@@ -16,7 +16,6 @@ package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
 import io.github.interacto.fsm.InitState;
-import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import java.util.Collections;
 import javafx.event.ActionEvent;
@@ -29,8 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<? extends WidgetData<?>, ?>> extends BaseJfXInteractionTest<I>
-		implements TimeoutWaiter {
+public abstract class BaseWIMPWidgetTest<W extends Node, I extends JfxInteraction<? extends WidgetData<?>, ?>> extends BaseJfXInteractionTest<I> {
 	W wimpWidget;
 
 	abstract void triggerWidget();

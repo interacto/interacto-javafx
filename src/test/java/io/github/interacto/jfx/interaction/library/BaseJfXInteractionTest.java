@@ -15,6 +15,7 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.FSMHandler;
+import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxInteraction;
 import java.util.List;
 import javafx.event.EventType;
@@ -31,11 +32,12 @@ import javafx.scene.input.TouchEvent;
 import javafx.scene.input.TouchPoint;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.testfx.framework.junit5.ApplicationTest;
 
-public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> extends ApplicationTest {
+public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> extends ApplicationTest implements TimeoutWaiter {
 	T interaction;
 	FSMHandler handler;
 
@@ -44,6 +46,11 @@ public abstract class BaseJfXInteractionTest<T extends JfxInteraction<?, ?>> ext
 		handler = Mockito.mock(FSMHandler.class);
 		interaction = createInteraction();
 		interaction.getFsm().addHandler(handler);
+	}
+
+	@AfterEach
+	void tearDownInteraction() {
+		waitForTimeoutTransitions();
 	}
 
 	abstract T createInteraction();

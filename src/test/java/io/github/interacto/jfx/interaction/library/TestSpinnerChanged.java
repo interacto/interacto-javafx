@@ -16,7 +16,6 @@ package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
 import io.github.interacto.fsm.InitState;
-import io.github.interacto.jfx.TimeoutWaiter;
 import java.util.Collections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Spinner;
@@ -33,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> implements TimeoutWaiter {
+public class TestSpinnerChanged extends BaseJfXInteractionTest<SpinnerChanged> {
 	Spinner<?> widget;
 	long timer;
 

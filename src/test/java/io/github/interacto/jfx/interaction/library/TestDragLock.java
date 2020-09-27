@@ -15,7 +15,6 @@
 package io.github.interacto.jfx.interaction.library;
 
 import io.github.interacto.fsm.CancelFSMException;
-import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.interaction.JfxFSM;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
@@ -32,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestDragLock extends BaseJfXInteractionTest<DragLock> implements TimeoutWaiter {
+public class TestDragLock extends BaseJfXInteractionTest<DragLock> {
 	@Override
 	DragLock createInteraction() {
 		return new DragLock();

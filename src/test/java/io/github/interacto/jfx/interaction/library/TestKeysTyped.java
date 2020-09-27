@@ -14,7 +14,6 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.fsm.CancelFSMException;
 import java.util.Collections;
 import javafx.scene.input.KeyCode;
@@ -28,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> implements TimeoutWaiter {
+public class TestKeysTyped extends BaseJfXInteractionTest<KeysTyped> {
 	@Override
 	KeysTyped createInteraction() {
 		return new KeysTyped();
