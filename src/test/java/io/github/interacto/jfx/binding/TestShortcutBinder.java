@@ -14,9 +14,11 @@
  */
 package io.github.interacto.jfx.binding;
 
+import io.github.interacto.jfx.TimeoutWaiter;
 import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import java.util.concurrent.atomic.AtomicInteger;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -34,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
 @ExtendWith(WidgetBindingExtension.class)
-public class TestShortcutBinder extends BaseNodeBinderTest<Canvas> {
+public class TestShortcutBinder extends BaseNodeBinderTest<Canvas> implements TimeoutWaiter {
 	@Override
 	@Start
 	public void start(final Stage stage) {
@@ -230,5 +232,215 @@ public class TestShortcutBinder extends BaseNodeBinderTest<Canvas> {
 			.allSatisfy(cmd -> cmd
 				.producedBy(binding2)
 				.ofType(StubCmd.class));
+	}
+
+
+	@Test
+	void testKeyBindingSingleChar(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.type(KeyCode.S);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingFailSingleChar(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.type(KeyCode.B);
+		waitForTimeoutTransitions();
+		ctx.noCmdProduced();
+	}
+
+	@Test
+	void testKeyBindingSingleCharAndShift(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S, KeyCode.SHIFT)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.SHIFT).type(KeyCode.S).release(KeyCode.SHIFT);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingTwoCharsAndCtrl(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.B, KeyCode.K, KeyCode.CONTROL)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.CONTROL).press(KeyCode.K).type(KeyCode.B).release(KeyCode.K).release(KeyCode.CONTROL);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingTwoCharsAndCtrlFail(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.B, KeyCode.K, KeyCode.CONTROL)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.CONTROL).type(KeyCode.K).release(KeyCode.CONTROL);
+		waitForTimeoutTransitions();
+		ctx.noCmdProduced();
+	}
+
+	@Test
+	void testKeyBindingAlt(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.X, KeyCode.ALT)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.ALT).type(KeyCode.X).release(KeyCode.ALT);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingNoAlt(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.X)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.ALT).type(KeyCode.X).release(KeyCode.ALT);
+		waitForTimeoutTransitions();
+		ctx.noCmdProduced();
+	}
+
+	@Test
+	void testKeyBindingCtrlAlt(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.X, KeyCode.ALT, KeyCode.CONTROL)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.CONTROL).press(KeyCode.ALT).type(KeyCode.X);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingMeta(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.META, KeyCode.Y)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.COMMAND).type(KeyCode.Y).release(KeyCode.COMMAND);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingNoMeta(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.META, KeyCode.Y)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.type(KeyCode.Y);
+		waitForTimeoutTransitions();
+		ctx.noCmdProduced();
+	}
+
+	@Test
+	void testKeyBindingCmd(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.COMMAND, KeyCode.Y)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.COMMAND).type(KeyCode.Y).release(KeyCode.COMMAND);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingSingleCharAndShortcut(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S, KeyCode.SHORTCUT)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.CONTROL).type(KeyCode.S).release(KeyCode.CONTROL);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void testKeyBindingSingleCharAndShortcutKOLinux(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S, KeyCode.SHORTCUT)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.COMMAND).type(KeyCode.S).release(KeyCode.COMMAND);
+		waitForTimeoutTransitions();
+		ctx.noCmdProduced();
+	}
+
+	@Test
+	void testKeyBindingNoKey(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.type(KeyCode.S);
+		waitForTimeoutTransitions();
+		ctx.oneCmdProduced(TestBinder.StubCmd.class);
 	}
 }

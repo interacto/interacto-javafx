@@ -33,4 +33,14 @@ public interface KeysData extends InteractionData {
 	 * @return The key codes used by the interaction.
 	 */
 	List<KeyCode> getKeyCodes();
+
+	boolean isShortcutDown();
+
+	boolean isMetaDown();
+
+	boolean isAltDown();
+
+	boolean isShiftDown();
+
+	boolean isCtrlDown();
 }

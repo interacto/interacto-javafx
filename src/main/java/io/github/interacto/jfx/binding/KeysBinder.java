@@ -33,6 +33,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -50,6 +51,12 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 				KeyInteractionBinder<W, KeysPressed, KeysData>, KeyInteractionCmdBinder<W, C, KeysPressed, KeysData> {
 	Collection<KeyCode> codes;
 	final Predicate<KeysData> checkCode;
+	boolean shift;
+	boolean ctrl;
+	boolean alt;
+	boolean shortcut;
+	boolean meta;
+
 
 	KeysBinder(final JfxInstrument instrument, final BindingsObserver observer) {
 		this(null, null, null, Collections.emptyList(),
@@ -65,11 +72,35 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 		final BiConsumer<KeysData, C> cannotExecFct, final BindingsObserver observer, final boolean consumeEvents) {
 		super(initCmd, whenPredicate, cmdProducer, widgets, KeysPressed::new, instrument, async, onEnd, additionalWidgets, logLevels, helpAnimation,
 			withHelp, progressProp, msgProp, cancel, hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
-		codes = keyCodes;
-		checkCode = i -> {
-			final List<KeyCode> keys = i.getKeyCodes();
-			return (codes.isEmpty() || codes.size() == keys.size() && keys.containsAll(codes)) && (checkConditions == null || checkConditions.test(i));
-		};
+		setUpKeys(keyCodes);
+		checkCode = i -> isCodeChecked(i) && (checkConditions == null || checkConditions.test(i));
+	}
+
+	private boolean isCodeChecked(final KeysData data) {
+		final List<KeyCode> keys = data.getKeyCodes();
+		return (codes.isEmpty() || codes.size() == keys.size() && keys.containsAll(codes)) && isModifiersChecks(data);
+	}
+
+	private boolean isModifiersChecks(final KeysData data) {
+		return meta == data.isMetaDown()
+			&& alt == data.isAltDown()
+			&& (!shortcut || data.isShortcutDown())
+			&& shift == data.isShiftDown()
+			&& ctrl == data.isCtrlDown();
+	}
+
+	private void setUpKeys(final Collection<KeyCode> keys) {
+		final var isMac = System.getProperty("os.name").startsWith("Mac");
+
+		codes = keys
+			.stream()
+			.filter(key -> !key.isModifierKey() && key != KeyCode.SHORTCUT)
+			.collect(Collectors.toUnmodifiableSet());
+		shortcut = keys.contains(KeyCode.SHORTCUT);
+		meta = keys.contains(KeyCode.META) || keys.contains(KeyCode.COMMAND) || (shortcut && isMac);
+		shift = keys.contains(KeyCode.SHIFT);
+		ctrl = keys.contains(KeyCode.CONTROL) || (shortcut && !isMac);
+		alt = keys.contains(KeyCode.ALT);
 	}
 
 	@Override
@@ -78,7 +109,7 @@ abstract class KeysBinder<W, C extends Command> extends Binder<W, C, KeysPressed
 	@Override
 	public KeysBinder<W, C> with(final KeyCode... keyCodes) {
 		final KeysBinder<W, C> dup = duplicate();
-		dup.codes = Arrays.asList(keyCodes);
+		dup.setUpKeys(Arrays.asList(keyCodes));
 		return dup;
 	}
 

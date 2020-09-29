@@ -27,6 +27,12 @@ public class KeysDataImpl implements KeysData {
 	/** The object that produced the interaction. */
 	protected Object object;
 
+	boolean shift;
+	boolean ctrl;
+	boolean alt;
+	boolean shortcut;
+	boolean meta;
+
 	protected KeysDataImpl() {
 		super();
 		keys = new ArrayList<>();
@@ -44,19 +50,58 @@ public class KeysDataImpl implements KeysData {
 	}
 
 	@Override
+	public boolean isShortcutDown() {
+		return shortcut;
+	}
+
+	@Override
+	public boolean isMetaDown() {
+		return meta;
+	}
+
+	@Override
+	public boolean isAltDown() {
+		return alt;
+	}
+
+	@Override
+	public boolean isShiftDown() {
+		return shift;
+	}
+
+	@Override
+	public boolean isCtrlDown() {
+		return ctrl;
+	}
+
+	@Override
 	public Object getObject() {
 		return object;
 	}
 
 	protected void addKeysData(final KeyEvent event) {
-		keys.add(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
-		keyCodes.add(event.getCode());
+		if(!event.getCode().isModifierKey()) {
+			keys.add(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
+			keyCodes.add(event.getCode());
+		}
 		object = event.getSource();
+		if(event.getEventType() == KeyEvent.KEY_PRESSED) {
+			setModifiers(event);
+		}
 	}
 
 	protected void removeKeysData(final KeyEvent event) {
 		keys.remove(KeyEvent.CHAR_UNDEFINED.equals(event.getCharacter()) ? event.getText() : event.getCharacter());
 		keyCodes.remove(event.getCode());
+		setModifiers(event);
+	}
+
+	private void setModifiers(final KeyEvent event) {
+		shortcut = event.isShortcutDown();
+		alt = event.isAltDown();
+		shift = event.isShiftDown();
+		ctrl = event.isControlDown();
+		meta = event.isMetaDown();
 	}
 
 	@Override
@@ -64,5 +109,10 @@ public class KeysDataImpl implements KeysData {
 		keys.clear();
 		keyCodes.clear();
 		object = null;
+		shift = false;
+		shortcut = false;
+		ctrl = false;
+		alt = false;
+		meta = false;
 	}
 }

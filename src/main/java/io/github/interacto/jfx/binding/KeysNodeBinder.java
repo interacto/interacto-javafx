@@ -60,9 +60,15 @@ class KeysNodeBinder<C extends Command> extends KeysBinder<Node, C> {
 
 	@Override
 	protected KeysNodeBinder<C> duplicate() {
-		return new KeysNodeBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
-			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes),
-			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
+		final KeysNodeBinder<C> binder = new KeysNodeBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async, onEnd,
+			additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes), hadNoEffectFct, hadEffectsFct,
+			cannotExecFct, observer, consumeEvents);
+		binder.alt = alt;
+		binder.ctrl = ctrl;
+		binder.meta = meta;
+		binder.shift = shift;
+		binder.shortcut = shortcut;
+		return binder;
 	}
 
 	@Override

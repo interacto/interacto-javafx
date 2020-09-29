@@ -57,9 +57,15 @@ class KeysWindowBinder<C extends Command> extends KeysBinder<Window, C> {
 
 	@Override
 	protected KeysWindowBinder<C> duplicate() {
-		return new KeysWindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
+		final KeysWindowBinder<C> binder =  new KeysWindowBinder<>(initCmd, checkConditions, cmdProducer, widgets, instrument, async,
 			onEnd, additionalWidgets, logLevels, helpAnimation, withHelp, progressProp, msgProp, cancel, new ArrayList<>(codes),
 			hadNoEffectFct, hadEffectsFct, cannotExecFct, observer, consumeEvents);
+		binder.alt = alt;
+		binder.ctrl = ctrl;
+		binder.meta = meta;
+		binder.shift = shift;
+		binder.shortcut = shortcut;
+		return binder;
 	}
 
 	@Override
