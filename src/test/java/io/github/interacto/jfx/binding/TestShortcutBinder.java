@@ -15,6 +15,7 @@
 package io.github.interacto.jfx.binding;
 
 import io.github.interacto.jfx.TimeoutWaiter;
+import io.github.interacto.jfx.binding.api.LogLevel;
 import io.github.interacto.jfx.test.BindingsContext;
 import io.github.interacto.jfx.test.WidgetBindingExtension;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,6 +24,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -442,5 +444,88 @@ public class TestShortcutBinder extends BaseNodeBinderTest<Canvas> implements Ti
 		robot.type(KeyCode.S);
 		waitForTimeoutTransitions();
 		ctx.oneCmdProduced(TestBinder.StubCmd.class);
+	}
+
+	@Test
+	void recyclingKeyEventsShouldNotConsiderModifier(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S, KeyCode.SHORTCUT)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.CONTROL).press(KeyCode.S).release(KeyCode.CONTROL)
+			.release(KeyCode.S);
+		waitForTimeoutTransitions();
+		ctx.cmdsProduced(1);
+	}
+
+	@Test
+	void recyclingKeyEventsShouldNotConsiderAlt(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.on(widget1)
+			.with(KeyCode.S, KeyCode.ALT)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.ALT).press(KeyCode.S).release(KeyCode.ALT)
+			.release(KeyCode.S);
+		waitForTimeoutTransitions();
+		ctx.cmdsProduced(1);
+	}
+
+	@Test
+	void recyclingKeyEventsShouldNotConsiderHome(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.on(widget1)
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S, KeyCode.HOME)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.HOME).press(KeyCode.S).release(KeyCode.HOME)
+			.release(KeyCode.S);
+		waitForTimeoutTransitions();
+		ctx.cmdsProduced(1);
+	}
+
+
+	@Test
+	void recyclingKeyEventsShouldNotConsiderShift(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.E, KeyCode.SHIFT)
+			.on(widget1)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.SHIFT).press(KeyCode.E).release(KeyCode.SHIFT)
+			.release(KeyCode.E);
+		waitForTimeoutTransitions();
+		ctx.cmdsProduced(1);
+	}
+
+	@Disabled
+	@Test
+	void recyclingModifiersCanTriggerCommand(final FxRobot robot, final BindingsContext ctx) {
+		binding = Bindings.shortcutBinder()
+			.toProduce(TestBinder.StubCmd::new)
+			.with(KeyCode.S, KeyCode.SHORTCUT)
+			.on(widget1)
+			.log(LogLevel.INTERACTION)
+			.bind();
+
+		Platform.runLater(() -> widget1.requestFocus());
+		waitForTimeoutTransitions();
+		robot.press(KeyCode.CONTROL).press(KeyCode.S).release(KeyCode.CONTROL)
+			.type(KeyCode.CONTROL);
+		waitForTimeoutTransitions();
+		ctx.cmdsProduced(1);
 	}
 }

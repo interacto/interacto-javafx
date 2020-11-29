@@ -63,34 +63,45 @@ public abstract class JfxFSM<H extends FSMDataHandler> extends FSM<Event> {
 		final boolean processed = super.process(event);
 
 		// Recycling events
-		if(processed && event instanceof KeyEvent && event.getEventType() == KeyEvent.KEY_PRESSED
+		if(processed
+			&& event instanceof KeyEvent
+			&& event.getEventType() == KeyEvent.KEY_PRESSED
 			&& !(getCurrentState() instanceof InitState)
 			&& eventsToProcess.stream().noneMatch(evt -> ((KeyEvent) evt).getCode() == ((KeyEvent) event).getCode())) {
-			addRemaningEventsToProcess((Event) event.clone());
+			addRemaningEventsToProcess((KeyEvent) event);
 		}
 
 		return processed;
 	}
+
+
+	protected void addRemaningEventsToProcess(final KeyEvent evt) {
+		synchronized(this.eventsToProcess) {
+			// We override the method not to clone the event:
+			// the key modifiers must not be cloned as we are interesting in its key code
+			this.eventsToProcess.add(new KeyEvent(evt.getSource(), evt.getTarget(), evt.getEventType(), evt.getCharacter(),
+				evt.getText(), evt.getCode(), false, false, false, false));
+		}
+	}
+
 
 	/**
 	 * Removes the given KeyPress event from the events 'still in process' list.
 	 * @param key The key code of the event to remove.
 	 */
 	private void removeKeyEvent(final KeyCode key) {
-		if(eventsToProcess == null) {
-			return;
-		}
-
 		synchronized(eventsToProcess) {
 			boolean removed = false;
 			Event event;
+			int i = 0;
 
-			for(int i = 0, size = eventsToProcess.size(); i < size && !removed; i++) {
+			while(i < eventsToProcess.size() && !removed) {
 				event = eventsToProcess.get(i);
-
 				if(event instanceof KeyEvent && ((KeyEvent) event).getCode() == key) {
 					removed = true;
 					eventsToProcess.remove(i);
+				}else {
+					i++;
 				}
 			}
 		}
