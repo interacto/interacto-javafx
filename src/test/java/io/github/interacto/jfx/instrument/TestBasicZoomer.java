@@ -97,7 +97,7 @@ public class TestBasicZoomer {
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 
-	@Disabled("headless server does not support key modifiers yet")
+//	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testCtrlBadKey(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
@@ -108,11 +108,28 @@ public class TestBasicZoomer {
 		assertEquals(2d, canvas.getZoom(), 0.00001);
 	}
 
-	@Disabled("headless server does not support key modifiers yet")
+//	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testKeyAdd(final FxRobot robot, final BindingsContext ctx) {
-		robot.clickOn(canvas);
-		robot.type(KeyCode.ADD);
+		robot.clickOn(canvas).type(KeyCode.ADD);
+		WaitForAsyncUtils.waitForFxEvents();
+
+		ctx.oneCmdProduced(Zoom.class);
+		assertEquals(3d, canvas.getZoom(), 0.00001);
+	}
+
+	@Test
+	void testKeyPlus(final FxRobot robot, final BindingsContext ctx) {
+		robot.clickOn(canvas).type(KeyCode.PLUS);
+		WaitForAsyncUtils.waitForFxEvents();
+
+		ctx.oneCmdProduced(Zoom.class);
+		assertEquals(3d, canvas.getZoom(), 0.00001);
+	}
+
+	@Test
+	void testKeyShiftEquals(final FxRobot robot, final BindingsContext ctx) {
+		robot.clickOn(canvas).press(KeyCode.SHIFT).type(KeyCode.EQUALS);
 		WaitForAsyncUtils.waitForFxEvents();
 
 		ctx.oneCmdProduced(Zoom.class);
@@ -122,6 +139,15 @@ public class TestBasicZoomer {
 	@Test
 	void testKeyMinus(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas).type(KeyCode.MINUS);
+		WaitForAsyncUtils.waitForFxEvents();
+
+		ctx.oneCmdProduced(Zoom.class);
+		assertEquals(1d, canvas.getZoom(), 0.00001);
+	}
+
+	@Test
+	void testKeySub(final FxRobot robot, final BindingsContext ctx) {
+		robot.clickOn(canvas).type(KeyCode.SUBTRACT);
 		WaitForAsyncUtils.waitForFxEvents();
 
 		ctx.oneCmdProduced(Zoom.class);

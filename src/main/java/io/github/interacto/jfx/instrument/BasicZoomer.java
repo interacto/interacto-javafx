@@ -56,25 +56,36 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 	}
 
 
-	@Override
-	protected void configureBindings() {
-		if(withKeys) {
+	private void configureKeyBindings() {
+		final var baseBinder =
 			nodeBinder()
 				.usingInteraction(() -> new KeyPressed(false))
 				.toProduce(() -> new Zoom(getZoomable()))
-				.on(zoomable)
-				.first((i, c) -> {
-					final String key = i.getKey();
-					if("+".equals(key)) {
-						c.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
-					}else {
-						c.setZoomLevel(zoomable.getZoom() - zoomable.getZoomIncrement());
-					}
-					c.setPx(-1d);
-					c.setPy(-1d);
-				})
-				.when(i -> "+".equals(i.getKey()) || "-".equals(i.getKey()))
-				.bind();
+				.on(zoomable);
+
+		baseBinder
+			.first(c -> {
+				c.setZoomLevel(zoomable.getZoom() + zoomable.getZoomIncrement());
+				c.setPx(-1d);
+				c.setPy(-1d);
+			})
+			.when(i -> i.getKeyCode() == KeyCode.ADD || i.getKeyCode() == KeyCode.PLUS || "+".equals(i.getKey()))
+			.bind();
+
+		baseBinder
+			.first(c -> {
+				c.setZoomLevel(zoomable.getZoom() - zoomable.getZoomIncrement());
+				c.setPx(-1d);
+				c.setPy(-1d);
+			})
+			.when(i -> i.getKeyCode() == KeyCode.MINUS || i.getKeyCode() == KeyCode.SUBTRACT || "-".equals(i.getKey()))
+			.bind();
+	}
+
+	@Override
+	protected void configureBindings() {
+		if(withKeys) {
+			configureKeyBindings();
 		}
 
 		nodeBinder()
