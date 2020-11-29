@@ -19,7 +19,7 @@ import javafx.scene.input.ScrollEvent;
 /**
  * Scrolling interaction data implementation with write access.
  */
-public class ScrollDataImpl implements ScrollData {
+public class ScrollDataImpl extends ModifierDataImpl implements ScrollData {
 	/** The scrolled node. */
 	protected Object scrolledNode;
 
@@ -57,10 +57,16 @@ public class ScrollDataImpl implements ScrollData {
 		px = event.getX();
 		py = event.getY();
 		scrolledNode = event.getSource();
+		altDown = event.isAltDown();
+		shiftDown = event.isShiftDown();
+		ctrlDown = event.isControlDown();
+		metaDown = event.isMetaDown();
+		shortcutDown = event.isShortcutDown();
 	}
 
 	@Override
 	public void flush() {
+		super.flush();
 		px = 0d;
 		py = 0d;
 		increment = 0d;

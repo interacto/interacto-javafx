@@ -24,17 +24,9 @@ import javafx.scene.input.MouseEvent;
 /**
  * Single point interaction data implementation with write accesses.
  */
-class PointDataImpl implements PointData {
+class PointDataImpl extends ModifierDataImpl implements PointData {
 	/** The button used for the pressure. */
 	protected MouseButton button;
-
-	protected boolean altPressed;
-
-	protected boolean ctrlPressed;
-
-	protected boolean shiftPressed;
-
-	protected boolean metaPressed;
 
 	/** The object picked at the pressed position. */
 	protected final ObjectProperty<Node> srcObject;
@@ -56,34 +48,11 @@ class PointDataImpl implements PointData {
 
 	@Override
 	public void flush() {
+		super.flush();
 		button = null;
-		altPressed = false;
-		ctrlPressed = false;
-		shiftPressed = false;
-		metaPressed = false;
 		srcObject.set(null);
 		srcLocalPoint.set(null);
 		srcScenePoint.set(null);
-	}
-
-	@Override
-	public boolean isAltPressed() {
-		return altPressed;
-	}
-
-	@Override
-	public boolean isCtrlPressed() {
-		return ctrlPressed;
-	}
-
-	@Override
-	public boolean isShiftPressed() {
-		return shiftPressed;
-	}
-
-	@Override
-	public boolean isMetaPressed() {
-		return metaPressed;
 	}
 
 	@Override
@@ -96,10 +65,11 @@ class PointDataImpl implements PointData {
 	 * @param event The mouse event to use to set this interaction data.
 	 */
 	protected void setModifiersData(final MouseEvent event) {
-		altPressed = event.isAltDown();
-		shiftPressed = event.isShiftDown();
-		ctrlPressed = event.isControlDown();
-		metaPressed = event.isMetaDown();
+		altDown = event.isAltDown();
+		shiftDown = event.isShiftDown();
+		ctrlDown = event.isControlDown();
+		metaDown = event.isMetaDown();
+		shortcutDown = event.isShortcutDown();
 	}
 
 	/**

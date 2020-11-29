@@ -18,7 +18,7 @@ import io.github.interacto.interaction.InteractionData;
 import java.util.List;
 import javafx.scene.input.KeyCode;
 
-public interface KeysData extends InteractionData {
+public interface KeysData extends InteractionData, ModifierData {
 	/**
 	 * @return The object that produced the interaction.
 	 */
@@ -33,14 +33,4 @@ public interface KeysData extends InteractionData {
 	 * @return The key codes used by the interaction.
 	 */
 	List<KeyCode> getKeyCodes();
-
-	boolean isShortcutDown();
-
-	boolean isMetaDown();
-
-	boolean isAltDown();
-
-	boolean isShiftDown();
-
-	boolean isCtrlDown();
 }

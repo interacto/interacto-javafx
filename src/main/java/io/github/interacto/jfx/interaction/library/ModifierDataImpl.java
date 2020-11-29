@@ -14,8 +14,48 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-/**
- * Keys + scroll interaction data.
- */
-public interface KeysScrollData extends KeysData, ScrollData {
+public abstract class ModifierDataImpl implements ModifierData {
+	protected boolean altDown;
+
+	protected boolean ctrlDown;
+
+	protected boolean shiftDown;
+
+	protected boolean metaDown;
+
+	protected boolean shortcutDown;
+
+	@Override
+	public boolean isAltDown() {
+		return altDown;
+	}
+
+	@Override
+	public boolean isCtrlDown() {
+		return ctrlDown;
+	}
+
+	@Override
+	public boolean isShiftDown() {
+		return shiftDown;
+	}
+
+	@Override
+	public boolean isMetaDown() {
+		return metaDown;
+	}
+
+	@Override
+	public boolean isShortcutDown() {
+		return shortcutDown;
+	}
+
+	@Override
+	public void flush() {
+		altDown = false;
+		ctrlDown = false;
+		shiftDown = false;
+		metaDown = false;
+		shortcutDown = false;
+	}
 }

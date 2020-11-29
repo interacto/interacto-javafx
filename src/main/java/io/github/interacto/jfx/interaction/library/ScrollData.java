@@ -19,7 +19,7 @@ import io.github.interacto.interaction.InteractionData;
 /**
  * Scrolling interaction data
  */
-public interface ScrollData extends InteractionData {
+public interface ScrollData extends InteractionData, ModifierData {
 	/**
 	 * @return The object on which the scroll is performed.
 	 */

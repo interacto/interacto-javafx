@@ -79,7 +79,7 @@ public class TestBasicZoomer {
 	@Test
 	void testCtrlScrollUp(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
-		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.UP).scroll(VerticalDirection.UP).release(KeyCode.CONTROL);
+		robot.press(KeyCode.SHORTCUT).scroll(VerticalDirection.UP).scroll(VerticalDirection.UP).release(KeyCode.SHORTCUT);
 		WaitForAsyncUtils.waitForFxEvents();
 
 		ctx.cmdsProduced(2);
@@ -90,14 +90,13 @@ public class TestBasicZoomer {
 	@Test
 	void testCtrlScrollDown(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
-		robot.press(KeyCode.CONTROL).scroll(VerticalDirection.DOWN).release(KeyCode.CONTROL);
+		robot.press(KeyCode.SHORTCUT).scroll(VerticalDirection.DOWN).release(KeyCode.SHORTCUT);
 		WaitForAsyncUtils.waitForFxEvents();
 
 		ctx.oneCmdProduced(Zoom.class);
 		assertEquals(1d, canvas.getZoom(), 0.00001);
 	}
 
-//	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testCtrlBadKey(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas);
@@ -108,7 +107,6 @@ public class TestBasicZoomer {
 		assertEquals(2d, canvas.getZoom(), 0.00001);
 	}
 
-//	@Disabled("headless server does not support key modifiers yet")
 	@Test
 	void testKeyAdd(final FxRobot robot, final BindingsContext ctx) {
 		robot.clickOn(canvas).type(KeyCode.ADD);

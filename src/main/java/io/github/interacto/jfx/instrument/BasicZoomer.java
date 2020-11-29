@@ -16,7 +16,7 @@ package io.github.interacto.jfx.instrument;
 
 import io.github.interacto.command.library.Zoom;
 import io.github.interacto.jfx.interaction.library.KeyPressed;
-import io.github.interacto.jfx.interaction.library.KeysScroll;
+import io.github.interacto.jfx.interaction.library.Scroll;
 import io.github.interacto.properties.Zoomable;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -89,7 +89,7 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 		}
 
 		nodeBinder()
-			.usingInteraction(KeysScroll::new)
+			.usingInteraction(Scroll::new)
 			.toProduce(() -> new Zoom(getZoomable()))
 			.on(zoomable)
 			.then((i, c) -> {
@@ -97,9 +97,7 @@ public class BasicZoomer<T extends Node & Zoomable> extends JfxInstrument {
 				c.setPx(i.getPx());
 				c.setPy(i.getPy());
 			})
-			.when(i -> i.getKeyCodes().size() == 1
-				&& i.getKeyCodes().get(0) == KeyCode.CONTROL
-				&& i.getIncrement() != 0)
+			.when(i -> i.isShortcutDown() && i.getIncrement() != 0)
 			.bind();
 	}
 }

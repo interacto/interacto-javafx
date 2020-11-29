@@ -24,27 +24,7 @@ import javafx.scene.input.MouseButton;
 /**
  * Interaction data for a single pointing device at a single position.
  */
-public interface PointData extends InteractionData {
-	/**
-	 * @return True: the alt key is pressed.
-	 */
-	boolean isAltPressed();
-
-	/**
-	 * @return True: the control key is pressed.
-	 */
-	boolean isCtrlPressed();
-
-	/**
-	 * @return True: the shift key is pressed.
-	 */
-	boolean isShiftPressed();
-
-	/**
-	 * @return True: the meta key is pressed.
-	 */
-	boolean isMetaPressed();
-
+public interface PointData extends InteractionData, ModifierData {
 	/**
 	 * @return The pressed local position.
 	 */

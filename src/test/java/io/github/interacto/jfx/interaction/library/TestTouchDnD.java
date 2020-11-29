@@ -271,22 +271,27 @@ public class TestTouchDnD extends BaseJfXInteractionTest<TouchDnD> {
 
 	@Test
 	void testIsAltPressed() {
-		assertFalse(interaction.getData().isAltPressed());
+		assertFalse(interaction.getData().isAltDown());
 	}
 
 	@Test
 	void testIsCtrlPressed() {
-		assertFalse(interaction.getData().isCtrlPressed());
+		assertFalse(interaction.getData().isCtrlDown());
 	}
 
 	@Test
 	void testIsShiftPressed() {
-		assertFalse(interaction.getData().isShiftPressed());
+		assertFalse(interaction.getData().isShiftDown());
 	}
 
 	@Test
 	void testIsMetaPressed() {
-		assertFalse(interaction.getData().isMetaPressed());
+		assertFalse(interaction.getData().isMetaDown());
+	}
+
+	@Test
+	void testIsShortcutPressed() {
+		assertFalse(interaction.getData().isShortcutDown());
 	}
 
 	@Test

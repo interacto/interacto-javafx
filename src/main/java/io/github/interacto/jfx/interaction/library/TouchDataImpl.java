@@ -58,22 +58,27 @@ public class TouchDataImpl extends SrcTgtPointsDataImpl implements TouchData {
 	}
 
 	@Override
-	public boolean isAltPressed() {
+	public boolean isShortcutDown() {
 		return false;
 	}
 
 	@Override
-	public boolean isCtrlPressed() {
+	public boolean isAltDown() {
 		return false;
 	}
 
 	@Override
-	public boolean isShiftPressed() {
+	public boolean isCtrlDown() {
 		return false;
 	}
 
 	@Override
-	public boolean isMetaPressed() {
+	public boolean isShiftDown() {
+		return false;
+	}
+
+	@Override
+	public boolean isMetaDown() {
 		return false;
 	}
 }

@@ -114,23 +114,28 @@ public class DragLock extends JfxInteraction<SrcTgtPointsData, DragLockFSM> {
 		}
 
 		@Override
-		public boolean isAltPressed() {
-			return firstClick.getData().isAltPressed();
+		public boolean isAltDown() {
+			return firstClick.getData().isAltDown();
 		}
 
 		@Override
-		public boolean isCtrlPressed() {
-			return firstClick.getData().isCtrlPressed();
+		public boolean isCtrlDown() {
+			return firstClick.getData().isCtrlDown();
 		}
 
 		@Override
-		public boolean isShiftPressed() {
-			return firstClick.getData().isShiftPressed();
+		public boolean isShiftDown() {
+			return firstClick.getData().isShiftDown();
 		}
 
 		@Override
-		public boolean isMetaPressed() {
-			return firstClick.getData().isMetaPressed();
+		public boolean isMetaDown() {
+			return firstClick.getData().isMetaDown();
+		}
+
+		@Override
+		public boolean isShortcutDown() {
+			return firstClick.getData().isShortcutDown();
 		}
 
 		@Override

@@ -14,41 +14,28 @@
  */
 package io.github.interacto.jfx.interaction.library;
 
-/**
- * Keys + scroll interaction data implementation with write access.
- */
-public class KeysScrollDataImpl extends KeysDataImpl implements KeysScrollData {
-	private ScrollData scrollData;
+import io.github.interacto.interaction.InteractionData;
+
+public interface ModifierData extends InteractionData {
+	boolean isShortcutDown();
 
 	/**
-	 * Creates the interaction data.
+	 * @return True: the alt key is pressed.
 	 */
-	public KeysScrollDataImpl() {
-		super();
-		scrollData = new ScrollDataImpl();
-	}
+	boolean isAltDown();
 
-	@Override
-	public Object getScrolledNode() {
-		return scrollData.getScrolledNode();
-	}
+	/**
+	 * @return True: the control key is pressed.
+	 */
+	boolean isCtrlDown();
 
-	@Override
-	public double getPx() {
-		return scrollData.getPx();
-	}
+	/**
+	 * @return True: the shift key is pressed.
+	 */
+	boolean isShiftDown();
 
-	@Override
-	public double getPy() {
-		return scrollData.getPy();
-	}
-
-	@Override
-	public double getIncrement() {
-		return scrollData.getIncrement();
-	}
-
-	public void setScrollData(final ScrollData scrollData) {
-		this.scrollData = scrollData;
-	}
+	/**
+	 * @return True: the meta key is pressed.
+	 */
+	boolean isMetaDown();
 }
