@@ -1,3 +1,9 @@
+# 4.3.1
+
+* fix(binding): (regression) predefined zoom binding does not work anymore (key shortcut)
+* fix(fsm): (regression) key event with modifiers not correctly recycled
+* fix(interaction): (regression) scroll interaction with key modifiers did not work any more
+
 # 4.3.0
 
 * feat(interaction): multi-clicks interaction
